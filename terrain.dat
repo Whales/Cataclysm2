@@ -1,0 +1,12 @@
+dirt
+  . brown   black
+  100
+grass
+  . green   black
+  100
+tree
+  7 green   black
+    0
+wall
+  # brown   black
+    0
