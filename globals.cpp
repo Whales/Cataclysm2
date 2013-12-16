@@ -22,4 +22,4 @@ void load_mapgen_specs()
     (*it)->mapgen_specs.clear();
   }
 
-  
+  std::vector<std::string> mapgen_files = files_in("data/mapgen");

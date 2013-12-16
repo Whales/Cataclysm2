@@ -30,10 +30,12 @@ private:
 
 struct Mapgen_spec
 {
+  Mapgen_spec();
+  ~Mapgen_spec(){};
   std::string name;
   std::string terrain_name; // World_terrain we belong to
   std::map<char,Variable_terrain> terrain_defs;
-  int terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // Indices from terrain_defs
+  char terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // Keys to terrain_defs
 
   bool load_data(std::istream &data);
 };
