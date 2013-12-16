@@ -4,15 +4,21 @@
 #include "map.h"
 #include "overmap.h"
 #include "cuss.h"
+#include "player.h"
 
 class Game
 {
 public:
   Game();
   ~Game();
+
   bool setup();
-  Map* map;
-  Overmap* overmap;
+  bool main_loop();
+
+  Map*      map;
+  Overmap*  overmap;
+  Player*   player;
+  
 
 private:
   Window *w_map;
