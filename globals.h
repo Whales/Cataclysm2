@@ -11,5 +11,6 @@ extern Data_pool<Terrain>       TERRAIN;
 extern Data_pool<World_terrain> WORLD_TERRAIN;
 
 void load_global_data();
+void load_mapgen_specs();
 
 #endif

@@ -4,12 +4,14 @@
 #include <string>
 #include <istream>
 #include "glyph.h"
+#include "mapgen_spec.h"
 
 struct World_terrain
 {
   int uid;
   std::string name;
   glyph sym;
+  std::vector<Mapgen_spec> mapgen_specs;
 
   World_terrain();
   ~World_terrain(){};
