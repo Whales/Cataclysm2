@@ -9,6 +9,8 @@ int main()
 
   load_global_data();
 
+  GAME.setup();
+
   endwin();
   return 0;
 }

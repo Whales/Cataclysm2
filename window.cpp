@@ -374,6 +374,11 @@ void refresh_all(bool erase) // erase defaults to false
   (*it)->refresh();
 }
 
+void get_screen_dims(int &xdim, int &ydim)
+{
+  getmaxyx(stdscr, ydim, xdim);
+}
+
 std::string key_name(long ch)
 {
  switch (ch) {

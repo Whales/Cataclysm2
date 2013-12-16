@@ -1,12 +1,14 @@
-dirt
-  . brown   black
-  100
-grass
-  . green   black
-  100
-tree
-  7 green   black
-    0
-wall
-  # brown   black
-    0
+name: dirt
+  glyph: . brown black
+  movecost: 100
+  done
+
+name: grass
+  glyph: . green black
+  movecost: 100
+  done
+
+name: tree
+  glyph: 7 green black
+  movecost: 100
+  done

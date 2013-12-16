@@ -58,3 +58,11 @@ std::string slurp_file(const std::string &filename)
 
   return ret;
 }
+
+void chomp(std::istream &data)
+{
+  if (data.peek() == '\n') {
+    std::string junk;
+    std::getline(data, junk);
+  }
+}

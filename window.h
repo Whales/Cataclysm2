@@ -35,6 +35,7 @@ void end_display();
 long input();
 void debugmsg(const char *mes, ...);
 void refresh_all(bool erase = false);
+void get_screen_dims(int &xdim, int &ydim);
 
 std::string key_name(long ch);
 bool is_backspace(long ch);

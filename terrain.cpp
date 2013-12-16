@@ -1,5 +1,7 @@
 #include "terrain.h"
 #include "stringfunc.h"
+#include "files.h"
+#include "window.h"
 
 Terrain::Terrain()
 {
@@ -12,18 +14,23 @@ Terrain::Terrain()
 
 bool Terrain::load_data(std::istream &data)
 {
-  if (data.eof()) {
-    return false;
-  }
-  name = load_to_character(data, ":;\n", true);
-  if (data.eof()) {
-    return false;
-  }
-  sym.load_data(data);
-  if (data.eof()) {
-    return false;
-  }
-  data >> movecost;
+  std::string ident, junk;
+  do {
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+    ident = no_caps(ident);
+    if (ident == "name:") {
+      std::getline(data, name);
+      name = trim(name);
+    } else if (ident == "glyph:") {
+      sym.load_data_text(data);
+      std::getline(data, junk);
+    } else if (ident == "movecost:") {
+      data >> movecost;
+      std::getline(data, junk);
+    }
+  } while (ident != "done" && !data.eof());
 // TODO: Flag loading.
   return true;
 }

@@ -1,4 +1,5 @@
 #include "stringfunc.h"
+#include "window.h"
 
 std::vector<std::string> break_into_lines(std::string text, int linesize)
 {
@@ -96,6 +97,7 @@ std::string load_to_character(std::istream &datastream, char ch, bool _trim)
     if (tmp[0] != ch) {
       ret.push_back(tmp[0]);
     }
+    debugmsg(ret.c_str());
   } while (tmp[0] != ch && !(datastream.eof()));
 
   if (_trim)
@@ -114,6 +116,7 @@ std::string load_to_character(std::istream &datastream, std::string chars,
     if (chars.find(tmp[0]) == std::string::npos) {
       ret.push_back(tmp[0]);
     }
+    debugmsg(ret.c_str());
   } while (chars.find(tmp[0]) == std::string::npos && chars[0] >= 0 &&
            !(datastream.eof()));
 

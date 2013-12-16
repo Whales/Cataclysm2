@@ -61,6 +61,7 @@ public:
     instances.push_back(tmp);
     uid_map[next_uid] = tmp;
     name_map[tmp->get_name()] = tmp;
+    debugmsg("'%s' %d", tmp->get_name().c_str(), tmp);
     next_uid++;
     return true;
   };
@@ -81,6 +82,11 @@ public:
     }
   
     return name_map[name];
+  }
+
+  int size()
+  {
+    return instances.size();
   }
 
   std::list<T*> instances;

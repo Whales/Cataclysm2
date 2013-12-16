@@ -30,6 +30,8 @@ public:
   Map();
   ~Map();
 
+  void generate_empty();
+
   Tile* get_tile(int x, int y);
   void draw(Window *w, int refx, int refy);
 
