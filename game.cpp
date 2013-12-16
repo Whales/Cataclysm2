@@ -4,7 +4,7 @@
 Game::Game()
 {
   map     = NULL;
-  overmap = NULL;
+  worldmap = NULL;
   w_map   = NULL;
   player  = NULL;
 }
@@ -14,8 +14,8 @@ Game::~Game()
   if (map) {
     delete map;
   }
-  if (overmap) {
-    delete overmap;
+  if (worldmap) {
+    delete worldmap;
   }
   if (w_map) {
     delete w_map;

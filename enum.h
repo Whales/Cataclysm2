@@ -1,7 +1,7 @@
 #ifndef _ENUM_H_
 #define _ENUM_H_
 
-enum Overmap_tile_id
+enum Worldmap_tile_id
 {
   OMT_NULL,
   OMT_FIELD,

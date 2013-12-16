@@ -2,7 +2,7 @@
 #define _GAME_H_
 
 #include "map.h"
-#include "overmap.h"
+#include "worldmap.h"
 #include "cuss.h"
 #include "player.h"
 
@@ -16,7 +16,7 @@ public:
   bool main_loop();
 
   Map*      map;
-  Overmap*  overmap;
+  Worldmap* worldmap;
   Player*   player;
   
 
