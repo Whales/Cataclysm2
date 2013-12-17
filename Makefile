@@ -25,10 +25,9 @@ else
 LDFLAGS = -lncurses
 endif
 
-SOURCES = $(filter-out cuss_editor.cpp cusstest.cpp, $(wildcard *.cpp))
+SOURCES = $(filter-out cuss_editor.cpp cusstest.cpp, $(wildcard $(SRC_DIR)/*.cpp))
 CUSSED_SOURCES = cuss.cpp cuss_editor.cpp window.cpp glyph.cpp color.cpp stringfunc.cpp files.cpp
 CUSSTEST_SOURCES = cuss.cpp cusstest.cpp window.cpp glyph.cpp color.cpp stringfunc.cpp files.cpp
-CUSSTEST_SOURCES = $(filter-out main.cpp cuss_editor.cpp, $(wildcard *.cpp))
 _OBJS = $(SOURCES:.cpp=.o)
 _CUSSED_OBJS = $(CUSSED_SOURCES:.cpp=.o)
 _CUSSTEST_OBJS = $(CUSSTEST_SOURCES:.cpp=.o)
@@ -58,6 +57,6 @@ $(ODIR)/%.o: %.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET) $(CUSSED_TARGET) $(ODIR)/*.o
+	rm -f $(TARGET) $(CUSSED_TARGET) $(CUSSTEST_TARGET) $(ODIR)/*.o
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
