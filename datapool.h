@@ -16,6 +16,8 @@
  *   std::string get_name()         - Return its name
  */
 
+// Everything is inline cause compilers are dumb etc. etc.
+
 template <class T>
 struct Data_pool
 {
@@ -42,7 +44,7 @@ public:
       debugmsg("Failed to open '%s'", filename.c_str());
       return false;
     }
-  
+
     while (!fin.eof()) {
       if (!load_element(fin)) {
         return false;

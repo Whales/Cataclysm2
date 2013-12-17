@@ -12,6 +12,7 @@
 
 struct Terrain_chance
 {
+  Terrain_chance(int C = 10, Terrain* T = NULL) : chance (C), terrain(T) {};
   int chance;
   Terrain* terrain;
 };
@@ -20,7 +21,7 @@ struct Variable_terrain
 {
 public:
   void add_terrain(int chance, Terrain* terrain);
-  void add_terrain(Terrain_chance ter);
+  void add_terrain(Terrain_chance terrain);
   Terrain* pick();
 
 private:
@@ -32,6 +33,7 @@ struct Mapgen_spec
 {
   Mapgen_spec();
   ~Mapgen_spec(){};
+  int uid;
   std::string name;
   std::string terrain_name; // World_terrain we belong to
   std::map<char,Variable_terrain> terrain_defs;

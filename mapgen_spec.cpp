@@ -1,5 +1,20 @@
 #include <stdlib.h>
+#include <sstream>
 #include "mapgen_spec.h"
+#include "window.h"
+#include "globals.h"
+#include "stringfunc.h"
+
+void Variable_terrain::add_terrain(int chance, Terrain *terrain)
+{
+  Terrain_chance tmp(chance, terrain);
+  ter.push_back(tmp);
+}
+
+void Variable_terrain::add_terrain(Terrain_chance terrain)
+{
+  ter.push_back(terrain);
+}
 
 Mapgen_spec::Mapgen_spec()
 {
@@ -46,16 +61,16 @@ bool Mapgen_spec::load_data(std::istream &data)
           }
         } else { // Not reading in symbols
           tile_ident = no_caps(tile_ident);  // other stuff isn't case-sensitive
-          if (tile_info.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
-            tmp_chance.chance = atoi( tile_info.substr(2).c_str() );
-          } else if (tile_info == "/") { // End of this option
+          if (tile_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
+            tmp_chance.chance = atoi( tile_ident.substr(2).c_str() );
+          } else if (tile_ident == "/") { // End of this option
             tmp_var.add_terrain(tmp_chance);
             tmp_chance.chance  = 10;
             tmp_chance.terrain = NULL;
           } else { // Otherwise, it should be a terrain name
-            Terrain* tmpter = TERRAIN.lookup_name(tile_info);
+            Terrain* tmpter = TERRAIN.lookup_name(tile_ident);
             if (!tmpter) {
-              debugmsg("Unknown terrain '%s' (%s)", tile_info.c_str(),
+              debugmsg("Unknown terrain '%s' (%s)", tile_ident.c_str(),
                        name.c_str());
             }
             tmp_chance.terrain = tmpter;
@@ -85,8 +100,9 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       } while (mapchars != "endmap" && line < MAPGEN_SIZE);
       if (line >= MAPGEN_SIZE) {
-        debugmsg("Too many map lines (%s)", name_c_str());
+        debugmsg("Too many map lines (%s)", name.c_str());
       }
     }
   } while (ident != "done");
+  return true;
 }

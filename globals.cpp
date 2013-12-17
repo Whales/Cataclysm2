@@ -1,9 +1,11 @@
 #include "globals.h"
 #include "datapool.h"
+#include "files.h"
 
 Game                      GAME;
 Data_pool<Terrain>        TERRAIN;
 Data_pool<World_terrain>  WORLD_TERRAIN;
+Mapgen_spec_pool          MAPGEN_SPECS;
 
 void load_global_data()
 {
@@ -15,11 +17,9 @@ void load_global_data()
 
 void load_mapgen_specs()
 {
-// Start by clearing mapgen specs
-  for (std::list<World_terrain*>::iterator it = WORLD_TERRAIN.instances.begin();
-       it != WORLD_TERRAIN.instances.end();
-       it++) {
-    (*it)->mapgen_specs.clear();
-  }
-
   std::vector<std::string> mapgen_files = files_in("data/mapgen");
+  for (int i = 0; i < mapgen_files.size(); i++) {
+    std::string filename = "data/mapgen/" + mapgen_files[i];
+    MAPGEN_SPECS.load_from(filename);
+  }
+}
