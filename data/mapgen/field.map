@@ -1,0 +1,33 @@
+name: test field
+type: field
+tile: a = grass
+tile: b = dirt
+tile: c = grass / dirt
+map:
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+ccccccccccccccccccccccccc
+ccccccccccccccccccccccccc
+bbbbbbbbbbbbbbbbbbbbbbbbb
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+ccccccccccccccccccccccccc
+ccccccccccccccccccccccccc
+bbbbbbbbbbbbbbbbbbbbbbbbb
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+ccccccccccccccccccccccccc
+ccccccccccccccccccccccccc
+bbbbbbbbbbbbbbbbbbbbbbbbb
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+ccccccccccccccccccccccccc
+ccccccccccccccccccccccccc
+bbbbbbbbbbbbbbbbbbbbbbbbb
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+ccccccccccccccccccccccccc
+ccccccccccccccccccccccccc
+bbbbbbbbbbbbbbbbbbbbbbbbb
+endmap
+done

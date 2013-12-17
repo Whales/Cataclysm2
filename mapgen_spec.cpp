@@ -89,18 +89,20 @@ bool Mapgen_spec::load_data(std::istream &data)
 // End if (ident == "tile:") block
     } else if (ident == "map:") {
       std::string mapchars;
+      std::getline(data, mapchars);
       int line = 0;
       do {
         std::getline(data, mapchars);
-        if (mapchars != "done" && mapchars.length() != MAPGEN_SIZE) {
-          debugmsg("Bad map width (%s)", name.c_str());
+        if (mapchars != "endmap" && mapchars.length() != MAPGEN_SIZE) {
+          debugmsg("Bad map width '%s' (%s)", mapchars.c_str(), name.c_str());
         }
         for (int i = 0; i < mapchars.length(); i++) {
           terrain[i][line] = mapchars[i];
         }
+        line++;
       } while (mapchars != "endmap" && line < MAPGEN_SIZE);
-      if (line >= MAPGEN_SIZE) {
-        debugmsg("Too many map lines (%s)", name.c_str());
+      if (line != MAPGEN_SIZE) {
+        debugmsg("Bad map height %d (%s)", line, name.c_str());
       }
     }
   } while (ident != "done");

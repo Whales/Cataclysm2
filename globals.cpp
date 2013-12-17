@@ -13,11 +13,12 @@ void load_global_data()
   WORLD_TERRAIN.load_from("data/world_terrain.dat");
 
   load_mapgen_specs();
+  debugmsg("%d mapgen specs", MAPGEN_SPECS.size());
 }
 
 void load_mapgen_specs()
 {
-  std::vector<std::string> mapgen_files = files_in("data/mapgen");
+  std::vector<std::string> mapgen_files = files_in("data/mapgen", "map");
   for (int i = 0; i < mapgen_files.size(); i++) {
     std::string filename = "data/mapgen/" + mapgen_files[i];
     MAPGEN_SPECS.load_from(filename);
