@@ -1,9 +1,9 @@
 name: test field
 type: field
 base_terrain: dirt
-tile: a = grass
+tile: a = tree
 tile: b = dirt
-tile: c = w:30 grass / dirt
+tile: c = w:30 dirt / w:1 grass / tree
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
