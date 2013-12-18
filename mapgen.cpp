@@ -1,6 +1,7 @@
 #include <fstream>
 #include "window.h"
 #include "mapgen.h"
+#include "rng.h"
 
 // First, the mapgen_spec_pool that we'll use to store mapgen data.
 
@@ -79,6 +80,15 @@ Mapgen_spec_pool::lookup_terrain_name(std::string name)
     return tmp;
   }
   return terrain_name_map[name];
+}
+
+Mapgen_spec* Mapgen_spec_pool::random_for_terrain(std::string name)
+{
+  if (terrain_name_map.count(name) == 0) {
+    return NULL;
+  }
+  int index = rng(0, terrain_name_map[name].size() - 1);
+  return terrain_name_map[name][index];
 }
 
 int Mapgen_spec_pool::size()

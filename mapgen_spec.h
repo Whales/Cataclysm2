@@ -20,6 +20,7 @@ struct Terrain_chance
 struct Variable_terrain
 {
 public:
+  void load_data(std::istream &data, std::string name = "unknown");
   void add_terrain(int chance, Terrain* terrain);
   void add_terrain(Terrain_chance terrain);
   Terrain* pick();
@@ -37,6 +38,7 @@ struct Mapgen_spec
   std::string name;
   std::string terrain_name; // World_terrain we belong to
   std::map<char,Variable_terrain> terrain_defs;
+  Variable_terrain base_terrain; // Default terrain
   char terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // Keys to terrain_defs
 
   bool load_data(std::istream &data);

@@ -26,10 +26,28 @@ void Submap::generate_empty()
   }
 }
 
+void Submap::generate(World_terrain* terrain)
+{
+  if (!terrain) {
+    generate_empty();
+    return;
+  }
+  generate(terrain->get_name());
+}
+
+void Submap::generate(std::string terrain_name)
+{
+  generate( MAPGEN_SPECS.random_for_terrain( terrain_name ) );
+}
+
+void Submap::generate(Mapgen_spec* spec)
+{
+}
+
 Map::Map()
 {
-  for (int x = 0; x < 3; x++) {
-    for (int y = 0; y < 3; y++) {
+  for (int x = 0; x < MAP_SIZE; x++) {
+    for (int y = 0; y < MAP_SIZE; y++) {
       submaps[x][y] = new Submap;
     }
   }
@@ -37,8 +55,8 @@ Map::Map()
 
 Map::~Map()
 {
-  for (int x = 0; x < 3; x++) {
-    for (int y = 0; y < 3; y++) {
+  for (int x = 0; x < MAP_SIZE; x++) {
+    for (int y = 0; y < MAP_SIZE; y++) {
       delete submaps[x][y];
     }
   }
@@ -46,8 +64,8 @@ Map::~Map()
 
 void Map::generate_empty()
 {
-  for (int x = 0; x < 3; x++) {
-    for (int y = 0; y < 3; y++) {
+  for (int x = 0; x < MAP_SIZE; x++) {
+    for (int y = 0; y < MAP_SIZE; y++) {
       submaps[x][y]->generate_empty();
     }
   }
@@ -55,7 +73,8 @@ void Map::generate_empty()
 
 Tile* Map::get_tile(int x, int y)
 {
-  if (x < 0 || x >= SUBMAP_SIZE * 3 || y <= 0 || y >= SUBMAP_SIZE * 3) {
+  if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
+      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
     tile_oob.terrain = TERRAIN.lookup_uid(0);
     return &tile_oob;
   }

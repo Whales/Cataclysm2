@@ -21,6 +21,7 @@ public:
   Mapgen_spec* lookup_uid(int uid);
   Mapgen_spec* lookup_name(std::string name);
   std::vector<Mapgen_spec*> lookup_terrain_name(std::string name);
+  Mapgen_spec* random_for_terrain(std::string name);
 
   int size();
 
