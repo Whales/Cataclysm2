@@ -3,17 +3,32 @@
 
 #include <string>
 #include "world_terrain.h"
+#include "window.h"
+#include "globals.h"
+#include "worldmap.h"
 
-#define WORLDMAP_SIZE 100
+#define WORLDMAP_SIZE 150
 
-class Worldmap_tile
+struct Worldmap_tile
 {
-  World_terrain *type;
+  World_terrain *terrain;
+  glyph top_glyph();
 };
 
 class Worldmap
 {
-  Worldmap_tile tiles[100][100];
+public:
+  Worldmap();
+  ~Worldmap();
+
+  void generate();
+
+  void draw(int posx, int posy);
+  Worldmap_tile* get_tile(int x, int y);
+
+private:
+  Worldmap_tile tiles[WORLDMAP_SIZE][WORLDMAP_SIZE];
+  Worldmap_tile tile_oob;
 };
 
 #endif

@@ -1,11 +1,12 @@
 #ifndef _GLOBALS_H_
 #define _GLOBALS_H_
 
-#include "game.h"
 #include "datapool.h"
 #include "terrain.h"
 #include "world_terrain.h"
 #include "mapgen.h"
+
+class Game;
 
 extern Game                     GAME;
 extern Data_pool<Terrain>       TERRAIN;

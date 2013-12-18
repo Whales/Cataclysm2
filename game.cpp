@@ -44,6 +44,9 @@ bool Game::setup()
   map = new Map;
   map->test_generate("field");
 
+  worldmap = new Worldmap;
+  worldmap->generate();
+
   player = new Player;
   return true;
 }
@@ -64,6 +67,7 @@ bool Game::main_loop()
     case 'k': player->posy--; break;
     case 'h': player->posx--; break;
     case 'l': player->posx++; break;
+    case ':': worldmap->draw(10, 10); break;
     case 'q': return false;
   }
   return true;

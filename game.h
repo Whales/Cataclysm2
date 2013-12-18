@@ -2,9 +2,9 @@
 #define _GAME_H_
 
 #include "map.h"
-#include "worldmap.h"
 #include "cuss.h"
 #include "player.h"
+#include "worldmap.h"
 
 class Game
 {
