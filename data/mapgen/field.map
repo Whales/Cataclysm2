@@ -1,5 +1,6 @@
 name: test field
 type: field
+base_terrain: dirt
 tile: a = grass
 tile: b = dirt
 tile: c = grass / dirt
