@@ -4,15 +4,22 @@
 #include "window.h"
 #include "globals.h"
 #include "stringfunc.h"
+#include "rng.h"
+
+Variable_terrain::Variable_terrain()
+{
+  total_chance = 0;
+}
 
 void Variable_terrain::add_terrain(int chance, Terrain *terrain)
 {
   Terrain_chance tmp(chance, terrain);
-  ter.push_back(tmp);
+  add_terrain(tmp);
 }
 
 void Variable_terrain::add_terrain(Terrain_chance terrain)
 {
+  total_chance += terrain.chance;
   ter.push_back(terrain);
 }
 
@@ -41,6 +48,21 @@ void Variable_terrain::load_data(std::istream &data, std::string name)
   if (tmp_chance.terrain) {
     add_terrain(tmp_chance);
   }
+}
+
+Terrain* Variable_terrain::pick()
+{
+  if (ter.empty()) {
+    return NULL;
+  }
+  int index = rng(1, total_chance);
+  for (int i = 0; i < ter.size(); i++) {
+    index -= ter[i].chance;
+    if (index <= 0) {
+      return ter[i].terrain;
+    }
+  }
+  return ter.back().terrain;
 }
 
 Mapgen_spec::Mapgen_spec()
@@ -84,13 +106,11 @@ bool Mapgen_spec::load_data(std::istream &data)
       Terrain_chance tmp_chance(10, NULL);
       Variable_terrain tmp_var;
 
-      while (tile_data >> tile_ident && reading_symbols) {
-        if (reading_symbols) {
-          if (tile_ident == "=") {
-            reading_symbols = false;
-          } else {
-            symbols += tile_ident;
-          }
+      while (reading_symbols && tile_data >> tile_ident) {
+        if (tile_ident == "=") {
+          reading_symbols = false;
+        } else {
+          symbols += tile_ident;
         }
       }
       tmp_var.load_data(tile_data, name);
@@ -124,4 +144,16 @@ bool Mapgen_spec::load_data(std::istream &data)
     }
   } while (ident != "done");
   return true;
+}
+
+Terrain* Mapgen_spec::pick_terrain(int x, int y)
+{
+  if (x < 0 || x >= MAPGEN_SIZE || y < 0 || y >= MAPGEN_SIZE) {
+    return base_terrain.pick();
+  }
+  char key = terrain[x][y];
+  if (terrain_defs.count(key) == 0) {
+    return base_terrain.pick();
+  }
+  return terrain_defs[key].pick();
 }

@@ -3,7 +3,7 @@ type: field
 base_terrain: dirt
 tile: a = grass
 tile: b = dirt
-tile: c = grass / dirt
+tile: c = w:30 grass / dirt
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa

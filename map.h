@@ -38,6 +38,7 @@ public:
   ~Map();
 
   void generate_empty();
+  void test_generate(std::string terrain_name);
 
   Tile* get_tile(int x, int y);
   void draw(Window *w, int refx, int refy);

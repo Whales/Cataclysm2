@@ -42,7 +42,7 @@ bool Game::setup()
   w_map = new Window(0, 0, win_size, win_size);
 
   map = new Map;
-  map->generate_empty();
+  map->test_generate("field");
 
   player = new Player;
   return true;
