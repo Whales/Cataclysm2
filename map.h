@@ -9,14 +9,15 @@
 #include "world_terrain.h"
 #include "mapgen.h"
 #include "worldmap.h"
+#include "item.h"
 
 struct Tile
 {
   Terrain *terrain;
+  std::vector<Item> items;
 
   Tile() { };
   ~Tile() { };
-
 
   glyph top_glyph();
 };
