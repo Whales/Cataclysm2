@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "datapool.h"
 #include "files.h"
+#include "game.h"
 
 Game                      GAME;
 Data_pool<Terrain>        TERRAIN;

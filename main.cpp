@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "window.h"
 #include "rng.h"
+#include "game.h"
 
 int main()
 {
