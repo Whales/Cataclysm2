@@ -41,11 +41,11 @@ bool Game::setup()
   }
   w_map = new Window(0, 0, win_size, win_size);
 
-  map = new Map;
-  map->test_generate("field");
-
   worldmap = new Worldmap;
   worldmap->generate();
+
+  map = new Map;
+  map->generate(worldmap, 10, 10);
 
   player = new Player;
   return true;

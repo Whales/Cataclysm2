@@ -42,6 +42,9 @@ void Submap::generate(std::string terrain_name)
 
 void Submap::generate(Mapgen_spec* spec)
 {
+  if (spec == NULL) {
+    generate_empty();
+  }
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
       tiles[x][y].terrain = spec->pick_terrain(x, y);
@@ -81,6 +84,20 @@ void Map::test_generate(std::string terrain_name)
   for (int x = 0; x < MAP_SIZE; x++) {
     for (int y = 0; y < MAP_SIZE; y++) {
       submaps[x][y]->generate(terrain_name);
+    }
+  }
+}
+
+void Map::generate(Worldmap *world, int posx, int posy, int sizex, int sizey)
+{
+  for (int x = 0; x < sizex; x++) {
+    for (int y = 0; y < sizey; y++) {
+      Worldmap_tile* tile = world->get_tile(posx + x, posy + y);
+      if (!tile) {
+        submaps[x][y]->generate_empty();
+      } else {
+        submaps[x][y]->generate(tile->terrain);
+      }
     }
   }
 }

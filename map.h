@@ -8,6 +8,7 @@
 #include "terrain.h"
 #include "world_terrain.h"
 #include "mapgen_spec.h"
+#include "worldmap.h"
 
 struct Tile
 {
@@ -39,6 +40,9 @@ public:
 
   void generate_empty();
   void test_generate(std::string terrain_name);
+
+  void generate(Worldmap *world, int posx, int posy,
+                int sizex = MAP_SIZE, int sizey = MAP_SIZE);
 
   Tile* get_tile(int x, int y);
   void draw(Window *w, int refx, int refy);
