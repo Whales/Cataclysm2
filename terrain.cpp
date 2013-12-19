@@ -15,7 +15,7 @@ Terrain::Terrain()
 bool Terrain::load_data(std::istream &data)
 {
   std::string ident, junk;
-  do {
+  while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
       return false;
     }
@@ -30,7 +30,7 @@ bool Terrain::load_data(std::istream &data)
       data >> movecost;
       std::getline(data, junk);
     }
-  } while (ident != "done" && !data.eof());
+  }
 // TODO: Flag loading.
   return true;
 }

@@ -7,6 +7,8 @@
 #include <map>
 #include <fstream>
 #include "window.h"
+#include "itemtype.h"
+#include "stringfunc.h"
 
 /* Important notes:
  * All classes to be used with Data_pool must have the following functions:
