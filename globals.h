@@ -4,7 +4,7 @@
 #include "datapool.h"
 #include "terrain.h"
 #include "world_terrain.h"
-#include "mapgen_spec.h"
+#include "mapgen.h"
 
 class Game;
 

@@ -63,6 +63,11 @@ bool Game::main_loop()
   long ch = input();
 
   switch (ch) {
+    case KEY_RESIZE: {
+      int xdim, ydim;
+      get_screen_dims(xdim, ydim);
+      w_map->resize(xdim, ydim);
+    } break;
     case 'j': player->posy++; break;
     case 'k': player->posy--; break;
     case 'h': player->posx--; break;

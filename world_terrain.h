@@ -4,7 +4,7 @@
 #include <string>
 #include <istream>
 #include "glyph.h"
-#include "mapgen_spec.h"
+#include "mapgen.h"
 
 struct World_terrain
 {

@@ -67,6 +67,8 @@ class Window
             Window_type ntype = WINDOW_TYPE_GENERAL);
   void close();
 
+  void resize(int sizex, int sizey);
+
   void outline();
 
 // Info functions

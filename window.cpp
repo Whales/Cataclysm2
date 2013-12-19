@@ -56,6 +56,11 @@ void Window::close()
  refresh_all(true);
 }
 
+void Window::resize(int sizex, int sizey)
+{
+  wresize(w, sizey, sizex);
+}
+
 void Window::outline()
 {
  outlined = true;

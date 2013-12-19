@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <sstream>
 #include <fstream>
-#include "mapgen_spec.h"
+#include "mapgen.h"
 #include "window.h"
 #include "globals.h"
 #include "stringfunc.h"
