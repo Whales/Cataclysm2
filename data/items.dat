@@ -1,0 +1,9 @@
+weapon
+  name: test weapon
+  glyph: / white black
+  weight: 20
+  volume: 16
+  bash:   10
+  cut:    10
+  pierce:  5
+done

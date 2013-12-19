@@ -5,10 +5,9 @@ bool Data_pool<Itemtype>::load_element(std::istream &data)
 {
   Itemtype* tmp;
   std::string item_category;
-  if (! (data >> item_category) ) {
-    return false;
-  }
+  std::getline(data, item_category);
   item_category = no_caps(item_category);
+  item_category = trim(item_category);
   if (item_category == "weapon" || item_category == "vanilla") {
     tmp = new Itemtype;
   } else if (item_category == "armor" || item_category == "armour" ||
