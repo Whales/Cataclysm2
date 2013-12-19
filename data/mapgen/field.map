@@ -4,6 +4,7 @@ base_terrain: dirt
 tile: a = tree
 tile: b = dirt
 tile: c = w:30 dirt / w:1 grass / tree
+items: 40 b = rock
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa

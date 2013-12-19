@@ -34,7 +34,9 @@ public:
     for (typename std::list<T*>::iterator it = instances.begin();
          it != instances.end();
          it++) {
-      delete (*it);
+      if (*it) {
+        delete (*it);
+      }
     }
   };
 
@@ -64,7 +66,7 @@ public:
     tmp->assign_uid(next_uid);
     instances.push_back(tmp);
     uid_map[next_uid] = tmp;
-    name_map[tmp->get_name()] = tmp;
+    name_map[ no_caps(tmp->get_name()) ] = tmp;
     next_uid++;
     return true;
   };
@@ -80,6 +82,7 @@ public:
 
   T* lookup_name(std::string name)
   {
+    name = no_caps(name);
     if (name_map.count(name) == 0) {
       return NULL;
     }

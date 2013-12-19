@@ -9,7 +9,7 @@ class Itemtype
 {
 public:
   Itemtype();
-  ~Itemtype();
+  virtual ~Itemtype();
 
   int uid;
   std::string name;
@@ -30,6 +30,9 @@ private:
 
 class Itemtype_clothing : public Itemtype
 {
+public:
+  Itemtype_clothing(){};
+  ~Itemtype_clothing(){};
 };
 
 #endif

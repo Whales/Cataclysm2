@@ -51,6 +51,50 @@ void Variable_terrain::load_data(std::istream &data, std::string name)
   }
 }
 
+Item_area::Item_area()
+{
+  total_chance = 0;
+}
+
+void Item_area::add_item(int chance, Itemtype* itemtype)
+{
+  Itemtype_chance tmp(chance, itemtype);
+  add_item(tmp);
+}
+
+void Item_area::add_item(Itemtype_chance itemtype)
+{
+  itemtypes.push_back(itemtype);
+  total_chance += itemtype.chance;
+}
+
+void Item_area::load_data(std::istream &data, std::string name)
+{
+  std::string item_ident;
+  Itemtype_chance tmp_chance;
+  while (data >> item_ident) {
+    item_ident = no_caps(item_ident);  // other stuff isn't case-sensitive
+    if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
+      tmp_chance.chance = atoi( item_ident.substr(2).c_str() );
+    } else if (item_ident == "/") { // End of this option
+      add_item(tmp_chance);
+      tmp_chance.chance = 10;
+      tmp_chance.item   = NULL;
+    } else { // Otherwise, it should be a item name
+      Itemtype* tmpitem = ITEMTYPES.lookup_name(item_ident);
+      if (!tmpitem) {
+        debugmsg("Unknown item '%s' (%s)", item_ident.c_str(),
+                 name.c_str());
+      }
+      tmp_chance.item = tmpitem;
+    }
+  }
+// Add the last item def to our list, if the item is valid
+  if (tmp_chance.item) {
+    add_item(tmp_chance);
+  }
+}
+
 Terrain* Variable_terrain::pick()
 {
   if (ter.empty()) {
@@ -104,7 +148,6 @@ bool Mapgen_spec::load_data(std::istream &data)
       std::string tile_ident;
       bool reading_symbols = true; // We start out reading symbols!
 
-      Terrain_chance tmp_chance(10, NULL);
       Variable_terrain tmp_var;
 
       while (reading_symbols && tile_data >> tile_ident) {
@@ -125,6 +168,37 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       }
 // End if (ident == "tile:") block
+    } else if (ident == "items:") {
+      Item_area tmp_area;
+
+      data >> tmp_area.overall_chance;
+
+      std::string item_line;
+      std::getline(data, item_line);
+      std::istringstream item_data(item_line);
+
+      std::string symbols;
+      std::string item_ident;
+      bool reading_symbols = true; // We start out reading symbols!
+
+      while (reading_symbols && item_data >> item_ident) {
+        if (item_ident == "=") {
+          reading_symbols = false;
+        } else {
+          symbols += item_ident;
+        }
+      }
+      tmp_area.load_data(item_data, name);
+// For every character in symbols, map that char to tmp_var
+      for (int i = 0; i < symbols.length(); i++) {
+        char ch = symbols[i];
+        if (item_defs.count(ch) != 0) {
+          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+        } else {
+          item_defs[ch] = tmp_area;
+        }
+      }
+// End if (ident == "items:") block
     } else if (ident == "map:") {
       std::string mapchars;
       std::getline(data, mapchars);

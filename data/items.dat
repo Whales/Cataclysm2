@@ -7,3 +7,13 @@ weapon
   cut:    10
   pierce:  5
 done
+
+weapon
+  name: rock
+  glyph: * ltgray black
+  weight:  5
+  volume:  8
+  bash:   10
+  cut:     0
+  pierce:  0
+done

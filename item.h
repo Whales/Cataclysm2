@@ -6,6 +6,7 @@
 
 class Item
 {
+public:
   Item();
   ~Item();
 
@@ -13,6 +14,7 @@ class Item
 
   glyph top_glyph();
   std::string get_name();
+private:
 };
 
 #endif

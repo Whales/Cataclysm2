@@ -25,7 +25,7 @@ struct Terrain_chance
 
 struct Itemtype_chance
 {
-  Item_chance(int C = 10, Itemtype* I = NULL) : chance(c), itemtype(I) {};
+  Itemtype_chance(int C = 10, Itemtype* I = NULL) : chance(C), item(I) {};
   int chance;
   Itemtype* item;
 };
@@ -36,9 +36,9 @@ public:
   Variable_terrain();
   ~Variable_terrain(){};
 
-  void load_data(std::istream &data, std::string name = "unknown");
   void add_terrain(int chance, Terrain* terrain);
   void add_terrain(Terrain_chance terrain);
+  void load_data(std::istream &data, std::string name = "unknown");
 
   Terrain* pick();
 
@@ -54,11 +54,12 @@ public:
   Item_area();
   ~Item_area(){};
 
-  void load_data(std::istream &data, std::string name = "unknown");
   void add_item(int chance, Itemtype* itemtype);
   void add_item(Itemtype_chance itemtype);
+  void load_data(std::istream &data, std::string name = "unknown");
 
   Itemtype* pick();
+  int overall_chance;
 
 private:
   std::vector<Itemtype_chance> itemtypes;
@@ -79,9 +80,10 @@ struct Mapgen_spec
   std::string terrain_name; // World_terrain we belong to
 
   std::map<char,Variable_terrain> terrain_defs;
+  std::map<char,Item_area> item_defs;
   Variable_terrain base_terrain; // Default terrain
 
-  char terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // Keys to terrain_defs
+  char terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // Keys to terrain_defs, item_defs etc
 
 };
 
