@@ -1,8 +1,12 @@
 #ifndef _TERRAIN_H_
 #define _TERRAIN_H_
 
-#include <stdint.h>
+#include <vector>
 #include "glyph.h"
+#include "enum.h"
+
+Terrain_flag lookup_terrain_flag(std::string name);
+std::string terrain_flag_name(Terrain_flag flag);
 
 struct Terrain
 {
@@ -10,7 +14,7 @@ struct Terrain
   std::string name;
   glyph sym;
   unsigned int movecost;
-  uint64_t flags;
+  std::vector<bool> flags;
 
   Terrain();
   ~Terrain(){};

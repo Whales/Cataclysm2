@@ -24,6 +24,30 @@ int Tile::move_cost()
   return (terrain->movecost);
 }
 
+bool Tile::blocks_sense(Sense_type sense)
+{
+  if (!terrain) {
+    return false;
+  }
+  switch (sense) {
+    case SENSE_NULL:
+      return true;
+    case SENSE_SIGHT:
+      return (terrain->flags[TF_OPAQUE]);
+    case SENSE_SOUND:
+      return false;
+    case SENSE_ECHOLOCATION:
+      return (move_cost() == 0);
+    case SENSE_SMELL:
+      return (move_cost() == 0);
+    case SENSE_OMNISCIENT:
+      return false;
+    case SENSE_MAX:
+      return false;
+  }
+  return false;
+}
+
 void Submap::generate_empty()
 {
   Terrain* grass = TERRAIN.lookup_name("grass");
@@ -145,7 +169,7 @@ Tile* Map::get_tile(int x, int y)
   return &(submaps[sx][sy]->tiles[x % SUBMAP_SIZE][y % SUBMAP_SIZE]);
 }
 
-void Map::draw(Window* w, int refx, int refy)
+void Map::draw(Window* w, int refx, int refy, Sense_type sense)
 {
   if (!w) {
     return;

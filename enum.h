@@ -1,25 +1,25 @@
 #ifndef _ENUM_H_
 #define _ENUM_H_
 
-enum Worldmap_tile_id
+enum Sense_type
 {
-  OMT_NULL,
-  OMT_FIELD,
-  OMT_FOREST,
-  OMT_ROAD,
-  OMT_HOUSE,
-  OMT_MAX
+  SENSE_NULL = 0, // Can't sense anything
+  SENSE_SIGHT,    // Blocked by opaque terrain
+  SENSE_SOUND,    // Semi-blocked by solid terrain, only shows noise sources
+  SENSE_ECHOLOCATION, // Blocked by solid terrain
+  SENSE_SMELL,    // Blocked by solid terrain, only shows scent
+  SENSE_OMNISCIENT,   // Not blocked by anything!
+  SENSE_MAX
 };
 
-enum Tile_id
+
+// We use unit64_t here because there's a strong possibility that we'll have
+// more than 32 flags.
+enum Terrain_flag
 {
-  TILE_NULL,
-  TILE_DIRT,
-  TILE_GRASS,
-  TILE_PAVEMENT,
-  TILE_TREE,
-  TILE_WALL,
-  TILE_MAX
+  TF_NULL,
+  TF_OPAQUE,
+  TF_MAX
 };
 
 #endif

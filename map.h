@@ -10,18 +10,21 @@
 #include "mapgen.h"
 #include "worldmap.h"
 #include "item.h"
+#include "enum.h"
 
 struct Tile
 {
   Terrain *terrain;
   std::vector<Item> items;
 
-  Tile() { };
+   Tile() { };
   ~Tile() { };
 
   glyph top_glyph();
 
   int move_cost();
+
+  bool blocks_sense(Sense_type sense = SENSE_SIGHT);
 };
 
 struct Submap
@@ -52,7 +55,7 @@ public:
   Tile* get_tile(int x, int y);
 
 // Output
-  void draw(Window *w, int refx, int refy);
+  void draw(Window *w, int refx, int refy, Sense_type sense = SENSE_SIGHT);
 
 private:
   Submap* submaps[MAP_SIZE][MAP_SIZE];
