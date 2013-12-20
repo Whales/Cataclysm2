@@ -53,6 +53,7 @@ public:
 // Game engine access
   int move_cost(int x, int y);
   Tile* get_tile(int x, int y);
+  bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
 
 // Output
   void draw(Window *w, int refx, int refy, Sense_type sense = SENSE_SIGHT);

@@ -169,6 +169,70 @@ Tile* Map::get_tile(int x, int y)
   return &(submaps[sx][sy]->tiles[x % SUBMAP_SIZE][y % SUBMAP_SIZE]);
 }
 
+/* Still using Cataclysm style LOS.  It sucks and is slow and I hate it.
+ * Basically, iterate over all Bresenham lines between [x0,y0] and [x1,y1].
+ * If any of the lines doesn't have something that blocks the relevent sense,
+ * return true.  If we iterate through all of them and they all block, return
+ * false.
+ */
+bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
+{
+  std::vector<Point>  lines;    // Process many lines at once.
+  std::vector<int>    t_values; // T-values for bresenham lines
+
+  int dx = x1 - x0, dy = y1 - y0;
+  int ax = abs(dx) << 1, ay = abs(dy) << 1;
+  int sx = (dx < 0 ? -1 : 1), sy = (dy < 0 ? -1 : 1);
+  if (dx == 0) {
+    sx = 0;
+  }
+  if (dy == 0) {
+    sy = 0;
+  }
+
+  int min_t = (ax > ay ? ay - ax : ax - ay),
+  //int min_t = 0,
+      max_t = 0;
+  if (dx == 0 || dy == 0) {
+    min_t = 0;
+  }
+// Init our "lines"
+  for (int t = min_t; t <= max_t; t++) {
+    lines.push_back( Point(x0, y0) );
+    t_values.push_back(t);
+  }
+// Keep going as long as we've got at least one valid line
+  while (!lines.empty()) {
+    for (int i = 0; i < lines.size(); i++) {
+      if (ax > ay) {
+        lines[i].x += sx;
+        if (t_values[i] >= 0) {
+          lines[i].y += sy;
+          t_values[i] -= ax;
+        }
+        t_values[i] += ay;
+      } else {
+        lines[i].y += sy;
+        if (t_values[i] >= 0) {
+          lines[i].x += sx;
+          t_values[i] -= ay;
+        }
+        t_values[i] += ax;
+      }
+      if (lines[i].x == x1 && lines[i].y == y1) {
+        return true;
+      }
+      if (get_tile(lines[i].x, lines[i].y)->blocks_sense(sense)) {
+        lines.erase(lines.begin() + i);
+        t_values.erase(t_values.begin() + i);
+        i--;
+      }
+    }
+  }
+  return false;
+}
+  
+
 void Map::draw(Window* w, int refx, int refy, Sense_type sense)
 {
   if (!w) {
@@ -178,8 +242,13 @@ void Map::draw(Window* w, int refx, int refy, Sense_type sense)
   for (int x = 0; x < winx; x++) {
     for (int y = 0; y < winy; y++) {
       int terx = refx + x - (winx / 2), tery = refy + y - (winy / 2);
-      Tile* tile = get_tile(terx, tery);
-      w->putglyph(x, y, tile->top_glyph());
+      if (senses(refx, refy, terx, tery)) {
+        Tile* tile = get_tile(terx, tery);
+        w->putglyph(x, y, tile->top_glyph());
+      } else {
+// TODO: Don't use a literal glyph!  TILES GEEZE
+        w->putglyph(x, y, glyph('x', c_black, c_black));
+      }
     }
   }
 }
