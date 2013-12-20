@@ -7,7 +7,7 @@
 class Item
 {
 public:
-  Item();
+  Item(Itemtype* T = NULL);
   ~Item();
 
   Itemtype* type;

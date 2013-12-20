@@ -60,8 +60,11 @@ public:
   void add_point(int x, int y);
   void load_data(std::istream &data, std::string name = "unknown");
 
-  Itemtype* pick();
+// Functions used for item placement.
+  bool place_item();
+  Itemtype* pick_type();
   Point pick_location();
+
   int overall_chance;
 
 private:

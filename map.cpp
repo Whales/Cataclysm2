@@ -51,9 +51,21 @@ void Submap::generate(Mapgen_spec* spec)
   if (spec == NULL) {
     generate_empty();
   }
+// First, set the terrain.
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
       tiles[x][y].terrain = spec->pick_terrain(x, y);
+    }
+  }
+// Next, add items.
+  for (std::map<char,Item_area>::iterator it = spec->item_defs.begin();
+       it != spec->item_defs.end();
+       it++) {
+    Item_area* area = &(it->second);
+    while (area->place_item()) {
+      Point p = area->pick_location();
+      Item item( area->pick_type() );
+      tiles[p.x][p.y].items.push_back(item);
     }
   }
 }

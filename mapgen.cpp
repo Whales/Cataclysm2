@@ -51,6 +51,21 @@ void Variable_terrain::load_data(std::istream &data, std::string name)
   }
 }
 
+Terrain* Variable_terrain::pick()
+{
+  if (ter.empty()) {
+    return NULL;
+  }
+  int index = rng(1, total_chance);
+  for (int i = 0; i < ter.size(); i++) {
+    index -= ter[i].chance;
+    if (index <= 0) {
+      return ter[i].terrain;
+    }
+  }
+  return ter.back().terrain;
+}
+
 Item_area::Item_area()
 {
   total_chance = 0;
@@ -100,19 +115,36 @@ void Item_area::load_data(std::istream &data, std::string name)
   }
 }
 
-Terrain* Variable_terrain::pick()
+bool Item_area::place_item()
 {
-  if (ter.empty()) {
+  if (overall_chance >= 100 || overall_chance <= 0) {
+    return false;
+  }
+  return (rng(1, 100) <= overall_chance);
+}
+
+Itemtype* Item_area::pick_type()
+{
+  if (itemtypes.empty()) {
     return NULL;
   }
   int index = rng(1, total_chance);
-  for (int i = 0; i < ter.size(); i++) {
-    index -= ter[i].chance;
+  for (int i = 0; i < itemtypes.size(); i++) {
+    index -= itemtypes[i].chance;
     if (index <= 0) {
-      return ter[i].terrain;
+      return itemtypes[i].item;
     }
   }
-  return ter.back().terrain;
+  return itemtypes.back().item;
+}
+
+Point Item_area::pick_location()
+{
+  if (locations.empty()) {
+    return Point(-1, -1);
+  }
+  int index = rng(0, locations.size() - 1);
+  return locations[index];
 }
 
 Mapgen_spec::Mapgen_spec()

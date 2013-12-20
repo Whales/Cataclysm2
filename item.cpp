@@ -1,8 +1,8 @@
 #include "item.h"
 
-Item::Item()
+Item::Item(Itemtype* T)
 {
-  type = NULL;
+  type = T;
 }
 
 Item::~Item()
