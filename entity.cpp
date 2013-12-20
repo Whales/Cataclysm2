@@ -15,6 +15,11 @@ std::string Entity::get_name()
   return "Nothing";
 }
 
+glyph Entity::get_glyph()
+{
+  return glyph();
+}
+
 Player::Player()
 {
   posx = 15;
@@ -29,4 +34,9 @@ Player::~Player()
 std::string Player::get_name()
 {
   return name;
+}
+
+glyph Player::get_glyph()
+{
+  return glyph('@', c_white, c_black);
 }

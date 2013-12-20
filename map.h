@@ -39,12 +39,13 @@ public:
   Map();
   ~Map();
 
+// Generation
   void generate_empty();
   void test_generate(std::string terrain_name);
-
   void generate(Worldmap *world, int posx, int posy,
                 int sizex = MAP_SIZE, int sizey = MAP_SIZE);
 
+// Game engine access
   Tile* get_tile(int x, int y);
   void draw(Window *w, int refx, int refy);
 

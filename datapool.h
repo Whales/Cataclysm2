@@ -29,7 +29,7 @@ public:
     next_uid = 0;
   };
 
-  ~Data_pool()
+  virtual ~Data_pool()
   {
     for (typename std::list<T*>::iterator it = instances.begin();
          it != instances.end();

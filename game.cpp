@@ -58,7 +58,7 @@ bool Game::main_loop()
   }
 
   map->draw(w_map, player->posx, player->posy);
-  w_map->putch( w_map->sizex() / 2, w_map->sizey() / 2, c_white, c_black, '@');
+  w_map->putglyph( w_map->sizex() / 2, w_map->sizey() / 2, player->get_glyph());
   w_map->refresh();
   long ch = input();
 
