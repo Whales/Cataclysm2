@@ -20,6 +20,8 @@ struct Tile
   ~Tile() { };
 
   glyph top_glyph();
+
+  int move_cost();
 };
 
 struct Submap
@@ -46,7 +48,10 @@ public:
                 int sizex = MAP_SIZE, int sizey = MAP_SIZE);
 
 // Game engine access
+  int move_cost(int x, int y);
   Tile* get_tile(int x, int y);
+
+// Output
   void draw(Window *w, int refx, int refy);
 
 private:

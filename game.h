@@ -15,10 +15,11 @@ public:
   bool setup();
   bool main_loop();
 
+  void player_move(int xdif, int ydif); // Handles all aspects of moving player
+
   Map*      map;
   Worldmap* worldmap;
   Player*   player;
-  
 
 private:
   Window *w_map;

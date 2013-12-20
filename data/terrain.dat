@@ -10,5 +10,5 @@ name: grass
 
 name: tree
   glyph: 7 green black
-  movecost: 100
+  movecost:   0
   done

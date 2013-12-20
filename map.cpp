@@ -16,6 +16,14 @@ glyph Tile::top_glyph()
   return terrain->sym;
 }
 
+int Tile::move_cost()
+{
+  if (!terrain) {
+    return 0;
+  }
+  return (terrain->movecost);
+}
+
 void Submap::generate_empty()
 {
   Terrain* grass = TERRAIN.lookup_name("grass");
@@ -118,6 +126,11 @@ void Map::generate(Worldmap *world, int posx, int posy, int sizex, int sizey)
       }
     }
   }
+}
+
+int Map::move_cost(int x, int y)
+{
+  return get_tile(x, y)->move_cost();
 }
 
 Tile* Map::get_tile(int x, int y)

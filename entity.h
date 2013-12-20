@@ -3,6 +3,7 @@
 
 #include <string>
 #include "glyph.h"
+#include "map.h"
 
 class Entity
 {
@@ -12,6 +13,9 @@ public:
 
   virtual std::string get_name();
   virtual glyph get_glyph();
+
+  virtual bool can_move_to(Map* map, int x, int y);
+  virtual void move_to(int x, int y);
 
   int posx, posy;
 };
@@ -24,6 +28,8 @@ public:
 
   virtual std::string get_name();
   virtual glyph get_glyph();
+  
+  virtual bool can_move_to(Map* map, int x, int y);
 private:
   std::string name;
 };
