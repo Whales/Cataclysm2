@@ -3,7 +3,7 @@
 
 #include "map.h"
 #include "cuss.h"
-#include "player.h"
+#include "entity.h"
 #include "worldmap.h"
 
 class Game
