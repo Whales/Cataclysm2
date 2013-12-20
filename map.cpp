@@ -4,8 +4,14 @@
 
 glyph Tile::top_glyph()
 {
+/* TODO: If terrain is "important" (i.e. not ground) and there's items on top,
+ * display terrain glyph, highlighted.
+ */
+  if (!items.empty()) {
+    return items.back().top_glyph();
+  }
   if (!terrain) {
-    return glyph('x', c_white, c_red);
+    return glyph();
   }
   return terrain->sym;
 }

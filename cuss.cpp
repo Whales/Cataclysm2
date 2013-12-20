@@ -67,7 +67,7 @@ bool element::set_data(nc_color FG, nc_color BG)
 // *** DRAWING ELEMENT ***
 void ele_drawing::draw(Window *win)
 {
- std::map<point, glyph>::iterator it;
+ std::map<Point, glyph>::iterator it;
  for (it = drawing.begin(); it != drawing.end(); it++)
   win->putglyph( posx + it->first.x, posy + it->first.y, it->second);
 }
@@ -76,7 +76,7 @@ std::string ele_drawing::save_data()
 {
  std::stringstream ret;
  ret << element::save_data() << " " << drawing.size() << " ";
- std::map<point, glyph>::iterator it;
+ std::map<Point, glyph>::iterator it;
  for (it = drawing.begin(); it != drawing.end(); it++)
   ret << it->first.x << " " << it->first.y << " " << it->second.save_data() <<
          " ";
@@ -89,11 +89,11 @@ void ele_drawing::load_data(std::istream &datastream)
  int tmpsize;
  datastream >> tmpsize;
  for (int i = 0; i < tmpsize; i++) {
-  point tmppoint;
+  Point tmpPoint;
   glyph tmpglyph;
-  datastream >> tmppoint.x >> tmppoint.y;
+  datastream >> tmpPoint.x >> tmpPoint.y;
   tmpglyph.load_data(datastream);
-  drawing[tmppoint] = tmpglyph;
+  drawing[tmpPoint] = tmpglyph;
  }
 }
  
@@ -103,16 +103,16 @@ bool ele_drawing::set_data(glyph gl, int posx, int posy)
   return false;
 
  if (gl.symbol == -1 || gl.symbol == ' ')
-  drawing.erase( point(posx, posy) );
+  drawing.erase( Point(posx, posy) );
  else
-  drawing[ point(posx, posy) ] = gl;
+  drawing[ Point(posx, posy) ] = gl;
 
  return true;
 }
 
 bool ele_drawing::set_data(nc_color FG, nc_color BG)
 {
- std::map<point, glyph>::iterator it;
+ std::map<Point, glyph>::iterator it;
  for (it = drawing.begin(); it != drawing.end(); it++) {
   it->second.fg = FG;
   if (BG != c_null) // bg defaults to c_null
@@ -124,7 +124,7 @@ bool ele_drawing::set_data(nc_color FG, nc_color BG)
 
 bool ele_drawing::translate(long from, long to)
 {
- std::map<point, glyph>::iterator it;
+ std::map<Point, glyph>::iterator it;
  bool found = false;
  for (it = drawing.begin(); it != drawing.end(); it++) {
   if (it->second.symbol == from) {

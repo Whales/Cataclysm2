@@ -288,7 +288,7 @@ while (!really_done) {
 
     } else if (ch == 'p' || ch == 'P') {
      if (!clipboard.drawing.empty()) {
-      for (std::map<point, glyph>::iterator it = clipboard.drawing.begin();
+      for (std::map<Point, glyph>::iterator it = clipboard.drawing.begin();
            it != clipboard.drawing.end(); it++) {
        edited.set_data("BG", it->second, it->first.x + posx, it->first.y+posy);
       }
@@ -363,7 +363,7 @@ while (!really_done) {
        clipboard.sizey = posy - bufy + 1;
        for (int x = bufx; x <= posx; x++) {
         for (int y = bufy; y <= posy; y++) {
-         point p(x, y);
+         Point p(x, y);
          element* tmp = edited.find_by_name("BG");
          if (!tmp) {
           debugmsg("Couldn't find BG for cutting");
@@ -1198,15 +1198,15 @@ void fix_lines(interface &edited, std::string name,
  ele_drawing* bg = static_cast<ele_drawing*>(ele);
  if (!bg)
   return;
- std::map<point, glyph>::iterator it;
+ std::map<Point, glyph>::iterator it;
  for (it = bg->drawing.begin(); it != bg->drawing.end(); it++) {
-  point p = it->first;
+  Point p = it->first;
   if (p.x >= x1 && p.x <= x2 && p.y >= y1 && p.y <= y2 &&
       is_line(it->second.symbol)) {
-    point north(it->first.x    , it->first.y - 1);
-    point  east(it->first.x + 1, it->first.y    );
-    point south(it->first.x    , it->first.y + 1);
-    point  west(it->first.x - 1, it->first.y    );
+    Point north(it->first.x    , it->first.y - 1);
+    Point  east(it->first.x + 1, it->first.y    );
+    Point south(it->first.x    , it->first.y + 1);
+    Point  west(it->first.x - 1, it->first.y    );
     bool north_line = (north.y >= y1 && is_line(bg->drawing[north].symbol) );
     bool  east_line = ( east.x <= x2 && is_line(bg->drawing[east ].symbol) );
     bool south_line = (south.y <= y2 && is_line(bg->drawing[south].symbol) );

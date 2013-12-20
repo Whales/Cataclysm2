@@ -93,7 +93,7 @@ namespace cuss {
 
   struct ele_drawing : public element
   {
-    std::map<point, glyph, pointcomp> drawing;
+    std::map<Point, glyph, Pointcomp> drawing;
 
     ele_drawing() { name = ""; posx = 0; posy = 0; sizex = 0; sizey = 0;
                     selected = false; selectable = false;

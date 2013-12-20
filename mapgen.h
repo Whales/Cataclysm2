@@ -8,6 +8,7 @@
 #include <string>
 #include "terrain.h"
 #include "itemtype.h"
+#include "geometry.h"
 
 // MAPGEN_SIZE must be a divisor of SUBMAP_SIZE (specified in map.h)!
 // Also, changing MAPGEN_SIZE will break all of the already-written mapgen specs
@@ -56,13 +57,16 @@ public:
 
   void add_item(int chance, Itemtype* itemtype);
   void add_item(Itemtype_chance itemtype);
+  void add_point(int x, int y);
   void load_data(std::istream &data, std::string name = "unknown");
 
   Itemtype* pick();
+  Point pick_location();
   int overall_chance;
 
 private:
   std::vector<Itemtype_chance> itemtypes;
+  std::vector<Point> locations;
   int total_chance;
 
 };

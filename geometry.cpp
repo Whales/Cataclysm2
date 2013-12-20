@@ -4,10 +4,10 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
-std::vector <point> line_to(int x0, int y0, int x1, int y1)
+std::vector <Point> line_to(int x0, int y0, int x1, int y1)
 {
  int t = 0;
- std::vector<point> ret;
+ std::vector<Point> ret;
  int dx = x1 - x0;
  int dy = y1 - y0;
  int ax = abs(dx)<<1;
@@ -16,7 +16,7 @@ std::vector <point> line_to(int x0, int y0, int x1, int y1)
  int sy = SGN(dy);
  if (dy == 0) sy = 0;
  if (dx == 0) sx = 0;
- point cur;
+ Point cur;
  cur.x = x0;
  cur.y = y0;
 

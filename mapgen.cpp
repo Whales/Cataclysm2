@@ -68,6 +68,11 @@ void Item_area::add_item(Itemtype_chance itemtype)
   total_chance += itemtype.chance;
 }
 
+void Item_area::add_point(int x, int y)
+{
+  locations.push_back( Point(x, y) );
+}
+
 void Item_area::load_data(std::istream &data, std::string name)
 {
   std::string item_ident;
@@ -210,6 +215,9 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
         for (int i = 0; i < mapchars.length(); i++) {
           terrain[i][line] = mapchars[i];
+          if (item_defs.count(mapchars[i]) != 0) {
+            item_defs[mapchars[i]].add_point(i, line);
+          }
         }
         line++;
       } while (mapchars != "endmap" && line < MAPGEN_SIZE);
