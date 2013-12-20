@@ -86,6 +86,7 @@ struct Mapgen_spec
   std::string name;
   std::string terrain_name; // World_terrain we belong to
 
+  int weight;
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
   Variable_terrain base_terrain; // Default terrain
@@ -116,6 +117,7 @@ private:
   std::map<int,Mapgen_spec*> uid_map;
   std::map<std::string,Mapgen_spec*> name_map;
   std::map<std::string,std::vector<Mapgen_spec*> > terrain_name_map;
+  std::map<std::string,int> terrain_name_total_chance;
 };
 
 #endif

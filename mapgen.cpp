@@ -150,6 +150,7 @@ Point Item_area::pick_location()
 Mapgen_spec::Mapgen_spec()
 {
   name = "unknown";
+  weight = 100;
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       terrain[x][y] = 0;
@@ -176,6 +177,9 @@ bool Mapgen_spec::load_data(std::istream &data)
     } else if (ident == "type:") {
       std::getline(data, terrain_name);
       terrain_name = trim(terrain_name);
+    } else if (ident == "weight:") {
+      data >> weight;
+      std::getline(data, junk);
     } else if (ident == "tile:") {
       std::string tile_line;
       std::getline(data, tile_line);
@@ -319,8 +323,10 @@ bool Mapgen_spec_pool::load_element(std::istream &data)
     std::vector<Mapgen_spec*> tmpvec;
     tmpvec.push_back(tmp);
     terrain_name_map[tmp->terrain_name] = tmpvec;
+    terrain_name_total_chance[tmp->terrain_name] = tmp->weight;
   } else {
     terrain_name_map[tmp->terrain_name].push_back(tmp);
+    terrain_name_total_chance[tmp->terrain_name] += tmp->weight;
   }
   return true;
 }
@@ -356,8 +362,15 @@ Mapgen_spec* Mapgen_spec_pool::random_for_terrain(std::string name)
   if (terrain_name_map.count(name) == 0) {
     return NULL;
   }
-  int index = rng(0, terrain_name_map[name].size() - 1);
-  return terrain_name_map[name][index];
+  int index = rng(1, terrain_name_total_chance[name]);
+  std::vector<Mapgen_spec*> *vec = &(terrain_name_map[name]);
+  for (int i = 0; i < vec->size(); i++) {
+    index -= (*vec)[i]->weight;
+    if (index <= 0) {
+      return (*vec)[i];
+    }
+  }
+  return vec->back();
 }
 
 int Mapgen_spec_pool::size()
