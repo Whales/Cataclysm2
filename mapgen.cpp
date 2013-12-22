@@ -28,6 +28,7 @@ void Variable_terrain::load_data(std::istream &data, std::string name)
 {
   std::string tile_ident;
   Terrain_chance tmp_chance;
+  bool okay_to_push_null = false;
   while (data >> tile_ident) {
     tile_ident = no_caps(tile_ident);  // other stuff isn't case-sensitive
     if (tile_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
@@ -36,6 +37,11 @@ void Variable_terrain::load_data(std::istream &data, std::string name)
       add_terrain(tmp_chance);
       tmp_chance.chance  = 10;
       tmp_chance.terrain = NULL;
+      okay_to_push_null = false;
+    } else if (tile_ident == "nothing") {
+// Should only be used by adjacent generators...
+      tmp_chance.terrain = NULL;
+      okay_to_push_null = true;
     } else { // Otherwise, it should be a terrain name
       Terrain* tmpter = TERRAIN.lookup_name(tile_ident);
       if (!tmpter) {
@@ -46,7 +52,7 @@ void Variable_terrain::load_data(std::istream &data, std::string name)
     }
   }
 // Add the last terrain def to our list, if the terrain is valid
-  if (tmp_chance.terrain) {
+  if (tmp_chance.terrain || okay_to_push_null) {
     add_terrain(tmp_chance);
   }
 }
@@ -274,11 +280,11 @@ bool Mapgen_spec::load_data(std::istream &data)
 Terrain* Mapgen_spec::pick_terrain(int x, int y)
 {
   if (x < 0 || x >= MAPGEN_SIZE || y < 0 || y >= MAPGEN_SIZE) {
-    return base_terrain.pick();
+    return (is_adjacent ? NULL : base_terrain.pick());
   }
   char key = terrain[x][y];
   if (terrain_defs.count(key) == 0) {
-    return base_terrain.pick();
+    return (is_adjacent ? NULL : base_terrain.pick());
   }
   return terrain_defs[key].pick();
 }

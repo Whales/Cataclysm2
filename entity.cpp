@@ -57,6 +57,7 @@ glyph Player::get_glyph()
 
 bool Player::can_move_to(Map *map, int x, int y)
 {
+  return true;
   if (!map) {
     return false;
   }

@@ -64,17 +64,23 @@ void Submap::generate_empty()
   }
 }
 
-void Submap::generate(World_terrain* terrain,
-                      World_terrain* north,
-                      World_terrain* east,
-                      World_terrain* south,
-                      World_terrain* west)
+void Submap::generate(World_terrain* terrain[5])
 {
-  if (!terrain) {
+  if (!terrain[0]) {
     generate_empty();
-    return;
+  } else {
+    generate( MAPGEN_SPECS.random_for_terrain(terrain[0]) );
   }
-  generate( MAPGEN_SPECS.random_for_terrain(terrain) );
+
+  for (int i = 1; i < 5; i++) {
+    if (terrain[i]) {
+      Mapgen_spec* adj = MAPGEN_SPECS.random_adjacent_to(terrain[i]);
+      if (adj) {
+        Mapgen_spec rotated = adj->rotate( Direction(i) );
+        generate_adjacent( &rotated );
+      }
+    }
+  }
 }
 
 void Submap::generate(std::string terrain_name)
@@ -91,6 +97,34 @@ void Submap::generate(Mapgen_spec* spec)
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
       tiles[x][y].terrain = spec->pick_terrain(x, y);
+    }
+  }
+// Next, add items.
+  for (std::map<char,Item_area>::iterator it = spec->item_defs.begin();
+       it != spec->item_defs.end();
+       it++) {
+    Item_area* area = &(it->second);
+    while (area && area->place_item()) {
+      Point p = area->pick_location();
+      Item item( area->pick_type() );
+      tiles[p.x][p.y].items.push_back(item);
+    }
+  }
+}
+
+void Submap::generate_adjacent(Mapgen_spec* spec)
+{
+  if (spec == NULL) {
+    return;
+  }
+// First, set the terrain.
+  for (int x = 0; x < SUBMAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE; y++) {
+      Terrain* tmpter = spec->pick_terrain(x, y);
+// TODO: Only overwrite terrain with the "ground" tag
+      if (tmpter != NULL) {
+        tiles[x][y].terrain = tmpter;
+      }
     }
   }
 // Next, add items.
@@ -144,13 +178,28 @@ void Map::test_generate(std::string terrain_name)
 
 void Map::generate(Worldmap *world, int posx, int posy, int sizex, int sizey)
 {
-  for (int x = 0; x < sizex; x++) {
-    for (int y = 0; y < sizey; y++) {
+  for (int x = 0; x < sizex && x < MAP_SIZE; x++) {
+    for (int y = 0; y < sizey && y < MAP_SIZE; y++) {
       Worldmap_tile* tile = world->get_tile(posx + x, posy + y);
       if (!tile) {
         submaps[x][y]->generate_empty();
       } else {
-        submaps[x][y]->generate(tile->terrain);
+        World_terrain* ter[5];
+        ter[0] = tile->terrain;
+// North
+        tile = world->get_tile(posx + x, posy + y - 1);
+        ter[1] = (tile ? tile->terrain : NULL);
+// East
+        tile = world->get_tile(posx + x + 1, posy + y);
+        ter[2] = (tile ? tile->terrain : NULL);
+// South
+        tile = world->get_tile(posx + x, posy + y + 1);
+        ter[3] = (tile ? tile->terrain : NULL);
+// West
+        tile = world->get_tile(posx + x - 1, posy + y);
+        ter[4] = (tile ? tile->terrain : NULL);
+
+        submaps[x][y]->generate(ter);
       }
     }
   }

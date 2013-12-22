@@ -33,13 +33,10 @@ struct Submap
 
   void generate_empty();
 
-  void generate(World_terrain* terrain,
-                World_terrain* north = NULL,
-                World_terrain* east  = NULL,
-                World_terrain* south = NULL,
-                World_terrain* west  = NULL);
+  void generate(World_terrain* terrain[5]);
   void generate(std::string terrain_name);
   void generate(Mapgen_spec* spec);
+  void generate_adjacent(Mapgen_spec* spec);
 
 };
 

@@ -1,6 +1,16 @@
 #include "datapool.h"
 
 template <>
+Data_pool<Itemtype>::~Data_pool()
+{
+  std::list<Itemtype*>::iterator it = instances.begin();
+  while (it != instances.end()) {
+    delete (*it);
+    it = instances.erase(it);
+  }
+}
+
+template <>
 bool Data_pool<Itemtype>::load_element(std::istream &data)
 {
   Itemtype* tmp;
