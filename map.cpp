@@ -74,7 +74,7 @@ void Submap::generate(World_terrain* terrain,
     generate_empty();
     return;
   }
-  generate(terrain->get_name());
+  generate( MAPGEN_SPECS.random_for_terrain(terrain) );
 }
 
 void Submap::generate(std::string terrain_name)
