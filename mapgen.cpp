@@ -272,6 +272,9 @@ bool Mapgen_spec::load_data(std::istream &data)
       if (line != MAPGEN_SIZE) {
         debugmsg("Bad map height %d (%s)", line, name.c_str());
       }
+    } else if (ident != "done" && ident != "endmap") {
+      debugmsg("Unknown Mapgen_spec property '%s' (%s)",
+               ident.c_str(), name.c_str());
     }
   } while (ident != "done");
   return true;

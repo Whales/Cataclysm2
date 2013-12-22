@@ -45,7 +45,7 @@ bool Game::setup()
   worldmap->generate();
 
   map = new Map;
-  map->generate(worldmap, 10, 10);
+  map->generate(worldmap, 0, 0);
 
   player = new Player;
   return true;

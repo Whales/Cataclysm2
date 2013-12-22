@@ -39,9 +39,11 @@ bool Terrain::load_data(std::istream &data)
       while (flagdata >> flagname) {
         flags[ lookup_terrain_flag(flagname) ] = true;
       }
+    } else if (ident != "done") {
+      debugmsg("Unknown terrain property '%s' (%s)",
+               ident.c_str(), name.c_str());
     }
   }
-// TODO: Flag loading.
   return true;
 }
 
