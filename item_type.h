@@ -1,15 +1,15 @@
-#ifndef _ITEMTYPE_H_
-#define _ITEMTYPE_H_
+#ifndef _item_type_H_
+#define _item_type_H_
 
 #include <string>
 #include <istream>
 #include "glyph.h"
 
-class Itemtype
+class Item_type
 {
 public:
-  Itemtype();
-  virtual ~Itemtype();
+  Item_type();
+  virtual ~Item_type();
 
   int uid;
   std::string name;
@@ -28,11 +28,11 @@ public:
 private:
 };
 
-class Itemtype_clothing : public Itemtype
+class Item_type_clothing : public Item_type
 {
 public:
-  Itemtype_clothing(){};
-  ~Itemtype_clothing(){};
+  Item_type_clothing(){};
+  ~Item_type_clothing(){};
 };
 
 #endif

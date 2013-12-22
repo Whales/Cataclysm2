@@ -1,6 +1,6 @@
 #include "item.h"
 
-Item::Item(Itemtype* T)
+Item::Item(Item_type* T)
 {
   type = T;
 }

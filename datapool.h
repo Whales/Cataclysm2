@@ -7,7 +7,7 @@
 #include <map>
 #include <fstream>
 #include "window.h"
-#include "itemtype.h"
+#include "item_type.h"
 #include "stringfunc.h"
 
 /* Important notes:

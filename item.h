@@ -2,15 +2,15 @@
 #define _ITEM_H_
 
 #include <string>
-#include "itemtype.h"
+#include "item_type.h"
 
 class Item
 {
 public:
-  Item(Itemtype* T = NULL);
+  Item(Item_type* T = NULL);
   ~Item();
 
-  Itemtype* type;
+  Item_type* type;
 
   glyph top_glyph();
   std::string get_name();

@@ -1,7 +1,7 @@
-#include "itemtype.h"
+#include "item_type.h"
 #include "stringfunc.h"
 
-Itemtype::Itemtype()
+Item_type::Item_type()
 {
   uid = -1;
   name = "bug";
@@ -13,21 +13,21 @@ Itemtype::Itemtype()
   pierce = 0;
 }
 
-Itemtype::~Itemtype()
+Item_type::~Item_type()
 {
 }
 
-void Itemtype::assign_uid(int id)
+void Item_type::assign_uid(int id)
 {
   uid = id;
 }
 
-std::string Itemtype::get_name()
+std::string Item_type::get_name()
 {
   return name;
 }
 
-bool Itemtype::load_data(std::istream &data)
+bool Item_type::load_data(std::istream &data)
 {
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {

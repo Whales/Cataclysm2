@@ -7,7 +7,7 @@
 #include <list>
 #include <string>
 #include "terrain.h"
-#include "itemtype.h"
+#include "item_type.h"
 #include "geometry.h"
 
 // MAPGEN_SIZE must be a divisor of SUBMAP_SIZE (specified in map.h)!
@@ -26,11 +26,11 @@ struct Terrain_chance
   Terrain* terrain;
 };
 
-struct Itemtype_chance
+struct Item_type_chance
 {
-  Itemtype_chance(int C = 10, Itemtype* I = NULL) : chance(C), item(I) {};
+  Item_type_chance(int C = 10, Item_type* I = NULL) : chance(C), item(I) {};
   int chance;
-  Itemtype* item;
+  Item_type* item;
 };
 
 struct Variable_terrain
@@ -57,20 +57,20 @@ public:
   Item_area();
   ~Item_area(){};
 
-  void add_item(int chance, Itemtype* itemtype);
-  void add_item(Itemtype_chance itemtype);
+  void add_item(int chance, Item_type* item_type);
+  void add_item(Item_type_chance item_type);
   void add_point(int x, int y);
   void load_data(std::istream &data, std::string name = "unknown");
 
 // Functions used for item placement.
   bool place_item();
-  Itemtype* pick_type();
+  Item_type* pick_type();
   Point pick_location();
 
   int overall_chance;
 
 private:
-  std::vector<Itemtype_chance> itemtypes;
+  std::vector<Item_type_chance> item_types;
   std::vector<Point> locations;
   int total_chance;
 

@@ -77,16 +77,16 @@ Item_area::Item_area()
   total_chance = 0;
 }
 
-void Item_area::add_item(int chance, Itemtype* itemtype)
+void Item_area::add_item(int chance, Item_type* item_type)
 {
-  Itemtype_chance tmp(chance, itemtype);
+  Item_type_chance tmp(chance, item_type);
   add_item(tmp);
 }
 
-void Item_area::add_item(Itemtype_chance itemtype)
+void Item_area::add_item(Item_type_chance item_type)
 {
-  itemtypes.push_back(itemtype);
-  total_chance += itemtype.chance;
+  item_types.push_back(item_type);
+  total_chance += item_type.chance;
 }
 
 void Item_area::add_point(int x, int y)
@@ -97,7 +97,7 @@ void Item_area::add_point(int x, int y)
 void Item_area::load_data(std::istream &data, std::string name)
 {
   std::string item_ident;
-  Itemtype_chance tmp_chance;
+  Item_type_chance tmp_chance;
   while (data >> item_ident) {
     item_ident = no_caps(item_ident);  // other stuff isn't case-sensitive
     if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
@@ -107,7 +107,7 @@ void Item_area::load_data(std::istream &data, std::string name)
       tmp_chance.chance = 10;
       tmp_chance.item   = NULL;
     } else { // Otherwise, it should be a item name
-      Itemtype* tmpitem = ITEMTYPES.lookup_name(item_ident);
+      Item_type* tmpitem = ITEM_TYPES.lookup_name(item_ident);
       if (!tmpitem) {
         debugmsg("Unknown item '%s' (%s)", item_ident.c_str(),
                  name.c_str());
@@ -129,19 +129,19 @@ bool Item_area::place_item()
   return (rng(1, 100) <= overall_chance);
 }
 
-Itemtype* Item_area::pick_type()
+Item_type* Item_area::pick_type()
 {
-  if (itemtypes.empty()) {
+  if (item_types.empty()) {
     return NULL;
   }
   int index = rng(1, total_chance);
-  for (int i = 0; i < itemtypes.size(); i++) {
-    index -= itemtypes[i].chance;
+  for (int i = 0; i < item_types.size(); i++) {
+    index -= item_types[i].chance;
     if (index <= 0) {
-      return itemtypes[i].item;
+      return item_types[i].item;
     }
   }
-  return itemtypes.back().item;
+  return item_types.back().item;
 }
 
 Point Item_area::pick_location()

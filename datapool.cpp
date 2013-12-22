@@ -1,9 +1,9 @@
 #include "datapool.h"
 
 template <>
-Data_pool<Itemtype>::~Data_pool()
+Data_pool<Item_type>::~Data_pool()
 {
-  std::list<Itemtype*>::iterator it = instances.begin();
+  std::list<Item_type*>::iterator it = instances.begin();
   while (it != instances.end()) {
     delete (*it);
     it = instances.erase(it);
@@ -11,18 +11,18 @@ Data_pool<Itemtype>::~Data_pool()
 }
 
 template <>
-bool Data_pool<Itemtype>::load_element(std::istream &data)
+bool Data_pool<Item_type>::load_element(std::istream &data)
 {
-  Itemtype* tmp;
+  Item_type* tmp;
   std::string item_category;
   std::getline(data, item_category);
   item_category = no_caps(item_category);
   item_category = trim(item_category);
   if (item_category == "weapon" || item_category == "vanilla") {
-    tmp = new Itemtype;
+    tmp = new Item_type;
   } else if (item_category == "armor" || item_category == "armour" ||
              item_category == "clothing") {
-    tmp = new Itemtype_clothing;
+    tmp = new Item_type_clothing;
   }
   if (!tmp->load_data(data)) {
     return false;
