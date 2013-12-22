@@ -360,13 +360,33 @@ bool Mapgen_spec_pool::load_element(std::istream &data)
   name_map[tmp->name] = tmp;
   std::map<std::string,std::vector<Mapgen_spec*> > *name_map;
   std::map<std::string,int> *chance_map;
+  std::map<World_terrain*,std::vector<Mapgen_spec*> > *ptr_map;
+  std::map<World_terrain*,int> *ptr_chance_map;
   if (tmp->is_adjacent) {
     name_map = &adjacent_name_map;
     chance_map = &adjacent_name_total_chance;
+    ptr_map = &adjacent_ptr_map;
+    ptr_chance_map = &adjacent_ptr_total_chance;
   } else {
     name_map = &terrain_name_map;
     chance_map = &terrain_name_total_chance;
+    ptr_map = &terrain_ptr_map;
+    ptr_chance_map = &terrain_ptr_total_chance;
   }
+// Push into the World_terrain* maps
+  World_terrain* wter = WORLD_TERRAIN.lookup_name(tmp->terrain_name);
+  if (wter) {
+    if (ptr_map->count(wter) == 0) {
+      std::vector<Mapgen_spec*> tmpvec;
+      tmpvec.push_back(tmp);
+      (*ptr_map)[wter] = tmpvec;
+      (*ptr_chance_map)[wter] = tmp->weight;
+    } else {
+      (*ptr_map)[wter].push_back(tmp);
+      (*ptr_chance_map)[wter] += tmp->weight;
+    }
+  }
+// Push into the name-based maps
   if (name_map->count(tmp->terrain_name) == 0) {
     std::vector<Mapgen_spec*> tmpvec;
     tmpvec.push_back(tmp);
@@ -412,6 +432,85 @@ Mapgen_spec* Mapgen_spec_pool::random_for_terrain(std::string name)
   }
   int index = rng(1, terrain_name_total_chance[name]);
   std::vector<Mapgen_spec*> *vec = &(terrain_name_map[name]);
+  for (int i = 0; i < vec->size(); i++) {
+    index -= (*vec)[i]->weight;
+    if (index <= 0) {
+      return (*vec)[i];
+    }
+  }
+  return vec->back();
+}
+
+std::vector<Mapgen_spec*>
+Mapgen_spec_pool::lookup_terrain_ptr(World_terrain* ptr)
+{
+  if (!ptr || terrain_ptr_map.count(ptr) == 0) {
+    std::vector<Mapgen_spec*> ret;
+    return ret;
+  }
+  return terrain_ptr_map[ptr];
+}
+
+Mapgen_spec*
+Mapgen_spec_pool::random_for_terrain(World_terrain* ptr)
+{
+  if (!ptr || terrain_ptr_map.count(ptr) == 0) {
+    return NULL;
+  }
+  int index = rng(1, terrain_ptr_total_chance[ptr]);
+  std::vector<Mapgen_spec*> *vec = &(terrain_ptr_map[ptr]);
+  for (int i = 0; i < vec->size(); i++) {
+    index -= (*vec)[i]->weight;
+    if (index <= 0) {
+      return (*vec)[i];
+    }
+  }
+  return vec->back();
+}
+
+std::vector<Mapgen_spec*>
+Mapgen_spec_pool::lookup_adjacent_name(std::string name)
+{
+  if (adjacent_name_map.count(name) == 0) {
+    std::vector<Mapgen_spec*> tmp;
+    return tmp;
+  }
+  return adjacent_name_map[name];
+}
+
+Mapgen_spec* Mapgen_spec_pool::random_adjacent_to(std::string name)
+{
+  if (adjacent_name_map.count(name) == 0) {
+    return NULL;
+  }
+  int index = rng(1, adjacent_name_total_chance[name]);
+  std::vector<Mapgen_spec*> *vec = &(adjacent_name_map[name]);
+  for (int i = 0; i < vec->size(); i++) {
+    index -= (*vec)[i]->weight;
+    if (index <= 0) {
+      return (*vec)[i];
+    }
+  }
+  return vec->back();
+}
+
+std::vector<Mapgen_spec*>
+Mapgen_spec_pool::lookup_adjacent_ptr(World_terrain* ptr)
+{
+  if (!ptr || adjacent_ptr_map.count(ptr) == 0) {
+    std::vector<Mapgen_spec*> ret;
+    return ret;
+  }
+  return adjacent_ptr_map[ptr];
+}
+
+Mapgen_spec* Mapgen_spec_pool::random_adjacent_to(World_terrain *ptr)
+{
+  if (!ptr || adjacent_ptr_map.count(ptr) == 0) {
+    return NULL;
+  }
+  int index = rng(1, adjacent_ptr_total_chance[ptr]);
+  std::vector<Mapgen_spec*> *vec = &(adjacent_ptr_map[ptr]);
   for (int i = 0; i < vec->size(); i++) {
     index -= (*vec)[i]->weight;
     if (index <= 0) {

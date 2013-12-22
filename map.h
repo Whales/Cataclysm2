@@ -32,7 +32,12 @@ struct Submap
   Tile tiles[SUBMAP_SIZE][SUBMAP_SIZE];
 
   void generate_empty();
-  void generate(World_terrain* terrain);
+
+  void generate(World_terrain* terrain,
+                World_terrain* north = NULL,
+                World_terrain* east  = NULL,
+                World_terrain* south = NULL,
+                World_terrain* west  = NULL);
   void generate(std::string terrain_name);
   void generate(Mapgen_spec* spec);
 

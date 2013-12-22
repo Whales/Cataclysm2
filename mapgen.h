@@ -14,6 +14,8 @@
 // Also, changing MAPGEN_SIZE will break all of the already-written mapgen specs
 #define MAPGEN_SIZE 25
 
+struct World_terrain;
+
 /* Mapgen_spec_pool looks very much like a datapool but has a few special
  * features, so sadly it must be its own class.
  */
@@ -111,11 +113,18 @@ public:
   
   Mapgen_spec* lookup_uid(int uid);
   Mapgen_spec* lookup_name(std::string name);
+
   std::vector<Mapgen_spec*> lookup_terrain_name(std::string name);
   Mapgen_spec* random_for_terrain(std::string name);
 
-  std::vector<Mapgen_spec*> lookup_adjacent_to(std::string name);
+  std::vector<Mapgen_spec*> lookup_terrain_ptr(World_terrain* ptr);
+  Mapgen_spec* random_for_terrain(World_terrain* ptr);
+
+  std::vector<Mapgen_spec*> lookup_adjacent_name(std::string name);
   Mapgen_spec* random_adjacent_to(std::string name);
+
+  std::vector<Mapgen_spec*> lookup_adjacent_ptr(World_terrain* ptr);
+  Mapgen_spec* random_adjacent_to(World_terrain* ptr);
 
   int size();
 
@@ -124,10 +133,16 @@ private:
   int next_uid;
   std::map<int,Mapgen_spec*> uid_map;
   std::map<std::string,Mapgen_spec*> name_map;
+
   std::map<std::string,std::vector<Mapgen_spec*> > terrain_name_map;
   std::map<std::string,int> terrain_name_total_chance;
+  std::map<World_terrain*,std::vector<Mapgen_spec*> > terrain_ptr_map;
+  std::map<World_terrain*,int> terrain_ptr_total_chance;
+
   std::map<std::string,std::vector<Mapgen_spec*> > adjacent_name_map;
   std::map<std::string,int> adjacent_name_total_chance;
+  std::map<World_terrain*,std::vector<Mapgen_spec*> > adjacent_ptr_map;
+  std::map<World_terrain*,int> adjacent_ptr_total_chance;
 };
 
 #endif

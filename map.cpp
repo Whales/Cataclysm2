@@ -64,7 +64,11 @@ void Submap::generate_empty()
   }
 }
 
-void Submap::generate(World_terrain* terrain)
+void Submap::generate(World_terrain* terrain,
+                      World_terrain* north,
+                      World_terrain* east,
+                      World_terrain* south,
+                      World_terrain* west)
 {
   if (!terrain) {
     generate_empty();
