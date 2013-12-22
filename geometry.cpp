@@ -67,3 +67,15 @@ int rl_dist(int x0, int y0, int x1, int y1)
   int dx = (x0 > x1 ? x0 - x1 : x1 - x0), dy = (y0 > y1 ? y0 - y1 : y1 - y0);
   return (dx > dy ? dx : dy);
 }
+
+std::string Direction_name(Direction dir)
+{
+  switch (dir) {
+    case DIR_NULL:  return "None";
+    case DIR_NORTH: return "North";
+    case DIR_EAST:  return "East";
+    case DIR_SOUTH: return "South";
+    case DIR_WEST:  return "West";
+  }
+  return "???";
+}

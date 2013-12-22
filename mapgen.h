@@ -87,6 +87,8 @@ struct Mapgen_spec
   Mapgen_spec random_rotate();
   Mapgen_spec rotate(Direction dir);
 
+  void debug_output();
+
   int uid;
   std::string name;
   std::string terrain_name; // World_terrain we belong to

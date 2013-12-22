@@ -2,6 +2,7 @@
 #define _GEOMETRY_H_
 
 #include <vector>
+#include <string>
 
 #ifndef MIN
   #define MIN(x, y) ( (x) < (y) ? x : y)
@@ -19,6 +20,8 @@ enum Direction
   DIR_SOUTH,
   DIR_WEST
 };
+
+std::string Direction_name(Direction dir);
 
 struct Point
 {

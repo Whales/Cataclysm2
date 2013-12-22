@@ -1,7 +1,7 @@
 name: test forest
 type: forest
 base_terrain: dirt
-tile: a = w:30 dirt / w:5 grass / tree
+tile: a = w:30 dirt / w:5 grass / w:5 tree
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -34,13 +34,17 @@ done
 name: forest_adj_1
 type: forest
 adjacent
-tile: a = nothing / w:1 tree
+tile: a = w:10 nothing / w:1 tree
+tile: b = w:20 nothing / w:1 tree
+tile: c = w:35 nothing / w:1 tree
+tile: d = w:60 nothing / w:1 tree
+tile: e = w:80 nothing / w:1 tree
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
+bbbbbbbbbbbbbbbbbbbbbbbbb
+ccccccccccccccccccccccccc
+ddddddddddddddddddddddddd
+eeeeeeeeeeeeeeeeeeeeeeeee
 .........................
 .........................
 .........................

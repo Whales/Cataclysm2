@@ -300,7 +300,7 @@ Mapgen_spec Mapgen_spec::rotate(Direction dir)
   Mapgen_spec ret;
   ret.uid = uid;
 // TODO: Tell us how it was rotated!
-  ret.name = name + " [rotated]";
+  ret.name = name + " [rotated " + Direction_name(dir) + "]";
   ret.terrain_name = terrain_name;
   ret.is_adjacent = is_adjacent;  // Don't think we need this but y'know
   ret.weight = weight;            // Ditto
@@ -321,6 +321,20 @@ Mapgen_spec Mapgen_spec::rotate(Direction dir)
     }
   }
   return ret;
+}
+
+void Mapgen_spec::debug_output()
+{
+  std::ofstream fout;
+  fout.open("debug.txt", std::fstream::app);
+  fout << name << std::endl;
+  for (int y = 0; y < MAPGEN_SIZE; y++) {
+    for (int x = 0; x < MAPGEN_SIZE; x++) {
+      fout << terrain[x][y];
+    }
+    fout << std::endl;
+  }
+  fout.close();
 }
 
 Mapgen_spec_pool::Mapgen_spec_pool()
