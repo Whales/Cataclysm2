@@ -1,0 +1,4 @@
+name: zombie
+  glyph: Z green black
+  speed: 70
+  done
