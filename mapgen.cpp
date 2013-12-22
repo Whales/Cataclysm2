@@ -151,6 +151,7 @@ Mapgen_spec::Mapgen_spec()
 {
   name = "unknown";
   weight = 100;
+  is_adjacent = false;
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       terrain[x][y] = 0;
@@ -166,7 +167,9 @@ bool Mapgen_spec::load_data(std::istream &data)
       return false;
     }
     ident = no_caps(ident);
-    if (ident == "name:") {
+    if (!ident.empty() && ident[0] == '#') {
+      std::getline(data, junk); // It's a comment - clear the line
+    } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
     } else if (ident == "base_terrain:") {
@@ -177,6 +180,9 @@ bool Mapgen_spec::load_data(std::istream &data)
     } else if (ident == "type:") {
       std::getline(data, terrain_name);
       terrain_name = trim(terrain_name);
+    } else if (ident == "adjacent") {
+      is_adjacent = true;
+      std::getline(data, junk);
     } else if (ident == "weight:") {
       data >> weight;
       std::getline(data, junk);
@@ -277,6 +283,39 @@ Terrain* Mapgen_spec::pick_terrain(int x, int y)
   return terrain_defs[key].pick();
 }
 
+Mapgen_spec Mapgen_spec::random_rotate()
+{
+  Direction dir = Direction(rng(DIR_NORTH, DIR_WEST));
+  return rotate(dir);
+}
+
+Mapgen_spec Mapgen_spec::rotate(Direction dir)
+{
+  Mapgen_spec ret;
+  ret.uid = uid;
+// TODO: Tell us how it was rotated!
+  ret.name = name + " [rotated]";
+  ret.terrain_name = terrain_name;
+  ret.is_adjacent = is_adjacent;  // Don't think we need this but y'know
+  ret.weight = weight;            // Ditto
+  ret.terrain_defs = terrain_defs;
+  ret.item_defs = item_defs;
+  ret.base_terrain = base_terrain;
+  for (int x = 0; x < MAPGEN_SIZE; x++) {
+    for (int y = 0; y < MAPGEN_SIZE; y++) {
+      int tx, ty;
+      switch (dir) {
+        case DIR_NORTH: tx = x;                   ty = y; break;
+        case DIR_EAST:  tx = MAPGEN_SIZE - y - 1; ty = x; break;
+        case DIR_SOUTH: tx = MAPGEN_SIZE - x - 1; ty = MAPGEN_SIZE - y - 1;
+                        break;
+        case DIR_WEST:  tx = y; ty = MAPGEN_SIZE - x - 1; break;
+      }
+      ret.terrain[tx][ty] = terrain[x][y];
+    }
+  }
+  return ret;
+}
 
 Mapgen_spec_pool::Mapgen_spec_pool()
 {
@@ -319,14 +358,23 @@ bool Mapgen_spec_pool::load_element(std::istream &data)
   instances.push_back(tmp);
   uid_map[next_uid] = tmp;
   name_map[tmp->name] = tmp;
-  if (terrain_name_map.count(tmp->terrain_name) == 0) {
+  std::map<std::string,std::vector<Mapgen_spec*> > *name_map;
+  std::map<std::string,int> *chance_map;
+  if (tmp->is_adjacent) {
+    name_map = &adjacent_name_map;
+    chance_map = &adjacent_name_total_chance;
+  } else {
+    name_map = &terrain_name_map;
+    chance_map = &terrain_name_total_chance;
+  }
+  if (name_map->count(tmp->terrain_name) == 0) {
     std::vector<Mapgen_spec*> tmpvec;
     tmpvec.push_back(tmp);
-    terrain_name_map[tmp->terrain_name] = tmpvec;
-    terrain_name_total_chance[tmp->terrain_name] = tmp->weight;
+    (*name_map)[tmp->terrain_name] = tmpvec;
+    (*chance_map)[tmp->terrain_name] = tmp->weight;
   } else {
-    terrain_name_map[tmp->terrain_name].push_back(tmp);
-    terrain_name_total_chance[tmp->terrain_name] += tmp->weight;
+    (*name_map)[tmp->terrain_name].push_back(tmp);
+    (*chance_map)[tmp->terrain_name] += tmp->weight;
   }
   return true;
 }

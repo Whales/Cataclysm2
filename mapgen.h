@@ -82,10 +82,15 @@ struct Mapgen_spec
   bool load_data(std::istream &data);
   Terrain* pick_terrain(int x, int y);
 
+  Mapgen_spec random_rotate();
+  Mapgen_spec rotate(Direction dir);
+
   int uid;
   std::string name;
   std::string terrain_name; // World_terrain we belong to
 
+  bool is_adjacent; // True is this is instructions for building adjacent to
+                    // terrain_name
   int weight;
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
@@ -109,6 +114,9 @@ public:
   std::vector<Mapgen_spec*> lookup_terrain_name(std::string name);
   Mapgen_spec* random_for_terrain(std::string name);
 
+  std::vector<Mapgen_spec*> lookup_adjacent_to(std::string name);
+  Mapgen_spec* random_adjacent_to(std::string name);
+
   int size();
 
   std::list<Mapgen_spec*> instances;
@@ -118,6 +126,8 @@ private:
   std::map<std::string,Mapgen_spec*> name_map;
   std::map<std::string,std::vector<Mapgen_spec*> > terrain_name_map;
   std::map<std::string,int> terrain_name_total_chance;
+  std::map<std::string,std::vector<Mapgen_spec*> > adjacent_name_map;
+  std::map<std::string,int> adjacent_name_total_chance;
 };
 
 #endif

@@ -11,6 +11,15 @@
   #define MOD(a, n) ( (a) < 0 ? ((a) % (n) + (n)) : ((a) % (n)))
 #endif
 
+enum Direction
+{
+  DIR_NULL = 0,
+  DIR_NORTH,
+  DIR_EAST,
+  DIR_SOUTH,
+  DIR_WEST
+};
+
 struct Point
 {
   int x;
