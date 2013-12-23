@@ -23,15 +23,23 @@ bool Terrain::load_data(std::istream &data)
       return false;
     }
     ident = no_caps(ident);
-    if (ident == "name:") {
+
+    if (!ident.empty() && ident[0] == '#') {
+// It's a comment
+      std::getline(data, junk);
+
+    } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
       std::getline(data, junk);
+
     } else if (ident == "movecost:") {
       data >> movecost;
       std::getline(data, junk);
+
     } else if (ident == "flags:") {
       std::getline(data, junk);
       std::istringstream flagdata(junk);
@@ -39,6 +47,7 @@ bool Terrain::load_data(std::istream &data)
       while (flagdata >> flagname) {
         flags[ lookup_terrain_flag(flagname) ] = true;
       }
+
     } else if (ident != "done") {
       debugmsg("Unknown terrain property '%s' (%s)",
                ident.c_str(), name.c_str());

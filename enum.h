@@ -1,6 +1,8 @@
 #ifndef _ENUM_H_
 #define _ENUM_H_
 
+#include <string>
+
 enum Sense_type
 {
   SENSE_NULL = 0, // Can't sense anything
@@ -12,9 +14,9 @@ enum Sense_type
   SENSE_MAX
 };
 
+Sense_type lookup_sense_type(std::string name);
+std::string sense_type_name(Sense_type type);
 
-// We use unit64_t here because there's a strong possibility that we'll have
-// more than 32 flags.
 enum Terrain_flag
 {
   TF_NULL,

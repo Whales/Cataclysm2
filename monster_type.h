@@ -3,7 +3,9 @@
 
 #include <string>
 #include <istream>
+#include <vector>
 #include "glyph.h"
+#include "enum.h"
 
 struct Monster_type
 {
@@ -19,6 +21,11 @@ struct Monster_type
   void assign_uid(int id);
   std::string get_name();
   bool load_data(std::istream &data);
+
+  bool has_sense(Sense_type type);
+private:
+  std::vector<bool> senses;
+
 };
 
 #endif

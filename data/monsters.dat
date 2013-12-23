@@ -1,4 +1,5 @@
 name: zombie
   glyph: Z green black
   speed: 70
+  senses: sight
   done

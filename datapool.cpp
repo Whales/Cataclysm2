@@ -17,7 +17,8 @@ bool Data_pool<Item_type>::load_element(std::istream &data)
 {
   Item_type* tmp;
   std::string item_category;
-  std::getline(data, item_category);
+  //std::getline(data, item_category);
+  data >> item_category;
   item_category = no_caps(item_category);
   item_category = trim(item_category);
   if (item_category == "weapon" || item_category == "vanilla") {

@@ -1,5 +1,6 @@
 #include "item_type.h"
 #include "stringfunc.h"
+#include "window.h"
 
 Item_type::Item_type()
 {
@@ -35,27 +36,41 @@ bool Item_type::load_data(std::istream &data)
       return false;
     }
     ident = no_caps(ident);
-    if (ident == "name:") {
+
+    if (!ident.empty() && ident[0] == '#') {
+// It's a comment
+      std::getline(data, junk);
+
+    } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
       std::getline(data, junk);
+
     } else if (ident == "weight:") {
       data >> weight;
       std::getline(data, junk);
+
     } else if (ident == "volume:") {
       data >> volume;
       std::getline(data, junk);
+
     } else if (ident == "bash:") {
       data >> bash;
       std::getline(data, junk);
+
     } else if (ident == "cut:") {
       data >> cut;
       std::getline(data, junk);
+
     } else if (ident == "pierce:") {
       data >> pierce;
       std::getline(data, junk);
+
+    } else if (ident != "done") {
+      debugmsg("Unknown item_type flag '%s' (%s)", ident.c_str(), name.c_str());
     }
   }
 // TODO: Flag loading.
