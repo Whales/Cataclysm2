@@ -7,7 +7,7 @@ Item_type::Item_type()
   name = "bug";
   weight = 0;
   volume = 0;
-  sym = glyph('x', c_white, c_red);
+  sym = glyph();
   bash = 0;
   cut = 0;
   pierce = 0;

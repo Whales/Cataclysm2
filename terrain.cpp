@@ -8,7 +8,7 @@ Terrain::Terrain()
 {
   uid = -1;
   name = "ERROR";
-  sym = glyph('x', c_white, c_red);
+  sym = glyph();
   movecost = 100;
   for (int i = 0; i < TF_MAX; i++) {
     flags.push_back(false);

@@ -3,7 +3,7 @@
 glyph Worldmap_tile::top_glyph()
 {
   if (!terrain) {
-    return glyph('x', c_white, c_red);
+    return glyph();
   }
   return terrain->sym;
 }
