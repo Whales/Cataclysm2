@@ -41,17 +41,20 @@ std::string element::save_data()
 {
  std::stringstream ret;
  ret << name << " " << STD_DELIM << " " << posx << " " << posy << " " <<
-        sizex << " " << sizey << " " << selectable << " " << align;
+        sizex << " " << sizey << " " << selectable << " " << align << " " <<
+        v_align;
  return ret.str();
 }
 
 void element::load_data(std::istream &datastream)
 {
  name = load_to_delim(datastream, STD_DELIM);
- int tmpalign;
+ int tmpalign, tmpvalign;
 
- datastream >> posx >> posy >> sizex >> sizey >> selectable >> tmpalign;
+ datastream >> posx >> posy >> sizex >> sizey >> selectable >> tmpalign >>
+               tmpvalign;
  align = alignment(tmpalign);
+ v_align = vertical_alignment(tmpvalign);
 }
 
 bool element::set_data(nc_color FG, nc_color BG)
@@ -143,12 +146,18 @@ void ele_textbox::draw(Window *win)
  win->clear_area(posx, posy, posx + sizex - 1, posy + sizey - 1);
 
  for (int i = 0; i + offset < broken.size() && i < sizey; i++) {
+  int ypos;
+  if (v_align == ALIGN_BOTTOM) {
+    ypos = posy + sizey - 1 - i;
+  } else { // Default to top-aligned
+    ypos = posy + i;
+  }
   if (align == ALIGN_RIGHT) {
-    win->putstr_r(posx, posy + i, fg, bg, sizex, broken[i + offset]);
+    win->putstr_r(posx, ypos, fg, bg, sizex, broken[i + offset]);
   } else if (align == ALIGN_CENTER) {
-    win->putstr_c(posx, posy + i, fg, bg, sizex, broken[i + offset]);
+    win->putstr_c(posx, ypos, fg, bg, sizex, broken[i + offset]);
   } else {
-    win->putstr_n(posx, posy + i, fg, bg, sizex, broken[i + offset]);
+    win->putstr_n(posx, ypos, fg, bg, sizex, broken[i + offset]);
   }
  }
 

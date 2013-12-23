@@ -30,6 +30,13 @@ namespace cuss {
     ALIGN_MAX
   };
 
+  enum vertical_alignment
+  {
+    ALIGN_TOP       = 0,
+    ALIGN_BOTTOM    = 1,
+    ALIGN_VERT_MAX  = 2
+  };
+
   std::string element_type_name(element_type type);
 
   struct element
@@ -45,6 +52,7 @@ namespace cuss {
     nc_color fg;
     nc_color bg;
     alignment align;
+    vertical_alignment v_align;
 
     bool recently_selected;
 

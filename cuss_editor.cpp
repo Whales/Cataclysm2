@@ -230,6 +230,12 @@ while (!really_done) {
     } else if (ch == '}' && sel) {
      sel->align = ALIGN_RIGHT;
 
+    } else if (ch == '(' && sel) {
+     sel->v_align = ALIGN_TOP;
+
+    } else if (ch == ')' && sel) {
+     sel->v_align = ALIGN_BOTTOM;
+
     } else if (ch == '|' && sel) {
      sel->align = ALIGN_CENTER;
 
@@ -785,6 +791,10 @@ void elements_window(interface &edited)
     selected->align = ALIGN_LEFT;
    if (selected && ch == '}')
     selected->align = ALIGN_RIGHT;
+   if (selected && ch == '(')
+    selected->v_align = ALIGN_TOP;
+   if (selected && ch == ')')
+    selected->v_align = ALIGN_BOTTOM;
    if (selected && ch == '|')
     selected->align = ALIGN_CENTER;
    if (selected && ch == '!' )
@@ -795,6 +805,10 @@ void elements_window(interface &edited)
     selected->align = ALIGN_LEFT;
    else if (selected && ch == '}')
     selected->align = ALIGN_RIGHT;
+   else if (selected && ch == '(')
+    selected->v_align = ALIGN_TOP;
+   else if (selected && ch == ')')
+    selected->v_align = ALIGN_BOTTOM;
    else if (selected && ch == '|')
     selected->align = ALIGN_CENTER;
    else if (ch == '!' )
@@ -945,6 +959,10 @@ void update_elements_window(interface &editor, interface &edited)
    editor.set_data("e_alignment", "Right");
   else if (selected->align == ALIGN_CENTER)
    editor.set_data("e_alignment", "Center");
+  if (selected->v_align == ALIGN_TOP)
+   editor.set_data("e_v_alignment", "Top");
+  if (selected->v_align == ALIGN_BOTTOM)
+   editor.set_data("e_v_alignment", "Bottom");
 // Set up the "basic value" area
   switch (selected->type()) {
 

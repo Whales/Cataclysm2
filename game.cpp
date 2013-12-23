@@ -1,6 +1,7 @@
 #include "game.h"
 #include "window.h"
 #include "stringfunc.h"
+#include <stdarg.h>
 
 Game::Game()
 {
@@ -154,3 +155,27 @@ void Game::player_move(int xdif, int ydif)
     player->move_to(map, newx, newy);
   }
 }
+
+void Game::add_msg(const char* msg, ...)
+{
+  char buff[2048];
+  va_list ap;
+  va_start(ap, msg);
+  vsprintf(buff, msg, ap);
+  va_end(ap);
+  std::string message(buff);
+  if (message.empty()) {
+    return;
+  }
+  if (!messages.empty() && messages.back().message == message) {
+    messages.back().count++;
+    return;
+  }
+  messages.push_back( Game_message(message) );
+}
+
+/*
+void Game::print_messages()
+{
+}
+*/
