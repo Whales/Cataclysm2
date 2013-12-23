@@ -11,12 +11,15 @@
 class Monster : public Entity
 {
 public:
-  Monster(Monster_type *T = NULL);
+  Monster();
   ~Monster();
+
+  void set_type(std::string name);
 
   virtual std::string get_name();
   virtual glyph top_glyph();
 
+  void gain_action_points();
   void make_plans();
   void take_turn();
 
@@ -29,9 +32,9 @@ public:
 
   Monster_type *type;
   int uid;
+  bool dead;
 
 private:
-  bool dead;
 
   Entity* target;
   Point wander_target;

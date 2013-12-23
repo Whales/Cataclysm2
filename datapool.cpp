@@ -5,7 +5,9 @@ Data_pool<Item_type>::~Data_pool()
 {
   std::list<Item_type*>::iterator it = instances.begin();
   while (it != instances.end()) {
-    delete (*it);
+    if (*it) {
+      delete (*it);
+    }
     it = instances.erase(it);
   }
 }

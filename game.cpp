@@ -77,9 +77,46 @@ bool Game::main_loop()
     case 'b': player_move(-1,  1); break;
     case 'n': player_move( 1,  1); break;
     case ':': worldmap->draw(10, 10); break;
+    case '!': {
+      Monster* mon = new Monster;
+      mon->set_type("zombie");
+      mon->posx = player->posx - 3;
+      mon->posy = player->posy - 3;
+      monsters.add_monster(mon);
+    } break;
     case 'q': return false;
   }
+
+  move_monsters();
+
   return true;
+}
+
+void Game::move_monsters()
+{
+// First, give all monsters action points
+  for (std::list<Monster*>::iterator it = monsters.instances.begin();
+       it != monsters.instances.end();
+       it++) {
+    (*it)->gain_action_points();
+  }
+/* Loop through the monsters, giving each one a single turn at a time.
+ * Stop when we go through a loop without finding any monsters that can
+ * take a turn.
+ */
+  bool all_done = true;
+  do {
+    all_done = true;
+    for (std::list<Monster*>::iterator it = monsters.instances.begin();
+         it != monsters.instances.end();
+         it++) {
+      Monster* mon = *it;
+      if (mon->action_points > 0 && !mon->dead) {
+        mon->take_turn();
+        all_done = false;
+      }
+    }
+  } while (!all_done);
 }
 
 void Game::player_move(int xdif, int ydif)

@@ -2,16 +2,19 @@
 #include "rng.h"
 #include "game.h"
 
-Monster::Monster(Monster_type *T)
+Monster::Monster()
 {
   dead = false;
-  type = T;
+  type = NULL;
   uid = -1;
-  if (type) {
-    action_points = type->speed;
-  } else {
-    action_points = 0;
-  }
+  action_points = 0;
+}
+
+void Monster::set_type(std::string name)
+{
+  dead = false;
+  type = MONSTER_TYPES.lookup_name(name);
+  action_points = 0;
 }
 
 Monster::~Monster()
@@ -34,6 +37,14 @@ std::string Monster::get_name()
   return "Typeless Monster";
 }
 
+void Monster::gain_action_points()
+{
+  if (!type) {
+    return;
+  }
+  action_points += type->speed;
+}
+
 void Monster::make_plans()
 {
   Player *player = GAME.player;
@@ -52,6 +63,7 @@ void Monster::make_plans()
 
 void Monster::take_turn()
 {
+// TODO: Move make_plans() outside of this function?
   make_plans();
   while (action_points > 0 && !dead) {
     if (wander_duration > 0) {
@@ -82,6 +94,7 @@ bool Monster::can_attack(Entity* entity)
 
 void Monster::attack(Entity* entity)
 {
+  action_points -= 100;
   if (!entity) {
     debugmsg("Monster attempted attack() on a null target.");
     return;

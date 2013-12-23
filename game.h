@@ -17,6 +17,8 @@ public:
   bool main_loop();
   void draw();
 
+  void move_monsters();
+
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
 
   Map*      map;
