@@ -20,6 +20,7 @@ public:
   Map*      map;
   Worldmap* worldmap;
   Player*   player;
+  Monster_pool monsters;
 
 private:
   Window *w_map;
