@@ -37,6 +37,14 @@ std::string Monster::get_name()
   return "Typeless Monster";
 }
 
+bool Monster::has_sense(Sense_type sense)
+{
+  if (!sense) {
+    return false;
+  }
+  return type->has_sense(sense);
+}
+
 void Monster::gain_action_points()
 {
   if (!type) {
@@ -51,7 +59,11 @@ void Monster::make_plans()
   Map *map = GAME.map;
 // TODO: Support different senses
 // TODO: Support non-aggressive monsters
-  if (can_sense(map, player->posx, player->posy)) {
+  bool senses_player = false;
+  if (has_sense(SENSE_SIGHT) && can_sense(map, player->posx, player->posy)) {
+    senses_player = true;
+  }
+  if (senses_player) {
     target = player;
     wander_target = Point(player->posx, player->posy);
 // TODO: Don't hard-code wander_duration.  Make it a Monster_type stat?

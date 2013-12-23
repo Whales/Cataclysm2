@@ -7,6 +7,7 @@
 #include "entity.h"
 #include "glyph.h"
 #include "geometry.h"
+#include "enum.h"
 
 class Monster : public Entity
 {
@@ -16,8 +17,9 @@ public:
 
   void set_type(std::string name);
 
-  virtual std::string get_name();
   virtual glyph top_glyph();
+  virtual std::string get_name();
+  bool has_sense(Sense_type sense);
 
   void gain_action_points();
   void make_plans();
