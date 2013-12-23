@@ -146,18 +146,20 @@ void ele_textbox::draw(Window *win)
  win->clear_area(posx, posy, posx + sizex - 1, posy + sizey - 1);
 
  for (int i = 0; i + offset < broken.size() && i < sizey; i++) {
-  int ypos;
+  int ypos, index;
   if (v_align == ALIGN_BOTTOM) {
     ypos = posy + sizey - 1 - i;
+    index = broken.size() - 1 - i - offset;
   } else { // Default to top-aligned
     ypos = posy + i;
+    index = i + offset;
   }
   if (align == ALIGN_RIGHT) {
-    win->putstr_r(posx, ypos, fg, bg, sizex, broken[i + offset]);
+    win->putstr_r(posx, ypos, fg, bg, sizex, broken[index]);
   } else if (align == ALIGN_CENTER) {
-    win->putstr_c(posx, ypos, fg, bg, sizex, broken[i + offset]);
+    win->putstr_c(posx, ypos, fg, bg, sizex, broken[index]);
   } else {
-    win->putstr_n(posx, ypos, fg, bg, sizex, broken[i + offset]);
+    win->putstr_n(posx, ypos, fg, bg, sizex, broken[index]);
   }
  }
 
