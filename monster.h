@@ -62,6 +62,7 @@ public:
   std::list<Monster*> instances;
 private:
   std::map<int,Monster*> uid_map;
+  int next_uid;
 };
   
 

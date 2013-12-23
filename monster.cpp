@@ -254,3 +254,49 @@ void Monster::pause()
 {
   action_points = 0;
 }
+
+Monster_pool::Monster_pool()
+{
+  next_uid = 0;
+}
+
+Monster_pool::~Monster_pool()
+{
+  for (std::list<Monster*>::iterator it = instances.begin();
+       it != instances.end();
+       it++) {
+    delete (*it);
+  }
+}
+
+void Monster_pool::add_monster(Monster* mon)
+{
+  if (!mon) {
+    debugmsg("Tried to push NULL to Monster_pool");
+    return;
+  }
+  mon->uid = next_uid;
+  next_uid++;
+  instances.push_back(mon);
+  uid_map[mon->uid] = mon;
+}
+
+Monster* Monster_pool::lookup_uid(int uid)
+{
+  if (uid_map.count(uid) == 0) {
+    return NULL;
+  }
+  return uid_map[uid];
+}
+
+Monster* Monster_pool::monster_at(int posx, int posy)
+{
+  for (std::list<Monster*>::iterator it = instances.begin();
+       it != instances.end();
+       it++) {
+    if ((*it)->posx == posx && (*it)->posy == posy) {
+      return (*it);
+    }
+  }
+  return NULL;
+}
