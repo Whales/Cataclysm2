@@ -95,6 +95,9 @@ bool Game::main_loop()
       mon->posy = player->posy - 3;
       monsters.add_monster(mon);
     } break;
+    case '"':
+      add_msg("Test message %d %d!", player->posx, player->posy);
+      break;
     case 'q': return false;
   }
 
@@ -172,7 +175,7 @@ void Game::add_msg(const char* msg, ...)
     return;
   }
   messages.push_back( Game_message(message) );
-  i_hud.add_data("text_messages", message);
+  i_hud.add_data("text_messages", message + "\n");
 }
 
 /*
