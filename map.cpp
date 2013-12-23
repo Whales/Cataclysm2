@@ -1,6 +1,7 @@
 #include "map.h"
 #include "rng.h"
 #include "globals.h"
+#include "monster.h"
 
 glyph Tile::top_glyph()
 {
@@ -286,7 +287,8 @@ bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
 }
   
 
-void Map::draw(Window* w, int refx, int refy, Sense_type sense)
+void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
+               Sense_type sense)
 {
   if (!w) {
     return;
@@ -296,11 +298,29 @@ void Map::draw(Window* w, int refx, int refy, Sense_type sense)
     for (int y = 0; y < winy; y++) {
       int terx = refx + x - (winx / 2), tery = refy + y - (winy / 2);
       if (senses(refx, refy, terx, tery)) {
-        Tile* tile = get_tile(terx, tery);
-        w->putglyph(x, y, tile->top_glyph());
+        glyph output;
+        bool picked_glyph = false;
+// First, check if we should draw a monster
+        if (monsters) {
+          Monster* monster = monsters->monster_at(terx, tery);
+          if (monster) {
+            output = monster->top_glyph();
+            picked_glyph = true;
+          }
+        }
+// Finally, if nothing else, get the glyph from the tile
+        if (!picked_glyph) {
+          Tile* tile = get_tile(terx, tery);
+          if (tile) {
+            output = tile->top_glyph();
+          } else {
+            debugmsg("Really could not find a glyph!");
+          }
+        }
+        w->putglyph(x, y, output);
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE
-        w->putglyph(x, y, glyph('x', c_black, c_black));
+        w->putglyph(x, y, glyph());
       }
     }
   }

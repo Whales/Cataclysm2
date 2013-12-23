@@ -5,6 +5,7 @@
 #include "cuss.h"
 #include "entity.h"
 #include "worldmap.h"
+#include "monster.h"
 
 class Game
 {
@@ -14,6 +15,7 @@ public:
 
   bool setup();
   bool main_loop();
+  void draw();
 
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
 

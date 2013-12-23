@@ -40,10 +40,10 @@ void Monster::make_plans()
   Map *map = GAME.map;
 // TODO: Support different senses
 // TODO: Support non-aggressive monsters
-  if (map->senses(posx, posy, player->posx, player->posy)) {
+  if (can_sense(map, player->posx, player->posy)) {
     target = player;
     wander_target = Point(player->posx, player->posy);
-// TODO: Don't hard-code wander_duration.  Make it a Mosnter_type stat?
+// TODO: Don't hard-code wander_duration.  Make it a Monster_type stat?
     wander_duration = 15;
   } else {
     target = NULL;

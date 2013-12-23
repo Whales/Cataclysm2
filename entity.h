@@ -17,6 +17,8 @@ public:
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to(Map* map, int x, int y);
 
+  virtual bool can_sense(Map* map, int x, int y);
+
   int posx, posy;
   int action_points;
 };

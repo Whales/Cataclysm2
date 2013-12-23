@@ -57,7 +57,7 @@ bool Game::main_loop()
     return false;
   }
 
-  map->draw(w_map, player->posx, player->posy);
+  map->draw(w_map, &monsters, player->posx, player->posy);
   w_map->putglyph( w_map->sizex() / 2, w_map->sizey() / 2, player->get_glyph());
   w_map->refresh();
   long ch = input();

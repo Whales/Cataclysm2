@@ -41,6 +41,12 @@ void Entity::move_to(Map* map, int x, int y)
   }
 }
 
+bool Entity::can_sense(Map* map, int x, int y)
+{
+// Default Entity function just uses sight
+  return map->senses(posx, posy, x, y);
+}
+
 Player::Player()
 {
   posx = 15;

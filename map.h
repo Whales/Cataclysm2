@@ -12,6 +12,8 @@
 #include "item.h"
 #include "enum.h"
 
+class Monster_pool;
+
 struct Tile
 {
   Terrain *terrain;
@@ -58,7 +60,8 @@ public:
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
 
 // Output
-  void draw(Window *w, int refx, int refy, Sense_type sense = SENSE_SIGHT);
+  void draw(Window *w, Monster_pool *monsters, int refx, int refy,
+            Sense_type sense = SENSE_SIGHT);
 
 private:
   Submap* submaps[MAP_SIZE][MAP_SIZE];
