@@ -15,7 +15,8 @@ public:
 
   bool setup();
   bool main_loop();
-  void draw();
+  //void draw();
+  void update_hud();
 
   void move_monsters();
 
@@ -28,7 +29,8 @@ public:
 
 private:
   Window *w_map;
-  cuss::interface i_main;
+  Window *w_hud;
+  cuss::interface i_hud;
 };
 
 #endif

@@ -41,6 +41,11 @@ void Entity::move_to(Map* map, int x, int y)
   }
 }
 
+void Entity::attack(Entity* target)
+{
+  int damage = 0;
+}
+
 bool Entity::can_sense(Map* map, int x, int y)
 {
 // Default Entity function just uses sight

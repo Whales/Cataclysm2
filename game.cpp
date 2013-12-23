@@ -3,10 +3,11 @@
 
 Game::Game()
 {
-  map     = NULL;
-  worldmap = NULL;
-  w_map   = NULL;
-  player  = NULL;
+  map       = NULL;
+  worldmap  = NULL;
+  w_map     = NULL;
+  w_hud     = NULL;
+  player    = NULL;
 }
 
 Game::~Game()
@@ -27,12 +28,10 @@ Game::~Game()
   
 bool Game::setup()
 {
-/*
-  if (!i_main.load_from_file("cuss/i_main.cuss")) {
-    debugmsg("Can't load cuss/i_main.cuss!");
+  if (!i_hud.load_from_file("cuss/i_hud.cuss")) {
+    debugmsg("Can't load cuss/i_hud.cuss!");
     return false;
   }
-*/
   int xdim, ydim;
   get_screen_dims(xdim, ydim);
   int win_size = ydim;
@@ -40,6 +39,14 @@ bool Game::setup()
     win_size--; // Only odd numbers allowed!
   }
   w_map = new Window(0, 0, win_size, win_size);
+  w_hud = new Window(win_size, 0, 55, ydim);
+// Attempt to resize the messages box to be as tall as the window allows
+  cuss::element* messages = i_hud.select("text_messages");
+  if (!messages) {
+    debugmsg("Couldn't find element text_messages in i_hud");
+    return false;
+  }
+  messages->sizey = ydim - messages->posy;
 
   worldmap = new Worldmap;
   worldmap->generate();
@@ -53,10 +60,12 @@ bool Game::setup()
 
 bool Game::main_loop()
 {
-  if (!w_map || !map) {
+// Sanity check
+  if (!w_map || !w_hud || !player || !worldmap || !map) {
     return false;
   }
 
+  update_hud();
   map->draw(w_map, &monsters, player->posx, player->posy);
   w_map->putglyph( w_map->sizex() / 2, w_map->sizey() / 2, player->get_glyph());
   w_map->refresh();
@@ -90,6 +99,12 @@ bool Game::main_loop()
   move_monsters();
 
   return true;
+}
+
+void Game::update_hud()
+{
+  i_hud.draw(w_hud);
+  w_hud->refresh();
 }
 
 void Game::move_monsters()
