@@ -1,5 +1,6 @@
 #include "game.h"
 #include "window.h"
+#include "stringfunc.h"
 
 Game::Game()
 {
@@ -103,6 +104,12 @@ bool Game::main_loop()
 
 void Game::update_hud()
 {
+  i_hud.set_data("hp_head",  player->hp_text(BODYPART_HEAD     ) );
+  i_hud.set_data("hp_torso", player->hp_text(BODYPART_TORSO    ) );
+  i_hud.set_data("hp_l_arm", player->hp_text(BODYPART_LEFT_ARM ) );
+  i_hud.set_data("hp_r_arm", player->hp_text(BODYPART_RIGHT_ARM) );
+  i_hud.set_data("hp_l_leg", player->hp_text(BODYPART_LEFT_LEG ) );
+  i_hud.set_data("hp_r_leg", player->hp_text(BODYPART_RIGHT_LEG) );
   i_hud.draw(w_hud);
   w_hud->refresh();
 }

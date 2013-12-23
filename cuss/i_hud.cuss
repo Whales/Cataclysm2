@@ -6,10 +6,10 @@ i_hud </> 55 24 18 1 BG </> 0 0 55 24 0 0 107 0 0 4194412 9 0 0 1 4194424 9 0 0 
 2 hp_r_arm </> 0 14 7 1 0 0  </>
 2 hp_l_leg </> 0 16 7 1 0 0  </>
 2 hp_r_leg </> 0 18 7 1 0 0  </>
-5 power_current </> 0 20 3 1 0 0 0
-5 power_max </> 4 20 3 1 0 0 0
-5 spores_current </> 0 22 3 1 0 0 0
-2 spores_max </> 4 22 3 1 0 0  </>
+5 power_current </> 0 20 3 1 0 1 0
+5 power_max </> 4 20 3 1 0 1 0
+5 spores_current </> 0 22 3 1 0 1 0
+5 spores_max </> 4 22 3 1 0 1 0
 2 text_weapon </> 16 0 17 1 0 0  </>
 2 text_date </> 8 1 25 1 0 0  </>
 2 text_location </> 8 2 25 1 0 0  </>

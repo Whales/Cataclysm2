@@ -1,6 +1,7 @@
 #include "monster.h"
 #include "rng.h"
 #include "game.h"
+#include "player.h"
 
 Monster::Monster()
 {

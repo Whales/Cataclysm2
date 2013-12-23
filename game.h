@@ -3,9 +3,9 @@
 
 #include "map.h"
 #include "cuss.h"
-#include "entity.h"
 #include "worldmap.h"
 #include "monster.h"
+#include "player.h"
 
 class Game
 {

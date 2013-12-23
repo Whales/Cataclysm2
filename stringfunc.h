@@ -22,4 +22,6 @@ std::string trim(const std::string &orig);
 std::string all_caps(const std::string &orig);
 std::string no_caps (const std::string &orig);
 
+std::string itos(int num);
+
 #endif

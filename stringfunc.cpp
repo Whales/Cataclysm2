@@ -1,3 +1,4 @@
+#include <sstream>
 #include "stringfunc.h"
 #include "window.h"
 
@@ -168,4 +169,11 @@ std::string no_caps(const std::string &orig)
   }
 
   return ret;
+}
+
+std::string itos(int num)
+{
+  std::stringstream ret;
+  ret << num;
+  return ret.str();
 }

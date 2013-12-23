@@ -19,6 +19,8 @@ public:
   
   virtual bool can_move_to(Map* map, int x, int y);
 
+  std::string hp_text(Body_part part);
+
   int current_hp[BODYPART_MAX];
   int max_hp[BODYPART_MAX];
 
