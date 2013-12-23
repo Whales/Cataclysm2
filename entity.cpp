@@ -4,6 +4,7 @@ Entity::Entity()
 {
   posx = 15;
   posy = 15;
+  action_points = 0;
 }
 
 Entity::~Entity()
@@ -25,19 +26,26 @@ bool Entity::can_move_to(Map* map, int x, int y)
   if (!map) {
     return false;
   }
+  if (map->move_cost(x, y) == 0) {
+    return false;
+  }
   return true;
 }
 
-void Entity::move_to(int x, int y)
+void Entity::move_to(Map* map, int x, int y)
 {
   posx = x;
   posy = y;
+  if (map) {
+    action_points -= map->move_cost(x, y);
+  }
 }
 
 Player::Player()
 {
   posx = 15;
   posy = 15;
+  action_points = 100;
   name = "Whales";
 }
 
@@ -57,12 +65,6 @@ glyph Player::get_glyph()
 
 bool Player::can_move_to(Map *map, int x, int y)
 {
-  return true;
-  if (!map) {
-    return false;
-  }
-  if (map->move_cost(x, y) == 0) {
-    return false;
-  }
+// TODO: Remove me, obvs
   return true;
 }

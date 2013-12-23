@@ -92,6 +92,6 @@ void Game::player_move(int xdif, int ydif)
 
   int newx = player->posx + xdif, newy = player->posy + ydif;
   if (player->can_move_to(map, newx, newy)) {
-    player->move_to(newx, newy);
+    player->move_to(map, newx, newy);
   }
 }
