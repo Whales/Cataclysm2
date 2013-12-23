@@ -19,6 +19,8 @@ public:
 
   virtual glyph top_glyph();
   virtual std::string get_name();
+  virtual bool is_monster() { return true; };
+
   bool has_sense(Sense_type sense);
 
   void gain_action_points();

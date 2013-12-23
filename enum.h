@@ -17,6 +17,21 @@ enum Sense_type
 Sense_type lookup_sense_type(std::string name);
 std::string sense_type_name(Sense_type type);
 
+enum Body_part
+{
+  BODYPART_NULL = 0,
+  BODYPART_HEAD,
+  BODYPART_TORSO,
+  BODYPART_LEFT_ARM,
+  BODYPART_RIGHT_ARM,
+  BODYPART_LEFT_LEG,
+  BODYPART_RIGHT_LEG,
+  BODYPART_MAX
+};
+
+Body_part lookup_body_part(std::string name);
+std::string body_part_name(Body_part part);
+
 enum Terrain_flag
 {
   TF_NULL,

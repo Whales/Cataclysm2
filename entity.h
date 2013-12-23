@@ -14,6 +14,9 @@ public:
   virtual std::string get_name();
   virtual glyph get_glyph();
 
+  virtual bool is_player()  { return false; };
+  virtual bool is_monster() { return false; };
+
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to(Map* map, int x, int y);
 
@@ -24,19 +27,4 @@ public:
   int posx, posy;
   int action_points;
 };
-
-class Player : public Entity
-{
-public:
-  Player();
-  ~Player();
-
-  virtual std::string get_name();
-  virtual glyph get_glyph();
-  
-  virtual bool can_move_to(Map* map, int x, int y);
-private:
-  std::string name;
-};
-
 #endif
