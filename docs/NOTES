@@ -1,0 +1,102 @@
+Factions:
+
+  Cultists:
+    Population: 200 - 600
+    Worshippers of the fungus and aliens.  They saw the first Cataclysm as the
+      coming of their savior, and seek to integrate themselves into the new
+      biosphere.
+    Their goal is the precipitation of the Second Coming: a second Cataclysm
+      which will truly and irrevocably change the world into an alien ecology.
+    Acceptance is based on alien infection; those without an infection will be
+      captured or killed.  Those with an infection but unknown will be welcomed,
+      and those with an infection but belonging to a hostile faction will be
+      captured and enticed to join.
+    Rank is based upon integration with alien biology, powers, etc.  Its also
+      affected by shadowy politics; assassinations are common.
+    Cultists offer the player improved alien powers, decreased alien drawbacks,
+      and a small number of agents, who are suited for special missions.
+    Missions include spreading corruption, destruction of existing
+      infrastructure, assassinations, direct attacks on other factions, capture
+      of "holy sites"
+
+  Military:
+    Population: 600 - 1000
+    Ex-soldiers, officers, and government officials, along with those who miss
+      the structure of society.  The seek to re-establish government and gain
+      power.
+    Their immediate goal is complete control of the island, including the Lab.
+      The do not want to destroy its power, but to harness it.  They see the
+      island as a crucial stepping stone to wider control.
+    Acceptance is offered immediate to unknown individuals after they are
+      captured and interrogated.  Members of enemy factions are almost always
+      killed on sight.
+    Rank is based upon military-style promotion and succession.  Politicking is
+      minor and mainly out in the open.  Service is valued above all.
+    The Military offers the player advanced weaponry and other supplies,
+      access to maps and secure areas, and command of lower-ranked members,
+      suitable for direct assaults.
+    Missions include foraging, capture of strategically important areas,
+      "cleansing" of alien life from an area, control of infrastructue,
+      destruction of infrastructure (e.g. roads) in enemy areas, direct assault
+      on enemy encampments
+
+  Naturalists:
+    Population: 2000 - 2500
+    Anarchists, activists, and begrudging libertarians.  The Naturalists seek to
+      return the Earth to its natural (alien-free) state, without imposing a
+      strong government.  They live in a semi-Communist state, with shared
+      property, though not all members adhere to this rule.
+    Their goal is the destruction of the lab and eradication of all alien
+      life.  Their secondary goal is the pacification of other factions - or
+      destruction where this is not possible.
+    Acceptance is given freely, though there is a great deal of suspicion at
+      first which is overcome by performing missions.  Members of enemy factions
+      are welcomed, though the suspicion is even greater; they'll generally be
+      stripped of belongings and forced to farm.
+    Rank is based upon pure democracy.  There are no offical positions of
+      leadership, and all issues are voted upon.  Still, some individuals take
+      a natural position of influence.  Corruption is rampant - votes are
+      frequently bought with hoarded resources.
+    Naturalists offer the player access to a wide variety of resources, though
+      the player may not get a choice as to what is available.  Food, clean
+      water, clothing, and low-grade weapons and ammunition are common, with
+      rarer items infrequently seen (and only if the player demonstrates a need
+      for them, e.g. they need a certain bionic for a certain mission).  Large
+      numbers of people with various skills (none very high) are available.
+    Missions include exploration, foraging, securing areas, diplomacy with other
+      factions, 
+
+  Scientists:
+    Population: 400 - 800
+    Scientific-minded individuals who see the alien infestation as an
+      oppurtunity for research.  The are reclusive, and only engage with other
+      factions when they know it's to their advantage.  They engage in a lot of
+      high-tech surveillance; use of eyebots and hacking.
+    Their goal is to gain control of the Lab and to upgrade its capabilities.
+      They will use this to assume a position of power.
+    Acceptance is generally given freely, though gaining trust is slow.
+      Scientists are fairly confident in their knowledge of others due to their
+      spying, and members of enemy factions are shunned or killed.
+    Rank is based upon seniority and prestige.  Challenges to authority are
+      frequent, but violent clashses are rare; infrequently, an assassination by
+      poison or similar may occur.
+    Scientists offer the player access to high-tech weaponry and equipment, and
+      occasionally bionic powers.  They also offer advance crafting supplies and
+      a large library of books.
+    Missions include collection of important equipment / components, capture of
+      scientifically-important areas, and swift brutal assaults or hacking
+      maneuvers on enemies.
+
+
+The Island:
+  Areas:
+    The Lab
+      Extremely dangerous, *requires* key cards to enter
+      End-game.  Very good loot
+    Faction camps (x4+)
+    Deserted cities & towns (2-5)
+      Zombie infested
+      Decent & varied loot, few bonanzas.
+    Forests
+      Interspersed wildlife, some food and water
+    
