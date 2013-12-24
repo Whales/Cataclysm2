@@ -20,7 +20,9 @@ public:
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to(Map* map, int x, int y);
 
+// Combat functions
   virtual void attack(Entity* target);
+  virtual int  max_damage(Damage_type type = DAMAGE_BASH);
 
   virtual bool can_sense(Map* map, int x, int y);
 

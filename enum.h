@@ -32,6 +32,19 @@ enum Body_part
 Body_part lookup_body_part(std::string name);
 std::string body_part_name(Body_part part);
 
+// TODO: Fire damage? Acid damage? etc etc
+enum Damage_type
+{
+  DAMAGE_NULL = 0,
+  DAMAGE_BASH,
+  DAMAGE_CUT,
+  DAMAGE_PIERCE,
+  DAMAGE_MAX
+};
+
+Damage_type lookup_damage_type(std::string name);
+std::string damage_type_name(Damage_type type);
+
 enum Terrain_flag
 {
   TF_NULL,

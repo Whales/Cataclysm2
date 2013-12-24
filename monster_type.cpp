@@ -3,6 +3,15 @@
 #include "stringfunc.h"
 #include "monster_type.h"
 
+Monster_attack::Monster_attack()
+{
+  verb = "hits";
+  speed = 100;
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    damage[i] = 0;
+  }
+}
+
 Monster_type::Monster_type()
 {
   name = "Unknown";
@@ -10,6 +19,9 @@ Monster_type::Monster_type()
   sym = glyph();
   for (int i = 0; i < SENSE_MAX; i++) {
     senses.push_back(false);
+  }
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    max_damage[i] = 0;
   }
 }
 
@@ -63,6 +75,10 @@ bool Monster_type::load_data(std::istream &data)
       while (sense_data >> sense_name) {
         senses[ lookup_sense_type(sense_name) ] = true;
       }
+
+    } else if (ident == "attack":) {
+      std::getline(data, junk);
+      std::string attack_ident;
 
     } else if (ident != "done") {
       debugmsg("Unknown monster property '%s' (%s)",

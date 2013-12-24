@@ -7,6 +7,15 @@
 #include "glyph.h"
 #include "enum.h"
 
+struct Monster_attack
+{
+  std::string verb;
+  int speed;
+  int damage[DAMAGE_MAX];
+
+  Monster_attack();
+};
+
 struct Monster_type
 {
   Monster_type();

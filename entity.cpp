@@ -45,6 +45,11 @@ void Entity::attack(Entity* target)
 {
 }
 
+int Entity::max_damage(Damage_type type)
+{
+  return 0;
+}
+
 bool Entity::can_sense(Map* map, int x, int y)
 {
 // Default Entity function just uses sight

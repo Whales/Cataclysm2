@@ -4,7 +4,7 @@
 Sense_type lookup_sense_type(std::string name)
 {
   name = no_caps(name);
-  for (int i = 1; i < SENSE_MAX; i++) {
+  for (int i = 0; i < SENSE_MAX; i++) {
     Sense_type ret = Sense_type(i);
     if ( no_caps( sense_type_name(ret) ) == name) {
       return ret;
@@ -31,7 +31,7 @@ std::string sense_type_name(Sense_type type)
 Body_part lookup_bory_part(std::string name)
 {
   name = no_caps(name);
-  for (int i = 1; i < BODYPART_MAX; i++) {
+  for (int i = 0; i < BODYPART_MAX; i++) {
     Body_part ret = Body_part(i);
     if ( no_caps( body_part_name(ret) ) == name) {
       return ret;
@@ -52,6 +52,31 @@ std::string body_part_name(Body_part part)
     case BODYPART_RIGHT_LEG:  return "right leg";
     case BODYPART_MAX:        return "BUG - BODYPART_MAX";
     default:                  return "BUG - Unnamed body part";
+  }
+  return "BUG - Escaped switch";
+}
+
+Damage_type lookup_damage_type(std::string name)
+{
+  name = no_caps(name);
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    Damage_type ret = Damage_type(i);
+    if (name == no_caps( damage_type_name(ret) ) ) {
+      return ret;
+    }
+  }
+  return DAMAGE_NULL;
+}
+
+std::string damage_type_name(Damage_type type)
+{
+  switch (type) {
+    case DAMAGE_NULL:   return "NULL";
+    case DAMAGE_BASH:   return "bashing";
+    case DAMAGE_CUT:    return "cutting";
+    case DAMAGE_PIERCE: return "piercing";
+    case DAMAGE_MAX:    return "BUG - DAMAGE_MAX";
+    default:            return "Unnamed Damage_type";
   }
   return "BUG - Escaped switch";
 }
