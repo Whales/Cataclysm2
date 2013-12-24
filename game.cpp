@@ -2,6 +2,7 @@
 #include "window.h"
 #include "stringfunc.h"
 #include <stdarg.h>
+#include <sstream>
 
 Game::Game()
 {
@@ -10,6 +11,7 @@ Game::Game()
   w_map     = NULL;
   w_hud     = NULL;
   player    = NULL;
+  new_messages = 0;
 }
 
 Game::~Game()
@@ -87,6 +89,8 @@ bool Game::main_loop()
     case 'u': player_move( 1, -1); break;
     case 'b': player_move(-1,  1); break;
     case 'n': player_move( 1,  1); break;
+    case '-': i_hud.add_data("text_messages", -1); break;
+    case '+': i_hud.add_data("text_messages",  1); break;
     case ':': worldmap->draw(10, 10); break;
     case '!': {
       Monster* mon = new Monster;
@@ -108,6 +112,7 @@ bool Game::main_loop()
 
 void Game::update_hud()
 {
+  print_messages();
   i_hud.set_data("hp_head",  player->hp_text(BODYPART_HEAD     ) );
   i_hud.set_data("hp_torso", player->hp_text(BODYPART_TORSO    ) );
   i_hud.set_data("hp_l_arm", player->hp_text(BODYPART_LEFT_ARM ) );
@@ -166,20 +171,56 @@ void Game::add_msg(const char* msg, ...)
   va_start(ap, msg);
   vsprintf(buff, msg, ap);
   va_end(ap);
-  std::string message(buff);
-  if (message.empty()) {
+  std::string text(buff);
+  if (text.empty()) {
     return;
   }
-  if (!messages.empty() && messages.back().message == message) {
+// TODO: Check if turn gap is small enough.
+  if (!messages.empty() && messages.back().text == text) {
     messages.back().count++;
     return;
   }
-  messages.push_back( Game_message(message) );
-  i_hud.add_data("text_messages", message + "\n");
+  messages.push_back( Game_message(text) );
+  new_messages++;
 }
 
-/*
 void Game::print_messages()
 {
-}
+/*
+  for (int i = 0; i < new_messages; i++) {
+    std::stringstream text;
+    int index = messages.size() - new_messages + i;
+    text << messages[index].text;
+    if (messages[index].count > 1) {
+      text << " x " << messages[index].count;
+    }
+    text << '\n';
+    //debugmsg("Adding %s", text.str().c_str());
+    i_hud.add_data("text_messages", text.str());
+  }
+  new_messages = 0;
 */
+  i_hud.clear_data("text_messages");
+  int sizey;
+  cuss::element *message_box = i_hud.find_by_name("text_messages");
+  if (!message_box) {
+    debugmsg("Couldn't find text_messages in i_hud!");
+    return;
+  }
+  sizey = message_box->sizey;
+  int start = messages.size() - sizey;
+  if (start < 0) {
+    start = 0;
+  }
+  for (int i = start; i < messages.size(); i++) {
+    std::stringstream text;
+    int index = messages.size() - new_messages + i;
+    text << messages[index].text;
+    if (messages[index].count > 1) {
+      text << " x " << messages[index].count;
+    }
+    text << '\n';
+    //debugmsg("Adding %s", text.str().c_str());
+    i_hud.add_data("text_messages", text.str());
+  }
+}

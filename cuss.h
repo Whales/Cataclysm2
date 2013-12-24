@@ -58,7 +58,7 @@ namespace cuss {
 
     element() { name = ""; posx = 0; posy = 0; sizex = 0; sizey = 0;
                 selected = false; selectable = false;
-                fg = c_white; bg = c_black; owns_data = true;
+                fg = c_ltgray; bg = c_black; owns_data = true;
                 recently_selected = false; }
     virtual ~element() { };
 
@@ -105,7 +105,7 @@ namespace cuss {
 
     ele_drawing() { name = ""; posx = 0; posy = 0; sizex = 0; sizey = 0;
                     selected = false; selectable = false;
-                    fg = c_white; bg = c_black; owns_data = true; }
+                    fg = c_ltgray; bg = c_black; owns_data = true; }
 
     virtual element_type type() { return ELE_DRAWING; };
     virtual void draw(Window *win);
@@ -137,7 +137,7 @@ namespace cuss {
 
     ele_textbox() { name = ""; posx = 0; posy = 0; sizex = 0; sizey = 0;
                     selected = false; selectable = false; offset = 0;
-                    fg = c_white; bg = c_black; owns_data = false;
+                    fg = c_ltgray; bg = c_black; owns_data = false;
                     self_reference(); }
     ~ele_textbox() { if (owns_data) delete text; };
 
@@ -180,7 +180,7 @@ namespace cuss {
 
     ele_list() { name = ""; posx = 0; posy = 0; sizex = 0; sizey = 0;
                  selected = false; selectable = false; offset = 0;
-                 selection = 0; fg = c_white; bg = c_black; owns_data = false;
+                 selection = 0; fg = c_ltgray; bg = c_black; owns_data = false;
                  self_reference(); }
 
     virtual element_type type() { return ELE_LIST; };
@@ -218,7 +218,7 @@ namespace cuss {
 
     ele_textentry() { name = ""; posx = 0; posy = 0; sizex = 0; sizey = 0;
                       selected = false; selectable = false;
-                      fg = c_white; bg = c_black; owns_data = false;
+                      fg = c_ltgray; bg = c_black; owns_data = false;
                       self_reference(); }
 
     virtual element_type type() { return ELE_TEXTENTRY; };
@@ -246,7 +246,7 @@ namespace cuss {
 
     ele_number() { name = ""; posx = 0; posy = 0; sizex = 0; sizey = 0;
                    selected = false; selectable = false; value = 0;
-                   fg = c_white; bg = c_black; owns_data = false;
+                   fg = c_ltgray; bg = c_black; owns_data = false;
                    self_reference(); }
     virtual element_type type() { return ELE_NUMBER; };
     virtual void draw(Window *win);
@@ -276,7 +276,7 @@ namespace cuss {
 
     ele_menu() { name = ""; posx = 0; posy = 0; sizex = 0; sizey = 0;
                  selected = false; selectable = false; selection = -1;
-                 open = false; fg = c_white; bg = c_black; title = ""; 
+                 open = false; fg = c_ltgray; bg = c_black; title = ""; 
                  owns_data = false; self_reference(); }
 
     virtual element_type type() { return ELE_MENU; };

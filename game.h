@@ -11,9 +11,9 @@ struct Game_message
 {
 // TODO: Add a turn number.
   int count;
-  std::string message;
-  Game_message() { count = 1; message = ""; };
-  Game_message(std::string M) : message (M) { count = 1; };
+  std::string text;
+  Game_message() { count = 1; text = ""; };
+  Game_message(std::string T) : text (T) { count = 1; };
 };
 
 class Game
@@ -32,6 +32,7 @@ public:
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
 
   void add_msg(const char* msg, ...);
+  void print_messages();
 
   Map*      map;
   Worldmap* worldmap;
@@ -43,6 +44,7 @@ private:
   Window *w_hud;
   cuss::interface i_hud;
   std::vector<Game_message> messages;
+  int new_messages;
 };
 
 #endif
