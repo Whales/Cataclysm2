@@ -20,9 +20,6 @@ Monster_type::Monster_type()
   for (int i = 0; i < SENSE_MAX; i++) {
     senses.push_back(false);
   }
-  for (int i = 0; i < DAMAGE_MAX; i++) {
-    max_damage[i] = 0;
-  }
 }
 
 Monster_type::~Monster_type()
@@ -76,9 +73,29 @@ bool Monster_type::load_data(std::istream &data)
         senses[ lookup_sense_type(sense_name) ] = true;
       }
 
-    } else if (ident == "attack":) {
+    } else if (ident == "attack:") {
       std::getline(data, junk);
       std::string attack_ident;
+      Monster_attack tmpattack;
+
+      while ( data >> attack_ident && attack_ident != "done" ) {
+        if (attack_ident == "speed:") {
+          data >> tmpattack.speed;
+          std::getline(data, junk);
+        } else if (attack_ident == "verb:") {
+          std::getline(data, tmpattack.verb);
+        } else if (attack_ident == "bash:"    || attack_ident == "bashing:") {
+          data >> tmpattack.damage[DAMAGE_BASH];
+        } else if (attack_ident == "cut:"     || attack_ident == "cutting:") {
+          data >> tmpattack.damage[DAMAGE_CUT];
+        } else if (attack_ident == "pierce:"  || attack_ident == "piercing:") {
+          data >> tmpattack.damage[DAMAGE_PIERCE];
+        } else if (attack_ident != "done") {
+          debugmsg("Unknown attack_ident '%s' (%s)", attack_ident.c_str(),
+                   name.c_str());
+        }
+      }
+      attacks.push_back(tmpattack);
 
     } else if (ident != "done") {
       debugmsg("Unknown monster property '%s' (%s)",

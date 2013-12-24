@@ -26,6 +26,7 @@ struct Monster_type
   glyph sym;
 
   int speed;
+  std::vector<Monster_attack> attacks;
 
   void assign_uid(int id);
   std::string get_name();
