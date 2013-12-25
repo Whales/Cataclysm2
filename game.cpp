@@ -73,41 +73,35 @@ bool Game::main_loop()
   map->draw(w_map, &monsters, player->posx, player->posy);
   w_map->putglyph( w_map->sizex() / 2, w_map->sizey() / 2, player->get_glyph());
   w_map->refresh();
-  long ch = input();
 
-  switch (ch) {
-    case KEY_RESIZE: {
-      int xdim, ydim;
-      get_screen_dims(xdim, ydim);
-      w_map->resize(xdim, ydim);
-    } break;
-    case 'j': player_move( 0,  1); break;
-    case 'k': player_move( 0, -1); break;
-    case 'h': player_move(-1,  0); break;
-    case 'l': player_move( 1,  0); break;
-    case 'y': player_move(-1, -1); break;
-    case 'u': player_move( 1, -1); break;
-    case 'b': player_move(-1,  1); break;
-    case 'n': player_move( 1,  1); break;
-    case '-': i_hud.add_data("text_messages", -1); break;
-    case '+': i_hud.add_data("text_messages",  1); break;
-    case ':': worldmap->draw(10, 10); break;
-    case '!': {
-      Monster* mon = new Monster;
-      mon->set_type("zombie");
-      mon->posx = player->posx - 3;
-      mon->posy = player->posy - 3;
-      monsters.add_monster(mon);
-    } break;
-    case '"':
-      add_msg("Test message %d %d!", player->posx, player->posy);
-      break;
-    case 'q': return false;
+  while (player->action_points > 0) {
+    long ch = input();
+    Interface_action act = KEYBINDINGS.bound_to_key(ch);
+    do_action(act);
   }
-
   move_monsters();
-
   return true;
+}
+
+void Game::do_action(Interface_action act)
+{
+  switch (act) {
+    case IACTION_MOVE_N:  player_move( 0, -1); break;
+    case IACTION_MOVE_S:  player_move( 0,  1); break;
+    case IACTION_MOVE_W:  player_move(-1,  0); break;
+    case IACTION_MOVE_E:  player_move( 1,  0); break;
+    case IACTION_MOVE_NW: player_move(-1, -1); break;
+    case IACTION_MOVE_NE: player_move( 1, -1); break;
+    case IACTION_MOVE_SW: player_move(-1,  1); break;
+    case IACTION_MOVE_SE: player_move( 1,  1); break;
+    case IACTION_MESSAGES_SCROLL_BACK:
+      i_hud.add_data("text_messages", -1); break;
+    case IACTION_MESSAGES_SCROLL_FORWARD:
+      i_hud.add_data("text_messages",  1); break;
+    case IACTION_VIEW_WORLDMAP:
+      worldmap->draw(10, 10); break;
+    //case IACTION_QUIT: return false;  TODO: Set 'quit' variable
+  }
 }
 
 void Game::update_hud()

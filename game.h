@@ -6,6 +6,7 @@
 #include "worldmap.h"
 #include "monster.h"
 #include "player.h"
+#include "keybind.h"
 
 struct Game_message
 {
@@ -24,6 +25,7 @@ public:
 
   bool setup();
   bool main_loop();
+  void do_action(Interface_action act);
   //void draw();
   void update_hud();
 
