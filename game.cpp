@@ -175,6 +175,10 @@ void Game::add_msg(const char* msg, ...)
   if (text.empty()) {
     return;
   }
+  if (text[0] >= 'a' && text[0] <= 'z') {
+// Capitalize!
+    text[0] += 'A' - 'a';
+  }
 // TODO: Check if turn gap is small enough.
   if (!messages.empty() && messages.back().text == text) {
     messages.back().count++;
