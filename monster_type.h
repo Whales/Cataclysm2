@@ -11,6 +11,7 @@ struct Monster_attack
 {
   std::string verb;
   int speed;
+  int to_hit;
   int damage[DAMAGE_MAX];
 
   Monster_attack();

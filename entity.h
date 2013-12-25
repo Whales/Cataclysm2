@@ -12,6 +12,8 @@ public:
   virtual ~Entity();
 
   virtual std::string get_name();
+  virtual std::string get_name_to_player();
+  virtual std::string get_possessive();
   virtual glyph get_glyph();
 
   virtual bool is_player()  { return false; };
@@ -22,7 +24,10 @@ public:
 
 // Combat functions
   virtual void attack(Entity* target);
-  virtual int  max_damage(Damage_type type = DAMAGE_BASH);
+  virtual int hit_roll(int bonus);
+  virtual int dodge_roll();
+  virtual void take_damage(Damage_type type, int damage, std::string reason,
+                           Body_part part);
 
   virtual bool can_sense(Map* map, int x, int y);
 

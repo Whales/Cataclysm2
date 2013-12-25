@@ -7,6 +7,7 @@ Monster_attack::Monster_attack()
 {
   verb = "hits";
   speed = 100;
+  to_hit = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     damage[i] = 0;
   }
@@ -79,11 +80,14 @@ bool Monster_type::load_data(std::istream &data)
       Monster_attack tmpattack;
 
       while ( data >> attack_ident && attack_ident != "done" ) {
-        if (attack_ident == "speed:") {
+        if (attack_ident == "verb:") {
+          std::getline(data, tmpattack.verb);
+        } else if (attack_ident == "speed:") {
           data >> tmpattack.speed;
           std::getline(data, junk);
-        } else if (attack_ident == "verb:") {
-          std::getline(data, tmpattack.verb);
+        } else if (attack_ident == "to_hit:") {
+          data >> tmpattack.to_hit;
+          std::getline(data, junk);
         } else if (attack_ident == "bash:"    || attack_ident == "bashing:") {
           data >> tmpattack.damage[DAMAGE_BASH];
         } else if (attack_ident == "cut:"     || attack_ident == "cutting:") {

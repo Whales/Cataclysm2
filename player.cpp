@@ -22,6 +22,16 @@ std::string Player::get_name()
   return name;
 }
 
+std::string Player::get_name_to_player()
+{
+  return "you";
+}
+
+std::string Player::get_possessive()
+{
+  return "your";
+}
+
 glyph Player::get_glyph()
 {
 // TODO: Better
@@ -32,6 +42,13 @@ bool Player::can_move_to(Map *map, int x, int y)
 {
 // TODO: Remove me, obvs
   return true;
+}
+
+void Player::take_damage(Damage_type type, int damage, std::string reason,
+                         Body_part part)
+{
+// TODO: Armor absorbs damage
+  current_hp[part] -= damage;
 }
 
 std::string Player::hp_text(Body_part part)

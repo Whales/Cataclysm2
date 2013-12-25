@@ -2,4 +2,14 @@ name: zombie
   glyph: Z ltgreen black
   speed: 70
   senses: sight
+  attack:
+    verb: hits
+    speed: 100
+    bash: 3
+    done
+  attack:
+    verb: bites
+    speed: 150
+    pierce: 5
+    done
   done

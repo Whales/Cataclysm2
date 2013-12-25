@@ -19,6 +19,10 @@ public:
 
   virtual glyph top_glyph();
   virtual std::string get_name();
+  virtual std::string get_name_to_player();
+  virtual std::string get_possessive();
+  std::string get_name_indefinite();
+  std::string get_name_definite();
   virtual bool is_monster() { return true; };
 
   bool has_sense(Sense_type sense);
@@ -28,7 +32,10 @@ public:
   void take_turn();
 
   bool can_attack(Entity* entity);
-  void attack(Entity* entity);
+  virtual void attack(Entity* entity);
+  Monster_attack* random_attack();
+  Body_part random_body_part_to_hit();
+
   void move_towards(Entity* entity);
   void move_towards(int target_x, int target_y);
   void wander();

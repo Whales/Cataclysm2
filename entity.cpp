@@ -1,4 +1,5 @@
 #include "entity.h"
+#include "rng.h"
 
 Entity::Entity()
 {
@@ -14,6 +15,16 @@ Entity::~Entity()
 std::string Entity::get_name()
 {
   return "Nothing";
+}
+
+std::string Entity::get_name_to_player()
+{
+  return "Nothing";
+}
+
+std::string Entity::get_possessive()
+{
+  return "Nothing's";
 }
 
 glyph Entity::get_glyph()
@@ -45,9 +56,19 @@ void Entity::attack(Entity* target)
 {
 }
 
-int Entity::max_damage(Damage_type type)
+int Entity::hit_roll(int bonus)
 {
-  return 0;
+  return rng(1, 10) + bonus;
+}
+
+int Entity::dodge_roll()
+{
+  return rng(1, 10);
+}
+
+void Entity::take_damage(Damage_type type, int damage, std::string reason,
+                         Body_part part)
+{
 }
 
 bool Entity::can_sense(Map* map, int x, int y)

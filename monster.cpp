@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "game.h"
 #include "player.h"
+#include <sstream>
 
 Monster::Monster()
 {
@@ -36,6 +37,33 @@ std::string Monster::get_name()
     return type->name;
   }
   return "Typeless Monster";
+}
+
+std::string Monster::get_name_to_player()
+{
+  return get_name_definite();
+}
+
+std::string Monster::get_possessive()
+{
+  std::stringstream ret;
+  ret << get_name_definite() << "'s";
+  return ret.str();
+}
+
+std::string Monster::get_name_indefinite()
+{
+// TODO: more complicated
+  std::stringstream ret;
+  ret << "a " << get_name();
+  return ret.str();
+}
+
+std::string Monster::get_name_definite()
+{
+  std::stringstream ret;
+  ret << "the " << get_name();
+  return ret.str();
 }
 
 bool Monster::has_sense(Sense_type sense)
@@ -107,12 +135,78 @@ bool Monster::can_attack(Entity* entity)
 
 void Monster::attack(Entity* entity)
 {
-  action_points -= 100;
   if (!entity) {
     debugmsg("Monster attempted attack() on a null target.");
     return;
   }
-  debugmsg("Monster attack()");
+  Monster_attack *att = random_attack();
+  if (!att) {
+    debugmsg("Monster couldn't pick attack!");
+    return;
+  }
+
+  action_points -= att->speed;
+
+  bool you_see = GAME.player->can_sense(GAME.map, posx, posy);
+  if (hit_roll(att->to_hit) < target->dodge_roll()) {
+    if (you_see) {
+      GAME.add_msg("%s misses %s!", get_name_to_player().c_str(),
+                   target->get_name_to_player().c_str());
+    }
+    return;
+  }
+
+  Body_part bp_hit = (target->is_player() ? random_body_part_to_hit() :
+                                            BODYPART_NULL);
+
+// TODO: Tell the player how much damage they took
+  if (you_see) {
+    if (bp_hit == BODYPART_NULL) {
+      GAME.add_msg("%s hits %s!", get_name_to_player().c_str(),
+                   target->get_name_to_player().c_str());
+    } else {
+      GAME.add_msg("%s hits %s %s!", get_name_to_player().c_str(),
+                   target->get_possessive().c_str(),
+                   body_part_name(bp_hit).c_str());
+    }
+  }
+
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    int damage = rng(0, att->damage[i]);
+    entity->take_damage(Damage_type(i), damage, get_name_to_player(),
+                        bp_hit);
+  }
+}
+
+Monster_attack* Monster::random_attack()
+{
+  if (!type || type->attacks.empty()) {
+    return NULL;
+  }
+  int index = rng(0, type->attacks.size() - 1);
+  return &(type->attacks[index]);
+}
+
+Body_part Monster::random_body_part_to_hit()
+{
+  int pick = rng(1, 13);
+  switch (pick) {
+    case  1:  return BODYPART_HEAD;
+    case  2:
+    case  3:  return BODYPART_LEFT_ARM;
+    case  4:
+    case  5:  return BODYPART_RIGHT_ARM;
+    case  6:
+    case  7:  return BODYPART_LEFT_LEG;
+    case  8:
+    case  9:  return BODYPART_RIGHT_LEG;
+    case 10:
+    case 11:
+    case 12:
+    case 13:  return BODYPART_TORSO;
+  }
+
+  return BODYPART_TORSO;
 }
 
 void Monster::move_towards(Entity* entity)
