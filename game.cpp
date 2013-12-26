@@ -12,6 +12,7 @@ Game::Game()
   w_hud     = NULL;
   player    = NULL;
   new_messages = 0;
+  game_over = false;
 }
 
 Game::~Game()
@@ -68,7 +69,6 @@ bool Game::main_loop()
   if (!w_map || !w_hud || !player || !worldmap || !map) {
     return false;
   }
-
   player->gain_action_points();
   while (player->action_points > 0) {
     update_hud();
@@ -102,7 +102,11 @@ void Game::do_action(Interface_action act)
       i_hud.add_data("text_messages",  1); break;
     case IACTION_VIEW_WORLDMAP:
       worldmap->draw(10, 10); break;
-    //case IACTION_QUIT: return false;  TODO: Set 'quit' variable
+    case IACTION_QUIT:
+      if (query_yn("Commit suicide?")) {
+        game_over = true;
+      }
+      break;
   }
 }
 

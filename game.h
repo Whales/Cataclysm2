@@ -47,6 +47,7 @@ private:
   cuss::interface i_hud;
   std::vector<Game_message> messages;
   int new_messages;
+  bool game_over;
 };
 
 #endif
