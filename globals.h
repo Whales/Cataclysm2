@@ -22,5 +22,6 @@ extern Keybinding_pool          KEYBINDINGS;
 
 void load_global_data();
 void load_mapgen_specs();
+void init_default_keybindings();
 
 #endif

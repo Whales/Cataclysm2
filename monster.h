@@ -27,7 +27,7 @@ public:
 
   bool has_sense(Sense_type sense);
 
-  void gain_action_points();
+  virtual int get_speed();
   void make_plans();
   void take_turn();
 

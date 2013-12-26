@@ -74,6 +74,7 @@ bool Game::main_loop()
   w_map->putglyph( w_map->sizex() / 2, w_map->sizey() / 2, player->get_glyph());
   w_map->refresh();
 
+  player->gain_action_points();
   while (player->action_points > 0) {
     long ch = input();
     Interface_action act = KEYBINDINGS.bound_to_key(ch);

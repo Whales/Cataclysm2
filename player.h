@@ -20,6 +20,7 @@ public:
   virtual bool is_player()  { return true; };
   virtual bool is_you()     { return true; }; // TODO: No?
   
+  virtual int get_speed();
   virtual bool can_move_to(Map* map, int x, int y);
 
   virtual void take_damage(Damage_type type, int damage, std::string reason,

@@ -1,0 +1,14 @@
+k move_north
+u move_northeast
+l move_east
+n move_southeast
+j move_south
+b move_southwest
+h move_west
+y move_northwest
+. pause
+- messages_scroll_back
++ messages_scroll_forward
+: view_worldmap
+Q quit
+S save

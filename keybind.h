@@ -2,6 +2,7 @@
 #define _KEYBIND_H_
 
 #include <map>
+#include <string>
 
 enum Interface_action
 {
@@ -28,11 +29,16 @@ enum Interface_action
   IACTION_MAX
 };
 
+Interface_action lookup_interface_action(std::string name);
+std::string interface_action_name(Interface_action action);
+
 struct Keybinding_pool
 {
 public:
   bool bind_key(long key, Interface_action action);
   Interface_action bound_to_key(long key);
+
+  bool load_from(std::string filename);
 private:
   std::map<long,Interface_action> bindings;
 };

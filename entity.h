@@ -20,6 +20,9 @@ public:
   virtual bool is_monster() { return false; };
   virtual bool is_you()     { return false; }; // As in THE player
 
+  virtual void gain_action_points();
+  virtual int get_speed();
+
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to(Map* map, int x, int y);
 

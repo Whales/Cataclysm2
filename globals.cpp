@@ -17,6 +17,7 @@ void load_global_data()
   WORLD_TERRAIN.load_from("data/world_terrain.dat");
   ITEM_TYPES.load_from("data/items.dat");
   MONSTER_TYPES.load_from("data/monsters.dat");
+  KEYBINDINGS.load_from("data/keybindings.txt");
 
   load_mapgen_specs();
 }

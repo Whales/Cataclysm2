@@ -32,6 +32,16 @@ glyph Entity::get_glyph()
   return glyph();
 }
 
+void Entity::gain_action_points()
+{
+  action_points += get_speed();
+}
+
+int Entity::get_speed()
+{
+  return 100;
+}
+
 bool Entity::can_move_to(Map* map, int x, int y)
 {
   if (!map) {

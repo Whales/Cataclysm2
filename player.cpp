@@ -38,6 +38,12 @@ glyph Player::get_glyph()
   return glyph('@', c_white, c_black);
 }
 
+int Player::get_speed()
+{
+// TODO: Make this use actual stuff
+  return 100;
+}
+
 bool Player::can_move_to(Map *map, int x, int y)
 {
 // TODO: Remove me, obvs

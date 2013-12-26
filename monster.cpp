@@ -74,12 +74,12 @@ bool Monster::has_sense(Sense_type sense)
   return type->has_sense(sense);
 }
 
-void Monster::gain_action_points()
+int Monster::get_speed()
 {
   if (!type) {
-    return;
+    return 0;
   }
-  action_points += type->speed;
+  return type->speed;
 }
 
 void Monster::make_plans()
