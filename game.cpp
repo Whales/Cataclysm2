@@ -69,13 +69,14 @@ bool Game::main_loop()
     return false;
   }
 
-  update_hud();
-  map->draw(w_map, &monsters, player->posx, player->posy);
-  w_map->putglyph( w_map->sizex() / 2, w_map->sizey() / 2, player->get_glyph());
-  w_map->refresh();
-
   player->gain_action_points();
   while (player->action_points > 0) {
+    update_hud();
+    map->draw(w_map, &monsters, player->posx, player->posy);
+    w_map->putglyph(w_map->sizex() / 2, w_map->sizey() / 2,
+                    player->get_glyph());
+    w_map->refresh();
+
     long ch = input();
     Interface_action act = KEYBINDINGS.bound_to_key(ch);
     do_action(act);
