@@ -159,22 +159,30 @@ void Monster::attack(Entity* entity)
   Body_part bp_hit = (target->is_player() ? random_body_part_to_hit() :
                                             BODYPART_NULL);
 
-// TODO: Tell the player how much damage they took
-  if (you_see) {
-    if (bp_hit == BODYPART_NULL) {
-      GAME.add_msg("%s hits %s!", get_name_to_player().c_str(),
-                   target->get_name_to_player().c_str());
-    } else {
-      GAME.add_msg("%s hits %s %s!", get_name_to_player().c_str(),
-                   target->get_possessive().c_str(),
-                   body_part_name(bp_hit).c_str());
-    }
-  }
-
+  int total_damage = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     int damage = rng(0, att->damage[i]);
+    total_damage += damage;
     entity->take_damage(Damage_type(i), damage, get_name_to_player(),
                         bp_hit);
+  }
+
+  if (you_see) {
+    std::string damage_str;
+    if (target->is_you()) {
+      std::stringstream damage_ss;
+      damage_ss << "for " << total_damage << " damage";
+      damage_str = damage_ss.str();
+    }
+    if (bp_hit == BODYPART_NULL) {
+      GAME.add_msg("%s hits %s %s!", get_name_to_player().c_str(),
+                   target->get_name_to_player().c_str(),
+                   damage_str.c_str());
+    } else {
+      GAME.add_msg("%s hits %s %s %s!", get_name_to_player().c_str(),
+                   target->get_possessive().c_str(),
+                   body_part_name(bp_hit).c_str(), damage_str.c_str());
+    }
   }
 }
 

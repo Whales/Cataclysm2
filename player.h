@@ -18,6 +18,7 @@ public:
   virtual glyph get_glyph();
 
   virtual bool is_player()  { return true; };
+  virtual bool is_you()     { return true; }; // TODO: No?
   
   virtual bool can_move_to(Map* map, int x, int y);
 

@@ -18,6 +18,7 @@ public:
 
   virtual bool is_player()  { return false; };
   virtual bool is_monster() { return false; };
+  virtual bool is_you()     { return false; }; // As in THE player
 
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to(Map* map, int x, int y);
