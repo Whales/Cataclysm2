@@ -60,6 +60,9 @@ bool Game::setup()
   map->generate(worldmap, 0, 0);
 
   player = new Player;
+
+  game_over = false;
+  new_messages = 0;
   return true;
 }
 
@@ -70,7 +73,6 @@ bool Game::main_loop()
     return false;
   }
   if (game_over) {
-    //debugmsg ("game over 1");
     return false;
   }
   player->gain_action_points();
@@ -82,12 +84,18 @@ bool Game::main_loop()
     w_map->refresh();
 
     long ch = input();
+    if (ch == '!') {
+      Monster *z = new Monster;
+      z->set_type("zombie");
+      z->posx = player->posx - 3;
+      z->posy = player->posy - 3;
+      monsters.add_monster(z);
+    }
     Interface_action act = KEYBINDINGS.bound_to_key(ch);
     do_action(act);
   }
   move_monsters();
   if (game_over) {
-    //debugmsg ("game over 2");
     return false;
   }
   return true;
@@ -96,14 +104,15 @@ bool Game::main_loop()
 void Game::do_action(Interface_action act)
 {
   switch (act) {
-    case IACTION_MOVE_N:  player_move( 0, -1); break;
-    case IACTION_MOVE_S:  player_move( 0,  1); break;
-    case IACTION_MOVE_W:  player_move(-1,  0); break;
-    case IACTION_MOVE_E:  player_move( 1,  0); break;
-    case IACTION_MOVE_NW: player_move(-1, -1); break;
-    case IACTION_MOVE_NE: player_move( 1, -1); break;
-    case IACTION_MOVE_SW: player_move(-1,  1); break;
-    case IACTION_MOVE_SE: player_move( 1,  1); break;
+    case IACTION_MOVE_N:  player_move( 0, -1);  break;
+    case IACTION_MOVE_S:  player_move( 0,  1);  break;
+    case IACTION_MOVE_W:  player_move(-1,  0);  break;
+    case IACTION_MOVE_E:  player_move( 1,  0);  break;
+    case IACTION_MOVE_NW: player_move(-1, -1);  break;
+    case IACTION_MOVE_NE: player_move( 1, -1);  break;
+    case IACTION_MOVE_SW: player_move(-1,  1);  break;
+    case IACTION_MOVE_SE: player_move( 1,  1);  break;
+    case IACTION_PAUSE:   player->pause();      break;
     case IACTION_MESSAGES_SCROLL_BACK:
       i_hud.add_data("text_messages", -1); break;
     case IACTION_MESSAGES_SCROLL_FORWARD:

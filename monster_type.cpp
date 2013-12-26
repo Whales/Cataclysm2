@@ -6,6 +6,7 @@
 Monster_attack::Monster_attack()
 {
   verb = "hits";
+  weight = 10;
   speed = 100;
   to_hit = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
@@ -18,6 +19,7 @@ Monster_type::Monster_type()
   name = "Unknown";
   uid = -1;
   sym = glyph();
+  total_attack_weight = 0;
   for (int i = 0; i < SENSE_MAX; i++) {
     senses.push_back(false);
   }
@@ -82,6 +84,10 @@ bool Monster_type::load_data(std::istream &data)
       while ( data >> attack_ident && attack_ident != "done" ) {
         if (attack_ident == "verb:") {
           std::getline(data, tmpattack.verb);
+          tmpattack.verb = trim(tmpattack.verb);
+        } else if (attack_ident == "weight:") {
+          data >> tmpattack.weight;
+          std::getline(data, junk);
         } else if (attack_ident == "speed:") {
           data >> tmpattack.speed;
           std::getline(data, junk);
@@ -100,6 +106,7 @@ bool Monster_type::load_data(std::istream &data)
         }
       }
       attacks.push_back(tmpattack);
+      total_attack_weight += tmpattack.weight;
 
     } else if (ident != "done") {
       debugmsg("Unknown monster property '%s' (%s)",

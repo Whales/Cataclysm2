@@ -9,7 +9,9 @@ name: zombie
     done
   attack:
     verb: bites
+    weight: 2
     speed: 150
+    to_hit: -2
     pierce: 5
     done
   done

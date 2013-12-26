@@ -175,12 +175,12 @@ void Monster::attack(Entity* entity)
       damage_str = damage_ss.str();
     }
     if (bp_hit == BODYPART_NULL) {
-      GAME.add_msg("%s hits %s %s!", get_name_to_player().c_str(),
-                   target->get_name_to_player().c_str(),
+      GAME.add_msg("%s %s %s %s!", get_name_to_player().c_str(),
+                   att->verb.c_str(), target->get_name_to_player().c_str(),
                    damage_str.c_str());
     } else {
-      GAME.add_msg("%s hits %s %s %s!", get_name_to_player().c_str(),
-                   target->get_possessive().c_str(),
+      GAME.add_msg("%s %s %s %s %s!", get_name_to_player().c_str(),
+                   att->verb.c_str(), target->get_possessive().c_str(),
                    body_part_name(bp_hit).c_str(), damage_str.c_str());
     }
   }
@@ -191,8 +191,15 @@ Monster_attack* Monster::random_attack()
   if (!type || type->attacks.empty()) {
     return NULL;
   }
-  int index = rng(0, type->attacks.size() - 1);
-  return &(type->attacks[index]);
+  int index = rng(1, type->total_attack_weight);
+  for (int i = 0; i < type->attacks.size(); i++) {
+    Monster_attack *att = &(type->attacks[i]);
+    index -= att->weight;
+    if (index <= 0) {
+      return att;
+    }
+  }
+  return &(type->attacks.back());
 }
 
 Body_part Monster::random_body_part_to_hit()

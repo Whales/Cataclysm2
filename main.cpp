@@ -12,7 +12,7 @@ int main()
 
   GAME.setup();
 
-  do{} while (GAME.main_loop());
+  do {} while (GAME.main_loop());
 
   endwin();
   return 0;

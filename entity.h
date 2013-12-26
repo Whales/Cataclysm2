@@ -25,6 +25,7 @@ public:
 
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to(Map* map, int x, int y);
+  virtual void pause();
 
 // Combat functions
   virtual void attack(Entity* target);

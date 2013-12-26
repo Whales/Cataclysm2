@@ -62,6 +62,11 @@ void Entity::move_to(Map* map, int x, int y)
   }
 }
 
+void Entity::pause()
+{
+  action_points -= 100;
+}
+
 void Entity::attack(Entity* target)
 {
 }

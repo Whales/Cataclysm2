@@ -46,11 +46,9 @@ public:
   bool dead;
 
 private:
-
   Entity* target;
   Point wander_target;
   int wander_duration;
-  
 };
 
 /* For now, Monster_pool does NOT include a map which uses location as a key.

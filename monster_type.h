@@ -10,6 +10,7 @@
 struct Monster_attack
 {
   std::string verb;
+  int weight;
   int speed;
   int to_hit;
   int damage[DAMAGE_MAX];
@@ -28,12 +29,14 @@ struct Monster_type
 
   int speed;
   std::vector<Monster_attack> attacks;
+  int total_attack_weight;
 
   void assign_uid(int id);
   std::string get_name();
   bool load_data(std::istream &data);
 
   bool has_sense(Sense_type type);
+
 private:
   std::vector<bool> senses;
 
