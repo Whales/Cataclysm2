@@ -69,6 +69,10 @@ bool Game::main_loop()
   if (!w_map || !w_hud || !player || !worldmap || !map) {
     return false;
   }
+  if (game_over) {
+    //debugmsg ("game over 1");
+    return false;
+  }
   player->gain_action_points();
   while (player->action_points > 0) {
     update_hud();
@@ -82,6 +86,10 @@ bool Game::main_loop()
     do_action(act);
   }
   move_monsters();
+  if (game_over) {
+    //debugmsg ("game over 2");
+    return false;
+  }
   return true;
 }
 
@@ -105,6 +113,7 @@ void Game::do_action(Interface_action act)
     case IACTION_QUIT:
       if (query_yn("Commit suicide?")) {
         game_over = true;
+        player->action_points = 0;
       }
       break;
   }
