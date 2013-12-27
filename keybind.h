@@ -17,6 +17,8 @@ enum Interface_action
   IACTION_MOVE_W,
   IACTION_MOVE_NW,
   IACTION_PAUSE,
+// Map interaction
+  IACTION_PICK_UP,
 // Main interface
   IACTION_MESSAGES_SCROLL_BACK,
   IACTION_MESSAGES_SCROLL_FORWARD,

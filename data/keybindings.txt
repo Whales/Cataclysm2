@@ -7,6 +7,7 @@ b move_southwest
 h move_west
 y move_northwest
 . pause
+,g pick_up
 - messages_scroll_back
 + messages_scroll_forward
 : view_worldmap

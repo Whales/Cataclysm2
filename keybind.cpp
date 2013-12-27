@@ -68,6 +68,7 @@ std::string interface_action_name(Interface_action action)
     case IACTION_MOVE_W:                  return "move_west";
     case IACTION_MOVE_NW:                 return "move_northwest";
     case IACTION_PAUSE:                   return "pause";
+    case IACTION_PICK_UP:                 return "pick_up";
     case IACTION_MESSAGES_SCROLL_BACK:    return "messages_scroll_back";
     case IACTION_MESSAGES_SCROLL_FORWARD: return "messages_scroll_forward";
     case IACTION_VIEW_WORLDMAP:           return "view_worldmap";

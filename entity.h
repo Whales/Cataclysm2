@@ -4,6 +4,7 @@
 #include <string>
 #include "glyph.h"
 #include "map.h"
+#include "item.h"
 
 class Entity
 {
@@ -38,5 +39,8 @@ public:
 
   int posx, posy;
   int action_points;
+
+  Item weapon;
+  std::vector<Item> inventory;
 };
 #endif
