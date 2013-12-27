@@ -1,11 +1,12 @@
 #ifndef _WORLDMAP_H_
 #define _WORLDMAP_H_
 
-#include <string>
 #include "world_terrain.h"
 #include "window.h"
 #include "globals.h"
 #include "worldmap.h"
+#include "cuss.h"
+#include <string>
 
 #define WORLDMAP_SIZE 150
 
@@ -24,6 +25,7 @@ public:
   void generate();
 
   void draw(int posx, int posy);
+  void draw_minimap(cuss::element *drawing, int cornerx, int cornery);
   Worldmap_tile* get_tile(int x, int y);
 
 private:

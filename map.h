@@ -80,6 +80,7 @@ public:
   void draw(Window *w, Monster_pool *monsters, int refx, int refy,
             Sense_type sense = SENSE_SIGHT);
 
+  Point get_corner_point();
   int posx, posy;
 
 private:

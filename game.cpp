@@ -134,12 +134,20 @@ void Game::do_action(Interface_action act)
 void Game::update_hud()
 {
   print_messages();
+// Draw minimap
+  cuss::element* minimap = i_hud.find_by_name("draw_minimap");
+  if (minimap) {
+    int cornerx = map->posx - minimap->sizex / 2 + MAP_SIZE / 2;
+    int cornery = map->posy - minimap->sizey / 2 + MAP_SIZE / 2;
+    worldmap->draw_minimap(minimap, cornerx, cornery);
+  }
   i_hud.set_data("hp_head",  player->hp_text(BODYPART_HEAD     ) );
   i_hud.set_data("hp_torso", player->hp_text(BODYPART_TORSO    ) );
   i_hud.set_data("hp_l_arm", player->hp_text(BODYPART_LEFT_ARM ) );
   i_hud.set_data("hp_r_arm", player->hp_text(BODYPART_RIGHT_ARM) );
   i_hud.set_data("hp_l_leg", player->hp_text(BODYPART_LEFT_LEG ) );
   i_hud.set_data("hp_r_leg", player->hp_text(BODYPART_RIGHT_LEG) );
+  
   i_hud.draw(w_hud);
   w_hud->refresh();
 }

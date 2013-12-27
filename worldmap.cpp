@@ -78,6 +78,27 @@ void Worldmap::draw(int posx, int posy)
   }
 }
 
+void Worldmap::draw_minimap(cuss::element *drawing, int cornerx, int cornery)
+{
+  for (int x = 0; x < drawing->sizex; x++) {
+    for (int y = 0; y < drawing->sizey; y++) {
+      int terx = cornerx + x, tery = cornery + y;
+      Worldmap_tile* tile = get_tile(terx, tery);
+      glyph sym;
+      if (tile) {
+        sym = tile->top_glyph();
+      } else {
+        sym = glyph();
+      }
+      if (x == drawing->sizex / 2 && y == drawing->sizey / 2) {
+        sym = sym.invert();
+      }
+      drawing->set_data(sym, x, y);
+    }
+  }
+}
+
+
 Worldmap_tile* Worldmap::get_tile(int x, int y)
 {
   if (x < 0 || x >= WORLDMAP_SIZE || y < 0 || y >= WORLDMAP_SIZE) {
