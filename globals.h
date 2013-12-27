@@ -9,14 +9,15 @@
 #include "monster_type.h"
 #include "keybind.h"
 
-
 class Game;
+class Submap_pool;
 
 extern Game                     GAME;
 extern Data_pool<Terrain>       TERRAIN;
 extern Data_pool<World_terrain> WORLD_TERRAIN;
 extern Data_pool<Item_type>     ITEM_TYPES;
 extern Data_pool<Monster_type>  MONSTER_TYPES;
+extern Submap_pool              SUBMAP_POOL;
 extern Mapgen_spec_pool         MAPGEN_SPECS;
 extern Keybinding_pool          KEYBINDINGS;
 

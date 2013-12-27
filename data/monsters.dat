@@ -1,7 +1,7 @@
 name: zombie
   glyph: Z ltgreen black
   speed: 70
-  senses: sight
+  senses: sight smell hearing
   attack:
     verb: hits
     speed: 100

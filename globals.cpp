@@ -2,12 +2,14 @@
 #include "datapool.h"
 #include "files.h"
 #include "game.h"
+#include "map.h"
 
 Game                      GAME;
 Data_pool<Terrain>        TERRAIN;
 Data_pool<World_terrain>  WORLD_TERRAIN;
 Data_pool<Item_type>      ITEM_TYPES;
 Data_pool<Monster_type>   MONSTER_TYPES;
+Submap_pool               SUBMAP_POOL;
 Mapgen_spec_pool          MAPGEN_SPECS;
 Keybinding_pool           KEYBINDINGS;
 

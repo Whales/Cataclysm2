@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "globals.h"
 #include "monster.h"
+#include "game.h"
 
 glyph Tile::top_glyph()
 {
@@ -63,6 +64,36 @@ void Submap::generate_empty()
       tiles[x][y].terrain = (one_in(2) ? grass : dirt);
     }
   }
+}
+
+void Submap::generate(Worldmap* map, int posx, int posy)
+{
+  if (!map) {
+    debugmsg("Submap::generate(NULL, %d, %d)", posx, posy);
+    generate_empty();
+    return;
+  }
+  Worldmap_tile *tile = map->get_tile(posx, posy);
+  if (!tile) {
+    generate_empty();
+    return;
+  }
+  World_terrain* ter[5];
+  ter[0] = tile->terrain;
+// North
+  tile = map->get_tile(posx, posy - 1);
+  ter[1] = (tile ? tile->terrain : NULL);
+// East
+  tile = map->get_tile(posx + 1, posy);
+  ter[2] = (tile ? tile->terrain : NULL);
+// South
+  tile = map->get_tile(posx, posy + 1);
+  ter[3] = (tile ? tile->terrain : NULL);
+// West
+  tile = map->get_tile(posx - 1, posy);
+  ter[4] = (tile ? tile->terrain : NULL);
+
+  generate(ter);
 }
 
 void Submap::generate(World_terrain* terrain[5])
@@ -141,6 +172,35 @@ void Submap::generate_adjacent(Mapgen_spec* spec)
   }
 }
 
+Submap_pool::Submap_pool()
+{
+}
+
+Submap_pool::~Submap_pool()
+{
+  for (std::list<Submap*>::iterator it = instances.begin();
+       it != instances.end();
+       it++) {
+    delete (*it);
+  }
+}
+
+Submap* Submap_pool::at_location(int x, int y)
+{
+  return at_location( Point(x, y) );
+}
+
+Submap* Submap_pool::at_location(Point p)
+{
+  if (point_map.count(p) > 0) {
+    return point_map[p];
+  }
+  Submap* sub = new Submap;
+  sub->generate(GAME.worldmap, p.x, p.y);
+  point_map[p] = sub;
+  return sub;
+}
+
 Map::Map()
 {
   for (int x = 0; x < MAP_SIZE; x++) {
@@ -177,33 +237,30 @@ void Map::test_generate(std::string terrain_name)
   }
 }
 
-void Map::generate(Worldmap *world, int posx, int posy, int sizex, int sizey)
+void Map::generate(Worldmap *world, int wposx, int wposy, int sizex, int sizey)
 {
+  posx = wposx;
+  posy = wposy;
   for (int x = 0; x < sizex && x < MAP_SIZE; x++) {
     for (int y = 0; y < sizey && y < MAP_SIZE; y++) {
-      Worldmap_tile* tile = world->get_tile(posx + x, posy + y);
-      if (!tile) {
-        submaps[x][y]->generate_empty();
-      } else {
-        World_terrain* ter[5];
-        ter[0] = tile->terrain;
-// North
-        tile = world->get_tile(posx + x, posy + y - 1);
-        ter[1] = (tile ? tile->terrain : NULL);
-// East
-        tile = world->get_tile(posx + x + 1, posy + y);
-        ter[2] = (tile ? tile->terrain : NULL);
-// South
-        tile = world->get_tile(posx + x, posy + y + 1);
-        ter[3] = (tile ? tile->terrain : NULL);
-// West
-        tile = world->get_tile(posx + x - 1, posy + y);
-        ter[4] = (tile ? tile->terrain : NULL);
-
-        submaps[x][y]->generate(ter);
-      }
+      submaps[x][y] = SUBMAP_POOL.at_location(posx + x, posy + y);
     }
   }
+}
+
+void Map::generate(Worldmap *world)
+{
+  generate(world, posx, posy);
+}
+
+void Map::shift(Worldmap *world, int shiftx, int shifty)
+{
+  if (shiftx == 0 && shifty == 0) {
+    return;
+  }
+  posx += shiftx;
+  posy += shifty;
+  generate(world, posx, posy);
 }
 
 int Map::move_cost(int x, int y)

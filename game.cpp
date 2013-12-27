@@ -1,6 +1,7 @@
 #include "game.h"
 #include "window.h"
 #include "stringfunc.h"
+#include "map.h"
 #include <stdarg.h>
 #include <sstream>
 
@@ -77,6 +78,7 @@ bool Game::main_loop()
   }
   player->gain_action_points();
   while (player->action_points > 0) {
+    shift_if_needed();
     update_hud();
     map->draw(w_map, &monsters, player->posx, player->posy);
     w_map->putglyph(w_map->sizex() / 2, w_map->sizey() / 2,
@@ -94,6 +96,7 @@ bool Game::main_loop()
     Interface_action act = KEYBINDINGS.bound_to_key(ch);
     do_action(act);
   }
+  shift_if_needed();
   move_monsters();
   if (game_over) {
     return false;
@@ -139,6 +142,25 @@ void Game::update_hud()
   i_hud.set_data("hp_r_leg", player->hp_text(BODYPART_RIGHT_LEG) );
   i_hud.draw(w_hud);
   w_hud->refresh();
+}
+
+void Game::shift_if_needed()
+{
+  int min = SUBMAP_SIZE * (MAP_SIZE / 2), max = min + SUBMAP_SIZE - 1;
+  int shiftx = 0, shifty = 0;
+  if (player->posx < min) {
+    shiftx = -1 + (player->posx - min) / SUBMAP_SIZE;
+  } else if (player->posx > max) {
+    shiftx =  1 + (player->posx - max) / SUBMAP_SIZE;
+  }
+  if (player->posy < min) {
+    shifty = -1 + (player->posy - min) / SUBMAP_SIZE;
+  } else if (player->posy > max) {
+    shifty =  1 + (player->posy - max) / SUBMAP_SIZE;
+  }
+  map->shift(worldmap, shiftx, shifty);
+  player->posx -= shiftx * SUBMAP_SIZE;
+  player->posy -= shifty * SUBMAP_SIZE;
 }
 
 void Game::move_monsters()

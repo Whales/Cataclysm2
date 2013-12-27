@@ -11,6 +11,7 @@
 #include "worldmap.h"
 #include "item.h"
 #include "enum.h"
+#include "geometry.h"
 
 class Monster_pool;
 
@@ -35,11 +36,25 @@ struct Submap
 
   void generate_empty();
 
+  void generate(Worldmap* map, int posx, int posy);
   void generate(World_terrain* terrain[5]);
   void generate(std::string terrain_name);
   void generate(Mapgen_spec* spec);
   void generate_adjacent(Mapgen_spec* spec);
 
+};
+
+struct Submap_pool
+{
+public:
+  Submap_pool();
+  ~Submap_pool();
+  Submap* at_location(int x, int y);
+  Submap* at_location(Point p);
+
+  std::list<Submap*> instances;
+private:
+  std::map<Point,Submap*,Pointcomp> point_map;
 };
 
 class Map
@@ -53,6 +68,8 @@ public:
   void test_generate(std::string terrain_name);
   void generate(Worldmap *world, int posx, int posy,
                 int sizex = MAP_SIZE, int sizey = MAP_SIZE);
+  void generate(Worldmap *world); // Uses posx/posy
+  void shift(Worldmap *world, int shiftx, int shifty);
 
 // Game engine access
   int move_cost(int x, int y);
@@ -62,6 +79,8 @@ public:
 // Output
   void draw(Window *w, Monster_pool *monsters, int refx, int refy,
             Sense_type sense = SENSE_SIGHT);
+
+  int posx, posy;
 
 private:
   Submap* submaps[MAP_SIZE][MAP_SIZE];
