@@ -139,7 +139,7 @@ void Submap::generate(Mapgen_spec* spec)
     while (area && area->place_item()) {
       Point p = area->pick_location();
       Item item( area->pick_type() );
-      tiles[p.x][p.y].items.push_back(item);
+      add_item(item, p.x, p.y);
     }
   }
 }
@@ -169,6 +169,33 @@ void Submap::generate_adjacent(Mapgen_spec* spec)
       Item item( area->pick_type() );
       tiles[p.x][p.y].items.push_back(item);
     }
+  }
+}
+
+void Submap::add_item(Item item, int x, int y)
+{
+  if (x < 0 || y < 0 || x >= SUBMAP_SIZE || y >= SUBMAP_SIZE) {
+    return;
+  }
+  if (tiles[x][y].move_cost() > 0) {
+    tiles[x][y].items.push_back(item);
+  } else {
+// Pick a random adjacent space with move_cost != 0
+    std::vector<Point> valid_points;
+    for (int px = x - 1; px <= x + 1; px++) {
+      for (int py = y - 1; py <= y + 1; py++) {
+        if (px >= 0 && py >= 0 && px < SUBMAP_SIZE && py < SUBMAP_SIZE &&
+            tiles[px][py].move_cost() > 0) {
+          valid_points.push_back( Point(px, py) );
+        }
+      }
+    }
+    if (valid_points.empty()) {
+      return; // No valid points!  Oh well.
+    }
+    int index = rng(0, valid_points.size() - 1);
+    Point p = valid_points[index];
+    tiles[p.x][p.y].items.push_back(item);
   }
 }
 

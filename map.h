@@ -42,6 +42,8 @@ struct Submap
   void generate(Mapgen_spec* spec);
   void generate_adjacent(Mapgen_spec* spec);
 
+  void add_item(Item item, int x, int y);
+
 };
 
 struct Submap_pool
