@@ -300,6 +300,9 @@ std::vector<Item> Player::inventory(bool single, bool remove)
       if (!found) { // Not the weapon, not clothing - let's check inventory
         for (int n = 0; n < ITEM_CLASS_MAX; n++) {
           for (int i = 0; i < item_letters[n].size(); i++) {
+            if (ch == item_letters[n][i]) {
+              found = true;
+              
           
 
 void Player::take_damage(Damage_type type, int damage, std::string reason,
