@@ -1,8 +1,9 @@
 #ifndef _ITEM_H_
 #define _ITEM_H_
 
-#include <string>
 #include "item_type.h"
+#include <string>
+#include <vector>
 
 class Item
 {
@@ -22,5 +23,7 @@ public:
   int get_volume();
 private:
 };
+
+std::string list_items(std::vector<Item> *items);
 
 #endif

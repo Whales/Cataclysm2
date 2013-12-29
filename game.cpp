@@ -252,12 +252,12 @@ void Game::pickup_items(int posx, int posy)
   }
 
   int offset = 0;
-  cuss::element *list_items = i_pickup.find_by_name("list_items");
-  if (!list_items) {
+  cuss::element *ele_list_items = i_pickup.find_by_name("list_items");
+  if (!ele_list_items) {
     debugmsg("No element 'list_items' in i_pickup.cuss");
     return;
   }
-  int offset_size = list_items->sizey;
+  int offset_size = ele_list_items->sizey;
   bool done = false;
 
   pickup_strings =  get_pickup_strings(available, &pick_up);
@@ -297,6 +297,13 @@ void Game::pickup_items(int posx, int posy)
       i_pickup.clear_data("list_items" );
       i_pickup.clear_data("list_weight");
       i_pickup.clear_data("list_volume");
+      std::stringstream weight_ss, volume_ss;
+      weight_ss << (pu ? "<c=green>" : "<c=ltgray>") << it->get_weight() <<
+                   "<c=/>";
+      volume_ss << (pu ? "<c=green>" : "<c=ltgray>") << it->get_volume() <<
+                   "<c=/>";
+      weight_strings[index] = weight_ss.str();
+      volume_strings[index] = volume_ss.str();
       for (int i = offset * offset_size;
            i < (offset + 1) * offset_size && i < pickup_strings.size();
            i++) {
@@ -335,13 +342,19 @@ void Game::pickup_items(int posx, int posy)
     }
   }
 // TODO: Code for multi-turn pickup
+  std::vector<Item> items_gotten;
   for (int i = 0; i < available->size(); i++) {
     if (pick_up[i]) {
+      items_gotten.push_back( (*available)[i] );
       player->add_item( (*available)[i] );
       available->erase(available->begin() + i);
       pick_up.erase(pick_up.begin() + i);
     }
   }
+
+  std::string message = "You pick up " + list_items(&items_gotten);
+  add_msg(message.c_str());
+  
 }
 
 void Game::player_move(int xdif, int ydif)
@@ -359,18 +372,8 @@ void Game::player_move(int xdif, int ydif)
   std::vector<Item> *items = map->items_at(player->posx, player->posy);
 // TODO: Ensure the player has the sense of sight
   if (!items->empty()) {
-    std::stringstream item_text;
-    item_text << "You see here ";
-    for (int i = 0; i < items->size(); i++) {
-      item_text << (*items)[i].get_name_with_article();
-      if (i == items->size() - 1 && items->size() > 1) {
-        item_text << " and ";
-      } else if (i < items->size() - 1) {
-        item_text << ", ";
-      }
-    }
-    item_text << ".";
-    add_msg( item_text.str().c_str() );
+    std::string item_message = "You see here " + list_items(items);
+    add_msg( item_message.c_str() );
   }
 }
 

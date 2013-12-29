@@ -65,3 +65,18 @@ int Item::get_volume()
   }
   return 0;
 }
+
+std::string list_items(std::vector<Item> *items)
+{
+  std::stringstream item_text;
+  for (int i = 0; i < items->size(); i++) {
+    item_text << (*items)[i].get_name_with_article();
+    if (i == items->size() - 1 && items->size() > 1) {
+      item_text << " and ";
+    } else if (i < items->size() - 1) {
+      item_text << ", ";
+    }
+  }
+  item_text << ".";
+  return item_text.str();
+}
