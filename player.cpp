@@ -3,8 +3,9 @@
 #include <sstream>
 
 void populate_item_lists(Player* p, int offset_size,
-                         std::vector<int> item_indices[ITEM_CLASS_MAX],
+                         std::vector<int>  item_indices[ITEM_CLASS_MAX],
                          std::vector<char> item_letters[ITEM_CLASS_MAX],
+                         std::vector<bool> include_item,
                          std::vector<std::string> &item_name,
                          std::vector<std::string> &item_weight,
                          std::vector<std::string> &item_volume);
@@ -208,8 +209,8 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
   }
 // Now, populate the string lists
   std::vector<std::string> item_name, item_weight, item_volume;
-  populate_item_lists(this, offset_size, item_indices, item_letters, item_name,
-                      item_weight, item_volume);
+  populate_item_lists(this, offset_size, item_indices, item_letters,
+                      include_item, item_name, item_weight, item_volume);
 
 // Set interface data
   i_inv.set_data("weight_current", current_weight());
@@ -309,7 +310,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
             if (ch == item_letters[n][i]) {
               found = true;
               int index = item_indices[n][i];
-              include_item[index] = true;
+              include_item[index] = !include_item[index];
               bool inc = include_item[index];
               std::stringstream item_ss;
               item_ss << (inc ? "<c=green>" : "<c=ltgray>") <<
@@ -317,7 +318,8 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
                          inventory[index].get_name();
 // It's easiest to just set up the text lists for items from scratch!
               populate_item_lists(this, offset_size, item_indices, item_letters,
-                                  item_name, item_weight, item_volume);
+                                  include_item, item_name, item_weight,
+                                  item_volume);
             }
           }
         }
@@ -420,8 +422,9 @@ std::string Player::hp_text(Body_part part)
 }
 
 void populate_item_lists(Player* p, int offset_size,
-                         std::vector<int> item_indices[ITEM_CLASS_MAX],
+                         std::vector<int>  item_indices[ITEM_CLASS_MAX],
                          std::vector<char> item_letters[ITEM_CLASS_MAX],
+                         std::vector<bool> include_item,
                          std::vector<std::string> &item_name,
                          std::vector<std::string> &item_weight,
                          std::vector<std::string> &item_volume)
@@ -443,11 +446,17 @@ void populate_item_lists(Player* p, int offset_size,
         }
         int index = item_indices[n][i];
         Item* item = &( p->inventory[ index ] );
-        std::stringstream item_ss;
-        item_ss << item_letters[n][i] << " - " << item->get_name();
+        bool inc = include_item[index];
+        std::stringstream item_ss, weight_ss, volume_ss;
+        item_ss << (inc ? "<c=green>" : "<c=ltgray>") << item_letters[n][i] <<
+                   (inc ? " + " : " - ") << item->get_name() << "<c=/>";
         item_name.push_back( item_ss.str() );
-        item_weight.push_back( itos(item->get_weight()) );
-        item_volume.push_back( itos(item->get_volume()) );
+        weight_ss << (inc ? "<c=green>" : "<c=ltgray>") << item->get_weight() <<
+                     "<c=/>";
+        item_weight.push_back( weight_ss.str() );
+        volume_ss << (inc ? "<c=green>" : "<c=ltgray>") << item->get_volume() <<
+                     "<c=/>";
+        item_volume.push_back( volume_ss.str() );
       }
     }
   }
