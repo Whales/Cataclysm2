@@ -19,6 +19,9 @@ enum Interface_action
   IACTION_PAUSE,
 // Map interaction
   IACTION_PICK_UP,
+// Inventory interaction
+  IACTION_INVENTORY,
+  IACTION_DROP,
 // Main interface
   IACTION_MESSAGES_SCROLL_BACK,
   IACTION_MESSAGES_SCROLL_FORWARD,

@@ -18,6 +18,14 @@ Item_type::~Item_type()
 {
 }
 
+Item_type_clothing::Item_type_clothing()
+{
+  carry_capacity = 0;
+  armor_bash = 0;
+  armor_cut = 0;
+  armor_pierce = 0;
+}
+
 void Item_type::assign_uid(int id)
 {
   uid = id;
@@ -75,4 +83,27 @@ bool Item_type::load_data(std::istream &data)
   }
 // TODO: Flag loading.
   return true;
+}
+
+Item_class lookup_item_class(std::string name)
+{
+  name = no_caps(name);
+  for (int i = 0; i < ITEM_CLASS_MAX; i++) {
+    Item_class ret = Item_class(i);
+    if ( no_caps( item_class_name(ret) ) == name ) {
+      return ret;
+    }
+  }
+  return ITEM_CLASS_MISC;
+}
+
+std::string item_class_name(Item_class iclass)
+{
+  switch (iclass) {
+    case ITEM_CLASS_MISC:     return "Misc";
+    case ITEM_CLASS_CLOTHING: return "Clothing";
+    case ITEM_CLASS_MAX:      return "BUG - ITEM_CLASS_MAX";
+    default:                  return "BUG - Unnamed Item_class";
+  }
+  return "BUG - Escaped Switch";
 }

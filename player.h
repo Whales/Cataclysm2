@@ -31,6 +31,10 @@ public:
   int current_volume();
   int maximum_volume();
 
+  Item              inventory_single();
+  std::vector<Item> drop_items(); // Provides an interface via inventory()
+  std::vector<Item> inventory(bool single = false, bool remove = false);
+
 // Combat functions
   virtual void take_damage(Damage_type type, int damage, std::string reason,
                            Body_part part);
