@@ -135,6 +135,12 @@ void Game::do_action(Interface_action act)
     case IACTION_PICK_UP:
       if (map->item_count(player->posx, player->posy) == 0) {
         add_msg("No items here.");
+      } else if (map->item_count(player->posx, player->posy) == 1) {
+        std::vector<Item> *items = map->items_at(player->posx, player->posy);
+        std::string message = "You pick up " + list_items(items);
+        player->add_item( (*items)[0] );
+        items->clear();
+        add_msg(message.c_str());
       } else {
         pickup_items(player->posx, player->posy);
       }
