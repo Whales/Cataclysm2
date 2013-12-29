@@ -131,7 +131,7 @@ std::vector<Item> Player::inventory(bool single, bool remove)
   int offset_size = ele_list_items->sizey;
 // Set static text fields, which are different depending on single/remove
 // So, we have a vector of indices for each item category.
-  bool remove_weapon = false;
+  bool include_weapon = false;
 
 // Set up letter for weapon, if any exists
   char letter = 'a';
@@ -139,13 +139,18 @@ std::vector<Item> Player::inventory(bool single, bool remove)
   if (weapon.type) {
     weapon_letter = 'a';
     letter = 'b';
+    std::stringstream weapon_ss;
+    weapon_ss << weapon_letter << " - " << weapon.get_name();
+    i_inv.set_data("text_weapon", weapon_ss.str());
+  } else {
+    i_inv.set_data("text_weapon", "<c=dkgray>No weapon<c=/>");
   }
 // Start with clothing - it's simple!
   std::vector<char> clothing_letters;
-  std::vector<bool> remove_clothing;
+  std::vector<bool> include_clothing;
   std::vector<std::string> clothing_name, clothing_weight, clothing_volume;
   for (int i = 0; i < items_worn.size(); i++) {
-    remove_clothing.push_back(false);
+    include_clothing.push_back(false);
 
     std::stringstream clothing_ss;
     Item_type_clothing *clothing =
@@ -173,13 +178,13 @@ std::vector<Item> Player::inventory(bool single, bool remove)
     }
   }
 // Populate those vectors!
-  std::vector<int>  item_groups[ITEM_CLASS_MAX];
+  std::vector<int>  item_indices[ITEM_CLASS_MAX];
   std::vector<char> item_letters[ITEM_CLASS_MAX];
-  std::vector<bool> remove_item;
+  std::vector<bool> include_item;
   for (int i = 0; i < inventory.size(); i++) {
-    remove_item.push_back(false);
+    include_item.push_back(false);
     Item_class iclass = inventory[i].get_item_class();
-    item_groups[iclass].push_back(i);
+    item_indices[iclass].push_back(i);
     item_letters[iclass].push_back(letter);
 // TODO: Better inventory letters.  This still isn't unlimited.
     if (letter == 'z') {
@@ -193,18 +198,18 @@ std::vector<Item> Player::inventory(bool single, bool remove)
 // Now, populate the string lists
   std::vector<std::string> item_name, item_weight, item_volume;
   for (int n = 0; n < ITEM_CLASS_MAX; n++) {
-    if (!item_groups[n].empty()) {
+    if (!item_indices[n].empty()) {
       item_name.push_back( item_class_name( Item_class(n) ) );
       item_weight.push_back("");
       item_volume.push_back("");
-      for (int i = 0 i < item_groups[n].size(); i++) {
+      for (int i = 0 i < item_indices[n].size(); i++) {
 // Check to see if we're starting a new page.  If so, repeat the category header
         if (item_name.size() % offset_size == 0) {
           item_name.push_back( item_class_name( Item_class(n) ) + "(cont)" );
           item_weight.push_back("");
           item_volume.push_back("");
         }
-        Item* item = &( inventory[ item_groups[n][i] ] );
+        Item* item = &( inventory[ item_indices[n][i] ] );
         std::stringstream item_ss;
         item_ss << item_letters[n][i] << " - " << item->get_name();
         item_name.push_back( item_ss.str() );
@@ -285,15 +290,24 @@ std::vector<Item> Player::inventory(bool single, bool remove)
       bool found = false;
       if (ch == weapon_letter) {
         found = true;
-        ret.push_back(weapon);
-        remove_weapon = !remove_weapon;
+        include_weapon = !include_weapon;
+        std::stringstrem weapon_ss;
+        weapon_ss << (include_weapon ? "<c=green>" : "<c=ltgray>") << 
+                     weapon_letter << (include_weapon ? " + " : " - ") <<
+                     weapon.get_name();
+        i_inv.set_data("text_weapon", weapon_ss.str());
       }
       if (!found) {
         for (int i = 0; i < clothing_letters.size(); i++) {
           if (ch == clothing_letters[i]) {
             found = true;
-            ret.push_back( items_worn[i] );
-            remove_clothing[i] = !remove_clothing[i];
+            include_clothing[i] = !include_clothing[i];
+            bool inc = include_clothing[i];
+            std::stringstream clothing_ss;
+            clothing_ss << (inc ? "<c=green>" : "<c=ltgray>") <<
+                           clothing_letters[i] << (inc ? " + " : " - ") <<
+                           items_worn[i].get_name();
+            clothing_name[i] = clothing_ss.str();
           }
         }
       }
@@ -302,6 +316,29 @@ std::vector<Item> Player::inventory(bool single, bool remove)
           for (int i = 0; i < item_letters[n].size(); i++) {
             if (ch == item_letters[n][i]) {
               found = true;
+              ret.push_back( inventory[ item_indices[n][i] ] );
+              include_item[ item_indices[n][i] ] = true;
+            }
+          }
+        }
+      }
+      if (found) {
+        if (single) {
+          done = true;
+        }
+// We need to change our string vectors
+        
+      }
+    } // Last check for ch
+  } // while (!done)
+
+/* If we reach this point, either we're in single-mode and we've selected an
+ * item, or we're in multiple mode and we've hit Enter - either with some items
+ * items selected or without.
+ * Things set at this point:
+ * ret - a vector containing copies of all selected items
+ * remove_weapon - a bool marked true if we selected our weapon
+ * 
               
           
 
