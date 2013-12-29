@@ -4,7 +4,7 @@ template <>
 Data_pool<Item_type>::~Data_pool()
 {
   std::list<Item_type*>::iterator it = instances.begin();
-  while (it != instances.end() && instances.size() > 1) {
+  while (it != instances.end()) {
     if (*it) {
       delete (*it);
     }
@@ -26,6 +26,11 @@ bool Data_pool<Item_type>::load_element(std::istream &data)
   } else if (item_category == "armor" || item_category == "armour" ||
              item_category == "clothing") {
     tmp = new Item_type_clothing;
+  } else if (item_category.empty()) {
+    return false;
+  } else {
+    debugmsg("Unknown item category '%s'", item_category.c_str());
+    return false;
   }
   if (!tmp->load_data(data)) {
     return false;
