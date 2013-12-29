@@ -2,6 +2,13 @@
 #include "cuss.h"
 #include <sstream>
 
+void populate_item_lists(Player* p, int offset_size,
+                         std::vector<int> item_indices[ITEM_CLASS_MAX],
+                         std::vector<char> item_letters[ITEM_CLASS_MAX],
+                         std::vector<std::string> &item_name,
+                         std::vector<std::string> &item_weight,
+                         std::vector<std::string> &item_volume);
+
 Player::Player()
 {
   posx = 15;
@@ -101,7 +108,7 @@ int Player::maximum_volume()
 
 Item Player::inventory_single()
 {
-  std::vector<Item> items = inventory(true, false);
+  std::vector<Item> items = inventory_ui(true, false);
   if (items.empty()) {
     return Item();
   }
@@ -110,23 +117,25 @@ Item Player::inventory_single()
 
 std::vector<Item> Player::drop_items()
 {
-  std::vector<Item> ret = inventory(false, true);
+  std::vector<Item> ret = inventory_ui(false, true);
   return ret;
 }
 
-std::vector<Item> Player::inventory(bool single, bool remove)
+std::vector<Item> Player::inventory_ui(bool single, bool remove)
 {
   Window w_inv(0, 0, 80, 24);
   cuss::interface i_inv;
-  std::vector<Item> ret;
+// Sanity checks
   if (!i_inv.load_from_file("cuss/i_inventory.cuss")) {
     debugmsg("Couldn't open cuss/i_inventory.cuss!");
+    std::vector<Item> ret;
     return ret;
   }
-  cuss::element ele_list_items = i_inv.find_by_name("list_items");
+  cuss::element *ele_list_items = i_inv.find_by_name("list_items");
   if (ele_list_items == NULL) {
     debugmsg("No element 'list_items' in cuss/i_inventory.cuss");
-    return;
+    std::vector<Item> ret;
+    return ret;
   }
   int offset_size = ele_list_items->sizey;
 // Set static text fields, which are different depending on single/remove
@@ -165,8 +174,10 @@ std::vector<Item> Player::inventory(bool single, bool remove)
     if (capacity == 0) {
       clothing_volume.push_back("<c=dkgray>+0<c=/>");
     } else {
+      std::stringstream volume_ss;
       volume_ss << "<c=green>+" << capacity << "<c=/>";
-    clothing_volume.push_back(volume_ss.str());
+      clothing_volume.push_back(volume_ss.str());
+    }
 
     clothing_letters.push_back(letter);
     if (letter == 'z') {
@@ -197,33 +208,14 @@ std::vector<Item> Player::inventory(bool single, bool remove)
   }
 // Now, populate the string lists
   std::vector<std::string> item_name, item_weight, item_volume;
-  for (int n = 0; n < ITEM_CLASS_MAX; n++) {
-    if (!item_indices[n].empty()) {
-      item_name.push_back( item_class_name( Item_class(n) ) );
-      item_weight.push_back("");
-      item_volume.push_back("");
-      for (int i = 0 i < item_indices[n].size(); i++) {
-// Check to see if we're starting a new page.  If so, repeat the category header
-        if (item_name.size() % offset_size == 0) {
-          item_name.push_back( item_class_name( Item_class(n) ) + "(cont)" );
-          item_weight.push_back("");
-          item_volume.push_back("");
-        }
-        Item* item = &( inventory[ item_indices[n][i] ] );
-        std::stringstream item_ss;
-        item_ss << item_letters[n][i] << " - " << item->get_name();
-        item_name.push_back( item_ss.str() );
-        item_weight.push_back( itos(item->get_weight()) );
-        item_volume.push_back( itos(item->get_volume()) );
-      }
-    }
-  }
+  populate_item_lists(this, offset_size, item_indices, item_letters, item_name,
+                      item_weight, item_volume);
 
 // Set interface data
-  i_pickup.set_data("weight_current", current_weight());
-  i_pickup.set_data("weight_maximum", maximum_weight());
-  i_pickup.set_data("volume_current", current_volume());
-  i_pickup.set_data("volume_maximum", maximum_volume());
+  i_inv.set_data("weight_current", current_weight());
+  i_inv.set_data("weight_maximum", maximum_weight());
+  i_inv.set_data("volume_current", current_volume());
+  i_inv.set_data("volume_maximum", maximum_volume());
   if (single) {
     i_inv.set_data("text_instructions", "\
 <c=magenta>Press Esc to cancel.\nPress - to select nothing.<c=/>");
@@ -255,7 +247,7 @@ std::vector<Item> Player::inventory(bool single, bool remove)
       i_inv.set_data("weight_after", weight_after);
       i_inv.set_data("volume_after", volume_after);
     }
-    i_inv.draw(w_inv);
+    i_inv.draw(&w_inv);
     long ch = input();
     if (ch == '<' && offset > 0) {
       offset--;
@@ -291,7 +283,7 @@ std::vector<Item> Player::inventory(bool single, bool remove)
       if (ch == weapon_letter) {
         found = true;
         include_weapon = !include_weapon;
-        std::stringstrem weapon_ss;
+        std::stringstream weapon_ss;
         weapon_ss << (include_weapon ? "<c=green>" : "<c=ltgray>") << 
                      weapon_letter << (include_weapon ? " + " : " - ") <<
                      weapon.get_name();
@@ -316,8 +308,16 @@ std::vector<Item> Player::inventory(bool single, bool remove)
           for (int i = 0; i < item_letters[n].size(); i++) {
             if (ch == item_letters[n][i]) {
               found = true;
-              ret.push_back( inventory[ item_indices[n][i] ] );
-              include_item[ item_indices[n][i] ] = true;
+              int index = item_indices[n][i];
+              include_item[index] = true;
+              bool inc = include_item[index];
+              std::stringstream item_ss;
+              item_ss << (inc ? "<c=green>" : "<c=ltgray>") <<
+                         item_letters[n][i] << (inc ? " + " : " - ") <<
+                         inventory[index].get_name();
+// It's easiest to just set up the text lists for items from scratch!
+              populate_item_lists(this, offset_size, item_indices, item_letters,
+                                  item_name, item_weight, item_volume);
             }
           }
         }
@@ -326,8 +326,17 @@ std::vector<Item> Player::inventory(bool single, bool remove)
         if (single) {
           done = true;
         }
-// We need to change our string vectors
-        
+// Need to refresh our lists!
+        i_inv.clear_data("list_items");
+        i_inv.clear_data("list_weight");
+        i_inv.clear_data("list_volume");
+        for (int i = offset * offset_size;
+             i < (offset + 1) * offset_size && i < item_name.size();
+             i++) {
+          i_inv.add_data("list_items",  item_name[i]);
+          i_inv.add_data("list_weight", item_weight[i]);
+          i_inv.add_data("list_volume", item_volume[i]);
+        }
       }
     } // Last check for ch
   } // while (!done)
@@ -336,11 +345,47 @@ std::vector<Item> Player::inventory(bool single, bool remove)
  * item, or we're in multiple mode and we've hit Enter - either with some items
  * items selected or without.
  * Things set at this point:
- * ret - a vector containing copies of all selected items
- * remove_weapon - a bool marked true if we selected our weapon
- * 
-              
-          
+ * include_weapon - a bool marked true if we selected our weapon
+ * include_item - a set of bools, true if the item with that index is selected
+ * include_clothing - like include_item but for items_worn
+ */
+  std::vector<Item> ret;
+  if (include_weapon) {
+    ret.push_back(weapon);
+  }
+  for (int i = 0; i < include_item.size(); i++) {
+    if (include_item[i]) {
+      ret.push_back( inventory[i] );
+    }
+  }
+  for (int i = 0; i < include_clothing.size(); i++) {
+    if (include_clothing[i]) {
+      ret.push_back( items_worn[i] );
+    }
+  }
+
+  if (remove) {
+    if (include_weapon) {
+      weapon = Item();
+    }
+/* We go through these vectors backwards - to guarantee that the indices remain
+ * valid, even after removing items!
+ */
+    for (int i = include_item.size() - 1; i >= 0; i--) {
+      if (include_item[i]) {
+        inventory.erase(inventory.begin() + i);
+      }
+    }
+    for (int i = include_clothing.size() - 1; i >= 0; i--) {
+      if (include_clothing[i]) {
+        items_worn.erase(items_worn.begin() + i);
+      }
+    }
+
+  }
+
+  return ret;
+}
 
 void Player::take_damage(Damage_type type, int damage, std::string reason,
                          Body_part part)
@@ -372,4 +417,38 @@ std::string Player::hp_text(Body_part part)
   }
   ret << current_hp[part] << "<c=/>";
   return ret.str();
+}
+
+void populate_item_lists(Player* p, int offset_size,
+                         std::vector<int> item_indices[ITEM_CLASS_MAX],
+                         std::vector<char> item_letters[ITEM_CLASS_MAX],
+                         std::vector<std::string> &item_name,
+                         std::vector<std::string> &item_weight,
+                         std::vector<std::string> &item_volume)
+{
+  item_name.clear();
+  item_weight.clear();
+  item_volume.clear();
+  for (int n = 0; n < ITEM_CLASS_MAX; n++) {
+    if (!item_indices[n].empty()) {
+      item_name.push_back( item_class_name( Item_class(n) ) );
+      item_weight.push_back("");
+      item_volume.push_back("");
+      for (int i = 0; i < item_indices[n].size(); i++) {
+// Check to see if we're starting a new page.  If so, repeat the category header
+        if (item_name.size() % offset_size == 0) {
+          item_name.push_back( item_class_name( Item_class(n) ) + "(cont)" );
+          item_weight.push_back("");
+          item_volume.push_back("");
+        }
+        int index = item_indices[n][i];
+        Item* item = &( p->inventory[ index ] );
+        std::stringstream item_ss;
+        item_ss << item_letters[n][i] << " - " << item->get_name();
+        item_name.push_back( item_ss.str() );
+        item_weight.push_back( itos(item->get_weight()) );
+        item_volume.push_back( itos(item->get_volume()) );
+      }
+    }
+  }
 }

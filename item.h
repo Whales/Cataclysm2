@@ -15,6 +15,7 @@ public:
   Item& operator=(const Item &rhs);
 
   Item_type* type;
+  Item_class get_item_class() { return type->get_class(); }
 
   glyph top_glyph();
   std::string get_name();

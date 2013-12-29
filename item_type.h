@@ -43,7 +43,7 @@ private:
 class Item_type_clothing : public Item_type
 {
 public:
-  Item_type_clothing() : Item_type();
+  Item_type_clothing();
   ~Item_type_clothing(){};
 
   virtual Item_class get_class() { return ITEM_CLASS_CLOTHING; };

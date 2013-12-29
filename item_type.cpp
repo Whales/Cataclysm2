@@ -20,6 +20,7 @@ Item_type::~Item_type()
 
 Item_type_clothing::Item_type_clothing()
 {
+  debugmsg("weight %d", weight);
   carry_capacity = 0;
   armor_bash = 0;
   armor_cut = 0;

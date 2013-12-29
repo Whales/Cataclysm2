@@ -151,13 +151,15 @@ void Game::do_action(Interface_action act)
       player->inventory_single();
       break;
 
-    case IACTION_DROP:
+    case IACTION_DROP: {
       std::vector<Item> dropped = player->drop_items();
-      std::string message = "You drop " + list_items(dropped);
+      std::stringstream message;
+      message << "You drop " << list_items(&dropped);
       for (int i = 0; i < dropped.size(); i++) {
         map->add_item(dropped[i], player->posx, player->posy);
       }
-      break;
+      add_msg( message.str().c_str() );
+    } break;
 
     case IACTION_MESSAGES_SCROLL_BACK:
       i_hud.add_data("text_messages", -1);
