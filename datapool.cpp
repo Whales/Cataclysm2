@@ -4,7 +4,7 @@ template <>
 Data_pool<Item_type>::~Data_pool()
 {
   std::list<Item_type*>::iterator it = instances.begin();
-  while (it != instances.end()) {
+  while (it != instances.end() && instances.size() > 1) {
     if (*it) {
       delete (*it);
     }

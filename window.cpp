@@ -37,7 +37,7 @@ Window::Window(int posx, int posy, int sizex, int sizey, Window_type ntype)
 Window::~Window()
 {
  delwin(w);
- WINDOWLIST.remove(this);
+ //WINDOWLIST.remove(this);
 }
 
 void Window::init(int posx, int posy, int sizex, int sizey, Window_type ntype)
