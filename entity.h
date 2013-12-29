@@ -28,6 +28,9 @@ public:
   virtual void move_to(Map* map, int x, int y);
   virtual void pause();
 
+// Inventory functions
+  virtual bool add_item(Item item);
+
 // Combat functions
   virtual void attack(Entity* target);
   virtual int hit_roll(int bonus);
@@ -42,5 +45,6 @@ public:
 
   Item weapon;
   std::vector<Item> inventory;
+  std::vector<Item> items_worn;
 };
 #endif

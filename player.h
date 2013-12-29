@@ -20,9 +20,18 @@ public:
   virtual bool is_player()  { return true; };
   virtual bool is_you()     { return true; }; // TODO: No?
   
-  virtual int get_speed();
+// Movement functions
+  virtual int  get_speed();
   virtual bool can_move_to(Map* map, int x, int y);
 
+// Inventory functions
+  virtual bool add_item(Item item);
+  int current_weight();
+  int maximum_weight();
+  int current_volume();
+  int maximum_volume();
+
+// Combat functions
   virtual void take_damage(Damage_type type, int damage, std::string reason,
                            Body_part part);
 

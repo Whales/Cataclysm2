@@ -42,7 +42,9 @@ struct Submap
   void generate(Mapgen_spec* spec);
   void generate_adjacent(Mapgen_spec* spec);
 
-  void add_item(Item item, int x, int y);
+  bool add_item(Item item, int x, int y);
+  int item_count(int x, int y);
+  std::vector<Item>* items_at(int x, int y);
 
 };
 
@@ -75,6 +77,9 @@ public:
 
 // Game engine access
   int move_cost(int x, int y);
+  bool add_item(Item item, int x, int y);
+  int item_count(int x, int y);
+  std::vector<Item>* items_at(int x, int y);
   Tile* get_tile(int x, int y);
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
 

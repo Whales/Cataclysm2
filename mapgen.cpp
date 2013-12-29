@@ -132,6 +132,7 @@ bool Item_area::place_item()
 Item_type* Item_area::pick_type()
 {
   if (item_types.empty()) {
+    debugmsg("Using NULL item");
     return NULL;
   }
   int index = rng(1, total_chance);

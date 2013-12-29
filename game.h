@@ -23,19 +23,27 @@ public:
   Game();
   ~Game();
 
+// Called-only-once
   bool setup();
+
+// Main loop functions
   bool main_loop();
   void do_action(Interface_action act);
-  //void draw();
-  void update_hud();
-  void shift_if_needed();  // Shift the map, if the player's not in the center
-
   void move_monsters();
 
-  void player_move(int xdif, int ydif); // Handles all aspects of moving player
+// Special screens
+  void pickup_items(int posx, int posy);
 
-  void add_msg(const char* msg, ...);
+// Output functions
+  void update_hud();
   void print_messages();
+
+// Called-as-needed
+  void shift_if_needed();  // Shift the map, if the player's not in the center
+
+// Game-altering functions
+  void player_move(int xdif, int ydif); // Handles all aspects of moving player
+  void add_msg(const char* msg, ...);
 
   Map*      map;
   Worldmap* worldmap;

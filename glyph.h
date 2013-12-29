@@ -12,7 +12,7 @@ struct glyph
   nc_color fg;
   nc_color bg;
 
-  glyph() { symbol = ' '; fg = c_black; bg = c_black; };
+  glyph() { symbol = 'x'; fg = c_red; bg = c_white; };
   glyph(long S, nc_color F, nc_color B) : symbol (S), fg (F), bg (B) { };
 
   glyph invert();

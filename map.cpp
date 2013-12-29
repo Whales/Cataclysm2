@@ -172,10 +172,10 @@ void Submap::generate_adjacent(Mapgen_spec* spec)
   }
 }
 
-void Submap::add_item(Item item, int x, int y)
+bool Submap::add_item(Item item, int x, int y)
 {
   if (x < 0 || y < 0 || x >= SUBMAP_SIZE || y >= SUBMAP_SIZE) {
-    return;
+    return false;
   }
   if (tiles[x][y].move_cost() > 0) {
     tiles[x][y].items.push_back(item);
@@ -191,12 +191,29 @@ void Submap::add_item(Item item, int x, int y)
       }
     }
     if (valid_points.empty()) {
-      return; // No valid points!  Oh well.
+      return false; // No valid points!  Oh well.
     }
     int index = rng(0, valid_points.size() - 1);
     Point p = valid_points[index];
     tiles[p.x][p.y].items.push_back(item);
   }
+  return true;
+}
+
+int Submap::item_count(int x, int y)
+{
+  if (x < 0 || x >= SUBMAP_SIZE || x < 0 || y >= SUBMAP_SIZE) {
+    return 0;
+  }
+  return tiles[x][y].items.size();
+}
+
+std::vector<Item>* Submap::items_at(int x, int y)
+{
+  if (x < 0 || x >= SUBMAP_SIZE || x < 0 || y >= SUBMAP_SIZE) {
+    return NULL;
+  }
+  return &(tiles[x][y].items);
 }
 
 Submap_pool::Submap_pool()
@@ -293,6 +310,42 @@ void Map::shift(Worldmap *world, int shiftx, int shifty)
 int Map::move_cost(int x, int y)
 {
   return get_tile(x, y)->move_cost();
+}
+
+bool Map::add_item(Item item, int x, int y)
+{
+  if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
+      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
+    return false;
+  }
+  int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
+  x %= SUBMAP_SIZE;
+  y %= SUBMAP_SIZE;
+  return submaps[sx][sy]->add_item(item, x, y);
+}
+
+int Map::item_count(int x, int y)
+{
+  if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
+      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
+    return 0;
+  }
+  int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
+  x %= SUBMAP_SIZE;
+  y %= SUBMAP_SIZE;
+  return submaps[sx][sy]->item_count(x, y);
+}
+
+std::vector<Item>* Map::items_at(int x, int y)
+{
+  if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
+      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
+    return NULL;
+  }
+  int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
+  x %= SUBMAP_SIZE;
+  y %= SUBMAP_SIZE;
+  return submaps[sx][sy]->items_at(x, y);
 }
 
 Tile* Map::get_tile(int x, int y)
@@ -404,7 +457,7 @@ void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
         w->putglyph(x, y, output);
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE
-        w->putglyph(x, y, glyph());
+        w->putglyph(x, y, glyph(' ', c_black, c_black));
       }
     }
   }

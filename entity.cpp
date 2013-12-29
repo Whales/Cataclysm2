@@ -67,6 +67,12 @@ void Entity::pause()
   action_points -= 100;
 }
 
+bool Entity::add_item(Item item)
+{
+  inventory.push_back(item);
+  return true;
+}
+
 void Entity::attack(Entity* target)
 {
 }

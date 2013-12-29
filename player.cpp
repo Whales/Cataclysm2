@@ -50,6 +50,54 @@ bool Player::can_move_to(Map *map, int x, int y)
   return true;
 }
 
+bool Player::add_item(Item item)
+{
+// TODO: Weight isn't a hard limit
+  if (current_weight() + item.get_weight() > maximum_weight()) {
+    return false;
+  }
+// TODO: Prompt player to wear/wield/etc the item
+  if (current_volume() + item.get_volume() > maximum_volume()) {
+    return false;
+  }
+  inventory.push_back(item);
+  return true;
+}
+
+int Player::current_weight()
+{
+  int ret = 0;
+  ret += weapon.get_weight();
+  for (int i = 0; i < inventory.size(); i++) {
+    ret += inventory[i].get_weight();
+  }
+  for (int i = 0; i < items_worn.size(); i++) {
+    ret += items_worn[i].get_weight();
+  }
+  return ret;
+}
+
+int Player::maximum_weight()
+{
+// TODO: Base this on Strength or something.
+  return 1000;
+}
+
+int Player::current_volume()
+{
+  int ret = 0;
+  for (int i = 0; i < inventory.size(); i++) {
+    ret += inventory[i].get_volume();
+  }
+  return ret;
+}
+
+int Player::maximum_volume()
+{
+// TODO: Base this on items_worn
+  return 1000;
+}
+
 void Player::take_damage(Damage_type type, int damage, std::string reason,
                          Body_part part)
 {
