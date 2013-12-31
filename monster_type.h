@@ -6,17 +6,7 @@
 #include <vector>
 #include "glyph.h"
 #include "enum.h"
-
-struct Monster_attack
-{
-  std::string verb;
-  int weight;
-  int speed;
-  int to_hit;
-  int damage[DAMAGE_MAX];
-
-  Monster_attack();
-};
+#include "attack.h"
 
 struct Monster_type
 {
@@ -28,7 +18,7 @@ struct Monster_type
   glyph sym;
 
   int speed;
-  std::vector<Monster_attack> attacks;
+  std::vector<Attack> attacks;
   int total_attack_weight;
 
   void assign_uid(int id);

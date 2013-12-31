@@ -139,7 +139,7 @@ void Monster::attack(Entity* entity)
     debugmsg("Monster attempted attack() on a null target.");
     return;
   }
-  Monster_attack *att = random_attack();
+  Attack *att = random_attack();
   if (!att) {
     debugmsg("Monster couldn't pick attack!");
     return;
@@ -186,14 +186,14 @@ void Monster::attack(Entity* entity)
   }
 }
 
-Monster_attack* Monster::random_attack()
+Attack* Monster::random_attack()
 {
   if (!type || type->attacks.empty()) {
     return NULL;
   }
   int index = rng(1, type->total_attack_weight);
   for (int i = 0; i < type->attacks.size(); i++) {
-    Monster_attack *att = &(type->attacks[i]);
+    Attack *att = &(type->attacks[i]);
     index -= att->weight;
     if (index <= 0) {
       return att;

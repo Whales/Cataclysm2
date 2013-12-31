@@ -33,7 +33,7 @@ public:
 
   bool can_attack(Entity* entity);
   virtual void attack(Entity* entity);
-  Monster_attack* random_attack();
+  Attack* random_attack();
   Body_part random_body_part_to_hit();
 
   void move_towards(Entity* entity);

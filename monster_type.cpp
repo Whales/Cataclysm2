@@ -3,17 +3,6 @@
 #include "stringfunc.h"
 #include "monster_type.h"
 
-Monster_attack::Monster_attack()
-{
-  verb = "hits";
-  weight = 10;
-  speed = 100;
-  to_hit = 0;
-  for (int i = 0; i < DAMAGE_MAX; i++) {
-    damage[i] = 0;
-  }
-}
-
 Monster_type::Monster_type()
 {
   name = "Unknown";
@@ -79,7 +68,7 @@ bool Monster_type::load_data(std::istream &data)
     } else if (ident == "attack:") {
       std::getline(data, junk);
       std::string attack_ident;
-      Monster_attack tmpattack;
+      Attack tmpattack;
 
       while ( data >> attack_ident && attack_ident != "done" ) {
         if (attack_ident == "verb:") {
