@@ -389,6 +389,31 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
   return ret;
 }
 
+Item Player::remove_item_uid(int uid)
+{
+  Item ret = Item();
+  if (weapon.type && weapon.uid == uid) {
+    ret = weapon;
+    weapon = Item();
+    return ret;
+  }
+  for (int i = 0; i < items_worn.size(); i++) {
+    if (items_worn[i].uid == uid) {
+      ret = items_worn[i];
+      items_worn.erase(items_worn.begin() + i);
+      return ret;
+    }
+  }
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i].uid == uid) {
+      ret = inventory[i];
+      inventory.erase(inventory.begin() + i);
+      return ret;
+    }
+  }
+  return ret;
+}
+
 void Player::take_damage(Damage_type type, int damage, std::string reason,
                          Body_part part)
 {

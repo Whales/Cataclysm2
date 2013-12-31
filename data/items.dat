@@ -1,5 +1,8 @@
 weapon
   name: test weapon
+  description:
+    This is an item added strictly for testing purposes.
+  done
   glyph: / white black
   weight: 20
   volume: 16
@@ -10,6 +13,9 @@ done
 
 weapon
   name: rock
+  description:
+    A chunk of solid rock.  Makes a decent thrown or wielded weapon in a pinch.
+  done
   glyph: * ltgray black
   weight:  5
   volume:  8

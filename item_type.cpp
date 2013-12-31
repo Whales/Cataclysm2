@@ -12,6 +12,8 @@ Item_type::Item_type()
   bash = 0;
   cut = 0;
   pierce = 0;
+  to_hit = 0;
+  attack_speed = 100;
 }
 
 Item_type::~Item_type()
@@ -54,6 +56,16 @@ bool Item_type::load_data(std::istream &data)
       std::getline(data, name);
       name = trim(name);
 
+    } else if (ident == "description:") {
+      std::string desc;
+      while (no_caps(desc) != "done") {
+        std::getline(data, desc);
+        desc = trim(desc);
+        if (no_caps(desc) != "done") {
+          description = description + " " + desc;
+        }
+      }
+
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
       std::getline(data, junk);
@@ -76,6 +88,14 @@ bool Item_type::load_data(std::istream &data)
 
     } else if (ident == "pierce:") {
       data >> pierce;
+      std::getline(data, junk);
+
+    } else if (ident == "to_hit:") {
+      data >> to_hit;
+      std::getline(data, junk);
+
+    } else if (ident == "speed:" || ident == "attack_speed:") {
+      data >> attack_speed;
       std::getline(data, junk);
 
     } else if (ident != "done") {

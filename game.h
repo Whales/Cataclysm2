@@ -23,27 +23,30 @@ public:
   Game();
   ~Game();
 
-// Called-only-once
+// Setup - Called only once
   bool setup();
 
-// Main loop functions
+// Engine - Main loop functions
   bool main_loop();
   void do_action(Interface_action act);
   void move_monsters();
 
-// Special screens
-  void pickup_items(int posx, int posy);
+// Engine - Called-as-needed
+  void shift_if_needed();  // Shift the map, if the player's not in the center
 
-// Output functions
+// Engine - Game-altering functions
+  void player_move(int xdif, int ydif); // Handles all aspects of moving player
+  void add_msg(const char* msg, ...);
+
+// UI - Output functions
   void update_hud();
   void print_messages();
 
-// Called-as-needed
-  void shift_if_needed();  // Shift the map, if the player's not in the center
+// UI - Special screens
+  void pickup_items(int posx, int posy);
 
-// Game-altering functions
-  void player_move(int xdif, int ydif); // Handles all aspects of moving player
-  void add_msg(const char* msg, ...);
+// Data - Universal access functions
+  int get_item_uid();
 
   Map*      map;
   Worldmap* worldmap;
@@ -56,6 +59,7 @@ private:
   cuss::interface i_hud;
   std::vector<Game_message> messages;
   int new_messages;
+  int next_item_uid;
   bool game_over;
 };
 

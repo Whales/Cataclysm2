@@ -146,10 +146,18 @@ void Game::do_action(Interface_action act)
       }
       break;
 
-    case IACTION_INVENTORY:
+    case IACTION_INVENTORY: {
 // TODO: Allow the player to perform an action upon items in their inventory
-      player->inventory_single();
-      break;
+      Item it = player->inventory_single();
+      Item_action act = it.show_info();
+      if (act == IACT_DROP) {
+        std::stringstream message;
+        message << "You drop " << it.get_name_definite() << ".";
+        map->add_item(it, player->posx, player->posy);
+        player->remove_item_uid(it.uid);
+        add_msg( message.str().c_str() );
+      }
+    } break;
 
     case IACTION_DROP: {
       std::vector<Item> dropped = player->drop_items();
@@ -181,46 +189,6 @@ void Game::do_action(Interface_action act)
   }
 }
 
-void Game::update_hud()
-{
-  print_messages();
-// Draw minimap
-  cuss::element* minimap = i_hud.find_by_name("draw_minimap");
-  if (minimap) {
-    int cornerx = map->posx - minimap->sizex / 2 + MAP_SIZE / 2;
-    int cornery = map->posy - minimap->sizey / 2 + MAP_SIZE / 2;
-    worldmap->draw_minimap(minimap, cornerx, cornery);
-  }
-  i_hud.set_data("hp_head",  player->hp_text(BODYPART_HEAD     ) );
-  i_hud.set_data("hp_torso", player->hp_text(BODYPART_TORSO    ) );
-  i_hud.set_data("hp_l_arm", player->hp_text(BODYPART_LEFT_ARM ) );
-  i_hud.set_data("hp_r_arm", player->hp_text(BODYPART_RIGHT_ARM) );
-  i_hud.set_data("hp_l_leg", player->hp_text(BODYPART_LEFT_LEG ) );
-  i_hud.set_data("hp_r_leg", player->hp_text(BODYPART_RIGHT_LEG) );
-  
-  i_hud.draw(w_hud);
-  w_hud->refresh();
-}
-
-void Game::shift_if_needed()
-{
-  int min = SUBMAP_SIZE * (MAP_SIZE / 2), max = min + SUBMAP_SIZE - 1;
-  int shiftx = 0, shifty = 0;
-  if (player->posx < min) {
-    shiftx = -1 + (player->posx - min) / SUBMAP_SIZE;
-  } else if (player->posx > max) {
-    shiftx =  1 + (player->posx - max) / SUBMAP_SIZE;
-  }
-  if (player->posy < min) {
-    shifty = -1 + (player->posy - min) / SUBMAP_SIZE;
-  } else if (player->posy > max) {
-    shifty =  1 + (player->posy - max) / SUBMAP_SIZE;
-  }
-  map->shift(worldmap, shiftx, shifty);
-  player->posx -= shiftx * SUBMAP_SIZE;
-  player->posy -= shifty * SUBMAP_SIZE;
-}
-
 void Game::move_monsters()
 {
 // First, give all monsters action points
@@ -246,6 +214,117 @@ void Game::move_monsters()
       }
     }
   } while (!all_done);
+}
+
+void Game::shift_if_needed()
+{
+  int min = SUBMAP_SIZE * (MAP_SIZE / 2), max = min + SUBMAP_SIZE - 1;
+  int shiftx = 0, shifty = 0;
+  if (player->posx < min) {
+    shiftx = -1 + (player->posx - min) / SUBMAP_SIZE;
+  } else if (player->posx > max) {
+    shiftx =  1 + (player->posx - max) / SUBMAP_SIZE;
+  }
+  if (player->posy < min) {
+    shifty = -1 + (player->posy - min) / SUBMAP_SIZE;
+  } else if (player->posy > max) {
+    shifty =  1 + (player->posy - max) / SUBMAP_SIZE;
+  }
+  map->shift(worldmap, shiftx, shifty);
+  player->posx -= shiftx * SUBMAP_SIZE;
+  player->posy -= shifty * SUBMAP_SIZE;
+}
+
+void Game::player_move(int xdif, int ydif)
+{
+// TODO: Remove this?
+  if (xdif < -1 || xdif > 1 || ydif < -1 || ydif > 1) {
+    debugmsg("Game::player_move called with [%d, %d]", xdif, ydif);
+    return;
+  }
+
+  int newx = player->posx + xdif, newy = player->posy + ydif;
+  if (player->can_move_to(map, newx, newy)) {
+    player->move_to(map, newx, newy);
+  }
+  std::vector<Item> *items = map->items_at(player->posx, player->posy);
+// TODO: Ensure the player has the sense of sight
+  if (!items->empty()) {
+    std::string item_message = "You see here " + list_items(items);
+    add_msg( item_message.c_str() );
+  }
+}
+
+void Game::add_msg(const char* msg, ...)
+{
+  char buff[2048];
+  va_list ap;
+  va_start(ap, msg);
+  vsprintf(buff, msg, ap);
+  va_end(ap);
+  std::string text(buff);
+  if (text.empty()) {
+    return;
+  }
+  if (text[0] >= 'a' && text[0] <= 'z') {
+// Capitalize!
+    text[0] += 'A' - 'a';
+  }
+// TODO: Check if turn gap is small enough.
+  if (!messages.empty() && messages.back().text == text) {
+    messages.back().count++;
+    return;
+  }
+  messages.push_back( Game_message(text) );
+  new_messages++;
+}
+
+void Game::update_hud()
+{
+  print_messages();
+// Draw minimap
+  cuss::element* minimap = i_hud.find_by_name("draw_minimap");
+  if (minimap) {
+    int cornerx = map->posx - minimap->sizex / 2 + MAP_SIZE / 2;
+    int cornery = map->posy - minimap->sizey / 2 + MAP_SIZE / 2;
+    worldmap->draw_minimap(minimap, cornerx, cornery);
+  }
+  i_hud.set_data("hp_head",  player->hp_text(BODYPART_HEAD     ) );
+  i_hud.set_data("hp_torso", player->hp_text(BODYPART_TORSO    ) );
+  i_hud.set_data("hp_l_arm", player->hp_text(BODYPART_LEFT_ARM ) );
+  i_hud.set_data("hp_r_arm", player->hp_text(BODYPART_RIGHT_ARM) );
+  i_hud.set_data("hp_l_leg", player->hp_text(BODYPART_LEFT_LEG ) );
+  i_hud.set_data("hp_r_leg", player->hp_text(BODYPART_RIGHT_LEG) );
+  
+  i_hud.draw(w_hud);
+  w_hud->refresh();
+}
+
+void Game::print_messages()
+{
+  i_hud.clear_data("text_messages");
+  int sizey;
+  cuss::element *message_box = i_hud.find_by_name("text_messages");
+  if (!message_box) {
+    debugmsg("Couldn't find text_messages in i_hud!");
+    return;
+  }
+  sizey = message_box->sizey;
+  int start = messages.size() - sizey;
+  if (start < 0) {
+    start = 0;
+  }
+  for (int i = start; i < messages.size(); i++) {
+    std::stringstream text;
+    int index = messages.size() - new_messages + i;
+    text << messages[index].text;
+    if (messages[index].count > 1) {
+      text << " x " << messages[index].count;
+    }
+    text << '\n';
+    //debugmsg("Adding %s", text.str().c_str());
+    i_hud.add_data("text_messages", text.str());
+  }
 }
 
 void Game::pickup_items(int posx, int posy)
@@ -378,89 +457,9 @@ void Game::pickup_items(int posx, int posy)
   
 }
 
-void Game::player_move(int xdif, int ydif)
+int Game::get_item_uid()
 {
-// TODO: Remove this?
-  if (xdif < -1 || xdif > 1 || ydif < -1 || ydif > 1) {
-    debugmsg("Game::player_move called with [%d, %d]", xdif, ydif);
-    return;
-  }
-
-  int newx = player->posx + xdif, newy = player->posy + ydif;
-  if (player->can_move_to(map, newx, newy)) {
-    player->move_to(map, newx, newy);
-  }
-  std::vector<Item> *items = map->items_at(player->posx, player->posy);
-// TODO: Ensure the player has the sense of sight
-  if (!items->empty()) {
-    std::string item_message = "You see here " + list_items(items);
-    add_msg( item_message.c_str() );
-  }
-}
-
-void Game::add_msg(const char* msg, ...)
-{
-  char buff[2048];
-  va_list ap;
-  va_start(ap, msg);
-  vsprintf(buff, msg, ap);
-  va_end(ap);
-  std::string text(buff);
-  if (text.empty()) {
-    return;
-  }
-  if (text[0] >= 'a' && text[0] <= 'z') {
-// Capitalize!
-    text[0] += 'A' - 'a';
-  }
-// TODO: Check if turn gap is small enough.
-  if (!messages.empty() && messages.back().text == text) {
-    messages.back().count++;
-    return;
-  }
-  messages.push_back( Game_message(text) );
-  new_messages++;
-}
-
-void Game::print_messages()
-{
-/*
-  for (int i = 0; i < new_messages; i++) {
-    std::stringstream text;
-    int index = messages.size() - new_messages + i;
-    text << messages[index].text;
-    if (messages[index].count > 1) {
-      text << " x " << messages[index].count;
-    }
-    text << '\n';
-    //debugmsg("Adding %s", text.str().c_str());
-    i_hud.add_data("text_messages", text.str());
-  }
-  new_messages = 0;
-*/
-  i_hud.clear_data("text_messages");
-  int sizey;
-  cuss::element *message_box = i_hud.find_by_name("text_messages");
-  if (!message_box) {
-    debugmsg("Couldn't find text_messages in i_hud!");
-    return;
-  }
-  sizey = message_box->sizey;
-  int start = messages.size() - sizey;
-  if (start < 0) {
-    start = 0;
-  }
-  for (int i = start; i < messages.size(); i++) {
-    std::stringstream text;
-    int index = messages.size() - new_messages + i;
-    text << messages[index].text;
-    if (messages[index].count > 1) {
-      text << " x " << messages[index].count;
-    }
-    text << '\n';
-    //debugmsg("Adding %s", text.str().c_str());
-    i_hud.add_data("text_messages", text.str());
-  }
+  return next_item_uid++;
 }
 
 std::vector<std::string>

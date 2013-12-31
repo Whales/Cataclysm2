@@ -23,6 +23,7 @@ public:
 
   int uid;
   std::string name;
+  std::string description;
   int weight;       // In 1/10ths of a pound
   int volume;       // 1 volume = a ping pong ball
   glyph sym;
@@ -30,6 +31,8 @@ public:
   int bash;
   int cut;
   int pierce;
+  int to_hit;
+  int attack_speed;
 
   void assign_uid(int id);
   std::string get_name();
