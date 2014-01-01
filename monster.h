@@ -25,7 +25,7 @@ public:
   std::string get_name_definite();
   virtual bool is_monster() { return true; };
 
-  bool has_sense(Sense_type sense);
+  virtual bool has_sense(Sense_type sense);
 
   virtual int get_speed();
   void make_plans();
@@ -45,6 +45,7 @@ public:
   int uid;
   int current_hp;
   bool dead;
+  bool killed_by_player;
 
 private:
   Entity* target;

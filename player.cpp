@@ -47,6 +47,19 @@ glyph Player::get_glyph()
   return glyph('@', c_white, c_black);
 }
 
+bool Player::has_sense(Sense_type sense)
+{
+// TODO: Turn off senses if we're blinded, deafened, etc.
+  switch (sense) {
+    case SENSE_SIGHT:
+    case SENSE_SOUND:
+      return true;
+    default:
+      return false;
+  }
+  return false;
+}
+
 int Player::get_speed()
 {
 // TODO: Make this use actual stuff
@@ -412,6 +425,27 @@ Item Player::remove_item_uid(int uid)
     }
   }
   return ret;
+}
+
+void Player::wield_item_uid(int uid)
+{
+// TODO: Return a failure reason when attempting to wield current weapon,
+//       or clothing worn
+/*
+  for (int i = 0; i < items_worn.size(); i++) {
+    if (items_worn[i].uid == uid) {
+      ret = items_worn[i];
+      items_worn.erase(items_worn.begin() + i);
+      return ret;
+    }
+  }
+*/
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i].uid == uid) {
+      weapon = inventory[i];
+      inventory.erase(inventory.begin() + i);
+    }
+  }
 }
 
 void Player::take_damage(Damage_type type, int damage, std::string reason,

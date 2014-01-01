@@ -21,6 +21,7 @@ public:
   virtual bool is_you()     { return true; }; // TODO: No?
   
 // Movement functions
+  virtual bool has_sense(Sense_type sense);
   virtual int  get_speed();
   virtual bool can_move_to(Map* map, int x, int y);
 
@@ -37,6 +38,7 @@ public:
   std::vector<Item> inventory_ui(bool single = false, bool remove = false);
 
   Item remove_item_uid(int uid);
+  void wield_item_uid(int uid);
 
 // Combat functions
   //virtual Attack base_attack();

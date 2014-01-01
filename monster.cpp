@@ -7,6 +7,7 @@
 Monster::Monster()
 {
   dead = false;
+  killed_by_player = false;
   current_hp = 0;
   type = NULL;
   uid = -1;
@@ -16,6 +17,7 @@ Monster::Monster()
 void Monster::set_type(std::string name)
 {
   dead = false;
+  killed_by_player = false;
   type = MONSTER_TYPES.lookup_name(name);
   if (type) {
     current_hp = rng(type->minimum_hp, type->maximum_hp);
@@ -158,6 +160,9 @@ void Monster::take_damage(Damage_type type, int damage, std::string reason,
   current_hp -= damage;
   if (current_hp <= 0) {
     dead = true;
+    if (reason == "you") {
+      killed_by_player = true;
+    }
   }
 }
 

@@ -21,9 +21,12 @@ public:
   virtual bool is_monster() { return false; };
   virtual bool is_you()     { return false; }; // As in THE player
 
+  virtual void die();
   virtual void gain_action_points();
   virtual int  get_speed();
 
+  virtual bool has_sense(Sense_type sense);
+  virtual bool can_see(Map* map, int x, int y);
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to(Map* map, int x, int y);
   virtual void pause();

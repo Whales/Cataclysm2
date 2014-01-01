@@ -156,6 +156,11 @@ void Game::do_action(Interface_action act)
         map->add_item(it, player->posx, player->posy);
         player->remove_item_uid(it.uid);
         add_msg( message.str().c_str() );
+      } else if (act == IACT_WIELD) {
+        std::stringstream message;
+        message << "You wield " << it.get_name_definite() << ".";
+        player->wield_item_uid(it.uid);
+        add_msg( message.str().c_str() );
       }
     } break;
 
@@ -191,6 +196,7 @@ void Game::do_action(Interface_action act)
 
 void Game::move_monsters()
 {
+  clean_up_dead_monsters();
 // First, give all monsters action points
   for (std::list<Monster*>::iterator it = monsters.instances.begin();
        it != monsters.instances.end();
@@ -214,6 +220,31 @@ void Game::move_monsters()
       }
     }
   } while (!all_done);
+
+  clean_up_dead_monsters(); // Just in case a monster killed itself
+
+}
+
+void Game::clean_up_dead_monsters()
+{
+  std::list<Monster*>::iterator it = monsters.instances.begin();
+  while (it != monsters.instances.end()) {
+    Monster *mon = (*it);
+    if ( mon->dead ) {
+      if (player->can_see(map, mon->posx, mon->posy)) {
+        if (mon->killed_by_player) {
+          add_msg("You kill %s!", mon->get_name_definite().c_str());
+        } else {
+          add_msg("%s dies!", mon->get_name_to_player().c_str());
+        }
+      }
+      mon->die();
+      delete mon;
+      it = monsters.instances.erase(it);
+    } else {
+      it++;
+    }
+  }
 }
 
 void Game::shift_if_needed()

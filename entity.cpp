@@ -34,6 +34,20 @@ glyph Entity::get_glyph()
   return glyph();
 }
 
+void Entity::die()
+{
+// TODO: Drop a corpse.
+  for (int i = 0; i < inventory.size(); i++) {
+    GAME.map->add_item( inventory[i], posx, posy );
+  }
+  for (int i = 0; i < items_worn.size(); i++) {
+    GAME.map->add_item( items_worn[i], posx, posy );
+  }
+  if (weapon.is_real()) {
+    GAME.map->add_item( weapon, posx, posy );
+  }
+}
+
 void Entity::gain_action_points()
 {
   action_points += get_speed();
@@ -42,6 +56,19 @@ void Entity::gain_action_points()
 int Entity::get_speed()
 {
   return 100;
+}
+
+bool Entity::has_sense(Sense_type sense)
+{
+  return false;
+}
+
+bool Entity::can_see(Map* map, int x, int y)
+{
+  if (!map || !has_sense(SENSE_SIGHT)) {
+    return false;
+  }
+  return map->senses(posx, posy, x, y, SENSE_SIGHT);
 }
 
 bool Entity::can_move_to(Map* map, int x, int y)
