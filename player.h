@@ -41,7 +41,6 @@ public:
   void wield_item_uid(int uid);
 
 // Combat functions
-  //virtual Attack base_attack();
   virtual void take_damage(Damage_type type, int damage, std::string reason,
                            Body_part part);
 

@@ -23,3 +23,19 @@ weapon
   cut:     0
   pierce:  0
 done
+
+clothing
+  name: leather jacket
+  description:
+    A tough leather jacket.  Provides decent protection for your arms and torso.
+  done
+  glyph: [ brown black
+  weight:   30
+  volume:   50
+  carries:  15
+  armor_bash:    1
+  armor_cut:     8
+  armor_pierce:  4
+  encumbrance:   2
+  covers: torso arms
+done

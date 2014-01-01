@@ -28,7 +28,7 @@ std::string sense_type_name(Sense_type type)
   return "BUG - Escaped switch";
 }
 
-Body_part lookup_bory_part(std::string name)
+Body_part lookup_body_part(std::string name)
 {
   name = no_caps(name);
   for (int i = 0; i < BODYPART_MAX; i++) {

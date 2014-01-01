@@ -39,6 +39,7 @@ public:
   void assign_uid(int id);
   std::string get_name();
   virtual bool load_data(std::istream &data);
+  virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual Item_class get_class() { return ITEM_CLASS_MISC; };
 
@@ -53,10 +54,14 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_CLOTHING; };
 
+  virtual bool handle_data(std::string ident, std::istream &data);
+
   int carry_capacity;
   int armor_bash;
   int armor_cut;
   int armor_pierce;
+  int encumbrance;
+  bool covers[BODYPART_MAX];
 
 };
 

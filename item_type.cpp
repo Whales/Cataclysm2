@@ -1,6 +1,7 @@
 #include "item_type.h"
 #include "stringfunc.h"
 #include "window.h"
+#include <sstream>
 
 Item_type::Item_type()
 {
@@ -22,7 +23,6 @@ Item_type::~Item_type()
 
 Item_type_clothing::Item_type_clothing()
 {
-  debugmsg("weight %d", weight);
   carry_capacity = 0;
   armor_bash = 0;
   armor_cut = 0;
@@ -98,11 +98,67 @@ bool Item_type::load_data(std::istream &data)
       data >> attack_speed;
       std::getline(data, junk);
 
-    } else if (ident != "done") {
+    } else if (!handle_data(ident, data)) {
       debugmsg("Unknown item_type flag '%s' (%s)", ident.c_str(), name.c_str());
+      return false;
+
     }
   }
 // TODO: Flag loading.
+  return true;
+}
+
+bool Item_type::handle_data(std::string ident, std::istream &data)
+{
+  if (ident == "done") {
+    return true;
+  }
+  return false;
+}
+
+bool Item_type_clothing::handle_data(std::string ident, std::istream &data)
+{
+  std::string junk;
+  if (ident == "carries:") {
+    data >> carry_capacity;
+    std::getline(data, junk);
+
+  } else if (ident == "armor_bash:") {
+    data >> armor_bash;
+    std::getline(data, junk);
+
+  } else if (ident == "armor_cut:") {
+    data >> armor_cut;
+    std::getline(data, junk);
+
+  } else if (ident == "armor_pierce:") {
+    data >> armor_pierce;
+    std::getline(data, junk);
+
+  } else if (ident == "encumbrance:") {
+    data >> encumbrance;
+    std::getline(data, junk);
+
+  } else if (ident == "covers:") {
+    std::string line;
+    std::getline(data, line);
+    std::istringstream cover_data(line);
+    std::string body_part_name;
+    while (cover_data >> body_part_name) {
+      if (body_part_name == "arms") {
+        covers[BODYPART_LEFT_ARM]  = true;
+        covers[BODYPART_RIGHT_ARM] = true;
+      } else if (body_part_name == "legs") {
+        covers[BODYPART_LEFT_LEG]  = true;
+        covers[BODYPART_RIGHT_LEG] = true;
+      } else {
+        covers[ lookup_body_part( body_part_name ) ] = true;
+      }
+    }
+
+  } else if (ident != "done") {
+    return false;
+  }
   return true;
 }
 
