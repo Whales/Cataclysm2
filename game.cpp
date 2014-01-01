@@ -244,7 +244,10 @@ void Game::player_move(int xdif, int ydif)
   }
 
   int newx = player->posx + xdif, newy = player->posy + ydif;
-  if (player->can_move_to(map, newx, newy)) {
+  Monster* mon = monsters.monster_at(newx, newy);
+  if (mon) {
+    player->attack(mon);
+  } else if (player->can_move_to(map, newx, newy)) {
     player->move_to(map, newx, newy);
   }
   std::vector<Item> *items = map->items_at(player->posx, player->posy);
