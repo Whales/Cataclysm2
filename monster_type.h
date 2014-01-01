@@ -17,6 +17,7 @@ struct Monster_type
   int uid;
   glyph sym;
 
+  int minimum_hp, maximum_hp;
   int speed;
   std::vector<Attack> attacks;
   int total_attack_weight;

@@ -51,6 +51,10 @@ bool Monster_type::load_data(std::istream &data)
       sym.load_data_text(data);
       std::getline(data, junk);
 
+    } else if (ident == "hp:") {
+      data >> minimum_hp >> maximum_hp;
+      std::getline(data, junk);
+
     } else if (ident == "speed:") {
       data >> speed;
       std::getline(data, junk);

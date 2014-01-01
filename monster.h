@@ -33,7 +33,8 @@ public:
 
   bool can_attack(Entity* entity);
   virtual Attack base_attack();
-  //virtual void attack(Entity* entity);
+  virtual void take_damage(Damage_type type, int damage, std::string reason,
+                           Body_part part);
 
   void move_towards(Entity* entity);
   void move_towards(int target_x, int target_y);
@@ -42,6 +43,7 @@ public:
 
   Monster_type *type;
   int uid;
+  int current_hp;
   bool dead;
 
 private:

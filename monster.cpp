@@ -7,6 +7,7 @@
 Monster::Monster()
 {
   dead = false;
+  current_hp = 0;
   type = NULL;
   uid = -1;
   action_points = 0;
@@ -16,6 +17,9 @@ void Monster::set_type(std::string name)
 {
   dead = false;
   type = MONSTER_TYPES.lookup_name(name);
+  if (type) {
+    current_hp = rng(type->minimum_hp, type->maximum_hp);
+  }
   action_points = 0;
 }
 
@@ -133,57 +137,6 @@ bool Monster::can_attack(Entity* entity)
   return false;
 }
 
-/*
-void Monster::attack(Entity* entity)
-{
-  if (!entity) {
-    debugmsg("Monster attempted attack() on a null target.");
-    return;
-  }
-  Attack att = base_attack();
-
-  action_points -= att.speed;
-
-  bool you_see = GAME.player->can_sense(GAME.map, posx, posy);
-  if (hit_roll(att.to_hit) < target->dodge_roll()) {
-    if (you_see) {
-      GAME.add_msg("%s misses %s!", get_name_to_player().c_str(),
-                   target->get_name_to_player().c_str());
-    }
-    return;
-  }
-
-  Body_part bp_hit = (target->is_player() ? random_body_part_to_hit() :
-                                            BODYPART_NULL);
-
-  int total_damage = 0;
-  for (int i = 0; i < DAMAGE_MAX; i++) {
-    int damage = rng(0, att.damage[i]);
-    total_damage += damage;
-    entity->take_damage(Damage_type(i), damage, get_name_to_player(),
-                        bp_hit);
-  }
-
-  if (you_see) {
-    std::string damage_str;
-    if (target->is_you()) {
-      std::stringstream damage_ss;
-      damage_ss << "for " << total_damage << " damage";
-      damage_str = damage_ss.str();
-    }
-    if (bp_hit == BODYPART_NULL) {
-      GAME.add_msg("%s %s %s %s!", get_name_to_player().c_str(),
-                   att.verb_third.c_str(),
-                   target->get_name_to_player().c_str(), damage_str.c_str());
-    } else {
-      GAME.add_msg("%s %s %s %s %s!", get_name_to_player().c_str(),
-                   att.verb_third.c_str(), target->get_possessive().c_str(),
-                   body_part_name(bp_hit).c_str(), damage_str.c_str());
-    }
-  }
-}
-*/
-
 Attack Monster::base_attack()
 {
   if (!type || type->attacks.empty()) {
@@ -197,6 +150,15 @@ Attack Monster::base_attack()
     }
   }
   return type->attacks.back();
+}
+
+void Monster::take_damage(Damage_type type, int damage, std::string reason,
+                          Body_part part)
+{
+  current_hp -= damage;
+  if (current_hp <= 0) {
+    dead = true;
+  }
 }
 
 void Monster::move_towards(Entity* entity)

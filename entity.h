@@ -22,7 +22,7 @@ public:
   virtual bool is_you()     { return false; }; // As in THE player
 
   virtual void gain_action_points();
-  virtual int get_speed();
+  virtual int  get_speed();
 
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to(Map* map, int x, int y);
@@ -34,8 +34,8 @@ public:
 // Combat functions
   virtual Attack base_attack();
   virtual void attack(Entity* target);
-  virtual int hit_roll(int bonus);
-  virtual int dodge_roll();
+  virtual int  hit_roll(int bonus);
+  virtual int  dodge_roll();
   virtual void take_damage(Damage_type type, int damage, std::string reason,
                            Body_part part);
 

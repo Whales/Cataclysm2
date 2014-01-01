@@ -1,5 +1,6 @@
 name: zombie
   glyph: Z ltgreen black
+  hp: 50 60
   speed: 70
   senses: sight smell hearing
   attack:
