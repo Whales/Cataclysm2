@@ -174,6 +174,22 @@ void Game::do_action(Interface_action act)
       add_msg( message.str().c_str() );
     } break;
 
+    case IACTION_WIELD: {
+      Item it = player->inventory_single();
+      if (!it.is_real() && player->weapon.is_real()) {
+        std::stringstream message;
+        message << "You put away your " << player->weapon.get_name() << ".";
+        player->inventory.push_back(player->weapon);
+        player->weapon = Item();
+        add_msg(message.str().c_str());
+      } else {
+        std::stringstream message;
+        message << "You wield " << it.get_name_definite() << ".";
+        player->wield_item_uid(it.uid);
+        add_msg( message.str().c_str() );
+      }
+    } break;
+
     case IACTION_MESSAGES_SCROLL_BACK:
       i_hud.add_data("text_messages", -1);
       break;

@@ -10,6 +10,7 @@ y     move_northwest
 ,g    pick_up
 i     inventory
 d     drop
+w     wield
 -     messages_scroll_back
 +     messages_scroll_forward
 :     view_worldmap

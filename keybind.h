@@ -22,6 +22,7 @@ enum Interface_action
 // Inventory interaction
   IACTION_INVENTORY,
   IACTION_DROP,
+  IACTION_WIELD,
 // Main interface
   IACTION_MESSAGES_SCROLL_BACK,
   IACTION_MESSAGES_SCROLL_FORWARD,

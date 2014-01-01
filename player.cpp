@@ -263,7 +263,11 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
     }
     i_inv.draw(&w_inv);
     long ch = input();
-    if (ch == '<' && offset > 0) {
+    if (single && ch == '-') {
+      std::vector<Item> ret;
+      ret.push_back(Item());
+      return ret;
+    } else if (ch == '<' && offset > 0) {
       offset--;
       i_inv.clear_data("list_items");
       i_inv.clear_data("list_weight");
