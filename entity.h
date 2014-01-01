@@ -32,6 +32,7 @@ public:
   virtual bool add_item(Item item);
 
 // Combat functions
+  virtual Attack base_attack();
   virtual void attack(Entity* target);
   virtual int hit_roll(int bonus);
   virtual int dodge_roll();

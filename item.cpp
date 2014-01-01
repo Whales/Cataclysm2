@@ -73,6 +73,14 @@ std::string Item::get_name_definite()
   return "the typeless item";
 }
 
+std::string Item::get_description()
+{
+  if (type) {
+    return type->description;
+  }
+  return "Undefined item - type is NULL (this is a bug)";
+}
+
 int Item::get_weight()
 {
   if (type) {
@@ -89,6 +97,49 @@ int Item::get_volume()
   return 0;
 }
 
+int Item::get_damage(Damage_type dtype)
+{
+  if (type) {
+    return type->damage[dtype];
+  }
+  return 0;
+}
+
+int Item::get_to_hit()
+{
+  if (type) {
+    return type->to_hit;
+  }
+  return 0;
+}
+
+int Item::get_base_attack_speed(int strength, int dexterity)
+{
+  if (!type) {
+    return 0;
+  }
+  int ret = type->attack_speed;
+  int min_weight_penalty = strength * 3;
+  int penalty_per_pound  = 20 - strength;
+  int wgt = get_weight();
+  if (strength < 20 && wgt >= min_weight_penalty) {
+    wgt -= min_weight_penalty;
+// Divide by 10 since the penalty is per pound - 1 unit of weight is 0.1 lbs
+    ret += (wgt * penalty_per_pound) / 10;
+  }
+
+// TODO: Tweak this section - this is very guess-y.
+  int min_volume_penalty = dexterity * 10;
+  int penalty_per_10_volume = 20 - dexterity;
+  int vol = get_volume();
+  if (dexterity < 20 && vol >= min_volume_penalty) {
+    vol -= min_volume_penalty;
+    ret += (vol * penalty_per_10_volume) / 10;
+  }
+
+  return ret;
+}
+
 Item_action Item::show_info()
 {
   if (!type) {
@@ -101,15 +152,16 @@ Item_action Item::show_info()
     return IACT_NULL;
   }
 
-  i_info.set_data("item_name", type->name);
-  i_info.set_data("num_weight", type->weight);
-  i_info.set_data("num_volume", type->volume);
-  i_info.set_data("num_bash", type->bash);
-  i_info.set_data("num_cut", type->cut);
-  i_info.set_data("num_pierce", type->pierce);
-  i_info.set_data("num_to_hit", type->to_hit);
-  i_info.set_data("num_speed", type->attack_speed);
-  i_info.set_data("description", type->description);
+  i_info.set_data("item_name",  get_name());
+  i_info.set_data("num_weight", get_weight());
+  i_info.set_data("num_volume", get_volume());
+  i_info.set_data("num_bash",   get_damage(DAMAGE_BASH));
+  i_info.set_data("num_cut",    get_damage(DAMAGE_CUT));
+  i_info.set_data("num_pierce", get_damage(DAMAGE_PIERCE));
+  i_info.set_data("num_to_hit", get_to_hit());
+// TODO: Use GAME.player's stats
+  i_info.set_data("num_speed",  get_base_attack_speed());
+  i_info.set_data("description",get_description());
   i_info.draw(&w_info);
   while (true) {
     long ch = input();

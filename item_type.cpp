@@ -6,14 +6,14 @@ Item_type::Item_type()
 {
   uid = -1;
   name = "bug";
+  sym = glyph();
   weight = 0;
   volume = 0;
-  sym = glyph();
-  bash = 0;
-  cut = 0;
-  pierce = 0;
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    damage[i] = 0;
+  }
   to_hit = 0;
-  attack_speed = 100;
+  attack_speed = 0;
 }
 
 Item_type::~Item_type()
@@ -79,15 +79,15 @@ bool Item_type::load_data(std::istream &data)
       std::getline(data, junk);
 
     } else if (ident == "bash:") {
-      data >> bash;
+      data >> damage[DAMAGE_BASH];
       std::getline(data, junk);
 
     } else if (ident == "cut:") {
-      data >> cut;
+      data >> damage[DAMAGE_CUT];
       std::getline(data, junk);
 
     } else if (ident == "pierce:") {
-      data >> pierce;
+      data >> damage[DAMAGE_PIERCE];
       std::getline(data, junk);
 
     } else if (ident == "to_hit:") {

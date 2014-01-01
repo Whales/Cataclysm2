@@ -1,5 +1,7 @@
 #include "entity.h"
 #include "rng.h"
+#include "game.h"
+#include <sstream>
 
 Entity::Entity()
 {
@@ -73,10 +75,74 @@ bool Entity::add_item(Item item)
   return true;
 }
 
+Attack Entity::base_attack()
+{
+  return Attack();
+}
+  
 void Entity::attack(Entity* target)
 {
-}
+  if (!target) {
+    debugmsg("'%s' attempted attack() on a null target.");
+    return;
+  }
 
+  Attack att = base_attack();
+  if (weapon.is_real()) {
+    att.use_weapon(weapon, 0, 0); // TODO : Use stats here
+  }
+
+  action_points -= att.speed;
+
+  bool you_see = GAME.player->can_sense(GAME.map, posx, posy);
+  bool attacker_is_you = is_you();
+
+  std::string miss_verb = (attacker_is_you ? "miss" : "misses");
+
+  if (hit_roll(att.to_hit) < target->dodge_roll()) {
+    if (you_see) {
+      std::stringstream msg;
+      msg << get_name_to_player() << " " << miss_verb << " " <<
+             target->get_name_to_player() << "!";
+      GAME.add_msg( msg.str().c_str() );
+    }
+// TODO: action_point penalty for missing?
+    return;
+  }
+
+  Body_part bp_hit = (target->is_player() ? random_body_part_to_hit() :
+                                            BODYPART_NULL);
+
+// TODO: Should total_damage be reduced by damage absorbed by armor?
+  int total_damage = 0;
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    int damage = rng(0, att.damage[i]);
+    total_damage += damage;
+    target->take_damage(Damage_type(i), damage, get_name_to_player(), bp_hit);
+  }
+
+  if (you_see) {
+    std::stringstream damage_ss;
+    damage_ss << get_name_to_player() << " ";
+    if (attacker_is_you) {
+      damage_ss << att.verb_first;
+    } else {
+      damage_ss << att.verb_third;
+    }
+    damage_ss << " ";
+    if (bp_hit == BODYPART_NULL) {
+      damage_ss << target->get_name_to_player();
+    } else {
+      damage_ss << target->get_possessive() << " " << body_part_name(bp_hit);
+    }
+    if (target->is_you()) {
+      damage_ss << " for " << total_damage << " damage";
+    }
+    damage_ss << "!";
+    GAME.add_msg( damage_ss.str().c_str() );
+  }
+}
+  
 int Entity::hit_roll(int bonus)
 {
   return rng(1, 10) + bonus;

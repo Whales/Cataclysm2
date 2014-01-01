@@ -1,9 +1,10 @@
 #ifndef _item_type_H_
 #define _item_type_H_
 
+#include "glyph.h"
+#include "enum.h"
 #include <string>
 #include <istream>
-#include "glyph.h"
 
 enum Item_class
 {
@@ -31,6 +32,7 @@ public:
   int bash;
   int cut;
   int pierce;
+  int damage[DAMAGE_MAX];
   int to_hit;
   int attack_speed;
 

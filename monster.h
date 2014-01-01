@@ -32,9 +32,8 @@ public:
   void take_turn();
 
   bool can_attack(Entity* entity);
-  virtual void attack(Entity* entity);
-  Attack* random_attack();
-  Body_part random_body_part_to_hit();
+  virtual Attack base_attack();
+  //virtual void attack(Entity* entity);
 
   void move_towards(Entity* entity);
   void move_towards(int target_x, int target_y);

@@ -72,8 +72,8 @@ bool Monster_type::load_data(std::istream &data)
 
       while ( data >> attack_ident && attack_ident != "done" ) {
         if (attack_ident == "verb:") {
-          std::getline(data, tmpattack.verb);
-          tmpattack.verb = trim(tmpattack.verb);
+          std::getline(data, tmpattack.verb_third);
+          tmpattack.verb_third = trim(tmpattack.verb_third);
         } else if (attack_ident == "weight:") {
           data >> tmpattack.weight;
           std::getline(data, junk);

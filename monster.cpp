@@ -133,22 +133,19 @@ bool Monster::can_attack(Entity* entity)
   return false;
 }
 
+/*
 void Monster::attack(Entity* entity)
 {
   if (!entity) {
     debugmsg("Monster attempted attack() on a null target.");
     return;
   }
-  Attack *att = random_attack();
-  if (!att) {
-    debugmsg("Monster couldn't pick attack!");
-    return;
-  }
+  Attack att = base_attack();
 
-  action_points -= att->speed;
+  action_points -= att.speed;
 
   bool you_see = GAME.player->can_sense(GAME.map, posx, posy);
-  if (hit_roll(att->to_hit) < target->dodge_roll()) {
+  if (hit_roll(att.to_hit) < target->dodge_roll()) {
     if (you_see) {
       GAME.add_msg("%s misses %s!", get_name_to_player().c_str(),
                    target->get_name_to_player().c_str());
@@ -161,7 +158,7 @@ void Monster::attack(Entity* entity)
 
   int total_damage = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    int damage = rng(0, att->damage[i]);
+    int damage = rng(0, att.damage[i]);
     total_damage += damage;
     entity->take_damage(Damage_type(i), damage, get_name_to_player(),
                         bp_hit);
@@ -176,52 +173,30 @@ void Monster::attack(Entity* entity)
     }
     if (bp_hit == BODYPART_NULL) {
       GAME.add_msg("%s %s %s %s!", get_name_to_player().c_str(),
-                   att->verb.c_str(), target->get_name_to_player().c_str(),
-                   damage_str.c_str());
+                   att.verb_third.c_str(),
+                   target->get_name_to_player().c_str(), damage_str.c_str());
     } else {
       GAME.add_msg("%s %s %s %s %s!", get_name_to_player().c_str(),
-                   att->verb.c_str(), target->get_possessive().c_str(),
+                   att.verb_third.c_str(), target->get_possessive().c_str(),
                    body_part_name(bp_hit).c_str(), damage_str.c_str());
     }
   }
 }
+*/
 
-Attack* Monster::random_attack()
+Attack Monster::base_attack()
 {
   if (!type || type->attacks.empty()) {
-    return NULL;
+    return Attack();
   }
   int index = rng(1, type->total_attack_weight);
   for (int i = 0; i < type->attacks.size(); i++) {
-    Attack *att = &(type->attacks[i]);
-    index -= att->weight;
+    index -= type->attacks[i].weight;
     if (index <= 0) {
-      return att;
+      return type->attacks[i];
     }
   }
-  return &(type->attacks.back());
-}
-
-Body_part Monster::random_body_part_to_hit()
-{
-  int pick = rng(1, 13);
-  switch (pick) {
-    case  1:  return BODYPART_HEAD;
-    case  2:
-    case  3:  return BODYPART_LEFT_ARM;
-    case  4:
-    case  5:  return BODYPART_RIGHT_ARM;
-    case  6:
-    case  7:  return BODYPART_LEFT_LEG;
-    case  8:
-    case  9:  return BODYPART_RIGHT_LEG;
-    case 10:
-    case 11:
-    case 12:
-    case 13:  return BODYPART_TORSO;
-  }
-
-  return BODYPART_TORSO;
+  return type->attacks.back();
 }
 
 void Monster::move_towards(Entity* entity)
