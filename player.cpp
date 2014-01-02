@@ -356,6 +356,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
           i_inv.add_data("list_weight", item_weight[i]);
           i_inv.add_data("list_volume", item_volume[i]);
         }
+        i_inv.set_data("list_clothing", clothing_name);
       }
     } // Last check for ch
   } // while (!done)
