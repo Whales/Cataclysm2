@@ -448,6 +448,30 @@ void Player::wield_item_uid(int uid)
     if (inventory[i].uid == uid) {
       weapon = inventory[i];
       inventory.erase(inventory.begin() + i);
+      return;
+    }
+  }
+}
+
+void Player::wear_item_uid(int uid)
+{
+// TODO: Return a failure reason when attempting to wear something we're wearing
+//       or a non-clothing item
+
+  if (weapon.is_real() && weapon.uid == uid) {
+    if (weapon.get_item_class() == ITEM_CLASS_CLOTHING) {
+      items_worn.push_back(weapon);
+      weapon = Item();
+    }
+    return;
+  }
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i].uid == uid) {
+      if (inventory[i].get_item_class() == ITEM_CLASS_CLOTHING) {
+        items_worn.push_back(inventory[i]);
+        inventory.erase( inventory.begin() + i );
+      }
+      return;
     }
   }
 }

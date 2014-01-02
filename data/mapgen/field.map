@@ -4,7 +4,7 @@ base_terrain: dirt
 tile: a = tree
 tile: b = dirt
 tile: c = w:30 dirt / w:1 grass / tree
-items: 40 b = rock
+items: 40 b = rock / leather jacket
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -38,7 +38,7 @@ name: real field
 type: field
 base_terrain: dirt / grass
 weight: 500
-items: 50 a = rock
+items: 50 a = rock / leather jacket
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa

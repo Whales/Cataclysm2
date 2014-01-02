@@ -12,7 +12,7 @@ i_inventory </> 80 24 17 1 BG </> 0 0 80 24 0 0 134974308 74 0 0 87 7 0 0 3 73 1
 3 list_volume </> 34 5 4 19 0 1 6291968 0 
 2 text_weapon </> 42 3 37 1 0 0 32  </>
 2 text_instructions </> 42 0 37 2 0 0 0  </>
-3 list_clothing </> 42 5 28 19 0 1 134973320 0 
+3 list_clothing </> 42 5 28 19 0 0 134973320 0 
 3 list_clothing_weight </> 70 5 4 19 0 1 134970744 0 
 3 list_clothing_volume </> 75 5 4 19 0 1 0 0 
 0 

@@ -97,28 +97,37 @@ void Item_area::add_point(int x, int y)
 void Item_area::load_data(std::istream &data, std::string name)
 {
   std::string item_ident;
+  std::string item_name;
   Item_type_chance tmp_chance;
   while (data >> item_ident) {
     item_ident = no_caps(item_ident);  // other stuff isn't case-sensitive
     if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
       tmp_chance.chance = atoi( item_ident.substr(2).c_str() );
     } else if (item_ident == "/") { // End of this option
-      add_item(tmp_chance);
-      tmp_chance.chance = 10;
-      tmp_chance.item   = NULL;
-    } else { // Otherwise, it should be a item name
-      Item_type* tmpitem = ITEM_TYPES.lookup_name(item_ident);
+      item_name = trim(item_name);
+      Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
       if (!tmpitem) {
         debugmsg("Unknown item '%s' (%s)", item_ident.c_str(),
                  name.c_str());
       }
       tmp_chance.item = tmpitem;
+      add_item(tmp_chance);
+      tmp_chance.chance = 10;
+      tmp_chance.item   = NULL;
+      item_name = "";
+    } else { // Otherwise, it should be a item name
+      item_name = item_name + " " + item_ident;
     }
   }
 // Add the last item def to our list, if the item is valid
-  if (tmp_chance.item) {
-    add_item(tmp_chance);
+  item_name = trim(item_name);
+  Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
+  if (!tmpitem) {
+    debugmsg("Unknown item '%s' (%s)", item_ident.c_str(),
+             name.c_str());
   }
+  tmp_chance.item = tmpitem;
+  add_item(tmp_chance);
 }
 
 bool Item_area::place_item()

@@ -38,7 +38,8 @@ public:
   std::vector<Item> inventory_ui(bool single = false, bool remove = false);
 
   Item remove_item_uid(int uid);
-  void wield_item_uid(int uid);
+  void wield_item_uid (int uid);
+  void wear_item_uid  (int uid);
 
 // Combat functions
   virtual void take_damage(Damage_type type, int damage, std::string reason,

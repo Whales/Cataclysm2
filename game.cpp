@@ -161,6 +161,11 @@ void Game::do_action(Interface_action act)
         message << "You wield " << it.get_name_definite() << ".";
         player->wield_item_uid(it.uid);
         add_msg( message.str().c_str() );
+      } else if (act == IACT_WEAR) {
+        std::stringstream message;
+        message << "You wear " << it.get_name_definite() << ".";
+        player->wear_item_uid(it.uid);
+        add_msg( message.str().c_str() );
       }
     } break;
 
@@ -187,6 +192,20 @@ void Game::do_action(Interface_action act)
         message << "You wield " << it.get_name_definite() << ".";
         player->wield_item_uid(it.uid);
         add_msg( message.str().c_str() );
+      }
+    } break;
+
+    case IACTION_WEAR: {
+      Item it = player->inventory_single();
+      if (it.is_real()) {
+        if (it.get_item_class() == ITEM_CLASS_CLOTHING) {
+          std::stringstream message;
+          message << "You wear " << it.get_name_definite() << ".";
+          player->wear_item_uid(it.uid);
+          add_msg( message.str().c_str() );
+        } else {
+          add_msg("%s is not clothing!", it.get_name_indefinite().c_str());
+        }
       }
     } break;
 
