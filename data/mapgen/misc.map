@@ -1,0 +1,29 @@
+name: temp ocean
+type: ocean
+base_terrain: dirt
+done
+
+name: temp swamp
+type: swamp
+base_terrain: dirt
+done
+
+name: temp mushroom forest
+type: mushroom forest
+base_terrain: dirt
+done
+
+name: temp rocky
+type: rocky
+base_terrain: dirt
+done
+
+name: temp fresh water
+type: fresh water
+base_terrain: dirt
+done
+
+name: temp town square
+type: town square
+base_terrain: dirt
+done

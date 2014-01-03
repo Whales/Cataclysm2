@@ -1,6 +1,24 @@
+Name: ocean
+  Glyph: = blue black
+  Done
 Name: field
   Glyph: . green black
   Done
 Name: forest
   Glyph: 7 green black
+  Done
+Name: swamp
+  Glyph: " ltgreen black
+  Done
+Name: mushroom forest
+  Glyph: 7 ltgray black
+  Done
+Name: rocky
+  Glyph: # brown black
+  Done
+Name: fresh water
+  Glyph: = ltblue black
+  Done
+Name: town square
+  Glyph: O ltgray black
   Done

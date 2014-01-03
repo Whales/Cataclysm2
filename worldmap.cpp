@@ -21,6 +21,7 @@ Worldmap::~Worldmap()
 {
 }
 
+/*
 void Worldmap::generate()
 {
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
@@ -33,6 +34,7 @@ void Worldmap::generate()
     }
   }
 }
+*/
 
 void Worldmap::draw(int posx, int posy)
 {
