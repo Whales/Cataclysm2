@@ -3,6 +3,10 @@ Name: ocean
   Done
 Name: field
   Glyph: . green black
+  Beach: beach
+  Done
+Name: beach
+  Glyph: . yellow black
   Done
 Name: forest
   Glyph: 7 green black

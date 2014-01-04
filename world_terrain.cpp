@@ -1,6 +1,7 @@
 #include "world_terrain.h"
 #include "stringfunc.h"
 #include "window.h"
+#include "globals.h"
 
 World_terrain::World_terrain()
 {
@@ -27,6 +28,10 @@ bool World_terrain::load_data(std::istream &data)
       std::getline(data, name);
       name = trim(name);
 
+    } else if (ident == "beach:") {
+      std::getline(data, beach_name);
+      beach_name = trim(beach_name);
+
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
       std::getline(data, junk);
@@ -38,4 +43,12 @@ bool World_terrain::load_data(std::istream &data)
   } while (ident != "done" && !data.eof());
 // TODO: Flag loading.
   return true;
+}
+
+World_terrain* make_into_beach(World_terrain* original)
+{
+  if (original->beach_name.empty()) {
+    return original;
+  }
+  return WORLD_TERRAIN.lookup_name(original->beach_name);
 }
