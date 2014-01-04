@@ -9,6 +9,9 @@
 int radial_y_limit_above(const std::vector<int> &points, int x);
 int radial_y_limit_below(const std::vector<int> &points, int x);
 
+void draw_island(std::vector<std::vector<int> > &altitude, Point center,
+                 int height, int edge_dist);
+
 void Worldmap::generate()
 {
   std::vector<Point> points_live;
@@ -75,6 +78,66 @@ void Worldmap::generate()
  * ocean will extend.
  */
 
+  int center = WORLDMAP_SIZE / 2, shift = WORLDMAP_SIZE / 10;
+  Point island_center( rng(center - shift, center + shift),
+                       rng(center - shift, center + shift) );
+  std::vector<std::vector<int> > altitude;
+  std::vector<int> tmpvec;
+  for (int x = 0; x < WORLDMAP_SIZE; x++) {
+    tmpvec.push_back(0);
+  }
+  for (int x = 0; x < WORLDMAP_SIZE; x++) {
+    altitude.push_back(tmpvec);
+  }
+
+  draw_island(altitude, island_center, 400, 20);
+
+  for (int i = 0; i < 8; i++) {
+    Point islet;
+    switch (rng(1, 4)) { // Which side to place it along?
+      case 1:
+        islet.x = rng(0, WORLDMAP_SIZE - 1);
+        islet.y = rng(15, 40);
+        break;
+      case 2:
+        islet.x = rng(WORLDMAP_SIZE - 41, WORLDMAP_SIZE - 16);
+        islet.y = rng(0, WORLDMAP_SIZE - 1);
+        break;
+      case 3:
+        islet.x = rng(0, WORLDMAP_SIZE - 1);
+        islet.y = rng(WORLDMAP_SIZE - 41, WORLDMAP_SIZE - 16);
+        break;
+      case 4:
+        islet.x = rng(15, 40);
+        islet.y = rng(0, WORLDMAP_SIZE - 1);
+        break;
+    }
+    int size = 80;
+    draw_island(altitude, islet, size, 2);
+    while (one_in(3)) { // island chain
+      if (one_in(2)) {
+        islet.x -= rng(size / 5, size / 3);
+      } else {
+        islet.x += rng(size / 5, size / 3);
+      }
+      if (one_in(2)) {
+        islet.y -= rng(size / 5, size / 3);
+      } else {
+        islet.y += rng(size / 5, size / 3);
+      }
+      size -= rng(0, 20);
+      draw_island(altitude, islet, size, 2);
+    }
+  }
+
+  for (int x = 0; x < WORLDMAP_SIZE; x++) {
+    for (int y = 0; y < WORLDMAP_SIZE; y++) {
+      if (altitude[x][y] <= 0) {
+        tiles[x][y].terrain = terrain_from_biome(BIOME_NULL);
+      }
+    }
+  }
+/*
   std::vector<int> radial_points;
   int min = WORLDMAP_SIZE / 30;
   int max = WORLDMAP_SIZE / 10;
@@ -98,7 +161,7 @@ void Worldmap::generate()
 
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     int y_top = radial_y_limit_above(radial_points, x);
-    //debugmsg("x %d y_top %d", x, y_top);
+    debugmsg("x %d y_top %d", x, y_top);
     if (y_top == -1) {
       for (int y = 0; y < WORLDMAP_SIZE; y++) {
         tiles[x][y].terrain = terrain_from_biome(BIOME_NULL);
@@ -119,6 +182,7 @@ void Worldmap::generate()
       }
     }
   }
+*/
 }
 
 int radial_y_limit_above(const std::vector<int> &points, int x)
@@ -129,7 +193,10 @@ int radial_y_limit_above(const std::vector<int> &points, int x)
   for (int i = 0; high_x == -1 && i < points.size(); i++) {
     double angle = (PI * i) / num_points;
     int radius_i = radius - points[i];
-    int x_i = (angle == 0 ? points[i] : radius - (radius_i * cos(angle)));
+    int x_i = (angle <= 0.01 ? points[i] : radius - (radius_i * cos(angle)));
+    if (x <= 2 && i <= 2) {
+      debugmsg("x %d angle %f, radius_i %d, x_i %d", x, angle, radius_i, x_i);
+    }
     if (x_i == x) {
       return int(radius_i * sin(angle) + 0.5);
     }
@@ -143,6 +210,7 @@ int radial_y_limit_above(const std::vector<int> &points, int x)
     low_x = x_i;
     low_y = radius - int(radius_i * sin(angle) + 0.5);
   }
+  return low_y;
   if (low_y == high_y) {
     return low_y;
   }
@@ -162,4 +230,61 @@ int radial_y_limit_below(const std::vector<int> &points, int x)
 
   int ret = radial_y_limit_above(new_points, new_x);
   return WORLDMAP_SIZE - ret;
+}
+
+void draw_island(std::vector<std::vector<int> > &altitude, Point center,
+                 int height, int edge_dist)
+{
+  if (center.x < 0 || center.x >= WORLDMAP_SIZE ||
+      center.y < 0 || center.y >= WORLDMAP_SIZE   ) {
+    debugmsg("center [%d,%d]", center.x, center.y);
+    return;
+  }
+  altitude[center.x][center.y] = height;
+  std::vector<Point> points_active;
+  points_active.push_back(center);
+  int center_point = WORLDMAP_SIZE / 2;
+  int shift = WORLDMAP_SIZE / 10;
+  while (!points_active.empty()) {
+    std::vector<Point> new_points;
+    while (!points_active.empty()) {
+      int index = rng(0, points_active.size() - 1);
+      Point p = points_active[index];
+      for (int i = 0; i < 4; i++) {
+        int x, y;
+        switch (i) {
+          case 0: x = p.x - 1; y = p.y;     break;
+          case 1: x = p.x + 1; y = p.y;     break;
+          case 2: x = p.x;     y = p.y - 1; break;
+          case 3: x = p.x;     y = p.y + 1; break;
+        }
+        if (x > 0 && x < WORLDMAP_SIZE && y > 0 && y < WORLDMAP_SIZE &&
+            altitude[x][y] == 0) {
+          int dist_from_edge = (x > center_point ? WORLDMAP_SIZE - x : x);
+          int y_dist = (y > center_point ? WORLDMAP_SIZE - y : y);
+          if (y_dist < dist_from_edge) {
+            dist_from_edge = y_dist;
+          }
+          new_points.push_back( Point(x, y) );
+          altitude[x][y] = altitude[p.x][p.y];
+          if (dist_from_edge < rng(0, edge_dist)) {
+            altitude[x][y] -= rng(0, 100);
+          } else if (one_in(30)) {
+            altitude[x][y] -= rng(0, 100);
+          } else if (!one_in(10)) {
+            altitude[x][y] -= rng(0, shift);
+          }
+        }
+      }
+      points_active.erase(points_active.begin() + index);
+    }
+    points_active = new_points;
+  }
+  for (int x = 0; x < WORLDMAP_SIZE; x++) {
+    for (int y = 0; y < WORLDMAP_SIZE; y++) {
+      if (altitude[x][y] < 0) {
+        altitude[x][y] = 0;
+      }
+    }
+  }
 }
