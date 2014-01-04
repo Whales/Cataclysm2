@@ -22,6 +22,21 @@ weapon
   bash:   10
   cut:     0
   pierce:  0
+  to_hit: -3
+done
+
+weapon
+  name: stick
+  description:
+    A heavy stick.
+  done
+  glyph: / brown black
+  weight: 25
+  volume: 20
+  bash:   12
+  cut:     0
+  pierce:  0
+  to_hit:  1
 done
 
 clothing

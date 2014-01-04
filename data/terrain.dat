@@ -13,3 +13,18 @@ name: tree
   movecost:   0
   flags: opaque
   done
+
+name: sand
+  glyph: . yellow black
+  movecost: 100
+  done
+
+name: shallow water
+  glyph: = ltblue black
+  movecost: 300
+  done
+
+name: deep water
+  glyph: = blue black
+  movecost: 0
+  done
