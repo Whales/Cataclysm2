@@ -27,34 +27,34 @@ void Variable_terrain::add_terrain(Terrain_chance terrain)
 void Variable_terrain::load_data(std::istream &data, std::string name)
 {
   std::string tile_ident;
+  std::string terrain_name;
   Terrain_chance tmp_chance;
-  bool okay_to_push_null = false;
+  //bool okay_to_push_null = false;
   while (data >> tile_ident) {
     tile_ident = no_caps(tile_ident);  // other stuff isn't case-sensitive
-    if (tile_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
+    if (tile_ident.substr(0, 2) == "w:") { // It's a weight, i.e. a chance
       tmp_chance.chance = atoi( tile_ident.substr(2).c_str() );
     } else if (tile_ident == "/") { // End of this option
-      add_terrain(tmp_chance);
-      tmp_chance.chance  = 10;
-      tmp_chance.terrain = NULL;
-      okay_to_push_null = false;
-    } else if (tile_ident == "nothing") {
-// Should only be used by adjacent generators...
-      tmp_chance.terrain = NULL;
-      okay_to_push_null = true;
-    } else { // Otherwise, it should be a terrain name
-      Terrain* tmpter = TERRAIN.lookup_name(tile_ident);
-      if (!tmpter) {
-        debugmsg("Unknown terrain '%s' (%s)", tile_ident.c_str(),
+      terrain_name = trim(terrain_name);
+      Terrain* tmpter = TERRAIN.lookup_name(terrain_name);
+      if (terrain_name != "nothing" && !tmpter) {
+        debugmsg("Unknown terrain '%s' (%s)", terrain_name.c_str(),
                  name.c_str());
       }
       tmp_chance.terrain = tmpter;
+      add_terrain(tmp_chance);
+      tmp_chance.chance  = 10;
+      tmp_chance.terrain = NULL;
+      terrain_name = "";
+    } else { // Otherwise, it should be a terrain name
+      terrain_name = terrain_name + " " + tile_ident;
     }
   }
 // Add the last terrain def to our list, if the terrain is valid
-  if (tmp_chance.terrain || okay_to_push_null) {
-    add_terrain(tmp_chance);
-  }
+  terrain_name = trim(terrain_name);
+  Terrain* tmpter = TERRAIN.lookup_name(terrain_name);
+  tmp_chance.terrain = tmpter;
+  add_terrain(tmp_chance);
 }
 
 Terrain* Variable_terrain::pick()
@@ -185,23 +185,29 @@ bool Mapgen_spec::load_data(std::istream &data)
     ident = no_caps(ident);
     if (!ident.empty() && ident[0] == '#') {
       std::getline(data, junk); // It's a comment - clear the line
+
     } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+
     } else if (ident == "base_terrain:") {
       std::string tile_line;
       std::getline(data, tile_line);
       std::istringstream tile_data(tile_line);
       base_terrain.load_data(tile_data, name);
+
     } else if (ident == "type:") {
       std::getline(data, terrain_name);
       terrain_name = trim(terrain_name);
+
     } else if (ident == "adjacent") {
       is_adjacent = true;
       std::getline(data, junk);
+
     } else if (ident == "weight:") {
       data >> weight;
       std::getline(data, junk);
+
     } else if (ident == "tile:") {
       std::string tile_line;
       std::getline(data, tile_line);
@@ -230,6 +236,7 @@ bool Mapgen_spec::load_data(std::istream &data)
           terrain_defs[ch] = tmp_var;
         }
       }
+
 // End if (ident == "tile:") block
     } else if (ident == "items:") {
       Item_area tmp_area;

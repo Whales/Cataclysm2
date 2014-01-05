@@ -30,6 +30,7 @@ public:
 
 private:
   Worldmap_tile tiles[WORLDMAP_SIZE][WORLDMAP_SIZE];
+  Biome*       biomes[WORLDMAP_SIZE][WORLDMAP_SIZE];
   Worldmap_tile tile_oob;
 };
 

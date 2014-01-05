@@ -7,6 +7,7 @@ World_terrain::World_terrain()
 {
   uid = -1;
   name = "ERROR";
+  beach_range = -1;
   sym = glyph();
 }
 
@@ -31,6 +32,10 @@ bool World_terrain::load_data(std::istream &data)
     } else if (ident == "beach:") {
       std::getline(data, beach_name);
       beach_name = trim(beach_name);
+
+    } else if (ident == "beach_range:") {
+      data >> beach_range;
+      std::getline(data, junk);
 
     } else if (ident == "glyph:") {
       sym.load_data_text(data);

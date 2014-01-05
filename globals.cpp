@@ -9,6 +9,7 @@ Data_pool<Terrain>        TERRAIN;
 Data_pool<World_terrain>  WORLD_TERRAIN;
 Data_pool<Item_type>      ITEM_TYPES;
 Data_pool<Monster_type>   MONSTER_TYPES;
+Data_pool<Biome>          BIOMES;
 Submap_pool               SUBMAP_POOL;
 Mapgen_spec_pool          MAPGEN_SPECS;
 Keybinding_pool           KEYBINDINGS;
@@ -19,6 +20,7 @@ void load_global_data()
   WORLD_TERRAIN.load_from("data/world_terrain.dat");
   ITEM_TYPES.load_from("data/items.dat");
   MONSTER_TYPES.load_from("data/monsters.dat");
+  BIOMES.load_from("data/biomes.dat");
   KEYBINDINGS.load_from("data/keybindings.txt");
 
   load_mapgen_specs();

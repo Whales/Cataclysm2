@@ -1,0 +1,22 @@
+Name: grassland
+  terrain: field
+  Done
+Name: forest
+  terrain: w:1 field / forest
+  Done
+Name: swamp
+  terrain: swamp
+  Done
+Name: mushroom forest
+  terrain: mushroom forest
+  Done
+Name: rocky
+  terrain: rocky
+  Done
+Name: city
+  terrain: town square
+  Done
+Name: lake
+  terrain: fresh water
+  flags: lake
+  Done

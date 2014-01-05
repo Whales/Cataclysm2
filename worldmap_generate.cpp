@@ -6,70 +6,74 @@
 #define PI 3.141
 #define NUM_RADIAL_POINTS 150
 
-int radial_y_limit_above(const std::vector<int> &points, int x);
-int radial_y_limit_below(const std::vector<int> &points, int x);
-
 void draw_island(std::vector<std::vector<int> > &altitude, Point center,
                  int height, int edge_dist);
 
 void Worldmap::generate()
 {
+// Points_live is used below to track which points to update
   std::vector<Point> points_live;
-  Biome_type biomes[WORLDMAP_SIZE][WORLDMAP_SIZE];
+// Used below when deciding when to turn lakes into ocean
+  //Lake_status lake[WORLDMAP_SIZE][WORLDMAP_SIZE];
+  std::vector<Point> lake_seeds;
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
-      biomes[x][y] = BIOME_NULL;
+      biomes[x][y] = NULL;
+      //lake[x][y] = LAKE_NOTLAKE;
     }
   }
 // Randomly seed biomes
-  for (int i = 1; i < BIOME_MAX; i++) {
+  for (std::list<Biome*>::iterator it = BIOMES.instances.begin();
+       it != BIOMES.instances.end();
+       it++) {
     for (int n = 0; n < WORLDMAP_SIZE / 10; n++) {
       Point p( rng(0, WORLDMAP_SIZE - 1), rng(0, WORLDMAP_SIZE - 1) );
       points_live.push_back(p);
-      biomes[p.x][p.y] = Biome_type(i);
+/*
+      if ((*it)->has_flag(BIOME_FLAG_LAKE)) {
+        lake_seeds.push_back(p);
+      }
+*/
+      biomes[p.x][p.y] = (*it);
     }
   }
 
   while (!points_live.empty()) {
     std::vector<Point> new_points;
     //std::vector<Point> points_copy = points_live;
-    //for (int i = 0; i < points_live.size(); i++) {
     int i = rng(0, points_live.size() - 1);
-      std::vector<Point> valid_growth;
-      Point p = points_live[i];
-      if (p.x > 0 && biomes[p.x - 1][p.y] == BIOME_NULL) {
-        valid_growth.push_back( Point(p.x - 1, p.y) );
-      }
-      if (p.y > 0 && biomes[p.x][p.y - 1] == BIOME_NULL) {
-        valid_growth.push_back( Point(p.x, p.y - 1) );
-      }
-      if (p.x < WORLDMAP_SIZE - 1 && biomes[p.x + 1][p.y] == BIOME_NULL) {
-        valid_growth.push_back( Point(p.x + 1, p.y) );
-      }
-      if (p.y < WORLDMAP_SIZE - 1 && biomes[p.x][p.y + 1] == BIOME_NULL) {
-        valid_growth.push_back( Point(p.x, p.y + 1) );
-      }
-      if (valid_growth.empty()) { // No valid points - this point is dead!
-        points_live.erase(points_live.begin() + i);
-        i--;
-      } else {
-        Point growth = valid_growth[rng(0, valid_growth.size() - 1)];
-        biomes[growth.x][growth.y] = biomes[p.x][p.y];
-        //new_points.push_back(growth);
-        points_live.push_back( growth );
-      }
-    //}
-/*
-    for (int i = 0; i < new_points.size(); i++) {
-      points_live.push_back( new_points[i] );
+    std::vector<Point> valid_growth;
+    Point p = points_live[i];
+    if (p.x > 0 && biomes[p.x - 1][p.y] == NULL) {
+      valid_growth.push_back( Point(p.x - 1, p.y) );
     }
-*/
+    if (p.y > 0 && biomes[p.x][p.y - 1] == NULL) {
+      valid_growth.push_back( Point(p.x, p.y - 1) );
+    }
+    if (p.x < WORLDMAP_SIZE - 1 && biomes[p.x + 1][p.y] == NULL) {
+      valid_growth.push_back( Point(p.x + 1, p.y) );
+    }
+    if (p.y < WORLDMAP_SIZE - 1 && biomes[p.x][p.y + 1] == NULL) {
+      valid_growth.push_back( Point(p.x, p.y + 1) );
+    }
+    if (valid_growth.empty()) { // No valid points - this point is dead!
+      points_live.erase(points_live.begin() + i);
+      i--;
+    } else {
+      Point growth = valid_growth[rng(0, valid_growth.size() - 1)];
+      biomes[growth.x][growth.y] = biomes[p.x][p.y];
+      points_live.push_back( growth );
+    }
   }
 
 // Now look at the biomes and randomly select a terrain for each
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
-      tiles[x][y].terrain = terrain_from_biome( biomes[x][y] );
+      if (biomes[x][y]) {
+        tiles[x][y].terrain = biomes[x][y]->pick_terrain();
+      } else {
+        tiles[x][y].terrain = WORLD_TERRAIN.lookup_name("ocean");
+      }
     }
   }
 
@@ -130,17 +134,53 @@ void Worldmap::generate()
     }
   }
 
+// Now find all lake biomes that are ocean-adjacent and make them shallows.
+/*
+  for (int i = 0; i < lake_seeds.size(); i++) {
+    std::vector<Point> lake_points;
+    std::vector<Point> live_points;
+    lake_points.push_back( lake_seeds[i] );
+    live_points.push_back( lake_seeds[i] );
+    bool ocean = false;
+    while (!live_points.empty()) {
+      Point p = live_points[0];
+      for (int x = p.x - 1; x <= p.x + 1; x++) {
+        for (int y = p.y - 1; y <= p.y + 1; y++) {
+          if (biomes[x][y] == BIOME_LAKE && lake[x][y] == LAKE_NOTLAKE) {
+            lake_points.push_back( Point(x, y) );
+            live_points.push_back( Point(x, y) );
+            lake[x][y] = LAKE_UNKNOWN;
+          } else if (!ocean &&
+                     (altitude[x][y] <= 0 || biomes[x][y] == BIOME_NULL)) {
+            ocean = true;
+          }
+        }
+      }
+      live_points.erase(live_points.begin());
+    }
+    if (ocean) {
+      for (int i = 0; i < lake_points.size(); i++) {
+        Point p = lake_points[i];
+        altitude[p.x][p.y] = 0;
+      }
+    }
+  }
+*/
+
+// Take everything with altitude <= 0 and set it to be ocean.
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
       if (altitude[x][y] <= 0) {
-        tiles[x][y].terrain = terrain_from_biome(BIOME_NULL);
+        tiles[x][y].terrain = WORLD_TERRAIN.lookup_name("ocean");
       } else {
-        int range = 1;
-        for (int xn = x - range; xn <= x + range; xn++) {
-          for (int yn = y - range; yn <= y + range; yn++) {
-            if (xn >= 0 && xn < WORLDMAP_SIZE &&
-                yn >= 0 && yn < WORLDMAP_SIZE && altitude[xn][yn] <= 0) {
-              tiles[x][y].terrain = make_into_beach(tiles[x][y].terrain);
+        int range = tiles[x][y].terrain->beach_range;
+        if (range != -1) {
+          for (int xn = x - range; xn <= x + range; xn++) {
+            for (int yn = y - range; yn <= y + range; yn++) {
+              if (xn >= 0 && xn < WORLDMAP_SIZE &&
+                  yn >= 0 && yn < WORLDMAP_SIZE && altitude[xn][yn] <= 0) {
+                tiles[x][y].terrain = make_into_beach(tiles[x][y].terrain);
+              }
             }
           }
         }
@@ -204,3 +244,4 @@ void draw_island(std::vector<std::vector<int> > &altitude, Point center,
     }
   }
 }
+

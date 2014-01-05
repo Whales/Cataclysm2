@@ -1,4 +1,4 @@
-name: test forest
+name: forest_1
 type: forest
 base_terrain: dirt
 tile: a = w:30 dirt / w:5 grass / w:5 tree

@@ -12,9 +12,11 @@
 
 /* Important notes:
  * All classes to be used with Data_pool must have the following functions:
- *   void assign_uid(int)           - Assign its UID
- *   bool load_data(std::istream&)  - Load data from a stream
- *     Should return false on failure, true on success.
+ *   void assign_uid(int)           - Assign its UID (it's not required to
+ *                                    actually STORE this, but the function must
+ *                                    exist nevertheless).
+ *   bool load_data(std::istream&)  - Load data from a stream. Should return
+ *                                    false on failure, true on success.
  *   std::string get_name()         - Return its name
  */
 

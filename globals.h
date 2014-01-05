@@ -8,6 +8,7 @@
 #include "item_type.h"
 #include "monster_type.h"
 #include "keybind.h"
+#include "biome.h"
 
 class Game;
 class Submap_pool;
@@ -17,6 +18,7 @@ extern Data_pool<Terrain>       TERRAIN;
 extern Data_pool<World_terrain> WORLD_TERRAIN;
 extern Data_pool<Item_type>     ITEM_TYPES;
 extern Data_pool<Monster_type>  MONSTER_TYPES;
+extern Data_pool<Biome>         BIOMES;
 extern Submap_pool              SUBMAP_POOL;
 extern Mapgen_spec_pool         MAPGEN_SPECS;
 extern Keybinding_pool          KEYBINDINGS;

@@ -11,6 +11,7 @@ struct World_terrain
   int uid;
   std::string name;
   std::string beach_name;
+  int beach_range;
   glyph sym;
 
   World_terrain();
