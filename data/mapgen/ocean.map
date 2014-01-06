@@ -64,16 +64,16 @@ done
 name: adj_ocean_whales
 type: ocean
 adjacent
-tile: a = w:2 nothing / w:1 shallow salt water
-tile: b = w:4 nothing / w:1 shallow salt water
-tile: c = w:10 nothing / w:1 shallow salt water
+tile: a = w:1 nothing / w:3 shallow salt water
+tile: b = w:1 nothing / w:2 shallow salt water
+tile: c = w:1 nothing / w:1 shallow salt water
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+bbbbbbbbbbbbbbbbbbbbbbbbb
 bbbbbbbbbbbbbbbbbbbbbbbbb
 ccccccccccccccccccccccccc
-.........................
-.........................
-.........................
+ccccccccccccccccccccccccc
 .........................
 .........................
 .........................

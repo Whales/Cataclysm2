@@ -24,6 +24,150 @@
 name: std_beach_whales
 type: beach
 base_terrain: sand
+items: 20 a = w:5 rock / w:1 stick
+map:
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+endmap
+done
+
+name: pool1_beach_whales
+type: beach
+base_terrain: sand
+weight: 15
+items: 20 a = w:5 rock / w:1 stick
+tile: b = shallow salt water
+tile: c = shallow salt water / sand
+tile: d = w:1 shallow salt water / w:2 sand
+map:
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaddddddddaaaaaaaaaaaa
+aaaaadddddddddaaaaaaaaaaa
+aaaaaddccccdddaaaaaaaaaaa
+aaaaaddcbbccddaaaaaaaaaaa
+aaaaaddcbbbcddaaaaaaaaaaa
+aaaaaddccbbcddaaaaaaaaaaa
+aaaaadddccccddaaaaaaaaaaa
+aaaaaaddddddddaaaaaaaaaaa
+aaaaaaddddddddaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+endmap
+done
+
+name: pool2_beach_whales
+type: beach
+base_terrain: sand
+weight: 15
+items: 20 a = w:5 rock / w:1 stick
+tile: b = shallow salt water
+tile: c = shallow salt water / sand
+tile: d = w:1 shallow salt water / w:2 sand
+map:
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaddddddaaaaaaaaa
+aaaaaaaadddccccdaaaaaaaaa
+aaaaaaaadcccbbcdaaaaaaaaa
+aaaaaaaadcbbbbcdaaaaaaaaa
+aaaaaaaadcbbcccdaaaaaaaaa
+aaaaaaaadcbbcdddaaaaaaaaa
+aaaaaaaadcbbcdaaaaaaaaaaa
+aaaaaaaadccccdaaaaaaaaaaa
+aaaaaaaaddddddaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+endmap
+done
+
+name: pool3_beach_whales
+type: beach
+base_terrain: sand
+weight: 15
+items: 20 a = w:5 rock / w:1 stick
+tile: b = shallow salt water
+tile: c = shallow salt water / sand
+tile: d = w:1 shallow salt water / w:2 sand
+map:
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaddddddddaaaaaaaaa
+aaaaaaaadddddddddaaaaaaaa
+aaaaaaaaddccccdddaaaaaaaa
+aaaaaaadddcbbccddaaaaaaaa
+aaaaaaaddccbbbcddaaaaaaaa
+aaaaaaaddcbbbccddaaaaaaaa
+aaaaaaaddcbbbcdddaaaaaaaa
+aaaaaaaddcccbcdddaaaaaaaa
+aaaaaaaddddcccddaaaaaaaaa
+aaaaaaadddddddddaaaaaaaaa
+aaaaaaaaadddddddaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+endmap
+done
+
+name: boulder_beach_whales
+type: beach
+base_terrain: sand
 weight: 500
 items: 20 a = w:5 rock / w:1 stick
 map:
