@@ -1,0 +1,8 @@
+Worldmap Generation:
+  -Covert lakes to ocean when they're ocean-adjacent
+  -Draw in city details!
+  -Roads between cities
+
+Graphics:
+  -SDL integration with cuss stuff
+  -Tiles, what do they look like

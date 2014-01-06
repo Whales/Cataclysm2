@@ -13,7 +13,8 @@ Data_pool<Item_type>::~Data_pool()
 }
 
 template <>
-bool Data_pool<Item_type>::load_element(std::istream &data)
+bool Data_pool<Item_type>::load_element(std::istream &data,
+                                        std::string filename)
 {
   Item_type* tmp;
   std::string item_category;
@@ -29,7 +30,8 @@ bool Data_pool<Item_type>::load_element(std::istream &data)
   } else if (item_category.empty()) {
     return false;
   } else {
-    debugmsg("Unknown item category '%s'", item_category.c_str());
+    debugmsg("Unknown item category '%s' (%s)", item_category.c_str(),
+             filename.c_str());
     return false;
   }
   if (!tmp->load_data(data)) {

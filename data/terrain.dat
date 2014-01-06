@@ -28,3 +28,36 @@ name: deep water
   glyph: = blue black
   movecost: 0
   done
+
+name: shallow salt water
+  glyph: = ltcyan black
+  movecost: 300
+  done
+
+name: deep salt water
+  glyph: = cyan black
+  movecost: 0
+  done
+
+name: fungal tree
+  glyph: 7 ltgray black
+  movecost: 0
+  flags: opaque
+  done
+
+name: fungal undergrowth
+  glyph: % ltgray black
+  movecost: 150
+  done
+
+name: boulder
+  glyph: # ltgray black
+  movecost: 0
+  flags: opaque
+  done
+
+name: rubble
+  glyph: % ltgray black
+  movecost: 120
+  done
+

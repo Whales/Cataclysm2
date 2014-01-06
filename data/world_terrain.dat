@@ -20,9 +20,12 @@ Name: mangrove
 Name: swamp
   Glyph: " ltgreen black
   Done
+Name: salt marsh
+  Glyph: " cyan black
+  Done
 Name: mushroom forest
   Glyph: 7 ltgray black
-  Beach: swamp
+  Beach: salt marsh
   Beach_range: 2
   Done
 Name: rocky

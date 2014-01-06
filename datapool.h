@@ -52,14 +52,14 @@ public:
     }
 
     while (!fin.eof()) {
-      if (!load_element(fin)) {
+      if (!load_element(fin, filename)) {
         return false;
       }
     }
     return true;
   };
 
-  bool load_element(std::istream &data)
+  bool load_element(std::istream &data, std::string filename)
   {
     T* tmp = new T;
     if (!tmp->load_data(data)) {
@@ -68,6 +68,14 @@ public:
     tmp->assign_uid(next_uid);
     instances.push_back(tmp);
     uid_map[next_uid] = tmp;
+    std::string name = no_caps( tmp->get_name() );
+    if (name.empty()) {
+      debugmsg("Item with no name in %s!", filename.c_str());
+      return false;
+    } else if (name_map.count(name) > 0) {
+      debugmsg("Loaded an item with a duplicate name - '%s' (%s)",
+               name.c_str(), filename.c_str());
+    }
     name_map[ no_caps(tmp->get_name()) ] = tmp;
     next_uid++;
     return true;

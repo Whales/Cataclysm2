@@ -105,7 +105,7 @@ void Submap::generate(World_terrain* terrain[5])
   }
 
   for (int i = 1; i < 5; i++) {
-    if (terrain[i]) {
+    if (terrain[i] && terrain[i] != terrain[0]) {
       Mapgen_spec* adj = MAPGEN_SPECS.random_adjacent_to(terrain[i]);
       if (adj) {
         Mapgen_spec rotated = adj->rotate( Direction(i) );

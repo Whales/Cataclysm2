@@ -24,7 +24,8 @@ void Variable_terrain::add_terrain(Terrain_chance terrain)
   ter.push_back(terrain);
 }
 
-void Variable_terrain::load_data(std::istream &data, std::string name)
+void Variable_terrain::load_data(std::istream &data, std::string name,
+                                 bool allow_nothing)
 {
   std::string tile_ident;
   std::string terrain_name;
@@ -190,15 +191,15 @@ bool Mapgen_spec::load_data(std::istream &data)
       std::getline(data, name);
       name = trim(name);
 
+    } else if (ident == "type:") {
+      std::getline(data, terrain_name);
+      terrain_name = trim(terrain_name);
+
     } else if (ident == "base_terrain:") {
       std::string tile_line;
       std::getline(data, tile_line);
       std::istringstream tile_data(tile_line);
-      base_terrain.load_data(tile_data, name);
-
-    } else if (ident == "type:") {
-      std::getline(data, terrain_name);
-      terrain_name = trim(terrain_name);
+      base_terrain.load_data(tile_data, name, is_adjacent);
 
     } else if (ident == "adjacent") {
       is_adjacent = true;
@@ -242,6 +243,14 @@ bool Mapgen_spec::load_data(std::istream &data)
       Item_area tmp_area;
 
       data >> tmp_area.overall_chance;
+
+      if (tmp_area.overall_chance < 1) {
+        debugmsg("Item chance of '%d' corrected to 1 (%s)",
+                 tmp_area.overall_chance, name.c_str());
+      } else if (tmp_area.overall_chance > 99) {
+        debugmsg("Item chance of '%d' corrected to 99 (%s)",
+                 tmp_area.overall_chance, name.c_str());
+      }
 
       std::string item_line;
       std::getline(data, item_line);
