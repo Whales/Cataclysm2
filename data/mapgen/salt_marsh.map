@@ -90,15 +90,12 @@ map:
 endmap
 done
 
-name: maze_salt_marsh_whales
+name: streaks_salt_marsh_whales
 type: salt march
 weight: 10
 base_terrain: w:80 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
-tile_group: a = w:3 shallow salt water / w:1 grass
-tile_group: b = w:3 shallow salt water / w:1 grass
-tile_group: c = w:3 shallow salt water / w:1 grass
-tile_group: d = w:3 shallow salt water / w:1 grass
-tile:       x = w:3 shallow salt water / w:1 dirt
+tile:  x    = w:5 grass / w:1 dirt / w:1 shallow salt water
+subst: abcd = w:1 x / w:3 .
 map:
 ..aaa...bbb...ccc...ddd..
 ..aaa...bbb...ccc...ddd..
@@ -127,7 +124,6 @@ map:
 ..aaa...bbb...ccc...ddd..
 endmap
 done
-
 
 name: adj_salt_marsh_whales
 type: salt marsh

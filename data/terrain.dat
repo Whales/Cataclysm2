@@ -43,13 +43,13 @@ name: deep salt water
   done
 
 name: fungal tree
-  glyph: 7 ltgray black
+  glyph: 7 dkgray black
   movecost: 0
   flags: opaque
   done
 
 name: fungal undergrowth
-  glyph: % ltgray black
+  glyph: % dkgray black
   movecost: 150
   done
 
