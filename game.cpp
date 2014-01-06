@@ -62,7 +62,8 @@ bool Game::setup()
   worldmap->generate();
 
   map = new Map;
-  map->generate(worldmap, 0, 0);
+  Point start = worldmap->random_tile_with_terrain("beach");
+  map->generate(worldmap, start.x, start.y);
 
   player = new Player;
 
@@ -217,7 +218,7 @@ void Game::do_action(Interface_action act)
       break;
 
     case IACTION_VIEW_WORLDMAP:
-      worldmap->draw(10, 10);
+      worldmap->draw(map->posx, map->posy);
       break;
 
     case IACTION_QUIT:

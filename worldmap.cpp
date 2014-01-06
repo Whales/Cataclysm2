@@ -1,4 +1,5 @@
 #include "worldmap.h"
+#include "rng.h"
 
 glyph Worldmap_tile::top_glyph()
 {
@@ -109,4 +110,29 @@ Worldmap_tile* Worldmap::get_tile(int x, int y)
   }
 
   return &(tiles[x][y]);
+}
+
+Point Worldmap::random_tile_with_terrain(std::string name)
+{
+  return random_tile_with_terrain( WORLD_TERRAIN.lookup_name(name) );
+}
+
+Point Worldmap::random_tile_with_terrain(World_terrain* terrain)
+{
+  if (!terrain) {
+    return Point(0, 0);
+  }
+  std::vector<Point> ret;
+  for (int x = 0; x < WORLDMAP_SIZE; x++) {
+    for (int y = 0; y < WORLDMAP_SIZE; y++) {
+      if (get_tile(x, y)->terrain == terrain) {
+        ret.push_back( Point(x, y) );
+      }
+    }
+  }
+  if (ret.empty()) {
+    return Point(0, 0);
+  }
+
+  return ret[rng(0, ret.size() - 1)];
 }

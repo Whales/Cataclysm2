@@ -28,6 +28,9 @@ public:
   void draw_minimap(cuss::element *drawing, int cornerx, int cornery);
   Worldmap_tile* get_tile(int x, int y);
 
+  Point random_tile_with_terrain(std::string name);
+  Point random_tile_with_terrain(World_terrain* terrain);
+
 private:
   Worldmap_tile tiles[WORLDMAP_SIZE][WORLDMAP_SIZE];
   Biome*       biomes[WORLDMAP_SIZE][WORLDMAP_SIZE];
