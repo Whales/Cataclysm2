@@ -21,72 +21,9 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: std_rocky_whales
-type: rocky
-base_terrain: w:20 dirt / w:5 grass / w:10 rubble / w:3 boulder
-items: 80 a = rock
-map:
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-endmap
-done
-
-name: adj_rocky_whales
-type: rocky
-adjacent
-tile: a = w:20 nothing / w:10 rubble / w:1 boulder
-tile: b = w:40 nothing / w:15 rubble / w:1 boulder
-tile: c = w:60 nothing / w:20 rubble / w:1 boulder
-map:
-aaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaa
-bbbbbbbbbbbbbbbbbbbbbbbbb
-bbbbbbbbbbbbbbbbbbbbbbbbb
-ccccccccccccccccccccccccc
-ccccccccccccccccccccccccc
-ccccccccccccccccccccccccc
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-endmap
+name: temp_town_square_whales
+type: town square
+base_terrain: dirt
 done
 
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>

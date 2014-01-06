@@ -33,4 +33,13 @@ void load_mapgen_specs()
     std::string filename = "data/mapgen/" + mapgen_files[i];
     MAPGEN_SPECS.load_from(filename);
   }
+
+// Now confirm we have a mapgen_spec for every WORLD_TERRAIN
+  for (std::list<World_terrain*>::iterator it = WORLD_TERRAIN.instances.begin();
+       it != WORLD_TERRAIN.instances.end();
+       it++) {
+    if (MAPGEN_SPECS.lookup_terrain_ptr( (*it) ).empty()) {
+      debugmsg("No mapgen specs for %s!", (*it)->name.c_str());
+    }
+  }
 }

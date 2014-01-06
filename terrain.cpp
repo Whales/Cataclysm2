@@ -56,6 +56,11 @@ bool Terrain::load_data(std::istream &data)
   return true;
 }
 
+bool Terrain::has_flag(Terrain_flag flag)
+{
+  return flags[flag];
+}
+
 Terrain_flag lookup_terrain_flag(std::string name)
 {
   name = no_caps(name);

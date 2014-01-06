@@ -14,7 +14,6 @@ struct Terrain
   std::string name;
   glyph sym;
   unsigned int movecost;
-  std::vector<bool> flags;
 
   Terrain();
   ~Terrain(){};
@@ -22,6 +21,9 @@ struct Terrain
   void assign_uid(int id) { uid = id; };
   bool load_data(std::istream &data);
   std::string get_name() { return name; };
+  bool has_flag(Terrain_flag flag);
+private:
+  std::vector<bool> flags;
 };
 
 #endif

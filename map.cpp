@@ -35,7 +35,7 @@ bool Tile::blocks_sense(Sense_type sense)
     case SENSE_NULL:
       return true;
     case SENSE_SIGHT:
-      return (terrain->flags[TF_OPAQUE]);
+      return (terrain->has_flag(TF_OPAQUE));
     case SENSE_SOUND:
       return false;
     case SENSE_ECHOLOCATION:
@@ -122,8 +122,10 @@ void Submap::generate(std::string terrain_name)
 
 void Submap::generate(Mapgen_spec* spec)
 {
-  if (spec == NULL) {
+  if (!spec) {
+    debugmsg("Null spec in Submap::generate()!");
     generate_empty();
+    return;
   }
 // First, set the terrain.
   for (int x = 0; x < SUBMAP_SIZE; x++) {
@@ -154,7 +156,8 @@ void Submap::generate_adjacent(Mapgen_spec* spec)
     for (int y = 0; y < SUBMAP_SIZE; y++) {
       Terrain* tmpter = spec->pick_terrain(x, y);
 // TODO: Only overwrite terrain with the "ground" tag
-      if (tmpter != NULL) {
+      if (tmpter &&
+          (!tiles[x][y].terrain || tiles[x][y].terrain->has_flag(TF_FLOOR))) {
         tiles[x][y].terrain = tmpter;
       }
     }

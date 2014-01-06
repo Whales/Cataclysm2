@@ -22,7 +22,7 @@
 # specifications, item drop specifications, and adjacency maps.
 
 name: std_salt_marsh_whales
-type: salt_marsh
+type: salt marsh
 base_terrain: w:30 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
 items: 60 a = stick
 map:
@@ -55,7 +55,7 @@ endmap
 done
 
 name: islets_salt_marsh_whales
-type: salt_marsh
+type: salt marsh
 weight: 10
 base_terrain: w:30 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
 tile: x = w:15 dirt / w:5 grass / w:1 shallow salt water
@@ -91,18 +91,18 @@ endmap
 done
 
 name: adj_salt_marsh_whales
-type: salt_marsh
+type: salt marsh
 adjacent
 tile: a = w:15 nothing / w:10 shallow salt water / w:1 tree
 tile: b = w:30 nothing / w:15 shallow salt water / w:1 tree
 tile: c = w:60 nothing / w:20 shallow salt water / w:1 tree
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+bbbbbbbbbbbbbbbbbbbbbbbbb
 bbbbbbbbbbbbbbbbbbbbbbbbb
 ccccccccccccccccccccccccc
-.........................
-.........................
-.........................
 .........................
 .........................
 .........................
