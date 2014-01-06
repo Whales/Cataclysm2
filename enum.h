@@ -49,6 +49,7 @@ enum Terrain_flag
 {
   TF_NULL,
   TF_OPAQUE,
+  TF_FLOOR,
   TF_MAX
 };
 

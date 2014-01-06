@@ -1,11 +1,13 @@
 name: dirt
   glyph: . brown black
   movecost: 100
+  flags: floor
   done
 
 name: grass
   glyph: . green black
   movecost: 100
+  flags: floor
   done
 
 name: tree
@@ -17,6 +19,7 @@ name: tree
 name: sand
   glyph: . yellow black
   movecost: 100
+  flags: floor
   done
 
 name: shallow water
