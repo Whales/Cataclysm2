@@ -44,11 +44,15 @@ public:
   void load_data(std::istream &data, std::string name = "unknown",
                  bool allow_nothing = false);
 
-  Terrain* pick();
+  void prepare(); // If it's a lock, then define Terrain* choice.
+  Terrain* pick(bool refresh_choice = false);
+
+  bool lock;
 
 private:
   std::vector<Terrain_chance> ter;
   int total_chance;
+  Terrain* choice;
 
 };
 
@@ -60,6 +64,7 @@ public:
 
   void add_item(int chance, Item_type* item_type);
   void add_item(Item_type_chance item_type);
+  void clear_points();
   void add_point(int x, int y);
   void load_data(std::istream &data, std::string name = "unknown");
 
@@ -77,16 +82,42 @@ private:
 
 };
 
+struct Subst_chance
+{
+  Subst_chance(int C = 10, char R = '.') : chance (C), result (R) {};
+  int chance;
+  char result;
+};
+
+struct Tile_substitution
+{
+  Tile_substitution();
+  ~Tile_substitution(){};
+
+  void add_result(int chance, char result);
+  void add_result(Subst_chance chance);
+  void load_data(std::istream &data, std::string name = "unknown");
+
+  void make_selection();
+  char current_selection();
+
+private:
+  std::vector<Subst_chance> chances;
+  int total_chance;
+  char selected;
+};
+
 struct Mapgen_spec
 {
   Mapgen_spec();
   ~Mapgen_spec(){};
 
   bool load_data(std::istream &data);
-  Terrain* pick_terrain(int x, int y);
 
-  Mapgen_spec random_rotate();
-  Mapgen_spec rotate(Direction dir);
+  void prepare();
+  void random_rotate();
+  void rotate(Direction dir);
+  Terrain* pick_terrain(int x, int y);
 
   void debug_output();
 
@@ -99,9 +130,11 @@ struct Mapgen_spec
   int weight;
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
+  std::map<char,Tile_substitution> substitutions;
   Variable_terrain base_terrain; // Default terrain
 
   char terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // Keys to terrain_defs, item_defs etc
+  char prepped_terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // After prepare() (subst etc)
 
 };
 

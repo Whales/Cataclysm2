@@ -23,7 +23,7 @@
 
 name: std_salt_marsh_whales
 type: salt marsh
-base_terrain: w:30 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
+base_terrain: w:80 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
 items: 60 a = stick
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -57,7 +57,7 @@ done
 name: islets_salt_marsh_whales
 type: salt marsh
 weight: 10
-base_terrain: w:30 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
+base_terrain: w:80 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
 tile: x = w:15 dirt / w:5 grass / w:1 shallow salt water
 tile: 7 = w:5 tree / w:2 grass
 items: 60 ._7 = stick
@@ -89,6 +89,45 @@ map:
 .........................
 endmap
 done
+
+name: maze_salt_marsh_whales
+type: salt march
+weight: 10
+base_terrain: w:80 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
+tile_group: a = w:3 shallow salt water / w:1 grass
+tile_group: b = w:3 shallow salt water / w:1 grass
+tile_group: c = w:3 shallow salt water / w:1 grass
+tile_group: d = w:3 shallow salt water / w:1 grass
+tile:       x = w:3 shallow salt water / w:1 dirt
+map:
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+..aaa...bbb...ccc...ddd..
+endmap
+done
+
 
 name: adj_salt_marsh_whales
 type: salt marsh

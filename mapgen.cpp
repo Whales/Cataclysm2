@@ -10,6 +10,8 @@
 Variable_terrain::Variable_terrain()
 {
   total_chance = 0;
+  lock = false;
+  choice = NULL;
 }
 
 void Variable_terrain::add_terrain(int chance, Terrain *terrain)
@@ -58,10 +60,22 @@ void Variable_terrain::load_data(std::istream &data, std::string name,
   add_terrain(tmp_chance);
 }
 
-Terrain* Variable_terrain::pick()
+void Variable_terrain::prepare()
+{
+  if (!lock) {
+    return;
+  }
+
+  choice = pick(true);
+}
+
+Terrain* Variable_terrain::pick(bool refresh_choice)
 {
   if (ter.empty()) {
     return NULL;
+  }
+  if (!refresh_choice && lock && choice) {
+    return choice;
   }
   int index = rng(1, total_chance);
   for (int i = 0; i < ter.size(); i++) {
@@ -88,6 +102,11 @@ void Item_area::add_item(Item_type_chance item_type)
 {
   item_types.push_back(item_type);
   total_chance += item_type.chance;
+}
+
+void Item_area::clear_points()
+{
+  locations.clear();
 }
 
 void Item_area::add_point(int x, int y)
@@ -164,6 +183,71 @@ Point Item_area::pick_location()
   return locations[index];
 }
 
+Tile_substitution::Tile_substitution()
+{
+  total_chance = 0;
+  selected = '.';
+}
+
+void Tile_substitution::add_result(int chance, char result)
+{
+  Subst_chance tmp(chance, result);
+  add_result(tmp);
+}
+
+void Tile_substitution::add_result(Subst_chance chance)
+{
+  chances.push_back(chance);
+  total_chance += chance.chance;
+}
+
+void Tile_substitution::load_data(std::istream &data, std::string name)
+{
+  std::string ident;
+  int weight = 10;
+  std::string characters;
+  while (data >> ident) {
+    if (ident.substr(0, 2) == "w:" || ident.substr(0, 2) == "W:") {
+      weight = atoi( ident.substr(2).c_str() );
+    } else if (ident == "/") {
+      for (int i = 0; i < characters.length(); i++) {
+        add_result(weight, characters[i]);
+      }
+      weight = 10;
+      characters = "";
+    } else { // Should be a char or list of chars
+      characters += ident;
+    }
+  }
+// Add the last one to our list
+  for (int i = 0; i < characters.length(); i++) {
+    add_result(weight, characters[i]);
+  }
+}
+
+void Tile_substitution::make_selection()
+{
+  if (chances.empty()) {
+    selected = '.';
+    return;
+  }
+
+  int index = rng(1, total_chance);
+  for (int i = 0; i < chances.size(); i++) {
+    index -= chances[i].chance;
+    if (index <= 0) {
+      selected = chances[i].result;
+      return;
+    }
+  }
+  selected = chances.back().result;
+}
+
+char Tile_substitution::current_selection()
+{
+  return selected;
+}
+
 Mapgen_spec::Mapgen_spec()
 {
   name = "unknown";
@@ -209,7 +293,7 @@ bool Mapgen_spec::load_data(std::istream &data)
       data >> weight;
       std::getline(data, junk);
 
-    } else if (ident == "tile:") {
+    } else if (ident == "tile:" || ident == "tile_group:") {
       std::string tile_line;
       std::getline(data, tile_line);
       std::istringstream tile_data(tile_line);
@@ -219,6 +303,9 @@ bool Mapgen_spec::load_data(std::istream &data)
       bool reading_symbols = true; // We start out reading symbols!
 
       Variable_terrain tmp_var;
+      if (ident == "tile_group:") {
+        tmp_var.lock = true;
+      }
 
       while (reading_symbols && tile_data >> tile_ident) {
         if (tile_ident == "=") {
@@ -238,7 +325,38 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       }
 
-// End if (ident == "tile:") block
+// End if (ident == "tile:" || ident == "tile_group:") block
+
+    } else if (ident == "subst:" || ident == "substitution:") {
+      std::string subst_line;
+      std::getline(data, subst_line);
+      std::istringstream subst_data(subst_line);
+
+      std::string symbols;
+      std::string subst_ident;
+      bool reading_symbols = true; // We start out reading symbols!
+
+      Tile_substitution tmp_subst;
+
+      while (reading_symbols && subst_data >> subst_ident) {
+        if (subst_ident == "=") {
+          reading_symbols = false;
+        } else {
+          symbols += subst_ident;
+        }
+      }
+      tmp_subst.load_data(subst_data, name);
+// For every character in symbols, map that char to tmp_var
+      for (int i = 0; i < symbols.length(); i++) {
+        char ch = symbols[i];
+        if (substitutions.count(ch) != 0) {
+          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+        } else {
+          substitutions[ch] = tmp_subst;
+        }
+      }
+
+// End of (ident == "subst:" || ident == "substitution:") block
     } else if (ident == "items:") {
       Item_area tmp_area;
 
@@ -289,9 +407,11 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
         for (int i = 0; i < mapchars.length(); i++) {
           terrain[i][line] = mapchars[i];
+/*
           if (item_defs.count(mapchars[i]) != 0) {
             item_defs[mapchars[i]].add_point(i, line);
           }
+*/
         }
         line++;
       } while (mapchars != "endmap" && line < MAPGEN_SIZE);
@@ -311,31 +431,73 @@ Terrain* Mapgen_spec::pick_terrain(int x, int y)
   if (x < 0 || x >= MAPGEN_SIZE || y < 0 || y >= MAPGEN_SIZE) {
     return (is_adjacent ? NULL : base_terrain.pick());
   }
-  char key = terrain[x][y];
+  char key = prepped_terrain[x][y];
   if (terrain_defs.count(key) == 0) {
     return (is_adjacent ? NULL : base_terrain.pick());
   }
   return terrain_defs[key].pick();
 }
 
-Mapgen_spec Mapgen_spec::random_rotate()
+void Mapgen_spec::prepare()
+{
+// Prep terrain_defs; if they're grouped, this picks and "locks in" the terrain
+  for (std::map<char,Variable_terrain>::iterator it = terrain_defs.begin();
+       it != terrain_defs.end();
+       it++) {
+    (it->second).prepare();
+  }
+// Do any character substitutions; this also sets up prepped_terrain
+  for (std::map<char, Tile_substitution>::iterator it = substitutions.begin();
+       it != substitutions.end();
+       it++) {
+    (it->second).make_selection();
+  }
+
+  for (int x = 0; x < MAPGEN_SIZE; x++) {
+    for (int y = 0; y < MAPGEN_SIZE; y++) {
+      char ch = terrain[x][y];
+      if (substitutions.count(ch) > 0) {
+        char newch = substitutions[ch].current_selection();
+        prepped_terrain[x][y] = newch;
+      } else {
+        prepped_terrain[x][y] = ch;
+      }
+    }
+  }
+
+  debug_output();
+// Rotate randomly.
+// TODO: Allow for a "norotate" flag?
+  if (!is_adjacent) {
+    random_rotate();
+  }
+// Clear item locations
+  for (std::map<char, Item_area>::iterator it = item_defs.begin();
+       it != item_defs.end();
+       it++) {
+    it->second.clear_points();
+  }
+// Set up item locations
+  
+  for (int x = 0; x < MAPGEN_SIZE; x++) {
+    for (int y = 0; y < MAPGEN_SIZE; y++) {
+      char ch = prepped_terrain[x][y];
+      if (item_defs.count(ch) != 0) {
+        item_defs[ch].add_point(x, y);
+      }
+    }
+  }
+}
+
+void Mapgen_spec::random_rotate()
 {
   Direction dir = Direction(rng(DIR_NORTH, DIR_WEST));
   return rotate(dir);
 }
 
-Mapgen_spec Mapgen_spec::rotate(Direction dir)
+void Mapgen_spec::rotate(Direction dir)
 {
-  Mapgen_spec ret;
-  ret.uid = uid;
-// TODO: Tell us how it was rotated!
-  ret.name = name + " [rotated " + Direction_name(dir) + "]";
-  ret.terrain_name = terrain_name;
-  ret.is_adjacent = is_adjacent;  // Don't think we need this but y'know
-  ret.weight = weight;            // Ditto
-  ret.terrain_defs = terrain_defs;
-  ret.item_defs = item_defs;
-  ret.base_terrain = base_terrain;
+  char tmp_terrain[MAPGEN_SIZE][MAPGEN_SIZE];
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       int tx, ty;
@@ -346,10 +508,14 @@ Mapgen_spec Mapgen_spec::rotate(Direction dir)
                         break;
         case DIR_WEST:  tx = y; ty = MAPGEN_SIZE - x - 1; break;
       }
-      ret.terrain[tx][ty] = terrain[x][y];
+      tmp_terrain[tx][ty] = prepped_terrain[x][y];
     }
   }
-  return ret;
+  for (int x = 0; x < MAPGEN_SIZE; x++) {
+    for (int y = 0; y < MAPGEN_SIZE; y++) {
+      prepped_terrain[x][y] = tmp_terrain[x][y];
+    }
+  }
 }
 
 void Mapgen_spec::debug_output()
@@ -359,7 +525,7 @@ void Mapgen_spec::debug_output()
   fout << name << std::endl;
   for (int y = 0; y < MAPGEN_SIZE; y++) {
     for (int x = 0; x < MAPGEN_SIZE; x++) {
-      fout << terrain[x][y];
+      fout << prepped_terrain[x][y];
     }
     fout << std::endl;
   }

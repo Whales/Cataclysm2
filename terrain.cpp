@@ -45,7 +45,12 @@ bool Terrain::load_data(std::istream &data)
       std::istringstream flagdata(junk);
       std::string flagname;
       while (flagdata >> flagname) {
-        flags[ lookup_terrain_flag(flagname) ] = true;
+        Terrain_flag tf = lookup_terrain_flag(flagname);
+        if (tf == TF_NULL) {
+          debugmsg("Unknown terrain flag '%s' (%s)",
+                   flagname.c_str(), name.c_str());
+        }
+        flags[tf] = true;
       }
 
     } else if (ident != "done") {
