@@ -27,9 +27,14 @@ name: sand
   flags: floor
   done
 
+name: mud
+  glyph: = brown black
+  movecost: 300
+  done
+
 name: shallow water
   glyph: = ltblue black
-  movecost: 300
+  movecost: 200
   done
 
 name: deep water
@@ -39,7 +44,7 @@ name: deep water
 
 name: shallow salt water
   glyph: = ltcyan black
-  movecost: 300
+  movecost: 200
   done
 
 name: deep salt water
