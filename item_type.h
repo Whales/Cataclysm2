@@ -5,11 +5,14 @@
 #include "enum.h"
 #include <string>
 #include <istream>
+#include <vector>
 
 enum Item_class
 {
   ITEM_CLASS_MISC = 0,
   ITEM_CLASS_CLOTHING,
+  ITEM_CLASS_AMMO,
+  ITEM_CLASS_LAUNCHER,
   ITEM_CLASS_MAX
 };
 
@@ -62,6 +65,45 @@ public:
   int armor_pierce;
   int encumbrance;
   bool covers[BODYPART_MAX];
+
+};
+
+class Item_type_ammo : public Item_type
+{
+public:
+  Item_type_ammo();
+  ~Item_type_ammo(){};
+
+  virtual Item_class get_class() { return ITEM_CLASS_AMMO; };
+
+  virtual bool handle_data(std::string ident, std::istream &data);
+
+  std::string ammo_type;  // Ammo type - links this to a launcher
+  int damage;       // Base damage
+  int armor_pierce; // Armor ignored
+  int range;
+  int accuracy;     // Low is good!
+  int count;        // How many to a box
+};
+
+class Item_type_launcher : public Item_type
+{
+public:
+  Item_type_launcher();
+  ~Item_type_launcher(){};
+
+  virtual Item_class get_class() { return ITEM_CLASS_LAUNCHER; };
+
+  virtual bool handle_data(std::string ident, std::istream &data);
+
+  std::string ammo_type;  // Ammo type - links this to a launcher
+  int damage;     // Damage bonus
+  int accuracy;   // Low is good!
+  int recoil;     // Recoil added
+  int durability; // HP basically
+  int capacity;   // Shots per reload
+  int reload_ap;  // action_points per reload
+  std::vector<int> modes; // Each element is a number of shots
 
 };
 

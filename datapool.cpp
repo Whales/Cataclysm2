@@ -27,6 +27,11 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
   } else if (item_category == "armor" || item_category == "armour" ||
              item_category == "clothing") {
     tmp = new Item_type_clothing;
+  } else if (item_category == "ammo" || item_category == "ammunition") {
+    tmp = new Item_type_ammo;
+  } else if (item_category == "gun" || item_category == "firearm" ||
+             item_category == "launcher") {
+    tmp = new Item_type_launcher;
   } else if (item_category.empty()) {
     return false;
   } else {

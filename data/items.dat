@@ -54,3 +54,39 @@ clothing
   encumbrance:   2
   covers: torso arms
 done
+
+ammo
+  name: 9mm
+  description:
+    9mm parabellum is generally regarded as the most popular handgun cartridge,
+    used by the majority of US police forces.  It is also a very popular round
+    in submachine guns.
+  done
+  glyph: = ltblue black
+  weight: 16
+  volume: 16
+  type: 9mm
+  damage: 18
+  pierce:  0
+  range:   0
+  accuracy: 16
+  count: 100
+done
+
+gun
+  name: Glock 19
+  description:
+    Possibly the most popular handgun in existence, the Glock 19 is often
+    derided for its plastic construction, but it is easy to shoot.
+  done
+  glyph: ) ltgray black
+  weight: 14
+  volume:  6
+  type: 9mm
+  damage:  0
+  accuracy: 24
+  recoil:  5
+  durability: 80
+  capacity: 15
+  reload_ap: 300
+done

@@ -29,6 +29,24 @@ Item_type_clothing::Item_type_clothing()
   armor_pierce = 0;
 }
 
+Item_type_ammo::Item_type_ammo()
+{
+  damage = 0;
+  armor_pierce = 1;
+  range = 0;
+  accuracy = 0;
+  count = 100;
+}
+
+Item_type_launcher::Item_type_launcher()
+{
+  damage = 0;
+  accuracy = 0;
+  recoil = 0;
+  durability = 100;
+  capacity = 15;
+  reload_ap = 300;
+}
 void Item_type::assign_uid(int id)
 {
   uid = id;
@@ -162,6 +180,84 @@ bool Item_type_clothing::handle_data(std::string ident, std::istream &data)
   return true;
 }
 
+bool Item_type_ammo::handle_data(std::string ident, std::istream &data)
+{
+  std::string junk;
+  if (ident == "type:") {
+    std::getline(data, ammo_type);
+
+  } else if (ident == "damage:") {
+    data >> damage;
+    std::getline(data, junk);
+
+  } else if (ident == "armor_pierce:" || ident == "pierce:") {
+    data >> armor_pierce;
+    std::getline(data, junk);
+
+  } else if (ident == "range:") {
+    data >> range;
+    std::getline(data, junk);
+
+  } else if (ident == "accuracy:") {
+    data >> accuracy;
+    std::getline(data, junk);
+
+  } else if (ident == "count:") {
+    data >> count;
+    std::getline(data, junk);
+
+  } else if (ident != "done") {
+    return false;
+  }
+  return true;
+}
+
+bool Item_type_launcher::handle_data(std::string ident, std::istream &data)
+{
+  std::string junk;
+  if (ident == "type:" || ident == "ammo_type:") {
+    std::getline(data, ammo_type);
+
+  } else if (ident == "damage:") {
+    data >> damage;
+    std::getline(data, junk);
+
+  } else if (ident == "accuracy:") {
+    data >> accuracy;
+    std::getline(data, junk);
+
+  } else if (ident == "recoil:") {
+    data >> recoil;
+    std::getline(data, junk);
+
+  } else if (ident == "durability:") {
+    data >> durability;
+    std::getline(data, junk);
+
+// "Clip" and "magazine" to satisfy the gun nerds.  what up gun nerds
+  } else if (ident == "clip:" || ident == "magazine:" || ident == "capacity:") {
+    data >> capacity;
+    std::getline(data, junk);
+
+  } else if (ident == "reload_time:" || ident == "reload_ap:") {
+    data >> reload_ap;
+    std::getline(data, junk);
+
+  } else if (ident == "modes:" || ident == "mode:") {
+    std::string mode_line;
+    std::getline(data, mode_line);
+    std::istringstream mode_ss(mode_line);
+    int mode;
+    while (mode_ss >> mode) {
+      modes.push_back(mode);
+    }
+
+  } else if (ident != "done") {
+    return false;
+  }
+  return true;
+}
+
 Item_class lookup_item_class(std::string name)
 {
   name = no_caps(name);
@@ -179,6 +275,8 @@ std::string item_class_name(Item_class iclass)
   switch (iclass) {
     case ITEM_CLASS_MISC:     return "Misc";
     case ITEM_CLASS_CLOTHING: return "Clothing";
+    case ITEM_CLASS_AMMO:     return "Ammo";
+    case ITEM_CLASS_LAUNCHER: return "Launcher";
     case ITEM_CLASS_MAX:      return "BUG - ITEM_CLASS_MAX";
     default:                  return "BUG - Unnamed Item_class";
   }
