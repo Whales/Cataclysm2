@@ -39,6 +39,7 @@ void Worldmap::generate()
 
 void Worldmap::draw(int posx, int posy)
 {
+  int origx = posx, origy = posy;
   int xdim, ydim;
   get_screen_dims(xdim, ydim);
   Window w_worldmap(0, 0, xdim, ydim);
@@ -49,7 +50,12 @@ void Worldmap::draw(int posx, int posy)
       for (int y = 0; y < winy; y++) {
         int terx = posx + x - (winx / 2), tery = posy + y - (winy / 2);
         Worldmap_tile* tile = get_tile(terx, tery);
-        w_worldmap.putglyph(x, y, tile->top_glyph());
+        glyph sym = tile->top_glyph();
+        if ((terx == posx && tery == posy) ||
+            (terx == origx && tery == origy) ) {
+          sym = sym.invert();
+        }
+        w_worldmap.putglyph(x, y, sym);
       }
     }
     w_worldmap.refresh();

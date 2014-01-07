@@ -468,3 +468,8 @@ void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
     }
   }
 }
+
+Point Map::get_center_point()
+{
+  return Point(posx + MAP_SIZE / 2, posy + MAP_SIZE / 2);
+}

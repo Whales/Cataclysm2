@@ -217,9 +217,10 @@ void Game::do_action(Interface_action act)
       i_hud.add_data("text_messages",  1);
       break;
 
-    case IACTION_VIEW_WORLDMAP:
-      worldmap->draw(map->posx, map->posy);
-      break;
+    case IACTION_VIEW_WORLDMAP: {
+      Point p = map->get_center_point();
+      worldmap->draw(p.x, p.y);
+    }  break;
 
     case IACTION_QUIT:
       if (query_yn("Commit suicide?")) {
