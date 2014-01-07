@@ -131,6 +131,7 @@ struct Mapgen_spec
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
   std::map<char,Tile_substitution> substitutions;
+  std::list<std::string> shuffles;
   Variable_terrain base_terrain; // Default terrain
 
   char terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // Keys to terrain_defs, item_defs etc

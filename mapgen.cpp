@@ -350,11 +350,26 @@ bool Mapgen_spec::load_data(std::istream &data)
       for (int i = 0; i < symbols.length(); i++) {
         char ch = symbols[i];
         if (substitutions.count(ch) != 0) {
-          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+          debugmsg("Tried to map substitution %c - already in use (%s)",
+                   ch, name.c_str());
         } else {
           substitutions[ch] = tmp_subst;
         }
       }
+
+    } else if (ident == "shuffle:") {
+      std::string shuffle_line;
+      std::getline(data, shuffle_line);
+      std::istringstream shuffle_data(shuffle_line);
+
+      std::string symbols;
+      std::string shuffle_ident;
+
+      while (shuffle_data >> shuffle_ident) {
+        symbols += shuffle_ident;
+      }
+// For every character in symbols, map that char to results
+      shuffles.push_back(symbols);
 
 // End of (ident == "subst:" || ident == "substitution:") block
     } else if (ident == "items:") {
@@ -446,6 +461,28 @@ void Mapgen_spec::prepare()
        it++) {
     (it->second).prepare();
   }
+// Shuffle before substitutions.
+  std::map<char,char> post_shuffles;
+  for (std::list<std::string>::iterator it = shuffles.begin();
+       it != shuffles.end();
+       it++) {
+    std::string from_list = (*it);
+    std::string shuffle_list;
+// Shuffle the std::string
+    while (!from_list.empty()) {
+      int index = rng(0, from_list.size() - 1);
+      shuffle_list.push_back(from_list[index]);
+      from_list.erase(from_list.begin() + index);
+    }
+    for (int i = 1; i < shuffle_list.size(); i++) {
+      char from = shuffle_list[i - 1];
+      char to = shuffle_list[i];
+      post_shuffles[from] = to;
+    }
+    if (shuffle_list.size() > 1) {
+      post_shuffles[ shuffle_list[shuffle_list.size() - 1] ] = shuffle_list[0];
+    }
+  }
 // Do any character substitutions; this also sets up prepped_terrain
   for (std::map<char, Tile_substitution>::iterator it = substitutions.begin();
        it != substitutions.end();
@@ -456,10 +493,17 @@ void Mapgen_spec::prepare()
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       char ch = terrain[x][y];
+      bool shuffled = false;
+      if (post_shuffles.count(ch) > 0) {
+        char newch = post_shuffles[ch];
+        ch = newch;
+        prepped_terrain[x][y] = newch;
+        shuffled = true;
+      }
       if (substitutions.count(ch) > 0) {
         char newch = substitutions[ch].current_selection();
         prepped_terrain[x][y] = newch;
-      } else {
+      } else if (!shuffled) {
         prepped_terrain[x][y] = ch;
       }
     }

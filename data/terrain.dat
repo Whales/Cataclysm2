@@ -16,6 +16,11 @@ name: tree
   flags: opaque
   done
 
+name: bush
+  glyph: & ltgreen black
+  movecost: 200
+  done
+
 name: sand
   glyph: . yellow black
   movecost: 100
@@ -49,7 +54,7 @@ name: fungal tree
   done
 
 name: fungal undergrowth
-  glyph: % dkgray black
+  glyph: & dkgray black
   movecost: 150
   done
 
@@ -60,7 +65,7 @@ name: boulder
   done
 
 name: rubble
-  glyph: % ltgray black
+  glyph: & ltgray black
   movecost: 120
   done
 
