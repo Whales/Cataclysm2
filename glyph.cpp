@@ -42,9 +42,9 @@ glyph glyph::invert()
   return ret;
 }
 
-glyph glyph::hilite()
+glyph glyph::hilite(nc_color back)
 {
-  if (bg == HILITE_COLOR) {
+  if (fg == HILITE_COLOR) {
     return invert();
   }
   glyph ret = (*this);

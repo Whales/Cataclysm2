@@ -10,6 +10,9 @@ glyph Tile::top_glyph()
  * display terrain glyph, highlighted.
  */
   if (!items.empty()) {
+    if (terrain && !terrain->has_flag(TF_FLOOR)) {
+      return terrain->sym.hilite(c_ltblue);
+    }
     return items.back().top_glyph();
   }
   if (!terrain) {

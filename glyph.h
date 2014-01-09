@@ -16,7 +16,7 @@ struct glyph
   glyph(long S, nc_color F, nc_color B) : symbol (S), fg (F), bg (B) { };
 
   glyph invert();
-  glyph hilite();
+  glyph hilite(nc_color back = HILITE_COLOR);
   std::string text_formatted();
 
   bool operator==(const glyph &rhs);
