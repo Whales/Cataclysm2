@@ -25,7 +25,7 @@ name: std_field_whales
 type: field
 base_terrain: dirt / grass
 weight: 500
-items: 50 a = rock / w:1 stick
+item_group: 50 a = items_field
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -59,7 +59,7 @@ name: copse_field_whales
 type: field
 weight: 10
 base_terrain: dirt / grass
-items: 50 . = rock / w:1 stick
+item_group: 50 . = items_field
 subst: x = w:5 . / w:1 T
 tile: T = w:1 tree / w:2 bush/ w:2 grass
 map:
@@ -95,7 +95,7 @@ name: grove_field_whales
 type: field
 weight: 5
 base_terrain: dirt / grass
-items: 50 . = rock / w:1 stick
+item_group: 50 . = items_field
 tile: a = w:2 tree / w:1 grass
 shuffle: abcde
 map:

@@ -1,3 +1,15 @@
 name: items_test
   items: w:15 glock 19 / w:5 9mm / w:1 rock
   done
+
+name: items_beach
+  items: w:14 rock / w:1 stick
+  done
+
+name: items_field
+  items: w:10 rock / w:1 stick
+  done
+
+name: items_forest
+  items: w:10 stick / w:3 rock
+  done

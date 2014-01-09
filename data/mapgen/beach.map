@@ -58,7 +58,7 @@ done
 name: std_beach_whales
 type: beach
 base_terrain: sand
-items: 20 a = w:5 rock / w:1 stick
+item_group: 20 a = items_beach
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -92,7 +92,7 @@ name: pool1_beach_whales
 type: beach
 base_terrain: sand
 weight: 15
-items: 20 a = w:5 rock / w:1 stick
+item_group: 20 a = items_beach
 tile: b = shallow salt water
 tile: c = shallow salt water / sand
 tile: d = w:1 shallow salt water / w:2 sand
@@ -129,7 +129,7 @@ name: pool2_beach_whales
 type: beach
 base_terrain: sand
 weight: 15
-items: 20 a = w:5 rock / w:1 stick
+item_group: 20 a = items_beach
 tile: b = shallow salt water
 tile: c = shallow salt water / sand
 tile: d = w:1 shallow salt water / w:2 sand
@@ -166,7 +166,7 @@ name: pool3_beach_whales
 type: beach
 base_terrain: sand
 weight: 15
-items: 20 a = w:5 rock / w:1 stick
+item_group: 20 a = items_beach
 tile: b = shallow salt water
 tile: c = shallow salt water / sand
 tile: d = w:1 shallow salt water / w:2 sand
@@ -203,7 +203,7 @@ name: boulder_beach_whales
 type: beach
 base_terrain: sand
 weight: 500
-items: 20 a = w:5 rock / w:1 stick
+item_group: 20 a = items_beach
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa

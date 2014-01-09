@@ -20,9 +20,10 @@
 #
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
-name: forest_1
+name: std_forest_whales
 type: forest
 base_terrain: dirt
+item_group: 50 a = items_forest
 tile: a = w:30 dirt / w:5 grass / w:5 tree
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -53,14 +54,14 @@ aaaaaaaaaaaaaaaaaaaaaaaaa
 endmap
 done
 
-name: forest_adj_1
+name: adj_forest_whales
 type: forest
 adjacent
-tile: a = w:10 nothing / w:1 tree
-tile: b = w:20 nothing / w:1 tree
-tile: c = w:35 nothing / w:1 tree
-tile: d = w:60 nothing / w:1 tree
-tile: e = w:80 nothing / w:1 tree
+tile: a = w:10 nothing / w:1 tree / w:1 small tree / w:2 bush
+tile: b = w:20 nothing / w:1 tree / w:1 small tree / w:2 bush
+tile: c = w:35 nothing / w:1 tree / w:1 small tree / w:2 bush
+tile: d = w:60 nothing / w:1 tree / w:1 small tree / w:2 bush
+tile: e = w:80 nothing / w:1 tree / w:1 small tree / w:2 bush
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 bbbbbbbbbbbbbbbbbbbbbbbbb
