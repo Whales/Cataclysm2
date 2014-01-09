@@ -14,12 +14,12 @@ void Worldmap::generate()
 // Points_live is used below to track which points to update
   std::vector<Point> points_live;
 // Used below when deciding when to turn lakes into ocean
-  //Lake_status lake[WORLDMAP_SIZE][WORLDMAP_SIZE];
+  Lake_status lake[WORLDMAP_SIZE][WORLDMAP_SIZE];
   std::vector<Point> lake_seeds;
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
       biomes[x][y] = NULL;
-      //lake[x][y] = LAKE_NOTLAKE;
+      lake[x][y] = LAKE_UNCHECKED;
     }
   }
 // Randomly seed biomes
@@ -29,11 +29,12 @@ void Worldmap::generate()
     for (int n = 0; n < WORLDMAP_SIZE / 10; n++) {
       Point p( rng(0, WORLDMAP_SIZE - 1), rng(0, WORLDMAP_SIZE - 1) );
       points_live.push_back(p);
-/*
       if ((*it)->has_flag(BIOME_FLAG_LAKE)) {
         lake_seeds.push_back(p);
+        lake[p.x][p.y] = LAKE_UNCHECKED;
+      } else {
+        lake[p.x][p.y] = LAKE_NOTLAKE;
       }
-*/
       biomes[p.x][p.y] = (*it);
     }
   }
@@ -62,6 +63,7 @@ void Worldmap::generate()
     } else {
       Point growth = valid_growth[rng(0, valid_growth.size() - 1)];
       biomes[growth.x][growth.y] = biomes[p.x][p.y];
+      lake[growth.x][growth.y] = lake[p.x][p.y];
       points_live.push_back( growth );
     }
   }
@@ -78,8 +80,8 @@ void Worldmap::generate()
   }
 
 /* At this point, we have a lot of blobs of terrain, but no ocean!
- * So: use radials, go around, and decide how far from the edge of the map the
- * ocean will extend.
+ * The draw_island function sets altitude to 100 at its center and randomly
+ * slopes down in a way that introduces penisulas &c
  */
 
   int center = WORLDMAP_SIZE / 2, shift = WORLDMAP_SIZE / 10;
@@ -96,6 +98,7 @@ void Worldmap::generate()
 
   draw_island(altitude, island_center, 400, 20);
 
+// Now draw several (8) more, small islands
   for (int i = 0; i < 8; i++) {
     Point islet;
     switch (rng(1, 4)) { // Which side to place it along?
@@ -135,7 +138,8 @@ void Worldmap::generate()
   }
 
 // Now find all lake biomes that are ocean-adjacent and make them shallows.
-/*
+// Also, all the surviving lakes should become a river seed
+  std::vector<Point> river_seeds;
   for (int i = 0; i < lake_seeds.size(); i++) {
     std::vector<Point> lake_points;
     std::vector<Point> live_points;
@@ -146,13 +150,14 @@ void Worldmap::generate()
       Point p = live_points[0];
       for (int x = p.x - 1; x <= p.x + 1; x++) {
         for (int y = p.y - 1; y <= p.y + 1; y++) {
-          if (biomes[x][y] == BIOME_LAKE && lake[x][y] == LAKE_NOTLAKE) {
-            lake_points.push_back( Point(x, y) );
-            live_points.push_back( Point(x, y) );
-            lake[x][y] = LAKE_UNKNOWN;
-          } else if (!ocean &&
-                     (altitude[x][y] <= 0 || biomes[x][y] == BIOME_NULL)) {
-            ocean = true;
+          if (x >= 0 && x < WORLDMAP_SIZE && y >= 0 && y < WORLDMAP_SIZE) {
+            if (lake[x][y] == LAKE_UNCHECKED) {
+              lake_points.push_back( Point(x, y) );
+              live_points.push_back( Point(x, y) );
+              lake[x][y] = LAKE_CHECKED;
+            } else if (!ocean && altitude[x][y] <= 0) {
+              ocean = true;
+            }
           }
         }
       }
@@ -163,8 +168,19 @@ void Worldmap::generate()
         Point p = lake_points[i];
         altitude[p.x][p.y] = 0;
       }
+    } else {
+      river_seeds.push_back( lake_seeds[i] );
     }
   }
+
+// For each river seed, draw a river that *tends* to slope down until it hits
+// ocean.
+
+/*
+  for (int i = 0; i < river_seeds.size(); i++) {
+    Point river_point = river_seeds[i];
+    while (altitude[river_point.x][river_point.y] > 0) {
+      if (terrain
 */
 
 // Take everything with altitude <= 0 and set it to be ocean.

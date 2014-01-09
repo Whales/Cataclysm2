@@ -74,10 +74,9 @@ enum Biome_type
 
 enum Lake_status
 {
-  LAKE_NOTLAKE,
-  LAKE_UNKNOWN,
-  LAKE_LANDLOCKED,
-  LAKE_OCEAN
+  LAKE_UNCHECKED,
+  LAKE_CHECKED,
+  LAKE_NOTLAKE
 };
 
 #endif

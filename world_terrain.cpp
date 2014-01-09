@@ -2,6 +2,7 @@
 #include "stringfunc.h"
 #include "window.h"
 #include "globals.h"
+#include <sstream>
 
 World_terrain::World_terrain()
 {
@@ -9,6 +10,9 @@ World_terrain::World_terrain()
   name = "ERROR";
   beach_range = -1;
   sym = glyph();
+  for (int i = 0; i < WTF_MAX; i++) {
+    flags.push_back(false);
+  }
 }
 
 bool World_terrain::load_data(std::istream &data)
@@ -41,6 +45,20 @@ bool World_terrain::load_data(std::istream &data)
       sym.load_data_text(data);
       std::getline(data, junk);
 
+    } else if (ident == "flags:") {
+      std::string flag_line;
+      std::getline(data, flag_line);
+      std::istringstream flag_data(flag_line);
+      std::string flag_name;
+      while (flag_data >> flag_name) {
+        World_terrain_flag flag = lookup_world_terrain_flag(flag_name);
+        if (flag == WTF_NULL) {
+          debugmsg("Unknown world terrain flag '%s' (%s)", flag_name.c_str(),
+                   name.c_str());
+        }
+        flags[flag] = true;
+      }
+
     } else if (ident != "done") {
       debugmsg("Unknown World_terrain property '%s' (%s)",
                ident.c_str(), name.c_str());
@@ -56,4 +74,28 @@ World_terrain* make_into_beach(World_terrain* original)
     return original;
   }
   return WORLD_TERRAIN.lookup_name(original->beach_name);
+}
+
+World_terrain_flag lookup_world_terrain_flag(std::string name)
+{
+  name = no_caps(name);
+  for (int i = 0; i < WTF_MAX; i++) {
+    World_terrain_flag ret = World_terrain_flag(i);
+    if ( no_caps( world_terrain_flag_name(ret) ) == name ) {
+      return ret;
+    }
+  }
+  return WTF_NULL;
+}
+
+std::string world_terrain_flag_name(World_terrain_flag flag)
+{
+  switch (flag) {
+    case WTF_NULL:      return "NULL";
+    case WTF_WATER:     return "water";
+    case WTF_NO_RIVER:  return "no_river";
+    case WTF_MAX:       return "BUG - WTF_MAX";
+    default:            return "BUG - Unnamed World_terrain_flag";
+  }
+  return "BUG - Escaped switch in world_terrain_flag_name()";
 }
