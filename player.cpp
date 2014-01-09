@@ -469,13 +469,15 @@ void populate_item_lists(Player* p, int offset_size,
   item_volume.clear();
   for (int n = 0; n < ITEM_CLASS_MAX; n++) {
     if (!item_indices[n].empty()) {
-      item_name.push_back( item_class_name( Item_class(n) ) );
+      std::string class_name = "<c=ltblue>" + item_class_name(Item_class(n)) +
+                               "<c=/>";
+      item_name.push_back( class_name );
       item_weight.push_back("");
       item_volume.push_back("");
       for (int i = 0; i < item_indices[n].size(); i++) {
 // Check to see if we're starting a new page.  If so, repeat the category header
         if (item_name.size() % offset_size == 0) {
-          item_name.push_back( item_class_name( Item_class(n) ) + "(cont)" );
+          item_name.push_back( class_name + "(cont)" );
           item_weight.push_back("");
           item_volume.push_back("");
         }
