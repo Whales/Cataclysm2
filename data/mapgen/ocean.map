@@ -65,9 +65,10 @@ name: adj1_ocean_whales
 type: ocean
 adjacent
 tile: a = shallow salt water
+tile: x = shallow salt water / deep salt water
 tile: b = w:1 nothing / w:2 shallow salt water
 map:
-aaaaaaaaaaaaaaaaaaaaaaaaa
+xxxxxxxxxxxxxxxxxxxxxxxxx
 aaaaaaaaaaaaaaaaaaaaaaaaa
 abaaaaaabaaaaaaaaaabbaaaa
 bbaaaaabbbaabbaaaabbbaabb
@@ -98,10 +99,11 @@ done
 name: adj2_ocean_whales
 type: ocean
 adjacent
+tile: x = shallow salt water / deep salt water
 tile: a = shallow salt water
 tile: b = w:1 nothing / w:2 shallow salt water
 map:
-aaaaaaaaaaaaaaaaaaaaaaaaa
+xxxxxxxxxxxxxxxxxxxxxxxxx
 baaaaaaaaaaaaaaaaaabbaaaa
 bbbaaabbaaaaaaaaaabbbbaaa
 ..babb..baabbaaaab...baab

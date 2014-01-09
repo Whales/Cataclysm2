@@ -16,6 +16,11 @@ name: tree
   flags: opaque
   done
 
+name: small tree
+  glyph: 1 green black
+  movecost:   0
+  done
+
 name: bush
   glyph: & ltgreen black
   movecost: 200

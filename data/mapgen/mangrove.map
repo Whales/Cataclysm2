@@ -24,7 +24,7 @@
 name: std_mangrove_whales
 type: mangrove
 base_terrain: shallow salt water
-tile: a = w:30 shallow salt water / w:5 sand / w:4 tree
+tile: a = w:50 shallow salt water / w:5 sand / w:2 tree / w:3 small tree
 items: 75 a = stick
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -58,7 +58,7 @@ done
 name: thickets_mangrove_whales
 type: mangrove
 weight: 8
-base_terrain: w:30 shallow salt water / w:5 sand / w:4 tree
+base_terrain: w:50 shallow salt water / w:5 sand / w:2 tree / w:3 small tree
 items: 75 .xy = stick
 subst: abcdefghi = w:5 . / w:1 x / w:1 y
 tile: x = w:10 tree / w:3 sand / w:1 shallow salt water
@@ -95,7 +95,7 @@ done
 name: island_mangrove_whales
 type: mangrove
 weight: 2
-base_terrain: w:30 shallow salt water / w:5 sand / w:4 tree
+base_terrain: w:50 shallow salt water / w:5 sand / w:2 tree / w:3 small tree
 subst: abcde = x / .
 tile: x = w:50 sand / w:5 tree / w:1 shallow salt water
 items: 75 .x = stick
@@ -131,8 +131,8 @@ done
 name: adj_mangrove_whales
 type: mangrove
 adjacent
-tile: a = w:2 nothing / w:4 sand / w:4 shallow salt water / w:1 tree
-tile: b = w:10 nothing / w:7 sand / w:3 shallow salt water / w:1 tree
+tile: a = w:2 nothing / w:4 sand / w:4 shallow salt water / w:1 tree / w:1 small tree
+tile: b = w:10 nothing / w:7 sand / w:3 shallow salt water / w:1 tree / w:1 small tree
 tile: c = w:15 nothing / w:8 sand / w:2 shallow salt water
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -142,6 +142,43 @@ bbbbbbbbbbbbbbbbbbbbbbbbb
 ccccccccccccccccccccccccc
 ccccccccccccccccccccccccc
 ccccccccccccccccccccccccc
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+endmap
+done
+
+# Frequently a mangrove is bordered by a dense thicket of trees.
+name: barrier_adj_mangrove_whales
+type: mangrove
+adjacent
+weight: 500
+tile: a = w:10 tree / w:20 small tree / w:3 bush / w:5 nothing
+tile: b = w:5 tree / w:15 small tree / w:10 bush / w:10 nothing
+tile: c = w:1 tree / w:10 small tree / w:10 bush / w:80 nothing
+map:
+aaaaaaaaaaaaaaaaaaaaaaaaa
+bbbbbbbbbbbbbbbbbbbbbbbbb
+ccccccccccccccccccccccccc
+ccccccccccccccccccccccccc
+.........................
+.........................
+.........................
 .........................
 .........................
 .........................
