@@ -97,7 +97,13 @@ std::string Item::get_name_indefinite()
 // TODO: Unique items?
   if (type) {
     std::stringstream ret;
-    ret << "a " << type->name;
+    switch (type->get_class()) {
+      case ITEM_CLASS_AMMO:
+        ret << "a box of " << type->name << " ammo"; // TODO: Not always box?
+        break;
+      default:
+        ret << "a " << type->name;
+    }
     return ret.str();
   }
   return "a typeless item";
