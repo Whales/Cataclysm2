@@ -76,7 +76,7 @@ public:
       debugmsg("Loaded an item with a duplicate name - '%s' (%s)",
                name.c_str(), filename.c_str());
     }
-    name_map[ no_caps(tmp->get_name()) ] = tmp;
+    name_map[ name ] = tmp;
     next_uid++;
     return true;
   };

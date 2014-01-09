@@ -137,16 +137,18 @@ std::string trim(const std::string &orig)
   std::string ret = orig;
   int front = 0, back = ret.length() - 1;
   while (front < ret.length() &&
-         (ret[front] == ' ' || ret[front] == '\n' || ret[front] == '\t'))
+         (ret[front] == ' ' || ret[front] == '\n' || ret[front] == '\t')) {
     front++;
+  }
 
   ret = ret.substr(front);
 
   back = ret.length() - 1;
 
   while (back >= 0 &&
-         (ret[back] == ' ' || ret[back] == '\n' || ret[back] == '\t'))
+         (ret[back] == ' ' || ret[back] == '\n' || ret[back] == '\t')) {
     back--;
+  }
 
   ret = ret.substr(0, back + 1);
 

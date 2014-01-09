@@ -45,7 +45,7 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
   tmp->assign_uid(next_uid);
   instances.push_back(tmp);
   uid_map[next_uid] = tmp;
-  name_map[tmp->get_name()] = tmp;
+  name_map[no_caps(tmp->get_name())] = tmp;
   next_uid++;
   return true;
 };
