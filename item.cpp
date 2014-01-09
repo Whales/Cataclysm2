@@ -195,9 +195,20 @@ bool Item::reload(Entity* owner, int ammo_uid)
   if (!owner) {
     return false;
   }
+  Item* ammo = owner->ref_item_uid(ammo_uid);
+  if (!ammo) {
+    return false;
+  }
   int charges_available = get_max_charges() - charges;
   if (charges_available <= 0) {
     return false;
+  }
+  if (ammo->charges > charges_available) {
+    ammo->charges -= charges_available;
+    charges = get_max_charges();
+  } else {
+    charges += ammo->charges;
+    owner->remove_item_uid(ammo_uid);
   }
   return true;
 }
