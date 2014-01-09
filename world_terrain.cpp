@@ -68,6 +68,11 @@ bool World_terrain::load_data(std::istream &data)
   return true;
 }
 
+bool World_terrain::has_flag(World_terrain_flag flag)
+{
+  return flags[flag];
+}
+
 World_terrain* make_into_beach(World_terrain* original)
 {
   if (original->beach_name.empty()) {
@@ -94,6 +99,7 @@ std::string world_terrain_flag_name(World_terrain_flag flag)
     case WTF_NULL:      return "NULL";
     case WTF_WATER:     return "water";
     case WTF_NO_RIVER:  return "no_river";
+    case WTF_SALTY:     return "salty";
     case WTF_MAX:       return "BUG - WTF_MAX";
     default:            return "BUG - Unnamed World_terrain_flag";
   }

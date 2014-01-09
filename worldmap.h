@@ -23,6 +23,7 @@ public:
   ~Worldmap();
 
   void generate();
+  void set_terrain(int x, int y, std::string terrain_name);
 
   void draw(int posx, int posy);
   void draw_minimap(cuss::element *drawing, int cornerx, int cornery);

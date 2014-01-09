@@ -1,6 +1,6 @@
 Name: ocean
   Glyph: = blue black
-  Flags: no_river
+  Flags: no_river water salty
   Done
 Name: field
   Glyph: . green black
@@ -17,15 +17,15 @@ Name: forest
   Done
 Name: mangrove
   Glyph: 7 cyan black
-  Flags: no_river
+  Flags: no_river water salty
   Done
 Name: swamp
   Glyph: " ltgreen black
-  Flags: no_river
+  Flags: no_river water
   Done
 Name: salt marsh
   Glyph: " cyan black
-  Flags: no_river
+  Flags: no_river water salty
   Done
 Name: mushroom forest
   Glyph: 7 ltgray black
@@ -37,11 +37,11 @@ Name: rocky
   Done
 Name: fresh water
   Glyph: = ltblue black
-  Flags: no_river
+  Flags: no_river water
   Done
 Name: river
   Glyph: ~ ltblue black
-  Flags: no_river
+  Flags: no_river water
   Done
 Name: town square
   Glyph: O ltgray black

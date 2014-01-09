@@ -37,6 +37,20 @@ void Worldmap::generate()
 }
 */
 
+void Worldmap::set_terrain(int x, int y, std::string terrain_name)
+{
+  if (x < 0 || x >= WORLDMAP_SIZE || y < 0 || y >= WORLDMAP_SIZE) {
+    return;
+  }
+  World_terrain* ter = WORLD_TERRAIN.lookup_name(terrain_name);
+  if (!ter) {
+    debugmsg("Worldmap::set_terrain() couldn't find '%s'",
+             terrain_name.c_str());
+    return;
+  }
+  tiles[x][y].terrain = ter;
+}
+
 void Worldmap::draw(int posx, int posy)
 {
   int origx = posx, origy = posy;

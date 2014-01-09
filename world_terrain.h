@@ -12,6 +12,7 @@ enum World_terrain_flag
   WTF_NULL = 0,
   WTF_WATER,
   WTF_NO_RIVER,
+  WTF_SALTY,
   WTF_MAX
 };
 
