@@ -56,6 +56,26 @@ private:
 
 };
 
+// Item_group is just a named list of Item_type_chances.
+// It allows for shorthand in mapgen specs.
+struct Item_group
+{
+  Item_group();
+  ~Item_group(){};
+
+  std::string name;
+  int uid;
+  std::vector<Item_type_chance> item_types;
+  int total_chance;
+
+  void assign_uid(int id);
+  std::string get_name();
+  bool load_data(std::istream &data);
+
+  void add_item(int chance, Item_type* item_type);
+  void add_item(Item_type_chance item_type);
+};
+
 struct Item_area
 {
 public:
@@ -64,6 +84,7 @@ public:
 
   void add_item(int chance, Item_type* item_type);
   void add_item(Item_type_chance item_type);
+  void set_group(Item_group *group);
   void clear_points();
   void add_point(int x, int y);
   void load_data(std::istream &data, std::string name = "unknown");

@@ -17,6 +17,7 @@ extern Game                     GAME;
 extern Data_pool<Terrain>       TERRAIN;
 extern Data_pool<World_terrain> WORLD_TERRAIN;
 extern Data_pool<Item_type>     ITEM_TYPES;
+extern Data_pool<Item_group>    ITEM_GROUPS;
 extern Data_pool<Monster_type>  MONSTER_TYPES;
 extern Data_pool<Biome>         BIOMES;
 extern Submap_pool              SUBMAP_POOL;

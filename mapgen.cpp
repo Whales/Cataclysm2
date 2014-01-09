@@ -104,6 +104,15 @@ void Item_area::add_item(Item_type_chance item_type)
   total_chance += item_type.chance;
 }
 
+void Item_area::set_group(Item_group *group)
+{
+  if (!group) {
+    return;
+  }
+  total_chance = group->total_chance;
+  item_types   = group->item_types;
+}
+
 void Item_area::clear_points()
 {
   locations.clear();
@@ -182,6 +191,94 @@ Point Item_area::pick_location()
   int index = rng(0, locations.size() - 1);
   return locations[index];
 }
+
+Item_group::Item_group()
+{
+  name = "unknown";
+  uid = -1;
+  total_chance = 0;
+}
+
+void Item_group::assign_uid(int id)
+{
+  uid = id;
+}
+
+std::string Item_group::get_name()
+{
+  return name;
+}
+
+bool Item_group::load_data(std::istream &data)
+{
+  std::string ident;
+
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+    ident = no_caps(ident);
+
+    if (ident == "name:") {
+      std::getline(data, name);
+
+    } else if (ident == "items:") {
+      std::string item_ident;
+      std::string item_name;
+      std::string item_line;
+      std::getline(data, item_line);
+      std::istringstream item_ss(item_line);
+      Item_type_chance tmp_chance;
+      while (item_ss >> item_ident) {
+        item_ident = no_caps(item_ident);  // other stuff isn't case-sensitive
+        if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
+          tmp_chance.chance = atoi( item_ident.substr(2).c_str() );
+        } else if (item_ident == "/") { // End of this option
+          item_name = trim(item_name);
+          Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
+          if (!tmpitem) {
+            debugmsg("Unknown item '%s' (%s)", item_ident.c_str(),
+                     name.c_str());
+          }
+          tmp_chance.item = tmpitem;
+          add_item(tmp_chance);
+          tmp_chance.chance = 10;
+          tmp_chance.item   = NULL;
+          item_name = "";
+        } else { // Otherwise, it should be a item name
+          item_name = item_name + " " + item_ident;
+        }
+      }
+    // Add the last item def to our list, if the item is valid
+      item_name = trim(item_name);
+      Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
+      if (!tmpitem) {
+        debugmsg("Unknown item '%s' (%s)", item_name.c_str(),
+                 name.c_str());
+      }
+      tmp_chance.item = tmpitem;
+      add_item(tmp_chance);
+
+    } else if (ident != "done") {
+      debugmsg("Unknown identifier '%s' (%s)", ident.c_str(), name.c_str());
+      return false;
+    }
+  }
+  return true;
+}
+
+void Item_group::add_item(int chance, Item_type* item_type)
+{
+  Item_type_chance tmp(chance, item_type);
+  add_item(tmp);
+}
+
+void Item_group::add_item(Item_type_chance item_type)
+{
+  item_types.push_back(item_type);
+  total_chance += item_type.chance;
+}
+
 
 Tile_substitution::Tile_substitution()
 {
@@ -372,6 +469,49 @@ bool Mapgen_spec::load_data(std::istream &data)
       shuffles.push_back(symbols);
 
 // End of (ident == "subst:" || ident == "substitution:") block
+    } else if (ident == "item_group:") {
+      Item_area tmp_area;
+
+      data >> tmp_area.overall_chance;
+      if (tmp_area.overall_chance < 1) {
+        debugmsg("Item chance of '%d' corrected to 1 (%s)",
+                 tmp_area.overall_chance, name.c_str());
+      } else if (tmp_area.overall_chance > 99) {
+        debugmsg("Item chance of '%d' corrected to 99 (%s)",
+                 tmp_area.overall_chance, name.c_str());
+      }
+
+      std::string symbols;
+      std::string item_ident;
+      bool reading_symbols = true; // We start out reading symbols!
+
+      while (reading_symbols && data >> item_ident) {
+        if (item_ident == "=") {
+          reading_symbols = false;
+        } else {
+          symbols += item_ident;
+        }
+      }
+      std::string group_name;
+      std::getline(data, group_name);
+
+      Item_group* group = ITEM_GROUPS.lookup_name(group_name);
+      if (!group) {
+        debugmsg("Unknown item group '%s' (%s)", group_name.c_str(),
+                 name.c_str());
+      } else {
+        tmp_area.set_group(group);
+      }
+// For every character in symbols, map that char to tmp_var
+      for (int i = 0; i < symbols.length(); i++) {
+        char ch = symbols[i];
+        if (item_defs.count(ch) != 0) {
+          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+        } else {
+          item_defs[ch] = tmp_area;
+        }
+      }
+
     } else if (ident == "items:") {
       Item_area tmp_area;
 
@@ -437,7 +577,7 @@ bool Mapgen_spec::load_data(std::istream &data)
       debugmsg("Unknown Mapgen_spec property '%s' (%s)",
                ident.c_str(), name.c_str());
     }
-  } while (ident != "done");
+  } while (ident != "done" && !data.eof());
   return true;
 }
 

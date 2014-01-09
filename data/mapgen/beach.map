@@ -25,7 +25,7 @@ name: test_beach_whales
 type: beach
 weight: 99999
 base_terrain: sand
-items: 80 a = 9mm / glock 19
+item_group: 80 a = items_test
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
