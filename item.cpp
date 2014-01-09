@@ -35,7 +35,10 @@ Item::~Item()
 
 Item& Item::operator=(const Item& rhs)
 {
-  type = rhs.type;
+  type    = rhs.type;
+  ammo    = rhs.ammo;
+  count   = rhs.count;
+  charges = rhs.charges;
 
   return *this;
 }
@@ -215,6 +218,22 @@ int Item::get_max_charges()
   return 0;
 }
 
+bool Item::combines()
+{
+  if (!is_real()) {
+    return false;
+  }
+  return type->always_combines();
+}
+
+bool Item::combine_by_charges()
+{
+  if (!is_real()) {
+    return false;
+  }
+  return type->combine_by_charges();
+}
+
 bool Item::reload(Entity* owner, int ammo_uid)
 {
   if (!owner) {
@@ -234,6 +253,23 @@ bool Item::reload(Entity* owner, int ammo_uid)
   } else {
     charges += ammo->charges;
     owner->remove_item_uid(ammo_uid);
+  }
+  return true;
+}
+
+bool Item::combine_with(const Item& rhs)
+{
+// TODO: Handle combining items of different damage levels etc.
+  if (!combines()) {
+    return false;
+  }
+  if (type != rhs.type) {
+    return false;
+  }
+  if (combine_by_charges()) {
+    charges += rhs.charges;
+  } else {
+    count += rhs.count;
   }
   return true;
 }

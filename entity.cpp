@@ -105,6 +105,15 @@ void Entity::set_activity(Player_activity_type type, int duration,
 
 bool Entity::add_item(Item item)
 {
+  if (!item.is_real()) {
+    return false;
+  }
+  if (item.combines()) {
+    Item* added = ref_item_of_type(item.type);
+    if (added) {
+      return (*added).combine_with(item);
+    }
+  }
   inventory.push_back(item);
   return true;
 }
@@ -139,6 +148,20 @@ Item Entity::get_item_of_type(Item_type *type)
   }
 // TODO: Weapon & armor?
   return Item();
+}
+
+Item* Entity::ref_item_of_type(Item_type *type)
+{
+  if (!type) {
+    return NULL;
+  }
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i].type == type) {
+      return &(inventory[i]);
+    }
+  }
+// TODO: Weapon & armor?
+  return NULL;
 }
 
 Item Entity::remove_item_uid(int uid)

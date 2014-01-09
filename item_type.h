@@ -45,8 +45,10 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual Item_class get_class() { return ITEM_CLASS_MISC; };
-  virtual int time_to_reload() { return 0; }
-  virtual int default_charges() { return 0; }
+  virtual int  time_to_reload()  { return 0; }
+  virtual int  default_charges() { return 0; }
+  virtual bool always_combines()    { return false; }
+  virtual bool combine_by_charges() { return false; }
 
 private:
 };
@@ -81,6 +83,8 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual int default_charges() { return count; }
+  virtual bool always_combines()    { return true;  }
+  virtual bool combine_by_charges() { return true;  }
 
   std::string ammo_type;  // Ammo type - links this to a launcher
   int damage;       // Base damage

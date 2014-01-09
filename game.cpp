@@ -119,6 +119,7 @@ void Game::do_action(Interface_action act)
     case IACTION_PAUSE:   player->pause();      break;
 
     case IACTION_PICK_UP:
+// TODO: Interface for picking up >1 item
       if (map->item_count(player->posx, player->posy) == 0) {
         add_msg("No items here.");
       } else if (map->item_count(player->posx, player->posy) == 1) {

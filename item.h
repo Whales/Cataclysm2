@@ -46,9 +46,12 @@ public:
   int get_to_hit();
   int get_base_attack_speed(int strength = 0, int dexterity = 0);
   int get_max_charges();
+  bool combines();
+  bool combine_by_charges();
 
 // Changing
   bool reload(Entity* owner, int ammo_uid);
+  bool combine_with(const Item& rhs);
 
 // Interfaces
   Item_action show_info();

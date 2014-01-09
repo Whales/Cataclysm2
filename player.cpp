@@ -82,6 +82,12 @@ bool Player::add_item(Item item)
   if (current_volume() + item.get_volume() > maximum_volume()) {
     return false;
   }
+  if (item.combines()) {
+    Item* added = ref_item_of_type(item.type);
+    if (added) {
+      return (*added).combine_with(item);
+    }
+  }
   inventory.push_back(item);
   return true;
 }
