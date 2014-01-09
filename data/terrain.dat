@@ -33,27 +33,27 @@ name: sand
   done
 
 name: mud
-  glyph: = brown black
+  glyph: ~ brown black
   movecost: 300
   done
 
 name: shallow water
-  glyph: = ltblue black
+  glyph: ~ ltblue black
   movecost: 200
   done
 
 name: deep water
-  glyph: = blue black
+  glyph: ~ blue black
   movecost: 0
   done
 
 name: shallow salt water
-  glyph: = ltcyan black
+  glyph: ~ ltcyan black
   movecost: 200
   done
 
 name: deep salt water
-  glyph: = cyan black
+  glyph: ~ cyan black
   movecost: 0
   done
 

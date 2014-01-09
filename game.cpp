@@ -83,6 +83,7 @@ bool Game::main_loop()
   }
   player->gain_action_points();
   while (player->action_points > 0) {
+    handle_player_activity();
     shift_if_needed();
     update_hud();
     map->draw(w_map, &monsters, player->posx, player->posy);
@@ -90,27 +91,11 @@ bool Game::main_loop()
                     player->get_glyph());
     w_map->refresh();
 
-    long ch = input();
-// Special testing function
-    if (ch == '!') {
-      Monster *z = new Monster;
-      z->set_type("zombie");
-      z->posx = player->posx - 3;
-      z->posy = player->posy - 3;
-      monsters.add_monster(z);
-    } else if (ch == '?') {
-/*
-      debugmsg("%d item_types", ITEM_TYPES.size());
-      for (std::list<Item_type*>::iterator it = ITEM_TYPES.instances.begin();
-           it != ITEM_TYPES.instances.end();
-           it++) {
-        debugmsg("%s", (*it)->name.c_str());
-      }
-*/
-      add_msg(itos(map->items_at(player->posx, player->posy)->size()).c_str());
+    if (!player->activity.is_active()) {
+      long ch = input();
+      Interface_action act = KEYBINDINGS.bound_to_key(ch);
+      do_action(act);
     }
-    Interface_action act = KEYBINDINGS.bound_to_key(ch);
-    do_action(act);
   }
   shift_if_needed();
   move_monsters();
@@ -407,6 +392,11 @@ void Game::update_hud()
     int cornerx = map->posx - minimap->sizex / 2 + MAP_SIZE / 2;
     int cornery = map->posy - minimap->sizey / 2 + MAP_SIZE / 2;
     worldmap->draw_minimap(minimap, cornerx, cornery);
+  }
+  if (player->weapon.is_real()) {
+    i_hud.set_data("text_weapon", player->weapon.get_name_full());
+  } else {
+    i_hud.set_data("text_weapon", "None");
   }
   i_hud.set_data("hp_head",  player->hp_text(BODYPART_HEAD     ) );
   i_hud.set_data("hp_torso", player->hp_text(BODYPART_TORSO    ) );
