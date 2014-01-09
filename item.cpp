@@ -114,6 +114,24 @@ std::string Item::get_name_definite()
   return "the typeless item";
 }
 
+std::string Item::get_name_full()
+{
+  if (!type) {
+    return "typeless item (0)";
+  }
+  std::stringstream ret;
+  ret << get_name();
+
+  switch (get_item_class()) {
+    case ITEM_CLASS_AMMO:
+    case ITEM_CLASS_LAUNCHER:
+      ret << " (" << charges << ")";
+      break;
+  }
+
+  return ret.str();
+}
+
 std::string Item::get_description()
 {
   if (type) {

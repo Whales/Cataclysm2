@@ -38,6 +38,7 @@ public:
   std::string get_name();
   std::string get_name_indefinite();
   std::string get_name_definite();
+  std::string get_name_full();  // Includes charges, mode, etc.
   std::string get_description();
   int get_weight();
   int get_volume();

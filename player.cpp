@@ -163,7 +163,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
     weapon_letter = 'a';
     letter = 'b';
     std::stringstream weapon_ss;
-    weapon_ss << weapon_letter << " - " << weapon.get_name();
+    weapon_ss << weapon_letter << " - " << weapon.get_name_full();
     i_inv.set_data("text_weapon", weapon_ss.str());
   } else {
     i_inv.set_data("text_weapon", "<c=dkgray>No weapon<c=/>");
@@ -179,7 +179,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
     Item_type_clothing *clothing =
       static_cast<Item_type_clothing*>(items_worn[i].type);
 
-    clothing_ss << letter << " - " << items_worn[i].get_name();
+    clothing_ss << letter << " - " << items_worn[i].get_name_full();
     clothing_name.push_back(clothing_ss.str());
 
     clothing_weight.push_back( itos( items_worn[i].get_weight() ) );
@@ -304,7 +304,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
         std::stringstream weapon_ss;
         weapon_ss << (include_weapon ? "<c=green>" : "<c=ltgray>") << 
                      weapon_letter << (include_weapon ? " + " : " - ") <<
-                     weapon.get_name();
+                     weapon.get_name_full();
         i_inv.set_data("text_weapon", weapon_ss.str());
       }
       if (!found) {
@@ -316,7 +316,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
             std::stringstream clothing_ss;
             clothing_ss << (inc ? "<c=green>" : "<c=ltgray>") <<
                            clothing_letters[i] << (inc ? " + " : " - ") <<
-                           items_worn[i].get_name();
+                           items_worn[i].get_name_full();
             clothing_name[i] = clothing_ss.str();
           }
         }
@@ -332,7 +332,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
               std::stringstream item_ss;
               item_ss << (inc ? "<c=green>" : "<c=ltgray>") <<
                          item_letters[n][i] << (inc ? " + " : " - ") <<
-                         inventory[index].get_name();
+                         inventory[index].get_name_full();
 // It's easiest to just set up the text lists for items from scratch!
               populate_item_lists(this, offset_size, item_indices, item_letters,
                                   include_item, item_name, item_weight,
@@ -484,7 +484,7 @@ void populate_item_lists(Player* p, int offset_size,
         bool inc = include_item[index];
         std::stringstream item_ss, weight_ss, volume_ss;
         item_ss << (inc ? "<c=green>" : "<c=ltgray>") << item_letters[n][i] <<
-                   (inc ? " + " : " - ") << item->get_name() << "<c=/>";
+                   (inc ? " + " : " - ") << item->get_name_full() << "<c=/>";
         item_name.push_back( item_ss.str() );
         weight_ss << (inc ? "<c=green>" : "<c=ltgray>") << item->get_weight() <<
                      "<c=/>";
