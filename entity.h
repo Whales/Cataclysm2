@@ -5,6 +5,7 @@
 #include "glyph.h"
 #include "map.h"
 #include "item.h"
+#include "player_activity.h"
 
 class Entity
 {
@@ -31,8 +32,19 @@ public:
   virtual void move_to(Map* map, int x, int y);
   virtual void pause();
 
+// Misc action functions
+  void set_activity(Player_activity_type type, int duration,
+                    int primary_uid = -1, int secondary_uid = -1);
+  
 // Inventory functions
   virtual bool add_item(Item item);
+  Item* ref_item_uid  (int uid);
+  Item get_item_of_type(Item_type *type);
+  Item remove_item_uid(int uid);
+  void wield_item_uid (int uid);
+  void wear_item_uid  (int uid);
+  void reload_prep    (int uid);
+  virtual Item pick_ammo_for  (Item *it);
 
 // Combat functions
   virtual Attack base_attack();
@@ -46,6 +58,8 @@ public:
 
   int posx, posy;
   int action_points;
+
+  Player_activity activity;
 
   Item weapon;
   std::vector<Item> inventory;

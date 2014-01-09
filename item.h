@@ -47,7 +47,7 @@ public:
   int get_max_charges();
 
 // Changing
-  bool reload(Entity* owner);
+  bool reload(Entity* owner, int ammo_uid);
 
 // Interfaces
   Item_action show_info();

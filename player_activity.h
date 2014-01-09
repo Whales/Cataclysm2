@@ -42,6 +42,7 @@ struct Player_activity
 
   std::string get_name();       // Proper name e.g. "wait"
   std::string get_participle(); // "You stop ______" e.g. waiting
+  bool is_active() { return active && (type != PLAYER_ACTIVITY_NULL); }
 };
 
 #endif

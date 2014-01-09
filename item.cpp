@@ -190,7 +190,7 @@ int Item::get_max_charges()
   return 0;
 }
 
-bool Item::reload(Entity* owner)
+bool Item::reload(Entity* owner, int ammo_uid)
 {
   if (!owner) {
     return false;

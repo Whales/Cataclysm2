@@ -293,6 +293,45 @@ void Game::clean_up_dead_monsters()
   }
 }
 
+void Game::handle_player_activity()
+{
+  Player_activity *act = &(player->activity);
+  if (act->is_active()) {
+    if (act->duration <= player->action_points) {
+      player->action_points -= act->duration;
+      complete_player_activity();
+    } else {
+      act->duration -= player->action_points;
+      player->action_points = 0;
+    }
+  }
+}
+
+void Game::complete_player_activity()
+{
+  Player_activity *act = &(player->activity);
+  switch (act->type) {
+
+    case PLAYER_ACTIVITY_NULL:
+    case PLAYER_ACTIVITY_WAIT:
+      break; // Nothing happens
+
+    case PLAYER_ACTIVITY_RELOAD: {
+      Item *reloaded = player->ref_item_uid(act->primary_item_uid);
+      if (!reloaded) {
+        debugmsg("Completed reload, but the item wasn't there!");
+        return;
+      }
+      reloaded->reload(player, act->secondary_item_uid);
+    } break;
+
+    default:
+      debugmsg("Our switch doesn't know how to handle action %d, '%s'",
+               act->type, act->get_name().c_str());
+  }
+  player->activity = Player_activity();
+}
+
 void Game::shift_if_needed()
 {
   int min = SUBMAP_SIZE * (MAP_SIZE / 2), max = min + SUBMAP_SIZE - 1;

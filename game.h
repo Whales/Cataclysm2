@@ -31,6 +31,8 @@ public:
   void do_action(Interface_action act);
   void move_monsters();
   void clean_up_dead_monsters();
+  void handle_player_activity();
+  void complete_player_activity();
 
 // Engine - Called-as-needed
   void shift_if_needed();  // Shift the map, if the player's not in the center
