@@ -14,6 +14,7 @@ Item::Item(Item_type* T)
   charges = 0;
   if (type) {
     uid = GAME.get_item_uid();
+    charges = type->default_charges();
   } else {
     uid = -1;
   }
