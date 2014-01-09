@@ -12,6 +12,8 @@ i     inventory
 d     drop
 w     wield
 W     wear
+r     reload_equipped
+R     reload
 -     messages_scroll_back
 +     messages_scroll_forward
 :     view_worldmap

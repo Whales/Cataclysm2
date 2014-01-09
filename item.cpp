@@ -1,13 +1,17 @@
 #include "item.h"
+#include "item_type.h"
 #include "game.h"
 #include "globals.h"
 #include "cuss.h"
+#include "entity.h"
 #include <sstream>
 
 Item::Item(Item_type* T)
 {
   type = T;
   count = 1;
+  ammo = NULL;
+  charges = 0;
   if (type) {
     uid = GAME.get_item_uid();
   } else {
@@ -20,6 +24,8 @@ Item::Item(const Item &rhs)
   type  = rhs.type;
   count = rhs.count;
   uid   = rhs.uid;
+  ammo  = rhs.ammo;
+  charges = rhs.charges;
 }
 
 Item::~Item()
@@ -31,6 +37,41 @@ Item& Item::operator=(const Item& rhs)
   type = rhs.type;
 
   return *this;
+}
+
+Item_class Item::get_item_class()
+{
+  if (!type) {
+    return ITEM_CLASS_MISC;
+  }
+  return type->get_class();
+}
+
+bool Item::is_real()
+{
+  return type;
+}
+
+bool Item::can_reload()
+{
+// TODO: Reloadable tools
+  return get_item_class() == ITEM_CLASS_LAUNCHER;
+}
+
+int Item::time_to_reload()
+{
+  if (!can_reload() || !is_real()) {
+    return -1;
+  }
+  return type->time_to_reload();
+}
+
+int Item::get_uid()
+{
+  if (!is_real()) {
+    return -1;
+  }
+  return uid;
 }
 
 glyph Item::top_glyph()
@@ -138,6 +179,27 @@ int Item::get_base_attack_speed(int strength, int dexterity)
   }
 
   return ret;
+}
+
+int Item::get_max_charges()
+{
+  if (get_item_class() == ITEM_CLASS_LAUNCHER) {
+    Item_type_launcher* launcher = static_cast<Item_type_launcher*>(type);
+    return launcher->capacity;
+  }
+  return 0;
+}
+
+bool Item::reload(Entity* owner)
+{
+  if (!owner) {
+    return false;
+  }
+  int charges_available = get_max_charges() - charges;
+  if (charges_available <= 0) {
+    return false;
+  }
+  return true;
 }
 
 Item_action Item::show_info()

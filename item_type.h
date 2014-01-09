@@ -1,5 +1,5 @@
-#ifndef _item_type_H_
-#define _item_type_H_
+#ifndef _ITEM_TYPE_H_
+#define _ITEM_TYPE_H_
 
 #include "glyph.h"
 #include "enum.h"
@@ -45,6 +45,7 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual Item_class get_class() { return ITEM_CLASS_MISC; };
+  virtual int time_to_reload() { return 0; }
 
 private:
 };
@@ -95,6 +96,8 @@ public:
   virtual Item_class get_class() { return ITEM_CLASS_LAUNCHER; };
 
   virtual bool handle_data(std::string ident, std::istream &data);
+
+  virtual int time_to_reload() { return reload_ap; }
 
   std::string ammo_type;  // Ammo type - links this to a launcher
   int damage;     // Damage bonus

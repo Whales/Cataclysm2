@@ -155,17 +155,17 @@ void Game::do_action(Interface_action act)
         std::stringstream message;
         message << "You drop " << it.get_name_definite() << ".";
         map->add_item(it, player->posx, player->posy);
-        player->remove_item_uid(it.uid);
+        player->remove_item_uid(it.get_uid());
         add_msg( message.str().c_str() );
       } else if (act == IACT_WIELD) {
         std::stringstream message;
         message << "You wield " << it.get_name_definite() << ".";
-        player->wield_item_uid(it.uid);
+        player->wield_item_uid(it.get_uid());
         add_msg( message.str().c_str() );
       } else if (act == IACT_WEAR) {
         std::stringstream message;
         message << "You wear " << it.get_name_definite() << ".";
-        player->wear_item_uid(it.uid);
+        player->wear_item_uid(it.get_uid());
         add_msg( message.str().c_str() );
       }
     } break;
@@ -191,7 +191,7 @@ void Game::do_action(Interface_action act)
       } else {
         std::stringstream message;
         message << "You wield " << it.get_name_definite() << ".";
-        player->wield_item_uid(it.uid);
+        player->wield_item_uid(it.get_uid());
         add_msg( message.str().c_str() );
       }
     } break;
@@ -202,13 +202,22 @@ void Game::do_action(Interface_action act)
         if (it.get_item_class() == ITEM_CLASS_CLOTHING) {
           std::stringstream message;
           message << "You wear " << it.get_name_definite() << ".";
-          player->wear_item_uid(it.uid);
+          player->wear_item_uid(it.get_uid());
           add_msg( message.str().c_str() );
         } else {
           add_msg("%s is not clothing!", it.get_name_indefinite().c_str());
         }
       }
     } break;
+
+    case IACTION_RELOAD: {
+      Item it = player->inventory_single();
+      player->reload_prep(it.get_uid());
+    } break;
+
+    case IACTION_RELOAD_EQUIPPED:
+      player->reload_prep(player->weapon.get_uid());
+      break;
 
     case IACTION_MESSAGES_SCROLL_BACK:
       i_hud.add_data("text_messages", -1);

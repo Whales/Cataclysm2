@@ -47,6 +47,13 @@ glyph Player::get_glyph()
   return glyph('@', c_white, c_black);
 }
 
+void Player::set_activity(Player_activity_type type, int duration,
+                          int primary_uid, int secondary_uid)
+{
+// TODO: Error or something if we have an activity?
+  activity = Player_activity(type, duration, primary_uid, secondary_uid);
+}
+
 bool Player::has_sense(Sense_type sense)
 {
 // TODO: Turn off senses if we're blinded, deafened, etc.
@@ -407,23 +414,55 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
   return ret;
 }
 
+Item* Player::ref_item_uid(int uid)
+{
+  if (weapon.is_real() && weapon.get_uid() == uid) {
+    return &weapon;
+  }
+  for (int i = 0; i < items_worn.size(); i++) {
+    if (items_worn[i].get_uid() == uid) {
+      return &(items_worn[i]);
+    }
+  }
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i].get_uid() == uid) {
+      return &(inventory[i]);
+    }
+  }
+  return NULL;
+}
+
+Item Player::get_item_of_type(Item_type *type)
+{
+  if (!type) {
+    return Item();
+  }
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i].type == type) {
+      return inventory[i];
+    }
+  }
+// TODO: Weapon & armor?
+  return Item();
+}
+
 Item Player::remove_item_uid(int uid)
 {
   Item ret = Item();
-  if (weapon.type && weapon.uid == uid) {
+  if (weapon.type && weapon.get_uid() == uid) {
     ret = weapon;
     weapon = Item();
     return ret;
   }
   for (int i = 0; i < items_worn.size(); i++) {
-    if (items_worn[i].uid == uid) {
+    if (items_worn[i].get_uid() == uid) {
       ret = items_worn[i];
       items_worn.erase(items_worn.begin() + i);
       return ret;
     }
   }
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].uid == uid) {
+    if (inventory[i].get_uid() == uid) {
       ret = inventory[i];
       inventory.erase(inventory.begin() + i);
       return ret;
@@ -446,7 +485,7 @@ void Player::wield_item_uid(int uid)
   }
 */
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].uid == uid) {
+    if (inventory[i].get_uid() == uid) {
       weapon = inventory[i];
       inventory.erase(inventory.begin() + i);
       return;
@@ -459,7 +498,7 @@ void Player::wear_item_uid(int uid)
 // TODO: Return a failure reason when attempting to wear something we're wearing
 //       or a non-clothing item
 
-  if (weapon.is_real() && weapon.uid == uid) {
+  if (weapon.is_real() && weapon.get_uid() == uid) {
     if (weapon.get_item_class() == ITEM_CLASS_CLOTHING) {
       items_worn.push_back(weapon);
       weapon = Item();
@@ -467,7 +506,7 @@ void Player::wear_item_uid(int uid)
     return;
   }
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].uid == uid) {
+    if (inventory[i].get_uid() == uid) {
       if (inventory[i].get_item_class() == ITEM_CLASS_CLOTHING) {
         items_worn.push_back(inventory[i]);
         inventory.erase( inventory.begin() + i );
@@ -475,6 +514,34 @@ void Player::wear_item_uid(int uid)
       return;
     }
   }
+}
+
+void Player::reload_prep(int uid)
+{
+  Item* it = ref_item_uid(uid);
+  if (!it || !it->can_reload()) {
+    return;
+  }
+  Item ammo = pick_ammo_for(it);
+  if (ammo.is_real()) {
+    set_activity(PLAYER_ACTIVITY_RELOAD, it->time_to_reload(),
+                 it->get_uid(), ammo.get_uid());
+  }
+}
+
+Item Player::pick_ammo_for(Item *it)
+{
+  if (!it || !it->can_reload()) {
+    return Item();
+  } 
+  if (it->charges == it->get_max_charges()) {
+    return Item();
+  }
+  if (it->charges > 0 && it->ammo) {
+    return get_item_of_type(it->ammo);
+  }
+// TODO: Limit this to valid ammo slots
+  return inventory_single();
 }
 
 void Player::take_damage(Damage_type type, int damage, std::string reason,
