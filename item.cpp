@@ -152,18 +152,25 @@ std::string Item::get_description()
 
 int Item::get_weight()
 {
-  if (type) {
-    return type->weight;
+  if (!type) {
+    return 0;
   }
-  return 0;
+  if (get_item_class() == ITEM_CLASS_AMMO) {
+    return (charges * type->weight) / 100;
+  }
+  return type->weight * count;
 }
 
 int Item::get_volume()
 {
-  if (type) {
-    return type->volume;
+  if (!type) {
+    return 0;
   }
-  return 0;
+  if (get_item_class() == ITEM_CLASS_AMMO) {
+    Item_type_ammo* ammo = static_cast<Item_type_ammo*>(type);
+    return (charges * type->volume) / ammo->count;
+  }
+  return type->volume;
 }
 
 int Item::get_damage(Damage_type dtype)
