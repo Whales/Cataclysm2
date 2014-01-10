@@ -32,7 +32,7 @@ struct Player_activity
     duration (_duration),
     primary_item_uid (_primary_uid),
     secondary_item_uid (_secondary_uid)
-  { active = true; };
+  { active = true; }
 
   Player_activity_type type;
   int duration;

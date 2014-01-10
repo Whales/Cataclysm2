@@ -29,7 +29,7 @@ public:
   Data_pool()
   {
     next_uid = 0;
-  };
+  }
 
   virtual ~Data_pool()
   {
@@ -40,7 +40,7 @@ public:
         delete (*it);
       }
     }
-  };
+  }
 
   bool load_from(std::string filename)
   {
@@ -57,7 +57,7 @@ public:
       }
     }
     return true;
-  };
+  }
 
   bool load_element(std::istream &data, std::string filename)
   {
@@ -79,7 +79,7 @@ public:
     name_map[ name ] = tmp;
     next_uid++;
     return true;
-  };
+  }
 
   T* lookup_uid(int uid)
   {

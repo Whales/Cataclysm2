@@ -15,11 +15,14 @@ void Worldmap::generate()
   std::vector<Point> points_live;
 // Used below when deciding when to turn lakes into ocean
   Lake_status lake[WORLDMAP_SIZE][WORLDMAP_SIZE];
+  City_status city[WORLDMAP_SIZE][WORLDMAP_SIZE];
   std::vector<Point> lake_seeds;
+  std::vector<Point> city_seeds;
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
       biomes[x][y] = NULL;
-      lake[x][y] = LAKE_UNCHECKED;
+      lake[x][y] = LAKE_NOTLAKE;
+      city[x][y] = CITY_NOTCITY;
     }
   }
 // Randomly seed biomes
@@ -32,8 +35,10 @@ void Worldmap::generate()
       if ((*it)->has_flag(BIOME_FLAG_LAKE)) {
         lake_seeds.push_back(p);
         lake[p.x][p.y] = LAKE_UNCHECKED;
-      } else {
-        lake[p.x][p.y] = LAKE_NOTLAKE;
+      }
+      if ((*it)->has_flag(BIOME_FLAG_CITY)) {
+        city_seeds.push_back(p);
+        city[p.x][p.y] = CITY_RAW;
       }
       biomes[p.x][p.y] = (*it);
     }
@@ -64,6 +69,7 @@ void Worldmap::generate()
       Point growth = valid_growth[rng(0, valid_growth.size() - 1)];
       biomes[growth.x][growth.y] = biomes[p.x][p.y];
       lake[growth.x][growth.y] = lake[p.x][p.y];
+      city[growth.x][growth.y] = city[p.x][p.y];
       points_live.push_back( growth );
     }
   }
@@ -183,41 +189,43 @@ void Worldmap::generate()
     while (!done) {
       if (!tiles[rp.x][rp.y].terrain->has_flag(WTF_NO_RIVER) &&
           !tiles[rp.x][rp.y].terrain->has_flag(WTF_WATER)      ) {
-        tiles[rp.x    ][rp.y    ].terrain = WORLD_TERRAIN.lookup_name("river");
-        tiles[rp.x - 1][rp.y    ].terrain = WORLD_TERRAIN.lookup_name("river");
-        tiles[rp.x + 1][rp.y    ].terrain = WORLD_TERRAIN.lookup_name("river");
-        tiles[rp.x    ][rp.y - 1].terrain = WORLD_TERRAIN.lookup_name("river");
-        tiles[rp.x    ][rp.y + 1].terrain = WORLD_TERRAIN.lookup_name("river");
+        tiles[rp.x][rp.y].terrain = WORLD_TERRAIN.lookup_name("river");
       }
       std::vector<Point> next;
       std::vector<int> chances;
       int total_chance = 0;
-      for (int x = rp.x - 1; !done && x <= rp.x + 1; x++) {
-        for (int y = rp.y - 1; !done && y <= rp.y + 1; y++) {
-          if (x >= 0 && x < WORLDMAP_SIZE && y >= 0 && y < WORLDMAP_SIZE) {
-            if (tiles[x][y].terrain->has_flag(WTF_SALTY) ||
-                altitude[x][y] <= 0) {
-              done = true;
-            } else if (tiles[x][y].terrain->name != "river" &&
-                       (!tiles[x][y].terrain->has_flag(WTF_NO_RIVER) ||
-                       tiles[x][y].terrain->has_flag(WTF_WATER))) {
-              next.push_back( Point(x, y) );
-              int chance;
-              if (altitude[x][y] > altitude[rp.x][rp.y]) {
-                //chance = 100 + altitude[rp.x][rp.y] - altitude[x][y];
-                chance = 5;
-              } else { // Better chance for places we slope down to
-                //chance = 150 + altitude[rp.x][rp.y] - altitude[x][y];
-                chance = 8;
-              }
-              if (tiles[x][y].terrain->has_flag(WTF_WATER)) {
-                chance += 3;
-              }
-              chances.push_back(chance);
-              total_chance += chance;
-            }
-          }
+      for (int n = 1; n <= 4; n++) {
+        int x, y;
+        switch (n) {
+          case 1: x = rp.x - 1; y = rp.y    ; break;
+          case 2: x = rp.x + 1; y = rp.y    ; break;
+          case 3: x = rp.x    ; y = rp.y - 1; break;
+          case 4: x = rp.x    ; y = rp.y + 1; break;
         }
+        if (x < 0 || x >= WORLDMAP_SIZE || y < 0 || y >= WORLDMAP_SIZE ||    
+            tiles[x][y].terrain->has_flag(WTF_SALTY) || altitude[x][y] <= 0) {
+          done = true;
+// no_river tiles are only acceptable if it has the water flag too
+        } else if (!tiles[x][y].terrain->has_flag(WTF_NO_RIVER) ||
+                   tiles[x][y].terrain->has_flag(WTF_WATER)) {
+          next.push_back( Point(x, y) );
+          int chance;
+          if (altitude[x][y] > altitude[rp.x][rp.y]) {
+            //chance = 100 + altitude[rp.x][rp.y] - altitude[x][y];
+            chance = 5;
+          } else { // Better chance for places we slope down to
+            //chance = 150 + altitude[rp.x][rp.y] - altitude[x][y];
+            chance = 20;
+          }
+          if (tiles[x][y].terrain->has_flag(WTF_WATER)) {
+            chance += 7;
+          }
+          chances.push_back(chance);
+          total_chance += chance;
+        }
+      }
+      if (chances.empty()) {
+        done = true;
       }
 // Now pick from among those options.
       if (!done) {

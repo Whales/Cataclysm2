@@ -79,3 +79,8 @@ name: rubble
   movecost: 120
   done
 
+name: stone wall
+  glyph: # ltgray black
+  movecost: 0
+  flags: opaque
+  done

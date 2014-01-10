@@ -18,9 +18,9 @@ public:
   virtual std::string get_possessive();
   virtual glyph get_glyph();
 
-  virtual bool is_player()  { return false; };
-  virtual bool is_monster() { return false; };
-  virtual bool is_you()     { return false; }; // As in THE player
+  virtual bool is_player()  { return false; }
+  virtual bool is_monster() { return false; }
+  virtual bool is_you()     { return false; } // As in THE player
 
   virtual void die();
   virtual void gain_action_points();

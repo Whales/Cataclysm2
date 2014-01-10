@@ -10,9 +10,10 @@
 enum World_terrain_flag
 {
   WTF_NULL = 0,
-  WTF_WATER,
-  WTF_NO_RIVER,
-  WTF_SALTY,
+  WTF_WATER,      // For river building
+  WTF_NO_RIVER,   // For river building
+  WTF_SALTY,      // Water is salty; also marks end of a river
+  WTF_BRIDGE,     // Road on top of this tile is a bridge
   WTF_MAX
 };
 
@@ -25,10 +26,11 @@ struct World_terrain
   std::string name;
   std::string beach_name;
   int beach_range;
+  int road_cost;
   glyph sym;
 
   World_terrain();
-  ~World_terrain(){};
+  ~World_terrain(){}
 
   void assign_uid(int id) { uid = id; }
   bool load_data(std::istream &data);

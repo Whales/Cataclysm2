@@ -30,6 +30,16 @@ struct Point
   Point(int X = 0, int Y = 0) : x (X), y (Y) {}
   Point(const Point &p) : x (p.x), y (p.y) {}
   ~Point(){}
+
+  bool operator==(const Point &other) const
+  {
+    return (x == other.x && y == other.y);
+  }
+
+  bool operator!=(const Point &other) const
+  {
+    return !(*this == other);
+  }
 };
 
 struct Pointcomp

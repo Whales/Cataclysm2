@@ -7,7 +7,7 @@
 struct World_terrain_chance
 {
   World_terrain_chance(int C = 10, World_terrain* WT = NULL) :
-    chance (C), terrain (WT) {};
+    chance (C), terrain (WT) {}
   int chance;
   World_terrain* terrain;
 };
@@ -16,7 +16,7 @@ struct Variable_world_terrain
 {
 public:
   Variable_world_terrain();
-  ~Variable_world_terrain(){};
+  ~Variable_world_terrain(){}
 
   void add_terrain(int chance, World_terrain* terrain);
   void add_terrain(World_terrain_chance terrain);
@@ -33,6 +33,7 @@ enum Biome_flag
 {
   BIOME_FLAG_NULL = 0,
   BIOME_FLAG_LAKE,    // "lake" - turn to ocean if ocean-adjacent
+  BIOME_FLAG_CITY,    // "city" - turn into city buildings
   BIOME_FLAG_MAX
 };
 
@@ -59,24 +60,19 @@ private:
   std::vector<bool> flags;
 };
 
-enum Biome_type
-{
-  BIOME_NULL,
-  BIOME_GRASSLAND,
-  BIOME_FOREST,
-  BIOME_SWAMP,
-  BIOME_MUSHROOM,
-  BIOME_ROCKY,
-  BIOME_CITY,
-  BIOME_LAKE, // May be a lake or a gulf (if ocean-adjacent)
-  BIOME_MAX
-};
-
 enum Lake_status
 {
   LAKE_UNCHECKED,
   LAKE_CHECKED,
   LAKE_NOTLAKE
+};
+
+enum City_status
+{
+  CITY_NOTCITY,
+  CITY_RAW, // Not generated yet
+  CITY_BUILDING,
+  CITY_ROAD
 };
 
 #endif

@@ -24,7 +24,7 @@
 name: std_rocky_whales
 type: rocky
 base_terrain: w:20 dirt / w:5 grass / w:10 rubble / w:3 boulder
-items: 80 a = rock
+item_group: 80 a = items_rocky
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa

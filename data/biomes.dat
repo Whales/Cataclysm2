@@ -15,6 +15,7 @@ Name: rocky
   Done
 Name: city
   terrain: town square
+  flags: city
   Done
 Name: lake
   terrain: fresh water

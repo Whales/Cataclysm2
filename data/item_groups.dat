@@ -13,3 +13,19 @@ name: items_field
 name: items_forest
   items: w:10 stick / w:3 rock
   done
+
+name: items_mangrove
+  items: stick
+  done
+
+name: items_rocky
+  items: rock
+  done
+
+name: items_salt_marsh
+  items: stick
+  done
+
+name: items_swamp
+  items: stick
+  done

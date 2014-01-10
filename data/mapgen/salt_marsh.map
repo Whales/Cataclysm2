@@ -24,7 +24,7 @@
 name: std_salt_marsh_whales
 type: salt marsh
 base_terrain: w:80 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
-items: 60 a = stick
+item_group: 60 a = items_salt_marsh
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -60,7 +60,7 @@ weight: 10
 base_terrain: w:80 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
 tile: x = w:15 dirt / w:5 grass / w:1 shallow salt water
 tile: 7 = w:5 tree / w:2 grass
-items: 60 ._7 = stick
+item_group: 60 .x7 = items_salt_marsh
 map:
 .........................
 .........................
@@ -96,28 +96,29 @@ weight: 10
 base_terrain: w:80 shallow salt water / w:20 dirt / w:15 grass / w:2 tree
 tile:  x    = w:5 grass / w:1 dirt / w:1 shallow salt water
 subst: abcd = w:1 x / w:3 .
+item_group: 60 .x = items_salt_marsh
 map:
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
-..aaa...bbb...ccc...ddd..
+...aaa..bbb...ccc..ddd...
+..aaa..bbb....ccc..ddd...
+..aaa..bbb...ccc...ddd...
+...aaa..bbb...cccc..ddd..
+..aaa....bbb...ccc...ddd.
+.aaa.....bbb..ccc..dddd..
+..aaa....bbb.ccc...ddd...
+...aaa...bbb..ccc...ddd..
+..aaaa..bbb....ccc.ddd...
+.aaa...bbb...cccc...dddd.
+..aaa..bbb...ccc...dddd..
+.aaa...bbb....cccc..ddd..
+..aaa...bbbb...ccc...ddd.
+...aaa..bbb....ccc...ddd.
+...aaa.bbb....ccc....ddd.
+..aaaa.bbb...ccc....ddd..
+.aaa...bbbb..ccc...ddd...
+.aaa...bbbb...ccc..ddd...
+..aaa...bbb....ccc..ddd..
+...aaa...bbb..ccc....ddd.
+..aaa...bbb...ccc....ddd.
 ..aaa...bbb...ccc...ddd..
 ..aaa...bbb...ccc...ddd..
 ..aaa...bbb...ccc...ddd..

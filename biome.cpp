@@ -164,6 +164,7 @@ std::string biome_flag_name(Biome_flag flag)
   switch (flag) {
     case BIOME_FLAG_NULL:   return "NULL";
     case BIOME_FLAG_LAKE:   return "lake";
+    case BIOME_FLAG_CITY:   return "city";
     case BIOME_FLAG_MAX:    return "ERROR - BIOME_FLAG_MAX";
     default:                return "ERROR - Unnamed Biome_flag";
   }

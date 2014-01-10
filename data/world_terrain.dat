@@ -1,49 +1,61 @@
 Name: ocean
   Glyph: = blue black
   Flags: no_river water salty
+  Road_cost: 0
   Done
 Name: field
   Glyph: . green black
   Beach: beach
   Beach_range: 1
+  Road_cost: 10
   Done
 Name: beach
   Glyph: . yellow black
+  Road_cost: 12
   Done
 Name: forest
   Glyph: 7 green black
   Beach: mangrove
   Beach_range: 3
+  Road_cost: 15
   Done
 Name: mangrove
   Glyph: 7 cyan black
   Flags: no_river water salty
+  Road_cost: 30
   Done
 Name: swamp
   Glyph: " ltgreen black
   Flags: no_river water
+  Road_cost: 20
   Done
 Name: salt marsh
   Glyph: " cyan black
   Flags: no_river water salty
+  Road_cost: 25
   Done
 Name: mushroom forest
   Glyph: 7 ltgray black
   Beach: salt marsh
   Beach_range: 2
+  Road_cost: 15
   Done
 Name: rocky
   Glyph: # brown black
+  Road_cost: 18
   Done
 Name: fresh water
   Glyph: = ltblue black
   Flags: no_river water
+  Road_cost: 0
   Done
 Name: river
   Glyph: ~ ltblue black
-  Flags: no_river water
+  Flags: no_river water bridge
+  Road_cost: 25
   Done
 Name: town square
   Glyph: O ltgray black
   Flags: no_river
+  Road_cost: 15
   Done

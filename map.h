@@ -20,8 +20,8 @@ struct Tile
   Terrain *terrain;
   std::vector<Item> items;
 
-   Tile() { };
-  ~Tile() { };
+   Tile() { }
+  ~Tile() { }
 
   glyph top_glyph();
 

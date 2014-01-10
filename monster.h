@@ -23,7 +23,7 @@ public:
   virtual std::string get_possessive();
   std::string get_name_indefinite();
   std::string get_name_definite();
-  virtual bool is_monster() { return true; };
+  virtual bool is_monster() { return true; }
 
   virtual bool has_sense(Sense_type sense);
 

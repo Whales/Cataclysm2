@@ -44,7 +44,7 @@ public:
   virtual bool load_data(std::istream &data);
   virtual bool handle_data(std::string ident, std::istream &data);
 
-  virtual Item_class get_class() { return ITEM_CLASS_MISC; };
+  virtual Item_class get_class() { return ITEM_CLASS_MISC; }
   virtual int  time_to_reload()  { return 0; }
   virtual int  default_charges() { return 0; }
   virtual bool always_combines()    { return false; }
@@ -57,9 +57,9 @@ class Item_type_clothing : public Item_type
 {
 public:
   Item_type_clothing();
-  ~Item_type_clothing(){};
+  ~Item_type_clothing(){}
 
-  virtual Item_class get_class() { return ITEM_CLASS_CLOTHING; };
+  virtual Item_class get_class() { return ITEM_CLASS_CLOTHING; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
@@ -76,9 +76,9 @@ class Item_type_ammo : public Item_type
 {
 public:
   Item_type_ammo();
-  ~Item_type_ammo(){};
+  ~Item_type_ammo(){}
 
-  virtual Item_class get_class() { return ITEM_CLASS_AMMO; };
+  virtual Item_class get_class() { return ITEM_CLASS_AMMO; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
@@ -98,9 +98,9 @@ class Item_type_launcher : public Item_type
 {
 public:
   Item_type_launcher();
-  ~Item_type_launcher(){};
+  ~Item_type_launcher(){}
 
-  virtual Item_class get_class() { return ITEM_CLASS_LAUNCHER; };
+  virtual Item_class get_class() { return ITEM_CLASS_LAUNCHER; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 

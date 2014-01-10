@@ -60,43 +60,43 @@ namespace cuss {
                 selected = false; selectable = false;
                 fg = c_ltgray; bg = c_black; owns_data = true;
                 recently_selected = false; }
-    virtual ~element() { };
+    virtual ~element() { }
 
-    virtual element_type type() { return ELE_NULL; };
-    virtual void draw(Window *win) {};
+    virtual element_type type() { return ELE_NULL; }
+    virtual void draw(Window *win) {}
 
     virtual std::string save_data();
     virtual void load_data(std::istream &datastream);
 
-    virtual bool self_reference() { return false; };
+    virtual bool self_reference() { return false; }
 
-    virtual bool set_data(std::string  data) { return false; };
-    virtual bool add_data(std::string  data) { return false; };
-    virtual bool ref_data(std::string *data) { return false; };
+    virtual bool set_data(std::string  data) { return false; }
+    virtual bool add_data(std::string  data) { return false; }
+    virtual bool ref_data(std::string *data) { return false; }
 
-    virtual bool set_data(std::vector<std::string>  data) { return false; };
-    virtual bool add_data(std::vector<std::string>  data) { return false; };
-    virtual bool ref_data(std::vector<std::string> *data) { return false; };
+    virtual bool set_data(std::vector<std::string>  data) { return false; }
+    virtual bool add_data(std::vector<std::string>  data) { return false; }
+    virtual bool ref_data(std::vector<std::string> *data) { return false; }
 
-    virtual bool set_data(int  data) { return false; };
-    virtual bool add_data(int  data) { return false; };
-    virtual bool ref_data(int *data) { return false; };
+    virtual bool set_data(int  data) { return false; }
+    virtual bool add_data(int  data) { return false; }
+    virtual bool ref_data(int *data) { return false; }
 
-    virtual bool set_data(glyph gl, int posx, int posy) { return false; };
+    virtual bool set_data(glyph gl, int posx, int posy) { return false; }
 
-    virtual bool handle_keypress(long ch) { return false; };
+    virtual bool handle_keypress(long ch) { return false; }
 
 // This is used to set fg & bg, and hence is defined for element!
     virtual bool set_data(nc_color FG, nc_color BG = c_null);
 
-    virtual bool set_alignment(alignment al) { align = al; return true; };
+    virtual bool set_alignment(alignment al) { align = al; return true; }
 
-    virtual void clear_data() {};
+    virtual void clear_data() {}
 
-    virtual std::string get_str() { std::string ret; return ret; };
-    virtual int get_int() { return 0; };
+    virtual std::string get_str() { std::string ret; return ret; }
+    virtual int get_int() { return 0; }
     virtual std::vector<std::string> get_str_list()
-            { std::vector<std::string> ret; return ret; };
+            { std::vector<std::string> ret; return ret; }
   };
 
   struct ele_drawing : public element

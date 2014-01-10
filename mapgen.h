@@ -21,14 +21,14 @@ struct World_terrain;
  */
 struct Terrain_chance
 {
-  Terrain_chance(int C = 10, Terrain* T = NULL) : chance (C), terrain(T) {};
+  Terrain_chance(int C = 10, Terrain* T = NULL) : chance (C), terrain(T) {}
   int chance;
   Terrain* terrain;
 };
 
 struct Item_type_chance
 {
-  Item_type_chance(int C = 10, Item_type* I = NULL) : chance(C), item(I) {};
+  Item_type_chance(int C = 10, Item_type* I = NULL) : chance(C), item(I) {}
   int chance;
   Item_type* item;
 };
@@ -37,7 +37,7 @@ struct Variable_terrain
 {
 public:
   Variable_terrain();
-  ~Variable_terrain(){};
+  ~Variable_terrain(){}
 
   void add_terrain(int chance, Terrain* terrain);
   void add_terrain(Terrain_chance terrain);
@@ -61,7 +61,7 @@ private:
 struct Item_group
 {
   Item_group();
-  ~Item_group(){};
+  ~Item_group(){}
 
   std::string name;
   int uid;
@@ -80,7 +80,7 @@ struct Item_area
 {
 public:
   Item_area();
-  ~Item_area(){};
+  ~Item_area(){}
 
   void add_item(int chance, Item_type* item_type);
   void add_item(Item_type_chance item_type);
@@ -105,7 +105,7 @@ private:
 
 struct Subst_chance
 {
-  Subst_chance(int C = 10, char R = '.') : chance (C), result (R) {};
+  Subst_chance(int C = 10, char R = '.') : chance (C), result (R) {}
   int chance;
   char result;
 };
@@ -113,7 +113,7 @@ struct Subst_chance
 struct Tile_substitution
 {
   Tile_substitution();
-  ~Tile_substitution(){};
+  ~Tile_substitution(){}
 
   void add_result(int chance, char result);
   void add_result(Subst_chance chance);
@@ -131,7 +131,7 @@ private:
 struct Mapgen_spec
 {
   Mapgen_spec();
-  ~Mapgen_spec(){};
+  ~Mapgen_spec(){}
 
   bool load_data(std::istream &data);
 

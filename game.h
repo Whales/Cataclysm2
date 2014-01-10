@@ -13,8 +13,8 @@ struct Game_message
 // TODO: Add a turn number.
   int count;
   std::string text;
-  Game_message() { count = 1; text = ""; };
-  Game_message(std::string T) : text (T) { count = 1; };
+  Game_message() { count = 1; text = ""; }
+  Game_message(std::string T) : text (T) { count = 1; }
 };
 
 class Game

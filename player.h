@@ -18,8 +18,8 @@ public:
   virtual std::string get_possessive();
   virtual glyph get_glyph();
 
-  virtual bool is_player()  { return true; };
-  virtual bool is_you()     { return true; }; // TODO: No?
+  virtual bool is_player()  { return true; }
+  virtual bool is_you()     { return true; } // TODO: No?
 
 // Movement functions
   virtual bool has_sense(Sense_type sense);
