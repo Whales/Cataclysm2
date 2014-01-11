@@ -116,7 +116,7 @@ void Submap::generate(World_terrain* terrain[5])
         }
       }
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
-      spec->prepare(neighbor);
+      spec->prepare(&neighbor);
     } else {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
       spec->prepare();

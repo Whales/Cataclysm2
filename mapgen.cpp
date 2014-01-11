@@ -598,7 +598,7 @@ Terrain* Mapgen_spec::pick_terrain(int x, int y)
   return terrain_defs[key].pick();
 }
 
-void Mapgen_spec::prepare()
+void Mapgen_spec::prepare(std::vector<bool> *neighbor)
 {
 // Prep terrain_defs; if they're grouped, this picks and "locks in" the terrain
   for (std::map<char,Variable_terrain>::iterator it = terrain_defs.begin();
@@ -656,7 +656,37 @@ void Mapgen_spec::prepare()
 
 // Rotate randomly.
 // TODO: Allow for a "norotate" flag?
-  if (!is_adjacent && num_neighbors > 0) {
+// If we're a relational map, rotate based on neighbors
+  if (neighbor) {
+    if (num_neighbors == 1) {
+      if ((*neighbor)[DIR_NORTH]) {
+      } else if ((*neighbor)[DIR_EAST]) {
+        rotate(DIR_EAST);
+      } else if ((*neighbor)[DIR_SOUTH]) {
+        rotate(DIR_SOUTH);
+      } else if ((*neighbor)[DIR_WEST]) {
+        rotate(DIR_WEST);
+      }
+    } else if (num_neighbors == 2) {
+      if ((*neighbor)[DIR_EAST] && (*neighbor)[DIR_SOUTH]) {
+        rotate(DIR_EAST);
+      } else if ((*neighbor)[DIR_SOUTH] && (*neighbor)[DIR_WEST]) {
+        rotate(DIR_SOUTH);
+      } else if ((*neighbor)[DIR_WEST] && (*neighbor)[DIR_NORTH]) {
+        rotate(DIR_WEST);
+      }
+    } else if (num_neighbors == 3) { // Fast to check who DOESN'T have it
+      if (!(*neighbor)[DIR_NORTH]) {
+        rotate(DIR_EAST);
+      } else if (!(*neighbor)[DIR_EAST]) {
+        rotate(DIR_SOUTH);
+      } else if (!(*neighbor)[DIR_SOUTH]) {
+        rotate(DIR_WEST);
+      }
+    } else if (num_neighbors != 4) {
+      debugmsg("Used neighbor on a map with num_neighbors %d", num_neighbors);
+    }
+  } else if (!is_adjacent && num_neighbors > 0) {
     random_rotate();
   }
 // Clear item locations
@@ -675,39 +705,6 @@ void Mapgen_spec::prepare()
       }
     }
   }
-}
-
-void Mapgen_spec::prepare(std::vector<bool> neighbor)
-{
-/* Assume that neighbor is correct - i.e. that if we have num_neighbors == 2
- * then exactly two slots in neighbor are true
- */
-  if (num_neighbors == 1) {
-    if (neighbor[DIR_EAST]) {
-      rotate(DIR_EAST);
-    } else if (neighbor[DIR_SOUTH]) {
-      rotate(DIR_SOUTH);
-    } else if (neighbor[DIR_WEST]) {
-      rotate(DIR_WEST);
-    }
-  } else if (num_neighbors == 2) {
-    if (neighbor[DIR_EAST] && neighbor[DIR_SOUTH]) {
-      rotate(DIR_EAST);
-    } else if (neighbor[DIR_SOUTH] && neighbor[DIR_WEST]) {
-      rotate(DIR_SOUTH);
-    } else if (neighbor[DIR_WEST] && neighbor[DIR_NORTH]) {
-      rotate(DIR_WEST);
-    }
-  } else if (num_neighbors == 3) { // Fast to check who DOESN'T have it
-    if (!neighbor[DIR_NORTH]) {
-      rotate(DIR_EAST);
-    } else if (!neighbor[DIR_EAST]) {
-      rotate(DIR_SOUTH);
-    } else if (!neighbor[DIR_SOUTH]) {
-      rotate(DIR_WEST);
-    }
-  }
-  prepare();
 }
 
 void Mapgen_spec::random_rotate()
