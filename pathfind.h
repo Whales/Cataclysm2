@@ -60,8 +60,9 @@ public:
 
   void set_map(Generic_map m);
 
-  void set_bounds(int x0 = -1, int y0 = -1, int x1 = -1, int y1 = -1);
+  void set_bounds(int x0, int y0, int x1, int y1);
   void set_bounds(Point p0, Point p1);
+  void set_bounds(int b);
 
   void set_allow_diagonal(bool allow = true);
 
@@ -74,6 +75,7 @@ public:
 private:
   Generic_map map;
   int x_min, x_max, y_min, y_max;
+  int border;
   bool allow_diag;
 
   Path path_line(Point start, Point end);

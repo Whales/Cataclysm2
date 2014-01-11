@@ -274,10 +274,11 @@ void Worldmap::generate()
     }
   }
   if (city_seeds.size() > 1) {
-    Generic_map gmap = get_generic_map();
-    Pathfinder pf(gmap);
-    pf.set_allow_diagonal(false);
     for (int i = 0; i < city_seeds.size(); i++) {
+      Generic_map gmap = get_generic_map();
+      Pathfinder pf(gmap);
+      pf.set_allow_diagonal(false);
+      pf.set_bounds(20);
       Point from = city_seeds[i];
 // This is a roll to get any index EXCEPT the current one;
 // If we roll the current one, use the last one (which the roll skips)
@@ -286,11 +287,6 @@ void Worldmap::generate()
         index = city_seeds.size() - 1;
       }
       Point to = city_seeds[index];
-      int lowx  = (from.x < to.x ? from.x : to.x);
-      int lowy  = (from.y < to.y ? from.y : to.y);
-      int highx = (from.x > to.x ? from.x : to.x);
-      int highy = (from.y > to.y ? from.y : to.y);
-      pf.set_bounds(lowx - 5, lowy - 5, highx + 5, highy + 5);
 
       Path path = pf.get_path(PATH_A_STAR, from, to);
       for (int n = 0; n < path.size(); n++) {

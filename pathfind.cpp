@@ -118,7 +118,11 @@ bool Generic_map::blocked(Point p)
 Pathfinder::Pathfinder()
 {
   allow_diag = true;
-  set_bounds();
+  x_min  = 0;
+  x_max  = 0;
+  y_min  = 0;
+  y_max  = 0;
+  border = 0;
 }
 
 Pathfinder::Pathfinder(Generic_map m)
@@ -134,7 +138,7 @@ Pathfinder::~Pathfinder()
 void Pathfinder::set_map(Generic_map m)
 {
   map = m;
-  set_bounds();
+  set_bounds(0, 0, map.get_size_x() - 1, map.get_size_y() - 1);
 }
 
 void Pathfinder::set_bounds(int x0, int y0, int x1, int y1)
@@ -172,6 +176,11 @@ void Pathfinder::set_bounds(Point p0, Point p1)
   set_bounds(p0.x, p0.y, p1.x, p1.y);
 }
 
+void Pathfinder::set_bounds(int b)
+{
+  border = b;
+}
+
 void Pathfinder::set_allow_diagonal(bool allow)
 {
   allow_diag = allow;
@@ -179,7 +188,8 @@ void Pathfinder::set_allow_diagonal(bool allow)
 
 bool Pathfinder::in_bounds(int x, int y)
 {
-  return (x >= x_min && x <= x_max && y >= y_min && y <= y_max);
+  return (x >= x_min && x <= x_max && y >= y_min && y <= y_max &&
+          x >= 0 && x < map.get_size_x() && y >= 0 && y <= map.get_size_y());
 }
 
 bool Pathfinder::in_bounds(Point p)
@@ -369,6 +379,15 @@ Path Pathfinder::path_a_star(Point start, Point end)
   int   hscore[x_size][y_size];
   Point parent[x_size][y_size];
 
+  if (border > 0) {
+    int x0 = (start.x < end.x ? start.x : end.x);
+    int y0 = (start.y < end.y ? start.y : end.y);
+    int x1 = (start.x > end.x ? start.x : end.x);
+    int y1 = (start.y > end.y ? start.y : end.y);
+
+    set_bounds(x0 - border, y0 - border, x1 + border, y1 + border);
+  }
+
 // Init everything to 0
   for (int x = 0; x < x_size; x++) {
     for (int y = 0; y < y_size; y++) {
@@ -423,9 +442,10 @@ Path Pathfinder::path_a_star(Point start, Point end)
               status[x][y] = ASTAR_OPEN;
               gscore[x][y] = g;
               if (allow_diag) {
-                hscore[x][y] = 10 * rl_dist(x, y, end.x, end.y);
+                hscore[x][y] = map.get_cost(x, y) * rl_dist(x, y, end.x, end.y);
               } else {
-                hscore[x][y] = 10 * manhattan_dist(x, y, end.x, end.y);
+                hscore[x][y] = map.get_cost(x, y) *
+                               manhattan_dist(x, y, end.x, end.y);
               }
               parent[x][y] = current;
               open_points.push_back( Point(x, y) );
