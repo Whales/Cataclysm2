@@ -292,7 +292,11 @@ void Worldmap::generate()
       for (int n = 0; n < path.size(); n++) {
         Point p = path[n];
         if (!tiles[p.x][p.y].terrain->has_flag(WTF_NO_ROAD)) {
-          tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+          if (tiles[p.x][p.y].terrain->has_flag(WTF_BRIDGE)) {
+            tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("bridge");
+          } else {
+            tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+          }
         }
       }
     }
