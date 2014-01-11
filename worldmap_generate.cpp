@@ -1,6 +1,7 @@
 #include "worldmap.h"
 #include "biome.h"
 #include "rng.h"
+#include "globals.h"
 #include <math.h>
 
 #define PI 3.141
@@ -262,6 +263,45 @@ void Worldmap::generate()
       }
     }
   }
+
+// Draw some roads between cities.
+  for (int i = 0; i < city_seeds.size(); i++) {
+    Point p = city_seeds[i];
+    if (tiles[p.x][p.y].terrain->road_cost <= 0 ||
+        altitude[p.x][p.y] <= 0) {
+      city_seeds.erase(city_seeds.begin() + i);
+      i--;
+    }
+  }
+  if (city_seeds.size() > 1) {
+    Generic_map gmap = get_generic_map();
+    Pathfinder pf(gmap);
+    pf.set_allow_diagonal(false);
+    for (int i = 0; i < city_seeds.size(); i++) {
+      Point from = city_seeds[i];
+// This is a roll to get any index EXCEPT the current one;
+// If we roll the current one, use the last one (which the roll skips)
+      int index = rng(0, city_seeds.size() - 2);
+      if (index == i) {
+        index = city_seeds.size() - 1;
+      }
+      Point to = city_seeds[index];
+      int lowx  = (from.x < to.x ? from.x : to.x);
+      int lowy  = (from.y < to.y ? from.y : to.y);
+      int highx = (from.x > to.x ? from.x : to.x);
+      int highy = (from.y > to.y ? from.y : to.y);
+      pf.set_bounds(lowx - 5, lowy - 5, highx + 5, highy + 5);
+
+      Path path = pf.get_path(PATH_A_STAR, from, to);
+      for (int n = 0; n < path.size(); n++) {
+        Point p = path[n];
+        if (!tiles[p.x][p.y].terrain->has_flag(WTF_NO_ROAD)) {
+          tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+        }
+      }
+    }
+  }
+
 }
 
 void draw_island(std::vector<std::vector<int> > &altitude, Point center,

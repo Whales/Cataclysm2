@@ -1,6 +1,7 @@
+#include "geometry.h"
 #include <vector>
 #include <stdlib.h>
-#include "geometry.h"
+#include <math.h>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
@@ -66,6 +67,11 @@ int rl_dist(int x0, int y0, int x1, int y1)
 {
   int dx = (x0 > x1 ? x0 - x1 : x1 - x0), dy = (y0 > y1 ? y0 - y1 : y1 - y0);
   return (dx > dy ? dx : dy);
+}
+
+int manhattan_dist(int x0, int y0, int x1, int y1)
+{
+  return abs(x1 - x0) + abs(y1 - y0);
 }
 
 std::string Direction_name(Direction dir)

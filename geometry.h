@@ -57,5 +57,7 @@ struct Pointcomp
 std::vector<Point> line_to(int x0, int y0, int x1, int y1);
 
 int rl_dist(int x0, int y0, int x1, int y1);
+int manhattan_dist(int x0, int y0, int x1, int y1);
+
 
 #endif

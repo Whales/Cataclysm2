@@ -21,6 +21,8 @@ struct glyph
 
   bool operator==(const glyph &rhs);
 
+  void make_line_drawing(bool north, bool east, bool south, bool west);
+
   std::string save_data();
   void load_data(std::istream &datastream);
   void load_data_text(std::istream &datastream); // For human-readable data

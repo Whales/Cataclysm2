@@ -6,6 +6,7 @@
 #include "globals.h"
 #include "worldmap.h"
 #include "cuss.h"
+#include "pathfind.h"
 #include <string>
 
 #define WORLDMAP_SIZE 150
@@ -28,6 +29,8 @@ public:
   void draw(int posx, int posy);
   void draw_minimap(cuss::element *drawing, int cornerx, int cornery);
   Worldmap_tile* get_tile(int x, int y);
+  glyph get_glyph(int x, int y);
+  Generic_map get_generic_map();
 
   Point random_tile_with_terrain(std::string name);
   Point random_tile_with_terrain(World_terrain* terrain);

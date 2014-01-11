@@ -19,8 +19,11 @@ public:
 
   std::vector<Point> get_points();
   int get_cost();
+
   Point step(int n);
   Point operator[](int n);
+  int size() { return path.size(); }
+  
 
   void add_step(Point p, int cost);
   void reverse();
@@ -36,7 +39,7 @@ public:
   ~Generic_map();
 
   void set_size(int x, int y);
-  void set_cost(int x, int y);
+  void set_cost(int x, int y, int c);
 
   int  get_size_x();
   int  get_size_y();
@@ -60,6 +63,8 @@ public:
   void set_bounds(int x0 = -1, int y0 = -1, int x1 = -1, int y1 = -1);
   void set_bounds(Point p0, Point p1);
 
+  void set_allow_diagonal(bool allow = true);
+
   bool in_bounds(int x, int y);
   bool in_bounds(Point p);
   
@@ -69,6 +74,7 @@ public:
 private:
   Generic_map map;
   int x_min, x_max, y_min, y_max;
+  bool allow_diag;
 
   Path path_line(Point start, Point end);
   Path path_a_star(Point start, Point end);

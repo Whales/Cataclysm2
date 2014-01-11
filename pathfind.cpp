@@ -1,5 +1,6 @@
 #include "pathfind.h"
 #include "rng.h"
+#include "window.h"
 #include <math.h>
 #include <algorithm>
 
@@ -63,11 +64,19 @@ void Generic_map::set_size(int x, int y)
   }
   std::vector<int> tmpvec;
   for (int i = 0; i < y; i++) {
-    tmpvec.push_back(-1);
+    tmpvec.push_back(0);
   }
   for (int i = 0; i < x; i++) {
     cost.push_back( tmpvec );
   }
+}
+
+void Generic_map::set_cost(int x, int y, int c)
+{
+  if (x < 0 || x >= get_size_x() || y < 0 || y >= get_size_y()) {
+    return;
+  }
+  cost[x][y] = c;
 }
 
 int Generic_map::get_size_x()
@@ -86,7 +95,7 @@ int Generic_map::get_size_y()
 int Generic_map::get_cost(int x, int y)
 {
   if (x < 0 || x >= get_size_x() || y < 0 || y >= get_size_y()) {
-    return -1;
+    return 0;
   }
   return cost[x][y];
 }
@@ -98,7 +107,7 @@ int Generic_map::get_cost(Point p)
 
 bool Generic_map::blocked(int x, int y)
 {
-  return (get_cost(x, y) >= 0);
+  return (get_cost(x, y) <= 0);
 }
 
 bool Generic_map::blocked(Point p)
@@ -108,11 +117,13 @@ bool Generic_map::blocked(Point p)
 
 Pathfinder::Pathfinder()
 {
+  allow_diag = true;
   set_bounds();
 }
 
 Pathfinder::Pathfinder(Generic_map m)
 {
+  allow_diag = true;
   set_map(m);
 }
 
@@ -139,6 +150,8 @@ void Pathfinder::set_bounds(int x0, int y0, int x1, int y1)
     x1 = x0;
     x0 = tmp;
   }
+  x_min = x0;
+  x_max = x1;
   if (y0 < 0) {
     y0 = 0;
   }
@@ -150,11 +163,18 @@ void Pathfinder::set_bounds(int x0, int y0, int x1, int y1)
     y1 = y0;
     y0 = tmp;
   }
+  y_min = y0;
+  y_max = y1;
 }
 
 void Pathfinder::set_bounds(Point p0, Point p1)
 {
   set_bounds(p0.x, p0.y, p1.x, p1.y);
+}
+
+void Pathfinder::set_allow_diagonal(bool allow)
+{
+  allow_diag = allow;
 }
 
 bool Pathfinder::in_bounds(int x, int y)
@@ -364,16 +384,19 @@ Path Pathfinder::path_a_star(Point start, Point end)
 
   bool done = false;
 
+
   while (!done && !open_points.empty()) {
 // 1) Find the lowest cost in open_points:
     int lowest_cost = -1, point_index = -1;
     Point current;
+    int current_g;
     for (int i = 0; i < open_points.size(); i++) {
       Point p = open_points[i];
       int score = gscore[p.x][p.y] + hscore[p.x][p.y];
       if (i == 0 || score < lowest_cost) {
         lowest_cost = score;
         current = p;
+        current_g = gscore[p.x][p.y];
         point_index = i;
       }
     }
@@ -387,14 +410,23 @@ Path Pathfinder::path_a_star(Point start, Point end)
 // 4) Examine all adjacent points
       for (int x = current.x - 1; x <= current.x + 1; x++) {
         for (int y = current.y - 1; y <= current.y + 1; y++) {
-// If it's in-bounds and not blocked...
-          if (in_bounds(x, y) && !map.blocked(x, y)) {
-            int g = map.get_cost(x, y);
+          if (x == current.x && y == current.y) {
+            y++; // Skip the current tile
+          }
+// If it's no-diagonal or diagonals are allowed...
+// ...and if it's in-bounds and not blocked...
+          if ((allow_diag || x == current.x || y == current.y) &&
+              (in_bounds(x, y) && !map.blocked(x, y))) {
+            int g = current_g + map.get_cost(x, y);
 // If it's unexamined, make it open and set its values
             if (status[x][y] == ASTAR_NONE) {
               status[x][y] = ASTAR_OPEN;
               gscore[x][y] = g;
-              hscore[x][y] = rl_dist(x, y, end.x, end.y);
+              if (allow_diag) {
+                hscore[x][y] = 10 * rl_dist(x, y, end.x, end.y);
+              } else {
+                hscore[x][y] = 10 * manhattan_dist(x, y, end.x, end.y);
+              }
               parent[x][y] = current;
               open_points.push_back( Point(x, y) );
 // If it's open and we're a better parent, make us the parent
@@ -409,6 +441,9 @@ Path Pathfinder::path_a_star(Point start, Point end)
   }
 
   Path ret;
+  if (open_points.empty()) {
+    return ret;
+  }
   Point cur = end;
   ret.add_step(cur, map.get_cost(cur));
   while (parent[cur.x][cur.y] != start) {
@@ -416,5 +451,6 @@ Path Pathfinder::path_a_star(Point start, Point end)
     ret.add_step(cur, map.get_cost(cur));
   }
   ret.reverse();
+
   return ret;
 }

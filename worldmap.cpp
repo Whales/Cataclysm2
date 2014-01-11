@@ -63,8 +63,7 @@ void Worldmap::draw(int posx, int posy)
     for (int x = 0; x < winx; x++) {
       for (int y = 0; y < winy; y++) {
         int terx = posx + x - (winx / 2), tery = posy + y - (winy / 2);
-        Worldmap_tile* tile = get_tile(terx, tery);
-        glyph sym = tile->top_glyph();
+        glyph sym = get_glyph(terx, tery);
         if ((terx == posx && tery == posy) ||
             (terx == origx && tery == origy) ) {
           sym = sym.invert();
@@ -106,13 +105,7 @@ void Worldmap::draw_minimap(cuss::element *drawing, int cornerx, int cornery)
   for (int x = 0; x < drawing->sizex; x++) {
     for (int y = 0; y < drawing->sizey; y++) {
       int terx = cornerx + x, tery = cornery + y;
-      Worldmap_tile* tile = get_tile(terx, tery);
-      glyph sym;
-      if (tile) {
-        sym = tile->top_glyph();
-      } else {
-        sym = glyph();
-      }
+      glyph sym = get_glyph(terx, tery);
       if (x == drawing->sizex / 2 && y == drawing->sizey / 2) {
         sym = sym.invert();
       }
@@ -130,6 +123,38 @@ Worldmap_tile* Worldmap::get_tile(int x, int y)
   }
 
   return &(tiles[x][y]);
+}
+
+glyph Worldmap::get_glyph(int x, int y)
+{
+/*
+  if (x < 0 || x >= WORLDMAP_SIZE || y < 0 || y >= WORLDMAP_SIZE) {
+    return glyph();
+  }
+*/
+  Worldmap_tile* tile = get_tile(x, y);
+  glyph ret = tile->top_glyph();
+  if (tile->terrain->has_flag(WTF_LINE_DRAWING)) {
+    World_terrain* ter = get_tile(x, y)->terrain;
+    bool north = (get_tile(x, y - 1)->terrain == ter);
+    bool  east = (get_tile(x + 1, y)->terrain == ter);
+    bool south = (get_tile(x, y + 1)->terrain == ter);
+    bool  west = (get_tile(x - 1, y)->terrain == ter);
+    ret.make_line_drawing(north, east, south, west);
+  }
+
+  return ret;
+}
+
+Generic_map Worldmap::get_generic_map()
+{
+  Generic_map ret(WORLDMAP_SIZE, WORLDMAP_SIZE);
+  for (int x = 0; x < WORLDMAP_SIZE; x++) {
+    for (int y = 0; y < WORLDMAP_SIZE; y++) {
+      ret.set_cost(x, y, tiles[x][y].terrain->road_cost);
+    }
+  }
+  return ret;
 }
 
 Point Worldmap::random_tile_with_terrain(std::string name)

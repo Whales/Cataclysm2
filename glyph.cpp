@@ -65,3 +65,68 @@ bool glyph::operator==(const glyph &rhs)
 {
  return (rhs.fg == fg && rhs.bg == bg && rhs.symbol == symbol);
 }
+
+void glyph::make_line_drawing(bool north, bool east, bool south, bool west)
+{
+  if (north) {
+    if (east) {
+      if (south) {
+        if (west) {
+          symbol = LINE_XXXX;
+        } else {
+          symbol = LINE_XXXO;
+        }
+      } else {
+        if (west) {
+          symbol = LINE_XXOX;
+        } else {
+          symbol = LINE_XXOO;
+        }
+      }
+    } else {
+      if (south) {
+        if (west) {
+          symbol = LINE_XOXX;
+        } else {
+          symbol = LINE_XOXO;
+        }
+      } else {
+        if (west) {
+          symbol = LINE_XOOX;
+        } else {
+          symbol = LINE_XOXO;
+        }
+      }
+    }
+  } else {
+    if (east) {
+      if (south) {
+        if (west) {
+          symbol = LINE_OXXX;
+        } else {
+          symbol = LINE_OXXO;
+        }
+      } else {
+        if (west) {
+          symbol = LINE_OXOX;
+        } else {
+          symbol = LINE_OXOX;
+        }
+      }
+    } else {
+      if (south) {
+        if (west) {
+          symbol = LINE_OOXX;
+        } else {
+          symbol = LINE_XOXO;
+        }
+      } else {
+        if (west) {
+          symbol = LINE_OXOX;
+        } else {
+          symbol = LINE_XXXX;
+        }
+      }
+    }
+  }
+}
