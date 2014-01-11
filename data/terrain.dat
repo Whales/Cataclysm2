@@ -94,3 +94,8 @@ name: yellow pavement
   glyph: . yellow black
   movecost: 100
   done
+
+name: white pavement
+  glyph: . white black
+  movecost: 100
+  done
