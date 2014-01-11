@@ -107,6 +107,7 @@ std::string world_terrain_flag_name(World_terrain_flag flag)
     case WTF_BRIDGE:        return "bridge";
     case WTF_NO_ROAD:       return "no_road";
     case WTF_LINE_DRAWING:  return "line_drawing";
+    case WTF_RELATIONAL:    return "relational";
     case WTF_MAX:           return "BUG - WTF_MAX";
     default:                return "BUG - Unnamed World_terrain_flag";
   }

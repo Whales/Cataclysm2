@@ -350,6 +350,7 @@ Mapgen_spec::Mapgen_spec()
   name = "unknown";
   weight = 100;
   is_adjacent = false;
+  num_neighbors = 0;
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       terrain[x][y] = 0;
@@ -376,15 +377,19 @@ bool Mapgen_spec::load_data(std::istream &data)
       std::getline(data, terrain_name);
       terrain_name = trim(terrain_name);
 
+    } else if (ident == "adjacent") {
+      is_adjacent = true;
+      std::getline(data, junk);
+
+    } else if (ident == "neighbors:") {
+      data >> num_neighbors;
+      std::getline(data, junk);
+
     } else if (ident == "base_terrain:") {
       std::string tile_line;
       std::getline(data, tile_line);
       std::istringstream tile_data(tile_line);
       base_terrain.load_data(tile_data, name, is_adjacent);
-
-    } else if (ident == "adjacent") {
-      is_adjacent = true;
-      std::getline(data, junk);
 
     } else if (ident == "weight:") {
       data >> weight;
@@ -649,10 +654,9 @@ void Mapgen_spec::prepare()
     }
   }
 
-  debug_output();
 // Rotate randomly.
 // TODO: Allow for a "norotate" flag?
-  if (!is_adjacent) {
+  if (!is_adjacent && num_neighbors > 0) {
     random_rotate();
   }
 // Clear item locations
@@ -671,6 +675,39 @@ void Mapgen_spec::prepare()
       }
     }
   }
+}
+
+void Mapgen_spec::prepare(std::vector<bool> neighbor)
+{
+/* Assume that neighbor is correct - i.e. that if we have num_neighbors == 2
+ * then exactly two slots in neighbor are true
+ */
+  if (num_neighbors == 1) {
+    if (neighbor[DIR_EAST]) {
+      rotate(DIR_EAST);
+    } else if (neighbor[DIR_SOUTH]) {
+      rotate(DIR_SOUTH);
+    } else if (neighbor[DIR_WEST]) {
+      rotate(DIR_WEST);
+    }
+  } else if (num_neighbors == 2) {
+    if (neighbor[DIR_EAST] && neighbor[DIR_SOUTH]) {
+      rotate(DIR_EAST);
+    } else if (neighbor[DIR_SOUTH] && neighbor[DIR_WEST]) {
+      rotate(DIR_SOUTH);
+    } else if (neighbor[DIR_WEST] && neighbor[DIR_NORTH]) {
+      rotate(DIR_WEST);
+    }
+  } else if (num_neighbors == 3) { // Fast to check who DOESN'T have it
+    if (!neighbor[DIR_NORTH]) {
+      rotate(DIR_EAST);
+    } else if (!neighbor[DIR_EAST]) {
+      rotate(DIR_SOUTH);
+    } else if (!neighbor[DIR_SOUTH]) {
+      rotate(DIR_WEST);
+    }
+  }
+  prepare();
 }
 
 void Mapgen_spec::random_rotate()
@@ -865,6 +902,46 @@ Mapgen_spec_pool::random_for_terrain(World_terrain* ptr)
     }
   }
   return vec->back();
+}
+
+Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
+                                                  std::vector<bool> neighbor)
+{
+  if (terrain_ptr_map.count(ptr) == 0) {
+    return NULL;
+  }
+  std::vector<Mapgen_spec*> *vec = &(terrain_ptr_map[ptr]);
+  std::vector<Mapgen_spec*> use;
+  int num_neighbors = 0;
+  for (int i = 1; i < neighbor.size(); i++) {
+    if (neighbor[i]) {
+      num_neighbors++;
+    }
+  }
+// Special case "straight" ones - they're 1-neighbor too
+  if (num_neighbors == 2 && ((neighbor[DIR_NORTH] && neighbor[DIR_SOUTH]) ||
+                             (neighbor[DIR_EAST]  && neighbor[DIR_WEST] )   )) {
+    num_neighbors = 1;
+  }
+
+  int new_total_chance = 0;
+  for (int i = 0; i < vec->size(); i++) {
+    if ( (*vec)[i]->num_neighbors == num_neighbors ) {
+      use.push_back( (*vec)[i] );
+      new_total_chance += (*vec)[i]->weight;
+    }
+  }
+  if (use.empty()) {
+    return NULL;
+  }
+  int index = rng(1, new_total_chance);
+  for (int i = 0; i < use.size(); i++) {
+    index -= use[i]->weight;
+    if (index <= 0) {
+      return use[i];
+    }
+  }
+  return use.back();
 }
 
 std::vector<Mapgen_spec*>

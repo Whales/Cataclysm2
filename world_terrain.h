@@ -16,6 +16,7 @@ enum World_terrain_flag
   WTF_BRIDGE,     // Road on top of this tile is a bridge
   WTF_NO_ROAD,    // Roads don't draw here - but the path continues anyway
   WTF_LINE_DRAWING, // Use line drawings as glyphs
+  WTF_RELATIONAL, // Drawing depends on adjacent terrain of same type
   WTF_MAX
 };
 

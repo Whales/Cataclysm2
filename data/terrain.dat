@@ -84,3 +84,13 @@ name: stone wall
   movecost: 0
   flags: opaque
   done
+
+name: pavement
+  glyph: . dkgray black
+  movecost: 100
+  done
+
+name: yellow pavement
+  glyph: . yellow black
+  movecost: 100
+  done

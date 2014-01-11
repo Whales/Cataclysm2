@@ -136,6 +136,7 @@ struct Mapgen_spec
   bool load_data(std::istream &data);
 
   void prepare();
+  void prepare(std::vector<bool> neighbor);
   void random_rotate();
   void rotate(Direction dir);
   Terrain* pick_terrain(int x, int y);
@@ -148,7 +149,8 @@ struct Mapgen_spec
 
   bool is_adjacent; // True is this is instructions for building adjacent to
                     // terrain_name
-  int weight;
+  int  num_neighbors;
+  int  weight;
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
   std::map<char,Tile_substitution> substitutions;
@@ -177,6 +179,8 @@ public:
 
   std::vector<Mapgen_spec*> lookup_terrain_ptr(World_terrain* ptr);
   Mapgen_spec* random_for_terrain(World_terrain* ptr);
+  Mapgen_spec* random_for_terrain(World_terrain* ptr,
+                                  std::vector<bool> neighbor);
 
   std::vector<Mapgen_spec*> lookup_adjacent_name(std::string name);
   Mapgen_spec* random_adjacent_to(std::string name);

@@ -104,8 +104,23 @@ void Submap::generate(World_terrain* terrain[5])
   if (!terrain[0]) {
     generate_empty();
   } else {
-    Mapgen_spec* spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
-    spec->prepare();
+    Mapgen_spec* spec;
+    if (terrain[0]->has_flag(WTF_RELATIONAL)) {
+      std::vector<bool> neighbor;
+      neighbor.push_back(false);
+      for (int i = 1; i < 5; i++) {
+        if (terrain[i] == terrain[0]) {
+          neighbor.push_back(true);
+        } else {
+          neighbor.push_back(false);
+        }
+      }
+      spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
+      spec->prepare(neighbor);
+    } else {
+      spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
+      spec->prepare();
+    }
     generate( spec );
   }
 
