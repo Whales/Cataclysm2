@@ -336,7 +336,7 @@ void Worldmap::generate()
             }
             roads++;
           } else if (city[expand.x][expand.y] == CITY_ROAD_CLOSED) {
-            roads++;
+            //roads++;
           } else if (city[expand.x][expand.y] == CITY_BUILDING && 
                      stat != CITY_BUILDING_CLOSED) {
             city[expand.x][expand.y] = CITY_BUILDING_CLOSED;
@@ -344,11 +344,10 @@ void Worldmap::generate()
         }
        
         if (!expansions) {
-/*
           if (roads == 2) {
             city[p.x][p.y] = CITY_ROAD_CLOSED;
             tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
-          } else */if (city[p.x][p.y] == CITY_BUILDING) {
+          } else if (city[p.x][p.y] == CITY_BUILDING) {
             city[p.x][p.y] = CITY_BUILDING_CLOSED;
             tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("house_bad");
           } else if (city[p.x][p.y] == CITY_ROAD) {
