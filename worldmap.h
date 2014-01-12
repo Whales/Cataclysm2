@@ -15,6 +15,7 @@ struct Worldmap_tile
 {
   World_terrain *terrain;
   glyph top_glyph();
+  void set_terrain(std::string name);
 };
 
 class Worldmap

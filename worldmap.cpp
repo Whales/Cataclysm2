@@ -9,6 +9,16 @@ glyph Worldmap_tile::top_glyph()
   return terrain->sym;
 }
 
+void Worldmap_tile::set_terrain(std::string name)
+{
+  World_terrain *ter = WORLD_TERRAIN.lookup_name(name);
+  if (!ter) {
+    debugmsg("Couldn't find world terrain named '%s'", name.c_str());
+  } else {
+    terrain = ter;
+  }
+}
+
 Worldmap::Worldmap()
 {
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
@@ -21,21 +31,6 @@ Worldmap::Worldmap()
 Worldmap::~Worldmap()
 {
 }
-
-/*
-void Worldmap::generate()
-{
-  for (int x = 0; x < WORLDMAP_SIZE; x++) {
-    for (int y = 0; y < WORLDMAP_SIZE; y++) {
-      if ( (x + y) % 2 ) {
-        tiles[x][y].terrain = WORLD_TERRAIN.lookup_name("field");
-      } else {
-        tiles[x][y].terrain = WORLD_TERRAIN.lookup_name("forest");
-      }
-    }
-  }
-}
-*/
 
 void Worldmap::set_terrain(int x, int y, std::string terrain_name)
 {

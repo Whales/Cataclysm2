@@ -81,7 +81,7 @@ void Worldmap::generate()
       if (biomes[x][y]) {
         tiles[x][y].terrain = biomes[x][y]->pick_terrain();
       } else {
-        tiles[x][y].terrain = WORLD_TERRAIN.lookup_name("ocean");
+        tiles[x][y].set_terrain("ocean");
       }
     }
   }
@@ -190,7 +190,7 @@ void Worldmap::generate()
     while (!done) {
       if (!tiles[rp.x][rp.y].terrain->has_flag(WTF_NO_RIVER) &&
           !tiles[rp.x][rp.y].terrain->has_flag(WTF_WATER)      ) {
-        tiles[rp.x][rp.y].terrain = WORLD_TERRAIN.lookup_name("river");
+        tiles[rp.x][rp.y].set_terrain("river");
       }
       std::vector<Point> next;
       std::vector<int> chances;
@@ -247,7 +247,8 @@ void Worldmap::generate()
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
       if (altitude[x][y] <= 0 && !biomes[x][y]->has_flag(BIOME_FLAG_NO_OCEAN)) {
-        tiles[x][y].terrain = WORLD_TERRAIN.lookup_name("ocean");
+        tiles[x][y].set_terrain("ocean");
+        city[x][y] = CITY_NOTCITY;
       } else {
         int range = tiles[x][y].terrain->beach_range;
         if (range != -1) {
@@ -293,9 +294,9 @@ void Worldmap::generate()
         Point p = path[n];
         if (!tiles[p.x][p.y].terrain->has_flag(WTF_NO_ROAD)) {
           if (tiles[p.x][p.y].terrain->has_flag(WTF_BRIDGE)) {
-            tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("bridge");
+            tiles[p.x][p.y].set_terrain("bridge");
           } else {
-            tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+            tiles[p.x][p.y].set_terrain("road");
             city[p.x][p.y] = CITY_ROAD;
           }
         }
@@ -307,9 +308,16 @@ void Worldmap::generate()
   for (int i = 0; i < city_seeds.size(); i++) {
     std::vector<Point> active;
     active.push_back( city_seeds[i] );
+    bool vertical_blocks = one_in(2);
+    int block_size = rng(4, 8);
     while (!active.empty()) {
-      int index = rng(0, active.size() - 1);
+      int index = 0;
       Point p = active[index];
+      if (( vertical_blocks && (p.x % 3 != 0 && p.y % block_size != 0)) ||
+          (!vertical_blocks && (p.y % 3 != 0 && p.x % block_size != 0))   ) {
+        index = rng(0, active.size() - 1);
+        p = active[index];
+      }
       active.erase(active.begin() + index);
       bool expansions = false;
       int roads = 0;
@@ -326,9 +334,16 @@ void Worldmap::generate()
             expand.y >= 0 && expand.y < WORLDMAP_SIZE) {
           if (city[expand.x][expand.y] == CITY_RAW &&
               stat != CITY_BUILDING_CLOSED) {
-            active.push_back( expand );
+            if (( vertical_blocks &&
+                 (expand.x % 3 == 0 || expand.y % block_size == 0)) ||
+                (!vertical_blocks && 
+                 (expand.y % 3 == 0 || expand.x % block_size == 0))   ) {
+              active.insert(active.begin(), expand);
+            } else {
+              active.push_back( expand );
+            }
             city[expand.x][expand.y] = CITY_BUILDING;
-            tiles[expand.x][expand.y].terrain = WORLD_TERRAIN.lookup_name("house");
+            tiles[expand.x][expand.y].set_terrain("house");
             expansions = true;
           } else if (city[expand.x][expand.y] == CITY_ROAD) {
             if (stat != CITY_BUILDING_CLOSED) {
@@ -336,26 +351,38 @@ void Worldmap::generate()
             }
             roads++;
           } else if (city[expand.x][expand.y] == CITY_ROAD_CLOSED) {
-            //roads++;
+            roads++;
           } else if (city[expand.x][expand.y] == CITY_BUILDING && 
                      stat != CITY_BUILDING_CLOSED) {
             city[expand.x][expand.y] = CITY_BUILDING_CLOSED;
+            tiles[expand.x][expand.y].set_terrain("house_bad");
           }
         }
        
         if (!expansions) {
-          if (roads == 2) {
+          bool block_closer = (( vertical_blocks && p.x % 3 == 0) ||
+                               (!vertical_blocks && p.y % 3 == 0)   );
+          if (block_closer) {
+            if (vertical_blocks && p.y % block_size != 1 &&
+                                   p.y % block_size != block_size - 1) {
+              block_closer = false;
+            } else if (!vertical_blocks && p.x % block_size != 1 &&
+                                           p.x % block_size != block_size - 1) {
+              block_closer = false;
+            }
+          }
+          if (roads == 2 && block_closer) {
             city[p.x][p.y] = CITY_ROAD_CLOSED;
-            tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+            tiles[p.x][p.y].set_terrain("road");
           } else if (city[p.x][p.y] == CITY_BUILDING) {
             city[p.x][p.y] = CITY_BUILDING_CLOSED;
-            tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("house_bad");
+            tiles[p.x][p.y].set_terrain("house_bad");
           } else if (city[p.x][p.y] == CITY_ROAD) {
             city[p.x][p.y] = CITY_ROAD_CLOSED;
           }
         } else {
           city[p.x][p.y] = CITY_ROAD_CLOSED;
-          tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+          tiles[p.x][p.y].set_terrain("road");
         }
       }
     }
