@@ -73,7 +73,3 @@ Name: house
   Glyph: o ltgreen black
   Road_cost: 500
   Done
-Name: house_bad
-  Glyph: o red black
-  Road_cost: 500
-  Done

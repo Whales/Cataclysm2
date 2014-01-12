@@ -355,7 +355,6 @@ void Worldmap::generate()
           } else if (city[expand.x][expand.y] == CITY_BUILDING && 
                      stat != CITY_BUILDING_CLOSED) {
             city[expand.x][expand.y] = CITY_BUILDING_CLOSED;
-            tiles[expand.x][expand.y].set_terrain("house_bad");
           }
         }
        
@@ -376,7 +375,6 @@ void Worldmap::generate()
             tiles[p.x][p.y].set_terrain("road");
           } else if (city[p.x][p.y] == CITY_BUILDING) {
             city[p.x][p.y] = CITY_BUILDING_CLOSED;
-            tiles[p.x][p.y].set_terrain("house_bad");
           } else if (city[p.x][p.y] == CITY_ROAD) {
             city[p.x][p.y] = CITY_ROAD_CLOSED;
           }
