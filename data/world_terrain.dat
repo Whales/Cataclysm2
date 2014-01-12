@@ -1,6 +1,6 @@
 Name: ocean
   Glyph: = blue black
-  Flags: no_river water salty bridge
+  Flags: bridge no_river water salty
   Road_cost: 5000
   Done
 Name: field
@@ -11,7 +11,7 @@ Name: field
   Done
 Name: beach
   Glyph: . yellow black
-  Road_cost:  95
+  Road_cost: 110
   Done
 Name: forest
   Glyph: 7 green black
@@ -61,11 +61,19 @@ Name: road
   Done
 Name: bridge
   Glyph: + ltgray blue
-  Flags: line_drawing relational
+  Flags: relational no_road line_drawing
   Road_cost: 20
   Done
 Name: town square
   Glyph: O ltgray black
   Flags: no_river
   Road_cost: 150
+  Done
+Name: house
+  Glyph: o ltgreen black
+  Road_cost: 500
+  Done
+Name: house_bad
+  Glyph: o red black
+  Road_cost: 500
   Done

@@ -34,6 +34,7 @@ enum Biome_flag
   BIOME_FLAG_NULL = 0,
   BIOME_FLAG_LAKE,    // "lake" - turn to ocean if ocean-adjacent
   BIOME_FLAG_CITY,    // "city" - turn into city buildings
+  BIOME_FLAG_NO_OCEAN,// "no_ocean" - don't turn into ocean even if altitude<=0
   BIOME_FLAG_MAX
 };
 
@@ -72,7 +73,9 @@ enum City_status
   CITY_NOTCITY,
   CITY_RAW, // Not generated yet
   CITY_BUILDING,
-  CITY_ROAD
+  CITY_BUILDING_CLOSED,
+  CITY_ROAD,
+  CITY_ROAD_CLOSED
 };
 
 #endif

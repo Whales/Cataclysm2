@@ -135,11 +135,10 @@ glyph Worldmap::get_glyph(int x, int y)
   Worldmap_tile* tile = get_tile(x, y);
   glyph ret = tile->top_glyph();
   if (tile->terrain->has_flag(WTF_LINE_DRAWING)) {
-    World_terrain* ter = get_tile(x, y)->terrain;
-    bool north = (get_tile(x, y - 1)->terrain == ter);
-    bool  east = (get_tile(x + 1, y)->terrain == ter);
-    bool south = (get_tile(x, y + 1)->terrain == ter);
-    bool  west = (get_tile(x - 1, y)->terrain == ter);
+    bool north = (get_tile(x, y - 1)->terrain->has_flag(WTF_LINE_DRAWING));
+    bool  east = (get_tile(x + 1, y)->terrain->has_flag(WTF_LINE_DRAWING));
+    bool south = (get_tile(x, y + 1)->terrain->has_flag(WTF_LINE_DRAWING));
+    bool  west = (get_tile(x - 1, y)->terrain->has_flag(WTF_LINE_DRAWING));
     ret.make_line_drawing(north, east, south, west);
   }
 

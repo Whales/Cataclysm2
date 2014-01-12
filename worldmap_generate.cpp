@@ -246,7 +246,7 @@ void Worldmap::generate()
 // Take everything with altitude <= 0 and set it to be ocean.
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
-      if (altitude[x][y] <= 0) {
+      if (altitude[x][y] <= 0 && !biomes[x][y]->has_flag(BIOME_FLAG_NO_OCEAN)) {
         tiles[x][y].terrain = WORLD_TERRAIN.lookup_name("ocean");
       } else {
         int range = tiles[x][y].terrain->beach_range;
@@ -296,12 +296,71 @@ void Worldmap::generate()
             tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("bridge");
           } else {
             tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+            city[p.x][p.y] = CITY_ROAD;
           }
         }
       }
     }
   }
 
+// Now fill in cities!
+  for (int i = 0; i < city_seeds.size(); i++) {
+    std::vector<Point> active;
+    active.push_back( city_seeds[i] );
+    while (!active.empty()) {
+      int index = rng(0, active.size() - 1);
+      Point p = active[index];
+      active.erase(active.begin() + index);
+      bool expansions = false;
+      int roads = 0;
+      City_status stat = city[p.x][p.y];
+      for (int n = 0; n < 4; n++) {
+        Point expand;
+        switch (n) {
+          case 0: expand = Point(p.x - 1, p.y    ); break;
+          case 1: expand = Point(p.x + 1, p.y    ); break;
+          case 2: expand = Point(p.x    , p.y - 1); break;
+          case 3: expand = Point(p.x    , p.y + 1); break;
+        }
+        if (expand.x >= 0 && expand.x < WORLDMAP_SIZE &&
+            expand.y >= 0 && expand.y < WORLDMAP_SIZE) {
+          if (city[expand.x][expand.y] == CITY_RAW &&
+              stat != CITY_BUILDING_CLOSED) {
+            active.push_back( expand );
+            city[expand.x][expand.y] = CITY_BUILDING;
+            tiles[expand.x][expand.y].terrain = WORLD_TERRAIN.lookup_name("house");
+            expansions = true;
+          } else if (city[expand.x][expand.y] == CITY_ROAD) {
+            if (stat != CITY_BUILDING_CLOSED) {
+              active.push_back( expand );
+            }
+            roads++;
+          } else if (city[expand.x][expand.y] == CITY_ROAD_CLOSED) {
+            roads++;
+          } else if (city[expand.x][expand.y] == CITY_BUILDING && 
+                     stat != CITY_BUILDING_CLOSED) {
+            city[expand.x][expand.y] = CITY_BUILDING_CLOSED;
+          }
+        }
+       
+        if (!expansions) {
+/*
+          if (roads == 2) {
+            city[p.x][p.y] = CITY_ROAD_CLOSED;
+            tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+          } else */if (city[p.x][p.y] == CITY_BUILDING) {
+            city[p.x][p.y] = CITY_BUILDING_CLOSED;
+            tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("house_bad");
+          } else if (city[p.x][p.y] == CITY_ROAD) {
+            city[p.x][p.y] = CITY_ROAD_CLOSED;
+          }
+        } else {
+          city[p.x][p.y] = CITY_ROAD_CLOSED;
+          tiles[p.x][p.y].terrain = WORLD_TERRAIN.lookup_name("road");
+        }
+      }
+    }
+  }
 }
 
 void draw_island(std::vector<std::vector<int> > &altitude, Point center,
