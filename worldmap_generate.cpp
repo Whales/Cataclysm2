@@ -39,7 +39,7 @@ void Worldmap::generate()
       }
       if ((*it)->has_flag(BIOME_FLAG_CITY)) {
         city_seeds.push_back(p);
-        city[p.x][p.y] = CITY_RAW;
+        city[p.x][p.y] = CITY_HUB;
       }
       biomes[p.x][p.y] = (*it);
     }
@@ -70,7 +70,11 @@ void Worldmap::generate()
       Point growth = valid_growth[rng(0, valid_growth.size() - 1)];
       biomes[growth.x][growth.y] = biomes[p.x][p.y];
       lake[growth.x][growth.y] = lake[p.x][p.y];
-      city[growth.x][growth.y] = city[p.x][p.y];
+      if (city[p.x][p.y] == CITY_HUB) {
+        city[growth.x][growth.y] = CITY_RAW;
+      } else {
+        city[growth.x][growth.y] = city[p.x][p.y];
+      }
       points_live.push_back( growth );
     }
   }
@@ -248,8 +252,62 @@ void Worldmap::generate()
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
       if (altitude[x][y] <= 0 && !biomes[x][y]->has_flag(BIOME_FLAG_NO_OCEAN)) {
         tiles[x][y].set_terrain("ocean");
+// If it's a hub, i.e. a city_seed, try to reposition it within 5 tiles
+        if (city[x][y] == CITY_HUB) {
+          for (int i = 0; i < city_seeds.size(); i++) {
+            if (city_seeds[i].x == x && city_seeds[i].y == y) {
+              i = city_seeds.size();
+              bool done = false;
+              for (int rad = 1; !done && rad <= 5; rad++) {
+                for (int rx = x - rad; !done && rx <= x + rad; rx++) {
+                  int ry = y - rad;
+                  if (rx >= 0 && rx < WORLDMAP_SIZE &&
+                      ry >= 0 && ry < WORLDMAP_SIZE &&
+                      altitude[rx][ry] > 0 && city[rx][ry] != CITY_NOTCITY &&
+                      !done) {
+                    city[rx][ry] = CITY_RAW;
+                    city_seeds.push_back( Point(rx, ry) );
+                    done = true;
+                  }
+                  ry = y + rad;
+                  if (rx >= 0 && rx < WORLDMAP_SIZE &&
+                      ry >= 0 && ry < WORLDMAP_SIZE &&
+                      altitude[rx][ry] > 0 && city[rx][ry] != CITY_NOTCITY &&
+                      !done) {
+                    city[rx][ry] = CITY_RAW;
+                    city_seeds.push_back( Point(rx, ry) );
+                    done = true;
+                  }
+                }
+                for (int ry = y - rad; !done && ry <= y + rad; ry++) {
+                  int rx = x - rad;
+                  if (rx >= 0 && rx < WORLDMAP_SIZE &&
+                      ry >= 0 && ry < WORLDMAP_SIZE &&
+                      altitude[rx][ry] > 0 && city[rx][ry] != CITY_NOTCITY &&
+                      !done) {
+                    city[rx][ry] = CITY_RAW;
+                    city_seeds.push_back( Point(rx, ry) );
+                    done = true;
+                  }
+                  rx = x + rad;
+                  if (rx >= 0 && rx < WORLDMAP_SIZE &&
+                      ry >= 0 && ry < WORLDMAP_SIZE &&
+                      altitude[rx][ry] > 0 && city[rx][ry] != CITY_NOTCITY &&
+                      !done) {
+                    city[rx][ry] = CITY_RAW;
+                    city_seeds.push_back( Point(rx, ry) );
+                    done = true;
+                  }
+                }
+              }
+            }
+          }
+        }
         city[x][y] = CITY_NOTCITY;
       } else {
+        if (city[x][y] == CITY_HUB) {
+          city[x][y] = CITY_RAW;
+        }
         int range = tiles[x][y].terrain->beach_range;
         if (range != -1) {
           for (int xn = x - range; xn <= x + range; xn++) {
@@ -290,14 +348,16 @@ void Worldmap::generate()
       Point to = city_seeds[index];
 
       Path path = pf.get_path(PATH_A_STAR, from, to);
-      for (int n = 0; n < path.size(); n++) {
-        Point p = path[n];
-        if (!tiles[p.x][p.y].terrain->has_flag(WTF_NO_ROAD)) {
-          if (tiles[p.x][p.y].terrain->has_flag(WTF_BRIDGE)) {
-            tiles[p.x][p.y].set_terrain("bridge");
-          } else {
-            tiles[p.x][p.y].set_terrain("road");
-            city[p.x][p.y] = CITY_ROAD;
+      if (path.get_cost() <= 150000) {
+        for (int n = 0; n < path.size(); n++) {
+          Point p = path[n];
+          if (!tiles[p.x][p.y].terrain->has_flag(WTF_NO_ROAD)) {
+            if (tiles[p.x][p.y].terrain->has_flag(WTF_BRIDGE)) {
+              tiles[p.x][p.y].set_terrain("bridge");
+            } else {
+              tiles[p.x][p.y].set_terrain("road");
+              city[p.x][p.y] = CITY_ROAD;
+            }
           }
         }
       }
@@ -381,6 +441,24 @@ void Worldmap::generate()
         } else {
           city[p.x][p.y] = CITY_ROAD_CLOSED;
           tiles[p.x][p.y].set_terrain("road");
+        }
+      }
+    }
+  }
+
+// Take any usued city tiles and make them field
+  for (int x = 0; x < WORLDMAP_SIZE; x++) {
+    for (int y = 0; y < WORLDMAP_SIZE; y++) {
+      if (city[x][y] == CITY_RAW) {
+        tiles[x][y].set_terrain("field");
+        int range = tiles[x][y].terrain->beach_range;
+        for (int xn = x - range; xn <= x + range; xn++) {
+          for (int yn = y - range; yn <= y + range; yn++) {
+            if (xn >= 0 && xn < WORLDMAP_SIZE &&
+                yn >= 0 && yn < WORLDMAP_SIZE && altitude[xn][yn] <= 0) {
+              tiles[x][y].terrain = make_into_beach(tiles[x][y].terrain);
+            }
+          }
         }
       }
     }

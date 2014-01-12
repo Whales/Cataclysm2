@@ -71,6 +71,7 @@ enum Lake_status
 enum City_status
 {
   CITY_NOTCITY,
+  CITY_HUB,
   CITY_RAW, // Not generated yet
   CITY_BUILDING,
   CITY_BUILDING_CLOSED,
