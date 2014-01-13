@@ -74,6 +74,7 @@ Name: town square
 Name: house
   Glyph: o ltgreen black
   Road_cost: 500
+  Flags: face_road
   Done
 Name: hardware store
   Glyph: o ltblue black
