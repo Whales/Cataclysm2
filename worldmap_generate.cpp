@@ -403,7 +403,12 @@ void Worldmap::generate()
               active.push_back( expand );
             }
             city[expand.x][expand.y] = CITY_BUILDING;
-            tiles[expand.x][expand.y].set_terrain("house");
+            if (rl_dist(expand.x, expand.y, city_seeds[i].x, city_seeds[i].y) <=
+                rng(2, 6)) {
+              tiles[expand.x][expand.y].terrain = random_shop();
+            } else {
+              tiles[expand.x][expand.y].set_terrain("house");
+            }
             expansions = true;
           } else if (city[expand.x][expand.y] == CITY_ROAD) {
             if (stat != CITY_BUILDING_CLOSED) {
@@ -451,6 +456,7 @@ void Worldmap::generate()
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
       if (city[x][y] == CITY_RAW) {
         tiles[x][y].set_terrain("field");
+        biomes[x][y] = BIOMES.lookup_name("grassland");
         int range = tiles[x][y].terrain->beach_range;
         for (int xn = x - range; xn <= x + range; xn++) {
           for (int yn = y - range; yn <= y + range; yn++) {

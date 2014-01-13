@@ -27,6 +27,9 @@ public:
   void generate();
   void set_terrain(int x, int y, std::string terrain_name);
 
+  void init_shop_picker();
+  World_terrain* random_shop();
+
   void draw(int posx, int posy);
   void draw_minimap(cuss::element *drawing, int cornerx, int cornery);
   Worldmap_tile* get_tile(int x, int y);
@@ -40,6 +43,8 @@ private:
   Worldmap_tile tiles[WORLDMAP_SIZE][WORLDMAP_SIZE];
   Biome*       biomes[WORLDMAP_SIZE][WORLDMAP_SIZE];
   Worldmap_tile tile_oob;
+  std::vector<World_terrain*> shops;
+  std::map<World_terrain*,int> shop_count;
 };
 
 #endif

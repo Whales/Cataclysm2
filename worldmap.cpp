@@ -26,6 +26,18 @@ Worldmap::Worldmap()
       tiles[x][y].terrain = NULL;
     }
   }
+
+  for (std::list<World_terrain*>::iterator it = WORLD_TERRAIN.instances.begin();
+       it != WORLD_TERRAIN.instances.end();
+       it++) {
+    if ( (*it)->has_flag(WTF_SHOP) ) {
+      shops.push_back( (*it) );
+    }
+  }
+
+  if (shops.empty()) {
+    debugmsg("No shops available!");
+  }
 }
 
 Worldmap::~Worldmap()
@@ -44,6 +56,41 @@ void Worldmap::set_terrain(int x, int y, std::string terrain_name)
     return;
   }
   tiles[x][y].terrain = ter;
+}
+
+void Worldmap::init_shop_picker()
+{
+  for (int i = 0; i < shops.size(); i++) {
+    shop_count[ shops[i] ] = 0;
+  }
+}
+
+World_terrain* Worldmap::random_shop()
+{
+  int most_shops = 0;
+  for (int i = 0; i < shops.size(); i++) {
+    if (shop_count[ shops[i] ] > most_shops) {
+      most_shops = shop_count[ shops[i] ];
+    }
+  }
+
+  int total_chance = 0;
+  std::vector<int> chance;
+  for (int i = 0; i < shops.size(); i++) {
+    chance.push_back( most_shops * 2 - shop_count[ shops[i] ] );
+    total_chance += chance.back();
+  }
+
+  int index = rng(1, total_chance);
+  for (int i = 0; i < shops.size(); i++) {
+    index -= chance[i];
+    if (index <= 0) {
+      shop_count[ shops[i] ]++;
+      return shops[i];
+    }
+  }
+  shop_count[ shops.back() ]++;
+  return shops.back();
 }
 
 void Worldmap::draw(int posx, int posy)

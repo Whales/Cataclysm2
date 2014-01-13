@@ -85,6 +85,17 @@ name: stone wall
   flags: opaque
   done
 
+name: wood wall
+  glyph: # brown black
+  movecost: 0
+  flags: opaque
+  done
+
+name: glass wall
+  glyph: # ltcyan black
+  movecost: 0
+  done
+
 name: pavement
   glyph: . dkgray black
   movecost: 100
@@ -98,4 +109,45 @@ name: yellow pavement
 name: white pavement
   glyph: . white black
   movecost: 100
+  done
+
+name: floor
+  glyph: . cyan black
+  movecost: 100
+  done
+
+name: closed door
+  glyph: + brown black
+  movecost: 0
+  flags: opaque
+  done
+
+name: open door
+  glyph: ' brown black
+  movecost: 100
+  done
+
+name: closed glass door
+  glyph: + ltcyan black
+  movecost: 0
+  done
+
+name: open glass door
+  glyph: ' ltcyan black
+  movecost: 0
+  done
+
+name: window
+  glyph: " ltcyan black
+  movecost: 0
+  done
+
+name: display rack
+  glyph: { ltgray black
+  movecost: 0
+  done
+
+name: counter
+  glyph: % blue black
+  movecost: 180
   done
