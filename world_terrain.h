@@ -19,6 +19,7 @@ enum World_terrain_flag
   WTF_RELATIONAL, // Drawing depends on adjacent terrain of same type
   WTF_SHOP,       // Is a shop - for world map generation
   WTF_FACE_ROAD,  // Rotate to face the road
+  WTF_ROAD,       // Is a road, for the purpose of face_road
   WTF_MAX
 };
 

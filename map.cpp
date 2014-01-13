@@ -116,19 +116,19 @@ void Submap::generate(World_terrain* terrain[5])
         }
       }
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
-      spec->prepare(&neighbor);
     } else {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
-      spec->prepare();
     }
+    spec->prepare(terrain);
     generate( spec );
   }
 
+// Now do adjacency maps
   for (int i = 1; i < 5; i++) {
     if (terrain[i] && terrain[i] != terrain[0]) {
       Mapgen_spec* adj = MAPGEN_SPECS.random_adjacent_to(terrain[i]);
       if (adj) {
-        adj->prepare();
+        adj->prepare(terrain);
         adj->rotate( Direction(i) );
         generate_adjacent( adj );
       }

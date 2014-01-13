@@ -598,7 +598,7 @@ Terrain* Mapgen_spec::pick_terrain(int x, int y)
   return terrain_defs[key].pick();
 }
 
-void Mapgen_spec::prepare(std::vector<bool> *neighbor)
+void Mapgen_spec::prepare(World_terrain* world_ter[5])
 {
 // Prep terrain_defs; if they're grouped, this picks and "locks in" the terrain
   for (std::map<char,Variable_terrain>::iterator it = terrain_defs.begin();
@@ -634,7 +634,6 @@ void Mapgen_spec::prepare(std::vector<bool> *neighbor)
        it++) {
     (it->second).make_selection();
   }
-
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       char ch = terrain[x][y];
@@ -654,37 +653,56 @@ void Mapgen_spec::prepare(std::vector<bool> *neighbor)
     }
   }
 
-// Rotate randomly.
+// Rotate as required.
 // TODO: Allow for a "norotate" flag?
-// If we're a relational map, rotate based on neighbors
-  if (neighbor) {
+// If we're a relational map, rotate based on neighbors...
+  if (!is_adjacent && world_ter[0]->has_flag(WTF_RELATIONAL)) {
+    std::vector<bool> neighbor;
+    neighbor.push_back(false);
+    for (int i = 1; i < 5; i++) {
+      neighbor.push_back( (world_ter[i] == world_ter[0]) );
+    }
     if (num_neighbors == 1) {
-      if ((*neighbor)[DIR_NORTH]) {
-      } else if ((*neighbor)[DIR_EAST]) {
+      if (neighbor[DIR_NORTH]) {
+      } else if (neighbor[DIR_EAST]) {
         rotate(DIR_EAST);
-      } else if ((*neighbor)[DIR_SOUTH]) {
+      } else if (neighbor[DIR_SOUTH]) {
         rotate(DIR_SOUTH);
-      } else if ((*neighbor)[DIR_WEST]) {
+      } else if (neighbor[DIR_WEST]) {
         rotate(DIR_WEST);
       }
     } else if (num_neighbors == 2) {
-      if ((*neighbor)[DIR_EAST] && (*neighbor)[DIR_SOUTH]) {
+      if (neighbor[DIR_EAST] && neighbor[DIR_SOUTH]) {
         rotate(DIR_EAST);
-      } else if ((*neighbor)[DIR_SOUTH] && (*neighbor)[DIR_WEST]) {
+      } else if (neighbor[DIR_SOUTH] && neighbor[DIR_WEST]) {
         rotate(DIR_SOUTH);
-      } else if ((*neighbor)[DIR_WEST] && (*neighbor)[DIR_NORTH]) {
+      } else if (neighbor[DIR_WEST] && neighbor[DIR_NORTH]) {
         rotate(DIR_WEST);
       }
     } else if (num_neighbors == 3) { // Fast to check who DOESN'T have it
-      if (!(*neighbor)[DIR_NORTH]) {
+      if (!neighbor[DIR_NORTH]) {
         rotate(DIR_EAST);
-      } else if (!(*neighbor)[DIR_EAST]) {
+      } else if (!neighbor[DIR_EAST]) {
         rotate(DIR_SOUTH);
-      } else if (!(*neighbor)[DIR_SOUTH]) {
+      } else if (!neighbor[DIR_SOUTH]) {
         rotate(DIR_WEST);
       }
     } else if (num_neighbors != 4) {
-      debugmsg("Used neighbor on a map with num_neighbors %d", num_neighbors);
+      debugmsg("Used neighbor on a '%s' map with num_neighbors %d; '%s'/'%s'",
+               world_ter[0]->name.c_str(), num_neighbors, name.c_str(),
+               terrain_name.c_str());
+    }
+  } else if (!is_adjacent && world_ter[0]->has_flag(WTF_FACE_ROAD)) {
+    std::vector<Direction> valid_rotate;
+    for (int i = 1; i < 5; i++) {
+      if (world_ter[i]->has_flag(WTF_ROAD)) {
+        valid_rotate.push_back( Direction(i) );
+      }
+    }
+    if (valid_rotate.empty()) {
+      random_rotate(); // Hopefully won't ever happen!
+    } else {
+      rotate( valid_rotate[ rng(0, valid_rotate.size() - 1) ] );
     }
   } else if (!is_adjacent && num_neighbors > 0) {
     random_rotate();

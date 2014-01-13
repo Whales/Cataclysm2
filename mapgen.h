@@ -135,7 +135,7 @@ struct Mapgen_spec
 
   bool load_data(std::istream &data);
 
-  void prepare(std::vector<bool> *neighbor = NULL);
+  void prepare(World_terrain* world_ter[5]);
   void random_rotate();
   void rotate(Direction dir);
   Terrain* pick_terrain(int x, int y);

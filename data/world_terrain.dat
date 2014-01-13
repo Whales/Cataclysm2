@@ -58,7 +58,7 @@ Name: river
   Done
 Name: road
   Glyph: + ltgray black
-  Flags: line_drawing relational
+  Flags: line_drawing relational road
   Road_cost: 1
   Done
 Name: bridge
