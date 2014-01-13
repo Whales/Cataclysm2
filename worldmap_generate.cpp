@@ -323,7 +323,7 @@ void Worldmap::generate()
     }
   }
 
-// Draw some roads between cities.
+// Erase any remaining below-water cities
   for (int i = 0; i < city_seeds.size(); i++) {
     Point p = city_seeds[i];
     if (tiles[p.x][p.y].terrain->road_cost <= 0 ||
@@ -332,6 +332,7 @@ void Worldmap::generate()
       i--;
     }
   }
+// Draw some roads between cities.
   if (city_seeds.size() > 1) {
     for (int i = 0; i < city_seeds.size(); i++) {
       Generic_map gmap = get_generic_map();
@@ -356,7 +357,9 @@ void Worldmap::generate()
               tiles[p.x][p.y].set_terrain("bridge");
             } else {
               tiles[p.x][p.y].set_terrain("road");
-              city[p.x][p.y] = CITY_ROAD;
+              if (city[p.x][p.y] != CITY_NOTCITY) {
+                city[p.x][p.y] = CITY_ROAD;
+              }
             }
           }
         }

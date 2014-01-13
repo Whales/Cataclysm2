@@ -76,7 +76,17 @@ Name: house
   Road_cost: 500
   Done
 Name: hardware store
+  Glyph: o ltblue black
+  Road_cost: 500
+  Flags: shop face_road
+  Done
+Name: pharmacy
   Glyph: o ltred black
   Road_cost: 500
-  Flags: shop
+  Flags: shop face_road
+  Done
+Name: gun store
+  Glyph: o red black
+  Road_cost: 500
+  Flags: shop face_road
   Done
