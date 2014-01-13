@@ -29,9 +29,6 @@ tile: o = dirt / grass
 tile: + = closed door
 tile: " = window
 map:
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
 ooo##""##+#######""###ooo
 ooo#.................#ooo
 ooo#.................#ooo
@@ -51,6 +48,9 @@ ooo".........#.......#ooo
 ooo#.........#.......#ooo
 ooo#.........#.......#ooo
 ooo#############"#####ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo

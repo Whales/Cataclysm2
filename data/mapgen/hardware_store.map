@@ -33,9 +33,6 @@ tile: " = window
 tile: { = display rack
 tile: % = counter
 map:
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
 ooo##XXXXXX+++XXXXXX##ooo
 ooo#.................#ooo
 ooo#{..{..%.........{#ooo
@@ -55,6 +52,9 @@ ooo#........#....{..{#ooo
 ooo"........#.......{#ooo
 ooo#........*...{{{{{#ooo
 ooo#####"#############ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
