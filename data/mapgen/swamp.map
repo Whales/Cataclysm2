@@ -234,7 +234,7 @@ name: pond_swamp_whales
 type: swamp
 base_terrain: w:15 mud / w:6 dirt / w:3 grass / w:1 tree / w:1 shallow water
 tile: a = w:40 shallow water / w:1 tree
-tile: b = w:40 mud / w:20 dirt / w:6 shallow water / w:5 bush / w:1 tree
+tile: b = w:40 mud / w:20 dirt / w:6 shallow water / w:5 underbrush / w:1 tree
 map:
 .........................
 .........................

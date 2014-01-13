@@ -57,11 +57,11 @@ done
 name: adj_forest_whales
 type: forest
 adjacent
-tile: a = w:10 nothing / w:1 tree / w:1 small tree / w:2 bush
-tile: b = w:20 nothing / w:1 tree / w:1 small tree / w:2 bush
-tile: c = w:35 nothing / w:1 tree / w:1 small tree / w:2 bush
-tile: d = w:60 nothing / w:1 tree / w:1 small tree / w:2 bush
-tile: e = w:80 nothing / w:1 tree / w:1 small tree / w:2 bush
+tile: a = w:10 nothing / w:1 tree / w:1 small tree / w:2 underbrush
+tile: b = w:20 nothing / w:1 tree / w:1 small tree / w:2 underbrush
+tile: c = w:35 nothing / w:1 tree / w:1 small tree / w:2 underbrush
+tile: d = w:60 nothing / w:1 tree / w:1 small tree / w:2 underbrush
+tile: e = w:80 nothing / w:1 tree / w:1 small tree / w:2 underbrush
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 bbbbbbbbbbbbbbbbbbbbbbbbb

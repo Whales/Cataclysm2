@@ -168,9 +168,9 @@ name: barrier_adj_mangrove_whales
 type: mangrove
 adjacent
 weight: 500
-tile: a = w:10 tree / w:20 small tree / w:3 bush / w:5 nothing
-tile: b = w:5 tree / w:15 small tree / w:10 bush / w:10 nothing
-tile: c = w:1 tree / w:10 small tree / w:10 bush / w:80 nothing
+tile: a = w:10 tree / w:20 small tree / w:3 underbrush / w:5 nothing
+tile: b = w:5 tree / w:15 small tree / w:10 underbrush / w:10 nothing
+tile: c = w:1 tree / w:10 small tree / w:10 underbrush / w:80 nothing
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 bbbbbbbbbbbbbbbbbbbbbbbbb

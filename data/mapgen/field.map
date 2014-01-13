@@ -61,7 +61,7 @@ weight: 10
 base_terrain: dirt / grass
 item_group: 50 . = items_field
 subst: x = w:5 . / w:1 T
-tile: T = w:1 tree / w:2 bush/ w:2 grass
+tile: T = w:1 tree / w:2 underbrush/ w:2 grass
 map:
 .........................
 .........................

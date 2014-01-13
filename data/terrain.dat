@@ -2,152 +2,222 @@ name: dirt
   glyph: . brown black
   movecost: 100
   flags: floor
-  done
+done
 
 name: grass
   glyph: . green black
   movecost: 100
   flags: floor
-  done
+done
 
 name: tree
   glyph: 7 green black
   movecost:   0
   flags: opaque
+done
+
+name: underbrush
+  glyph: & ltgreen black
+  movecost: 200
+  smash:
+    result: grass
+    hp: 10
+    armor: bash 40
+    ignore_chance: 25
   done
+done
 
 name: small tree
   glyph: 1 green black
   movecost:   0
+  smash:
+    result: underbrush
+    hp: 15
+    armor: bash 8
   done
-
-name: bush
-  glyph: & ltgreen black
-  movecost: 200
-  done
+done
 
 name: sand
   glyph: . yellow black
   movecost: 100
   flags: floor
-  done
+done
 
 name: mud
   glyph: ~ brown black
   movecost: 300
-  done
+done
 
 name: shallow water
   glyph: ~ ltblue black
   movecost: 200
-  done
+done
 
 name: deep water
   glyph: ~ blue black
   movecost: 0
-  done
+done
 
 name: shallow salt water
   glyph: ~ ltcyan black
   movecost: 200
-  done
+done
 
 name: deep salt water
   glyph: ~ cyan black
   movecost: 0
-  done
+done
 
 name: fungal tree
   glyph: 7 dkgray black
   movecost: 0
   flags: opaque
-  done
+done
 
 name: fungal undergrowth
   glyph: & dkgray black
   movecost: 150
-  done
+done
+
+name: rubble
+  glyph: & ltgray black
+  movecost: 120
+done
 
 name: boulder
   glyph: # ltgray black
   movecost: 0
   flags: opaque
+  smash:
+    result: rubble
+    hp: 200
+    armor: cut 50
+    armor: bash 25
   done
-
-name: rubble
-  glyph: & ltgray black
-  movecost: 120
-  done
+done
 
 name: stone wall
   glyph: # ltgray black
   movecost: 0
   flags: opaque
+  smash:
+    result: rubble
+    hp: 250
+    armor: cut 50
+    armor: bash 20
   done
+done
 
 name: wood wall
   glyph: # brown black
   movecost: 0
   flags: opaque
-  done
-
-name: glass wall
-  glyph: # ltcyan black
-  movecost: 0
-  done
-
-name: pavement
-  glyph: . dkgray black
-  movecost: 100
-  done
-
-name: yellow pavement
-  glyph: . yellow black
-  movecost: 100
-  done
-
-name: white pavement
-  glyph: . white black
-  movecost: 100
-  done
+done
 
 name: floor
   glyph: . cyan black
   movecost: 100
+done
+
+name: glass wall
+  glyph: # ltcyan black
+  movecost: 0
+  smash:
+    result: floor
+    hp: 1
+    armor: cut 8
   done
+done
+
+name: pavement
+  glyph: . dkgray black
+  movecost: 100
+done
+
+name: yellow pavement
+  glyph: . yellow black
+  movecost: 100
+done
+
+name: white pavement
+  glyph: . white black
+  movecost: 100
+done
+
+name: door frame
+  glyph: . brown black
+  movecost: 100
+done
+
+name: broken door
+  glyph: {
+  movecost: 0
+  smash:
+    result: door frame
+    hp: 15
+    armor: bash 4
+  done
+done
 
 name: closed door
   glyph: + brown black
   movecost: 0
   flags: opaque
+  smash:
+    result: broken door
+    hp: 20
+    armor: bash 5
   done
+done
 
 name: open door
   glyph: ' brown black
   movecost: 100
-  done
+done
 
 name: closed glass door
   glyph: + ltcyan black
   movecost: 0
+  smash:
+    result: door frame
+    hp: 3
+    armor: cut 5
   done
+done
 
 name: open glass door
   glyph: ' ltcyan black
   movecost: 0
-  done
+done
+
+name: window frame
+  glyph: 0 ltcyan black
+  movecost: 250
+done
 
 name: window
   glyph: " ltcyan black
   movecost: 0
+  smash:
+    result: window frame
+    hp: 5
+    armor: cut 5
   done
+done
 
 name: display rack
   glyph: { ltgray black
   movecost: 0
+  smash:
+    result: rubble
+    hp: 10
+    armor: cut 40
+    armor: bash 5
+    ignore_chance: 50
   done
+done
 
 name: counter
   glyph: % blue black
   movecost: 180
-  done
+done
