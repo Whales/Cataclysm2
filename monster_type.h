@@ -8,12 +8,16 @@
 #include "enum.h"
 #include "attack.h"
 
+struct Monster_genus;
+
 struct Monster_type
 {
   Monster_type();
   ~Monster_type();
 
+  Monster_genus *genus;
   std::string name;
+  std::string name_plural;
   int uid;
   glyph sym;
 
@@ -21,7 +25,9 @@ struct Monster_type
   int speed;
   std::vector<Attack> attacks;
   int total_attack_weight;
+  bool attacks_copied_from_genus;
 
+  void set_genus(Monster_genus *mg);
   void assign_uid(int id);
   std::string get_name();
   bool load_data(std::istream &data);
@@ -31,6 +37,17 @@ struct Monster_type
 private:
   std::vector<bool> senses;
 
+};
+
+struct Monster_genus
+{
+  Monster_genus();
+  ~Monster_genus();
+
+  std::string name;
+  std::string name_plural;
+
+  Monster_type default_values; // Default values for monsters in this genus
 };
 
 #endif

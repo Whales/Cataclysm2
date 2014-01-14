@@ -5,10 +5,16 @@
 
 Monster_type::Monster_type()
 {
+  genus = NULL;
   name = "Unknown";
   uid = -1;
   sym = glyph();
   total_attack_weight = 0;
+  minimum_hp = 0;
+  maximum_hp = 0;
+  speed = 0;
+  attacks_copied_from_genus = false;
+  
   for (int i = 0; i < SENSE_MAX; i++) {
     senses.push_back(false);
   }
@@ -16,6 +22,30 @@ Monster_type::Monster_type()
 
 Monster_type::~Monster_type()
 {
+}
+
+void Monster_type::set_genus(Monster_genus *mg)
+{
+  if (!mg) {
+    genus = NULL;
+    return;
+  }
+
+  genus = mg;
+// Copy any unset values from the genus
+  if (attacks.empty()) {
+    attacks_copied_from_genus = true;
+    attacks = mg->default_values.attacks;
+  }
+  if (minimum_hp == 0) {
+    minimum_hp = mg->default_values.minimum_hp;
+  }
+  if (maximum_hp == 0) {
+    maximum_hp = mg->default_values.maximum_hp;
+  }
+  if (speed == 0) {
+    speed = mg->default_values.speed;
+  }
 }
 
 void Monster_type::assign_uid(int id)
@@ -46,6 +76,10 @@ bool Monster_type::load_data(std::istream &data)
     } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+
+    } else if (ident == "name_plural:") {
+      std::getline(data, name_plural);
+      name_plural = trim(name_plural);
 
     } else if (ident == "glyph:") {
       sym.load_data_text(data);

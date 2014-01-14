@@ -24,7 +24,7 @@ public:
 // Movement functions
   virtual bool has_sense(Sense_type sense);
   virtual int  get_speed();
-  virtual bool can_move_to(Map* map, int x, int y);
+  //virtual bool can_move_to(Map* map, int x, int y);
 
 // Inventory functions
   virtual bool add_item(Item item);

@@ -66,12 +66,6 @@ int Player::get_speed()
   return 100;
 }
 
-bool Player::can_move_to(Map *map, int x, int y)
-{
-// TODO: Remove me, obvs
-  return true;
-}
-
 bool Player::add_item(Item item)
 {
 // TODO: Weight isn't a hard limit
