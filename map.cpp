@@ -4,6 +4,15 @@
 #include "monster.h"
 #include "game.h"
 
+void Tile::set_terrain(Terrain* ter)
+{
+  if (!ter) {
+    return;
+  }
+  terrain = ter;
+  hp = ter->smash.hp;
+}
+
 glyph Tile::top_glyph()
 {
 /* TODO: If terrain is "important" (i.e. not ground) and there's items on top,
@@ -53,6 +62,13 @@ bool Tile::blocks_sense(Sense_type sense)
   return false;
 }
 
+void Tile::smash()
+{
+  if (!terrain || !terrain->smash.result) {
+    return;
+  }
+}
+
 void Submap::generate_empty()
 {
   Terrain* grass = TERRAIN.lookup_name("grass");
@@ -64,7 +80,7 @@ void Submap::generate_empty()
 
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
-      tiles[x][y].terrain = (one_in(2) ? grass : dirt);
+      tiles[x][y].set_terrain(one_in(2) ? grass : dirt);
     }
   }
 }
@@ -151,7 +167,7 @@ void Submap::generate(Mapgen_spec* spec)
 // First, set the terrain.
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
-      tiles[x][y].terrain = spec->pick_terrain(x, y);
+      tiles[x][y].set_terrain(spec->pick_terrain(x, y));
     }
   }
 // Next, add items.
@@ -179,7 +195,7 @@ void Submap::generate_adjacent(Mapgen_spec* spec)
 // TODO: Only overwrite terrain with the "ground" tag
       if (tmpter &&
           (!tiles[x][y].terrain || tiles[x][y].terrain->has_flag(TF_FLOOR))) {
-        tiles[x][y].terrain = tmpter;
+        tiles[x][y].set_terrain(tmpter);
       }
     }
   }
@@ -376,7 +392,7 @@ Tile* Map::get_tile(int x, int y)
 {
   if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
       y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
-    tile_oob.terrain = TERRAIN.lookup_uid(0);
+    tile_oob.set_terrain(TERRAIN.lookup_uid(0));
     return &tile_oob;
   }
 

@@ -19,15 +19,18 @@ struct Tile
 {
   Terrain *terrain;
   std::vector<Item> items;
+  int hp;
 
-   Tile() { }
+   Tile() { hp = 0; }
   ~Tile() { }
 
+  void set_terrain(Terrain* ter);
+
   glyph top_glyph();
-
   int move_cost();
-
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
+
+  void smash();
 };
 
 struct Submap
