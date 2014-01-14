@@ -1,6 +1,7 @@
 #include "keybind.h"
 #include "stringfunc.h"
 #include "window.h"
+#include "globals.h"
 #include <fstream>
 
 bool Keybinding_pool::bind_key(long key, Interface_action action)
@@ -69,6 +70,7 @@ std::string interface_action_name(Interface_action action)
     case IACTION_MOVE_NW:                 return "move_northwest";
     case IACTION_PAUSE:                   return "pause";
     case IACTION_PICK_UP:                 return "pick_up";
+    case IACTION_SMASH:                   return "smash";
     case IACTION_INVENTORY:               return "inventory";
     case IACTION_DROP:                    return "drop";
     case IACTION_WIELD:                   return "wield";
@@ -84,4 +86,22 @@ std::string interface_action_name(Interface_action action)
     default:                              return "BUG - Unnamed action";
   }
   return "BUG - Escaped switch";
+}
+
+Point input_direction()
+{
+  long ch = input();
+  switch (KEYBINDINGS.bound_to_key(ch)) {
+    case IACTION_MOVE_N:  return Point( 0, -1);
+    case IACTION_MOVE_NE: return Point( 1, -1);
+    case IACTION_MOVE_E:  return Point( 1,  0);
+    case IACTION_MOVE_SE: return Point( 1,  1);
+    case IACTION_MOVE_S:  return Point( 0,  1);
+    case IACTION_MOVE_SW: return Point(-1,  1);
+    case IACTION_MOVE_W:  return Point(-1,  0);
+    case IACTION_MOVE_NW: return Point(-1, -1);
+    case IACTION_PAUSE:   return Point( 0,  0);
+    default:              return Point(-2, -2); // Be sure to check for this!
+  }
+  return Point(-2, -2);
 }

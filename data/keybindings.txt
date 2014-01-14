@@ -8,6 +8,7 @@ h     move_west
 y     move_northwest
 .     pause
 ,g    pick_up
+s     smash
 i     inventory
 d     drop
 w     wield

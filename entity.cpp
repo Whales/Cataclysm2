@@ -1,6 +1,7 @@
 #include "entity.h"
 #include "rng.h"
 #include "game.h"
+#include "geometry.h"
 #include <sstream>
 
 Entity::Entity()
@@ -32,6 +33,11 @@ std::string Entity::get_possessive()
 glyph Entity::get_glyph()
 {
   return glyph();
+}
+
+Point Entity::get_position()
+{
+  return Point(posx, posy);
 }
 
 void Entity::die()
@@ -101,6 +107,14 @@ void Entity::set_activity(Player_activity_type type, int duration,
 {
 // TODO: Error or something if we have an activity?
   activity = Player_activity(type, duration, primary_uid, secondary_uid);
+}
+
+void Entity::use_ap(int amount)
+{
+  if (amount < 0) {
+    return;
+  }
+  action_points -= amount;
 }
 
 bool Entity::add_item(Item item)
@@ -258,6 +272,16 @@ Attack Entity::base_attack()
 {
   return Attack();
 }
+
+Attack Entity::std_attack()
+{
+  Attack att = base_attack();
+  if (weapon.is_real()) {
+    att.use_weapon(weapon, 0, 0); // TODO : Use stats here
+  }
+  return att;
+}
+
   
 void Entity::attack(Entity* target)
 {
@@ -266,10 +290,7 @@ void Entity::attack(Entity* target)
     return;
   }
 
-  Attack att = base_attack();
-  if (weapon.is_real()) {
-    att.use_weapon(weapon, 0, 0); // TODO : Use stats here
-  }
+  Attack att = std_attack();
 
   action_points -= att.speed;
 

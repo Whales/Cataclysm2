@@ -1,11 +1,12 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
-#include <string>
 #include "glyph.h"
 #include "map.h"
 #include "item.h"
 #include "player_activity.h"
+#include "geometry.h"
+#include <string>
 
 class Entity
 {
@@ -17,6 +18,7 @@ public:
   virtual std::string get_name_to_player();
   virtual std::string get_possessive();
   virtual glyph get_glyph();
+  virtual Point get_position();
 
   virtual bool is_player()  { return false; }
   virtual bool is_monster() { return false; }
@@ -35,6 +37,7 @@ public:
 // Misc action functions
   void set_activity(Player_activity_type type, int duration,
                     int primary_uid = -1, int secondary_uid = -1);
+  void use_ap(int amount);
   
 // Inventory functions
   virtual bool add_item(Item item);
@@ -49,6 +52,7 @@ public:
 
 // Combat functions
   virtual Attack base_attack();
+  virtual Attack std_attack(); // With weapon if it exists
   virtual void attack(Entity* target);
   virtual int  hit_roll(int bonus);
   virtual int  dodge_roll();

@@ -1,6 +1,7 @@
 #ifndef _KEYBIND_H_
 #define _KEYBIND_H_
 
+#include "geometry.h"
 #include <map>
 #include <string>
 
@@ -19,6 +20,7 @@ enum Interface_action
   IACTION_PAUSE,
 // Map interaction
   IACTION_PICK_UP,
+  IACTION_SMASH,
 // Inventory interaction
   IACTION_INVENTORY,
   IACTION_DROP,
@@ -52,5 +54,6 @@ private:
   std::map<long,Interface_action> bindings;
 };
   
+Point input_direction(); // Waits for input; returns e.g. (-1, -1) if NW key hit
 
 #endif

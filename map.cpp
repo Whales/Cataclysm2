@@ -69,7 +69,7 @@ void Tile::smash(Attack attack)
     return;
   }
   Terrain_smash smash = terrain->smash;
-  if (rng(1, 100) >= smash.ignore_chance) {
+  if (rng(1, 100) <= smash.ignore_chance) {
     return; // Make our "saving throw"
   }
   for (int i = 0; i < DAMAGE_MAX; i++) {
@@ -412,6 +412,19 @@ Tile* Map::get_tile(int x, int y)
 
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
   return &(submaps[sx][sy]->tiles[x % SUBMAP_SIZE][y % SUBMAP_SIZE]);
+}
+
+std::string Map::get_name(int x, int y)
+{
+  return get_tile(x, y)->terrain->name;
+}
+
+void Map::smash(int x, int y, Attack attack)
+{
+  Tile* hit = get_tile(x, y);
+  if (hit) {
+    hit->smash(attack);
+  }
 }
 
 /* Still using Cataclysm style LOS.  It sucks and is slow and I hate it.

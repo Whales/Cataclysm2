@@ -40,7 +40,20 @@ struct Point
   {
     return !(*this == other);
   }
+
+  Point& operator +=(const Point &rhs)
+  {
+    x += rhs.x;
+    y += rhs.y;
+    return *this;
+  }
 };
+
+inline Point operator+(Point lhs, const Point& rhs)
+{
+  lhs += rhs;
+  return lhs;
+}
 
 struct Pointcomp
 {

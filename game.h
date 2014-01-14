@@ -35,7 +35,7 @@ public:
   void complete_player_activity();
 
 // Engine - Called-as-needed
-  void shift_if_needed();  // Shift the map, if the player's not in the center
+  void  shift_if_needed();  // Shift the map, if the player's not in the center
 
 // Engine - Game-altering functions
   void player_move(int xdif, int ydif); // Handles all aspects of moving player

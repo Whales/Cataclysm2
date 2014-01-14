@@ -85,6 +85,8 @@ public:
   int item_count(int x, int y);
   std::vector<Item>* items_at(int x, int y);
   Tile* get_tile(int x, int y);
+  std::string get_name(int x, int y);
+  void smash(int x, int y, Attack attack);
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
 
 // Output

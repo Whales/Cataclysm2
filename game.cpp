@@ -133,8 +133,20 @@ void Game::do_action(Interface_action act)
       }
       break;
 
+    case IACTION_SMASH: {
+      Point dir = input_direction();
+      if (dir.x == -2) { // Error
+        add_msg("Invalid direction.");
+      } else {
+        Point smashed = player->get_position() + dir;
+        add_msg("You smash the %s.",
+                map->get_name(smashed.x, smashed.y).c_str());
+        map->smash(smashed.x, smashed.y, player->std_attack());
+        player->use_ap(100);
+      }
+    } break;
+
     case IACTION_INVENTORY: {
-// TODO: Allow the player to perform an action upon items in their inventory
       Item it = player->inventory_single();
       Item_action act = it.show_info();
       if (act == IACT_DROP) {
