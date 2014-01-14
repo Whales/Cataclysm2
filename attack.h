@@ -4,6 +4,7 @@
 #include "enum.h"
 #include "item.h"
 #include <string>
+#include <vector>
 
 Body_part random_body_part_to_hit();
 

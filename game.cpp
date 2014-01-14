@@ -138,10 +138,11 @@ void Game::do_action(Interface_action act)
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
       } else {
-        Point smashed = player->get_position() + dir;
+        Point sm = player->get_position() + dir;
         add_msg("You smash the %s.",
-                map->get_name(smashed.x, smashed.y).c_str());
-        map->smash(smashed.x, smashed.y, player->std_attack());
+                map->get_name(sm.x, sm.y).c_str());
+        std::string sound = map->smash(sm.x, sm.y, player->std_attack());
+        make_sound(sound, player->posx, player->posy);
         player->use_ap(100);
       }
     } break;
@@ -349,14 +350,17 @@ void Game::shift_if_needed()
   player->posy -= shifty * SUBMAP_SIZE;
 }
 
-void Game::sound(std::string desc, int x, int y)
+void Game::make_sound(std::string desc, int x, int y)
 {
+  if (desc.empty()) {
+    return;
+  }
 // TODO: Alert monsters
   Direction_full dir = get_general_direction(player->get_position(),
                                              Point(x, y));
 // TODO: Don't hardcode color
   if (dir == DIRFULL_NULL) { // On top of the player!
-    add_msg("<c=ltblue>%s<c=/>", desc.c_str());
+    add_msg("<c=ltblue>You hear %s<c=/>", desc.c_str());
   } else {
     add_msg("<c=ltblue>To the <c=ltred>%s<c=ltblue>, you hear %s<c=/>",
             Direction_name(dir).c_str(), desc.c_str());

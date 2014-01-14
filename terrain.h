@@ -16,6 +16,8 @@ struct Terrain_smash
   ~Terrain_smash(){}
 
   Terrain* result;
+  std::string failure_sound;
+  std::string success_sound;
   int hp;
   int armor[DAMAGE_MAX];
   int ignore_chance;

@@ -63,24 +63,29 @@ bool Tile::blocks_sense(Sense_type sense)
   return false;
 }
 
-void Tile::smash(Attack attack)
+std::string Tile::smash(Attack attack)
 {
   if (!terrain || !terrain->smash.result) {
-    return;
+    return "";
   }
   Terrain_smash smash = terrain->smash;
   if (rng(1, 100) <= smash.ignore_chance) {
-    return; // Make our "saving throw"
+    return smash.failure_sound; // Make our "saving throw"
   }
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    attack.damage[i] -= smash.armor[i];
-    if (attack.damage[i] > 0) {
-      hp -= attack.damage[i];
+    int dam = rng(0, attack.damage[i]), armor = rng(0, smash.armor[i]);
+    dam -= armor;
+    if (dam > 0) {
+      hp -= dam;
     }
   }
+  std::string ret = smash.failure_sound;
   if (hp <= 0) {
+    ret = smash.success_sound;
     set_terrain(smash.result);
   }
+
+  return ret;
 }
 
 void Submap::generate_empty()
@@ -419,12 +424,13 @@ std::string Map::get_name(int x, int y)
   return get_tile(x, y)->terrain->name;
 }
 
-void Map::smash(int x, int y, Attack attack)
+std::string Map::smash(int x, int y, Attack attack)
 {
   Tile* hit = get_tile(x, y);
   if (hit) {
-    hit->smash(attack);
+    return hit->smash(attack);
   }
+  return "";
 }
 
 /* Still using Cataclysm style LOS.  It sucks and is slow and I hate it.

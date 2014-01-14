@@ -31,7 +31,7 @@ struct Tile
   int move_cost();
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
 
-  void smash(Attack attack);
+  std::string smash(Attack attack); // Returns the sound
 };
 
 struct Submap
@@ -86,7 +86,7 @@ public:
   std::vector<Item>* items_at(int x, int y);
   Tile* get_tile(int x, int y);
   std::string get_name(int x, int y);
-  void smash(int x, int y, Attack attack);
+  std::string smash(int x, int y, Attack attack); // Returns the sound
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
 
 // Output

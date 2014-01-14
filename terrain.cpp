@@ -42,6 +42,14 @@ bool Terrain_smash::load_data(std::istream &data, std::string name)
         result = tmpter;
       }
 
+    } else if (ident == "success_sound:") {
+      std::getline(data, success_sound);
+      success_sound = trim(success_sound);
+
+    } else if (ident == "failure_sound:") {
+      std::getline(data, failure_sound);
+      failure_sound = trim(failure_sound);
+
     } else if (ident == "hp:") {
       data >> hp;
       std::getline(data, junk);

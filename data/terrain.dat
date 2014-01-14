@@ -21,6 +21,8 @@ name: underbrush
   movecost: 200
   smash:
     result: grass
+    failure_sound: "crunch."
+    success_sound: "crunch."
     hp: 10
     armor: bash 40
     ignore_chance: 25
@@ -32,6 +34,8 @@ name: small tree
   movecost:   0
   smash:
     result: underbrush
+    failure_sound: "thump."
+    success_sound: "crunch!"
     hp: 15
     armor: bash 8
   done
@@ -90,6 +94,8 @@ name: boulder
   flags: opaque
   smash:
     result: rubble
+    failure_sound: "whack!"
+    success_sound: rock shattering.
     hp: 200
     armor: cut 50
     armor: bash 25
@@ -102,6 +108,8 @@ name: stone wall
   flags: opaque
   smash:
     result: rubble
+    failure_sound: "thump."
+    success_sound: rock shattering.
     hp: 250
     armor: cut 50
     armor: bash 20
@@ -124,6 +132,8 @@ name: glass wall
   movecost: 0
   smash:
     result: floor
+    failure_sound: "whunk."
+    success_sound: glass shattering.
     hp: 1
     armor: cut 8
   done
@@ -150,10 +160,12 @@ name: door frame
 done
 
 name: broken door
-  glyph: {
+  glyph: { brown black
   movecost: 0
   smash:
     result: door frame
+    failure_sound: "whack."
+    success_sound: wood splintering.
     hp: 15
     armor: bash 4
   done
@@ -165,6 +177,8 @@ name: closed door
   flags: opaque
   smash:
     result: broken door
+    failure_sound: "whack."
+    success_sound: wood splintering.
     hp: 20
     armor: bash 5
   done
@@ -180,6 +194,8 @@ name: closed glass door
   movecost: 0
   smash:
     result: door frame
+    failure_sound: "whunk."
+    success_sound: glass shattering.
     hp: 3
     armor: cut 5
   done
@@ -200,6 +216,8 @@ name: window
   movecost: 0
   smash:
     result: window frame
+    failure_sound: "whunk."
+    success_sound: glass shattering.
     hp: 5
     armor: cut 5
   done
@@ -210,6 +228,8 @@ name: display rack
   movecost: 0
   smash:
     result: rubble
+    failure_sound: "whack."
+    success_sound: "crash!"
     hp: 10
     armor: cut 40
     armor: bash 5
