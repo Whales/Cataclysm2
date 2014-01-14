@@ -12,6 +12,7 @@
 #include "item.h"
 #include "enum.h"
 #include "geometry.h"
+#include "attack.h"
 
 class Monster_pool;
 
@@ -30,7 +31,7 @@ struct Tile
   int move_cost();
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
 
-  void smash();
+  void smash(Attack attack);
 };
 
 struct Submap

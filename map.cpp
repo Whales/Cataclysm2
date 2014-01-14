@@ -3,6 +3,7 @@
 #include "globals.h"
 #include "monster.h"
 #include "game.h"
+#include "attack.h"
 
 void Tile::set_terrain(Terrain* ter)
 {
@@ -62,10 +63,23 @@ bool Tile::blocks_sense(Sense_type sense)
   return false;
 }
 
-void Tile::smash()
+void Tile::smash(Attack attack)
 {
   if (!terrain || !terrain->smash.result) {
     return;
+  }
+  Terrain_smash smash = terrain->smash;
+  if (rng(1, 100) >= smash.ignore_chance) {
+    return; // Make our "saving throw"
+  }
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    attack.damage[i] -= smash.armor[i];
+    if (attack.damage[i] > 0) {
+      hp -= attack.damage[i];
+    }
+  }
+  if (hp <= 0) {
+    set_terrain(smash.result);
   }
 }
 
