@@ -349,6 +349,20 @@ void Game::shift_if_needed()
   player->posy -= shifty * SUBMAP_SIZE;
 }
 
+void Game::sound(std::string desc, int x, int y)
+{
+// TODO: Alert monsters
+  Direction_full dir = get_general_direction(player->get_position(),
+                                             Point(x, y));
+// TODO: Don't hardcode color
+  if (dir == DIRFULL_NULL) { // On top of the player!
+    add_msg("<c=ltblue>%s<c=/>", desc.c_str());
+  } else {
+    add_msg("<c=ltblue>To the <c=ltred>%s<c=ltblue>, you hear %s<c=/>",
+            Direction_name(dir).c_str(), desc.c_str());
+  }
+}
+
 void Game::player_move(int xdif, int ydif)
 {
 // TODO: Remove this?
