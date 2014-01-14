@@ -44,12 +44,12 @@ glyph glyph::invert()
 
 glyph glyph::hilite(nc_color back)
 {
-  if (fg == HILITE_COLOR) {
+  if (fg == back) {
     return invert();
   }
   glyph ret = (*this);
   
-  ret.bg = HILITE_COLOR;
+  ret.bg = back;
   return ret;
 }
 

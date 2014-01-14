@@ -28,7 +28,18 @@ glyph Tile::top_glyph()
   if (!terrain) {
     return glyph();
   }
-  return terrain->sym;
+  glyph ret = terrain->sym;
+  if (terrain->smash.hp > 0 && hp < terrain->smash.hp) {
+    int percent = (100 * hp) / terrain->smash.hp;
+    if (percent >= 80) {
+      ret = ret.hilite(c_green);
+    } else if (percent >= 40) {
+      ret = ret.hilite(c_brown);
+    } else {
+      ret = ret.hilite(c_red);
+    }
+  }
+  return ret;
 }
 
 int Tile::move_cost()
