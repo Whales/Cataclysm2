@@ -74,6 +74,60 @@ int manhattan_dist(int x0, int y0, int x1, int y1)
   return abs(x1 - x0) + abs(y1 - y0);
 }
 
+Direction_full get_general_direction(Point origin, Point target)
+{
+  int dx = target.x - origin.x;
+  int dy = target.y - origin.y;
+  int ax = abs(dx), ay = abs(dy);
+
+  if (dx == 0) {
+    if (dy == 0) {
+      return DIRFULL_NULL;
+    } else if (dy > 0) {
+      return DIRFULL_NORTH;
+    } else {
+      return DIRFULL_SOUTH;
+    }
+  } else if (dx > 0) {
+    if (dy >= 0) {
+      if (ay * 2 >= ax) {
+        return DIRFULL_NORTH;
+      } else if (ax * 2 >= ay) {
+        return DIRFULL_EAST;
+      } else {
+        return DIRFULL_NORTHEAST;
+      }
+    } else {
+      if (ay * 2 > ax) {
+        return DIRFULL_SOUTH;
+      } else if (ax * 2 >= ay) {
+        return DIRFULL_EAST;
+      } else {
+        return DIRFULL_SOUTHEAST;
+      }
+    }
+  } else {
+    if (dy >= 0) {
+      if (ay * 2 >= ax) {
+        return DIRFULL_NORTH;
+      } else if (ax * 2 >= ay) {
+        return DIRFULL_WEST;
+      } else {
+        return DIRFULL_NORTHWEST;
+      }
+    } else {
+      if (ay * 2 > ax) {
+        return DIRFULL_SOUTH;
+      } else if (ax * 2 >= ay) {
+        return DIRFULL_WEST;
+      } else {
+        return DIRFULL_SOUTHWEST;
+      }
+    }
+  }
+  return DIRFULL_NULL;
+}
+
 std::string Direction_name(Direction dir)
 {
   switch (dir) {
@@ -82,6 +136,22 @@ std::string Direction_name(Direction dir)
     case DIR_EAST:  return "East";
     case DIR_SOUTH: return "South";
     case DIR_WEST:  return "West";
+  }
+  return "???";
+}
+
+std::string Direction_name(Direction_full dir)
+{
+  switch (dir) {
+    case DIRFULL_NULL:      return "None";
+    case DIRFULL_NORTH:     return "North";
+    case DIRFULL_NORTHEAST: return "Northeast";
+    case DIRFULL_EAST:      return "East";
+    case DIRFULL_SOUTHEAST: return "Southeast";
+    case DIRFULL_SOUTH:     return "South";
+    case DIRFULL_SOUTHWEST: return "Southwest";
+    case DIRFULL_WEST:      return "West";
+    case DIRFULL_NORTHWEST: return "Northwest";
   }
   return "???";
 }

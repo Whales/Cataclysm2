@@ -36,6 +36,7 @@ public:
 
 // Engine - Called-as-needed
   void  shift_if_needed();  // Shift the map, if the player's not in the center
+  void  sound(int x, int y, std::string desc);
 
 // Engine - Game-altering functions
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
