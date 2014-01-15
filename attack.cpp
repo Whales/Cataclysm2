@@ -147,6 +147,24 @@ Damage_set Attack::roll_damage()
   return ret;
 }
 
+Ranged_attack::Ranged_attack()
+{
+  verb_first = "shoot";
+  verb_third = "shoots";
+  weight = 0;
+  charge_time = 0;
+  range = 0;
+  variance = 0;
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    damage[i] = 0;
+    armor_divisor[i] = 0;
+  }
+}
+
+Ranged_attack::~Ranged_attack()
+{
+}
+
 Body_part random_body_part_to_hit()
 {
   int pick = rng(1, 13);

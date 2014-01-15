@@ -58,6 +58,9 @@ struct Attack
 
 struct Ranged_attack
 {
+  Ranged_attack();
+  ~Ranged_attack();
+
   std::string verb_first;
   std::string verb_third;
   int weight; // For mosnter attacks - how likely this attack is to be used
@@ -65,6 +68,16 @@ struct Ranged_attack
   int range;    // Max range of the attack
   int variance; // How far off from our target can we be?  In 1/10s of a degree.
   int damage[DAMAGE_MAX];
+  int armor_divisor[DAMAGE_MAX];
+
+/* TODO: Add the following as they're implemented:
+ *      Status_effect this causes (Blinding, stunning, etc)
+ *      Field this leaves in its wake (smoke, slime, etc)
+ *      Field pool this plants at its destination (acid, fire)
+ *      Other???
+ */
+
+  bool load_data(std::istream &data, std::string owner_name = "unknown");
 
   Damage_set roll_damage();
 };
