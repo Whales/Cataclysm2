@@ -196,7 +196,7 @@ name: closed glass door
     result: door frame
     failure_sound: "whunk."
     success_sound: glass shattering.
-    hp: 3
+    hp: 2
     armor: cut 5
   done
 done
@@ -218,7 +218,7 @@ name: window
     result: window frame
     failure_sound: "whunk."
     success_sound: glass shattering.
-    hp: 5
+    hp: 2
     armor: cut 5
   done
 done
@@ -230,7 +230,7 @@ name: display rack
     result: rubble
     failure_sound: "whack."
     success_sound: "crash!"
-    hp: 10
+    hp: 5
     armor: cut 40
     armor: bash 5
     ignore_chance: 50
