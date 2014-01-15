@@ -314,11 +314,10 @@ void Entity::attack(Entity* target)
                                             BODYPART_NULL);
 
 // TODO: Should total_damage be reduced by damage absorbed by armor?
-  int total_damage = 0;
+  Damage_set damage = att.roll_damage();
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    int damage = rng(0, att.damage[i]);
-    total_damage += damage;
-    target->take_damage(Damage_type(i), damage, get_name_to_player(), bp_hit);
+    int dam = damage.get_damage(i);
+    target->take_damage(Damage_type(i), dam, get_name_to_player(), bp_hit);
   }
 
   if (you_see) {
@@ -336,7 +335,7 @@ void Entity::attack(Entity* target)
       damage_ss << target->get_possessive() << " " << body_part_name(bp_hit);
     }
     if (target->is_you()) {
-      damage_ss << " for " << total_damage << " damage";
+      damage_ss << " for " << damage.total_damage() << " damage";
     }
     damage_ss << "!";
     GAME.add_msg( damage_ss.str().c_str() );
