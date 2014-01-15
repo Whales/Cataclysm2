@@ -7,7 +7,7 @@
 
 Terrain_smash::Terrain_smash()
 {
-  result = NULL;
+  result = "";
   hp = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     armor[i] = 0;
@@ -30,17 +30,8 @@ bool Terrain_smash::load_data(std::istream &data, std::string name)
       std::getline(data, junk);
 
     } else if (ident == "result:") {
-      std::string tername;
-      std::getline(data, tername);
-      tername = trim(tername);
-      Terrain* tmpter = TERRAIN.lookup_name(tername);
-      if (tmpter == NULL) {
-        debugmsg("Unknown terrain '%s' in smash data for '%s'",
-                 tername.c_str(), name.c_str());
-        return false;
-      } else {
-        result = tmpter;
-      }
+      std::getline(data, result);
+      result = trim(result);
 
     } else if (ident == "success_sound:") {
       std::getline(data, success_sound);

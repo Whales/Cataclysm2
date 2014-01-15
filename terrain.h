@@ -15,7 +15,7 @@ struct Terrain_smash
   Terrain_smash();
   ~Terrain_smash(){}
 
-  Terrain* result;
+  std::string result;
   std::string failure_sound;
   std::string success_sound;
   int hp;

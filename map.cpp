@@ -76,7 +76,7 @@ bool Tile::blocks_sense(Sense_type sense)
 
 std::string Tile::smash(Attack attack)
 {
-  if (!terrain || !terrain->smash.result) {
+  if (!terrain || terrain->smash.result.empty()) {
     return "";
   }
   Terrain_smash smash = terrain->smash;
@@ -94,7 +94,12 @@ std::string Tile::smash(Attack attack)
   std::string ret = smash.failure_sound;
   if (hp <= 0) {
     ret = smash.success_sound;
-    set_terrain(smash.result);
+    Terrain* result = TERRAIN.lookup_name(smash.result);
+    if (!result) {
+      debugmsg("Smash resulted in unknown terrain '%s'", smash.result.c_str());
+    } else {
+      set_terrain(result);
+    }
   }
 
   return ret;
