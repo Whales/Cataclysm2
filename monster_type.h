@@ -25,7 +25,6 @@ struct Monster_type
   int speed;
   std::vector<Attack> attacks;
   int total_attack_weight;
-  bool attacks_copied_from_genus;
 
   void set_genus(Monster_genus *mg);
   void assign_uid(int id);
@@ -35,6 +34,8 @@ struct Monster_type
   bool has_sense(Sense_type type);
 
 private:
+  bool attacks_copied_from_genus;
+  bool senses_copied_from_genus;
   std::vector<bool> senses;
 
 };
@@ -45,9 +46,14 @@ struct Monster_genus
   ~Monster_genus();
 
   std::string name;
-  std::string name_plural;
+  int uid;
 
   Monster_type default_values; // Default values for monsters in this genus
+
+  void assign_uid(int id);
+  std::string get_name();
+  bool load_data(std::istream &data);
+
 };
 
 #endif
