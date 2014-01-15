@@ -1,22 +1,22 @@
-k     move_north
-u     move_northeast
-l     move_east
-n     move_southeast
-j     move_south
-b     move_southwest
-h     move_west
-y     move_northwest
-.     pause
-,g    pick_up
-s     smash
-i     inventory
-d     drop
-w     wield
-W     wear
-r     reload_equipped
-R     reload
--     messages_scroll_back
-+     messages_scroll_forward
-:     view_worldmap
-Q     quit
-S     save
+k8 UP     = move_north
+u7        = move_northeast
+l6 RIGHT  = move_east
+n3        = move_southeast
+j2 DOWN   = move_south
+b1        = move_southwest
+h4 LEFT   = move_west
+y7        = move_northwest
+.         = pause
+,g        = pick_up
+s         = smash
+i         = inventory
+d         = drop
+w         = wield
+W         = wear
+r         = reload_equipped
+R         = reload
+-         = messages_scroll_back
++         = messages_scroll_forward
+:         = view_worldmap
+Q         = quit
+S         = save

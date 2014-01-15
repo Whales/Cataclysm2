@@ -3,6 +3,7 @@
 #include "window.h"
 #include "globals.h"
 #include <fstream>
+#include <vector>
 
 bool Keybinding_pool::bind_key(long key, Interface_action action)
 {
@@ -26,18 +27,28 @@ bool Keybinding_pool::load_from(std::string filename)
     debugmsg("Failed to open '%s'", filename.c_str());
     return false;
   }
-  std::string keys;
-  while (!fin.eof() && fin >> keys) {
-    std::string action_name;
-    std::getline(fin, action_name);
-    action_name = trim(action_name);
-    Interface_action act = lookup_interface_action(action_name);
-    if (act == IACTION_NULL) {
-      debugmsg("Bad action in '%s': '%s'", filename.c_str(),
-               action_name.c_str());
+  std::string keystr;
+  std::vector<long> keys;
+  while (!fin.eof() && fin >> keystr) {
+    if (lookup_key(keystr) != 0) {
+      keys.push_back( lookup_key(keystr) );
+    } else if (keystr == "=") {
+      std::string action_name;
+      std::getline(fin, action_name);
+      action_name = trim(action_name);
+      Interface_action act = lookup_interface_action(action_name);
+      if (act == IACTION_NULL) {
+        debugmsg("Bad action in '%s': '%s'", filename.c_str(),
+                 action_name.c_str());
+      } else {
+        for (int i = 0; i < keys.size(); i++) {
+          bind_key( keys[i], act );
+        }
+      }
+      keys.clear();
     } else {
-      for (int i = 0; i < keys.size(); i++) {
-        bind_key( keys[i], act );
+      for (int i = 0; i < keystr.size(); i++) {
+        keys.push_back( keystr[i] );
       }
     }
   }
@@ -86,6 +97,31 @@ std::string interface_action_name(Interface_action action)
     default:                              return "BUG - Unnamed action";
   }
   return "BUG - Escaped switch";
+}
+
+long lookup_key(std::string name)
+{
+  if (name == "UP") {
+    return KEY_UP;
+  } else if (name == "DOWN") {
+    return KEY_DOWN;
+  } else if (name == "LEFT") {
+    return KEY_LEFT;
+  } else if (name == "RIGHT") {
+    return KEY_RIGHT;
+  } else if (name == "ESC") {
+    return KEY_ESC;
+  } else if (name == "ENTER") {
+    return '\n';
+  } else if (name == "HOME") {
+    return KEY_HOME;
+  } else if (name == "END") {
+    return KEY_END;
+  } else if (name == "BACKSPACE" || name == "BKSP") {
+    return KEY_BACKSPACE;
+  } else {
+    return 0;
+  }
 }
 
 Point input_direction()

@@ -43,6 +43,8 @@ enum Interface_action
 Interface_action lookup_interface_action(std::string name);
 std::string interface_action_name(Interface_action action);
 
+long lookup_key(std::string name);
+
 struct Keybinding_pool
 {
 public:
