@@ -140,6 +140,38 @@ void Game::do_action(Interface_action act)
       }
       break;
 
+    case IACTION_OPEN: {
+      Point dir = input_direction();
+      if (dir.x == -2) { // Error
+        add_msg("Invalid direction.");
+      } else {
+        Point open = player->get_position() + dir;
+        std::string tername = map->get_name(open.x, open.y);
+        if (map->open(open.x, open.y)) {
+          add_msg("You open the %s.", tername.c_str());
+          player->use_ap(100);
+        } else {
+          add_msg("You cannot open a %s.", tername.c_str());
+        }
+      }
+    } break;
+
+    case IACTION_CLOSE: {
+      Point dir = input_direction();
+      if (dir.x == -2) { // Error
+        add_msg("Invalid direction.");
+      } else {
+        Point close = player->get_position() + dir;
+        std::string tername = map->get_name(close.x, close.y);
+        if (map->close(close.x, close.y)) {
+          add_msg("You close the %s.", tername.c_str());
+          player->use_ap(100);
+        } else {
+          add_msg("You cannot close a %s.", tername.c_str());
+        }
+      }
+    } break;
+
     case IACTION_SMASH: {
       Point dir = input_direction();
       if (dir.x == -2) { // Error

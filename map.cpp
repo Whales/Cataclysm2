@@ -105,6 +105,32 @@ std::string Tile::smash(Attack attack)
   return ret;
 }
 
+void Tile::open()
+{
+  if (!terrain->can_open()) {
+    return;
+  }
+  Terrain* result = TERRAIN.lookup_name( terrain->open_result );
+  if (!result) {
+    debugmsg("Failed to find terrain '%s'", terrain->open_result.c_str());
+    return;
+  }
+  terrain = result;
+}
+
+void Tile::close()
+{
+  if (!terrain->can_close()) {
+    return;
+  }
+  Terrain* result = TERRAIN.lookup_name( terrain->close_result );
+  if (!result) {
+    debugmsg("Failed to find terrain '%s'", terrain->close_result.c_str());
+    return;
+  }
+  terrain = result;
+}
+
 void Submap::generate_empty()
 {
   Terrain* grass = TERRAIN.lookup_name("grass");
@@ -448,6 +474,26 @@ std::string Map::smash(int x, int y, Attack attack)
     return hit->smash(attack);
   }
   return "";
+}
+
+bool Map::open(int x, int y)
+{
+  Tile* target = get_tile(x, y);
+  if (target->terrain->can_open()) {
+    target->open();
+    return true;
+  }
+  return false;
+}
+
+bool Map::close(int x, int y)
+{
+  Tile* target = get_tile(x, y);
+  if (target->terrain->can_close()) {
+    target->close();
+    return true;
+  }
+  return false;
 }
 
 /* Still using Cataclysm style LOS.  It sucks and is slow and I hate it.

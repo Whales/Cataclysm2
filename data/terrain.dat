@@ -162,6 +162,7 @@ done
 name: broken door
   glyph: { brown black
   movecost: 0
+  open: open broken door
   smash:
     result: door frame
     failure_sound: "whack."
@@ -171,10 +172,17 @@ name: broken door
   done
 done
 
+name: open broken door
+  glyph: ' brown black
+  movecost: 100
+  close: broken door
+done
+
 name: closed door
   glyph: + brown black
   movecost: 0
   flags: opaque
+  open: open door
   smash:
     result: broken door
     failure_sound: "whack."
@@ -187,11 +195,13 @@ done
 name: open door
   glyph: ' brown black
   movecost: 100
+  close: closed door
 done
 
 name: closed glass door
   glyph: + ltcyan black
   movecost: 0
+  open: open glass door
   smash:
     result: door frame
     failure_sound: "whunk."
@@ -203,7 +213,8 @@ done
 
 name: open glass door
   glyph: ' ltcyan black
-  movecost: 0
+  movecost: 100
+  close: close glass door
 done
 
 name: window frame

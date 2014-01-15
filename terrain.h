@@ -33,6 +33,12 @@ struct Terrain
   unsigned int movecost;
 
   Terrain_smash smash;
+  std::string open_result;
+  std::string close_result;
+
+  bool can_smash() { return !smash.result.empty(); }
+  bool can_open()  { return !open_result.empty();  }
+  bool can_close() { return !close_result.empty(); }
 
   Terrain();
   ~Terrain(){}

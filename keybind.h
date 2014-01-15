@@ -20,6 +20,8 @@ enum Interface_action
   IACTION_PAUSE,
 // Map interaction
   IACTION_PICK_UP,
+  IACTION_OPEN,
+  IACTION_CLOSE,
   IACTION_SMASH,
 // Inventory interaction
   IACTION_INVENTORY,

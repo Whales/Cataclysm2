@@ -112,6 +112,14 @@ bool Terrain::load_data(std::istream &data)
         smash = Terrain_smash();
       }
 
+    } else if (ident == "open:") {
+      std::getline(data, open_result);
+      open_result = trim(open_result);
+
+    } else if (ident == "close:") {
+      std::getline(data, close_result);
+      close_result = trim(close_result);
+
     } else if (ident == "flags:") {
       std::getline(data, junk);
       std::istringstream flagdata(junk);
