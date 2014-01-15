@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "game.h"
 #include "geometry.h"
+#include "map.h"
 #include <sstream>
 
 Entity::Entity()
@@ -115,6 +116,12 @@ void Entity::use_ap(int amount)
     return;
   }
   action_points -= amount;
+}
+
+void Entity::shift(int shiftx, int shifty)
+{
+  posx -= shiftx * SUBMAP_SIZE;
+  posy -= shifty * SUBMAP_SIZE;
 }
 
 bool Entity::add_item(Item item)

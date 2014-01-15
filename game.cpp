@@ -353,8 +353,12 @@ void Game::shift_if_needed()
     shifty =  1 + (player->posy - max) / SUBMAP_SIZE;
   }
   map->shift(worldmap, shiftx, shifty);
-  player->posx -= shiftx * SUBMAP_SIZE;
-  player->posy -= shifty * SUBMAP_SIZE;
+  player->shift(shiftx, shifty);
+  for (std::list<Monster*>::iterator it = monsters.instances.begin();
+       it != monsters.instances.end();
+       it++) {
+    (*it)->shift(shiftx, shifty);
+  }
 }
 
 void Game::make_sound(std::string desc, int x, int y)

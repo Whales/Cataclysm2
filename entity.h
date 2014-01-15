@@ -38,6 +38,7 @@ public:
   void set_activity(Player_activity_type type, int duration,
                     int primary_uid = -1, int secondary_uid = -1);
   void use_ap(int amount);
+  void shift(int shiftx, int shifty); // For map shifting
   
 // Inventory functions
   virtual bool add_item(Item item);
