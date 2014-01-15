@@ -17,7 +17,7 @@ name: tree
 done
 
 name: underbrush
-  glyph: & ltgreen black
+  glyph: % ltgreen black
   movecost: 200
   smash:
     result: grass
@@ -79,12 +79,12 @@ name: fungal tree
 done
 
 name: fungal undergrowth
-  glyph: & dkgray black
+  glyph: % dkgray black
   movecost: 150
 done
 
 name: rubble
-  glyph: & ltgray black
+  glyph: % ltgray black
   movecost: 120
 done
 
