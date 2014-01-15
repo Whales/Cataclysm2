@@ -7,13 +7,12 @@ name: zombie
     verb: hits
     speed: 100
     bash: 3
-    done
+  done
   attack:
     verb: bites
     weight: 2
     speed: 150
     to_hit: -2
     pierce: 5
-    done
   done
 done

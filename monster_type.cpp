@@ -37,6 +37,7 @@ void Monster_type::set_genus(Monster_genus *mg)
   if (attacks.empty()) {
     attacks_copied_from_genus = true;
     attacks = mg->default_values.attacks;
+    total_attack_weight = mg->default_values.total_attack_weight;
   }
   if (minimum_hp == 0) {
     minimum_hp = mg->default_values.minimum_hp;

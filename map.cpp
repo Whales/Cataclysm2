@@ -21,7 +21,7 @@ glyph Tile::top_glyph()
  */
   if (!items.empty()) {
     if (terrain && !terrain->has_flag(TF_FLOOR)) {
-      return terrain->sym.hilite(c_ltblue);
+      return terrain->sym.hilite(c_blue);
     }
     return items.back().top_glyph();
   }
@@ -84,7 +84,8 @@ std::string Tile::smash(Attack attack)
     return smash.failure_sound; // Make our "saving throw"
   }
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    int dam = rng(0, attack.damage[i]), armor = rng(0, smash.armor[i]);
+    int dam   = rng(0, attack.damage[i]),
+        armor = rng(smash.armor[i] / 2, smash.armor[i]);
     dam -= armor;
     if (dam > 0) {
       hp -= dam;
