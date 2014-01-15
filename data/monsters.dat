@@ -1,18 +1,4 @@
 name: zombie
+  genus: zombies
   glyph: Z ltgreen black
-  hp: 50 60
-  speed: 70
-  senses: sight smell hearing
-  attack:
-    verb: hits
-    speed: 100
-    bash: 3
-  done
-  attack:
-    verb: bites
-    weight: 2
-    speed: 150
-    to_hit: -2
-    pierce: 5
-  done
 done

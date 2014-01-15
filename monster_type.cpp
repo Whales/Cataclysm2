@@ -1,7 +1,8 @@
-#include <sstream>
 #include "window.h"
 #include "stringfunc.h"
 #include "monster_type.h"
+#include "globals.h"
+#include <sstream>
 
 Monster_type::Monster_type()
 {
@@ -92,6 +93,18 @@ bool Monster_type::load_data(std::istream &data)
     } else if (ident == "name_plural:") {
       std::getline(data, name_plural);
       name_plural = trim(name_plural);
+
+    } else if (ident == "genus:") {
+      std::string genus_name;
+      std::getline(data, genus_name);
+      genus_name = trim(genus_name);
+      Monster_genus *mg = MONSTER_GENERA.lookup_name(genus_name);
+      if (!mg) {
+        debugmsg("Unknown Monster_genus '%s' (%s)",
+                 genus_name.c_str(), name.c_str());
+      } else {
+        set_genus(mg);
+      }
 
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
