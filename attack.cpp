@@ -1,5 +1,7 @@
 #include "attack.h"
 #include "rng.h"
+#include "stringfunc.h"
+#include "window.h"
 
 Damage_set::Damage_set()
 {
@@ -80,6 +82,51 @@ Attack::Attack()
 
 Attack::~Attack()
 {
+}
+
+bool Attack::load_data(std::istream &data, std::string owner_name)
+{
+  std::string ident, junk;
+  while (ident != "done" && !data.eof()) {
+
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+
+    ident = no_caps(ident);
+
+    if (!ident.empty() && ident[0] == '#') { // I'ts a comment
+      std::getline(data, junk);
+
+    } else if (ident == "verb:") {
+      std::getline(data, verb_third);
+      verb_third = trim(verb_third);
+    } else if (ident == "weight:") {
+      data >> weight;
+      std::getline(data, junk);
+    } else if (ident == "speed:") {
+      data >> speed;
+      std::getline(data, junk);
+    } else if (ident == "to_hit:") {
+      data >> to_hit;
+      std::getline(data, junk);
+    } else if (ident != "done") {
+      std::string damage_name = ident;
+      size_t colon = ident.find(':');
+      if (colon != std::string::npos) {
+        damage_name = ident.substr(0, colon);
+      }
+      Damage_type type = lookup_damage_type(damage_name);
+      if (type == DAMAGE_NULL) {
+        debugmsg("Unknown Attack property '%s' (%s)",
+                 ident.c_str(), owner_name.c_str());
+        return false;
+      } else {
+        data >> damage[type];
+      }
+    }
+  }
+  return true;
 }
 
 void Attack::use_weapon(Item weapon, int strength, int dexterity)

@@ -5,6 +5,7 @@
 #include "item.h"
 #include <string>
 #include <vector>
+#include <istream>
 
 Body_part random_body_part_to_hit();
 
@@ -49,7 +50,21 @@ struct Attack
   Attack();
   ~Attack();
 
+  bool load_data(std::istream &data, std::string owner_name = "unknown");
   void use_weapon(Item weapon, int strength, int dexterity);
+
+  Damage_set roll_damage();
+};
+
+struct Ranged_attack
+{
+  std::string verb_first;
+  std::string verb_third;
+  int weight; // For mosnter attacks - how likely this attack is to be used
+  int charge_time; // Also for monsters - how frequently can we use this?
+  int range;    // Max range of the attack
+  int variance; // How far off from our target can we be?  In 1/10s of a degree.
+  int damage[DAMAGE_MAX];
 
   Damage_set roll_damage();
 };

@@ -144,33 +144,8 @@ bool Monster_type::load_data(std::istream &data)
         attacks.clear();
       }
       std::getline(data, junk);
-      std::string attack_ident;
       Attack tmpattack;
-
-      while ( data >> attack_ident && attack_ident != "done" ) {
-        if (attack_ident == "verb:") {
-          std::getline(data, tmpattack.verb_third);
-          tmpattack.verb_third = trim(tmpattack.verb_third);
-        } else if (attack_ident == "weight:") {
-          data >> tmpattack.weight;
-          std::getline(data, junk);
-        } else if (attack_ident == "speed:") {
-          data >> tmpattack.speed;
-          std::getline(data, junk);
-        } else if (attack_ident == "to_hit:") {
-          data >> tmpattack.to_hit;
-          std::getline(data, junk);
-        } else if (attack_ident == "bash:"    || attack_ident == "bashing:") {
-          data >> tmpattack.damage[DAMAGE_BASH];
-        } else if (attack_ident == "cut:"     || attack_ident == "cutting:") {
-          data >> tmpattack.damage[DAMAGE_CUT];
-        } else if (attack_ident == "pierce:"  || attack_ident == "piercing:") {
-          data >> tmpattack.damage[DAMAGE_PIERCE];
-        } else if (attack_ident != "done") {
-          debugmsg("Unknown attack_ident '%s' (%s)", attack_ident.c_str(),
-                   name.c_str());
-        }
-      }
+      tmpattack.load_data(data, name);
       attacks.push_back(tmpattack);
       total_attack_weight += tmpattack.weight;
 
