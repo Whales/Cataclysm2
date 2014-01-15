@@ -93,6 +93,13 @@ bool Game::main_loop()
 
     if (!player->activity.is_active()) {
       long ch = input();
+      if (ch == '!') {
+        Monster* mon = new Monster;
+        mon->set_type("zombie");
+        mon->posx = player->posx - 3;
+        mon->posy = player->posy - 3;
+        monsters.add_monster(mon);
+      }
       Interface_action act = KEYBINDINGS.bound_to_key(ch);
       do_action(act);
     }
