@@ -32,12 +32,13 @@ public:
   int volume;       // 1 volume = a ping pong ball
   glyph sym;
 
-  int bash;
-  int cut;
-  int pierce;
   int damage[DAMAGE_MAX];
   int to_hit;
   int attack_speed;
+  int ranged_variance; // Angle our thrown attack can be off by, in 1/10ths of a
+                       // degree; defaults to 100!
+  int ranged_dmg_bonus; // ranged damage = (normal * r_d_b) / 10
+  int ranged_speed; // AP cost of throwing; if 0, it's calculated
 
   void assign_uid(int id);
   std::string get_name();
@@ -113,6 +114,7 @@ public:
   int durability; // HP basically
   int capacity;   // Shots per reload
   int reload_ap;  // action_points per reload
+  int fire_ap;    // action_points per shot fired
   std::vector<int> modes; // Each element is a number of shots
 
 };

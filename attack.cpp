@@ -155,6 +155,7 @@ Ranged_attack::Ranged_attack()
   verb_first = "shoot";
   verb_third = "shoots";
   weight = 0;
+  speed = 100;
   charge_time = 0;
   range = 0;
   variance = 0;
@@ -190,6 +191,9 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
       verb_third = trim(verb_third);
     } else if (ident == "weight:") {
       data >> weight;
+      std::getline(data, junk);
+    } else if (ident == "speed:") {
+      data >> speed;
       std::getline(data, junk);
     } else if (ident == "charge:" || ident == "charge_time:") {
       data >> charge_time;

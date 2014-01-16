@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "cuss.h"
 #include "entity.h"
+#include "attack.h"
 #include <sstream>
 
 Item::Item(Item_type* T)
@@ -239,6 +240,55 @@ bool Item::combine_by_charges()
     return false;
   }
   return type->combine_by_charges();
+}
+
+// TODO: Use stats & skills.
+Ranged_attack Item::get_thrown_attack()
+{
+  Ranged_attack ret;
+  if (!type) {
+    return ret;
+  }
+  if (type->ranged_speed == 0) {
+    ret.speed = 50 + 5 * type->weight;
+    ret.speed += type->volume / 10;
+  } else {
+    ret.speed = type->ranged_speed;
+  }
+  if (type->ranged_variance == 0) {
+    ret.variance = 100;
+    if (type->weight > 0) {
+      ret.variance += type->volume / (5 * type->weight);
+    }
+  } else {
+    ret.variance = type->ranged_variance;
+  }
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    ret.damage[i] = (type->damage[i] * type->ranged_dmg_bonus) / 10;
+  }
+  return ret;
+}
+
+// TODO: Use stats & skills.
+Ranged_attack Item::get_fired_attack()
+{
+  if (!type || get_item_class() != ITEM_CLASS_LAUNCHER || charges <= 0 ||
+      !ammo) {
+    return Ranged_attack();
+  }
+
+  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(type);
+  Item_type_ammo*     ammo     = static_cast<Item_type_ammo*>    (ammo);
+
+  Ranged_attack ret;
+  ret.speed = launcher->fire_ap;
+  ret.range = ammo->range;
+  ret.variance = launcher->accuracy + ammo->accuracy;
+// TODO: Can fired items ever be non-pierce?
+  ret.damage       [DAMAGE_PIERCE] = ammo->damage + launcher->damage;
+  ret.armor_divisor[DAMAGE_PIERCE] = ammo->armor_pierce;
+
+  return ret;
 }
 
 bool Item::reload(Entity* owner, int ammo_uid)

@@ -16,6 +16,7 @@ enum Item_action
 };
 
 class Entity;
+struct Ranged_attack;
 
 class Item
 {
@@ -48,6 +49,8 @@ public:
   int get_max_charges();
   bool combines();
   bool combine_by_charges();
+  Ranged_attack get_thrown_attack();
+  Ranged_attack get_fired_attack();
 
 // Changing
   bool reload(Entity* owner, int ammo_uid);

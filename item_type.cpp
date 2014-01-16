@@ -15,6 +15,9 @@ Item_type::Item_type()
   }
   to_hit = 0;
   attack_speed = 0;
+  ranged_variance = 0;
+  ranged_dmg_bonus = 5;
+  ranged_speed = 0;
 }
 
 Item_type::~Item_type()
@@ -116,6 +119,18 @@ bool Item_type::load_data(std::istream &data)
       data >> attack_speed;
       std::getline(data, junk);
 
+    } else if (ident == "ranged_variance:") {
+      data >> ranged_variance;
+      std::getline(data, junk);
+
+    } else if (ident == "ranged_dmg_bonus:") {
+      data >> ranged_dmg_bonus;
+      std::getline(data, junk);
+
+    } else if (ident == "ranged_speed:") {
+      data >> ranged_speed;
+      std::getline(data, junk);
+
     } else if (!handle_data(ident, data)) {
       debugmsg("Unknown item_type flag '%s' (%s)", ident.c_str(), name.c_str());
       return false;
@@ -192,6 +207,9 @@ bool Item_type_ammo::handle_data(std::string ident, std::istream &data)
 
   } else if (ident == "armor_pierce:" || ident == "pierce:") {
     data >> armor_pierce;
+    if (armor_pierce <= 0) {
+      armor_pierce = 1;
+    }
     std::getline(data, junk);
 
   } else if (ident == "range:") {
@@ -241,6 +259,10 @@ bool Item_type_launcher::handle_data(std::string ident, std::istream &data)
 
   } else if (ident == "reload_time:" || ident == "reload_ap:") {
     data >> reload_ap;
+    std::getline(data, junk);
+
+  } else if (ident == "fire_time:" || ident == "fire_ap:") {
+    data >> fire_ap;
     std::getline(data, junk);
 
   } else if (ident == "modes:" || ident == "mode:") {

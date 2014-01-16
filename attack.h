@@ -63,7 +63,8 @@ struct Ranged_attack
 
   std::string verb_first;
   std::string verb_third;
-  int weight; // For mosnter attacks - how likely this attack is to be used
+  int weight; // For monster attacks - how likely this attack is to be used
+  int speed; // AP used
   int charge_time; // Also for monsters - how frequently can we use this?
   int range;    // Max range of the attack
   int variance; // How far off from our target can we be?  In 1/10s of a degree.
