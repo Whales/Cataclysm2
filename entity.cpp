@@ -185,25 +185,45 @@ Item* Entity::ref_item_of_type(Item_type *type)
   return NULL;
 }
 
-Item Entity::remove_item_uid(int uid)
+Item Entity::remove_item_uid(int uid, int count)
 {
   Item ret = Item();
+  int ret_count = count;
   if (weapon.type && weapon.get_uid() == uid) {
+    if (count == 0) {
+      ret_count = weapon.count;
+    } else if (weapon.count < count) {
+      ret_count = weapon.count;
+    }
+    weapon.count -= count;
     ret = weapon;
-    weapon = Item();
+    ret.count = ret_count;
+    if (weapon.count <= 0 || count == 0) {
+      weapon = Item();
+    }
     return ret;
   }
+// Items_worn should never have a count.
   for (int i = 0; i < items_worn.size(); i++) {
     if (items_worn[i].get_uid() == uid) {
       ret = items_worn[i];
+      ret.count = 1;
       items_worn.erase(items_worn.begin() + i);
       return ret;
     }
   }
   for (int i = 0; i < inventory.size(); i++) {
     if (inventory[i].get_uid() == uid) {
+      if (count == 0) {
+        ret_count = inventory[i].count;
+      } else if (inventory[i].count < count) {
+        ret_count = inventory[i].count;
+      }
       ret = inventory[i];
-      inventory.erase(inventory.begin() + i);
+      ret.count = ret_count;
+      if (count == 0 || inventory[i].count <= 0) {
+        inventory.erase(inventory.begin() + i);
+      }
       return ret;
     }
   }
@@ -217,7 +237,12 @@ void Entity::wield_item_uid(int uid)
   for (int i = 0; i < inventory.size(); i++) {
     if (inventory[i].get_uid() == uid) {
       weapon = inventory[i];
-      inventory.erase(inventory.begin() + i);
+      weapon.count = 1;
+      if (inventory[i].count <= 1) {
+        inventory.erase(inventory.begin() + i);
+      } else {
+        inventory[i].count--;
+      }
       return;
     }
   }
@@ -238,7 +263,12 @@ void Entity::wear_item_uid(int uid)
     if (inventory[i].get_uid() == uid) {
       if (inventory[i].get_item_class() == ITEM_CLASS_CLOTHING) {
         items_worn.push_back(inventory[i]);
-        inventory.erase( inventory.begin() + i );
+        items_worn.back().count = 1;
+        if (inventory[i].count <= 1) {
+          inventory.erase( inventory.begin() + i );
+        } else {
+          inventory[i].count--;
+        }
       }
       return;
     }

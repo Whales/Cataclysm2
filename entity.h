@@ -42,14 +42,14 @@ public:
   
 // Inventory functions
   virtual bool add_item(Item item);
-  Item* ref_item_uid  (int uid);
   Item  get_item_of_type(Item_type *type);
   Item* ref_item_of_type(Item_type *type);
-  Item  remove_item_uid(int uid);
+  Item* ref_item_uid   (int uid);
+  Item  remove_item_uid(int uid, int count = 0);
   void  wield_item_uid (int uid);
   void  wear_item_uid  (int uid);
   void  reload_prep    (int uid);
-  virtual Item pick_ammo_for  (Item *it);
+  virtual Item pick_ammo_for(Item *it);
 
 // Combat functions
   virtual Attack base_attack();
