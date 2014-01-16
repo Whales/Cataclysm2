@@ -90,6 +90,8 @@ std::string interface_action_name(Interface_action action)
     case IACTION_WEAR:                    return "wear";
     case IACTION_RELOAD_EQUIPPED:         return "reload_equipped";
     case IACTION_RELOAD:                  return "reload";
+    case IACTION_THROW:                   return "throw";
+    case IACTION_FIRE:                    return "fire";
     case IACTION_MESSAGES_SCROLL_BACK:    return "messages_scroll_back";
     case IACTION_MESSAGES_SCROLL_FORWARD: return "messages_scroll_forward";
     case IACTION_VIEW_WORLDMAP:           return "view_worldmap";
