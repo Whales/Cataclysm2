@@ -93,10 +93,14 @@ public:
   bool close(int x, int y);
 
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
+  std::vector<Point> line_of_sight(int x0, int y0, int x1, int y1);
 
 // Output
   void draw(Window *w, Monster_pool *monsters, int refx, int refy,
             Sense_type sense = SENSE_SIGHT);
+
+  void draw_tile(Window* w, Monster_pool *monsters, int tilex, int tiley,
+                    int refx, int refy, bool invert = false);
 
   Point get_center_point();
   int posx, posy;

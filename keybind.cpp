@@ -71,6 +71,7 @@ std::string interface_action_name(Interface_action action)
 {
   switch (action) {
     case IACTION_NULL:                    return "NULL";
+    case IACTION_SELECT:                  return "select";
     case IACTION_MOVE_N:                  return "move_north";
     case IACTION_MOVE_NE:                 return "move_northeast";
     case IACTION_MOVE_E:                  return "move_east";
@@ -128,9 +129,8 @@ long lookup_key(std::string name)
   }
 }
 
-Point input_direction()
+Point input_direction(long ch)
 {
-  long ch = input();
   switch (KEYBINDINGS.bound_to_key(ch)) {
     case IACTION_MOVE_N:  return Point( 0, -1);
     case IACTION_MOVE_NE: return Point( 1, -1);

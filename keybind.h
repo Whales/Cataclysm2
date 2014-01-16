@@ -8,6 +8,7 @@
 enum Interface_action
 {
   IACTION_NULL = 0,
+  IACTION_SELECT,
 // Movement
   IACTION_MOVE_N,
   IACTION_MOVE_NE,
@@ -35,9 +36,8 @@ enum Interface_action
 // Main interface
   IACTION_MESSAGES_SCROLL_BACK,
   IACTION_MESSAGES_SCROLL_FORWARD,
-// Different screens
+// Other interfaces
   IACTION_VIEW_WORLDMAP,
-
 // Other
   IACTION_QUIT,
   IACTION_SAVE,
@@ -60,6 +60,6 @@ private:
   std::map<long,Interface_action> bindings;
 };
   
-Point input_direction(); // Waits for input; returns e.g. (-1, -1) if NW key hit
+Point input_direction(long ch); // Returns "one step in direction bound to ch"
 
 #endif

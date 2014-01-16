@@ -141,7 +141,7 @@ void Game::do_action(Interface_action act)
       break;
 
     case IACTION_OPEN: {
-      Point dir = input_direction();
+      Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
       } else {
@@ -157,7 +157,7 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_CLOSE: {
-      Point dir = input_direction();
+      Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
       } else {
@@ -173,7 +173,7 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_SMASH: {
-      Point dir = input_direction();
+      Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
       } else {
@@ -256,6 +256,16 @@ void Game::do_action(Interface_action act)
     case IACTION_RELOAD_EQUIPPED:
       player->reload_prep(player->weapon.get_uid());
       break;
+
+    case IACTION_THROW: {
+      Item it = player->inventory_single();
+      if (!it.is_real()) {
+        add_msg("Never mind.");
+      } else {
+        player->remove_item_uid(it.get_uid(), 1);
+        Point target = target_selector();
+      }
+    } break;
 
     case IACTION_MESSAGES_SCROLL_BACK:
       i_hud.add_data("text_messages", -1);
@@ -638,6 +648,62 @@ void Game::pickup_items(int posx, int posy)
   std::string message = "You pick up " + list_items(&items_gotten);
   add_msg(message.c_str());
   
+}
+
+Point Game::target_selector(int startx, int starty)
+{
+  std::vector<Point> path = path_selector(startx, starty);
+  if (path.empty()) {
+    return Point();
+  }
+  return path.back();
+}
+
+std::vector<Point> Game::path_selector(int startx, int starty)
+{
+  std::vector<Point> ret;
+  if (!player) {
+    return ret;
+  }
+  if (startx == -1 || starty == -1) {
+    startx = player->posx;
+    starty = player->posy;
+  }
+
+  Point target(startx, starty);
+
+  map->draw(w_map, &monsters, player->posx, player->posy);
+  w_map->putglyph(w_map->sizex() / 2, w_map->sizey() / 2, player->get_glyph());
+  w_map->refresh();
+  while (true) {
+    long ch = input();
+    if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
+      std::vector<Point> empty;
+      return empty;
+    } else if (ch == '\n') {
+      return ret;
+    } else {
+      Point p = input_direction(ch);
+      if (p.x == 0 && p.y == 0) {
+        return ret; // Return out path on hitting "pause"
+      } else if (p.x != -2 && p.y != -2) {
+        target += p;
+        ret = map->line_of_sight(player->posx,player->posy, target.x,target.y);
+        map->draw(w_map, &monsters, player->posx, player->posy);
+        w_map->putglyph(w_map->sizex() / 2, w_map->sizey() / 2,
+                        player->get_glyph());
+        for (int i = 0; i < ret.size(); i++) {
+          map->draw_tile(w_map, &monsters, ret[i].x, ret[i].y,
+                         player->posx, player->posy, true); // true == inverted
+        }
+// TODO: No no no remove this
+        w_map->putglyph(w_map->sizex() / 2 - player->posx + target.x,
+                        w_map->sizey() / 2 - player->posy + target.y,
+                        glyph('*', c_red, c_black));
+        w_map->refresh();
+      }
+    }
+  }
 }
 
 int Game::get_item_uid()

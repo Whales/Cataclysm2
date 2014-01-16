@@ -48,6 +48,10 @@ public:
 
 // UI - Special screens
   void pickup_items(int posx, int posy);
+// TODO: Both are limited in that they can not return a point that the player
+//       cannot currently see (they return Point() instead).
+  Point target_selector(int startx = -1, int starty = -1);
+  std::vector<Point> path_selector(int startx = -1, int starty = -1);
 
 // Data - Universal access functions
   int get_item_uid();

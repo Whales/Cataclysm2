@@ -504,7 +504,17 @@ bool Map::close(int x, int y)
  */
 bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
 {
+  if (sense == SENSE_SIGHT) {
+    return (!line_of_sight(x0, y0, x1, y1).empty());
+  } else {
+    return false;
+  }
+}
+
+std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
+{
   std::vector<Point>  lines;    // Process many lines at once.
+  std::vector<std::vector<Point> > return_values;
   std::vector<int>    t_values; // T-values for bresenham lines
 
   int dx = x1 - x0, dy = y1 - y0;
@@ -524,8 +534,11 @@ bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
     min_t = 0;
   }
 // Init our "lines"
+  std::vector<Point> seed;
+  seed.push_back( Point(x0, y0) );
   for (int t = min_t; t <= max_t; t++) {
     lines.push_back( Point(x0, y0) );
+    return_values.push_back(seed);
     t_values.push_back(t);
   }
 // Keep going as long as we've got at least one valid line
@@ -546,19 +559,21 @@ bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
         }
         t_values[i] += ax;
       }
+      return_values[i].push_back(lines[i]);
       if (lines[i].x == x1 && lines[i].y == y1) {
-        return true;
+        return return_values[i];
       }
-      if (get_tile(lines[i].x, lines[i].y)->blocks_sense(sense)) {
+      if (get_tile(lines[i].x, lines[i].y)->blocks_sense(SENSE_SIGHT)) {
         lines.erase(lines.begin() + i);
         t_values.erase(t_values.begin() + i);
+        return_values.erase(return_values.begin() + i);
         i--;
       }
     }
   }
-  return false;
+  std::vector<Point> ret;
+  return ret;
 }
-  
 
 void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
                Sense_type sense)
@@ -570,27 +585,8 @@ void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
   for (int x = 0; x < winx; x++) {
     for (int y = 0; y < winy; y++) {
       int terx = refx + x - (winx / 2), tery = refy + y - (winy / 2);
-      if (senses(refx, refy, terx, tery)) {
-        glyph output;
-        bool picked_glyph = false;
-// First, check if we should draw a monster
-        if (monsters) {
-          Monster* monster = monsters->monster_at(terx, tery);
-          if (monster) {
-            output = monster->top_glyph();
-            picked_glyph = true;
-          }
-        }
-// Finally, if nothing else, get the glyph from the tile
-        if (!picked_glyph) {
-          Tile* tile = get_tile(terx, tery);
-          if (tile) {
-            output = tile->top_glyph();
-          } else {
-            debugmsg("Really could not find a glyph!");
-          }
-        }
-        w->putglyph(x, y, output);
+      if (senses(refx, refy, terx, tery, sense)) {
+        draw_tile(w, monsters, terx, tery, refx, refy);
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE
         w->putglyph(x, y, glyph(' ', c_black, c_black));
@@ -598,6 +594,46 @@ void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
     }
   }
 }
+
+void Map::draw_tile(Window* w, Monster_pool *monsters, int tilex, int tiley,
+                    int refx, int refy, bool invert)
+{
+  if (!w) {
+    return;
+  }
+  int winx = w->sizex(), winy = w->sizey();
+  int centerx = winx / 2, centery = winy / 2;
+  int dx = tilex - refx, dy = tiley - refy;
+  int tile_winx = centerx + dx, tile_winy = centery + dy;
+  if (tile_winx < 0 || tile_winx >= winx || tile_winy < 0 || tile_winy >= winy){
+    return; // It won't fit in the window!
+  }
+// Now pick a glyph...
+  glyph output;
+  bool picked_glyph = false;
+// First, check if we should draw a monster
+  if (monsters) {
+    Monster* monster = monsters->monster_at(tilex, tiley);
+    if (monster) {
+      output = monster->top_glyph();
+      picked_glyph = true;
+    }
+  }
+// Finally, if nothing else, get the glyph from the tile
+  if (!picked_glyph) {
+    Tile* tile = get_tile(tilex, tiley);
+    if (tile) {
+      output = tile->top_glyph();
+    } else {
+      debugmsg("Really could not find a glyph!");
+    }
+  }
+  if (invert) {
+    output = output.invert();
+  }
+  w->putglyph(tile_winx, tile_winy, output);
+}
+  
 
 Point Map::get_center_point()
 {
