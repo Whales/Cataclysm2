@@ -389,9 +389,23 @@ int Entity::dodge_roll()
   return rng(1, 10);
 }
 
+// This one gets overloaded fully.
 void Entity::take_damage(Damage_type type, int damage, std::string reason,
                          Body_part part)
 {
+}
+
+Ranged_attack Entity::throw_item(Item it)
+{
+  Ranged_attack ret = it.get_thrown_attack();
+// TODO: Base on skill.
+  ret.variance.push_back(-10);
+  return ret;
+}
+
+Ranged_attack Entity::fire_weapon()
+{
+  return Ranged_attack();
 }
 
 bool Entity::can_sense(Map* map, int x, int y)

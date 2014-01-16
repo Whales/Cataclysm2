@@ -708,7 +708,7 @@ Point Game::target_selector(int startx, int starty)
 {
   std::vector<Point> path = path_selector(startx, starty);
   if (path.empty()) {
-    return Point();
+    return Point(-1, -1);
   }
   return path.back();
 }

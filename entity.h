@@ -59,6 +59,8 @@ public:
   virtual int  dodge_roll();
   virtual void take_damage(Damage_type type, int damage, std::string reason,
                            Body_part part = BODYPART_NULL);
+  virtual Ranged_attack throw_item(Item it);
+  virtual Ranged_attack fire_weapon();
 
   virtual bool can_sense(Map* map, int x, int y);
 
