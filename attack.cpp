@@ -98,7 +98,10 @@ bool Attack::load_data(std::istream &data, std::string owner_name)
     if (!ident.empty() && ident[0] == '#') { // I'ts a comment
       std::getline(data, junk);
 
-    } else if (ident == "verb:") {
+    } else if (ident == "verb_first:") {
+      std::getline(data, verb_first);
+      verb_first = trim(verb_first);
+    } else if (ident == "verb:" || ident == "verb_third:") {
       std::getline(data, verb_third);
       verb_third = trim(verb_third);
     } else if (ident == "weight:") {
@@ -157,12 +160,76 @@ Ranged_attack::Ranged_attack()
   variance = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     damage[i] = 0;
-    armor_divisor[i] = 0;
+    armor_divisor[i] = 1;
   }
 }
 
 Ranged_attack::~Ranged_attack()
 {
+}
+
+bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
+{
+  std::string ident, junk;
+  while (ident != "done" && !data.eof()) {
+
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+
+    ident = no_caps(ident);
+
+    if (!ident.empty() && ident[0] == '#') { // I'ts a comment
+      std::getline(data, junk);
+
+    } else if (ident == "verb_first:") {
+      std::getline(data, verb_first);
+      verb_first = trim(verb_first);
+    } else if (ident == "verb:" || ident == "verb_third:") {
+      std::getline(data, verb_third);
+      verb_third = trim(verb_third);
+    } else if (ident == "weight:") {
+      data >> weight;
+      std::getline(data, junk);
+    } else if (ident == "charge:" || ident == "charge_time:") {
+      data >> charge_time;
+      std::getline(data, junk);
+    } else if (ident == "range:") {
+      data >> range;
+      std::getline(data, junk);
+    } else if (ident == "variance:") {
+      data >> variance;
+      std::getline(data, junk);
+    } else if (ident == "armor_pierce:") {
+      std::string damage_name;
+      data >> damage_name;
+      Damage_type damtype = lookup_damage_type(damage_name);
+      if (damtype == DAMAGE_NULL) {
+        debugmsg("Unknown damage type for Ranged_attack pierce: '%s' (%s)",
+                 damage_name.c_str(), owner_name.c_str());
+        return false;
+      }
+      data >> armor_divisor[damtype];
+      if (armor_divisor[damtype] == 0) {
+        armor_divisor[damtype] = 1;
+      }
+    } else if (ident != "done") {
+      std::string damage_name = ident;
+      size_t colon = ident.find(':');
+      if (colon != std::string::npos) {
+        damage_name = ident.substr(0, colon);
+      }
+      Damage_type type = lookup_damage_type(damage_name);
+      if (type == DAMAGE_NULL) {
+        debugmsg("Unknown Attack property '%s' (%s)",
+                 ident.c_str(), owner_name.c_str());
+        return false;
+      } else {
+        data >> damage[type];
+      }
+    }
+  }
+  return true;
 }
 
 Body_part random_body_part_to_hit()
