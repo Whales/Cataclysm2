@@ -4,7 +4,6 @@
 #include "globals.h"
 #include <math.h>
 
-#define PI 3.141
 #define NUM_RADIAL_POINTS 150
 
 void draw_island(std::vector<std::vector<int> > &altitude, Point center,

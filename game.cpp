@@ -267,6 +267,8 @@ void Game::do_action(Interface_action act)
       } else {
         player->remove_item_uid(it.get_uid(), 1);
         Point target = target_selector();
+        launch_projectile(it, it.get_thrown_attack(), player->get_position(),
+                          target);
       }
     } break;
 
@@ -426,7 +428,7 @@ void Game::make_sound(std::string desc, int x, int y)
 void Game::launch_projectile(Item it, Ranged_attack attack,
                              Point origin, Point target)
 {
-  int angle_missed_by = rng(0, attack.variance);
+  int angle_missed_by = attack.roll_variance();
 // Use 1800 since attack.variance is measured in 10ths of a degree
   double distance_missed_by = tan(angle_missed_by * PI / 1800);
   int tiles_off = int(distance_missed_by);
@@ -436,6 +438,7 @@ void Game::launch_projectile(Item it, Ranged_attack attack,
   }
 // fine_distance is used later to see if we hit the target or "barely missed"
   int fine_distance = 100 * (distance_missed_by - tiles_off);
+  debugmsg("angle %d, missed %f, tiles %d, fine %d", angle_missed_by, distance_missed_by, tiles_off, fine_distance);
 
   std::vector<Point> path = map->line_of_sight(origin, target);
   if (path.empty()) { // Lost line of sight at some point
@@ -455,7 +458,7 @@ void Game::launch_projectile(Item it, Ranged_attack attack,
         bool hit;
 // TODO: Incorporate the size of the monster
         if (i == path.size() - 1) {
-          hit = rng(0, 100 < fine_distance);
+          hit = rng(0, 100) >= fine_distance;
         } else {
           hit = one_in(3);
         }

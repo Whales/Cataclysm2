@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "stringfunc.h"
 #include "window.h"
+#include <sstream>
 
 Damage_set::Damage_set()
 {
@@ -158,7 +159,6 @@ Ranged_attack::Ranged_attack()
   speed = 100;
   charge_time = 0;
   range = 0;
-  variance = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     damage[i] = 0;
     armor_divisor[i] = 1;
@@ -202,8 +202,13 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
       data >> range;
       std::getline(data, junk);
     } else if (ident == "variance:") {
-      data >> variance;
-      std::getline(data, junk);
+      std::string variance_line;
+      std::getline(data, variance_line);
+      std::istringstream variance_data(variance_line);
+      int tmpnum;
+      while (data >> tmpnum) {
+        variance.push_back(tmpnum);
+      }
     } else if (ident == "armor_pierce:") {
       std::string damage_name;
       data >> damage_name;
@@ -234,6 +239,15 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
     }
   }
   return true;
+}
+
+int Ranged_attack::roll_variance()
+{
+  int ret = 0;
+  for (int i = 0; i < variance.size(); i++) {
+    ret += rng(0, variance[i]);
+  }
+  return ret;
 }
 
 Damage_set Ranged_attack::roll_damage()

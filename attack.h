@@ -67,7 +67,7 @@ struct Ranged_attack
   int speed; // AP used
   int charge_time; // Also for monsters - how frequently can we use this?
   int range;    // Max range of the attack
-  int variance; // How far off from our target can we be?  In 1/10s of a degree.
+  std::vector<int> variance; // In 1/10ths of a degree
   int damage[DAMAGE_MAX];
   int armor_divisor[DAMAGE_MAX];
 
@@ -80,6 +80,7 @@ struct Ranged_attack
 
   bool load_data(std::istream &data, std::string owner_name = "unknown");
 
+  int roll_variance();
   Damage_set roll_damage();
 };
 

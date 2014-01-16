@@ -256,12 +256,12 @@ Ranged_attack Item::get_thrown_attack()
     ret.speed = type->ranged_speed;
   }
   if (type->ranged_variance == 0) {
-    ret.variance = 100;
+    ret.variance.push_back(10);
     if (type->weight > 0) {
-      ret.variance += type->volume / (5 * type->weight);
+      ret.variance.back() += type->volume / (5 * type->weight);
     }
   } else {
-    ret.variance = type->ranged_variance;
+    ret.variance.push_back(type->ranged_variance);
   }
   for (int i = 0; i < DAMAGE_MAX; i++) {
     ret.damage[i] = (type->damage[i] * type->ranged_dmg_bonus) / 10;
@@ -283,7 +283,8 @@ Ranged_attack Item::get_fired_attack()
   Ranged_attack ret;
   ret.speed = launcher->fire_ap;
   ret.range = ammo->range;
-  ret.variance = launcher->accuracy + ammo->accuracy;
+  ret.variance.push_back(launcher->accuracy);
+  ret.variance.push_back(ammo->accuracy);
 // TODO: Can fired items ever be non-pierce?
   ret.damage       [DAMAGE_PIERCE] = ammo->damage + launcher->damage;
   ret.armor_divisor[DAMAGE_PIERCE] = ammo->armor_pierce;
