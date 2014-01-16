@@ -136,6 +136,7 @@ name: glass wall
     success_sound: glass shattering.
     hp: 1
     armor: cut 8
+    armor: pierce 1
   done
 done
 
@@ -169,6 +170,7 @@ name: broken door
     success_sound: wood splintering.
     hp: 15
     armor: bash 4
+    armor: pierce 14
   done
 done
 
@@ -189,6 +191,7 @@ name: closed door
     success_sound: wood splintering.
     hp: 20
     armor: bash 5
+    armor: pierce 16
   done
 done
 
@@ -208,6 +211,7 @@ name: closed glass door
     success_sound: glass shattering.
     hp: 2
     armor: cut 5
+    armor: pierce 1
   done
 done
 
@@ -231,6 +235,7 @@ name: window
     success_sound: glass shattering.
     hp: 2
     armor: cut 5
+    armor: pierce 1
   done
 done
 

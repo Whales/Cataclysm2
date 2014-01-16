@@ -91,7 +91,7 @@ public:
   int damage;       // Base damage
   int armor_pierce; // Armor ignored
   int range;
-  int accuracy;     // Low is good!
+  int accuracy;     // Low is good!  In 1/10ths of a degree
   int count;        // How many to a box
 };
 
@@ -109,7 +109,7 @@ public:
 
   std::string ammo_type;  // Ammo type - links this to a launcher
   int damage;     // Damage bonus
-  int accuracy;   // Low is good!
+  int accuracy;   // Low is good!  In 1/10ths of a degree
   int recoil;     // Recoil added
   int durability; // HP basically
   int capacity;   // Shots per reload

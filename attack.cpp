@@ -236,6 +236,16 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
   return true;
 }
 
+Damage_set Ranged_attack::roll_damage()
+{
+  Damage_set ret;
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    ret.set_damage( Damage_type(i), rng(0, damage[i]) );
+  }
+  return ret;
+}
+
+
 Body_part random_body_part_to_hit()
 {
   int pick = rng(1, 13);

@@ -74,7 +74,7 @@ bool Tile::blocks_sense(Sense_type sense)
   return false;
 }
 
-std::string Tile::smash(Attack attack)
+std::string Tile::smash(Damage_set damage)
 {
   if (!terrain || terrain->smash.result.empty()) {
     return "";
@@ -84,7 +84,7 @@ std::string Tile::smash(Attack attack)
     return smash.failure_sound; // Make our "saving throw"
   }
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    int dam   = rng(0, attack.damage[i]),
+    int dam   = damage.get_damage(i),
         armor = rng(smash.armor[i] / 2, smash.armor[i]);
     dam -= armor;
     if (dam > 0) {
@@ -467,11 +467,11 @@ std::string Map::get_name(int x, int y)
   return get_tile(x, y)->terrain->name;
 }
 
-std::string Map::smash(int x, int y, Attack attack)
+std::string Map::smash(int x, int y, Damage_set damage)
 {
   Tile* hit = get_tile(x, y);
   if (hit) {
-    return hit->smash(attack);
+    return hit->smash(damage);
   }
   return "";
 }
@@ -509,6 +509,11 @@ bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
   } else {
     return false;
   }
+}
+
+bool Map::senses(Point origin, Point target, Sense_type sense)
+{
+  return senses(origin.x, origin.y, target.x, target.y, sense);
 }
 
 std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
@@ -573,6 +578,11 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
   }
   std::vector<Point> ret;
   return ret;
+}
+
+std::vector<Point> Map::line_of_sight(Point origin, Point target)
+{
+  return line_of_sight(origin.x, origin.y, target.x, target.y);
 }
 
 void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,

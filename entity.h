@@ -58,7 +58,7 @@ public:
   virtual int  hit_roll(int bonus);
   virtual int  dodge_roll();
   virtual void take_damage(Damage_type type, int damage, std::string reason,
-                           Body_part part);
+                           Body_part part = BODYPART_NULL);
 
   virtual bool can_sense(Map* map, int x, int y);
 

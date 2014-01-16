@@ -2,7 +2,9 @@
 #include "window.h"
 #include "stringfunc.h"
 #include "map.h"
+#include "rng.h"
 #include <stdarg.h>
+#include <math.h>
 #include <sstream>
 
 std::vector<std::string> get_pickup_strings(std::vector<Item> *items,
@@ -180,7 +182,8 @@ void Game::do_action(Interface_action act)
         Point sm = player->get_position() + dir;
         add_msg("You smash the %s.",
                 map->get_name(sm.x, sm.y).c_str());
-        std::string sound = map->smash(sm.x, sm.y, player->std_attack());
+        std::string sound = map->smash(sm.x, sm.y,
+                                       player->std_attack().roll_damage());
         make_sound(sound, player->posx, player->posy);
         player->use_ap(100);
       }
@@ -417,6 +420,54 @@ void Game::make_sound(std::string desc, int x, int y)
   } else {
     add_msg("<c=ltblue>To the <c=ltred>%s<c=ltblue>, you hear %s<c=/>",
             Direction_name(dir).c_str(), desc.c_str());
+  }
+}
+
+void Game::launch_projectile(Item it, Ranged_attack attack,
+                             Point origin, Point target)
+{
+  int angle_missed_by = rng(0, attack.variance);
+// Use 1800 since attack.variance is measured in 10ths of a degree
+  double distance_missed_by = tan(angle_missed_by * PI / 1800);
+  int tiles_off = int(distance_missed_by);
+  if (tiles_off >= 1) {
+    target.x += rng(0 - tiles_off, tiles_off);
+    target.y += rng(0 - tiles_off, tiles_off);
+  }
+// fine_distance is used later to see if we hit the target or "barely missed"
+  int fine_distance = 100 * (distance_missed_by - tiles_off);
+
+  std::vector<Point> path = map->line_of_sight(origin, target);
+  if (path.empty()) { // Lost line of sight at some point
+    path = line_to(origin, target);
+  }
+
+  for (int i = 0; i < path.size(); i++) {
+    if (map->move_cost(path[i].x, path[i].y) == 0) {
+// It's a solid tile, so let's try to smash through it!
+      map->smash(path[i].x, path[i].y, attack.roll_damage());
+      if (map->move_cost(path[i].x, path[i].y) == 0) {
+        return; // We didn't make it!
+      }
+    } else {
+      Monster* monster_hit = monsters.monster_at(path[i].x, path[i].y);
+      if (monster_hit) {
+        bool hit;
+// TODO: Incorporate the size of the monster
+        if (i == path.size() - 1) {
+          hit = rng(0, 100 < fine_distance);
+        } else {
+          hit = one_in(3);
+        }
+        if (hit) {
+          add_msg("You shoot %s!", monster_hit->get_name_to_player().c_str());
+          Damage_set dam = attack.roll_damage();
+          monster_hit->take_damage(DAMAGE_PIERCE, dam.get_damage(DAMAGE_PIERCE),
+                                   "you");
+          return;
+        }
+      }
+    }
   }
 }
 

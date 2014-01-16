@@ -12,6 +12,10 @@
   #define MOD(a, n) ( (a) < 0 ? ((a) % (n) + (n)) : ((a) % (n)))
 #endif
 
+#ifndef PI
+  #define PI 3.142
+#endif
+
 enum Direction
 {
   DIR_NULL = 0,
@@ -82,9 +86,12 @@ struct Pointcomp
 };
 
 std::vector<Point> line_to(int x0, int y0, int x1, int y1);
+std::vector<Point> line_to(Point origin, Point target);
 
-int rl_dist(int x0, int y0, int x1, int y1);
+int rl_dist       (int x0, int y0, int x1, int y1);
+int rl_dist       (Point origin, Point target);
 int manhattan_dist(int x0, int y0, int x1, int y1);
+int manhattan_dist(Point origin, Point target);
 
 /* Direction origin moves to reach target
  * This is GENERAL direction, which means that if target is 500 tiles to the

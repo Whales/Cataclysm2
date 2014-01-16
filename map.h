@@ -31,7 +31,7 @@ struct Tile
   int move_cost();
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
 
-  std::string smash(Attack attack); // Returns the sound
+  std::string smash(Damage_set damage); // Returns the sound
   void open();
   void close();
 };
@@ -88,12 +88,14 @@ public:
   std::vector<Item>* items_at(int x, int y);
   Tile* get_tile(int x, int y);
   std::string get_name(int x, int y);
-  std::string smash(int x, int y, Attack attack); // Returns the sound
-  bool open(int x, int y);
+  std::string smash(int x, int y, Damage_set damage); // Returns the sound
+  bool open (int x, int y);
   bool close(int x, int y);
 
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
+  bool senses(Point origin, Point target, Sense_type sense = SENSE_SIGHT);
   std::vector<Point> line_of_sight(int x0, int y0, int x1, int y1);
+  std::vector<Point> line_of_sight(Point origin, Point target);
 
 // Output
   void draw(Window *w, Monster_pool *monsters, int refx, int refy,

@@ -62,6 +62,11 @@ std::vector <Point> line_to(int x0, int y0, int x1, int y1)
  return ret;
 }
 
+std::vector<Point> line_to(Point origin, Point target)
+{
+  return line_to(origin.x, origin.y, target.x, target.y);
+}
+
 
 int rl_dist(int x0, int y0, int x1, int y1)
 {
@@ -69,9 +74,19 @@ int rl_dist(int x0, int y0, int x1, int y1)
   return (dx > dy ? dx : dy);
 }
 
+int rl_dist(Point origin, Point target)
+{
+  return rl_dist(origin.x, origin.y, target.x, target.y);
+}
+
 int manhattan_dist(int x0, int y0, int x1, int y1)
 {
   return abs(x1 - x0) + abs(y1 - y0);
+}
+
+int manhattan_dist(Point origin, Point target)
+{
+  return manhattan_dist(origin.x, origin.y, target.x, target.y);
 }
 
 Direction_full get_general_direction(Point origin, Point target)

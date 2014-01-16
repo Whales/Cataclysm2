@@ -35,10 +35,10 @@ public:
   void complete_player_activity();
 
 // Engine - Called-as-needed
-  void  shift_if_needed();  // Shift the map, if the player's not in the center
-  void  make_sound(std::string desc, int x, int y);
-
-// Engine - Game-altering functions
+  void shift_if_needed();  // Shift the map, if the player's not in the center
+  void make_sound(std::string desc, int x, int y);
+  void launch_projectile(Item it, Ranged_attack attack,
+                         Point origin, Point target);
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
   void add_msg(const char* msg, ...);
 
