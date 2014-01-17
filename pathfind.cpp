@@ -222,136 +222,62 @@ Path Pathfinder::path_line(Point start, Point end)
   Point cur = start;
   bool done = false;
   while (!done) {
-    Point options[5];
-    for (int i = 0; i < 5; i++) {
-      options[i] = cur;
-    }
-    bool x_diff_bigger = ( abs(end.x - cur.x) > abs(end.y - cur.y) );
-    if (end.x > cur.x) {
-      if (end.y > cur.y) {
-        options[0] = Point(cur.x + 1, cur.y + 1);
-        if (x_diff_bigger) {
-          options[1] = Point(cur.x + 1, cur.y    );
-          options[2] = Point(cur.x    , cur.y + 1);
-          options[3] = Point(cur.x + 1, cur.y - 1);
-          options[4] = Point(cur.x - 1, cur.y + 1);
-        } else {
-          options[1] = Point(cur.x    , cur.y + 1);
-          options[2] = Point(cur.x + 1, cur.y    );
-          options[3] = Point(cur.x + 1, cur.y - 1);
-          options[4] = Point(cur.x - 1, cur.y + 1);
-        }
-      } else if (end.y < cur.y) {
-        options[0] = Point(cur.x + 1, cur.y - 1);
-        if (x_diff_bigger) {
-          options[1] = Point(cur.x + 1, cur.y    );
-          options[2] = Point(cur.x    , cur.y - 1);
-          options[3] = Point(cur.x + 1, cur.y + 1);
-          options[4] = Point(cur.x - 1, cur.y - 1);
-        } else {
-          options[1] = Point(cur.x    , cur.y - 1);
-          options[2] = Point(cur.x + 1, cur.y    );
-          options[3] = Point(cur.x - 1, cur.y - 1);
-          options[4] = Point(cur.x + 1, cur.y + 1);
-        }
-      } else { // (end.y == cur.y)
-        options[0] = Point(cur.x + 1, cur.y    );
-        if (one_in(2)) {
-          options[1] = Point(cur.x + 1, cur.y - 1);
-          options[2] = Point(cur.x + 1, cur.y + 1);
-          options[3] = Point(cur.x    , cur.y - 1);
-          options[4] = Point(cur.x    , cur.y + 1);
-        } else {
-          options[1] = Point(cur.x + 1, cur.y + 1);
-          options[2] = Point(cur.x + 1, cur.y - 1);
-          options[3] = Point(cur.x    , cur.y + 1);
-          options[4] = Point(cur.x    , cur.y - 1);
-        }
-      }
-    } else if (end.x < cur.x) {
-      if (end.y > cur.y) {
-        options[0] = Point(cur.x - 1, cur.y + 1);
-        if (x_diff_bigger) {
-          options[1] = Point(cur.x - 1, cur.y    );
-          options[2] = Point(cur.x    , cur.y + 1);
-          options[3] = Point(cur.x - 1, cur.y - 1);
-          options[4] = Point(cur.x + 1, cur.y + 1);
-        } else {
-          options[1] = Point(cur.x    , cur.y + 1);
-          options[2] = Point(cur.x - 1, cur.y    );
-          options[3] = Point(cur.x - 1, cur.y - 1);
-          options[4] = Point(cur.x + 1, cur.y + 1);
-        }
-      } else if (end.y < cur.y) {
-        options[0] = Point(cur.x - 1, cur.y - 1);
-        if (x_diff_bigger) {
-          options[1] = Point(cur.x - 1, cur.y    );
-          options[2] = Point(cur.x    , cur.y - 1);
-          options[3] = Point(cur.x - 1, cur.y + 1);
-          options[4] = Point(cur.x + 1, cur.y - 1);
-        } else {
-          options[1] = Point(cur.x    , cur.y - 1);
-          options[2] = Point(cur.x - 1, cur.y    );
-          options[3] = Point(cur.x + 1, cur.y - 1);
-          options[4] = Point(cur.x - 1, cur.y + 1);
-        }
-      } else { // (end.y == cur.y)
-        options[0] = Point(cur.x - 1, cur.y    );
-        if (one_in(2)) {
-          options[1] = Point(cur.x - 1, cur.y - 1);
-          options[2] = Point(cur.x - 1, cur.y + 1);
-          options[3] = Point(cur.x    , cur.y - 1);
-          options[4] = Point(cur.x    , cur.y + 1);
-        } else {
-          options[1] = Point(cur.x - 1, cur.y + 1);
-          options[2] = Point(cur.x - 1, cur.y - 1);
-          options[3] = Point(cur.x    , cur.y + 1);
-          options[4] = Point(cur.x    , cur.y - 1);
-        }
-      }
-    } else { // (end.x == cur.x)
-      if (end.y > cur.y) {
-        options[0] = Point(cur.x    , cur.y + 1);
-        if (one_in(2)) {
-          options[1] = Point(cur.x + 1, cur.y + 1);
-          options[2] = Point(cur.x - 1, cur.y + 1);
-          options[3] = Point(cur.x + 1, cur.y    );
-          options[4] = Point(cur.x - 1, cur.y    );
-        } else {
-          options[1] = Point(cur.x - 1, cur.y + 1);
-          options[2] = Point(cur.x + 1, cur.y + 1);
-          options[3] = Point(cur.x - 1, cur.y    );
-          options[4] = Point(cur.x + 1, cur.y    );
-        }
-      } else if (end.y < cur.y) {
-        options[0] = Point(cur.x    , cur.y - 1);
-        if (one_in(2)) {
-          options[1] = Point(cur.x + 1, cur.y - 1);
-          options[2] = Point(cur.x - 1, cur.y - 1);
-          options[3] = Point(cur.x + 1, cur.y    );
-          options[4] = Point(cur.x - 1, cur.y    );
-        } else {
-          options[1] = Point(cur.x - 1, cur.y - 1);
-          options[2] = Point(cur.x + 1, cur.y - 1);
-          options[3] = Point(cur.x - 1, cur.y    );
-          options[4] = Point(cur.x + 1, cur.y    );
-        }
-      } else { // (end.y == cur.y)
-        done = true; // We're finished
-      }
-    }
-    bool picked_next = false;
-    for (int i = 0; i < 5 && !picked_next; i++) {
-      if (!map.blocked( options[i] ) && in_bounds( options[i] )) {
-        picked_next = true;
-        cur = options[i];
-      }
-    }
-    if (!picked_next) { // Couldn't reach our target using this stupid algo!
+    if (cur == end) {
       done = true;
     } else {
-      ret.add_step(cur, map.get_cost(cur));
-    }
+      Point options[5];
+      for (int i = 0; i < 5; i++) {
+        options[i] = cur;
+      }
+      bool x_diff_bigger = ( abs(end.x - cur.x) > abs(end.y - cur.y) );
+      int best_x_move = 0, alt_x_move = 0, worst_x_move = 0;;
+      if (end.x > cur.x) {
+        best_x_move = 1;
+        worst_x_move = -1;
+      } else if (end.x < cur.x) {
+        best_x_move = -1;
+        worst_x_move = 1;
+      } else {
+        alt_x_move = -1 + 2 * rng(0, 1); // -1 or 1;
+        worst_x_move = -1 * alt_x_move;
+      }
+      int best_y_move = 0, alt_y_move = 0, worst_y_move = 0;;
+      if (end.y > cur.y) {
+        best_y_move = 1;
+        worst_y_move = -1;
+      } else if (end.y < cur.y) {
+        best_y_move = -1;
+        worst_y_move = 1;
+      } else {
+        alt_y_move = -1 + 2 * rng(0, 1); // -1 or 1;
+        worst_y_move = -1 * alt_y_move;
+      }
+  
+      options[0] = Point(best_x_move, best_y_move);
+      if (x_diff_bigger) {
+        options[1] = Point(best_x_move, alt_y_move);
+        options[2] = Point(alt_x_move, best_y_move);
+        options[3] = Point(best_x_move, worst_y_move);
+        options[4] = Point(worst_x_move, best_y_move);
+      } else {
+        options[1] = Point(alt_x_move, best_y_move);
+        options[2] = Point(best_x_move, alt_y_move);
+        options[3] = Point(worst_x_move, best_y_move);
+        options[4] = Point(best_x_move, worst_y_move);
+      }
+      bool picked_next = false;
+      for (int i = 0; i < 5 && !picked_next; i++) {
+        if (!map.blocked( options[i] ) && in_bounds( options[i] )) {
+          picked_next = true;
+          cur = options[i];
+        }
+      }
+      if (!picked_next) { // Couldn't reach our target using this stupid algo!
+        done = true;
+      } else {
+        ret.add_step(cur, map.get_cost(cur));
+      }
+    } // (cur != end)
   } // while (!done)
 
   if (cur != end) { // We didn't make it :(
