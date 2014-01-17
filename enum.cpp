@@ -10,7 +10,7 @@ Intel_level lookup_intel_level(std::string name)
       return ret;
     }
   }
-  return INTEL_PLANT;
+  return INTEL_NULL;
 }
 
 std::string intel_level_name(Intel_level level)

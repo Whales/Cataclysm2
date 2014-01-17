@@ -5,6 +5,7 @@
 
 enum Intel_level
 {
+  INTEL_NULL = 0,
   INTEL_PLANT,  // Can't do much
   INTEL_ZOMBIE, // Straight-line pathing
   INTEL_ANIMAL, // Limited A* that includes pathing around fields

@@ -14,6 +14,7 @@ Monster_type::Monster_type()
   minimum_hp = 0;
   maximum_hp = 0;
   speed = 0;
+  intel = INTEL_PLANT;
   attacks_copied_from_genus = false;
   senses_copied_from_genus = false;
   
@@ -117,6 +118,18 @@ bool Monster_type::load_data(std::istream &data)
     } else if (ident == "speed:") {
       data >> speed;
       std::getline(data, junk);
+
+    } else if (ident == "intel:" || ident == "intelligence:") {
+      std::string intel_name;
+      std::getline(data, intel_name);
+      intel_name = trim(intel_name);
+      Intel_level tmpintel = lookup_intel_level(intel_name);
+      if (tmpintel == INTEL_NULL) {
+        debugmsg("Unknown Intel_level '%s' (%s)",
+                 intel_name.c_str(), name.c_str());
+        return false;
+      }
+      intel = tmpintel;
 
     } else if (ident == "senses:") {
 // Reset all senses to false, if they were copied from our genus
