@@ -10,7 +10,6 @@ Monster::Monster()
   killed_by_player = false;
   current_hp = 0;
   type = NULL;
-  uid = -1;
   action_points = 0;
 }
 

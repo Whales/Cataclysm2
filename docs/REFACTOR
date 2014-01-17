@@ -9,3 +9,6 @@ Map drawing:
   FoV code could probably be better.
   Tell Map to handle drawing of the PC's glyph.
   Add sight distance limit.
+
+Worldmap generation:
+  It's a big, messy function.  Would be nice to clean it up a bunch.

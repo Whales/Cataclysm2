@@ -64,6 +64,7 @@ public:
 
   virtual bool can_sense(Map* map, int x, int y);
 
+  int uid;
   int posx, posy;
   int action_points;
 
@@ -73,4 +74,31 @@ public:
   std::vector<Item> inventory;
   std::vector<Item> items_worn;
 };
+
+/* For now, Entity_pool does NOT include a map which uses location as a key.
+ * In order for this map to be useful, we'd have to update it every turn, which
+ * means it' probably be more trouble than it's worth, except when the map is
+ * being called several times per turn.  We'd also have to update it after
+ * every monster moves, which is a lot.
+ * This means that monster_at() has to iterate over all monsters, which is
+ * potentially slow, but what can you do.
+ */
+
+class Entity_pool
+{
+public:
+  Entity_pool();
+  ~Entity_pool();
+
+  void add_entity(Entity* ent);
+
+  Entity* lookup_uid(int uid);
+  Entity* entity_at(int posx, int posy);
+
+  std::list<Entity*> instances;
+private:
+  std::map<int,Entity*> uid_map;
+  int next_uid;
+};
+  
 #endif

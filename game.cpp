@@ -513,7 +513,8 @@ void Game::player_move(int xdif, int ydif)
     player->attack(mon);
   } else if (player->can_move_to(map, newx, newy)) {
     player->move_to(map, newx, newy);
-  } else if (map->open(open.x, open.y)) {
+  } else if (map->open(newx, newy)) {
+    std::string tername = map->get_name(newx, newy);
     add_msg("You open the %s.", tername.c_str());
     player->use_ap(100);
   }

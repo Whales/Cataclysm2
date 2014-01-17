@@ -42,7 +42,6 @@ public:
   void pause();
 
   Monster_type *type;
-  int uid;
   int current_hp;
   bool dead;
   bool killed_by_player;

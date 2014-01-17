@@ -7,6 +7,7 @@
 
 Entity::Entity()
 {
+  uid = -1;
   posx = 15;
   posy = 15;
   action_points = 0;
@@ -419,4 +420,50 @@ bool Entity::can_sense(Map* map, int x, int y)
 {
 // Default Entity function just uses sight
   return map->senses(posx, posy, x, y);
+}
+
+Entity_pool::Entity_pool()
+{
+  next_uid = 0;
+}
+
+Entity_pool::~Entity_pool()
+{
+  for (std::list<Entity*>::iterator it = instances.begin();
+       it != instances.end();
+       it++) {
+    delete (*it);
+  }
+}
+
+void Entity_pool::add_entity(Entity* ent)
+{
+  if (!ent) {
+    debugmsg("Tried to push NULL to Entity_pool");
+    return;
+  }
+  ent->uid = next_uid;
+  next_uid++;
+  instances.push_back(ent);
+  uid_map[ent->uid] = ent;
+}
+
+Entity* Entity_pool::lookup_uid(int uid)
+{
+  if (uid_map.count(uid) == 0) {
+    return NULL;
+  }
+  return uid_map[uid];
+}
+
+Entity* Entity_pool::entity_at(int posx, int posy)
+{
+  for (std::list<Entity*>::iterator it = instances.begin();
+       it != instances.end();
+       it++) {
+    if ((*it)->posx == posx && (*it)->posy == posy) {
+      return (*it);
+    }
+  }
+  return NULL;
 }
