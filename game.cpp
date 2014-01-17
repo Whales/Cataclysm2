@@ -33,9 +33,6 @@ Game::~Game()
   if (w_map) {
     delete w_map;
   }
-  if (player) {
-    delete player;
-  }
 }
   
 bool Game::setup()
