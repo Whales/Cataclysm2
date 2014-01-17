@@ -376,7 +376,7 @@ std::string list_items(std::vector<Item> *items)
     item_text << (*items)[i].get_name_indefinite();
     if (i == items->size() - 2) {
       item_text << " and ";
-    } else if (i < items->size() - 2) {
+    } else if (items->size() >= 3 && i < items->size() - 2) {
       item_text << ", ";
     }
   }
