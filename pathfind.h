@@ -23,6 +23,7 @@ public:
   Point step(int n);
   Point operator[](int n);
   int size() { return path.size(); }
+  bool empty() { return size() == 0; }
   
 
   void add_step(Point p, int cost);
@@ -71,6 +72,9 @@ public:
   
   Path get_path(Path_type type, int x0, int y0, int x1, int y1);
   Path get_path(Path_type type, Point start, Point end);
+
+  Point get_step(Path_type type, int x0, int y0, int x1, int y1);
+  Point get_step(Path_type type, Point start, Point end);
 
 private:
   Generic_map map;

@@ -216,6 +216,20 @@ Path Pathfinder::get_path(Path_type type, Point start, Point end)
   return path_line(start, end);
 }
 
+Point Pathfinder::get_step(Path_type type, int x0, int y0, int x1, int y1)
+{
+  return get_step(type, Point(x0, y0), Point(x1, y1));
+}
+
+Point Pathfinder::get_step(Path_type type, Point start, Point end)
+{
+  Path p = get_path(type, start, end);
+  if (p.empty()) {
+    return start;
+  }
+  return p[0];
+}
+
 Path Pathfinder::path_line(Point start, Point end)
 {
   Path ret;
