@@ -1,12 +1,12 @@
 #ifndef _MONSTER_TYPE_H_
 #define _MONSTER_TYPE_H_
 
-#include <string>
-#include <istream>
-#include <vector>
 #include "glyph.h"
 #include "enum.h"
 #include "attack.h"
+#include <string>
+#include <istream>
+#include <vector>
 
 struct Monster_genus;
 

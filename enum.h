@@ -3,6 +3,18 @@
 
 #include <string>
 
+enum Intel_level
+{
+  INTEL_PLANT,  // Can't do much
+  INTEL_ZOMBIE, // Straight-line pathing
+  INTEL_ANIMAL, // Limited A* that includes pathing around fields
+  INTEL_HUMAN,  // Full A*, use of doors
+  INTEL_MAX
+};
+
+Intel_level lookup_intel_level(std::string name);
+std::string intel_level_name(Intel_level level);
+
 enum Sense_type
 {
   SENSE_NULL = 0, // Can't sense anything

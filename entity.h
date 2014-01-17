@@ -6,6 +6,7 @@
 #include "item.h"
 #include "player_activity.h"
 #include "geometry.h"
+#include "enum.h"
 #include <string>
 
 class Entity
@@ -29,6 +30,7 @@ public:
   virtual int  get_speed();
   virtual void take_turn();
 
+  virtual Intel_level get_intelligence();
   virtual bool has_sense(Sense_type sense);
   virtual bool can_see    (Map* map, int x, int y);
   virtual bool can_move_to(Map* map, int x, int y);

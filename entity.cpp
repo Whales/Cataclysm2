@@ -72,6 +72,11 @@ void Entity::take_turn()
 {
 }
 
+Intel_level Entity::get_intelligence()
+{
+  return INTEL_PLANT;
+}
+
 bool Entity::has_sense(Sense_type sense)
 {
   return false;
