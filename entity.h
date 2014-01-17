@@ -27,6 +27,7 @@ public:
   virtual void die();
   virtual void gain_action_points();
   virtual int  get_speed();
+  virtual void take_turn();
 
   virtual bool has_sense(Sense_type sense);
   virtual bool can_see    (Map* map, int x, int y);
@@ -67,6 +68,8 @@ public:
   int uid;
   int posx, posy;
   int action_points;
+  bool dead;
+  bool killed_by_player;
 
   Player_activity activity;
 

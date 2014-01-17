@@ -585,7 +585,7 @@ std::vector<Point> Map::line_of_sight(Point origin, Point target)
   return line_of_sight(origin.x, origin.y, target.x, target.y);
 }
 
-void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
+void Map::draw(Window* w, Entity_pool *entities, int refx, int refy,
                Sense_type sense)
 {
   if (!w) {
@@ -596,7 +596,7 @@ void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
     for (int y = 0; y < winy; y++) {
       int terx = refx + x - (winx / 2), tery = refy + y - (winy / 2);
       if (senses(refx, refy, terx, tery, sense)) {
-        draw_tile(w, monsters, terx, tery, refx, refy);
+        draw_tile(w, entities, terx, tery, refx, refy);
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE
         w->putglyph(x, y, glyph(' ', c_black, c_black));
@@ -605,7 +605,7 @@ void Map::draw(Window* w, Monster_pool *monsters, int refx, int refy,
   }
 }
 
-void Map::draw_tile(Window* w, Monster_pool *monsters, int tilex, int tiley,
+void Map::draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
                     int refx, int refy, bool invert)
 {
   if (!w) {
@@ -622,10 +622,10 @@ void Map::draw_tile(Window* w, Monster_pool *monsters, int tilex, int tiley,
   glyph output;
   bool picked_glyph = false;
 // First, check if we should draw a monster
-  if (monsters) {
-    Monster* monster = monsters->monster_at(tilex, tiley);
-    if (monster) {
-      output = monster->top_glyph();
+  if (entities) {
+    Entity* ent = entities->entity_at(tilex, tiley);
+    if (ent) {
+      output = ent->get_glyph();
       picked_glyph = true;
     }
   }

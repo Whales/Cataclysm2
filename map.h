@@ -14,7 +14,7 @@
 #include "geometry.h"
 #include "attack.h"
 
-class Monster_pool;
+class Entity_pool;
 
 struct Tile
 {
@@ -98,10 +98,10 @@ public:
   std::vector<Point> line_of_sight(Point origin, Point target);
 
 // Output
-  void draw(Window *w, Monster_pool *monsters, int refx, int refy,
+  void draw(Window *w, Entity_pool *entities, int refx, int refy,
             Sense_type sense = SENSE_SIGHT);
 
-  void draw_tile(Window* w, Monster_pool *monsters, int tilex, int tiley,
+  void draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
                     int refx, int refy, bool invert = false);
 
   Point get_center_point();

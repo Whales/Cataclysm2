@@ -11,6 +11,8 @@ Entity::Entity()
   posx = 15;
   posy = 15;
   action_points = 0;
+  dead = false;
+  killed_by_player = false;
 }
 
 Entity::~Entity()
@@ -64,6 +66,10 @@ void Entity::gain_action_points()
 int Entity::get_speed()
 {
   return 100;
+}
+
+void Entity::take_turn()
+{
 }
 
 bool Entity::has_sense(Sense_type sense)

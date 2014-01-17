@@ -17,7 +17,7 @@ public:
 
   void set_type(std::string name);
 
-  virtual glyph top_glyph();
+  virtual glyph get_glyph();
   virtual std::string get_name();
   virtual std::string get_name_to_player();
   virtual std::string get_possessive();
@@ -29,7 +29,7 @@ public:
 
   virtual int get_speed();
   void make_plans();
-  void take_turn();
+  virtual void take_turn();
 
   bool can_attack(Entity* entity);
   virtual Attack base_attack();
@@ -43,8 +43,6 @@ public:
 
   Monster_type *type;
   int current_hp;
-  bool dead;
-  bool killed_by_player;
 
 private:
   Entity* target;

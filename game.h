@@ -29,8 +29,8 @@ public:
 // Engine - Main loop functions
   bool main_loop();
   void do_action(Interface_action act);
-  void move_monsters();
-  void clean_up_dead_monsters();
+  void move_entities();
+  void clean_up_dead_entities();
   void handle_player_activity();
   void complete_player_activity();
 
@@ -59,7 +59,7 @@ public:
   Map*      map;
   Worldmap* worldmap;
   Player*   player;
-  Monster_pool monsters;
+  Entity_pool entities;
 
 private:
   Window *w_map;

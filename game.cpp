@@ -68,6 +68,7 @@ bool Game::setup()
   map->generate(worldmap, start.x, start.y);
 
   player = new Player;
+  entities.add_entity(player);
 
   game_over = false;
   new_messages = 0;
@@ -88,9 +89,7 @@ bool Game::main_loop()
     handle_player_activity();
     shift_if_needed();
     update_hud();
-    map->draw(w_map, &monsters, player->posx, player->posy);
-    w_map->putglyph(w_map->sizex() / 2, w_map->sizey() / 2,
-                    player->get_glyph());
+    map->draw(w_map, &entities, player->posx, player->posy);
     w_map->refresh();
 
     if (!player->activity.is_active()) {
@@ -100,14 +99,14 @@ bool Game::main_loop()
         mon->set_type("zombie");
         mon->posx = player->posx - 3;
         mon->posy = player->posy - 3;
-        monsters.add_monster(mon);
+        entities.add_entity(mon);
       }
       Interface_action act = KEYBINDINGS.bound_to_key(ch);
       do_action(act);
     }
   }
   shift_if_needed();
-  move_monsters();
+  move_entities();
   if (game_over) {
     return false;
   }
@@ -317,14 +316,16 @@ void Game::do_action(Interface_action act)
   }
 }
 
-void Game::move_monsters()
+void Game::move_entities()
 {
-  clean_up_dead_monsters();
+  clean_up_dead_entities();
 // First, give all monsters action points
-  for (std::list<Monster*>::iterator it = monsters.instances.begin();
-       it != monsters.instances.end();
+  for (std::list<Entity*>::iterator it = entities.instances.begin();
+       it != entities.instances.end();
        it++) {
-    (*it)->gain_action_points();
+    if (!(*it)->is_player()) {
+      (*it)->gain_action_points();
+    }
   }
 /* Loop through the monsters, giving each one a single turn at a time.
  * Stop when we go through a loop without finding any monsters that can
@@ -333,37 +334,37 @@ void Game::move_monsters()
   bool all_done = true;
   do {
     all_done = true;
-    for (std::list<Monster*>::iterator it = monsters.instances.begin();
-         it != monsters.instances.end();
+    for (std::list<Entity*>::iterator it = entities.instances.begin();
+         it != entities.instances.end();
          it++) {
-      Monster* mon = *it;
-      if (mon->action_points > 0 && !mon->dead) {
-        mon->take_turn();
+      Entity* ent = *it;
+      if (!ent->is_player() && ent->action_points > 0 && !ent->dead) {
+        ent->take_turn();
         all_done = false;
       }
     }
   } while (!all_done);
 
-  clean_up_dead_monsters(); // Just in case a monster killed itself
+  clean_up_dead_entities(); // Just in case an entity killed itself
 
 }
 
-void Game::clean_up_dead_monsters()
+void Game::clean_up_dead_entities()
 {
-  std::list<Monster*>::iterator it = monsters.instances.begin();
-  while (it != monsters.instances.end()) {
-    Monster *mon = (*it);
-    if ( mon->dead ) {
-      if (player->can_see(map, mon->posx, mon->posy)) {
-        if (mon->killed_by_player) {
-          add_msg("You kill %s!", mon->get_name_definite().c_str());
+  std::list<Entity*>::iterator it = entities.instances.begin();
+  while (it != entities.instances.end()) {
+    Entity *ent = (*it);
+    if ( ent->dead ) {
+      if (player->can_see(map, ent->posx, ent->posy)) {
+        if (ent->killed_by_player) {
+          add_msg("You kill %s!", ent->get_name_to_player().c_str());
         } else {
-          add_msg("%s dies!", mon->get_name_to_player().c_str());
+          add_msg("%s dies!", ent->get_name_to_player().c_str());
         }
       }
-      mon->die();
-      delete mon;
-      it = monsters.instances.erase(it);
+      ent->die();
+      delete ent;
+      it = entities.instances.erase(it);
     } else {
       it++;
     }
@@ -424,9 +425,9 @@ void Game::shift_if_needed()
     shifty =  1 + (player->posy - max) / SUBMAP_SIZE;
   }
   map->shift(worldmap, shiftx, shifty);
-  player->shift(shiftx, shifty);
-  for (std::list<Monster*>::iterator it = monsters.instances.begin();
-       it != monsters.instances.end();
+  //player->shift(shiftx, shifty);
+  for (std::list<Entity*>::iterator it = entities.instances.begin();
+       it != entities.instances.end();
        it++) {
     (*it)->shift(shiftx, shifty);
   }
@@ -478,8 +479,8 @@ void Game::launch_projectile(Item it, Ranged_attack attack,
         return; // We didn't make it!
       }
     } else {
-      Monster* monster_hit = monsters.monster_at(path[i].x, path[i].y);
-      if (monster_hit) {
+      Entity* entity_hit = entities.entity_at(path[i].x, path[i].y);
+      if (entity_hit) {
         bool hit;
 // TODO: Incorporate the size of the monster
         if (i == path.size() - 1) {
@@ -488,10 +489,10 @@ void Game::launch_projectile(Item it, Ranged_attack attack,
           hit = one_in(3);
         }
         if (hit) {
-          add_msg("You shoot %s!", monster_hit->get_name_to_player().c_str());
+          add_msg("You shoot %s!", entity_hit->get_name_to_player().c_str());
           Damage_set dam = attack.roll_damage();
-          monster_hit->take_damage(DAMAGE_PIERCE, dam.get_damage(DAMAGE_PIERCE),
-                                   "you");
+          entity_hit->take_damage(DAMAGE_PIERCE, dam.get_damage(DAMAGE_PIERCE),
+                                  "you");
           return;
         }
       }
@@ -508,9 +509,9 @@ void Game::player_move(int xdif, int ydif)
   }
 
   int newx = player->posx + xdif, newy = player->posy + ydif;
-  Monster* mon = monsters.monster_at(newx, newy);
-  if (mon) {
-    player->attack(mon);
+  Entity* ent = entities.entity_at(newx, newy);
+  if (ent) {
+    player->attack(ent);
   } else if (player->can_move_to(map, newx, newy)) {
     player->move_to(map, newx, newy);
   } else if (map->open(newx, newy)) {
@@ -755,8 +756,7 @@ std::vector<Point> Game::path_selector(int startx, int starty)
 
   Point target(startx, starty);
 
-  map->draw(w_map, &monsters, player->posx, player->posy);
-  w_map->putglyph(w_map->sizex() / 2, w_map->sizey() / 2, player->get_glyph());
+  map->draw(w_map, &entities, player->posx, player->posy);
   w_map->refresh();
   while (true) {
     long ch = input();
@@ -772,11 +772,9 @@ std::vector<Point> Game::path_selector(int startx, int starty)
       } else if (p.x != -2 && p.y != -2) {
         target += p;
         ret = map->line_of_sight(player->posx,player->posy, target.x,target.y);
-        map->draw(w_map, &monsters, player->posx, player->posy);
-        w_map->putglyph(w_map->sizex() / 2, w_map->sizey() / 2,
-                        player->get_glyph());
+        map->draw(w_map, &entities, player->posx, player->posy);
         for (int i = 0; i < ret.size(); i++) {
-          map->draw_tile(w_map, &monsters, ret[i].x, ret[i].y,
+          map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
                          player->posx, player->posy, true); // true == inverted
         }
 // TODO: No no no remove this

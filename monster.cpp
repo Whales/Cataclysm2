@@ -28,7 +28,7 @@ Monster::~Monster()
 {
 }
 
-glyph Monster::top_glyph()
+glyph Monster::get_glyph()
 {
   if (type) {
     return type->sym;
