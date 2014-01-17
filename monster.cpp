@@ -79,6 +79,14 @@ bool Monster::has_sense(Sense_type sense)
   return type->has_sense(sense);
 }
 
+Intel_level Monster::get_intelligence()
+{
+  if (!type) {
+    return INTEL_NULL;
+  }
+  return type->intel;
+}
+
 int Monster::get_speed()
 {
   if (!type) {
