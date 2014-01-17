@@ -405,7 +405,14 @@ Ranged_attack Entity::throw_item(Item it)
 
 Ranged_attack Entity::fire_weapon()
 {
-  return Ranged_attack();
+// TODO: Base on skill
+// TODO: Use >1 round if we've selected a burst/auto shot
+  if (!weapon.is_real() || weapon.get_item_class() != ITEM_CLASS_LAUNCHER ||
+      !weapon.ammo || weapon.charges == 0) {
+    return Ranged_attack();
+  }
+  weapon.charges--;
+  return weapon.get_fired_attack();
 }
 
 bool Entity::can_sense(Map* map, int x, int y)

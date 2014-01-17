@@ -76,7 +76,7 @@ done
 gun
   name: Glock 19
   description:
-    Possibly the most popular handgun in existence, the Glock 19 is often
+    Possibly the most popular handgun in existence.  The Glock 19 is often
     derided for its plastic construction, but it is easy to shoot.
   done
   glyph: ) ltgray black

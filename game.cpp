@@ -265,12 +265,36 @@ void Game::do_action(Interface_action act)
       if (!it.is_real()) {
         add_msg("Never mind.");
       } else {
-        player->remove_item_uid(it.get_uid(), 1);
         Point target = target_selector();
-        launch_projectile(it, it.get_thrown_attack(), player->get_position(),
-                          target);
+        if (target.x == -1) { // We canceled
+          add_msg("Never mind.");
+        } else {
+          player->remove_item_uid(it.get_uid(), 1);
+          Ranged_attack att = player->throw_item(it);
+          launch_projectile(it, att, player->get_position(), target);
+        }
       }
     } break;
+
+    case IACTION_FIRE:
+      if (!player->weapon.is_real()) {
+        add_msg("You are not wielding anything.");
+      } else if (player->weapon.get_item_class() != ITEM_CLASS_LAUNCHER) {
+        add_msg("You cannot fire %s.",
+                player->weapon.get_name_indefinite().c_str());
+      } else if (player->weapon.charges == 0 || !player->weapon.ammo) {
+        add_msg("You need to reload %s.",
+                player->weapon.get_name_definite().c_str());
+      } else {
+        Point target = target_selector();
+        if (target.x == -1) { // We canceled
+          add_msg("Never mind.");
+        } else {
+          Ranged_attack att = player->fire_weapon();
+          launch_projectile(Item(), att, player->get_position(), target);
+        }
+      }
+      break;
 
     case IACTION_MESSAGES_SCROLL_BACK:
       i_hud.add_data("text_messages", -1);
@@ -428,9 +452,10 @@ void Game::make_sound(std::string desc, int x, int y)
 void Game::launch_projectile(Item it, Ranged_attack attack,
                              Point origin, Point target)
 {
+  int range = rl_dist(origin, target);
   int angle_missed_by = attack.roll_variance();
 // Use 1800 since attack.variance is measured in 10ths of a degree
-  double distance_missed_by = tan(angle_missed_by * PI / 1800);
+  double distance_missed_by = range * tan(angle_missed_by * PI / 1800);
   int tiles_off = int(distance_missed_by);
   if (tiles_off >= 1) {
     target.x += rng(0 - tiles_off, tiles_off);

@@ -246,6 +246,7 @@ int Ranged_attack::roll_variance()
   int ret = 0;
   for (int i = 0; i < variance.size(); i++) {
     ret += rng(0, variance[i]);
+    debugmsg("[%d/%d]: %d, total %d", i, variance.size(), variance[i], ret);
   }
   return ret;
 }

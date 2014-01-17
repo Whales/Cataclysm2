@@ -278,16 +278,16 @@ Ranged_attack Item::get_fired_attack()
   }
 
   Item_type_launcher* launcher = static_cast<Item_type_launcher*>(type);
-  Item_type_ammo*     ammo     = static_cast<Item_type_ammo*>    (ammo);
+  Item_type_ammo*     itammo   = static_cast<Item_type_ammo*>    (ammo);
 
   Ranged_attack ret;
   ret.speed = launcher->fire_ap;
-  ret.range = ammo->range;
+  ret.range = itammo->range;
   ret.variance.push_back(launcher->accuracy);
-  ret.variance.push_back(ammo->accuracy);
+  ret.variance.push_back(itammo->accuracy);
 // TODO: Can fired items ever be non-pierce?
-  ret.damage       [DAMAGE_PIERCE] = ammo->damage + launcher->damage;
-  ret.armor_divisor[DAMAGE_PIERCE] = ammo->armor_pierce;
+  ret.damage       [DAMAGE_PIERCE] = itammo->damage + launcher->damage;
+  ret.armor_divisor[DAMAGE_PIERCE] = itammo->armor_pierce;
 
   return ret;
 }
@@ -297,21 +297,22 @@ bool Item::reload(Entity* owner, int ammo_uid)
   if (!owner) {
     return false;
   }
-  Item* ammo = owner->ref_item_uid(ammo_uid);
-  if (!ammo) {
+  Item* ammo_used = owner->ref_item_uid(ammo_uid);
+  if (!ammo_used) {
     return false;
   }
   int charges_available = get_max_charges() - charges;
   if (charges_available <= 0) {
     return false;
   }
-  if (ammo->charges > charges_available) {
-    ammo->charges -= charges_available;
+  if (ammo_used->charges > charges_available) {
+    ammo_used->charges -= charges_available;
     charges = get_max_charges();
   } else {
-    charges += ammo->charges;
+    charges += ammo_used->charges;
     owner->remove_item_uid(ammo_uid);
   }
+  ammo = ammo_used->type;
   return true;
 }
 
