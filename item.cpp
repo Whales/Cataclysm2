@@ -374,9 +374,9 @@ std::string list_items(std::vector<Item> *items)
   std::stringstream item_text;
   for (int i = 0; i < items->size(); i++) {
     item_text << (*items)[i].get_name_indefinite();
-    if (i == items->size() - 1 && items->size() > 1) {
+    if (i == items->size() - 2) {
       item_text << " and ";
-    } else if (i < items->size() - 1) {
+    } else if (i < items->size() - 2) {
       item_text << ", ";
     }
   }
