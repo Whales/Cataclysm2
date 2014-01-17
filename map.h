@@ -13,6 +13,7 @@
 #include "enum.h"
 #include "geometry.h"
 #include "attack.h"
+#include "pathfind.h"
 
 class Entity_pool;
 
@@ -82,12 +83,14 @@ public:
   void shift(Worldmap *world, int shiftx, int shifty);
 
 // Game engine access
+  Generic_map get_movement_map(Intel_level intel);
   int move_cost(int x, int y);
-  bool add_item(Item item, int x, int y);
+  bool is_smashable(int x, int y);
   int item_count(int x, int y);
   std::vector<Item>* items_at(int x, int y);
   Tile* get_tile(int x, int y);
   std::string get_name(int x, int y);
+  bool add_item(Item item, int x, int y);
   std::string smash(int x, int y, Damage_set damage); // Returns the sound
   bool open (int x, int y);
   bool close(int x, int y);

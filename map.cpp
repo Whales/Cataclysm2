@@ -409,9 +409,36 @@ void Map::shift(Worldmap *world, int shiftx, int shifty)
   generate(world, posx, posy);
 }
 
+Generic_map Map::get_movement_map(Intel_level intel)
+{
+  Generic_map ret(SUBMAP_SIZE * MAP_SIZE, SUBMAP_SIZE * MAP_SIZE);
+
+  for (int x = 0; x < SUBMAP_SIZE * MAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE * MAP_SIZE; y++) {
+      int cost = move_cost(x, y);
+// TODO: If there's a field here, increase cost accordingly
+      if (cost == 0 && is_smashable(x, y)) {
+        cost = 500; // TODO: Estimate costs more intelligently
+      }
+      ret.set_cost(x, y, cost);
+    }
+  }
+
+  return ret;
+}
+
 int Map::move_cost(int x, int y)
 {
   return get_tile(x, y)->move_cost();
+}
+
+bool Map::is_smashable(int x, int y)
+{
+  Tile *t = get_tile(x, y);
+  if (t->terrain) {
+    return false;
+  }
+  return !(t->terrain->smash.result.empty());
 }
 
 bool Map::add_item(Item item, int x, int y)

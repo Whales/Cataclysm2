@@ -184,145 +184,47 @@ void Monster::move_towards(Entity* entity)
 
 void Monster::move_towards(int target_x, int target_y)
 {
-  int dx = target_x - posx, dy = target_y - posy;
-  int ax = abs(dx), ay = abs(dy);
-  bool x_diff_bigger = false;
-  if (ax > ay || (ax == ay && one_in(2))) {
-    x_diff_bigger = true;
-  }
+  Generic_map move_map = GAME.map->get_movement_map(get_intelligence());
+  Pathfinder pf(move_map);
 // Simple, dumb movement - suitable for zombies at least
-  Point options[5];
-  for (int i = 0; i < 5; i++) {
-    options[i] = Point(posx, posy);
-  }
-  if (target_x > posx) {
-    if (target_y > posy) {
-      options[0] = Point(posx + 1, posy + 1);
-      if (x_diff_bigger) {
-        options[1] = Point(posx + 1, posy    );
-        options[2] = Point(posx    , posy + 1);
-        options[3] = Point(posx + 1, posy - 1);
-        options[4] = Point(posx - 1, posy + 1);
-      } else {
-        options[1] = Point(posx    , posy + 1);
-        options[2] = Point(posx + 1, posy    );
-        options[3] = Point(posx + 1, posy - 1);
-        options[4] = Point(posx - 1, posy + 1);
-      }
-    } else if (target_y < posy) {
-      options[0] = Point(posx + 1, posy - 1);
-      if (x_diff_bigger) {
-        options[1] = Point(posx + 1, posy    );
-        options[2] = Point(posx    , posy - 1);
-        options[3] = Point(posx + 1, posy + 1);
-        options[4] = Point(posx - 1, posy - 1);
-      } else {
-        options[1] = Point(posx    , posy - 1);
-        options[2] = Point(posx + 1, posy    );
-        options[3] = Point(posx - 1, posy - 1);
-        options[4] = Point(posx + 1, posy + 1);
-      }
-    } else { // (target_y == posy)
-      options[0] = Point(posx + 1, posy    );
-      if (one_in(2)) {
-        options[1] = Point(posx + 1, posy - 1);
-        options[2] = Point(posx + 1, posy + 1);
-        options[3] = Point(posx    , posy - 1);
-        options[4] = Point(posx    , posy + 1);
-      } else {
-        options[1] = Point(posx + 1, posy + 1);
-        options[2] = Point(posx + 1, posy - 1);
-        options[3] = Point(posx    , posy + 1);
-        options[4] = Point(posx    , posy - 1);
-      }
-    }
-  } else if (target_x < posx) {
-    if (target_y > posy) {
-      options[0] = Point(posx - 1, posy + 1);
-      if (x_diff_bigger) {
-        options[1] = Point(posx - 1, posy    );
-        options[2] = Point(posx    , posy + 1);
-        options[3] = Point(posx - 1, posy - 1);
-        options[4] = Point(posx + 1, posy + 1);
-      } else {
-        options[1] = Point(posx    , posy + 1);
-        options[2] = Point(posx - 1, posy    );
-        options[3] = Point(posx - 1, posy - 1);
-        options[4] = Point(posx + 1, posy + 1);
-      }
-    } else if (target_y < posy) {
-      options[0] = Point(posx - 1, posy - 1);
-      if (x_diff_bigger) {
-        options[1] = Point(posx - 1, posy    );
-        options[2] = Point(posx    , posy - 1);
-        options[3] = Point(posx - 1, posy + 1);
-        options[4] = Point(posx + 1, posy - 1);
-      } else {
-        options[1] = Point(posx    , posy - 1);
-        options[2] = Point(posx - 1, posy    );
-        options[3] = Point(posx + 1, posy - 1);
-        options[4] = Point(posx - 1, posy + 1);
-      }
-    } else { // (target_y == posy)
-      options[0] = Point(posx - 1, posy    );
-      if (one_in(2)) {
-        options[1] = Point(posx - 1, posy - 1);
-        options[2] = Point(posx - 1, posy + 1);
-        options[3] = Point(posx    , posy - 1);
-        options[4] = Point(posx    , posy + 1);
-      } else {
-        options[1] = Point(posx - 1, posy + 1);
-        options[2] = Point(posx - 1, posy - 1);
-        options[3] = Point(posx    , posy + 1);
-        options[4] = Point(posx    , posy - 1);
-      }
-    }
-  } else { // (target_x == posx)
-    if (target_y > posy) {
-      options[0] = Point(posx    , posy + 1);
-      if (one_in(2)) {
-        options[1] = Point(posx + 1, posy + 1);
-        options[2] = Point(posx - 1, posy + 1);
-        options[3] = Point(posx + 1, posy    );
-        options[4] = Point(posx - 1, posy    );
-      } else {
-        options[1] = Point(posx - 1, posy + 1);
-        options[2] = Point(posx + 1, posy + 1);
-        options[3] = Point(posx - 1, posy    );
-        options[4] = Point(posx + 1, posy    );
-      }
-    } else if (target_y < posy) {
-      options[0] = Point(posx    , posy - 1);
-      if (one_in(2)) {
-        options[1] = Point(posx + 1, posy - 1);
-        options[2] = Point(posx - 1, posy - 1);
-        options[3] = Point(posx + 1, posy    );
-        options[4] = Point(posx - 1, posy    );
-      } else {
-        options[1] = Point(posx - 1, posy - 1);
-        options[2] = Point(posx + 1, posy - 1);
-        options[3] = Point(posx - 1, posy    );
-        options[4] = Point(posx + 1, posy    );
-      }
-    } else { // (target_y == posy)
-      pause();
-      return; // Posx and Posy are the same, i.e. we're on top of the target!
-    }
+  Point move;
+  Point to(target_x, target_y), from = get_position();
+  switch (get_intelligence()) {
+    case INTEL_NULL:
+    case INTEL_PLANT:
+// Mobile plants just drunken walk.
+      move.x = rng(posx - 1, posx + 1);
+      move.y = rng(posy - 1, posy + 1);
+      break;
+
+    case INTEL_ZOMBIE:
+      move = pf.get_step(PATH_LINE, from, to);
+      break;
+
+    case INTEL_ANIMAL:
+    case INTEL_HUMAN:
+      move = pf.get_step(PATH_A_STAR, from, to);
+      break;
+
+    default:
+      debugmsg("No AI movement coded for Intel_level %s",
+               intel_level_name(get_intelligence()).c_str());
   }
 
-// Now that we have an ordered list of favorites, pick one!
 // TODO:  Add a "Stumble" flag that occasionally randomly picks, rather than
 //        picking the best available.
 
-  for (int i = 0; i < 5; i++) {
-    if (can_move_to( GAME.map, options[i].x, options[i].y )) {
-      move_to( GAME.map, options[i].x, options[i].y );
-      return;
-    }
+  if (can_move_to( GAME.map, move.x, move.y )) {
+    move_to( GAME.map, move.x, move.y );
+// TODO: Add a "smashes terrain" flag, and if we can't move then smash
+  } else if (GAME.map->is_smashable(move.x, move.y)) {
+    std::string sound = GAME.map->smash(move.x, move.y, 
+                                        base_attack().roll_damage());
+    GAME.make_sound(sound, move.x, move.y);
+    use_ap(100);
+  } else {
+    pause();
   }
-// Couldn't move to any of the spots!  For now, just pause()
-// TODO:  Do something better.
-  pause();
 }
 
 void Monster::wander()
