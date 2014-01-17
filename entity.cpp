@@ -246,6 +246,9 @@ void Entity::wield_item_uid(int uid)
 {
 // TODO: Return a failure reason when attempting to wield current weapon,
 //       or clothing worn
+  if (weapon.is_real()) {
+    add_item( weapon );
+  }
   for (int i = 0; i < inventory.size(); i++) {
     if (inventory[i].get_uid() == uid) {
       weapon = inventory[i];
