@@ -244,27 +244,29 @@ Path Pathfinder::path_line(Point start, Point end)
         options[i] = cur;
       }
       bool x_diff_bigger = ( abs(end.x - cur.x) > abs(end.y - cur.y) );
-      int best_x_move = 0, alt_x_move = 0, worst_x_move = 0;;
+      int best_x_move = cur.x, alt_x_move = cur.x, worst_x_move = cur.x;;
       if (end.x > cur.x) {
-        best_x_move = 1;
-        worst_x_move = -1;
+        best_x_move++;
+        worst_x_move--;
       } else if (end.x < cur.x) {
-        best_x_move = -1;
-        worst_x_move = 1;
+        best_x_move--;
+        worst_x_move++;
       } else {
-        alt_x_move = -1 + 2 * rng(0, 1); // -1 or 1;
-        worst_x_move = -1 * alt_x_move;
+        int alt = 2 * rng(0, 1) - 1; // -1 or 1
+        alt_x_move += alt;
+        worst_x_move += -1 * alt;
       }
-      int best_y_move = 0, alt_y_move = 0, worst_y_move = 0;;
+      int best_y_move = cur.y, alt_y_move = cur.y, worst_y_move = cur.y;;
       if (end.y > cur.y) {
-        best_y_move = 1;
-        worst_y_move = -1;
+        best_y_move++;
+        worst_y_move--;
       } else if (end.y < cur.y) {
-        best_y_move = -1;
-        worst_y_move = 1;
+        best_y_move--;
+        worst_y_move++;
       } else {
-        alt_y_move = -1 + 2 * rng(0, 1); // -1 or 1;
-        worst_y_move = -1 * alt_y_move;
+        int alt = 2 * rng(0, 1) - 1; // -1 or 1
+        alt_y_move += alt;
+        worst_y_move += -1 * alt;
       }
   
       options[0] = Point(best_x_move, best_y_move);

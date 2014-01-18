@@ -50,6 +50,7 @@ void Monster_type::set_genus(Monster_genus *mg)
   if (speed == 0) {
     speed = mg->default_values.speed;
   }
+  intel = mg->default_values.intel;
 
   bool any_senses_set = false;
   for (int i = 0; !any_senses_set && i < senses.size(); i++) {

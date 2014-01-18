@@ -435,7 +435,7 @@ int Map::move_cost(int x, int y)
 bool Map::is_smashable(int x, int y)
 {
   Tile *t = get_tile(x, y);
-  if (t->terrain) {
+  if (!t->terrain) {
     return false;
   }
   return !(t->terrain->smash.result.empty());

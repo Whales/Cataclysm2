@@ -218,7 +218,7 @@ done
 name: open glass door
   glyph: ' ltcyan black
   movecost: 100
-  close: close glass door
+  close: closed glass door
 done
 
 name: window frame
