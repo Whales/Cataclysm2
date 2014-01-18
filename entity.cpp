@@ -34,6 +34,13 @@ std::string Entity::get_possessive()
   return "Nothing's";
 }
 
+std::string Entity::conjugate(const std::string &verb)
+{
+// Dumbest conjugation ever, but it should work for most cases!
+// TODO: Special-case stuff?
+  return verb + "s";
+}
+
 glyph Entity::get_glyph()
 {
   return glyph();
@@ -244,11 +251,6 @@ Item Entity::remove_item_uid(int uid, int count)
 
 void Entity::wield_item_uid(int uid)
 {
-// TODO: Return a failure reason when attempting to wield current weapon,
-//       or clothing worn
-  if (weapon.is_real()) {
-    add_item( weapon );
-  }
   for (int i = 0; i < inventory.size(); i++) {
     if (inventory[i].get_uid() == uid) {
       weapon = inventory[i];
@@ -260,6 +262,13 @@ void Entity::wield_item_uid(int uid)
       }
       return;
     }
+  }
+}
+
+void Entity::sheath_weapon()
+{
+  if (weapon.is_real()) {
+    add_item(weapon);
   }
 }
 
@@ -318,6 +327,95 @@ Item Entity::pick_ammo_for(Item *it)
 // TODO: Automate this part for NPCs
   //return inventory_single();
   return Item();
+}
+
+bool Entity::is_wielding_item_uid(int uid)
+{
+  return weapon.is_real() && weapon.get_uid() == uid;
+}
+
+bool Entity::is_wearing_item_uid(int uid)
+{
+  for (int i = 0; i < items_worn.size(); i++) {
+    if (items_worn[i].is_real() && items_worn[i].get_uid() == uid) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Entity::is_carrying_item_uid(int uid)
+{
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i].is_real() && inventory[i].get_uid() == uid) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Entity::has_item_uid(int uid)
+{
+  return (is_wielding_item_uid(uid) || is_wearing_item_uid(uid) ||
+          is_carrying_item_uid(uid));
+}
+
+std::string Entity::drop_item_message(Item &it)
+{
+  int uid = it.get_uid();
+  if (!it.is_real() || !ref_item_uid(uid)) {
+    return "You don't have that item.";
+  }
+  std::stringstream ret;
+  ret << get_name_to_player() << " " << conjugate("drop") << " " <<
+         get_possessive() << " " << it.get_name() << ".";
+  return ret.str();
+}
+
+std::string Entity::wear_item_message(Item &it)
+{
+  int uid = it.get_uid();
+  if (!it.is_real() || !ref_item_uid(uid)) {
+    return "You don't have that item.";
+  }
+  if (it.get_item_class() != ITEM_CLASS_CLOTHING) {
+    return it.get_name_indefinite() + " is not clothing!";
+  }
+  if (is_wearing_item_uid(uid)) { 
+    return "You're already wearing that.";
+  }
+  std::stringstream ret;
+  ret << get_name_to_player() << " " << conjugate("put") << " on " <<
+         get_possessive() << " " << it.get_name() << ".";
+  return ret.str();
+}
+
+std::string Entity::wield_item_message(Item &it)
+{
+  int uid = it.get_uid();
+  std::stringstream ret;
+  ret << get_name_to_player();
+  if (!it.is_real() || !ref_item_uid(uid)) { // Should this indicate a bug?
+    ret << " don't have that item.";
+  } else if (is_wielding_item_uid(uid)) {
+    ret << "'re already wielding that.";
+  } else if (is_wearing_item_uid(uid)) {
+    ret << "'re wearing that item - take it off first.";
+  } else {
+    ret << " " << conjugate("wield") << " " << it.get_name_definite() << ".";
+  }
+  return ret.str();
+}
+
+std::string Entity::sheath_weapon_message()
+{
+  if (!weapon.is_real()) {
+    return "";
+  }
+  std::stringstream ret;
+  ret << get_name_to_player() << " " << conjugate("put") << " away " <<
+         get_possessive() << " " << weapon.get_name() << ".";
+  return ret.str();
 }
 
 Attack Entity::base_attack()

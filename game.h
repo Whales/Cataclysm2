@@ -40,7 +40,7 @@ public:
   void launch_projectile(Item it, Ranged_attack attack,
                          Point origin, Point target);
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
-  void add_msg(const char* msg, ...);
+  void add_msg(std::string msg, ...);
 
 // UI - Output functions
   void update_hud();

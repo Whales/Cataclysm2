@@ -16,6 +16,7 @@ public:
   virtual std::string get_name();
   virtual std::string get_name_to_player();
   virtual std::string get_possessive();
+  virtual std::string conjugate(const std::string &verb) { return verb; }
   virtual glyph get_glyph();
 
   virtual bool is_player()  { return true; }

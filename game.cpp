@@ -189,21 +189,15 @@ void Game::do_action(Interface_action act)
       Item it = player->inventory_single();
       Item_action act = it.show_info();
       if (act == IACT_DROP) {
-        std::stringstream message;
-        message << "You drop " << it.get_name_definite() << ".";
-        map->add_item(it, player->posx, player->posy);
+        add_msg( player->drop_item_message(it) );
         player->remove_item_uid(it.get_uid());
-        add_msg( message.str().c_str() );
+        map->add_item(it, player->posx, player->posy);
       } else if (act == IACT_WIELD) {
-        std::stringstream message;
-        message << "You wield " << it.get_name_definite() << ".";
+        add_msg( player->wield_item_message(it) );
         player->wield_item_uid(it.get_uid());
-        add_msg( message.str().c_str() );
       } else if (act == IACT_WEAR) {
-        std::stringstream message;
-        message << "You wear " << it.get_name_definite() << ".";
+        add_msg( player->wear_item_message(it) );
         player->wear_item_uid(it.get_uid());
-        add_msg( message.str().c_str() );
       }
     } break;
 
@@ -219,32 +213,16 @@ void Game::do_action(Interface_action act)
 
     case IACTION_WIELD: {
       Item it = player->inventory_single();
-      if (!it.is_real() && player->weapon.is_real()) {
-        std::stringstream message;
-        message << "You put away your " << player->weapon.get_name() << ".";
-        player->inventory.push_back(player->weapon);
-        player->weapon = Item();
-        add_msg(message.str().c_str());
-      } else {
-        std::stringstream message;
-        message << "You wield " << it.get_name_definite() << ".";
-        player->wield_item_uid(it.get_uid());
-        add_msg( message.str().c_str() );
-      }
+      add_msg( player->sheath_weapon_message() );
+      player->sheath_weapon();
+      add_msg( player->wield_item_message(it) );
+      player->wield_item_uid(it.get_uid());
     } break;
 
     case IACTION_WEAR: {
       Item it = player->inventory_single();
-      if (it.is_real()) {
-        if (it.get_item_class() == ITEM_CLASS_CLOTHING) {
-          std::stringstream message;
-          message << "You wear " << it.get_name_definite() << ".";
-          player->wear_item_uid(it.get_uid());
-          add_msg( message.str().c_str() );
-        } else {
-          add_msg("%s is not clothing!", it.get_name_indefinite().c_str());
-        }
-      }
+      add_msg( player->wear_item_message(it) );
+      player->wear_item_uid(it.get_uid());
     } break;
 
     case IACTION_RELOAD: {
@@ -397,6 +375,7 @@ void Game::complete_player_activity()
         debugmsg("Completed reload, but the item wasn't there!");
         return;
       }
+      add_msg("You reload your %s.", reloaded->get_name().c_str());
       reloaded->reload(player, act->secondary_item_uid);
     } break;
 
@@ -524,17 +503,17 @@ void Game::player_move(int xdif, int ydif)
   }
 }
 
-void Game::add_msg(const char* msg, ...)
+void Game::add_msg(std::string msg, ...)
 {
+  if (msg.empty()) {
+    return;
+  }
   char buff[2048];
   va_list ap;
   va_start(ap, msg);
-  vsprintf(buff, msg, ap);
+  vsprintf(buff, msg.c_str(), ap);
   va_end(ap);
   std::string text(buff);
-  if (text.empty()) {
-    return;
-  }
   if (text[0] >= 'a' && text[0] <= 'z') {
 // Capitalize!
     text[0] += 'A' - 'a';

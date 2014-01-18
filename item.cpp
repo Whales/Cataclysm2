@@ -371,6 +371,9 @@ Item_action Item::show_info()
 
 std::string list_items(std::vector<Item> *items)
 {
+  if (items->empty()) {
+    return "nothing.";
+  }
   std::stringstream item_text;
   for (int i = 0; i < items->size(); i++) {
     item_text << (*items)[i].get_name_indefinite();

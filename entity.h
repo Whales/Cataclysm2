@@ -18,6 +18,7 @@ public:
   virtual std::string get_name();
   virtual std::string get_name_to_player();
   virtual std::string get_possessive();
+  virtual std::string conjugate(const std::string &verb);
   virtual glyph get_glyph();
   virtual Point get_position();
 
@@ -50,9 +51,21 @@ public:
   Item* ref_item_uid   (int uid);
   Item  remove_item_uid(int uid, int count = 0);
   void  wield_item_uid (int uid);
+  void  sheath_weapon();
   void  wear_item_uid  (int uid);
   void  reload_prep    (int uid);
   virtual Item pick_ammo_for(Item *it);
+
+  bool is_wielding_item_uid(int uid);
+  bool is_wearing_item_uid(int uid);
+  bool is_carrying_item_uid(int uid);
+  bool has_item_uid(int uid); // wielding, wearing or carrying
+
+// Message functions
+  virtual std::string drop_item_message(Item &it);
+  virtual std::string wear_item_message(Item &it);
+  virtual std::string wield_item_message(Item &it);
+  virtual std::string sheath_weapon_message();
 
 // Combat functions
   virtual Attack base_attack();
