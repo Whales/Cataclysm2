@@ -99,44 +99,44 @@ Direction_full get_general_direction(Point origin, Point target)
     if (dy == 0) {
       return DIRFULL_NULL;
     } else if (dy > 0) {
-      return DIRFULL_NORTH;
-    } else {
       return DIRFULL_SOUTH;
+    } else {
+      return DIRFULL_NORTH;
     }
   } else if (dx > 0) {
     if (dy >= 0) {
       if (ay * 2 >= ax) {
-        return DIRFULL_NORTH;
-      } else if (ax * 2 >= ay) {
-        return DIRFULL_EAST;
-      } else {
-        return DIRFULL_NORTHEAST;
-      }
-    } else {
-      if (ay * 2 > ax) {
         return DIRFULL_SOUTH;
       } else if (ax * 2 >= ay) {
         return DIRFULL_EAST;
       } else {
         return DIRFULL_SOUTHEAST;
       }
+    } else {
+      if (ay * 2 > ax) {
+        return DIRFULL_NORTH;
+      } else if (ax * 2 >= ay) {
+        return DIRFULL_EAST;
+      } else {
+        return DIRFULL_NORTHEAST;
+      }
     }
   } else {
     if (dy >= 0) {
       if (ay * 2 >= ax) {
-        return DIRFULL_NORTH;
-      } else if (ax * 2 >= ay) {
-        return DIRFULL_WEST;
-      } else {
-        return DIRFULL_NORTHWEST;
-      }
-    } else {
-      if (ay * 2 > ax) {
         return DIRFULL_SOUTH;
       } else if (ax * 2 >= ay) {
         return DIRFULL_WEST;
       } else {
         return DIRFULL_SOUTHWEST;
+      }
+    } else {
+      if (ay * 2 > ax) {
+        return DIRFULL_NORTH;
+      } else if (ax * 2 >= ay) {
+        return DIRFULL_WEST;
+      } else {
+        return DIRFULL_NORTHWEST;
       }
     }
   }
