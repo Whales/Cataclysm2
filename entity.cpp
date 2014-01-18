@@ -38,6 +38,9 @@ std::string Entity::conjugate(const std::string &verb)
 {
 // Dumbest conjugation ever, but it should work for most cases!
 // TODO: Special-case stuff?
+  if (verb[ verb.length() - 1 ] == 's') {
+    return verb + "es";
+  }
   return verb + "s";
 }
 

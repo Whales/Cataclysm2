@@ -470,6 +470,9 @@ void Game::launch_projectile(Item it, Ranged_attack attack,
           entity_hit->take_damage(DAMAGE_PIERCE, dam.get_damage(DAMAGE_PIERCE),
                                   "you");
           return;
+        } else if (i == path.size() - 1) {
+          add_msg("You barely miss %s.",
+                  entity_hit->get_name_to_player().c_str());
         }
       }
     }
