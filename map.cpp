@@ -567,7 +567,6 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
   }
 // Init our "lines"
   std::vector<Point> seed;
-  seed.push_back( Point(x0, y0) );
   for (int t = min_t; t <= max_t; t++) {
     lines.push_back( Point(x0, y0) );
     return_values.push_back(seed);
@@ -593,6 +592,8 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
       }
       return_values[i].push_back(lines[i]);
       if (lines[i].x == x1 && lines[i].y == y1) {
+// Delete the first point - it's our origin
+        //return_values.erase(return_values.begin());
         return return_values[i];
       }
       if (get_tile(lines[i].x, lines[i].y)->blocks_sense(SENSE_SIGHT)) {
