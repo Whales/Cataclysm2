@@ -1,5 +1,5 @@
 k8 UP     = move_north
-u7        = move_northeast
+u9        = move_northeast
 l6 RIGHT  = move_east
 n3        = move_southeast
 j2 DOWN   = move_south
