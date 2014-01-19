@@ -326,9 +326,7 @@ Item Entity::pick_ammo_for(Item *it)
   if (it->charges > 0 && it->ammo) {
     return get_item_of_type(it->ammo);
   }
-// TODO: Limit this to valid ammo slots
-// TODO: Automate this part for NPCs
-  //return inventory_single();
+// TODO: Automate ammo selection for NPCs
   return Item();
 }
 

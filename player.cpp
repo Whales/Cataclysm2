@@ -1,5 +1,6 @@
 #include "player.h"
 #include "cuss.h"
+#include "game.h"
 #include <sstream>
 
 void populate_item_lists(Player* p, int offset_size,
@@ -416,12 +417,32 @@ Item Player::pick_ammo_for(Item *it)
   if (it->charges == it->get_max_charges()) {
     return Item();
   }
+  if (it->get_item_class() != ITEM_CLASS_LAUNCHER) {
+    GAME.add_msg("You cannot reload %s.", it->get_name_indefinite().c_str());
+    return Item();
+  }
   if (it->charges > 0 && it->ammo) {
     return get_item_of_type(it->ammo);
   }
 // TODO: Limit this to valid ammo slots
-// TODO: Automate this part for NPCs
-  return inventory_single();
+  Item ret = inventory_single();
+  if (!ret.is_real()) {
+    GAME.add_msg("Never mind.");
+    return Item();
+  }
+  if (ret.get_item_class() != ITEM_CLASS_AMMO) {
+    GAME.add_msg("That %s is not ammo.", ret.get_name().c_str());
+    return Item();
+  }
+  Item_type_ammo* ammo = static_cast<Item_type_ammo*>(ret.type);
+  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(it->type);
+  if (ammo->ammo_type != launcher->ammo_type) {
+    GAME.add_msg("You picked %s ammo, but your %s needs %s.",
+                 ammo->ammo_type.c_str(), it->get_name().c_str(),
+                 launcher->ammo_type.c_str());
+    return Item();
+  }
+  return ret;
 }
 
 void Player::take_damage(Damage_type type, int damage, std::string reason,
