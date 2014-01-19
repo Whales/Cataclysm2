@@ -489,12 +489,12 @@ void Game::player_move(int xdif, int ydif)
 
   int newx = player->posx + xdif, newy = player->posy + ydif;
   Entity* ent = entities.entity_at(newx, newy);
+  std::string tername = map->get_name(newx, newy);
   if (ent) {
     player->attack(ent);
   } else if (player->can_move_to(map, newx, newy)) {
     player->move_to(map, newx, newy);
   } else if (map->open(newx, newy)) {
-    std::string tername = map->get_name(newx, newy);
     add_msg("You open the %s.", tername.c_str());
     player->use_ap(100);
   }
