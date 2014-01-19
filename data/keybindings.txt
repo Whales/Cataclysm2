@@ -21,6 +21,6 @@ t         = throw
 f         = fire
 -         = messages_scroll_back
 +         = messages_scroll_forward
-:         = view_worldmap
+:M        = view_worldmap
 Q         = quit
 S         = save
