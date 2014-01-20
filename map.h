@@ -43,7 +43,7 @@ struct Submap
 
   void generate_empty();
 
-  void generate(Worldmap* map, int posx, int posy);
+  void generate(Worldmap* map, int posx, int posy, int posz = 0);
   void generate(World_terrain* terrain[5]);
   void generate(std::string terrain_name);
   void generate(Mapgen_spec* spec);
@@ -66,7 +66,7 @@ public:
 
   std::list<Submap*> instances;
 private:
-  std::map<Point,Submap*,Pointcomp> point_map;
+  std::map<Tripoint,Submap*,Tripointcomp> point_map;
 };
 
 class Map

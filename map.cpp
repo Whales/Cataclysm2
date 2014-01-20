@@ -147,7 +147,7 @@ void Submap::generate_empty()
   }
 }
 
-void Submap::generate(Worldmap* map, int posx, int posy)
+void Submap::generate(Worldmap* map, int posx, int posy, int posz)
 {
   if (!map) {
     debugmsg("Submap::generate(NULL, %d, %d)", posx, posy);
@@ -331,18 +331,24 @@ Submap_pool::~Submap_pool()
   }
 }
 
-Submap* Submap_pool::at_location(int x, int y)
+Submap* Submap_pool::at_location(int x, int y, int z)
 {
-  return at_location( Point(x, y) );
+  return at_location( Tripoint(x, y, z) );
 }
 
 Submap* Submap_pool::at_location(Point p)
+{
+  Tripoint trip(p.x, p.y, 0);
+  return at_location(trip);
+}
+
+Submap* Submap_pool::at_location(Tripoint p)
 {
   if (point_map.count(p) > 0) {
     return point_map[p];
   }
   Submap* sub = new Submap;
-  sub->generate(GAME.worldmap, p.x, p.y);
+  sub->generate(GAME.worldmap, p.x, p.y, p.z);
   point_map[p] = sub;
   return sub;
 }
