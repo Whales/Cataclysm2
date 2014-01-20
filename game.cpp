@@ -123,6 +123,22 @@ void Game::do_action(Interface_action act)
     case IACTION_MOVE_SE: player_move( 1,  1);  break;
     case IACTION_PAUSE:   player->pause();      break;
 
+    case IACTION_MOVE_UP:
+      if (!map->has_flag(TF_STAIRS_UP, player->posx, player->posy)) {
+        add_msg("You cannot go up here.");
+      } else {
+        player_move_vertical(1);
+      }
+      break;
+
+    case IACTION_MOVE_DOWN:
+      if (!map->has_flag(TF_STAIRS_DOWN, player->posx, player->posy)) {
+        add_msg("You cannot go down here.");
+      } else {
+        player_move_vertical(-1);
+      }
+      break;
+
     case IACTION_PICK_UP:
 // TODO: Interface for picking up >1 item
       if (map->item_count(player->posx, player->posy) == 0) {

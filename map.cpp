@@ -59,7 +59,7 @@ bool Tile::blocks_sense(Sense_type sense)
     case SENSE_NULL:
       return true;
     case SENSE_SIGHT:
-      return (terrain->has_flag(TF_OPAQUE));
+      return (has_flag(TF_OPAQUE));
     case SENSE_SOUND:
       return false;
     case SENSE_ECHOLOCATION:
@@ -72,6 +72,14 @@ bool Tile::blocks_sense(Sense_type sense)
       return false;
   }
   return false;
+}
+
+bool Tile::has_flag(Terrain_flag flag)
+{
+  if (terrain) {
+    return false;
+  }
+  return terrain->has_flag(flag);
 }
 
 std::string Tile::smash(Damage_set damage)
@@ -444,6 +452,12 @@ bool Map::is_smashable(int x, int y)
     return false;
   }
   return !(t->terrain->smash.result.empty());
+}
+
+bool Map::has_flag(Terrain_flag flag, int x, int y)
+{
+  Tile *t = get_tile(x, y);
+  return t->has_flag(flag);
 }
 
 bool Map::add_item(Item item, int x, int y)

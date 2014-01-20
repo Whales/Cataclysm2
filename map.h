@@ -31,6 +31,7 @@ struct Tile
   glyph top_glyph();
   int move_cost();
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
+  bool has_flag(Terrain_flag flag);
 
   std::string smash(Damage_set damage); // Returns the sound
   void open();
@@ -83,9 +84,10 @@ public:
 
 // Game engine access
   Generic_map get_movement_map(Intel_level intel);
-  int move_cost(int x, int y);
+  int  move_cost(int x, int y);
   bool is_smashable(int x, int y);
-  int item_count(int x, int y);
+  bool has_flag(Terrain_flag flag, int x, int y);
+  int  item_count(int x, int y);
   std::vector<Item>* items_at(int x, int y);
   Tile* get_tile(int x, int y);
   std::string get_name(int x, int y);
