@@ -60,8 +60,9 @@ struct Submap_pool
 public:
   Submap_pool();
   ~Submap_pool();
-  Submap* at_location(int x, int y);
+  Submap* at_location(int x, int y, int z = 0);
   Submap* at_location(Point p);
+  Submap* at_location(Tripoint p);
 
   std::list<Submap*> instances;
 private:

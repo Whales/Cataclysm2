@@ -67,6 +67,43 @@ struct Point
   }
 };
 
+struct Tripoint
+{
+  int x;
+  int y;
+  int z;
+  Tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
+  Tripoint(const Tripoint &p) : x (p.x), y (p.y), z (p.z) {}
+  ~Tripoint(){}
+
+  bool operator==(const Tripoint &other) const
+  {
+    return (x == other.x && y == other.y && z == other.z);
+  }
+
+  bool operator!=(const Tripoint &other) const
+  {
+    return !(*this == other);
+  }
+
+  Tripoint& operator +=(const Tripoint &rhs)
+  {
+    x += rhs.x;
+    y += rhs.y;
+    z += rhs.z;
+
+    return *this;
+  }
+
+  operator Point()
+  {
+    Point ret;
+    ret.x = x;
+    ret.y = y;
+    return ret;
+  }
+};
+
 inline Point operator+(Point lhs, const Point& rhs)
 {
   lhs += rhs;
@@ -75,14 +112,28 @@ inline Point operator+(Point lhs, const Point& rhs)
 
 struct Pointcomp
 {
- bool operator() (const Point &lhs, const Point &rhs) const
- {
-  if (lhs.x < rhs.x) return true;
-  if (lhs.x > rhs.x) return false;
-  if (lhs.y < rhs.y) return true;
-  if (lhs.y > rhs.y) return false;
-  return false;
- };
+  bool operator() (const Point &lhs, const Point &rhs) const
+  {
+    if (lhs.x < rhs.x) return true;
+    if (lhs.x > rhs.x) return false;
+    if (lhs.y < rhs.y) return true;
+    if (lhs.y > rhs.y) return false;
+    return false;
+  }
+};
+
+struct Tripointcomp
+{
+  bool operator() (const Tripoint &lhs, const Tripoint &rhs) const
+  {
+    if (lhs.x < rhs.x) return true;
+    if (lhs.x > rhs.x) return false;
+    if (lhs.y < rhs.y) return true;
+    if (lhs.y > rhs.y) return false;
+    if (lhs.z < rhs.z) return true;
+    if (lhs.z > rhs.z) return false;
+    return false;
+  }
 };
 
 std::vector<Point> line_to(int x0, int y0, int x1, int y1);
