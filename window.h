@@ -1,10 +1,15 @@
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
 
-#include <curses.h>
+#include "glyph.h"
 #include <vector>
 #include <list>
-#include "glyph.h"
+
+#if (defined _WIN32 || defined WINDOWS)
+  #include "catacurse.h"
+#else
+  #include <curses.h>
+#endif
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424

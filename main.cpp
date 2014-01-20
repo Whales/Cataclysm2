@@ -2,6 +2,7 @@
 #include "window.h"
 #include "rng.h"
 #include "game.h"
+#include <ctime>
 
 int main()
 {

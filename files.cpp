@@ -1,4 +1,5 @@
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <dirent.h>
 #include <fstream>
 #include "files.h"
@@ -34,7 +35,13 @@ std::vector<std::string> directories_in(std::string dir)
   }
 
   while ( (dirp = readdir(dp)) != NULL ) {
+#if (defined _WIN32 || defined WINDOWS)
+    struct stat win_stat;
+    stat(dirp->d_name, &win_stat);
+    if (win_stat.st_mode & S_IFDIR) {
+#else
     if (dirp->d_type == DT_DIR) {
+#endif
       std::string dname = dirp->d_name;
       if (dname[0] != '.') {
         ret.push_back( std::string(dirp->d_name) );

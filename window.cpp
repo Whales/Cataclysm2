@@ -711,7 +711,7 @@ void popup(const char *mes, ...)
  w.putstr(1, line_num, c_white, c_black, tmp.c_str());
  
  w.refresh();
- char ch;
+ long ch;
  do
   ch = getch();
  while(ch != ' ' && ch != '\n' && ch != KEY_ESC);
@@ -742,7 +742,7 @@ void popup_fullscreen(const char *mes, ...)
  w.putstr(1, line_num, c_white, c_black, tmp.c_str());
  
  w.refresh();
- char ch;
+ long ch;
  do
   ch = getch();
  while(ch != ' ' && ch != '\n' && ch != KEY_ESC);
@@ -777,7 +777,7 @@ void popup_scrollable(const char *mes, ...)
   w.putstr(1, line_num, c_white, c_black, tmp.c_str());
 */
   
-  char ch;
+  long ch;
   do {
     i_popup.draw(&w);
     ch = getch();

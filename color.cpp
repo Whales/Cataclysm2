@@ -1,5 +1,9 @@
-#include <curses.h>
 #include "color.h"
+#if (defined _WIN32 || defined WINDOWS)
+  #include "catacurse.h"
+#else
+  #include <curses.h>
+#endif
 
 void init_colors()
 {

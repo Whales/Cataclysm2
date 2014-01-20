@@ -2,7 +2,6 @@
 #define _COLOR_H_
 
 #include <string>
-#include <curses.h>
 
 void init_colors();
 
