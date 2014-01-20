@@ -174,3 +174,11 @@ The Island:
     -The Landing Strip:
     -The Bunker
     -The Hospital
+
+
+Game Modes:
+  -Story mode: full factions, long-term goals, etc.
+  -Sandbox mode:  Select what monsters should exist, which factions if any,
+   etc.  No long-term goals or winning conditions, but otherwise the game
+   behaves the same (factions fight for control of locations etc).
+  -Survival Mode: Defend a location against waves of attacks.
