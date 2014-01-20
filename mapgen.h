@@ -150,6 +150,7 @@ struct Mapgen_spec
                     // terrain_name
   int  num_neighbors;
   int  weight;
+  int  z_level;
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
   std::map<char,Tile_substitution> substitutions;
@@ -180,6 +181,7 @@ public:
   Mapgen_spec* random_for_terrain(World_terrain* ptr);
   Mapgen_spec* random_for_terrain(World_terrain* ptr,
                                   std::vector<bool> neighbor);
+  Mapgen_spec* random_for_terrain(World_terrain* ptr, int z_level);
 
   std::vector<Mapgen_spec*> lookup_adjacent_name(std::string name);
   Mapgen_spec* random_adjacent_to(std::string name);

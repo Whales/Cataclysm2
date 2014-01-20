@@ -351,6 +351,7 @@ Mapgen_spec::Mapgen_spec()
   weight = 100;
   is_adjacent = false;
   num_neighbors = 0;
+  z_level = 0;
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       terrain[x][y] = 0;
@@ -953,6 +954,35 @@ Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
   if (use.empty()) {
     return NULL;
   }
+  int index = rng(1, new_total_chance);
+  for (int i = 0; i < use.size(); i++) {
+    index -= use[i]->weight;
+    if (index <= 0) {
+      return use[i];
+    }
+  }
+  return use.back();
+}
+
+Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
+                                                  int z_level)
+{
+  if (terrain_ptr_map.count(ptr) == 0) {
+    return NULL;
+  }
+  std::vector<Mapgen_spec*> *vec = &(terrain_ptr_map[ptr]);
+  std::vector<Mapgen_spec*> use;
+  int new_total_chance = 0;
+  for (int i = 0; i < vec->size(); i++) {
+    if ((*vec)[i]->z_level == z_level) {
+      use.push_back( (*vec)[i] );
+      new_total_chance += (*vec)[i]->weight;
+    }
+  }
+  if (use.empty()) {
+    return NULL;
+  }
+
   int index = rng(1, new_total_chance);
   for (int i = 0; i < use.size(); i++) {
     index -= use[i]->weight;

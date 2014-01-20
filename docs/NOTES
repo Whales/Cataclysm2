@@ -18,6 +18,15 @@ Factions:
     Missions include spreading corruption, destruction of existing
       infrastructure, assassinations, direct attacks on other factions, capture
       of "holy sites"
+    If the Cultists gain control of the Lab, they may gain:
+      -Directed Spawn Storm: Unleash a giant swarm of otherworldly enemies at a
+       targeted point on the world map.
+      -Fungal Creep:  The biome surrounding the Lab will become Alien Jungle;
+       this will expand slowly in all directions.  When the island is covered,
+       the Cultists open a massive portal and the game is over.
+      -Avatar of Gehenna: A high-ranking member (the player!) will gain a large
+       amount of beneficial mutations.
+      -Alien Command: Aliens become tame, and can be commanded in battle.
 
   Military:
     Population: 600 - 1000
@@ -39,6 +48,13 @@ Factions:
       "cleansing" of alien life from an area, control of infrastructue,
       destruction of infrastructure (e.g. roads) in enemy areas, direct assault
       on enemy encampments
+    If the Military gains control of the Lab, they may gain:
+      -Directed Destructive Portals: Unleash a storm of destructive twists in
+       space anywhere on the world map, causing heavy structural damage.
+      -Weaponized Lifeforms: It becomes possible to manufacture weapons based
+       upon alien biology, unlocking powerful & unique weapons.
+      -Coarse Teleport: It's possible to teleport a large number of people or
+       items to a coarse area (1-5 tile accuracy, not underground).
 
   Naturalists:
     Population: 2000 - 2500
@@ -65,6 +81,12 @@ Factions:
       numbers of people with various skills (none very high) are available.
     Missions include exploration, foraging, securing areas, diplomacy with other
       factions, 
+    If the Naturalists gain control of the Lab, they may gain:
+      -Decreased spawns: Random Alien spawn increases happen less and less.
+       Once they disappear, the connection beyond has been severed and the
+       Naturalists win.
+      -Antidote Research: Naturalists can use study of alien lifeforms to
+       develop cheaps antidotes to fungal infection, mutation, etc.
 
   Scientists:
     Population: 400 - 800
@@ -86,17 +108,69 @@ Factions:
     Missions include collection of important equipment / components, capture of
       scientifically-important areas, and swift brutal assaults or hacking
       maneuvers on enemies.
+    If the Scientists gain control of the Lab, they may gain:
+      -Fine Teleport: Teleport 1-2 people / items to a precise location
+       (accurate to the world map tile, can work underground).
+      -Advanced Weaponry: Unlocking the data files allows the Scientists to pull
+       plans for, and to manufacture, advanced, unique weapons and armor.
+      -Satellite Imagery: Reveal the entire map, track positions of enemies.
 
 
 The Island:
-  Areas:
-    The Lab
-      Extremely dangerous, *requires* key cards to enter
-      End-game.  Very good loot
-    Faction camps (x4+)
-    Deserted cities & towns (2-5)
-      Zombie infested
-      Decent & varied loot, few bonanzas.
-    Forests
-      Interspersed wildlife, some food and water
-    
+
+  The basic goal of the game is control of the Lab.  The Lab is roughly at the
+  center of the Island.  When any faction unlocks and gains control of the Lab,
+  it essentially starts a countdown timer to game over (or game won, if the
+  player is aligned with that faction).  During this countdown, any surviving
+  factions will focus their efforts on attacking or disabling the Lab.
+
+  To unlock the Lab, several conditions must be met:
+    -The Lab must be powered
+      -Power Plant must be active
+      -Relevent Substation must be active
+    -One passcard must be acquired
+      -Passcard A is available at the Landing Strip, Bunker or Hospital (one of
+       the three, randomly picked).
+      -Passcard B is available at the Missle Silo, in the Underground, or in the
+       largest city on the map (randomly pick one)
+      -Passcard C is available at sea: either in a Wreck, a Derelict, or on a
+       small island.
+      -Passcard D is found on a random map bonus, anywhere on the world map.
+    -The Control Station must be occupied.  This is a seperate mini-lab (fake
+     lab?) which contains a remote switch for the Lab entrance.
+
+  Not sure if the requirements should be bypassable (blowing / tunneling a hole
+  in the wall, teleporting, etc).  If they are, it should make defending the Lab
+  much harder; if the door is intact it's almost impregnable, but if you blow
+  that open, then you'll have to replace it with a much weaker concrete/etc.
+  wall.
+
+  If another faction controls the Lab, then there's a few recourses available:
+    -Occupy the Power Plant and deactivate it.
+    -Occupy the relevant Substation and deactivate it.
+      -Only applies when there's a Substation for the Lab.
+    -Assault the Lab
+      -Hard with the Control Station in your control; you can open the door but
+       you have to assault a single chokepoint.
+      -Very Hard with only Passcards; while you're waiting for your ID to be
+       accepted, automated defenses will likely be hammering you.
+      -(Near) Impossible without those two.  You'll need to hammer your way into
+       a heavily-fortified bunker.
+    -Espionage
+      -If the faction that controls the Lab trusts you highly, they may let you
+       inside.  From there, you can disable the lab:
+      -Sabotauge (hardware)
+      -Sabotauge (software)
+      -Assassinate key figures
+
+  Outside the lab, there are four key locations, randomly shuffled among the
+  four corners of the island:
+    -Five Substations: One in each corner, plus one in the center, for the Lab.
+     Once the Power Plant is activated, any area with its Substation activated
+     will enjoy power - lights will be on, weapons manufacture is faster, etc.
+    -The Power Plant: Randomly replaces one Substation.  The area with the Power
+     Plan does not need a working Substation.  Once this is controlled, a team
+     of engineers can get it running again, providing power.
+    -The Landing Strip:
+    -The Bunker
+    -The Hospital
