@@ -62,7 +62,7 @@ bool Game::setup()
 
   map = new Map;
   Point start = worldmap->random_tile_with_terrain("beach");
-  map->generate(worldmap, start.x, start.y);
+  map->generate(worldmap, start.x, start.y, 0);
 
   player = new Player;
   entities.add_entity(player);

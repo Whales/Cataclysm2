@@ -355,20 +355,13 @@ Submap* Submap_pool::at_location(Tripoint p)
 
 Map::Map()
 {
-  for (int x = 0; x < MAP_SIZE; x++) {
-    for (int y = 0; y < MAP_SIZE; y++) {
-      submaps[x][y] = new Submap;
-    }
-  }
+  posx = 0;
+  posy = 0;
+  posz = 0;
 }
 
 Map::~Map()
 {
-  for (int x = 0; x < MAP_SIZE; x++) {
-    for (int y = 0; y < MAP_SIZE; y++) {
-      delete submaps[x][y];
-    }
-  }
 }
 
 void Map::generate_empty()
@@ -389,20 +382,23 @@ void Map::test_generate(std::string terrain_name)
   }
 }
 
-void Map::generate(Worldmap *world, int wposx, int wposy, int sizex, int sizey)
+void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
 {
-  posx = wposx;
-  posy = wposy;
-  for (int x = 0; x < sizex && x < MAP_SIZE; x++) {
-    for (int y = 0; y < sizey && y < MAP_SIZE; y++) {
+// All arguments default to -1
+  if (posx != -1) {
+    posx = wposx;
+  }
+  if (posy != -1) {
+    posy = wposy;
+  }
+  if (posz != -1) {
+    posz = wposz;
+  }
+  for (int x = 0; x < MAP_SIZE; x++) {
+    for (int y = 0; y < MAP_SIZE; y++) {
       submaps[x][y] = SUBMAP_POOL.at_location(posx + x, posy + y);
     }
   }
-}
-
-void Map::generate(Worldmap *world)
-{
-  generate(world, posx, posy);
 }
 
 void Map::shift(Worldmap *world, int shiftx, int shifty)
@@ -412,7 +408,7 @@ void Map::shift(Worldmap *world, int shiftx, int shifty)
   }
   posx += shiftx;
   posy += shifty;
-  generate(world, posx, posy);
+  generate(world);
 }
 
 Generic_map Map::get_movement_map(Intel_level intel)

@@ -78,9 +78,7 @@ public:
 // Generation
   void generate_empty();
   void test_generate(std::string terrain_name);
-  void generate(Worldmap *world, int posx, int posy,
-                int sizex = MAP_SIZE, int sizey = MAP_SIZE);
-  void generate(Worldmap *world); // Uses posx/posy
+  void generate(Worldmap *world, int wposx = -1, int wposy = -1, int wposz =-1);
   void shift(Worldmap *world, int shiftx, int shifty);
 
 // Game engine access
@@ -109,7 +107,7 @@ public:
                     int refx, int refy, bool invert = false);
 
   Point get_center_point();
-  int posx, posy;
+  int posx, posy, posz;
 
 private:
   Submap* submaps[MAP_SIZE][MAP_SIZE];
