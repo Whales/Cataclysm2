@@ -2,5 +2,6 @@ cataclysm2
 cussed
 cusstest
 obj/
+objwin/
 *.swp
 debug.txt
