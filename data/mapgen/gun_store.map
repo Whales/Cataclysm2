@@ -21,7 +21,7 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: std_hardware_store_whales
+name: std_gun_store_whales
 type: gun store
 tile: # = stone wall
 tile: . = floor

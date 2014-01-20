@@ -372,6 +372,10 @@ bool Mapgen_spec::load_data(std::istream &data)
     } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+      if (MAPGEN_SPECS.lookup_name(name)) {
+        debugmsg("Loaded '%s' but it already exists!", name.c_str());
+        return false;
+      }
 
     } else if (ident == "type:") {
       std::getline(data, terrain_name);
