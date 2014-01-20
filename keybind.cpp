@@ -81,6 +81,8 @@ std::string interface_action_name(Interface_action action)
     case IACTION_MOVE_W:                  return "move_west";
     case IACTION_MOVE_NW:                 return "move_northwest";
     case IACTION_PAUSE:                   return "pause";
+    case IACTION_MOVE_UP:                 return "move_up";
+    case IACTION_MOVE_DOWN:               return "move_down";
     case IACTION_PICK_UP:                 return "pick_up";
     case IACTION_OPEN:                    return "open";
     case IACTION_CLOSE:                   return "close";
