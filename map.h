@@ -44,7 +44,7 @@ struct Submap
   void generate_empty();
 
   void generate(Worldmap* map, int posx, int posy, int posz = 0);
-  void generate(World_terrain* terrain[5]);
+  void generate(World_terrain* terrain[5], int posz = 0);
   void generate(std::string terrain_name);
   void generate(Mapgen_spec* spec);
   void generate_adjacent(Mapgen_spec* spec);

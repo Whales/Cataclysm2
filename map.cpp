@@ -174,10 +174,10 @@ void Submap::generate(Worldmap* map, int posx, int posy, int posz)
   tile = map->get_tile(posx - 1, posy);
   ter[4] = (tile ? tile->terrain : NULL);
 
-  generate(ter);
+  generate(ter, posz);
 }
 
-void Submap::generate(World_terrain* terrain[5])
+void Submap::generate(World_terrain* terrain[5], int posz)
 {
   if (!terrain[0]) {
     generate_empty();
@@ -194,6 +194,8 @@ void Submap::generate(World_terrain* terrain[5])
         }
       }
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
+    } else if (posz != 0) {
+      spec = MAPGEN_SPECS.random_for_terrain(terrain[0], posz);
     } else {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
     }
@@ -385,13 +387,13 @@ void Map::test_generate(std::string terrain_name)
 void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
 {
 // All arguments default to -1
-  if (posx != -1) {
+  if (wposx != -1) {
     posx = wposx;
   }
-  if (posy != -1) {
+  if (wposy != -1) {
     posy = wposy;
   }
-  if (posz != -1) {
+  if (wposz != -1) {
     posz = wposz;
   }
   for (int x = 0; x < MAP_SIZE; x++) {
