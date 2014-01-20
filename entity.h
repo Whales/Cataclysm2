@@ -109,6 +109,8 @@ public:
   ~Entity_pool();
 
   void add_entity(Entity* ent);
+  void clear();
+  std::list<Entity*>::iterator erase(std::list<Entity*>::iterator it);
 
   Entity* lookup_uid(int uid);
   Entity* entity_at(int posx, int posy);

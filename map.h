@@ -79,7 +79,7 @@ public:
   void generate_empty();
   void test_generate(std::string terrain_name);
   void generate(Worldmap *world, int wposx = -1, int wposy = -1, int wposz =-1);
-  void shift(Worldmap *world, int shiftx, int shifty);
+  void shift(Worldmap *world, int shiftx, int shifty, int shiftz = 0);
 
 // Game engine access
   Generic_map get_movement_map(Intel_level intel);

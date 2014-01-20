@@ -339,7 +339,7 @@ void Game::clean_up_dead_entities()
       }
       ent->die();
       delete ent;
-      it = entities.instances.erase(it);
+      it = entities.erase(it);
     } else {
       it++;
     }
@@ -504,6 +504,13 @@ void Game::player_move(int xdif, int ydif)
     std::string item_message = "You see here " + list_items(items);
     add_msg( item_message.c_str() );
   }
+}
+
+void Game::player_move_vertical(int zdif)
+{
+// TODO: Move entities into a stairs-following queue
+  entities.clear();
+  map->shift(0, 0, zdif);
 }
 
 void Game::add_msg(std::string msg, ...)

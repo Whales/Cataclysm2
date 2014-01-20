@@ -561,6 +561,18 @@ void Entity_pool::add_entity(Entity* ent)
   uid_map[ent->uid] = ent;
 }
 
+void Entity_pool::clear()
+{
+  instances.clear();
+  uid_map.clear();
+}
+
+std::list<Entity*>::iterator Entity_pool::erase(std::list<Entity*>::iterator it)
+{
+  uid_map.erase( (*it)->uid );
+  return instances.erase(it);
+}
+
 Entity* Entity_pool::lookup_uid(int uid)
 {
   if (uid_map.count(uid) == 0) {

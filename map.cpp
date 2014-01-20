@@ -403,13 +403,14 @@ void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
   }
 }
 
-void Map::shift(Worldmap *world, int shiftx, int shifty)
+void Map::shift(Worldmap *world, int shiftx, int shifty, int shiftz)
 {
-  if (shiftx == 0 && shifty == 0) {
+  if (shiftx == 0 && shifty == 0 && shiftz == 0) {
     return;
   }
   posx += shiftx;
   posy += shifty;
+  posz += shiftz;
   generate(world);
 }
 
