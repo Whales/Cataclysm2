@@ -161,10 +161,12 @@ Terrain_flag lookup_terrain_flag(std::string name)
 std::string terrain_flag_name(Terrain_flag flag)
 {
   switch (flag) {
-    case TF_NULL:     return "null";
-    case TF_OPAQUE:   return "opaque";
-    case TF_FLOOR:    return "floor";
-    default:          return "ERROR"; // All caps means it'll never be used
+    case TF_NULL:         return "null";
+    case TF_OPAQUE:       return "opaque";
+    case TF_FLOOR:        return "floor";
+    case TF_STAIRS_UP:    return "stairs_up";
+    case TF_STAIRS_DOWN:  return "stairs_down";
+    default:              return "ERROR"; // All caps means it'll never be used
   }
   return "ERROR";
 }

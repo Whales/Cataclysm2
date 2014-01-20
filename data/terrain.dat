@@ -257,3 +257,15 @@ name: counter
   glyph: % blue black
   movecost: 180
 done
+
+name: stairs up
+  glyph: < yellow black
+  movecost: 100
+  flags: stairs_up
+done
+
+name: stairs down
+  glyph: > yellow black
+  movecost: 100
+  flags: stairs_down
+done

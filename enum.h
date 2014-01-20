@@ -63,6 +63,8 @@ enum Terrain_flag
   TF_NULL,
   TF_OPAQUE,
   TF_FLOOR,
+  TF_STAIRS_UP,
+  TF_STAIRS_DOWN,
   TF_MAX
 };
 
