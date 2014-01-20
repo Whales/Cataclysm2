@@ -76,7 +76,7 @@ bool Tile::blocks_sense(Sense_type sense)
 
 bool Tile::has_flag(Terrain_flag flag)
 {
-  if (terrain) {
+  if (!terrain) {
     return false;
   }
   return terrain->has_flag(flag);
