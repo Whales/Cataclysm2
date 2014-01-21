@@ -3,6 +3,7 @@
 
 #define SUBMAP_SIZE 25
 #define MAP_SIZE 13
+#define VERTICAL_MAP_SIZE 3
 
 #include "window.h"
 #include "terrain.h"
@@ -43,6 +44,7 @@ struct Submap
   Tile tiles[SUBMAP_SIZE][SUBMAP_SIZE];
 
   void generate_empty();
+  void generate_open();
 
   void generate(Worldmap* map, int posx, int posy, int posz = 0);
   void generate(World_terrain* terrain[5], int posz = 0);
@@ -79,7 +81,8 @@ public:
 // Generation
   void generate_empty();
   void test_generate(std::string terrain_name);
-  void generate(Worldmap *world, int wposx = -1, int wposy = -1, int wposz =-1);
+  void generate(Worldmap *world, int wposx = -999, int wposy = -999,
+                                 int wposz = -999);
   void shift(Worldmap *world, int shiftx, int shifty, int shiftz = 0);
 
 // Game engine access
@@ -89,7 +92,7 @@ public:
   bool has_flag(Terrain_flag flag, int x, int y);
   int  item_count(int x, int y);
   std::vector<Item>* items_at(int x, int y);
-  Tile* get_tile(int x, int y);
+  Tile* get_tile(int x, int y, int z = 999);
   std::string get_name(int x, int y);
   bool add_item(Item item, int x, int y);
   std::string smash(int x, int y, Damage_set damage); // Returns the sound
@@ -112,7 +115,7 @@ public:
   int posx, posy, posz;
 
 private:
-  Submap* submaps[MAP_SIZE][MAP_SIZE];
+  Submap* submaps[MAP_SIZE][MAP_SIZE][VERTICAL_MAP_SIZE * 2 + 1];
   Tile tile_oob;
 };
 #endif

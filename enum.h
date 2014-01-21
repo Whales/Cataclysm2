@@ -65,6 +65,7 @@ enum Terrain_flag
   TF_FLOOR,
   TF_STAIRS_UP,
   TF_STAIRS_DOWN,
+  TF_OPEN_SPACE,
   TF_MAX
 };
 

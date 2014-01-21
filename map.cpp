@@ -155,6 +155,21 @@ void Submap::generate_empty()
   }
 }
 
+void Submap::generate_open()
+{
+  Terrain* open = TERRAIN.lookup_name("open space");
+  if (!open) {
+    debugmsg("Couldn't find terrain 'open space'; Submap::generate_open()");
+    return;
+  }
+
+  for (int x = 0; x < SUBMAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE; y++) {
+      tiles[x][y].set_terrain(open);
+    }
+  }
+}
+
 void Submap::generate(Worldmap* map, int posx, int posy, int posz)
 {
   if (!map) {
@@ -205,7 +220,8 @@ void Submap::generate(World_terrain* terrain[5], int posz)
     } else if (posz != 0) {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], posz);
       if (!spec) { // No second-story terrain here!
-        spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
+        generate_open();
+        return;
       }
     } else {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
@@ -381,7 +397,7 @@ void Map::generate_empty()
 {
   for (int x = 0; x < MAP_SIZE; x++) {
     for (int y = 0; y < MAP_SIZE; y++) {
-      submaps[x][y]->generate_empty();
+      submaps[x][y][posz]->generate_empty();
     }
   }
 }
@@ -390,26 +406,29 @@ void Map::test_generate(std::string terrain_name)
 {
   for (int x = 0; x < MAP_SIZE; x++) {
     for (int y = 0; y < MAP_SIZE; y++) {
-      submaps[x][y]->generate(terrain_name);
+      submaps[x][y][posz]->generate(terrain_name);
     }
   }
 }
 
 void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
 {
-// All arguments default to -1
-  if (wposx != -1) {
+// All arguments default to -999
+  if (wposx != -999) {
     posx = wposx;
   }
-  if (wposy != -1) {
+  if (wposy != -999) {
     posy = wposy;
   }
-  if (wposz != -1) {
+  if (wposz != -999) {
     posz = wposz;
   }
-  for (int x = 0; x < MAP_SIZE; x++) {
-    for (int y = 0; y < MAP_SIZE; y++) {
-      submaps[x][y] = SUBMAP_POOL.at_location(posx + x, posy + y, posz);
+  for (int z = 0; z <= VERTICAL_MAP_SIZE * 2 + 1; z++) {
+    int zpos = posz - VERTICAL_MAP_SIZE + z;
+    for (int x = 0; x < MAP_SIZE; x++) {
+      for (int y = 0; y < MAP_SIZE; y++) {
+        submaps[x][y][z] = SUBMAP_POOL.at_location(posx + x, posy + y, zpos);
+      }
     }
   }
 }
@@ -472,7 +491,7 @@ bool Map::add_item(Item item, int x, int y)
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
   x %= SUBMAP_SIZE;
   y %= SUBMAP_SIZE;
-  return submaps[sx][sy]->add_item(item, x, y);
+  return submaps[sx][sy][posz + VERTICAL_MAP_SIZE]->add_item(item, x, y);
 }
 
 int Map::item_count(int x, int y)
@@ -484,7 +503,7 @@ int Map::item_count(int x, int y)
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
   x %= SUBMAP_SIZE;
   y %= SUBMAP_SIZE;
-  return submaps[sx][sy]->item_count(x, y);
+  return submaps[sx][sy][posz + VERTICAL_MAP_SIZE]->item_count(x, y);
 }
 
 std::vector<Item>* Map::items_at(int x, int y)
@@ -496,19 +515,24 @@ std::vector<Item>* Map::items_at(int x, int y)
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
   x %= SUBMAP_SIZE;
   y %= SUBMAP_SIZE;
-  return submaps[sx][sy]->items_at(x, y);
+  return submaps[sx][sy][posz + VERTICAL_MAP_SIZE]->items_at(x, y);
 }
 
-Tile* Map::get_tile(int x, int y)
+Tile* Map::get_tile(int x, int y, int z)
 {
+// z defaults to 999
+  if (z == 999) {
+    z = posz + VERTICAL_MAP_SIZE;
+  }
   if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
-      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
+      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE ||
+      z < 0 || z >= VERTICAL_MAP_SIZE * 2 + 1 ) {
     tile_oob.set_terrain(TERRAIN.lookup_uid(0));
     return &tile_oob;
   }
 
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
-  return &(submaps[sx][sy]->tiles[x % SUBMAP_SIZE][y % SUBMAP_SIZE]);
+  return &(submaps[sx][sy][z]->tiles[x % SUBMAP_SIZE][y % SUBMAP_SIZE]);
 }
 
 std::string Map::get_name(int x, int y)
@@ -681,11 +705,20 @@ void Map::draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
   }
 // Finally, if nothing else, get the glyph from the tile
   if (!picked_glyph) {
-    Tile* tile = get_tile(tilex, tiley);
+    int tilez = posz + VERTICAL_MAP_SIZE;
+    bool space = false;
+    Tile* tile = get_tile(tilex, tiley, tilez);
+    while (tile->has_flag(TF_OPEN_SPACE) && tilez > 0) {
+      space = true;
+      tilez--;
+    }
     if (tile) {
       output = tile->top_glyph();
     } else {
       debugmsg("Really could not find a glyph!");
+    }
+    if (space) {
+      output.fg = c_dkgray;
     }
   }
   if (invert) {

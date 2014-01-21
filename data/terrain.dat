@@ -269,3 +269,9 @@ name: stairs down
   movecost: 100
   flags: stairs_down
 done
+
+name: open space
+  glyph: x red ltgray
+  movecost: 100
+  flags: open_space
+done

@@ -64,6 +64,7 @@ bool Game::setup()
   Point start = worldmap->random_tile_with_terrain("beach");
   map->generate(worldmap, start.x, start.y, 0);
 
+
   player = new Player;
   entities.add_entity(player);
 
@@ -126,6 +127,7 @@ void Game::do_action(Interface_action act)
     case IACTION_MOVE_UP:
       if (!map->has_flag(TF_STAIRS_UP, player->posx, player->posy)) {
         add_msg("You cannot go up here.");
+        player_move_vertical(1);
       } else {
         player_move_vertical(1);
       }
@@ -134,6 +136,7 @@ void Game::do_action(Interface_action act)
     case IACTION_MOVE_DOWN:
       if (!map->has_flag(TF_STAIRS_DOWN, player->posx, player->posy)) {
         add_msg("You cannot go down here.");
+        player_move_vertical(-1);
       } else {
         player_move_vertical(-1);
       }
