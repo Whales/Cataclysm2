@@ -157,9 +157,9 @@ void Submap::generate_empty()
 
 void Submap::generate_open()
 {
-  Terrain* open = TERRAIN.lookup_name("open space");
+  Terrain* open = TERRAIN.lookup_name("empty");
   if (!open) {
-    debugmsg("Couldn't find terrain 'open space'; Submap::generate_open()");
+    debugmsg("Couldn't find terrain 'empty'; Submap::generate_open()");
     return;
   }
 
@@ -206,7 +206,7 @@ void Submap::generate(World_terrain* terrain[5], int posz)
     generate_empty();
   } else {
     Mapgen_spec* spec;
-    if (posz != 0) {
+    if (posz > 0) {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], posz);
       if (!spec) { // No second-story terrain here!
         generate_open();
@@ -226,8 +226,19 @@ void Submap::generate(World_terrain* terrain[5], int posz)
     } else {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], 0);
     }
+    if (!spec) {
+      debugmsg("Mapgen::generate() failed to find spec for %s [%d]",
+               terrain[0]->get_name().c_str(), posz);
+      generate_empty();
+      return;
+    }
     spec->prepare(terrain);
     generate( spec );
+  }
+
+// If we're above ground, DON'T do adjacency maps!
+  if (posz > 0) {
+    return;
   }
 
 // Now do adjacency maps

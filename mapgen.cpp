@@ -32,7 +32,6 @@ void Variable_terrain::load_data(std::istream &data, std::string name,
   std::string tile_ident;
   std::string terrain_name;
   Terrain_chance tmp_chance;
-  //bool okay_to_push_null = false;
   while (data >> tile_ident) {
     tile_ident = no_caps(tile_ident);  // other stuff isn't case-sensitive
     if (tile_ident.substr(0, 2) == "w:") { // It's a weight, i.e. a chance

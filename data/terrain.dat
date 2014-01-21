@@ -10,6 +10,12 @@ name: grass
   flags: floor
 done
 
+name: empty
+  glyph: x blue ltgray
+  movecost: 100
+  flags: open_space
+done
+
 name: tree
   glyph: 7 green black
   movecost:   0
@@ -270,8 +276,3 @@ name: stairs down
   flags: stairs_down
 done
 
-name: open space
-  glyph: x red ltgray
-  movecost: 100
-  flags: open_space
-done

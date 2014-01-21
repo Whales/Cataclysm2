@@ -63,36 +63,36 @@ type: house
 level: 1
 tile_group: # = stone wall / wood wall
 tile: . = floor
-tile: o = empty space
+tile: x = empty
 tile: + = closed door
 tile: " = window
 tile: > = stairs down
 map:
-ooo##""##+#######""###ooo
-ooo#.................#ooo
-ooo#.................#ooo
-ooo#.................#ooo
-ooo#.................#ooo
-ooo############....###ooo
-ooo#.......#.........#ooo
-ooo#.......#........."ooo
-ooo".......+........."ooo
-ooo".......#....>....#ooo
-ooo#.......#.........#ooo
-ooo#.......#........."ooo
-ooo#.......#........."ooo
-ooo#.......#.........#ooo
-ooo".......#######+###ooo
-ooo".........#.......#ooo
-ooo#.........#.......#ooo
-ooo#.........#.......#ooo
-ooo#############"#####ooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
+xxx##""##########""###xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx############....###xxx
+xxx#.......#.........#xxx
+xxx#.......#........."xxx
+xxx".......+........."xxx
+xxx".......#....>....#xxx
+xxx#.......#.........#xxx
+xxx#.......#........."xxx
+xxx#.......#........."xxx
+xxx#.......#.........#xxx
+xxx".......#######+###xxx
+xxx".........#.......#xxx
+xxx#.........#.......#xxx
+xxx#.........#.......#xxx
+xxx#############"#####xxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
