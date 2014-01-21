@@ -522,8 +522,9 @@ Tile* Map::get_tile(int x, int y, int z)
 {
 // z defaults to 999
   if (z == 999) {
-    z = posz + VERTICAL_MAP_SIZE;
+    z = posz;
   }
+  z = z - posz + VERTICAL_MAP_SIZE;
   if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
       y < 0 || y >= SUBMAP_SIZE * MAP_SIZE ||
       z < 0 || z >= VERTICAL_MAP_SIZE * 2 + 1 ) {
@@ -705,7 +706,7 @@ void Map::draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
   }
 // Finally, if nothing else, get the glyph from the tile
   if (!picked_glyph) {
-    int tilez = posz + VERTICAL_MAP_SIZE;
+    int tilez = posz;
     bool space = false;
     Tile* tile = get_tile(tilex, tiley, tilez);
     while (tile->has_flag(TF_OPEN_SPACE) && tilez > 0) {
