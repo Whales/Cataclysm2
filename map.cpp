@@ -731,7 +731,7 @@ void Map::draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
       debugmsg("Really could not find a glyph!");
     }
     if (space) {
-      output.bg = c_blue;
+      output = output.hilite(c_blue);
     }
   }
   if (invert) {
