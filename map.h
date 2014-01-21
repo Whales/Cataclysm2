@@ -87,17 +87,18 @@ public:
 
 // Game engine access
   Generic_map get_movement_map(Intel_level intel);
-  int  move_cost(int x, int y);
-  bool is_smashable(int x, int y);
-  bool has_flag(Terrain_flag flag, int x, int y);
-  int  item_count(int x, int y);
-  std::vector<Item>* items_at(int x, int y);
+  int  move_cost(int x, int y, int z = 999);
+  bool is_smashable(int x, int y, int z = 999);
+  bool has_flag(Terrain_flag flag, int x, int y, int z = 999);
+  int  item_count(int x, int y, int z = 999);
+  std::vector<Item>* items_at(int x, int y, int z = 999);
   Tile* get_tile(int x, int y, int z = 999);
-  std::string get_name(int x, int y);
-  bool add_item(Item item, int x, int y);
+  std::string get_name(int x, int y, int z = 999);
+  bool add_item(Item item, int x, int y, int z = 999);
   std::string smash(int x, int y, Damage_set damage); // Returns the sound
-  bool open (int x, int y);
-  bool close(int x, int y);
+  std::string smash(int x, int y, int z, Damage_set damage);
+  bool open (int x, int y, int z = 999);
+  bool close(int x, int y, int z = 999);
 
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
   bool senses(Point origin, Point target, Sense_type sense = SENSE_SIGHT);

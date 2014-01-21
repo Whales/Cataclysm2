@@ -531,6 +531,7 @@ void Game::player_move_vertical(int zdif)
   entities.clear();
   entities.push_back(player);
   map->shift(worldmap, 0, 0, zdif);
+  player->posz += zdif;
 }
 
 void Game::add_msg(std::string msg, ...)

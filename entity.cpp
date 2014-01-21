@@ -59,13 +59,13 @@ void Entity::die()
 {
 // TODO: Drop a corpse.
   for (int i = 0; i < inventory.size(); i++) {
-    GAME.map->add_item( inventory[i], posx, posy );
+    GAME.map->add_item( inventory[i], posx, posy, posz );
   }
   for (int i = 0; i < items_worn.size(); i++) {
-    GAME.map->add_item( items_worn[i], posx, posy );
+    GAME.map->add_item( items_worn[i], posx, posy, posz );
   }
   if (weapon.is_real()) {
-    GAME.map->add_item( weapon, posx, posy );
+    GAME.map->add_item( weapon, posx, posy, posz );
   }
 }
 
@@ -106,7 +106,7 @@ bool Entity::can_move_to(Map* map, int x, int y)
   if (!map) {
     return false;
   }
-  if (map->move_cost(x, y) == 0) {
+  if (map->move_cost(x, y, posz) == 0) {
     return false;
   }
   return true;
@@ -117,7 +117,7 @@ void Entity::move_to(Map* map, int x, int y)
   posx = x;
   posy = y;
   if (map) {
-    action_points -= map->move_cost(x, y);
+    action_points -= map->move_cost(x, y, posz);
   }
 }
 

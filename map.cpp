@@ -473,60 +473,67 @@ Generic_map Map::get_movement_map(Intel_level intel)
   return ret;
 }
 
-int Map::move_cost(int x, int y)
+int Map::move_cost(int x, int y, int z)
 {
-  return get_tile(x, y)->move_cost();
+  return get_tile(x, y, z)->move_cost();
 }
 
-bool Map::is_smashable(int x, int y)
+bool Map::is_smashable(int x, int y, int z)
 {
-  Tile *t = get_tile(x, y);
+  Tile *t = get_tile(x, y, z);
   if (!t->terrain) {
     return false;
   }
   return !(t->terrain->smash.result.empty());
 }
 
-bool Map::has_flag(Terrain_flag flag, int x, int y)
+bool Map::has_flag(Terrain_flag flag, int x, int y, int z)
 {
-  Tile *t = get_tile(x, y);
+  Tile *t = get_tile(x, y, z);
   return t->has_flag(flag);
 }
 
-bool Map::add_item(Item item, int x, int y)
+bool Map::add_item(Item item, int x, int y, int z)
 {
+  if (z == 999) {
+    z = posz;
+  }
+  z = z - posz + VERTICAL_MAP_SIZE;
   if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
-      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
+      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE ||
+      z < 0 || z >= VERTICAL_MAP_SIZE * 2 + 1) {
     return false;
   }
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
   x %= SUBMAP_SIZE;
   y %= SUBMAP_SIZE;
-  return submaps[sx][sy][posz + VERTICAL_MAP_SIZE]->add_item(item, x, y);
+  return submaps[sx][sy][z]->add_item(item, x, y);
 }
 
-int Map::item_count(int x, int y)
+int Map::item_count(int x, int y, int z)
 {
-  if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
-      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
+  std::vector<Item>* it = items_at(x, y, z);
+  if (!it) {
     return 0;
   }
-  int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
-  x %= SUBMAP_SIZE;
-  y %= SUBMAP_SIZE;
-  return submaps[sx][sy][posz + VERTICAL_MAP_SIZE]->item_count(x, y);
+  return it->size();
 }
 
-std::vector<Item>* Map::items_at(int x, int y)
+std::vector<Item>* Map::items_at(int x, int y, int z)
 {
+  if (z == 999) {
+    z = posz;
+  }
+  z = z - posz + VERTICAL_MAP_SIZE;
   if (x < 0 || x >= SUBMAP_SIZE * MAP_SIZE ||
-      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE   ) {
+      y < 0 || y >= SUBMAP_SIZE * MAP_SIZE ||
+      z < 0 || z >= VERTICAL_MAP_SIZE * 2 + 1) {
     return NULL;
   }
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
   x %= SUBMAP_SIZE;
   y %= SUBMAP_SIZE;
-  return submaps[sx][sy][posz + VERTICAL_MAP_SIZE]->items_at(x, y);
+  return submaps[sx][sy][z]->items_at(x, y);
 }
 
 Tile* Map::get_tile(int x, int y, int z)
@@ -547,23 +554,28 @@ Tile* Map::get_tile(int x, int y, int z)
   return &(submaps[sx][sy][z]->tiles[x % SUBMAP_SIZE][y % SUBMAP_SIZE]);
 }
 
-std::string Map::get_name(int x, int y)
+std::string Map::get_name(int x, int y, int z)
 {
-  return get_tile(x, y)->terrain->name;
+  return get_tile(x, y, z)->terrain->name;
 }
 
 std::string Map::smash(int x, int y, Damage_set damage)
 {
-  Tile* hit = get_tile(x, y);
+  return smash(x, y, 999, damage);
+}
+
+std::string Map::smash(int x, int y, int z, Damage_set damage)
+{
+  Tile* hit = get_tile(x, y, z);
   if (hit) {
     return hit->smash(damage);
   }
   return "";
 }
 
-bool Map::open(int x, int y)
+bool Map::open(int x, int y, int z)
 {
-  Tile* target = get_tile(x, y);
+  Tile* target = get_tile(x, y, z);
   if (target->terrain->can_open()) {
     target->open();
     return true;
@@ -571,9 +583,9 @@ bool Map::open(int x, int y)
   return false;
 }
 
-bool Map::close(int x, int y)
+bool Map::close(int x, int y, int z)
 {
-  Tile* target = get_tile(x, y);
+  Tile* target = get_tile(x, y, z);
   if (target->terrain->can_close()) {
     target->close();
     return true;
