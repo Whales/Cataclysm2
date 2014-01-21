@@ -20,7 +20,7 @@ public:
   virtual std::string get_possessive();
   virtual std::string conjugate(const std::string &verb);
   virtual glyph get_glyph();
-  virtual Point get_position();
+  virtual Tripoint get_position();
 
   virtual bool is_player()  { return false; }
   virtual bool is_monster() { return false; }
@@ -81,7 +81,7 @@ public:
   virtual bool can_sense(Map* map, int x, int y);
 
   int uid;
-  int posx, posy;
+  int posx, posy, posz;
   int action_points;
   bool dead;
   bool killed_by_player;

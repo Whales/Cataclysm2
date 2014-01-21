@@ -10,6 +10,7 @@ Entity::Entity()
   uid = -1;
   posx = 15;
   posy = 15;
+  posz = 0;
   action_points = 0;
   dead = false;
   killed_by_player = false;
@@ -39,9 +40,9 @@ std::string Entity::conjugate(const std::string &verb)
 // Dumbest conjugation ever, but it should work for most cases!
 // TODO: Special-case stuff?
   if (verb[ verb.length() - 1 ] == 's') {
-    return verb + "es";
+    return verb + "es"; // "miss" => "misses"
   }
-  return verb + "s";
+  return verb + "s";    // "hit"  => "hits"
 }
 
 glyph Entity::get_glyph()
@@ -49,9 +50,9 @@ glyph Entity::get_glyph()
   return glyph();
 }
 
-Point Entity::get_position()
+Tripoint Entity::get_position()
 {
-  return Point(posx, posy);
+  return Tripoint(posx, posy, posz);
 }
 
 void Entity::die()
