@@ -206,7 +206,13 @@ void Submap::generate(World_terrain* terrain[5], int posz)
     generate_empty();
   } else {
     Mapgen_spec* spec;
-    if (terrain[0]->has_flag(WTF_RELATIONAL)) {
+    if (posz != 0) {
+      spec = MAPGEN_SPECS.random_for_terrain(terrain[0], posz);
+      if (!spec) { // No second-story terrain here!
+        generate_open();
+        return;
+      }
+    } else if (terrain[0]->has_flag(WTF_RELATIONAL)) {
       std::vector<bool> neighbor;
       neighbor.push_back(false);
       for (int i = 1; i < 5; i++) {
@@ -217,12 +223,6 @@ void Submap::generate(World_terrain* terrain[5], int posz)
         }
       }
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
-    } else if (posz != 0) {
-      spec = MAPGEN_SPECS.random_for_terrain(terrain[0], posz);
-      if (!spec) { // No second-story terrain here!
-        generate_open();
-        return;
-      }
     } else {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
     }

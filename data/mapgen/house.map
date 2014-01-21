@@ -63,7 +63,7 @@ type: house
 level: 1
 tile_group: # = stone wall / wood wall
 tile: . = floor
-tile: o = dirt / grass
+tile: o = empty space
 tile: + = closed door
 tile: " = window
 tile: > = stairs down
