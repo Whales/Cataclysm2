@@ -526,7 +526,8 @@ void Game::player_move_vertical(int zdif)
 {
 // TODO: Move entities into a stairs-following queue
   entities.clear();
-  map->shift(0, 0, zdif);
+  entities.push_back(player);
+  map->shift(worldmap, 0, 0, zdif);
 }
 
 void Game::add_msg(std::string msg, ...)

@@ -552,11 +552,21 @@ Entity_pool::~Entity_pool()
 void Entity_pool::add_entity(Entity* ent)
 {
   if (!ent) {
-    debugmsg("Tried to push NULL to Entity_pool");
+    debugmsg("Tried to add_entity NULL to Entity_pool");
     return;
   }
   ent->uid = next_uid;
   next_uid++;
+  instances.push_back(ent);
+  uid_map[ent->uid] = ent;
+}
+
+void Entity_pool::push_back(Entity* ent)
+{
+  if (!ent) {
+    debugmsg("Tried to push_back NULL to Entity_pool");
+    return;
+  }
   instances.push_back(ent);
   uid_map[ent->uid] = ent;
 }

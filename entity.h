@@ -109,6 +109,7 @@ public:
   ~Entity_pool();
 
   void add_entity(Entity* ent);
+  void push_back(Entity* ent); // Same, except don't re-assign UID
   void clear();
   std::list<Entity*>::iterator erase(std::list<Entity*>::iterator it);
 

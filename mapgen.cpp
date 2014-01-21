@@ -390,7 +390,7 @@ bool Mapgen_spec::load_data(std::istream &data)
       data >> num_neighbors;
       std::getline(data, junk);
 
-    } else if (ident == "level:") {
+    } else if (ident == "level:" || ident == "floor:") {
       data >> z_level;
       std::getline(data, junk);
 

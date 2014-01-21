@@ -204,6 +204,9 @@ void Submap::generate(World_terrain* terrain[5], int posz)
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
     } else if (posz != 0) {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], posz);
+      if (!spec) { // No second-story terrain here!
+        spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
+      }
     } else {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
     }
@@ -406,7 +409,7 @@ void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
   }
   for (int x = 0; x < MAP_SIZE; x++) {
     for (int y = 0; y < MAP_SIZE; y++) {
-      submaps[x][y] = SUBMAP_POOL.at_location(posx + x, posy + y);
+      submaps[x][y] = SUBMAP_POOL.at_location(posx + x, posy + y, posz);
     }
   }
 }
