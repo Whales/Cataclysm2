@@ -712,6 +712,7 @@ void Map::draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
     while (tile->has_flag(TF_OPEN_SPACE) && tilez > 0) {
       space = true;
       tilez--;
+      tile = get_tile(tilex, tiley, tilez);
     }
     if (tile) {
       output = tile->top_glyph();
