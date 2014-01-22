@@ -601,8 +601,14 @@ bool Map::close(int x, int y, int z)
  */
 bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
 {
+  return senses(x0, x0, posz, x1, y1, posz, sense);
+}
+
+bool Map::senses(int x0, int y0, int z0, int x1, int y1, int z1,
+                 Sense_type sense)
+{
   if (sense == SENSE_SIGHT) {
-    return (!line_of_sight(x0, y0, x1, y1).empty());
+    return (!line_of_sight(x0, y0, z0, x1, y1, z1).empty());
   } else {
     return false;
   }
@@ -610,18 +616,37 @@ bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
 
 bool Map::senses(Point origin, Point target, Sense_type sense)
 {
-  return senses(origin.x, origin.y, target.x, target.y, sense);
+  return senses(origin.x, origin.y, posz, target.x, target.y, posz, sense);
+}
+
+bool Map::senses(Tripoint origin, Tripoint target, Sense_type sense)
+{
+  return senses(origin.x, origin.y, origin.z, target.x, target.y, target.z,
+                sense);
 }
 
 std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
+{
+  return line_of_sight(x0, y0, posz, x1, y1, posz);
+}
+
+std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
+                                      int x1, int y1, int z1)
 {
   std::vector<Point>  lines;    // Process many lines at once.
   std::vector<std::vector<Point> > return_values;
   std::vector<int>    t_values; // T-values for bresenham lines
 
-  int dx = x1 - x0, dy = y1 - y0;
+  int dx = x1 - x0, dy = y1 - y0, dz = z1 - z0;
   int ax = abs(dx) << 1, ay = abs(dy) << 1;
   int sx = (dx < 0 ? -1 : 1), sy = (dy < 0 ? -1 : 1);
+  int dist = rl_dist(x0, y0, x1, y1);
+  int z_step;
+  if (dist == 0) {
+    z_step = 0;
+  } else {
+    z_step = (100 * dz) / dist;
+  }
   if (dx == 0) {
     sx = 0;
   }
@@ -630,7 +655,6 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
   }
 
   int min_t = (ax > ay ? ay - ax : ax - ay),
-  //int min_t = 0,
       max_t = 0;
   if (dx == 0 || dy == 0) {
     min_t = 0;
@@ -642,9 +666,19 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
     return_values.push_back(seed);
     t_values.push_back(t);
   }
+  int z_value = 0; // Each tile is 100 microunits tall
+  int z_level = z0;
 // Keep going as long as we've got at least one valid line
   while (!lines.empty()) {
     for (int i = 0; i < lines.size(); i++) {
+      z_value += z_step;
+      if (z_value < 0) {
+        z_level--;
+        z_value += 100;
+      } else if (z_value >= 100) {
+        z_level++;
+        z_value -= 100;
+      }
       if (ax > ay) {
         lines[i].x += sx;
         if (t_values[i] >= 0) {
@@ -662,11 +696,9 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
       }
       return_values[i].push_back(lines[i]);
       if (lines[i].x == x1 && lines[i].y == y1) {
-// Delete the first point - it's our origin
-        //return_values.erase(return_values.begin());
         return return_values[i];
       }
-      if (get_tile(lines[i].x, lines[i].y)->blocks_sense(SENSE_SIGHT)) {
+      if (get_tile(lines[i].x, lines[i].y, z_level)->blocks_sense(SENSE_SIGHT)){
         lines.erase(lines.begin() + i);
         t_values.erase(t_values.begin() + i);
         return_values.erase(return_values.begin() + i);

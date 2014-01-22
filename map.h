@@ -101,9 +101,15 @@ public:
   bool close(int x, int y, int z = 999);
 
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
+  bool senses(int x0, int y0, int z0, int x1, int y1, int z1,
+              Sense_type sense = SENSE_SIGHT);
   bool senses(Point origin, Point target, Sense_type sense = SENSE_SIGHT);
+  bool senses(Tripoint origin, Tripoint target, Sense_type sense = SENSE_SIGHT);
   std::vector<Point> line_of_sight(int x0, int y0, int x1, int y1);
+  std::vector<Point> line_of_sight(int x0, int y0, int z0,
+                                   int x1, int y1, int z1);
   std::vector<Point> line_of_sight(Point origin, Point target);
+  std::vector<Point> line_of_sight(Tripoint origin, Tripoint target);
 
 // Output
   void draw(Window *w, Entity_pool *entities, int refx, int refy,

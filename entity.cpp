@@ -93,12 +93,15 @@ bool Entity::has_sense(Sense_type sense)
   return false;
 }
 
-bool Entity::can_see(Map* map, int x, int y)
+bool Entity::can_see(Map* map, int x, int y, int z)
 {
+  if (z == 999) { // z defaults to 999
+    z = posz;
+  }
   if (!map || !has_sense(SENSE_SIGHT)) {
     return false;
   }
-  return map->senses(posx, posy, x, y, SENSE_SIGHT);
+  return map->senses(posx, posy, posz, x, y, z, SENSE_SIGHT);
 }
 
 bool Entity::can_move_to(Map* map, int x, int y)
