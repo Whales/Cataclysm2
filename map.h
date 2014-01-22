@@ -112,7 +112,7 @@ public:
   std::vector<Point> line_of_sight(Tripoint origin, Tripoint target);
 
 // Output
-  void draw(Window *w, Entity_pool *entities, int refx, int refy,
+  void draw(Window *w, Entity_pool *entities, int refx, int refy, int refz,
             Sense_type sense = SENSE_SIGHT);
 
   void draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,

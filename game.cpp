@@ -87,7 +87,7 @@ bool Game::main_loop()
     handle_player_activity();
     shift_if_needed();
     update_hud();
-    map->draw(w_map, &entities, player->posx, player->posy);
+    map->draw(w_map, &entities, player->posx, player->posy, player->posz);
     w_map->refresh();
 
     if (!player->activity.is_active()) {
@@ -763,7 +763,7 @@ std::vector<Point> Game::path_selector(int startx, int starty)
 
   Point target(startx, starty);
 
-  map->draw(w_map, &entities, player->posx, player->posy);
+  map->draw(w_map, &entities, player->posx, player->posy, player->posz);
   w_map->refresh();
   while (true) {
     long ch = input();
@@ -779,7 +779,7 @@ std::vector<Point> Game::path_selector(int startx, int starty)
       } else if (p.x != -2 && p.y != -2) {
         target += p;
         ret = map->line_of_sight(player->posx,player->posy, target.x,target.y);
-        map->draw(w_map, &entities, player->posx, player->posy);
+        map->draw(w_map, &entities, player->posx, player->posy, player->posz);
         for (int i = 0; i < ret.size(); i++) {
           map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
                          player->posx, player->posy, true); // true == inverted

@@ -715,7 +715,7 @@ std::vector<Point> Map::line_of_sight(Point origin, Point target)
   return line_of_sight(origin.x, origin.y, target.x, target.y);
 }
 
-void Map::draw(Window* w, Entity_pool *entities, int refx, int refy,
+void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
                Sense_type sense)
 {
   if (!w) {
@@ -725,7 +725,7 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy,
   for (int x = 0; x < winx; x++) {
     for (int y = 0; y < winy; y++) {
       int terx = refx + x - (winx / 2), tery = refy + y - (winy / 2);
-      if (senses(refx, refy, terx, tery, sense)) {
+      if (senses(refx, refy, refz, terx, tery, posz, sense)) {
         draw_tile(w, entities, terx, tery, refx, refy);
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE
