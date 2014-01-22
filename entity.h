@@ -43,6 +43,8 @@ public:
                     int primary_uid = -1, int secondary_uid = -1);
   void use_ap(int amount);
   void shift(int shiftx, int shifty); // For map shifting
+
+  void prepare(); // Reset their stats, increase hunger/thirst, etc.
   
 // Inventory functions
   virtual bool add_item(Item item);
@@ -80,13 +82,18 @@ public:
 
   virtual bool can_sense(Map* map, int x, int y);
 
+// Values
   int uid;
+
   int posx, posy, posz;
   int action_points;
+
   bool dead;
   bool killed_by_player;
 
   Player_activity activity;
+
+  int hunger, thirst;
 
   Item weapon;
   std::vector<Item> inventory;

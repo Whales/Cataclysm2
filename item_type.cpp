@@ -280,6 +280,24 @@ bool Item_type_launcher::handle_data(std::string ident, std::istream &data)
   return true;
 }
 
+bool Item_type_food::handle_data(std::string ident, std::istream &data)
+{
+  std::string junk;
+
+  if (ident == "food:") {
+    data >> food;
+    std::getline(data, junk);
+
+  } else if (ident == "water:") {
+    data >> water;
+    std::getline(data, junk);
+
+  } else if (ident != "done") {
+    return false;
+  }
+  return true;
+}
+
 Item_class lookup_item_class(std::string name)
 {
   name = no_caps(name);

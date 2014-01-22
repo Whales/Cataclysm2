@@ -13,6 +13,7 @@ enum Item_class
   ITEM_CLASS_CLOTHING,
   ITEM_CLASS_AMMO,
   ITEM_CLASS_LAUNCHER,
+  ITEM_CLASS_FOOD,
   ITEM_CLASS_MAX
 };
 
@@ -116,6 +117,21 @@ public:
   int reload_ap;  // action_points per reload
   int fire_ap;    // action_points per shot fired
   std::vector<int> modes; // Each element is a number of shots
+
+};
+
+class Item_type_food : public Item_type
+{
+public:
+  Item_type_food();
+  ~Item_type_food();
+
+  virtual Item_class get_class() { return ITEM_CLASS_FOOD; }
+
+  virtual bool handle_data(std::string ident, std::istream &data);
+
+  int food;
+  int water;
 
 };
 

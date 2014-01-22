@@ -14,6 +14,8 @@ Entity::Entity()
   action_points = 0;
   dead = false;
   killed_by_player = false;
+  hunger = 0;
+  thirst = 0;
 }
 
 Entity::~Entity()
@@ -148,6 +150,12 @@ void Entity::shift(int shiftx, int shifty)
 {
   posx -= shiftx * SUBMAP_SIZE;
   posy -= shifty * SUBMAP_SIZE;
+}
+
+void Entity::prepare()
+{
+  hunger++;
+  thirst += 2;
 }
 
 bool Entity::add_item(Item item)
