@@ -182,3 +182,7 @@ Game Modes:
    etc.  No long-term goals or winning conditions, but otherwise the game
    behaves the same (factions fight for control of locations etc).
   -Survival Mode: Defend a location against waves of attacks.
+
+The Player:
+  Stats - C1 had str, dex, int, per.  Those are okay, right?  4 is a good
+    number; enough to allow for diversification but not enough to get complex.

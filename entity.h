@@ -9,6 +9,14 @@
 #include "enum.h"
 #include <string>
 
+struct Stats
+{
+  Stats();
+  ~Stats();
+
+  int str, dex, intel, per;
+};
+
 class Entity
 {
 public:
@@ -93,6 +101,7 @@ public:
 
   Player_activity activity;
 
+  Stats stats;
   int hunger, thirst;
 
   Item weapon;

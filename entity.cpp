@@ -5,6 +5,18 @@
 #include "map.h"
 #include <sstream>
 
+Stats::Stats()
+{
+  str   = 10;
+  dex   = 10;
+  intel = 10;
+  per   = 10;
+}
+
+Stats::~Stats()
+{
+}
+
 Entity::Entity()
 {
   uid = -1;

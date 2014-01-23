@@ -7,6 +7,9 @@
 #include <istream>
 #include <vector>
 
+/* After adding an Item_class, be sure to edit Item_type.cpp and add the class
+ * to the function item_class_name().
+ */
 enum Item_class
 {
   ITEM_CLASS_MISC = 0,
@@ -29,7 +32,7 @@ public:
   int uid;
   std::string name;
   std::string description;
-  int weight;       // In 1/10ths of a pound
+  int weight;       // In 1/10ths of a pound / 0.045 kg (sorry)
   int volume;       // 1 volume = a ping pong ball
   glyph sym;
 

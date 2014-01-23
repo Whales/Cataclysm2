@@ -317,6 +317,7 @@ std::string item_class_name(Item_class iclass)
     case ITEM_CLASS_CLOTHING: return "Clothing";
     case ITEM_CLASS_AMMO:     return "Ammo";
     case ITEM_CLASS_LAUNCHER: return "Launcher";
+    case ITEM_CLASS_FOOD:     return "Food";
     case ITEM_CLASS_MAX:      return "BUG - ITEM_CLASS_MAX";
     default:                  return "BUG - Unnamed Item_class";
   }
