@@ -15,6 +15,7 @@ enum Item_action
   IACT_MAX
 };
 
+class Stats;
 class Entity;
 struct Ranged_attack;
 
@@ -45,7 +46,8 @@ public:
   int get_volume();
   int get_damage(Damage_type dtype);
   int get_to_hit();
-  int get_base_attack_speed(int strength = 0, int dexterity = 0);
+  int get_base_attack_speed();
+  int get_base_attack_speed(Stats stats);
   int get_max_charges();
   bool combines();
   bool combine_by_charges();

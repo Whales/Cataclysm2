@@ -190,26 +190,32 @@ int Item::get_to_hit()
   return 0;
 }
 
-int Item::get_base_attack_speed(int strength, int dexterity)
+int Item::get_base_attack_speed()
+{
+  Stats stats;
+  return get_base_attack_speed(stats);
+}
+
+int Item::get_base_attack_speed(Stats stats)
 {
   if (!type) {
     return 0;
   }
   int ret = type->attack_speed;
-  int min_weight_penalty = strength * 3;
-  int penalty_per_pound  = 20 - strength;
+  int min_weight_penalty = stats.str * 3;
+  int penalty_per_pound  = 20 - stats.str;
   int wgt = get_weight();
-  if (strength < 20 && wgt >= min_weight_penalty) {
+  if (stats.str < 20 && wgt >= min_weight_penalty) {
     wgt -= min_weight_penalty;
 // Divide by 10 since the penalty is per pound - 1 unit of weight is 0.1 lbs
     ret += (wgt * penalty_per_pound) / 10;
   }
 
 // TODO: Tweak this section - this is very guess-y.
-  int min_volume_penalty = dexterity * 10;
-  int penalty_per_10_volume = 20 - dexterity;
+  int min_volume_penalty = stats.dex * 10;
+  int penalty_per_10_volume = 20 - stats.dex;
   int vol = get_volume();
-  if (dexterity < 20 && vol >= min_volume_penalty) {
+  if (stats.dex < 20 && vol >= min_volume_penalty) {
     vol -= min_volume_penalty;
     ret += (vol * penalty_per_10_volume) / 10;
   }

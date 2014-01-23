@@ -445,14 +445,18 @@ std::string Entity::sheath_weapon_message()
 
 Attack Entity::base_attack()
 {
-  return Attack();
+  Attack ret;
+  ret.damage[DAMAGE_BASH] = 1 + stats.str / 4;
+  ret.speed  = 100 - stats.dex;
+  ret.to_hit = stats.dex / 4 - 3;
+  return ret;
 }
 
 Attack Entity::std_attack()
 {
   Attack att = base_attack();
   if (weapon.is_real()) {
-    att.use_weapon(weapon, 0, 0); // TODO : Use stats here
+    att.use_weapon(weapon, stats);
   }
   return att;
 }

@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "stringfunc.h"
 #include "window.h"
+#include "entity.h" // For Stats
 #include <sstream>
 
 Damage_set::Damage_set()
@@ -133,9 +134,9 @@ bool Attack::load_data(std::istream &data, std::string owner_name)
   return true;
 }
 
-void Attack::use_weapon(Item weapon, int strength, int dexterity)
+void Attack::use_weapon(Item weapon, Stats stats)
 {
-  speed += weapon.get_base_attack_speed(strength, dexterity);
+  speed  += weapon.get_base_attack_speed(stats);
   to_hit += weapon.get_to_hit();
   for (int i = 0; i < DAMAGE_MAX; i++) {
     damage[i] += weapon.get_damage( Damage_type(i) );

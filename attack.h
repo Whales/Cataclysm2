@@ -9,6 +9,8 @@
 
 Body_part random_body_part_to_hit();
 
+struct Stats;
+
 struct Damage_set
 {
   Damage_set();
@@ -51,7 +53,7 @@ struct Attack
   ~Attack();
 
   bool load_data(std::istream &data, std::string owner_name = "unknown");
-  void use_weapon(Item weapon, int strength, int dexterity);
+  void use_weapon(Item weapon, Stats stats);
 
   Damage_set roll_damage();
 };
