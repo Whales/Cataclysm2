@@ -528,8 +528,6 @@ void Game::player_move(int xdif, int ydif)
 void Game::player_move_vertical(int zdif)
 {
 // TODO: Move entities into a stairs-following queue
-  entities.clear();
-  entities.push_back(player);
   map->shift(worldmap, 0, 0, zdif);
   player->posz += zdif;
 }

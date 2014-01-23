@@ -102,7 +102,7 @@ void Monster::make_plans()
 // TODO: Support different senses
 // TODO: Support non-aggressive monsters
   bool senses_player = false;
-  if (has_sense(SENSE_SIGHT) && can_sense(map, player->posx, player->posy)) {
+  if (has_sense(SENSE_SIGHT) && can_sense(map, player->get_position())) {
     senses_player = true;
   }
   if (senses_player) {

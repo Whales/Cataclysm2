@@ -88,7 +88,8 @@ public:
   virtual Ranged_attack throw_item(Item it);
   virtual Ranged_attack fire_weapon();
 
-  virtual bool can_sense(Map* map, int x, int y);
+  virtual bool can_sense(Map* map, int x, int y, int z = 999);
+  virtual bool can_sense(Map* map, Tripoint target);
 
 // Values
   int uid;

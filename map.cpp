@@ -771,7 +771,7 @@ void Map::draw_tile(Window* w, Entity_pool *entities,
       }
     }
     if (!picked_glyph) {
-      Tile* tile = get_tile(tilex, tiley, tilez);
+      Tile* tile = get_tile(tilex, tiley, curz);
       if (!tile->has_flag(TF_OPEN_SPACE)) {
         output = tile->top_glyph();
         picked_glyph = true;

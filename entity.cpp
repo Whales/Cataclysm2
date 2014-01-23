@@ -557,10 +557,18 @@ Ranged_attack Entity::fire_weapon()
   return weapon.get_fired_attack();
 }
 
-bool Entity::can_sense(Map* map, int x, int y)
+bool Entity::can_sense(Map* map, int x, int y, int z)
 {
+  if (z == 999) { // z defaults to 999
+    z = posz;
+  }
 // Default Entity function just uses sight
-  return map->senses(posx, posy, x, y);
+  return map->senses(posx, posy, posz, x, y, z);
+}
+
+bool Entity::can_sense(Map* map, Tripoint target)
+{
+  return can_sense(map, target.x, target.y, target.z);
 }
 
 Entity_pool::Entity_pool()
