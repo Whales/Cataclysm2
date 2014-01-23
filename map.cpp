@@ -726,7 +726,7 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
     for (int y = 0; y < winy; y++) {
       int terx = refx + x - (winx / 2), tery = refy + y - (winy / 2);
       if (senses(refx, refy, refz, terx, tery, posz, sense)) {
-        draw_tile(w, entities, terx, tery, refx, refy);
+        draw_tile(w, entities, terx, tery, refx, refy, false);
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE
         w->putglyph(x, y, glyph(' ', c_black, c_black));
@@ -736,6 +736,13 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
 }
 
 void Map::draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
+                    int refx, int refy, bool invert)
+{
+  draw_tile(w, entities, tilex, tiley, posz, refx, refy, invert);
+}
+
+void Map::draw_tile(Window* w, Entity_pool *entities,
+                    int tilex, int tiley, int tilez,
                     int refx, int refy, bool invert)
 {
   if (!w) {
@@ -751,32 +758,36 @@ void Map::draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
 // Now pick a glyph...
   glyph output;
   bool picked_glyph = false;
-// First, check if we should draw a monster
-  if (entities) {
-    Entity* ent = entities->entity_at(tilex, tiley);
-    if (ent) {
-      output = ent->get_glyph();
-      picked_glyph = true;
+  int curz = tilez;
+/* Start from the z-level that we're looking at.  As long as there's no entity,
+ * and the terrain is open space, drop down a level.
+ */
+  while (!picked_glyph && curz >= 0) {
+    if (entities) {
+      Entity* ent = entities->entity_at(tilex, tiley, curz);
+      if (ent) {
+        output = ent->get_glyph();
+        picked_glyph = true;
+      }
+    }
+    if (!picked_glyph) {
+      Tile* tile = get_tile(tilex, tiley, tilez);
+      if (!tile->has_flag(TF_OPEN_SPACE)) {
+        output = tile->top_glyph();
+        picked_glyph = true;
+      }
+    }
+    if (picked_glyph) {
+      if (curz < tilez) {
+        output = output.hilite();
+      }
+    } else {
+      curz--;
     }
   }
-// Finally, if nothing else, get the glyph from the tile
   if (!picked_glyph) {
-    int tilez = posz;
-    bool space = false;
-    Tile* tile = get_tile(tilex, tiley, tilez);
-    while (tile->has_flag(TF_OPEN_SPACE) && tilez > 0) {
-      space = true;
-      tilez--;
-      tile = get_tile(tilex, tiley, tilez);
-    }
-    if (tile) {
-      output = tile->top_glyph();
-    } else {
-      debugmsg("Really could not find a glyph!");
-    }
-    if (space) {
-      output = output.hilite(c_blue);
-    }
+    debugmsg("Really could not find a glyph!");
+    return;
   }
   if (invert) {
     output = output.invert();

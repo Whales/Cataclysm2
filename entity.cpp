@@ -630,3 +630,15 @@ Entity* Entity_pool::entity_at(int posx, int posy)
   }
   return NULL;
 }
+
+Entity* Entity_pool::entity_at(int posx, int posy, int posz)
+{
+  for (std::list<Entity*>::iterator it = instances.begin();
+       it != instances.end();
+       it++) {
+    if ((*it)->posx == posx && (*it)->posy == posy && (*it)->posz == posz) {
+      return (*it);
+    }
+  }
+  return NULL;
+}

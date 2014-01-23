@@ -131,6 +131,7 @@ public:
 
   Entity* lookup_uid(int uid);
   Entity* entity_at(int posx, int posy);
+  Entity* entity_at(int posx, int posy, int posz);
 
   std::list<Entity*> instances;
 private:

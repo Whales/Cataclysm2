@@ -116,7 +116,10 @@ public:
             Sense_type sense = SENSE_SIGHT);
 
   void draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
-                    int refx, int refy, bool invert = false);
+                 int refx, int refy, bool invert);
+  void draw_tile(Window* w, Entity_pool *entities,
+                 int tilex, int tiley, int tilez,
+                 int refx, int refy, bool invert);
 
   Point get_center_point();
   int posx, posy, posz;
