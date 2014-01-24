@@ -31,6 +31,7 @@ struct Terrain
   std::string name;
   glyph sym;
   unsigned int movecost;
+  unsigned int height; // Range: 0 - 100, how well it blocks vertically
 
   Terrain_smash smash;
   std::string open_result;

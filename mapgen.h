@@ -135,7 +135,7 @@ struct Mapgen_spec
 
   bool load_data(std::istream &data);
 
-  void prepare(World_terrain* world_ter[5]);
+  void prepare(World_terrain* world_ter[5] = NULL);
   void random_rotate();
   void rotate(Direction dir);
   Terrain* pick_terrain(int x, int y);
@@ -145,6 +145,9 @@ struct Mapgen_spec
   int uid;
   std::string name;
   std::string terrain_name; // World_terrain we belong to
+// The following two are used for building 2nd floors.
+  std::string subname;  // Specific flavor of the terrain type
+  Direction rotation;
 
   bool is_adjacent; // True is this is instructions for building adjacent to
                     // terrain_name
@@ -181,7 +184,8 @@ public:
   Mapgen_spec* random_for_terrain(World_terrain* ptr);
   Mapgen_spec* random_for_terrain(World_terrain* ptr,
                                   std::vector<bool> neighbor);
-  Mapgen_spec* random_for_terrain(World_terrain* ptr, int z_level);
+  Mapgen_spec* random_for_terrain(World_terrain* ptr, std::string subname,
+                                  int z_level);
 
   std::vector<Mapgen_spec*> lookup_adjacent_name(std::string name);
   Mapgen_spec* random_adjacent_to(std::string name);

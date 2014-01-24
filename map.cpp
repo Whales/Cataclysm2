@@ -139,6 +139,16 @@ void Tile::close()
   terrain = result;
 }
 
+Submap::Submap()
+{
+  rotation = DIR_NULL;
+  level = 0;
+}
+
+Submap::~Submap()
+{
+}
+
 void Submap::generate_empty()
 {
   Terrain* grass = TERRAIN.lookup_name("grass");
@@ -206,12 +216,9 @@ void Submap::generate(World_terrain* terrain[5], int posz)
     generate_empty();
   } else {
     Mapgen_spec* spec;
+// We shouldn't ever hit this; Mapgen_pool handles above-ground.  But safety!
     if (posz > 0) {
-      spec = MAPGEN_SPECS.random_for_terrain(terrain[0], posz);
-      if (!spec) { // No second-story terrain here!
-        generate_open();
-        return;
-      }
+      generate_open();
     } else if (terrain[0]->has_flag(WTF_RELATIONAL)) {
       std::vector<bool> neighbor;
       neighbor.push_back(false);
@@ -224,7 +231,7 @@ void Submap::generate(World_terrain* terrain[5], int posz)
       }
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
     } else {
-      spec = MAPGEN_SPECS.random_for_terrain(terrain[0], 0);
+      spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
     }
     if (!spec) {
       debugmsg("Mapgen::generate() failed to find spec for %s [%d]",
@@ -266,6 +273,11 @@ void Submap::generate(Mapgen_spec* spec)
     generate_empty();
     return;
   }
+// Set our subname to the spec's subname (defaults to empty, only matters for
+// multi-story buildings
+// Ditto rotation.
+  subname = spec->subname;
+  rotation = spec->rotation;
 // First, set the terrain.
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
@@ -312,6 +324,32 @@ void Submap::generate_adjacent(Mapgen_spec* spec)
       tiles[p.x][p.y].items.push_back(item);
     }
   }
+}
+
+void Submap::generate_above(World_terrain* type, Submap* below)
+{
+  if (!below) {
+    debugmsg("Submap::generate_above(NULL) called!");
+    generate_empty();
+  }
+
+  level = below->level + 1;
+  subname = below->subname;
+  rotation = below->rotation;
+
+  Mapgen_spec* spec = MAPGEN_SPECS.random_for_terrain(type, subname, level);
+  if (!spec) {
+    generate_open();
+    return;
+  }
+  World_terrain* ter[5];
+  ter[0] = type;
+  for (int i = 0; i < 5; i++) {
+    ter[i] = NULL;
+  }
+  spec->prepare(ter);
+  spec->rotate(rotation);
+  generate(spec);
 }
 
 bool Submap::add_item(Item item, int x, int y)
@@ -388,6 +426,16 @@ Submap* Submap_pool::at_location(Tripoint p)
     return point_map[p];
   }
   Submap* sub = new Submap;
+  if (p.z > 0) {
+    Submap* below = at_location(p.x, p.y, p.z - 1);
+    Worldmap_tile *tile = GAME.worldmap->get_tile(p.x, p.y);
+    if (!tile) {
+      sub->generate_empty();
+      return sub;
+    }
+    sub->generate_above(tile->terrain, below);
+    return sub;
+  }
   sub->generate(GAME.worldmap, p.x, p.y, p.z);
   point_map[p] = sub;
   return sub;

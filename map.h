@@ -43,6 +43,18 @@ struct Submap
 {
   Tile tiles[SUBMAP_SIZE][SUBMAP_SIZE];
 
+/* Subname is the specific flavor of the mapgen_spec used here.  This is used
+ * when building second stories; so only use house_wood to build the 2nd floor
+ * of a house_wood map.
+ * rotation and level are used to further match to the floor below.
+ */
+  std::string subname;
+  Direction rotation;
+  int level;
+
+  Submap();
+  ~Submap();
+
   void generate_empty();
   void generate_open();
 
@@ -51,6 +63,7 @@ struct Submap
   void generate(std::string terrain_name);
   void generate(Mapgen_spec* spec);
   void generate_adjacent(Mapgen_spec* spec);
+  void generate_above(World_terrain* type, Submap* below);
 
   bool add_item(Item item, int x, int y);
   int item_count(int x, int y);

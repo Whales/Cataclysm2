@@ -406,7 +406,7 @@ void Worldmap::generate()
             }
             city[expand.x][expand.y] = CITY_BUILDING;
             if (rl_dist(expand.x, expand.y, city_seeds[i].x, city_seeds[i].y) <=
-                rng(2, 6)) {
+                rng(1, 6)) {
               tiles[expand.x][expand.y].terrain = random_shop();
             } else {
               tiles[expand.x][expand.y].set_terrain("house");

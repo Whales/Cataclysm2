@@ -76,6 +76,7 @@ Terrain::Terrain()
   name = "ERROR";
   sym = glyph();
   movecost = 100;
+  height   = 100;
   for (int i = 0; i < TF_MAX; i++) {
     flags.push_back(false);
   }

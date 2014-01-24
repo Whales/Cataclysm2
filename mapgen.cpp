@@ -377,6 +377,10 @@ bool Mapgen_spec::load_data(std::istream &data)
         return false;
       }
 
+    } else if (ident == "subname:") {
+      std::getline(data, subname);
+      subname = trim(subname);
+
     } else if (ident == "type:") {
       std::getline(data, terrain_name);
       terrain_name = trim(terrain_name);
@@ -664,7 +668,7 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
 // Rotate as required.
 // TODO: Allow for a "norotate" flag?
 // If we're a relational map, rotate based on neighbors...
-  if (!is_adjacent && world_ter[0]->has_flag(WTF_RELATIONAL)) {
+  if (!is_adjacent && world_ter[0] && world_ter[0]->has_flag(WTF_RELATIONAL)) {
     std::vector<bool> neighbor;
     neighbor.push_back(false);
     for (int i = 1; i < 5; i++) {
@@ -700,7 +704,8 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
                world_ter[0]->name.c_str(), num_neighbors, name.c_str(),
                terrain_name.c_str());
     }
-  } else if (!is_adjacent && world_ter[0]->has_flag(WTF_FACE_ROAD)) {
+  } else if (!is_adjacent && world_ter[0] &&
+             world_ter[0]->has_flag(WTF_FACE_ROAD)) {
     std::vector<Direction> valid_rotate;
     for (int i = 1; i < 5; i++) {
       if (world_ter[i]->has_flag(WTF_ROAD)) {
@@ -712,7 +717,7 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
     } else {
       rotate( valid_rotate[ rng(0, valid_rotate.size() - 1) ] );
     }
-  } else if (!is_adjacent && num_neighbors > 0) {
+  } else if (!is_adjacent && num_neighbors > 0 && z_level <= 0) {
     random_rotate();
   }
 // Clear item locations
@@ -741,6 +746,7 @@ void Mapgen_spec::random_rotate()
 
 void Mapgen_spec::rotate(Direction dir)
 {
+  rotation = dir;
   char tmp_terrain[MAPGEN_SIZE][MAPGEN_SIZE];
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
@@ -968,6 +974,7 @@ Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
 }
 
 Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
+                                                  std::string subname,
                                                   int z_level)
 {
   if (terrain_ptr_map.count(ptr) == 0) {
@@ -977,7 +984,8 @@ Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
   std::vector<Mapgen_spec*> use;
   int new_total_chance = 0;
   for (int i = 0; i < vec->size(); i++) {
-    if ((*vec)[i]->z_level == z_level) {
+    if ((*vec)[i]->z_level == z_level &&
+        (subname.empty() || (*vec)[i]->subname == subname)) {
       use.push_back( (*vec)[i] );
       new_total_chance += (*vec)[i]->weight;
     }
