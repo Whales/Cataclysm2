@@ -22,8 +22,9 @@
 # specifications, item drop specifications, and adjacency maps.
 
 name: std_house_whales
+subname: stone_whales
 type: house
-tile_group: # = stone wall / wood wall
+tile_group: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
@@ -59,6 +60,7 @@ endmap
 done
 
 name: std_house_2_whales
+subname: stone_whales
 type: house
 level: 1
 tile_group: # = stone wall / wood wall
@@ -84,9 +86,48 @@ xxx#.......#........."xxx
 xxx#.......#.........#xxx
 xxx".......#######+###xxx
 xxx".........#.......#xxx
-xxx#.........#.......#xxx
+xxx#.........#.<.....#xxx
 xxx#.........#.......#xxx
 xxx#############"#####xxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+name: std_house_roof_whales
+subname: stone_whales
+type: house
+level: 2
+tile_group: # = stone wall / wood wall
+tile: . = floor
+tile: x = empty
+tile: + = closed door
+tile: " = window
+tile: > = stairs down
+map:
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx...................xxx
+xxx............>......xxx
+xxx...................xxx
+xxx...................xxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
