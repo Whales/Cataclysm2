@@ -231,7 +231,7 @@ void Submap::generate(World_terrain* terrain[5], int posz)
       }
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
     } else {
-      spec = MAPGEN_SPECS.random_for_terrain(terrain[0]);
+      spec = MAPGEN_SPECS.random_for_terrain(terrain[0], "", 0);
     }
     if (!spec) {
       debugmsg("Mapgen::generate() failed to find spec for %s [%d]",
@@ -604,7 +604,11 @@ Tile* Map::get_tile(int x, int y, int z)
 
 std::string Map::get_name(int x, int y, int z)
 {
-  return get_tile(x, y, z)->terrain->name;
+  Terrain* ter = get_tile(x, y, z)->terrain;
+  if (!ter) {
+    return "Bug - Null terrain";
+  }
+  return ter->name;
 }
 
 std::string Map::smash(int x, int y, Damage_set damage)

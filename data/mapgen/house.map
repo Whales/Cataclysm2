@@ -69,6 +69,7 @@ tile: x = empty
 tile: + = closed door
 tile: " = window
 tile: > = stairs down
+tile: < = stairs up
 map:
 xxx##""##########""###xxx
 xxx#.................#xxx
