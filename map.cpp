@@ -328,16 +328,22 @@ void Submap::generate_adjacent(Mapgen_spec* spec)
 
 void Submap::generate_above(World_terrain* type, Submap* below)
 {
-  if (!below) {
-    debugmsg("Submap::generate_above(NULL) called!");
+  if (!type) {
+    debugmsg("Submap::generate_above(NULL, ?) called!");
     generate_empty();
+    return;
+  }
+  if (!below) {
+    debugmsg("Submap::generate_above(?, NULL) called!");
+    generate_empty();
+    return;
   }
 
   level = below->level + 1;
   subname = below->subname;
   rotation = below->rotation;
 
-  Mapgen_spec* spec = MAPGEN_SPECS.random_for_terrain(type, subname, level);
+  Mapgen_spec* spec = MAPGEN_SPECS.random_with_subname(subname, level);
   if (!spec) {
     generate_open();
     return;

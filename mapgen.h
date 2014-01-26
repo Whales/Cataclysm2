@@ -186,6 +186,7 @@ public:
                                   std::vector<bool> neighbor);
   Mapgen_spec* random_for_terrain(World_terrain* ptr, std::string subname,
                                   int z_level);
+  Mapgen_spec* random_with_subname(std::string subname, int z_level = 0);
 
   std::vector<Mapgen_spec*> lookup_adjacent_name(std::string name);
   Mapgen_spec* random_adjacent_to(std::string name);
@@ -210,6 +211,9 @@ private:
   std::map<std::string,int> adjacent_name_total_chance;
   std::map<World_terrain*,std::vector<Mapgen_spec*> > adjacent_ptr_map;
   std::map<World_terrain*,int> adjacent_ptr_total_chance;
+
+  std::map<std::string,std::vector<Mapgen_spec*> > subname_map;
+  std::map<std::string,int> subname_total_chance;
 };
 
 #endif

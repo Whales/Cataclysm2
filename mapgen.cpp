@@ -861,6 +861,18 @@ bool Mapgen_spec_pool::load_element(std::istream &data)
     (*name_map)[tmp->terrain_name].push_back(tmp);
     (*chance_map)[tmp->terrain_name] += tmp->weight;
   }
+// Push into the subname map
+  if (!tmp->is_adjacent && !tmp->subname.empty()) {
+    if (subname_map.count(tmp->subname) == 0) {
+      std::vector<Mapgen_spec*> tmpvec;
+      tmpvec.push_back(tmp);
+      subname_map[tmp->subname] = tmpvec;
+      subname_total_chance[tmp->subname] = tmp->weight;
+    } else {
+      subname_map[tmp->subname].push_back(tmp);
+      subname_total_chance[tmp->subname] += tmp->weight;
+    }
+  }
   return true;
 }
 
@@ -986,6 +998,35 @@ Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
   for (int i = 0; i < vec->size(); i++) {
     if ((*vec)[i]->z_level == z_level &&
         (subname.empty() || (*vec)[i]->subname == subname)) {
+      use.push_back( (*vec)[i] );
+      new_total_chance += (*vec)[i]->weight;
+    }
+  }
+  if (use.empty()) {
+    return NULL;
+  }
+
+  int index = rng(1, new_total_chance);
+  for (int i = 0; i < use.size(); i++) {
+    index -= use[i]->weight;
+    if (index <= 0) {
+      return use[i];
+    }
+  }
+  return use.back();
+}
+
+Mapgen_spec* Mapgen_spec_pool::random_with_subname(std::string subname,
+                                                   int z_level)
+{
+  if (subname.empty() || subname_map.count(subname) == 0) {
+    return NULL;
+  }
+  std::vector<Mapgen_spec*> *vec = &(subname_map[subname]);
+  std::vector<Mapgen_spec*> use;
+  int new_total_chance = 0;
+  for (int i = 0; i < vec->size(); i++) {
+    if ((*vec)[i]->z_level == z_level) {
       use.push_back( (*vec)[i] );
       new_total_chance += (*vec)[i]->weight;
     }
