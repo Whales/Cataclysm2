@@ -1,7 +1,9 @@
 cataclysm2
+*.exe
+gmon.out
 cussed
 cusstest
 obj/
 objwin/
 *.swp
-debug.txt
+*.txt
