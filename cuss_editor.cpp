@@ -895,7 +895,7 @@ void elements_window(interface &edited)
     } else if (selected &&
                (selected->type() == ELE_LIST || selected->type() == ELE_MENU)) {
      int pos = i_ele.get_int("e_list_values");
-     std::vector<std::string> *list_array;
+     std::vector<std::string> *list_array = NULL;
      if (selected->type() == ELE_LIST) {
       ele_list* e_l = static_cast<ele_list*>(selected);
       list_array = e_l->list;

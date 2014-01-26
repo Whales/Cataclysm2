@@ -757,6 +757,7 @@ void Mapgen_spec::rotate(Direction dir)
         case DIR_SOUTH: tx = MAPGEN_SIZE - x - 1; ty = MAPGEN_SIZE - y - 1;
                         break;
         case DIR_WEST:  tx = y; ty = MAPGEN_SIZE - x - 1; break;
+        default:        tx = x;                   ty = y; break;
       }
       tmp_terrain[tx][ty] = prepped_terrain[x][y];
     }

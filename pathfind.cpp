@@ -350,7 +350,7 @@ Path Pathfinder::path_a_star(Point start, Point end)
 // 1) Find the lowest cost in open_points:
     int lowest_cost = -1, point_index = -1;
     Point current;
-    int current_g;
+    int current_g = 0;
     for (int i = 0; i < open_points.size(); i++) {
       Point p = open_points[i];
       int score = gscore[p.x][p.y] + hscore[p.x][p.y];

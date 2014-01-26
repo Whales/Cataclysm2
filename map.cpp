@@ -215,7 +215,7 @@ void Submap::generate(World_terrain* terrain[5], int posz)
   if (!terrain[0]) {
     generate_empty();
   } else {
-    Mapgen_spec* spec;
+    Mapgen_spec* spec = NULL;
 // We shouldn't ever hit this; Mapgen_pool handles above-ground.  But safety!
     if (posz > 0) {
       generate_open();
