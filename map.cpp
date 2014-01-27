@@ -429,15 +429,11 @@ Submap* Submap_pool::at_location(Point p)
 
 Submap* Submap_pool::at_location(Tripoint p)
 {
-  std::ofstream fout;
-  fout.open("pool_debug.txt", std::fstream::app);
   if (point_map.count(p) > 0) {
-    fout << "Loaded:" << p.x << ":" << p.y << ":" << p.z << " / " << point_map.size() << std::endl;
     return point_map[p];
   }
   Submap* sub = new Submap;
   if (p.z > 0) {
-    fout << "Above: " << p.x << ":" << p.y << ":" << p.z << " / " << point_map.size() << std::endl;
     Submap* below = at_location(p.x, p.y, p.z - 1);
     Worldmap_tile *tile = GAME.worldmap->get_tile(p.x, p.y);
     if (!tile) {
@@ -447,7 +443,6 @@ Submap* Submap_pool::at_location(Tripoint p)
     sub->generate_above(tile->terrain, below);
     return sub;
   }
-  fout << "Genned:" << p.x << ":" << p.y << ":" << p.z << " / " << point_map.size() << std::endl;
   sub->generate(GAME.worldmap, p.x, p.y, p.z);
   point_map[p] = sub;
   return sub;
@@ -494,11 +489,12 @@ void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
   if (wposz != -999) {
     posz = wposz;
   }
-  for (int z = 0; z <= VERTICAL_MAP_SIZE * 2 + 1; z++) {
-    int zpos = posz - VERTICAL_MAP_SIZE + z;
+// TODO: Support posz < 0
+  for (int z = 0; z <= posz; z++) {
+    int z_index = z + VERTICAL_MAP_SIZE - posz;
     for (int x = 0; x < MAP_SIZE; x++) {
       for (int y = 0; y < MAP_SIZE; y++) {
-        submaps[x][y][z] = SUBMAP_POOL.at_location(posx + x, posy + y, zpos);
+        submaps[x][y][z_index] = SUBMAP_POOL.at_location(posx + x, posy + y, z);
       }
     }
   }
