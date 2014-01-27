@@ -4,6 +4,7 @@
 #include "monster.h"
 #include "game.h"
 #include "attack.h"
+#include <fstream>
 
 void Tile::set_terrain(Terrain* ter)
 {
@@ -428,11 +429,15 @@ Submap* Submap_pool::at_location(Point p)
 
 Submap* Submap_pool::at_location(Tripoint p)
 {
+  std::ofstream fout;
+  fout.open("pool_debug.txt", std::fstream::app);
   if (point_map.count(p) > 0) {
+    fout << "Loaded:" << p.x << ":" << p.y << ":" << p.z << " / " << point_map.size() << std::endl;
     return point_map[p];
   }
   Submap* sub = new Submap;
   if (p.z > 0) {
+    fout << "Above: " << p.x << ":" << p.y << ":" << p.z << " / " << point_map.size() << std::endl;
     Submap* below = at_location(p.x, p.y, p.z - 1);
     Worldmap_tile *tile = GAME.worldmap->get_tile(p.x, p.y);
     if (!tile) {
@@ -442,6 +447,7 @@ Submap* Submap_pool::at_location(Tripoint p)
     sub->generate_above(tile->terrain, below);
     return sub;
   }
+  fout << "Genned:" << p.x << ":" << p.y << ":" << p.z << " / " << point_map.size() << std::endl;
   sub->generate(GAME.worldmap, p.x, p.y, p.z);
   point_map[p] = sub;
   return sub;
