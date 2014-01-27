@@ -106,12 +106,12 @@ void Monster::make_plans()
     senses_player = true;
   }
   if (senses_player) {
-    target = player;
+    entity_target = player;
     wander_target = Point(player->pos.x, player->pos.y);
 // TODO: Don't hard-code wander_duration.  Make it a Monster_type stat?
     wander_duration = 15;
   } else {
-    target = NULL;
+    entity_target = NULL;
   }
 }
 
@@ -123,11 +123,11 @@ void Monster::take_turn()
     if (wander_duration > 0) {
       wander_duration--;
     }
-    if (target) {
-      if (can_attack(target)) {
-        attack(target);
+    if (entity_target) {
+      if (can_attack(entity_target)) {
+        attack(entity_target);
       } else {
-        move_towards(target);
+        move_towards(entity_target);
       }
     } else {
       wander();
@@ -179,16 +179,22 @@ void Monster::move_towards(Entity* entity)
     debugmsg("Monster attempted move_towards() on a null target.");
     return;
   }
-  move_towards(entity->pos.x, entity->pos.y);
+  move_towards(entity->pos);
 }
 
 void Monster::move_towards(int target_x, int target_y)
+{
+  Tripoint target(target_x, target_y, pos.z);
+  move_towards(target);
+}
+
+void Monster::move_towards(Tripoint target)
 {
   Generic_map move_map = GAME.map->get_movement_map(get_intelligence());
   Pathfinder pf(move_map);
 // Simple, dumb movement - suitable for zombies at least
   Point move;
-  Point to(target_x, target_y), from(pos.x, pos.y);
+  Point to(target.x, target.y), from(pos.x, pos.y);
   switch (get_intelligence()) {
     case INTEL_NULL:
     case INTEL_PLANT:

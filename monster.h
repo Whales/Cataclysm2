@@ -39,6 +39,7 @@ public:
 
   void move_towards(Entity* entity);
   void move_towards(int target_x, int target_y);
+  void move_towards(Tripoint target);
   void wander();
   void pause();
 
@@ -46,7 +47,7 @@ public:
   int current_hp;
 
 private:
-  Entity* target;
+  Entity* entity_target;
   Point wander_target;
   int wander_duration;
 };
