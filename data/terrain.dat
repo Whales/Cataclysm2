@@ -112,14 +112,6 @@ name: stone wall
   glyph: # ltgray black
   movecost: 0
   flags: opaque
-  smash:
-    result: rubble
-    failure_sound: "thump."
-    success_sound: rock shattering.
-    hp: 250
-    armor: cut 50
-    armor: bash 20
-  done
 done
 
 name: wood wall
