@@ -3,6 +3,7 @@
 #include "stringfunc.h"
 #include "map.h"
 #include "rng.h"
+#include "pathfind.h"
 #include <stdarg.h>
 #include <math.h>
 #include <sstream>
@@ -311,7 +312,10 @@ void Game::do_action(Interface_action act)
 void Game::move_entities()
 {
   clean_up_dead_entities();
-// First, give all monsters action points
+// TODO: Only update scent_map when the player moves (i.e., move this call to
+//       player_move()?)
+  scent_map = map->get_dijkstra_map(player->pos, 15);
+// First, give all entities action points
   for (std::list<Entity*>::iterator it = entities.instances.begin();
        it != entities.instances.end();
        it++) {
@@ -319,8 +323,8 @@ void Game::move_entities()
       (*it)->gain_action_points();
     }
   }
-/* Loop through the monsters, giving each one a single turn at a time.
- * Stop when we go through a loop without finding any monsters that can
+/* Loop through the entities, giving each one a single turn at a time.
+ * Stop when we go through a loop without finding any entities that can
  * take a turn.
  */
   bool all_done = true;

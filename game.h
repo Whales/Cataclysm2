@@ -7,6 +7,7 @@
 #include "monster.h"
 #include "player.h"
 #include "keybind.h"
+#include "pathfind.h"
 
 struct Game_message
 {
@@ -51,20 +52,22 @@ public:
 
 // UI - Special screens
   void pickup_items(Tripoint pos);
-  void pickup_items(Point pos);
+  void pickup_items(Point    pos);
   void pickup_items(int posx, int posy);
 // TODO: Both are limited in that they can not return a point that the player
 //       cannot currently see (they return Point() instead).
-  Point target_selector(int startx = -1, int starty = -1);
+  Point target_selector           (int startx = -1, int starty = -1);
   std::vector<Point> path_selector(int startx = -1, int starty = -1);
 
 // Data - Universal access functions
   int get_item_uid();
 
-  Map*      map;
-  Worldmap* worldmap;
-  Player*   player;
+  Map*        map;
+  Worldmap*   worldmap;
+  Player*     player;
   Entity_pool entities;
+
+  Generic_map scent_map;
 
 private:
   Window *w_map;
