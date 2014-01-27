@@ -13,8 +13,8 @@ void populate_item_lists(Player* p, int offset_size,
 
 Player::Player()
 {
-  posx = 15;
-  posy = 15;
+  pos.x = 15;
+  pos.y = 15;
   action_points = 100;
   name = "Whales";
   for (int i = 0; i < BODYPART_MAX; i++) {

@@ -87,7 +87,7 @@ bool Game::main_loop()
     handle_player_activity();
     shift_if_needed();
     update_hud();
-    map->draw(w_map, &entities, player->posx, player->posy, player->posz);
+    map->draw(w_map, &entities, player->pos);
     w_map->refresh();
 
     if (!player->activity.is_active()) {
@@ -95,8 +95,8 @@ bool Game::main_loop()
       if (ch == '!') {
         Monster* mon = new Monster;
         mon->set_type("zombie");
-        mon->posx = player->posx - 3;
-        mon->posy = player->posy - 3;
+        mon->pos.x = player->pos.x - 3;
+        mon->pos.y = player->pos.y - 3;
         entities.add_entity(mon);
       }
       Interface_action act = KEYBINDINGS.bound_to_key(ch);
@@ -125,7 +125,7 @@ void Game::do_action(Interface_action act)
     case IACTION_PAUSE:   player->pause();      break;
 
     case IACTION_MOVE_UP:
-      if (!map->has_flag(TF_STAIRS_UP, player->posx, player->posy)) {
+      if (!map->has_flag(TF_STAIRS_UP, player->pos)) {
         add_msg("You cannot go up here.");
         player_move_vertical(1);
       } else {
@@ -134,7 +134,7 @@ void Game::do_action(Interface_action act)
       break;
 
     case IACTION_MOVE_DOWN:
-      if (!map->has_flag(TF_STAIRS_DOWN, player->posx, player->posy)) {
+      if (!map->has_flag(TF_STAIRS_DOWN, player->pos)) {
         add_msg("You cannot go down here.");
         player_move_vertical(-1);
       } else {
@@ -144,16 +144,16 @@ void Game::do_action(Interface_action act)
 
     case IACTION_PICK_UP:
 // TODO: Interface for picking up >1 item
-      if (map->item_count(player->posx, player->posy) == 0) {
+      if (map->item_count(player->pos) == 0) {
         add_msg("No items here.");
-      } else if (map->item_count(player->posx, player->posy) == 1) {
-        std::vector<Item> *items = map->items_at(player->posx, player->posy);
+      } else if (map->item_count(player->pos) == 1) {
+        std::vector<Item> *items = map->items_at(player->pos);
         std::string message = "You pick up " + list_items(items);
         player->add_item( (*items)[0] );
         items->clear();
         add_msg(message.c_str());
       } else {
-        pickup_items(player->posx, player->posy);
+        pickup_items(player->pos);
       }
       break;
 
@@ -162,9 +162,9 @@ void Game::do_action(Interface_action act)
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
       } else {
-        Point open = player->get_position() + dir;
-        std::string tername = map->get_name(open.x, open.y);
-        if (map->open(open.x, open.y)) {
+        Tripoint open = player->pos + dir;
+        std::string tername = map->get_name(open);
+        if (map->open(open)) {
           add_msg("You open the %s.", tername.c_str());
           player->use_ap(100);
         } else {
@@ -178,9 +178,9 @@ void Game::do_action(Interface_action act)
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
       } else {
-        Point close = player->get_position() + dir;
-        std::string tername = map->get_name(close.x, close.y);
-        if (map->close(close.x, close.y)) {
+        Tripoint close = player->pos + dir;
+        std::string tername = map->get_name(close);
+        if (map->close(close)) {
           add_msg("You close the %s.", tername.c_str());
           player->use_ap(100);
         } else {
@@ -194,12 +194,10 @@ void Game::do_action(Interface_action act)
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
       } else {
-        Point sm = player->get_position() + dir;
-        add_msg("You smash the %s.",
-                map->get_name(sm.x, sm.y).c_str());
-        std::string sound = map->smash(sm.x, sm.y,
-                                       player->std_attack().roll_damage());
-        make_sound(sound, player->posx, player->posy);
+        Tripoint sm = player->pos + dir;
+        add_msg("You smash the %s.", map->get_name(sm).c_str());
+        std::string sound = map->smash(sm, player->std_attack().roll_damage());
+        make_sound(sound, player->pos);
         player->use_ap(100);
       }
     } break;
@@ -210,7 +208,7 @@ void Game::do_action(Interface_action act)
       if (act == IACT_DROP) {
         add_msg( player->drop_item_message(it) );
         player->remove_item_uid(it.get_uid());
-        map->add_item(it, player->posx, player->posy);
+        map->add_item(it, player->pos);
       } else if (act == IACT_WIELD) {
         add_msg( player->wield_item_message(it) );
         player->wield_item_uid(it.get_uid());
@@ -225,7 +223,7 @@ void Game::do_action(Interface_action act)
       std::stringstream message;
       message << "You drop " << list_items(&dropped);
       for (int i = 0; i < dropped.size(); i++) {
-        map->add_item(dropped[i], player->posx, player->posy);
+        map->add_item(dropped[i], player->pos);
       }
       add_msg( message.str().c_str() );
     } break;
@@ -264,7 +262,7 @@ void Game::do_action(Interface_action act)
         } else {
           player->remove_item_uid(it.get_uid(), 1);
           Ranged_attack att = player->throw_item(it);
-          launch_projectile(it, att, player->get_position(), target);
+          launch_projectile(it, att, player->pos, target);
         }
       }
     } break;
@@ -284,7 +282,7 @@ void Game::do_action(Interface_action act)
           add_msg("Never mind.");
         } else {
           Ranged_attack att = player->fire_weapon();
-          launch_projectile(Item(), att, player->get_position(), target);
+          launch_projectile(Item(), att, player->pos, target);
         }
       }
       break;
@@ -349,7 +347,7 @@ void Game::clean_up_dead_entities()
   while (it != entities.instances.end()) {
     Entity *ent = (*it);
     if ( ent->dead ) {
-      if (player->can_see(map, ent->posx, ent->posy)) {
+      if (player->can_see(map, ent->pos)) {
         if (ent->killed_by_player) {
           add_msg("You kill %s!", ent->get_name_to_player().c_str());
         } else {
@@ -409,15 +407,15 @@ void Game::shift_if_needed()
 {
   int min = SUBMAP_SIZE * (MAP_SIZE / 2), max = min + SUBMAP_SIZE - 1;
   int shiftx = 0, shifty = 0;
-  if (player->posx < min) {
-    shiftx = -1 + (player->posx - min) / SUBMAP_SIZE;
-  } else if (player->posx > max) {
-    shiftx =  1 + (player->posx - max) / SUBMAP_SIZE;
+  if (player->pos.x < min) {
+    shiftx = -1 + (player->pos.x - min) / SUBMAP_SIZE;
+  } else if (player->pos.x > max) {
+    shiftx =  1 + (player->pos.x - max) / SUBMAP_SIZE;
   }
-  if (player->posy < min) {
-    shifty = -1 + (player->posy - min) / SUBMAP_SIZE;
-  } else if (player->posy > max) {
-    shifty =  1 + (player->posy - max) / SUBMAP_SIZE;
+  if (player->pos.y < min) {
+    shifty = -1 + (player->pos.y - min) / SUBMAP_SIZE;
+  } else if (player->pos.y > max) {
+    shifty =  1 + (player->pos.y - max) / SUBMAP_SIZE;
   }
   map->shift(worldmap, shiftx, shifty);
   //player->shift(shiftx, shifty);
@@ -428,13 +426,23 @@ void Game::shift_if_needed()
   }
 }
 
+void Game::make_sound(std::string desc, Tripoint pos)
+{
+  make_sound(desc, pos.x, pos.y);
+}
+
+void Game::make_sound(std::string desc, Point pos)
+{
+  make_sound(desc, pos.x, pos.y);
+}
+
 void Game::make_sound(std::string desc, int x, int y)
 {
   if (desc.empty()) {
     return;
   }
 // TODO: Alert monsters
-  Direction_full dir = get_general_direction(player->get_position(),
+  Direction_full dir = get_general_direction(player->pos,
                                              Point(x, y));
 // TODO: Don't hardcode color
   if (dir == DIRFULL_NULL) { // On top of the player!
@@ -506,7 +514,7 @@ void Game::player_move(int xdif, int ydif)
     return;
   }
 
-  int newx = player->posx + xdif, newy = player->posy + ydif;
+  int newx = player->pos.x + xdif, newy = player->pos.y + ydif;
   Entity* ent = entities.entity_at(newx, newy);
   std::string tername = map->get_name(newx, newy);
   if (ent) {
@@ -517,7 +525,7 @@ void Game::player_move(int xdif, int ydif)
     add_msg("You open the %s.", tername.c_str());
     player->use_ap(100);
   }
-  std::vector<Item> *items = map->items_at(player->posx, player->posy);
+  std::vector<Item> *items = map->items_at(player->pos);
 // TODO: Ensure the player has the sense of sight
   if (!items->empty()) {
     std::string item_message = "You see here " + list_items(items);
@@ -529,7 +537,7 @@ void Game::player_move_vertical(int zdif)
 {
 // TODO: Move entities into a stairs-following queue
   map->shift(worldmap, 0, 0, zdif);
-  player->posz += zdif;
+  player->pos.z += zdif;
 }
 
 void Game::add_msg(std::string msg, ...)
@@ -607,6 +615,16 @@ void Game::print_messages()
     //debugmsg("Adding %s", text.str().c_str());
     i_hud.add_data("text_messages", text.str());
   }
+}
+
+void Game::pickup_items(Tripoint pos)
+{
+  pickup_items(pos.x, pos.y);
+}
+
+void Game::pickup_items(Point pos)
+{
+  pickup_items(pos.x, pos.y);
 }
 
 void Game::pickup_items(int posx, int posy)
@@ -755,13 +773,13 @@ std::vector<Point> Game::path_selector(int startx, int starty)
     return ret;
   }
   if (startx == -1 || starty == -1) {
-    startx = player->posx;
-    starty = player->posy;
+    startx = player->pos.x;
+    starty = player->pos.y;
   }
 
-  Point target(startx, starty);
+  Tripoint target(startx, starty, player->pos.z);
 
-  map->draw(w_map, &entities, player->posx, player->posy, player->posz);
+  map->draw(w_map, &entities, player->pos);
   w_map->refresh();
   while (true) {
     long ch = input();
@@ -776,15 +794,15 @@ std::vector<Point> Game::path_selector(int startx, int starty)
         return ret; // Return out path on hitting "pause"
       } else if (p.x != -2 && p.y != -2) {
         target += p;
-        ret = map->line_of_sight(player->posx,player->posy, target.x,target.y);
-        map->draw(w_map, &entities, player->posx, player->posy, player->posz);
+        ret = map->line_of_sight(player->pos, target);
+        map->draw(w_map, &entities, player->pos);
         for (int i = 0; i < ret.size(); i++) {
           map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
-                         player->posx, player->posy, true); // true == inverted
+                         player->pos.x, player->pos.y, true); // true==inverted
         }
 // TODO: No no no remove this
-        w_map->putglyph(w_map->sizex() / 2 - player->posx + target.x,
-                        w_map->sizey() / 2 - player->posy + target.y,
+        w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
+                        w_map->sizey() / 2 - player->pos.y + target.y,
                         glyph('*', c_red, c_black));
         w_map->refresh();
       }

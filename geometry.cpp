@@ -67,7 +67,6 @@ std::vector<Point> line_to(Point origin, Point target)
   return line_to(origin.x, origin.y, target.x, target.y);
 }
 
-
 int rl_dist(int x0, int y0, int x1, int y1)
 {
   int dx = (x0 > x1 ? x0 - x1 : x1 - x0), dy = (y0 > y1 ? y0 - y1 : y1 - y0);
@@ -77,6 +76,24 @@ int rl_dist(int x0, int y0, int x1, int y1)
 int rl_dist(Point origin, Point target)
 {
   return rl_dist(origin.x, origin.y, target.x, target.y);
+}
+
+int rl_dist(int x0, int y0, int z0, int x1, int y1, int z1)
+{
+  int dx = (x0 > x1 ? x0 - x1 : x1 - x0), dy = (y0 > y1 ? y0 - y1 : y1 - y0),
+      dz = (z0 > z1 ? z0 - z1 : z1 - z0);
+  if (dx > dy && dx > dz) {
+    return dx;
+  }
+  if (dy > dz) {
+    return dy;
+  }
+  return dz;
+}
+
+int rl_dist(Tripoint origin, Tripoint target)
+{
+  return rl_dist(origin.x, origin.y, origin.z, target.x, target.y, target.z);
 }
 
 int manhattan_dist(int x0, int y0, int x1, int y1)
@@ -141,6 +158,22 @@ Direction_full get_general_direction(Point origin, Point target)
     }
   }
   return DIRFULL_NULL;
+}
+
+Direction_full get_general_direction(Tripoint origin, Point target)
+{
+  return get_general_direction( Point(origin.x, origin.y), target );
+}
+
+Direction_full get_general_direction(Point origin, Tripoint target)
+{
+  return get_general_direction( origin, Point(target.x, target.y) );
+}
+
+Direction_full get_general_direction(Tripoint origin, Tripoint target)
+{
+  return get_general_direction( Point(origin.x, origin.y),
+                                Point(target.x, target.y) );
 }
 
 std::string Direction_name(Direction dir)

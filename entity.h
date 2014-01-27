@@ -28,7 +28,6 @@ public:
   virtual std::string get_possessive();
   virtual std::string conjugate(const std::string &verb);
   virtual glyph get_glyph();
-  virtual Tripoint get_position();
 
   virtual bool is_player()  { return false; }
   virtual bool is_monster() { return false; }
@@ -41,6 +40,7 @@ public:
 
   virtual Intel_level get_intelligence();
   virtual bool has_sense(Sense_type sense);
+  virtual bool can_see    (Map* map, Tripoint target);
   virtual bool can_see    (Map* map, int x, int y, int z = 999);
   virtual bool can_move_to(Map* map, int x, int y);
   virtual void move_to    (Map* map, int x, int y);
@@ -94,7 +94,8 @@ public:
 // Values
   int uid;
 
-  int posx, posy, posz;
+  Tripoint pos;
+  //int posx, posy, posz;
   int action_points;
 
   bool dead;
@@ -132,6 +133,7 @@ public:
 
   Entity* lookup_uid(int uid);
   Entity* entity_at(int posx, int posy);
+  Entity* entity_at(Tripoint pos);
   Entity* entity_at(int posx, int posy, int posz);
 
   std::list<Entity*> instances;

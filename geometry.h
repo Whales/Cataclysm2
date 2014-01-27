@@ -67,6 +67,12 @@ struct Point
   }
 };
 
+inline Point operator+(Point lhs, const Point& rhs)
+{
+  lhs += rhs;
+  return lhs;
+}
+
 struct Tripoint
 {
   int x;
@@ -95,6 +101,14 @@ struct Tripoint
     return *this;
   }
 
+  Tripoint& operator +=(const Point &rhs)
+  {
+    x += rhs.x;
+    y += rhs.y;
+
+    return *this;
+  }
+
   operator Point()
   {
     Point ret;
@@ -104,7 +118,13 @@ struct Tripoint
   }
 };
 
-inline Point operator+(Point lhs, const Point& rhs)
+inline Tripoint operator+(Tripoint lhs, const Tripoint& rhs)
+{
+  lhs += rhs;
+  return lhs;
+}
+
+inline Tripoint operator+(Tripoint lhs, const Point& rhs)
 {
   lhs += rhs;
   return lhs;
@@ -141,6 +161,8 @@ std::vector<Point> line_to(Point origin, Point target);
 
 int rl_dist       (int x0, int y0, int x1, int y1);
 int rl_dist       (Point origin, Point target);
+int rl_dist       (int x0, int y0, int z0, int x1, int y1, int z1);
+int rl_dist       (Tripoint origin, Tripoint target);
 int manhattan_dist(int x0, int y0, int x1, int y1);
 int manhattan_dist(Point origin, Point target);
 
@@ -149,7 +171,11 @@ int manhattan_dist(Point origin, Point target);
  * north and 5 tiles to the west, we return north since any reasonable
  * observe would call that the "north" and not the "northwest."
  * Generally, if dY >= 2 * dX then treat dX as 0, etc.
+ * All four are functionally equivalent and ignore Z for now.
  */
-Direction_full get_general_direction(Point origin, Point target);
+Direction_full get_general_direction(Point origin,    Point target);
+Direction_full get_general_direction(Tripoint origin, Point target);
+Direction_full get_general_direction(Point origin,    Tripoint target);
+Direction_full get_general_direction(Tripoint origin, Tripoint target);
 
 #endif

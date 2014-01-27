@@ -20,9 +20,9 @@ Stats::~Stats()
 Entity::Entity()
 {
   uid = -1;
-  posx = 15;
-  posy = 15;
-  posz = 0;
+  pos.x = 15;
+  pos.y = 15;
+  pos.z = 0;
   action_points = 0;
   dead = false;
   killed_by_player = false;
@@ -64,22 +64,17 @@ glyph Entity::get_glyph()
   return glyph();
 }
 
-Tripoint Entity::get_position()
-{
-  return Tripoint(posx, posy, posz);
-}
-
 void Entity::die()
 {
 // TODO: Drop a corpse.
   for (int i = 0; i < inventory.size(); i++) {
-    GAME.map->add_item( inventory[i], posx, posy, posz );
+    GAME.map->add_item( inventory[i], pos.x, pos.y, pos.z );
   }
   for (int i = 0; i < items_worn.size(); i++) {
-    GAME.map->add_item( items_worn[i], posx, posy, posz );
+    GAME.map->add_item( items_worn[i], pos.x, pos.y, pos.z );
   }
   if (weapon.is_real()) {
-    GAME.map->add_item( weapon, posx, posy, posz );
+    GAME.map->add_item( weapon, pos.x, pos.y, pos.z );
   }
 }
 
@@ -107,15 +102,20 @@ bool Entity::has_sense(Sense_type sense)
   return false;
 }
 
+bool Entity::can_see(Map* map, Tripoint target)
+{
+  return can_see(map, target.x, target.y, target.z);
+}
+
 bool Entity::can_see(Map* map, int x, int y, int z)
 {
   if (z == 999) { // z defaults to 999
-    z = posz;
+    z = pos.z;
   }
   if (!map || !has_sense(SENSE_SIGHT)) {
     return false;
   }
-  return map->senses(posx, posy, posz, x, y, z, SENSE_SIGHT);
+  return map->senses(pos.x, pos.y, pos.z, x, y, z, SENSE_SIGHT);
 }
 
 bool Entity::can_move_to(Map* map, int x, int y)
@@ -123,7 +123,7 @@ bool Entity::can_move_to(Map* map, int x, int y)
   if (!map) {
     return false;
   }
-  if (map->move_cost(x, y, posz) == 0) {
+  if (map->move_cost(x, y, pos.z) == 0) {
     return false;
   }
   return true;
@@ -131,10 +131,10 @@ bool Entity::can_move_to(Map* map, int x, int y)
 
 void Entity::move_to(Map* map, int x, int y)
 {
-  posx = x;
-  posy = y;
+  pos.x = x;
+  pos.y = y;
   if (map) {
-    action_points -= map->move_cost(x, y, posz);
+    action_points -= map->move_cost(x, y, pos.z);
   }
 }
 
@@ -160,8 +160,8 @@ void Entity::use_ap(int amount)
 
 void Entity::shift(int shiftx, int shifty)
 {
-  posx -= shiftx * SUBMAP_SIZE;
-  posy -= shifty * SUBMAP_SIZE;
+  pos.x -= shiftx * SUBMAP_SIZE;
+  pos.y -= shifty * SUBMAP_SIZE;
 }
 
 void Entity::prepare()
@@ -473,7 +473,7 @@ void Entity::attack(Entity* target)
 
   action_points -= att.speed;
 
-  bool you_see = GAME.player->can_sense(GAME.map, posx, posy);
+  bool you_see = GAME.player->can_sense(GAME.map, pos.x, pos.y);
   bool attacker_is_you = is_you();
 
   std::string miss_verb = (attacker_is_you ? "miss" : "misses");
@@ -560,10 +560,10 @@ Ranged_attack Entity::fire_weapon()
 bool Entity::can_sense(Map* map, int x, int y, int z)
 {
   if (z == 999) { // z defaults to 999
-    z = posz;
+    z = pos.z;
   }
 // Default Entity function just uses sight
-  return map->senses(posx, posy, posz, x, y, z);
+  return map->senses(pos.x, pos.y, pos.z, x, y, z);
 }
 
 bool Entity::can_sense(Map* map, Tripoint target)
@@ -632,11 +632,16 @@ Entity* Entity_pool::entity_at(int posx, int posy)
   for (std::list<Entity*>::iterator it = instances.begin();
        it != instances.end();
        it++) {
-    if ((*it)->posx == posx && (*it)->posy == posy) {
+    if ((*it)->pos.x == posx && (*it)->pos.y == posy) {
       return (*it);
     }
   }
   return NULL;
+}
+
+Entity* Entity_pool::entity_at(Tripoint pos)
+{
+  return entity_at(pos.x, pos.y, pos.z);
 }
 
 Entity* Entity_pool::entity_at(int posx, int posy, int posz)
@@ -644,7 +649,7 @@ Entity* Entity_pool::entity_at(int posx, int posy, int posz)
   for (std::list<Entity*>::iterator it = instances.begin();
        it != instances.end();
        it++) {
-    if ((*it)->posx == posx && (*it)->posy == posy && (*it)->posz == posz) {
+    if ((*it)->pos.x == posx && (*it)->pos.y == posy && (*it)->pos.z == posz) {
       return (*it);
     }
   }

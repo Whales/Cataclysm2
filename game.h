@@ -36,6 +36,8 @@ public:
 
 // Engine - Called-as-needed
   void shift_if_needed();  // Shift the map, if the player's not in the center
+  void make_sound(std::string desc, Tripoint pos);
+  void make_sound(std::string desc, Point pos);
   void make_sound(std::string desc, int x, int y);
   void launch_projectile(Item it, Ranged_attack attack,
                          Point origin, Point target);
@@ -48,6 +50,8 @@ public:
   void print_messages();
 
 // UI - Special screens
+  void pickup_items(Tripoint pos);
+  void pickup_items(Point pos);
   void pickup_items(int posx, int posy);
 // TODO: Both are limited in that they can not return a point that the player
 //       cannot currently see (they return Point() instead).

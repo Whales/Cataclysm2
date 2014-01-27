@@ -102,12 +102,12 @@ void Monster::make_plans()
 // TODO: Support different senses
 // TODO: Support non-aggressive monsters
   bool senses_player = false;
-  if (has_sense(SENSE_SIGHT) && can_sense(map, player->get_position())) {
+  if (has_sense(SENSE_SIGHT) && can_sense(map, player->pos)) {
     senses_player = true;
   }
   if (senses_player) {
     target = player;
-    wander_target = Point(player->posx, player->posy);
+    wander_target = Point(player->pos.x, player->pos.y);
 // TODO: Don't hard-code wander_duration.  Make it a Monster_type stat?
     wander_duration = 15;
   } else {
@@ -140,7 +140,7 @@ bool Monster::can_attack(Entity* entity)
   if (!entity) {
     return false;
   }
-  if (rl_dist(posx, posy, entity->posx, entity->posy) <= 1) {
+  if (rl_dist(pos.x, pos.y, pos.z, entity->pos.x, entity->pos.y, entity->pos.z) <= 1){
     return true;
   }
   return false;
@@ -179,7 +179,7 @@ void Monster::move_towards(Entity* entity)
     debugmsg("Monster attempted move_towards() on a null target.");
     return;
   }
-  move_towards(entity->posx, entity->posy);
+  move_towards(entity->pos.x, entity->pos.y);
 }
 
 void Monster::move_towards(int target_x, int target_y)
@@ -188,13 +188,13 @@ void Monster::move_towards(int target_x, int target_y)
   Pathfinder pf(move_map);
 // Simple, dumb movement - suitable for zombies at least
   Point move;
-  Point to(target_x, target_y), from = get_position();
+  Point to(target_x, target_y), from(pos.x, pos.y);
   switch (get_intelligence()) {
     case INTEL_NULL:
     case INTEL_PLANT:
 // Mobile plants just drunken walk.
-      move.x = rng(posx - 1, posx + 1);
-      move.y = rng(posy - 1, posy + 1);
+      move.x = rng(pos.x - 1, pos.x + 1);
+      move.y = rng(pos.y - 1, pos.y + 1);
       break;
 
     case INTEL_ZOMBIE:
@@ -230,7 +230,7 @@ void Monster::move_towards(int target_x, int target_y)
 void Monster::wander()
 {
   if (wander_duration <= 0) {
-    wander_target = Point( posx + rng(-3, 3), posy + rng(-3, 3) );
+    wander_target = Point( pos.x + rng(-3, 3), pos.y + rng(-3, 3) );
     wander_duration = 3;
   }
   move_towards(wander_target.x, wander_target.y);

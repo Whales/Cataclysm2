@@ -100,17 +100,37 @@ public:
 
 // Game engine access
   Generic_map get_movement_map(Intel_level intel);
+  int  move_cost(Tripoint pos);
   int  move_cost(int x, int y, int z = 999);
+
+  bool is_smashable(Tripoint pos);
   bool is_smashable(int x, int y, int z = 999);
+
+  bool has_flag(Terrain_flag flag, Tripoint pos);
   bool has_flag(Terrain_flag flag, int x, int y, int z = 999);
-  int  item_count(int x, int y, int z = 999);
-  std::vector<Item>* items_at(int x, int y, int z = 999);
-  Tile* get_tile(int x, int y, int z = 999);
-  std::string get_name(int x, int y, int z = 999);
+
+  bool add_item(Item item, Tripoint pos);
   bool add_item(Item item, int x, int y, int z = 999);
+
+  int  item_count(Tripoint pos);
+  int  item_count(int x, int y, int z = 999);
+
+  std::vector<Item>* items_at(Tripoint pos);
+  std::vector<Item>* items_at(int x, int y, int z = 999);
+
+  Tile* get_tile(Tripoint pos);
+  Tile* get_tile(int x, int y, int z = 999);
+
+  std::string get_name(Tripoint pos);
+  std::string get_name(int x, int y, int z = 999);
+
   std::string smash(int x, int y, Damage_set damage); // Returns the sound
   std::string smash(int x, int y, int z, Damage_set damage);
+  std::string smash(Tripoint pos, Damage_set damage);
+
+  bool open (Tripoint pos);
   bool open (int x, int y, int z = 999);
+  bool close(Tripoint pos);
   bool close(int x, int y, int z = 999);
 
   bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
@@ -125,6 +145,8 @@ public:
   std::vector<Point> line_of_sight(Tripoint origin, Tripoint target);
 
 // Output
+  void draw(Window *w, Entity_pool *entities, Tripoint ref,
+            Sense_type sense = SENSE_SIGHT);
   void draw(Window *w, Entity_pool *entities, int refx, int refy, int refz,
             Sense_type sense = SENSE_SIGHT);
 

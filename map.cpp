@@ -527,9 +527,19 @@ Generic_map Map::get_movement_map(Intel_level intel)
   return ret;
 }
 
+int Map::move_cost(Tripoint pos)
+{
+  return move_cost(pos.x, pos.y, pos.z);
+}
+
 int Map::move_cost(int x, int y, int z)
 {
   return get_tile(x, y, z)->move_cost();
+}
+
+bool Map::is_smashable(Tripoint pos)
+{
+  return is_smashable(pos.x, pos.y, pos.z);
 }
 
 bool Map::is_smashable(int x, int y, int z)
@@ -541,10 +551,20 @@ bool Map::is_smashable(int x, int y, int z)
   return !(t->terrain->smash.result.empty());
 }
 
+bool Map::has_flag(Terrain_flag flag, Tripoint pos)
+{
+  return has_flag(flag, pos.x, pos.y, pos.z);
+}
+
 bool Map::has_flag(Terrain_flag flag, int x, int y, int z)
 {
   Tile *t = get_tile(x, y, z);
   return t->has_flag(flag);
+}
+
+bool Map::add_item(Item item, Tripoint pos)
+{
+  return add_item(item, pos.x, pos.y, pos.z);
 }
 
 bool Map::add_item(Item item, int x, int y, int z)
@@ -564,6 +584,11 @@ bool Map::add_item(Item item, int x, int y, int z)
   return submaps[sx][sy][z]->add_item(item, x, y);
 }
 
+int Map::item_count(Tripoint pos)
+{
+  return item_count(pos.x, pos.y, pos.z);
+}
+
 int Map::item_count(int x, int y, int z)
 {
   std::vector<Item>* it = items_at(x, y, z);
@@ -571,6 +596,11 @@ int Map::item_count(int x, int y, int z)
     return 0;
   }
   return it->size();
+}
+
+std::vector<Item>* Map::items_at(Tripoint pos)
+{
+  return items_at(pos.x, pos.y, pos.z);
 }
 
 std::vector<Item>* Map::items_at(int x, int y, int z)
@@ -590,6 +620,11 @@ std::vector<Item>* Map::items_at(int x, int y, int z)
   return submaps[sx][sy][z]->items_at(x, y);
 }
 
+Tile* Map::get_tile(Tripoint pos)
+{
+  return get_tile(pos.x, pos.y, pos.z);
+}
+
 Tile* Map::get_tile(int x, int y, int z)
 {
 // z defaults to 999
@@ -606,6 +641,11 @@ Tile* Map::get_tile(int x, int y, int z)
 
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
   return &(submaps[sx][sy][z]->tiles[x % SUBMAP_SIZE][y % SUBMAP_SIZE]);
+}
+
+std::string Map::get_name(Tripoint pos)
+{
+  return get_name(pos.x, pos.y, pos.z);
 }
 
 std::string Map::get_name(int x, int y, int z)
@@ -631,6 +671,16 @@ std::string Map::smash(int x, int y, int z, Damage_set damage)
   return "";
 }
 
+std::string Map::smash(Tripoint pos, Damage_set damage)
+{
+  return smash(pos.x, pos.y, pos.z, damage);
+}
+
+bool Map::open(Tripoint pos)
+{
+  return open(pos.x, pos.y, pos.y);
+}
+
 bool Map::open(int x, int y, int z)
 {
   Tile* target = get_tile(x, y, z);
@@ -639,6 +689,11 @@ bool Map::open(int x, int y, int z)
     return true;
   }
   return false;
+}
+
+bool Map::close(Tripoint pos)
+{
+  return close(pos.x, pos.y, pos.y);
 }
 
 bool Map::close(int x, int y, int z)
@@ -771,6 +826,17 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
 std::vector<Point> Map::line_of_sight(Point origin, Point target)
 {
   return line_of_sight(origin.x, origin.y, target.x, target.y);
+}
+
+std::vector<Point> Map::line_of_sight(Tripoint origin, Tripoint target)
+{
+  return line_of_sight(origin.x, origin.y, origin.z,
+                       target.x, target.y, target.z);
+}
+
+void Map::draw(Window* w, Entity_pool *entities, Tripoint ref, Sense_type sense)
+{
+  draw(w, entities, ref.x, ref.y, ref.z, sense);
 }
 
 void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
