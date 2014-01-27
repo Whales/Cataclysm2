@@ -529,6 +529,12 @@ Generic_map Map::get_movement_map(Intel_level intel)
   return ret;
 }
 
+Generic_map Map::get_scent_map(Tripoint target, int scent)
+{
+  Generic_map ret(SUBMAP_SIZE * MAP_SIZE, SUBMAP_SIZE * MAP_SIZE, posz + 1);
+  return ret;
+}
+
 int Map::move_cost(Tripoint pos)
 {
   return move_cost(pos.x, pos.y, pos.z);

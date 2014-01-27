@@ -100,6 +100,7 @@ public:
 
 // Game engine access
   Generic_map get_movement_map(Intel_level intel);
+  Generic_map get_scent_map(Tripoint target, int scent);
   int  move_cost(Tripoint pos);
   int  move_cost(int x, int y, int z = 999);
 

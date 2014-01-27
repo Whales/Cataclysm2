@@ -36,20 +36,24 @@ private:
 class Generic_map
 {
 public:
-  Generic_map(int x = 0, int y = 0);
+  Generic_map(int x = 0, int y = 0, int z = 1);
   ~Generic_map();
 
-  void set_size(int x, int y);
+  void set_size(int x, int y, int z = 1);
   void set_cost(int x, int y, int c);
+  void set_cost(int x, int y, int z, int c);
 
   int  get_size_x();
   int  get_size_y();
-  int  get_cost(int x, int y);
+  int  get_size_z();
+  int  get_cost(int x, int y, int z = 0);
   int  get_cost(Point p);
-  bool blocked(int x, int y);
+  int  get_cost(Tripoint p);
+  bool blocked(int x, int y, int z = 0);
   bool blocked(Point p);
+  bool blocked(Tripoint p);
 private:
-  std::vector<std::vector<int> > cost;
+  std::vector<std::vector<std::vector<int> > > cost;
 };
 
 class Pathfinder

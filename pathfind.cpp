@@ -47,37 +47,48 @@ void Path::reverse()
   std::reverse(path.begin(), path.end());
 }
 
-Generic_map::Generic_map(int x, int y)
+Generic_map::Generic_map(int x, int y, int z)
 {
-  set_size(x, y);
+  set_size(x, y, z);
 }
 
 Generic_map::~Generic_map()
 {
 }
 
-void Generic_map::set_size(int x, int y)
+void Generic_map::set_size(int x, int y, int z)
 {
   cost.clear();
   if (x == 0 && y == 0) {
     return;
   }
   std::vector<int> tmpvec;
-  for (int i = 0; i < y; i++) {
+  std::vector<std::vector<int> > tmpmatrix;
+  for (int i = 0; i < z; i++) {
     tmpvec.push_back(0);
   }
+  for (int i = 0; i < y; i++) {
+    tmpmatrix.push_back(tmpvec);
+  }
   for (int i = 0; i < x; i++) {
-    cost.push_back( tmpvec );
+    cost.push_back( tmpmatrix );
   }
 }
 
 void Generic_map::set_cost(int x, int y, int c)
 {
-  if (x < 0 || x >= get_size_x() || y < 0 || y >= get_size_y()) {
+  set_cost(x, y, 0, c);
+}
+
+void Generic_map::set_cost(int x, int y, int z, int c)
+{
+  if (x < 0 || x >= get_size_x() || y < 0 || y >= get_size_y() || z < 0 ||
+      z >= get_size_z()) {
     return;
   }
-  cost[x][y] = c;
+  cost[x][y][z] = c;
 }
+
 
 int Generic_map::get_size_x()
 {
@@ -92,27 +103,49 @@ int Generic_map::get_size_y()
   return cost[0].size();
 }
 
-int Generic_map::get_cost(int x, int y)
+int Generic_map::get_size_z()
 {
-  if (x < 0 || x >= get_size_x() || y < 0 || y >= get_size_y()) {
+  if (cost.empty()) {
     return 0;
   }
-  return cost[x][y];
+  if (cost[0].empty()) {
+    return 0;
+  }
+  return cost[0][0].size();
+}
+
+int Generic_map::get_cost(int x, int y, int z)
+{
+  if (x < 0 || x >= get_size_x() || y < 0 || y >= get_size_y() || z < 0 ||
+      z >= get_size_z()) {
+    return 0;
+  }
+  return cost[x][y][z];
 }
 
 int Generic_map::get_cost(Point p)
 {
-  return get_cost(p.x, p.y);
+  return get_cost(p.x, p.y, 0);
 }
 
-bool Generic_map::blocked(int x, int y)
+int Generic_map::get_cost(Tripoint p)
 {
-  return (get_cost(x, y) <= 0);
+  return get_cost(p.x, p.y, p.z);
+}
+
+bool Generic_map::blocked(int x, int y, int z)
+{
+  return (get_cost(x, y, z) <= 0);
 }
 
 bool Generic_map::blocked(Point p)
 {
   return blocked(p.x, p.y);
+}
+
+bool Generic_map::blocked(Tripoint p)
+{
+  return blocked(p.x, p.y, p.z);
 }
 
 Pathfinder::Pathfinder()
