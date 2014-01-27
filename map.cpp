@@ -529,9 +529,45 @@ Generic_map Map::get_movement_map(Intel_level intel)
   return ret;
 }
 
-Generic_map Map::get_scent_map(Tripoint target, int scent)
+Generic_map Map::get_dijkstra_map(Tripoint target, int weight,
+                                  bool include_smashable)
 {
   Generic_map ret(SUBMAP_SIZE * MAP_SIZE, SUBMAP_SIZE * MAP_SIZE, posz + 1);
+  ret.set_cost(target, weight);
+  std::vector<Tripoint> active;
+  active.push_back(target);
+  while (!active.empty()) {
+    Tripoint cur = active[0];
+    active.erase(active.begin());
+// Check all adjacent terrain
+    for (int x = cur.x - 1; x <= cur.x + 1; x++) {
+      for (int y = cur.y - 1; y <= cur.y + 1; y++) {
+        if (x == cur.x && y == cur.y) { // Skip our own cell
+          y++;
+        }
+        if (((include_smashable && is_smashable(x, y, cur.z)) ||
+             move_cost(x, y, cur.z) > 0) &&
+            ret.get_cost(x, y, cur.z) < ret.get_cost(cur) - 1) {
+          ret.set_cost(x, y, cur.z, ret.get_cost(cur) - 1);
+          active.push_back( Tripoint(x, y, cur.z) );
+        }
+      }
+    }
+    if (has_flag(TF_STAIRS_DOWN, cur)) {
+      Tripoint down(cur.x, cur.y, cur.z - 1);
+      if (ret.get_cost(down) < ret.get_cost(cur) - 1) {
+        ret.set_cost(down, ret.get_cost(cur) - 1);
+        active.push_back( down );
+      }
+    }
+    if (has_flag(TF_STAIRS_UP, cur)) {
+      Tripoint down(cur.x, cur.y, cur.z + 1);
+      if (ret.get_cost(down) < ret.get_cost(cur) - 1) {
+        ret.set_cost(down, ret.get_cost(cur) - 1);
+        active.push_back( down );
+      }
+    }
+  } // while (!active.empty())
   return ret;
 }
 

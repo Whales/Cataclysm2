@@ -89,6 +89,10 @@ void Generic_map::set_cost(int x, int y, int z, int c)
   cost[x][y][z] = c;
 }
 
+void Generic_map::set_cost(Tripoint p, int c)
+{
+  set_cost(p.x, p.y, p.z, c);
+}
 
 int Generic_map::get_size_x()
 {

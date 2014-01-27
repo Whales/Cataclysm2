@@ -42,13 +42,16 @@ public:
   void set_size(int x, int y, int z = 1);
   void set_cost(int x, int y, int c);
   void set_cost(int x, int y, int z, int c);
+  void set_cost(Tripoint p, int c);
 
   int  get_size_x();
   int  get_size_y();
   int  get_size_z();
+
   int  get_cost(int x, int y, int z = 0);
   int  get_cost(Point p);
   int  get_cost(Tripoint p);
+
   bool blocked(int x, int y, int z = 0);
   bool blocked(Point p);
   bool blocked(Tripoint p);
