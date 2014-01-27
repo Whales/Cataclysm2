@@ -126,6 +126,9 @@ bool Entity::can_move_to(Map* map, int x, int y)
   if (map->move_cost(x, y, pos.z) == 0) {
     return false;
   }
+  if (GAME.entities.entity_at(x, y, pos.z) !=NULL) {
+    return false;
+  }
   return true;
 }
 
