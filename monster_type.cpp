@@ -17,7 +17,8 @@ Monster_type::Monster_type()
   intel = INTEL_PLANT;
   attacks_copied_from_genus = false;
   senses_copied_from_genus = false;
-  
+  corpse = NULL;
+
   for (int i = 0; i < SENSE_MAX; i++) {
     senses.push_back(false);
   }
@@ -162,6 +163,12 @@ bool Monster_type::load_data(std::istream &data)
       tmpattack.load_data(data, name);
       attacks.push_back(tmpattack);
       total_attack_weight += tmpattack.weight;
+
+    } else if (ident == "corpse") {
+      std::string corpse_name;
+      std::getline(data, corpse_name);
+      corpse_name=trim(corpse_name);
+      corpse=ITEM_TYPES.lookup_name(corpse_name);
 
     } else if (ident != "done") {
       debugmsg("Unknown monster property '%s' (%s)",

@@ -42,6 +42,7 @@ public:
   void move_towards(Tripoint target);
   void wander();
   void pause();
+  void die();
 
   Monster_type *type;
   int current_hp;

@@ -1,4 +1,5 @@
 name: zombie
   genus: zombies
   glyph: Z ltgreen black
+  corpse: zombie corpse
 done
