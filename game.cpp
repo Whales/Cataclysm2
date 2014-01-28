@@ -314,7 +314,7 @@ void Game::move_entities()
   clean_up_dead_entities();
 // TODO: Only update scent_map when the player moves (i.e., move this call to
 //       player_move()?)
-  scent_map = map->get_dijkstra_map(player->pos, 15);
+  //scent_map = map->get_dijkstra_map(player->pos, 15);
 // First, give all entities action points
   for (std::list<Entity*>::iterator it = entities.instances.begin();
        it != entities.instances.end();
