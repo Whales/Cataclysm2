@@ -13,7 +13,7 @@ Path::~Path()
 {
 }
 
-std::vector<Point> Path::get_points()
+std::vector<Tripoint> Path::get_points()
 {
   return path;
 }
@@ -23,20 +23,20 @@ int Path::get_cost()
   return total_cost;
 }
 
-Point Path::step(int n)
+Tripoint Path::step(int n)
 {
   if (n < 0 || n >= path.size()) {
-    return Point(-1, -1);
+    return Tripoint(-1, -1, -1);
   }
   return path[n];
 }
 
-Point Path::operator[](int n)
+Tripoint Path::operator[](int n)
 {
   return step(n);
 }
 
-void Path::add_step(Point p, int cost)
+void Path::add_step(Tripoint p, int cost)
 {
   path.push_back(p);
   total_cost += cost;
@@ -159,6 +159,8 @@ Pathfinder::Pathfinder()
   x_max  = 0;
   y_min  = 0;
   y_max  = 0;
+  z_min  = 0;
+  z_max  = 0;
   border = 0;
 }
 
@@ -175,11 +177,18 @@ Pathfinder::~Pathfinder()
 void Pathfinder::set_map(Generic_map m)
 {
   map = m;
-  set_bounds(0, 0, map.get_size_x() - 1, map.get_size_y() - 1);
+  set_bounds(0, 0, 0,
+             map.get_size_x() - 1, map.get_size_y() - 1, map.get_size_z() - 1);
 }
 
 void Pathfinder::set_bounds(int x0, int y0, int x1, int y1)
 {
+  set_bounds(x0, y0, 0, x1, y1, 0);
+}
+
+void Pathfinder::set_bounds(int x0, int y0, int z0, int x1, int y1, int z1)
+{
+
   if (x0 < 0) {
     x0 = 0;
   }
@@ -206,11 +215,29 @@ void Pathfinder::set_bounds(int x0, int y0, int x1, int y1)
   }
   y_min = y0;
   y_max = y1;
+  if (z0 < 0) {
+    z0 = 0;
+  }
+  if (z1 <= 0 || z1 >= map.get_size_z()) {
+    z1 = map.get_size_z() - 1;
+  }
+  if (z0 > z1) {
+    int tmp = z1;
+    z1 = z0;
+    z0 = tmp;
+  }
+  z_min = z0;
+  z_max = z1;
 }
 
 void Pathfinder::set_bounds(Point p0, Point p1)
 {
   set_bounds(p0.x, p0.y, p1.x, p1.y);
+}
+
+void Pathfinder::set_bounds(Tripoint p0, Tripoint p1)
+{
+  set_bounds(p0.x, p0.y, p0.z, p1.x, p1.y, p1.z);
 }
 
 void Pathfinder::set_bounds(int b)
@@ -223,10 +250,11 @@ void Pathfinder::set_allow_diagonal(bool allow)
   allow_diag = allow;
 }
 
-bool Pathfinder::in_bounds(int x, int y)
+bool Pathfinder::in_bounds(int x, int y, int z)
 {
-  return (x >= x_min && x <= x_max && y >= y_min && y <= y_max &&
-          x >= 0 && x < map.get_size_x() && y >= 0 && y <= map.get_size_y());
+  return (x >= x_min && x >= 0 && x <= x_max && x < map.get_size_x() &&
+          y >= y_min && y >= 0 && y <= y_max && y < map.get_size_y() &&
+          z >= z_min && z >= 0 && z <= z_max && z < map.get_size_z()   );
 }
 
 bool Pathfinder::in_bounds(Point p)
@@ -234,12 +262,29 @@ bool Pathfinder::in_bounds(Point p)
   return in_bounds(p.x, p.y);
 }
 
+bool Pathfinder::in_bounds(Tripoint p)
+{
+  return in_bounds(p.x, p.y, p.z);
+}
+
 Path Pathfinder::get_path(Path_type type, int x0, int y0, int x1, int y1)
 {
-  return get_path(type, Point(x0, y0), Point(x1, y1));
+  return get_path(type, Tripoint(x0, y0, 0), Tripoint(x1, y1, 0));
 }
 
 Path Pathfinder::get_path(Path_type type, Point start, Point end)
+{
+  return get_path(type, Tripoint(start.x, start.y, 0),
+                        Tripoint(end.x, end.y, 0));
+}
+
+Path Pathfinder::get_path(Path_type type, int x0, int y0, int z0,
+                                          int x1, int y1, int z1)
+{
+  return get_path(type, Tripoint(x0, y0, z0), Tripoint(x1, y1, z1));
+}
+
+Path Pathfinder::get_path(Path_type type, Tripoint start, Tripoint end)
 {
   switch (type) {
     case PATH_NULL:
@@ -253,12 +298,24 @@ Path Pathfinder::get_path(Path_type type, Point start, Point end)
   return path_line(start, end);
 }
 
-Point Pathfinder::get_step(Path_type type, int x0, int y0, int x1, int y1)
+Tripoint Pathfinder::get_step(Path_type type, int x0, int y0, int x1, int y1)
 {
-  return get_step(type, Point(x0, y0), Point(x1, y1));
+  return get_step(type, Tripoint(x0, y0, 0), Tripoint(x1, y1, 0));
 }
 
-Point Pathfinder::get_step(Path_type type, Point start, Point end)
+Tripoint Pathfinder::get_step(Path_type type, Point start, Point end)
+{
+  return get_step(type, Tripoint(start.x, start.y, 0),
+                        Tripoint(end.x, end.y, 0));
+}
+
+Tripoint Pathfinder::get_step(Path_type type, int x0, int y0, int z0,
+                                              int x1, int y1, int z1)
+{
+  return get_step(type, Tripoint(x0, y0, z0), Tripoint(x1, y1, z1));
+}
+
+Tripoint Pathfinder::get_step(Path_type type, Tripoint start, Tripoint end)
 {
   Path p = get_path(type, start, end);
   if (p.empty()) {
@@ -267,16 +324,24 @@ Point Pathfinder::get_step(Path_type type, Point start, Point end)
   return p[0];
 }
 
-Path Pathfinder::path_line(Point start, Point end)
+Path Pathfinder::path_line(Tripoint start, Tripoint end)
 {
   Path ret;
-  Point cur = start;
+  Tripoint cur = start;
   bool done = false;
   while (!done) {
+    bool picked_next = false;
     if (cur == end) {
       done = true;
+// Prioritize vertical movement over lateral
+    } else if (end.z < start.z && !map.blocked(cur.x, cur.y, cur.z - 1)) {
+      picked_next = true;
+      cur.z--;
+    } else if (end.z > start.z && !map.blocked(cur.x, cur.y, cur.z + 1)) {
+      picked_next = true;
+      cur.z++;
     } else {
-      Point options[5];
+      Tripoint options[5];
       for (int i = 0; i < 5; i++) {
         options[i] = cur;
       }
@@ -306,31 +371,30 @@ Path Pathfinder::path_line(Point start, Point end)
         worst_y_move += -1 * alt;
       }
   
-      options[0] = Point(best_x_move, best_y_move);
+      options[0] = Tripoint(best_x_move, best_y_move, cur.z);
       if (x_diff_bigger) {
-        options[1] = Point(best_x_move, alt_y_move);
-        options[2] = Point(alt_x_move, best_y_move);
-        options[3] = Point(best_x_move, worst_y_move);
-        options[4] = Point(worst_x_move, best_y_move);
+        options[1] = Tripoint(best_x_move, alt_y_move, cur.z);
+        options[2] = Tripoint(alt_x_move, best_y_move, cur.z);
+        options[3] = Tripoint(best_x_move, worst_y_move, cur.z);
+        options[4] = Tripoint(worst_x_move, best_y_move, cur.z);
       } else {
-        options[1] = Point(alt_x_move, best_y_move);
-        options[2] = Point(best_x_move, alt_y_move);
-        options[3] = Point(worst_x_move, best_y_move);
-        options[4] = Point(best_x_move, worst_y_move);
+        options[1] = Tripoint(alt_x_move, best_y_move, cur.z);
+        options[2] = Tripoint(best_x_move, alt_y_move, cur.z);
+        options[3] = Tripoint(worst_x_move, best_y_move, cur.z);
+        options[4] = Tripoint(best_x_move, worst_y_move, cur.z);
       }
-      bool picked_next = false;
       for (int i = 0; i < 5 && !picked_next; i++) {
         if (!map.blocked( options[i] ) && in_bounds( options[i] )) {
           picked_next = true;
           cur = options[i];
         }
       }
-      if (!picked_next) { // Couldn't reach our target using this stupid algo!
-        done = true;
-      } else {
-        ret.add_step(cur, map.get_cost(cur));
-      }
-    } // (cur != end)
+    } // Lateral movement
+    if (!picked_next) { // Couldn't reach our target using this stupid algo!
+      done = true;
+    } else {
+      ret.add_step(cur, map.get_cost(cur));
+    }
   } // while (!done)
 
   if (cur != end) { // We didn't make it :(
@@ -347,37 +411,43 @@ enum A_star_status
   ASTAR_CLOSED
 };
 
-Path Pathfinder::path_a_star(Point start, Point end)
+Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
 {
   int x_size = map.get_size_x();
   int y_size = map.get_size_y();
+  int z_size = map.get_size_z();
 
-  std::vector<Point> open_points;
-  A_star_status status[x_size][y_size];
-  int   gscore[x_size][y_size];
-  int   hscore[x_size][y_size];
-  Point parent[x_size][y_size];
+  std::vector<Tripoint> open_points;
+  A_star_status status[x_size][y_size][z_size];
+  int           gscore[x_size][y_size][z_size];
+  int           hscore[x_size][y_size][z_size];
+  Tripoint      parent[x_size][y_size][z_size];
 
   if (border > 0) {
     int x0 = (start.x < end.x ? start.x : end.x);
     int y0 = (start.y < end.y ? start.y : end.y);
+    int z0 = (start.z < end.z ? start.z : end.z);
     int x1 = (start.x > end.x ? start.x : end.x);
     int y1 = (start.y > end.y ? start.y : end.y);
+    int z1 = (start.z > end.z ? start.z : end.z);
 
-    set_bounds(x0 - border, y0 - border, x1 + border, y1 + border);
+    set_bounds(x0 - border, y0 - border, z0 - border,
+               x1 + border, y1 + border, z1 + border);
   }
 
 // Init everything to 0
   for (int x = 0; x < x_size; x++) {
     for (int y = 0; y < y_size; y++) {
-      status[x][y] = ASTAR_NONE;
-      gscore[x][y] = 0;
-      hscore[x][y] = 0;
-      parent[x][y] = Point(-1, -1);
+      for (int z = 0; z < z_size; z++) {
+        status[x][y][z] = ASTAR_NONE;
+        gscore[x][y][z] = 0;
+        hscore[x][y][z] = 0;
+        parent[x][y][z] = Tripoint(-1, -1, -1);
+      }
     }
   }
 
-  status[start.x][start.y] = ASTAR_OPEN;
+  status[start.x][start.y][start.z] = ASTAR_OPEN;
   open_points.push_back(start);
 
   bool done = false;
@@ -386,15 +456,15 @@ Path Pathfinder::path_a_star(Point start, Point end)
   while (!done && !open_points.empty()) {
 // 1) Find the lowest cost in open_points:
     int lowest_cost = -1, point_index = -1;
-    Point current;
+    Tripoint current;
     int current_g = 0;
     for (int i = 0; i < open_points.size(); i++) {
-      Point p = open_points[i];
-      int score = gscore[p.x][p.y] + hscore[p.x][p.y];
+      Tripoint p = open_points[i];
+      int score = gscore[p.x][p.y][p.z] + hscore[p.x][p.y][p.z];
       if (i == 0 || score < lowest_cost) {
         lowest_cost = score;
         current = p;
-        current_g = gscore[p.x][p.y];
+        current_g = gscore[p.x][p.y][p.z];
         point_index = i;
       }
     }
@@ -404,35 +474,63 @@ Path Pathfinder::path_a_star(Point start, Point end)
     } else {
 // 3) Set that point to be closed
       open_points.erase(open_points.begin() + point_index);
-      status[current.x][current.y] = ASTAR_CLOSED;
-// 4) Examine all adjacent points
+      status[current.x][current.y][current.z] = ASTAR_CLOSED;
+// 4) Examine all adjacent points on the same z-level
       for (int x = current.x - 1; x <= current.x + 1; x++) {
         for (int y = current.y - 1; y <= current.y + 1; y++) {
           if (x == current.x && y == current.y) {
             y++; // Skip the current tile
           }
+          int z = current.z;
 // If it's no-diagonal or diagonals are allowed...
 // ...and if it's in-bounds and not blocked...
           if ((allow_diag || x == current.x || y == current.y) &&
-              (in_bounds(x, y) && !map.blocked(x, y))) {
-            int g = current_g + map.get_cost(x, y);
+              (in_bounds(x, y, z) && !map.blocked(x, y, z))) {
+            int g = current_g + map.get_cost(x, y, z);
 // If it's unexamined, make it open and set its values
-            if (status[x][y] == ASTAR_NONE) {
-              status[x][y] = ASTAR_OPEN;
-              gscore[x][y] = g;
+            if (status[x][y][z] == ASTAR_NONE) {
+              status[x][y][z] = ASTAR_OPEN;
+              gscore[x][y][z] = g;
               if (allow_diag) {
-                hscore[x][y] = map.get_cost(x, y) * rl_dist(x, y, end.x, end.y);
+                hscore[x][y][z] = map.get_cost(x, y, z) *
+                                  rl_dist(x, y, z, end.x, end.y, end.z);
               } else {
-                hscore[x][y] = map.get_cost(x, y) *
-                               manhattan_dist(x, y, end.x, end.y);
+                hscore[x][y][z] = map.get_cost(x, y, z) *
+                                  manhattan_dist(x, y, z, end.x, end.y, end.z);
               }
-              parent[x][y] = current;
-              open_points.push_back( Point(x, y) );
+              parent[x][y][z] = current;
+              open_points.push_back( Tripoint(x, y, z) );
 // If it's open and we're a better parent, make us the parent
-            } else if (status[x][y] == ASTAR_OPEN && g < gscore[x][y]) {
-              gscore[x][y] = g;
-              parent[x][y] = current;
+            } else if (status[x][y][z] == ASTAR_OPEN && g < gscore[x][y][z]) {
+              gscore[x][y][z] = g;
+              parent[x][y][z] = current;
             }
+          }
+        }
+      }
+// 5.  Examine adjacent points on adjacent Z-levels
+// TODO: Allow diagonal movement across Z-levels?
+      for (int z = current.z - 1; z <= current.z + 1; z++) {
+        int x = current.x, y = current.y;
+        if ((in_bounds(x, y, z) && !map.blocked(x, y, z))) {
+          int g = current_g + map.get_cost(x, y, z);
+// If it's unexamined, make it open and set its values
+          if (status[x][y][z] == ASTAR_NONE) {
+            status[x][y][z] = ASTAR_OPEN;
+            gscore[x][y][z] = g;
+            if (allow_diag) {
+              hscore[x][y][z] = map.get_cost(x, y, z) *
+                                rl_dist(x, y, z, end.x, end.y, end.z);
+            } else {
+              hscore[x][y][z] = map.get_cost(x, y, z) *
+                                manhattan_dist(x, y, z, end.x, end.y, end.z);
+            }
+            parent[x][y][z] = current;
+            open_points.push_back( Tripoint(x, y, z) );
+// If it's open and we're a better parent, make us the parent
+          } else if (status[x][y][z] == ASTAR_OPEN && g < gscore[x][y][z]) {
+            gscore[x][y][z] = g;
+            parent[x][y][z] = current;
           }
         }
       }
@@ -443,10 +541,10 @@ Path Pathfinder::path_a_star(Point start, Point end)
   if (open_points.empty()) {
     return ret;
   }
-  Point cur = end;
+  Tripoint cur = end;
   ret.add_step(cur, map.get_cost(cur));
-  while (parent[cur.x][cur.y] != start) {
-    cur = parent[cur.x][cur.y];
+  while (parent[cur.x][cur.y][cur.z] != start) {
+    cur = parent[cur.x][cur.y][cur.z];
     ret.add_step(cur, map.get_cost(cur));
   }
   ret.reverse();

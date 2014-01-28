@@ -106,6 +106,17 @@ int manhattan_dist(Point origin, Point target)
   return manhattan_dist(origin.x, origin.y, target.x, target.y);
 }
 
+int manhattan_dist(int x0, int y0, int z0, int x1, int y1, int z1)
+{
+  return abs(x1 - x0) + abs(y1 - y0) + abs(z1 - z0);
+}
+
+int manhattan_dist(Tripoint origin, Tripoint target)
+{
+  return manhattan_dist(origin.x, origin.y, origin.z,
+                        target.x, target.y, target.z);
+}
+
 Direction_full get_general_direction(Point origin, Point target)
 {
   int dx = target.x - origin.x;

@@ -350,7 +350,7 @@ void Worldmap::generate()
       Path path = pf.get_path(PATH_A_STAR, from, to);
       if (path.get_cost() <= 150000) {
         for (int n = 0; n < path.size(); n++) {
-          Point p = path[n];
+          Tripoint p = path[n];
           if (!tiles[p.x][p.y].terrain->has_flag(WTF_NO_ROAD)) {
             if (tiles[p.x][p.y].terrain->has_flag(WTF_BRIDGE)) {
               tiles[p.x][p.y].set_terrain("bridge");

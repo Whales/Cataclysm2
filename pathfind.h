@@ -17,19 +17,19 @@ public:
   Path();
   ~Path();
 
-  std::vector<Point> get_points();
+  std::vector<Tripoint> get_points();
   int get_cost();
 
-  Point step(int n);
-  Point operator[](int n);
-  int size() { return path.size(); }
+  Tripoint step(int n);
+  Tripoint operator[](int n);
+  int  size()  { return path.size(); }
   bool empty() { return size() == 0; }
   
 
-  void add_step(Point p, int cost);
+  void add_step(Tripoint p, int cost);
   void reverse();
 private:
-  std::vector<Point> path;
+  std::vector<Tripoint> path;
   int total_cost;
 };
 
@@ -69,28 +69,37 @@ public:
   void set_map(Generic_map m);
 
   void set_bounds(int x0, int y0, int x1, int y1);
+  void set_bounds(int x0, int y0, int z0, int x1, int y1, int z1);
   void set_bounds(Point p0, Point p1);
-  void set_bounds(int b);
+  void set_bounds(Tripoint p0, Tripoint p1);
+  void set_bounds(int b); // As a "border" around the square formed by the
+                          // start/end points
 
   void set_allow_diagonal(bool allow = true);
 
-  bool in_bounds(int x, int y);
+  bool in_bounds(int x, int y, int z = 0);
   bool in_bounds(Point p);
+  bool in_bounds(Tripoint p);
   
   Path get_path(Path_type type, int x0, int y0, int x1, int y1);
   Path get_path(Path_type type, Point start, Point end);
+  Path get_path(Path_type type, int x0, int y0, int z0, int x1, int y1, int z1);
+  Path get_path(Path_type type, Tripoint start, Tripoint end);
 
-  Point get_step(Path_type type, int x0, int y0, int x1, int y1);
-  Point get_step(Path_type type, Point start, Point end);
+  Tripoint get_step(Path_type type, int x0, int y0, int x1, int y1);
+  Tripoint get_step(Path_type type, Point start, Point end);
+  Tripoint get_step(Path_type type, int x0, int y0, int z0,
+                                    int x1, int y1, int z1);
+  Tripoint get_step(Path_type type, Tripoint start, Tripoint end);
 
 private:
   Generic_map map;
-  int x_min, x_max, y_min, y_max;
+  int x_min, x_max, y_min, y_max, z_min, z_max;
   int border;
   bool allow_diag;
 
-  Path path_line(Point start, Point end);
-  Path path_a_star(Point start, Point end);
+  Path path_line  (Tripoint start, Tripoint end);
+  Path path_a_star(Tripoint start, Tripoint end);
 };
 
 #endif
