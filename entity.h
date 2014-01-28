@@ -7,6 +7,7 @@
 #include "player_activity.h"
 #include "geometry.h"
 #include "enum.h"
+#include "pathfind.h"
 #include <string>
 
 struct Stats
@@ -15,6 +16,25 @@ struct Stats
   ~Stats();
 
   int str, dex, intel, per;
+};
+
+struct Entity_plan
+{
+  Entity_plan();
+  ~Entity_plan();
+
+  void set_target(Tripoint target, int att = -1);
+  void set_target(Entity*  target, int att = -1);
+
+  bool is_active();
+
+  Tripoint next_step();
+  void erase_step();
+
+  Tripoint target_point;
+  Entity*  target_entity;
+  Path path;
+  int attention;
 };
 
 class Entity
@@ -102,6 +122,7 @@ public:
   bool killed_by_player;
 
   Player_activity activity;
+  Entity_plan plan;
 
   Stats stats;
   int hunger, thirst;

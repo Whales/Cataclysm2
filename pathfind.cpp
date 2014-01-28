@@ -42,6 +42,14 @@ void Path::add_step(Tripoint p, int cost)
   total_cost += cost;
 }
 
+void Path::erase_step(int index)
+{
+  if (index < 0 || index >= path.size()) {
+    return;
+  }
+  path.erase(path.begin() + index);
+}
+
 void Path::reverse()
 {
   std::reverse(path.begin(), path.end());

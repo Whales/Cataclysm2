@@ -17,6 +17,67 @@ Stats::~Stats()
 {
 }
 
+Entity_plan::Entity_plan()
+{
+  target_point = Tripoint(-1, -1, -1);
+  target_entity = NULL;
+  attention = 0;
+}
+
+Entity_plan::~Entity_plan()
+{
+}
+
+void Entity_plan::set_target(Tripoint target, int att)
+{
+  if (att == -1) { // att defaults to -1
+    att = 15;
+  }
+  target_point = target;
+  target_entity = NULL; // TODO: Don't do this?
+  attention = att;
+}
+
+void Entity_plan::set_target(Entity* target, int att)
+{
+  if (!target) {
+    target_point = Tripoint(-1, -1, -1);
+    attention = 0;
+    target_entity = NULL;
+    return;
+  }
+  if (att == -1) { // att defaults to -1
+    att = 15;
+  }
+  target_entity = target;
+  target_point = target->pos;
+  attention = att;
+}
+
+bool Entity_plan::is_active()
+{
+  if (attention <= 0) {
+    return false;
+  }
+  if (!target_entity && (target_point.x < 0 || target_point.y < 0)) {
+    return false;
+  }
+  return true;
+}
+
+Tripoint Entity_plan::next_step()
+{
+  if (path.empty()) {
+    return Tripoint(-1, -1, -1);
+  }
+  return path[0];
+}
+
+void Entity_plan::erase_step()
+{
+  path.erase_step(0);
+}
+
 Entity::Entity()
 {
   uid = -1;

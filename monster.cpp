@@ -101,37 +101,33 @@ void Monster::make_plans()
   Map *map = GAME.map;
 // TODO: Support different senses
 // TODO: Support non-aggressive monsters
+// TODO: Don't hard-code for player; instead select a target from Game.entities
   bool senses_player = false;
   if (has_sense(SENSE_SIGHT) && can_sense(map, player->pos)) {
     senses_player = true;
   }
   if (senses_player) {
-    entity_target = player;
-    wander_target = Point(player->pos.x, player->pos.y);
+    plan.set_target(player);
 // TODO: Don't hard-code wander_duration.  Make it a Monster_type stat?
-    wander_duration = 15;
-  } else {
-    entity_target = NULL;
   }
 }
 
 void Monster::take_turn()
 {
+  if (action_points <= 0 || dead) {
+    return;
+  }
 // TODO: Move make_plans() outside of this function?
   make_plans();
-  while (action_points > 0 && !dead) {
-    if (wander_duration > 0) {
-      wander_duration--;
-    }
-    if (entity_target) {
-      if (can_attack(entity_target)) {
-        attack(entity_target);
-      } else {
-        move_towards(entity_target);
-      }
-    } else {
-      wander();
-    }
+  if (!plan.is_active()) {
+    wander();
+    return;
+  }
+  plan.attention--;
+  if (plan.target_entity && can_attack(plan.target_entity)) {
+    attack(plan.target_entity);
+  } else {
+    move_towards(plan.target_point);
   }
 }
 

@@ -24,9 +24,9 @@ public:
   Tripoint operator[](int n);
   int  size()  { return path.size(); }
   bool empty() { return size() == 0; }
-  
 
   void add_step(Tripoint p, int cost);
+  void erase_step(int index);
   void reverse();
 private:
   std::vector<Tripoint> path;
