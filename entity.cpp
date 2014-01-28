@@ -179,26 +179,42 @@ bool Entity::can_see(Map* map, int x, int y, int z)
   return map->senses(pos.x, pos.y, pos.z, x, y, z, SENSE_SIGHT);
 }
 
-bool Entity::can_move_to(Map* map, int x, int y)
+bool Entity::can_move_to(Map* map, Tripoint move)
 {
+  return can_move_to(map, move.x, move.y, move.z);
+}
+
+bool Entity::can_move_to(Map* map, int x, int y, int z)
+{
+  if (z == 999) { // z defaults to 999
+    z = pos.z;
+  }
   if (!map) {
     return false;
   }
-  if (map->move_cost(x, y, pos.z) == 0) {
+  if (map->move_cost(x, y, z) == 0) {
     return false;
   }
-  if (GAME.entities.entity_at(x, y, pos.z) !=NULL) {
+  if (GAME.entities.entity_at(x, y, z) !=NULL) {
     return false;
   }
   return true;
 }
 
-void Entity::move_to(Map* map, int x, int y)
+void Entity::move_to(Map* map, Tripoint move)
+{
+  move_to(map, move.x, move.y, move.z);
+}
+
+void Entity::move_to(Map* map, int x, int y, int z)
 {
   pos.x = x;
   pos.y = y;
+  if (z != 999) { // z defaults to 999
+    pos.z = z;
+  }
   if (map) {
-    action_points -= map->move_cost(x, y, pos.z);
+    action_points -= map->move_cost(x, y, z);
   }
 }
 

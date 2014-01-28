@@ -62,8 +62,10 @@ public:
   virtual bool has_sense(Sense_type sense);
   virtual bool can_see    (Map* map, Tripoint target);
   virtual bool can_see    (Map* map, int x, int y, int z = 999);
-  virtual bool can_move_to(Map* map, int x, int y);
-  virtual void move_to    (Map* map, int x, int y);
+  virtual bool can_move_to(Map* map, Tripoint move);
+  virtual bool can_move_to(Map* map, int x, int y, int z = 999);
+  virtual void move_to    (Map* map, Tripoint move);
+  virtual void move_to    (Map* map, int x, int y, int z = 999);
   virtual void pause();
 
 // Misc action functions

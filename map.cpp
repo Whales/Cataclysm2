@@ -606,6 +606,17 @@ bool Map::has_flag(Terrain_flag flag, int x, int y, int z)
   return t->has_flag(flag);
 }
 
+bool Map::blocks_sense(Sense_type sense, Tripoint pos)
+{
+  return blocks_sense(sense, pos.x, pos.y, pos.z);
+}
+
+bool Map::blocks_sense(Sense_type sense, int x, int y, int z)
+{
+  Tile *t = get_tile(x, y, z);
+  return t->blocks_sense(sense);
+}
+
 bool Map::add_item(Item item, Tripoint pos)
 {
   return add_item(item, pos.x, pos.y, pos.z);
@@ -855,7 +866,7 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
       if (lines[i].x == x1 && lines[i].y == y1) {
         return return_values[i];
       }
-      if (get_tile(lines[i].x, lines[i].y, z_level)->blocks_sense(SENSE_SIGHT)){
+      if (blocks_sense(SENSE_SIGHT, lines[i].x, lines[i].y, z_level)) {
         lines.erase(lines.begin() + i);
         t_values.erase(t_values.begin() + i);
         return_values.erase(return_values.begin() + i);

@@ -48,7 +48,7 @@ public:
 
 private:
   Entity* entity_target;
-  Point wander_target;
+  Tripoint wander_target;
   int wander_duration;
 };
 
