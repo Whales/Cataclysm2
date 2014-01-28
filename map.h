@@ -111,6 +111,9 @@ public:
   bool has_flag(Terrain_flag flag, Tripoint pos);
   bool has_flag(Terrain_flag flag, int x, int y, int z = 999);
 
+  bool blocks_sense(Sense_type sense, Tripoint pos);
+  bool blocks_sense(Sense_type sense, int x, int y, int z = 999);
+
   bool add_item(Item item, Tripoint pos);
   bool add_item(Item item, int x, int y, int z = 999);
 

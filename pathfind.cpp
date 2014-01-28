@@ -371,17 +371,17 @@ Path Pathfinder::path_line(Tripoint start, Tripoint end)
         worst_y_move += -1 * alt;
       }
   
-      options[0] = Tripoint(best_x_move, best_y_move, cur.z);
+      options[0]   = Tripoint(best_x_move,  best_y_move,  cur.z);
       if (x_diff_bigger) {
-        options[1] = Tripoint(best_x_move, alt_y_move, cur.z);
-        options[2] = Tripoint(alt_x_move, best_y_move, cur.z);
-        options[3] = Tripoint(best_x_move, worst_y_move, cur.z);
-        options[4] = Tripoint(worst_x_move, best_y_move, cur.z);
+        options[1] = Tripoint(best_x_move,  alt_y_move,   cur.z);
+        options[2] = Tripoint(alt_x_move,   best_y_move,  cur.z);
+        options[3] = Tripoint(best_x_move,  worst_y_move, cur.z);
+        options[4] = Tripoint(worst_x_move, best_y_move,  cur.z);
       } else {
-        options[1] = Tripoint(alt_x_move, best_y_move, cur.z);
-        options[2] = Tripoint(best_x_move, alt_y_move, cur.z);
-        options[3] = Tripoint(worst_x_move, best_y_move, cur.z);
-        options[4] = Tripoint(best_x_move, worst_y_move, cur.z);
+        options[1] = Tripoint(alt_x_move,   best_y_move,  cur.z);
+        options[2] = Tripoint(best_x_move,  alt_y_move,   cur.z);
+        options[3] = Tripoint(worst_x_move, best_y_move,  cur.z);
+        options[4] = Tripoint(best_x_move,  worst_y_move, cur.z);
       }
       for (int i = 0; i < 5 && !picked_next; i++) {
         if (!map.blocked( options[i] ) && in_bounds( options[i] )) {
@@ -394,6 +394,10 @@ Path Pathfinder::path_line(Tripoint start, Tripoint end)
       done = true;
     } else {
       ret.add_step(cur, map.get_cost(cur));
+      if (cur.x == end.x && cur.y == end.y) {
+        cur = end;
+        ret.add_step(cur, map.get_cost(cur));
+      }
     }
   } // while (!done)
 

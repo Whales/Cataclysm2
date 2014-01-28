@@ -107,7 +107,7 @@ void Monster::make_plans()
   }
   if (senses_player) {
     entity_target = player;
-    wander_target = Point(player->pos.x, player->pos.y);
+    wander_target = player->pos;
 // TODO: Don't hard-code wander_duration.  Make it a Monster_type stat?
     wander_duration = 15;
   } else {
@@ -193,8 +193,7 @@ void Monster::move_towards(Tripoint target)
   Generic_map move_map = GAME.map->get_movement_map(get_intelligence());
   Pathfinder pf(move_map);
 // Simple, dumb movement - suitable for zombies at least
-  Point move;
-  Point to(target.x, target.y), from(pos.x, pos.y);
+  Tripoint move = pos;
   switch (get_intelligence()) {
     case INTEL_NULL:
     case INTEL_PLANT:
@@ -204,12 +203,12 @@ void Monster::move_towards(Tripoint target)
       break;
 
     case INTEL_ZOMBIE:
-      move = pf.get_step(PATH_LINE, from, to);
+      move = pf.get_step(PATH_LINE, pos, target);
       break;
 
     case INTEL_ANIMAL:
     case INTEL_HUMAN:
-      move = pf.get_step(PATH_A_STAR, from, to);
+      move = pf.get_step(PATH_A_STAR, pos, target);
       break;
 
     default:
@@ -220,13 +219,12 @@ void Monster::move_towards(Tripoint target)
 // TODO:  Add a "Stumble" flag that occasionally randomly picks, rather than
 //        picking the best available.
 
-  if (can_move_to( GAME.map, move.x, move.y )) {
-    move_to( GAME.map, move.x, move.y );
+  if (can_move_to( GAME.map, move )) {
+    move_to( GAME.map, move );
 // TODO: Add a "smashes terrain" flag, and if we can't move then smash
-  } else if (GAME.map->is_smashable(move.x, move.y)) {
-    std::string sound = GAME.map->smash(move.x, move.y, 
-                                        base_attack().roll_damage());
-    GAME.make_sound(sound, move.x, move.y);
+  } else if (GAME.map->is_smashable(move)) {
+    std::string sound = GAME.map->smash(move, base_attack().roll_damage());
+    GAME.make_sound(sound, move);
     use_ap(100);
   } else {
     pause();
@@ -236,10 +234,10 @@ void Monster::move_towards(Tripoint target)
 void Monster::wander()
 {
   if (wander_duration <= 0) {
-    wander_target = Point( pos.x + rng(-3, 3), pos.y + rng(-3, 3) );
+    wander_target = Tripoint( pos.x + rng(-3, 3), pos.y + rng(-3, 3), pos.z );
     wander_duration = 3;
   }
-  move_towards(wander_target.x, wander_target.y);
+  move_towards(wander_target);
 }
 
 void Monster::pause()

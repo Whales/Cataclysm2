@@ -144,6 +144,11 @@ bool Terrain::load_data(std::istream &data)
 
 bool Terrain::has_flag(Terrain_flag flag)
 {
+  if (flag < 0 || flag > flags.size()) {
+    debugmsg("Terrain::has_flag error - flag %d/%d, terrain %s",
+             flag, flags.size(), name.c_str());
+    return false;
+  }
   return flags[flag];
 }
 
