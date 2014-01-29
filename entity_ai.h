@@ -4,6 +4,7 @@
 #include "geometry.h"
 #include <string>
 #include <istream>
+#include <vector>
 
 enum Pathing_feature
 {
@@ -40,18 +41,18 @@ struct Entity_AI
 
   bool uses_feature(Pathing_feature feat) const;
   bool uses_goal(AI_goal goal) const;
-  int  goal_priority(AI_goal goal) const;
 
   bool load_data(std::istream &data, std::string parent_name = "Unknown");
 
   int  area_awareness; // Extra squares considered for pathing
   int  attention_span; // Default attention level upon setting a new target
+  std::vector<AI_goal> goals; // Ordered from most important to least
 
   Entity_AI& operator=(const Entity_AI& rhs);
 
 private:
   bool pathing_features[PATHFEAT_MAX];
-  int  goal_priorities[AIGOAL_MAX];
+  bool goals_in_use[AIGOAL_MAX];
 };
 
 #endif

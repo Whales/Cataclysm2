@@ -8,7 +8,7 @@ Entity_AI::Entity_AI()
     pathing_features[i] = false;
   }
   for (int i = 0; i < AIGOAL_MAX; i++) {
-    goal_priorities[i] = 0;
+    goals_in_use[i] = false;
   }
 }
 
@@ -23,12 +23,7 @@ bool Entity_AI::uses_feature(Pathing_feature feat) const
 
 bool Entity_AI::uses_goal(AI_goal goal) const
 {
-  return (goal_priorities[goal] > 0);
-}
-
-int Entity_AI::goal_priority(AI_goal goal) const
-{
-  return goal_priorities[goal];
+  return goals_in_use[goal];
 }
 
 bool Entity_AI::load_data(std::istream &data, std::string parent_name)
@@ -65,18 +60,23 @@ bool Entity_AI::load_data(std::istream &data, std::string parent_name)
       }
       pathing_features[feat] = true;
 
-    } else if (ident == "priority:") {
-      int prior;
-      data >> prior;
+    } else if (ident == "goals:") {
       std::string goal_name;
-      std::getline(data, goal_name);
-      AI_goal goal = lookup_AI_goal(goal_name);
-      if (goal == AIGOAL_NULL) {
-        debugmsg("Unknown AI goal '%s' (%s)", goal_name.c_str(),
-                 parent_name.c_str());
-        return false;
+      while (goal_name != "done") {
+        data >> goal_name;
+        goal_name = no_caps(goal_name);
+        goal_name = trim(goal_name);
+        if (goal_name != "done") {
+          AI_goal goal = lookup_AI_goal(goal_name);
+          if (goal == AIGOAL_NULL) {
+            debugmsg("Unknown AI goal '%s' (%s)", goal_name.c_str(),
+                     parent_name.c_str());
+            return false;
+          }
+          goals.push_back(goal);
+          goals_in_use[goal] = true;
+        }
       }
-      goal_priorities[goal] = prior;
 
     } else if (ident != "done") {
       debugmsg("Unknown AI property '%s' (%s)", ident.c_str(),
@@ -99,10 +99,7 @@ Entity_AI& Entity_AI::operator=(const Entity_AI& rhs)
     }
   }
 
-  for (int i = 0; i < AIGOAL_MAX; i++) {
-    AI_goal goal = AI_goal(i);
-    goal_priorities[i] = rhs.goal_priority(goal);
-  }
+  goals = rhs.goals;
 
   return *this;
 }
