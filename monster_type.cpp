@@ -164,7 +164,7 @@ bool Monster_type::load_data(std::istream &data)
       attacks.push_back(tmpattack);
       total_attack_weight += tmpattack.weight;
 
-    } else if (ident == "corpse") {
+    } else if (ident == "corpse:") {
       std::string corpse_name;
       std::getline(data, corpse_name);
       corpse_name=trim(corpse_name);

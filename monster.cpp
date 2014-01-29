@@ -251,5 +251,6 @@ void Monster::die()
 {
     Item tmp ( type->corpse );
     GAME.map->add_item(tmp, pos);
+    Entity::die();
 }
 
