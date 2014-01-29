@@ -563,7 +563,7 @@ void Entity::attack(Entity* target)
       std::stringstream msg;
       msg << get_name_to_player() << " " << miss_verb << " " <<
              target->get_name_to_player() << "!";
-      GAME.add_msg( msg.str().c_str() );
+      GAME.add_msg( msg.str() );
     }
 // TODO: action_point penalty for missing?
     return;
@@ -597,7 +597,7 @@ void Entity::attack(Entity* target)
       damage_ss << " for " << damage.total_damage() << " damage";
     }
     damage_ss << "!";
-    GAME.add_msg( damage_ss.str().c_str() );
+    GAME.add_msg( damage_ss.str() );
   }
 }
   

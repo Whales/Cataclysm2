@@ -152,7 +152,7 @@ void Game::do_action(Interface_action act)
         std::string message = "You pick up " + list_items(items);
         player->add_item( (*items)[0] );
         items->clear();
-        add_msg(message.c_str());
+        add_msg(message);
       } else {
         pickup_items(player->pos);
       }
@@ -226,7 +226,7 @@ void Game::do_action(Interface_action act)
       for (int i = 0; i < dropped.size(); i++) {
         map->add_item(dropped[i], player->pos);
       }
-      add_msg( message.str().c_str() );
+      add_msg( message.str() );
     } break;
 
     case IACTION_WIELD: {
@@ -533,7 +533,7 @@ void Game::player_move(int xdif, int ydif)
 // TODO: Ensure the player has the sense of sight
   if (!items->empty()) {
     std::string item_message = "You see here " + list_items(items);
-    add_msg( item_message.c_str() );
+    add_msg( item_message );
   }
 }
 
@@ -757,7 +757,7 @@ void Game::pickup_items(int posx, int posy)
   }
 
   std::string message = "You pick up " + list_items(&items_gotten);
-  add_msg(message.c_str());
+  add_msg(message);
   
 }
 
