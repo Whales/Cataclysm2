@@ -513,8 +513,15 @@ void Map::shift(Worldmap *world, int shiftx, int shifty, int shiftz)
 
 Generic_map Map::get_movement_map(Intel_level intel)
 {
-  Generic_map ret(SUBMAP_SIZE * MAP_SIZE, SUBMAP_SIZE * MAP_SIZE);
+  Generic_map ret(SUBMAP_SIZE * MAP_SIZE, SUBMAP_SIZE * MAP_SIZE, posz);
 
+  set_movement_map(ret, intel);
+
+  return ret;
+}
+
+void Map::set_movement_map(Generic_map &map, Intel_level intel)
+{
   for (int x = 0; x < SUBMAP_SIZE * MAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE * MAP_SIZE; y++) {
       int cost = move_cost(x, y);
@@ -522,11 +529,9 @@ Generic_map Map::get_movement_map(Intel_level intel)
       if (cost == 0 && is_smashable(x, y)) {
         cost = 500; // TODO: Estimate costs more intelligently
       }
-      ret.set_cost(x, y, cost);
+      map.set_cost(x, y, cost);
     }
   }
-
-  return ret;
 }
 
 Generic_map Map::get_dijkstra_map(Tripoint target, int weight,
