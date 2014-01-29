@@ -119,11 +119,13 @@ void Monster::take_turn()
 // TODO: Move make_plans() outside of this function?
   make_plans();
   if (!plan.is_active()) {
+    debugmsg("No plan");
     wander();
     return;
   }
   plan.attention--;
   if (plan.target_entity && can_attack(plan.target_entity)) {
+    debugmsg("attack");
     attack(plan.target_entity);
   } else {
     move_towards(plan.target_point);
@@ -198,7 +200,7 @@ void Monster::move_towards(Tripoint target)
       break;
 
     case INTEL_ZOMBIE:
-      move = pf.get_step(PATH_LINE, pos, target);
+      move = pf.get_step(PATH_A_STAR, pos, target);
       break;
 
     case INTEL_ANIMAL:
@@ -213,6 +215,7 @@ void Monster::move_towards(Tripoint target)
 
 // TODO:  Add a "Stumble" flag that occasionally randomly picks, rather than
 //        picking the best available.
+    debugmsg("move [%d:%d:%d] => [%d:%d:%d] => [%d:%d:%d]", pos.x, pos.y, pos.z, move.x, move.y, move.z, target.x, target.y, target.z);
 
   if (can_move_to( GAME.map, move )) {
     move_to( GAME.map, move );

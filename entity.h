@@ -26,6 +26,8 @@ struct Entity_plan
   void set_target(Tripoint target, int att = -1);
   void set_target(Entity*  target, int att = -1);
 
+  void path_to_target(Intel_level intel);
+
   bool is_active();
 
   Tripoint next_step();
@@ -33,6 +35,7 @@ struct Entity_plan
 
   Tripoint target_point;
   Entity*  target_entity;
+  Pathfinder pf;
   Path path;
   int attention;
 };

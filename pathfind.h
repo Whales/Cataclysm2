@@ -4,6 +4,8 @@
 #include "geometry.h"
 #include <vector>
 
+class Map;
+
 enum Path_type
 {
   PATH_NULL = 0,
@@ -67,6 +69,7 @@ public:
   ~Pathfinder();
 
   void set_map(Generic_map m);
+  void get_map(Map* map);
 
   void set_bounds(int x0, int y0, int x1, int y1);
   void set_bounds(int x0, int y0, int z0, int x1, int y1, int z1);
@@ -92,8 +95,9 @@ public:
                                     int x1, int y1, int z1);
   Tripoint get_step(Path_type type, Tripoint start, Tripoint end);
 
-private:
   Generic_map map;
+
+private:
   int x_min, x_max, y_min, y_max, z_min, z_max;
   int border;
   bool allow_diag;

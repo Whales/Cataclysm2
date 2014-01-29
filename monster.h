@@ -1,13 +1,14 @@
 #ifndef _MONSTER_H_
 #define _MONSTER_H_
 
-#include <string>
-#include <list>
-#include <map>
 #include "entity.h"
 #include "glyph.h"
 #include "geometry.h"
 #include "enum.h"
+#include "entity_ai.h"
+#include <string>
+#include <list>
+#include <map>
 
 class Monster : public Entity
 {

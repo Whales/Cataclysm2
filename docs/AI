@@ -1,0 +1,68 @@
+On each turn we need to:
+  1) Set a goal
+    For most monsters this is going to be "attack player."
+    It might also be "attack any entity."
+    Other goals may be "search area," "investigate sound" or "get/eat item."
+  2) Decide how to achieve that goal
+    2a) Attack Entity
+      2ai)    Melee entity
+      2aii)   Ranged attack
+      2aiii)  Path towards entity
+        This requires generating a path!
+    2b) Seach Area
+      2bi)    Drunken walk
+      2bii)   Path to nearest unseen tile
+      2biii)  Pinball (pick random direction, walk until we hit a wall, repeat)
+    2c) Investigate sound
+      2ci)    Path towards sound
+    2d) Get/Eat item
+      2di)    Pick up / start eating if we're on top
+      2dii)   Ranged pick up?
+      2diii)  Path to item
+
+To this end, each entity has:
+  A position (Tripoint)
+  An AI type
+    Area awareness (the border size of our pathfinding map - see bottom of file)
+    Field awareness (do we path around fire etc)
+    Priorities for:
+      Attack Enemies  - defined as aggressors
+      Attack Neutrals - defined as all entities (e.g. the player)
+      Flee
+      Eat corpses
+      Collect items
+      Reach/hold position - for NPCs?
+  A current goal
+    Both a point (Tripoint) and an entity?
+  An attention span
+    Turns until we stop pathing towards our current goal
+    Starts at some defined number and is reset each time we get a goal update
+      Goal updates include seeing an entity to attack, seeing an item to reach,
+      hearing a sound
+
+
+Area awareness - a "border" around the square formed by us and our target
+Examples: @ = monster, ^ = target, . = floor, # = wall
+  Awareness = 0:  Can't reach target!
+  @..#.
+  ##.#.
+  .####
+  ....^
+
+  Awareness = 1:  Can reach target after a long path
+  .......
+  .@..##.
+  ###.#.#
+  #^####.
+  #......
+  #.#####
+
+  Awareness = 2:  Can reach target quickly
+  #########
+  .........
+  ..@..##..
+  .###.#.#.
+  .#^####..
+  .#.......
+  .#.#####.
+  ....#....

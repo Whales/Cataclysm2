@@ -4,6 +4,7 @@
 #include "glyph.h"
 #include "enum.h"
 #include "attack.h"
+#include "entity_ai.h"
 #include <string>
 #include <istream>
 #include <vector>
@@ -26,6 +27,7 @@ struct Monster_type
   std::vector<Attack> attacks;
   int total_attack_weight;
   Intel_level intel;
+  Entity_AI AI;
 
   void set_genus(Monster_genus *mg);
   void assign_uid(int id);
