@@ -21,6 +21,8 @@ struct Monster_type
   int uid;
   glyph sym;
 
+  Item_type *corpse;
+
   int minimum_hp, maximum_hp;
   int speed;
   std::vector<Attack> attacks;

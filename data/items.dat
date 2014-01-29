@@ -92,3 +92,19 @@ gun
   capacity:   15
   reload_ap: 300
 done
+
+armor
+  name: zombie corpse
+  description:
+    Dead zombie
+  done
+  glyph: % green black
+  weight: 200
+  volume: 100
+  carries:  15
+  armor_bash:    1
+  armor_cut:     8
+  armor_pierce:  4
+  encumbrance:   2
+  covers: torso arms
+done
