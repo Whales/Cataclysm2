@@ -534,6 +534,50 @@ void Map::set_movement_map(Generic_map &map, Intel_level intel)
   }
 }
 
+Generic_map Map::get_movement_map(const Entity_AI &AI,
+                                  Tripoint origin, Tripoint target)
+{
+// Set the bounds of the map
+  int min_x = (origin.x < target.x ? origin.x : target.x);
+  int min_y = (origin.y < target.y ? origin.y : target.y);
+  int min_z = (origin.z < target.z ? origin.z : target.z);
+  int max_x = (origin.x > target.x ? origin.x : target.x);
+  int max_y = (origin.y > target.y ? origin.y : target.y);
+  int max_z = (origin.z > target.z ? origin.z : target.z);
+
+// Expand the bounds of the map by our area awareness bonus.
+  min_x -= AI.area_awareness;
+  min_y -= AI.area_awareness;
+  min_z -= AI.area_awareness;
+  max_x += AI.area_awareness;
+  max_y += AI.area_awareness;
+  max_z += AI.area_awareness;
+
+  int x_size = 1 + max_x - min_x;
+  int y_size = 1 + max_y - min_y;
+  int z_size = 1 + max_z - min_z;
+
+  Generic_map ret(x_size, y_size, z_size);
+
+  for (int x = min_x; x <= max_x; x++) {
+    for (int y = min_y; y <= max_y; y++) {
+      for (int z = min_z; z <= max_z; z++) {
+        int map_x = x - min_x;
+        int map_y = y - min_y;
+        int map_z = z - min_z;
+        int cost = move_cost(x, y);
+// TODO: If there's a field here, increase cost accordingly
+        if (cost == 0 && is_smashable(x, y)) {
+          cost = 500; // TODO: Estimate costs more intelligently
+        }
+        ret.set_cost(map_x, map_y, map_z, cost);
+      }
+    }
+  }
+
+  return ret;
+}
+
 Generic_map Map::get_dijkstra_map(Tripoint target, int weight,
                                   bool include_smashable)
 {
