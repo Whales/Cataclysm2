@@ -583,7 +583,11 @@ int Map::move_cost(Tripoint pos)
 
 int Map::move_cost(int x, int y, int z)
 {
-  return get_tile(x, y, z)->move_cost();
+  Tile *t = get_tile(x, y, z);
+  if (!t) {
+    return 100;
+  }
+  return t->move_cost();
 }
 
 bool Map::is_smashable(Tripoint pos)
@@ -808,7 +812,7 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
 {
   std::vector<Point>  lines;    // Process many lines at once.
   std::vector<std::vector<Point> > return_values;
-  std::vector<int>    t_values; // T-values for bresenham lines
+  std::vector<int>    t_values; // T-values for Bresenham lines
 
   int dx = x1 - x0, dy = y1 - y0, dz = z1 - z0;
   int ax = abs(dx) << 1, ay = abs(dy) << 1;
@@ -843,15 +847,16 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
   int z_level = z0;
 // Keep going as long as we've got at least one valid line
   while (!lines.empty()) {
+// Since we track z_value universally, don't do it inside the for loop below
+    z_value += z_step;
+    if (z_value < 0) {
+      z_level--;
+      z_value += 100;
+    } else if (z_value >= 100) {
+      z_level++;
+      z_value -= 100;
+    }
     for (int i = 0; i < lines.size(); i++) {
-      z_value += z_step;
-      if (z_value < 0) {
-        z_level--;
-        z_value += 100;
-      } else if (z_value >= 100) {
-        z_level++;
-        z_value -= 100;
-      }
       if (ax > ay) {
         lines[i].x += sx;
         if (t_values[i] >= 0) {
@@ -879,8 +884,7 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
       }
     }
   }
-  std::vector<Point> ret;
-  return ret;
+  return std::vector<Point>();
 }
 
 std::vector<Point> Map::line_of_sight(Point origin, Point target)
