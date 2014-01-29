@@ -5,7 +5,6 @@
 #include "glyph.h"
 #include "geometry.h"
 #include "enum.h"
-#include "entity_ai.h"
 #include <string>
 #include <list>
 #include <map>

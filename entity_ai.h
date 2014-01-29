@@ -38,14 +38,16 @@ struct Entity_AI
   Entity_AI();
   ~Entity_AI();
 
-  bool uses_feature(Pathing_feature feat);
-  bool uses_goal(AI_goal goal);
-  int  goal_priority(AI_goal goal);
+  bool uses_feature(Pathing_feature feat) const;
+  bool uses_goal(AI_goal goal) const;
+  int  goal_priority(AI_goal goal) const;
 
   bool load_data(std::istream &data, std::string parent_name = "Unknown");
 
   int  area_awareness; // Extra squares considered for pathing
   int  attention_span; // Default attention level upon setting a new target
+
+  Entity_AI& operator=(const Entity_AI& rhs);
 
 private:
   bool pathing_features[PATHFEAT_MAX];

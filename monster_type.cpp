@@ -51,6 +51,7 @@ void Monster_type::set_genus(Monster_genus *mg)
     speed = mg->default_values.speed;
   }
   intel = mg->default_values.intel;
+  AI = mg->default_values.AI;
 
   bool any_senses_set = false;
   for (int i = 0; !any_senses_set && i < senses.size(); i++) {
@@ -162,6 +163,10 @@ bool Monster_type::load_data(std::istream &data)
       tmpattack.load_data(data, name);
       attacks.push_back(tmpattack);
       total_attack_weight += tmpattack.weight;
+
+    } else if (ident == "ai:") {
+      std::getline(data, junk);
+      AI.load_data(data, name);
 
     } else if (ident != "done") {
       debugmsg("Unknown monster property '%s' (%s)",

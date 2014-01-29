@@ -16,17 +16,17 @@ Entity_AI::~Entity_AI()
 {
 }
 
-bool Entity_AI::uses_feature(Pathing_feature feat)
+bool Entity_AI::uses_feature(Pathing_feature feat) const
 {
   return pathing_features[feat];
 }
 
-bool Entity_AI::uses_goal(AI_goal goal)
+bool Entity_AI::uses_goal(AI_goal goal) const
 {
   return (goal_priorities[goal] > 0);
 }
 
-int Entity_AI::goal_priority(AI_goal goal)
+int Entity_AI::goal_priority(AI_goal goal) const
 {
   return goal_priorities[goal];
 }
@@ -85,6 +85,26 @@ bool Entity_AI::load_data(std::istream &data, std::string parent_name)
     }
   }
   return true;
+}
+
+Entity_AI& Entity_AI::operator=(const Entity_AI& rhs)
+{
+  area_awareness = rhs.area_awareness;
+  attention_span = rhs.attention_span;
+
+  for (int i = 0; i < PATHFEAT_MAX; i++) {
+    Pathing_feature feat = Pathing_feature(i);
+    if (rhs.uses_feature(feat)) {
+      pathing_features[i] = true;
+    }
+  }
+
+  for (int i = 0; i < AIGOAL_MAX; i++) {
+    AI_goal goal = AI_goal(i);
+    goal_priorities[i] = rhs.goal_priority(goal);
+  }
+
+  return *this;
 }
 
 Pathing_feature lookup_pathing_feature(std::string name)
