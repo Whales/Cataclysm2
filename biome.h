@@ -2,6 +2,7 @@
 #define _BIOME_H_
 
 #include "world_terrain.h"
+#include "monster_type.h"
 #include <istream>
 
 struct World_terrain_chance
@@ -20,12 +21,40 @@ public:
 
   void add_terrain(int chance, World_terrain* terrain);
   void add_terrain(World_terrain_chance terrain);
-  void load_data(std::istream &data, std::string name = "unknown");
+  bool load_data(std::istream &data, std::string name = "unknown");
 
   World_terrain* pick();
 
 private:
   std::vector<World_terrain_chance> ter;
+  int total_chance;
+};
+
+// TODO: Move this to monster_type.h?
+
+struct Monster_genus_chance
+{
+  Monster_genus_chance(int C = 100, Monster_genus* MG = NULL) :
+    chance (C), genus (MG) { }
+
+  int chance;
+  Monster_genus* genus;
+};
+
+struct Variable_monster_genus
+{
+public:
+  Variable_monster_genus();
+  ~Variable_monster_genus();
+
+  void add_genus(int chance, Monster_genus* genus);
+  void add_genus(Monster_genus_chance genus);
+  bool load_data(std::istream &data, std::string name = "unknown");
+
+  Monster_genus* pick();
+
+private:
+  std::vector<Monster_genus_chance> genera;
   int total_chance;
 };
 
@@ -50,6 +79,8 @@ struct Biome
   int uid;
 
   Variable_world_terrain terrain;
+
+  Variable_monster_genus monsters;
 
   void assign_uid(int id);
   std::string get_name();
