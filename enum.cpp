@@ -1,31 +1,6 @@
 #include "enum.h"
 #include "stringfunc.h"
 
-Intel_level lookup_intel_level(std::string name)
-{
-  name = no_caps(name);
-  for (int i = 0; i < INTEL_MAX; i++) {
-    Intel_level ret = Intel_level(i);
-    if ( no_caps( intel_level_name(ret) ) == name) {
-      return ret;
-    }
-  }
-  return INTEL_NULL;
-}
-
-std::string intel_level_name(Intel_level level)
-{
-  switch (level) {
-    case INTEL_PLANT:   return "plant";
-    case INTEL_ZOMBIE:  return "zombie";
-    case INTEL_ANIMAL:  return "animal";
-    case INTEL_HUMAN:   return "human";
-    case INTEL_MAX:     return "BUG - INTEL_MAX";
-    default:            return "BUG - Undefined Intel_level name";
-  }
-  return "BUG - escaped intel_level_name() switch";
-}
-
 Sense_type lookup_sense_type(std::string name)
 {
   name = no_caps(name);

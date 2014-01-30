@@ -26,7 +26,6 @@ public:
   virtual bool is_monster() { return true; }
 
   virtual bool has_sense(Sense_type sense);
-  virtual Intel_level get_intelligence();
   virtual Entity_AI   get_AI();
 
   virtual int get_speed();

@@ -79,14 +79,6 @@ bool Monster::has_sense(Sense_type sense)
   return type->has_sense(sense);
 }
 
-Intel_level Monster::get_intelligence()
-{
-  if (!type) {
-    return INTEL_NULL;
-  }
-  return type->intel;
-}
-
 Entity_AI Monster::get_AI()
 {
   if (!type) {
@@ -119,7 +111,6 @@ void Monster::make_plans()
   }
   if (!found_goal) {
 // TODO: Straight line / pinball wandering
-    debugmsg("No goal found.");
   } else {
     plan.generate_path_to_target(AI, pos);
   }
@@ -298,71 +289,14 @@ void Monster::take_damage(Damage_type type, int damage, std::string reason,
   }
 }
 
-void Monster::move_towards(Entity* entity)
-{
-  if (!entity) {
-    debugmsg("Monster attempted move_towards() on a null target.");
-    return;
-  }
-  move_towards(entity->pos);
-}
-
-void Monster::move_towards(int target_x, int target_y)
-{
-  Tripoint target(target_x, target_y, pos.z);
-  move_towards(target);
-}
-
-void Monster::move_towards(Tripoint target)
-{
-  Generic_map move_map = GAME.map->get_movement_map(get_intelligence());
-  Pathfinder pf(move_map);
-// Simple, dumb movement - suitable for zombies at least
-  Tripoint move = pos;
-  switch (get_intelligence()) {
-    case INTEL_NULL:
-    case INTEL_PLANT:
-// Mobile plants just drunken walk.
-      move.x = rng(pos.x - 1, pos.x + 1);
-      move.y = rng(pos.y - 1, pos.y + 1);
-      break;
-
-    case INTEL_ZOMBIE:
-      move = pf.get_step(PATH_A_STAR, pos, target);
-      break;
-
-    case INTEL_ANIMAL:
-    case INTEL_HUMAN:
-      move = pf.get_step(PATH_A_STAR, pos, target);
-      break;
-
-    default:
-      debugmsg("No AI movement coded for Intel_level %s",
-               intel_level_name(get_intelligence()).c_str());
-  }
-
-// TODO:  Add a "Stumble" flag that occasionally randomly picks, rather than
-//        picking the best available.
-    debugmsg("move [%d:%d:%d] => [%d:%d:%d] => [%d:%d:%d]", pos.x, pos.y, pos.z, move.x, move.y, move.z, target.x, target.y, target.z);
-
-  if (can_move_to( GAME.map, move )) {
-    move_to( GAME.map, move );
-// TODO: Add a "smashes terrain" flag, and if we can't move then smash
-  } else if (GAME.map->is_smashable(move)) {
-    GAME.map->smash(move, base_attack().roll_damage());
-    use_ap(100);
-  } else {
-    pause();
-  }
-}
-
+// TODO: Rewrite this function.
 void Monster::wander()
 {
   if (wander_duration <= 0) {
     wander_target = Tripoint( pos.x + rng(-3, 3), pos.y + rng(-3, 3), pos.z );
     wander_duration = 3;
   }
-  move_towards(wander_target);
+  pause();
 }
 
 void Monster::pause()

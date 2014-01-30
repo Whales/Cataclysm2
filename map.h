@@ -99,11 +99,9 @@ public:
   void shift(Worldmap *world, int shiftx, int shifty, int shiftz = 0);
 
 // Game engine access
-  Generic_map get_movement_map(Intel_level intel);
   Generic_map get_dijkstra_map(Tripoint target, int weight,
                                bool include_smashable = true);
   Generic_map get_movement_map(Entity_AI AI, Tripoint origin, Tripoint target);
-  void set_movement_map(Generic_map &map, Intel_level intel);
   int  move_cost(Tripoint pos);
   int  move_cost(int x, int y, int z = 999);
 

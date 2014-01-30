@@ -205,11 +205,6 @@ bool Entity::pick_flee_target()
   return false;
 }
 
-Intel_level Entity::get_intelligence()
-{
-  return INTEL_PLANT;
-}
-
 Entity_AI Entity::get_AI()
 {
   return Entity_AI();

@@ -511,29 +511,6 @@ void Map::shift(Worldmap *world, int shiftx, int shifty, int shiftz)
   generate(world);
 }
 
-Generic_map Map::get_movement_map(Intel_level intel)
-{
-  Generic_map ret(SUBMAP_SIZE * MAP_SIZE, SUBMAP_SIZE * MAP_SIZE, posz);
-
-  set_movement_map(ret, intel);
-
-  return ret;
-}
-
-void Map::set_movement_map(Generic_map &map, Intel_level intel)
-{
-  for (int x = 0; x < SUBMAP_SIZE * MAP_SIZE; x++) {
-    for (int y = 0; y < SUBMAP_SIZE * MAP_SIZE; y++) {
-      int cost = move_cost(x, y);
-// TODO: If there's a field here, increase cost accordingly
-      if (cost == 0 && is_smashable(x, y)) {
-        cost = 500; // TODO: Estimate costs more intelligently
-      }
-      map.set_cost(x, y, cost);
-    }
-  }
-}
-
 Generic_map Map::get_movement_map(Entity_AI AI,
                                   Tripoint origin, Tripoint target)
 {

@@ -26,7 +26,6 @@ struct Monster_type
   int speed;
   std::vector<Attack> attacks;
   int total_attack_weight;
-  Intel_level intel;
   Entity_AI AI;
 
   void set_genus(Monster_genus *mg);

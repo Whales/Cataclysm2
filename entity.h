@@ -66,7 +66,6 @@ public:
   virtual bool pick_attack_victim();
   virtual bool pick_flee_target();
 
-  virtual Intel_level get_intelligence();
   virtual Entity_AI   get_AI();
   virtual bool has_sense(Sense_type sense);
 
