@@ -24,6 +24,7 @@ struct Monster_type
 
   int minimum_hp, maximum_hp;
   int speed;
+  int chance;
   std::vector<Attack> attacks;
   int total_attack_weight;
   Entity_AI AI;
@@ -51,6 +52,11 @@ struct Monster_genus
   int uid;
 
   Monster_type default_values; // Default values for monsters in this genus
+  std::vector<Monster_type*> members;
+  int total_chance;
+
+  void add_member(Monster_type* member);
+  Monster_type* random_member();
 
   void assign_uid(int id);
   std::string get_name();

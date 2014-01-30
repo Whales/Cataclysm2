@@ -2,6 +2,7 @@
 #include "stringfunc.h"
 #include "monster_type.h"
 #include "globals.h"
+#include "rng.h"
 #include <sstream>
 
 Monster_type::Monster_type()
@@ -14,6 +15,7 @@ Monster_type::Monster_type()
   minimum_hp = 0;
   maximum_hp = 0;
   speed = 0;
+  chance = 100;
   attacks_copied_from_genus = false;
   senses_copied_from_genus = false;
   
@@ -119,6 +121,10 @@ bool Monster_type::load_data(std::istream &data)
       data >> speed;
       std::getline(data, junk);
 
+    } else if (ident == "chance:") {
+      data >> chance;
+      std::getline(data, junk);
+
     } else if (ident == "senses:") {
 // Reset all senses to false, if they were copied from our genus
 // (Because we want to completely override the defaults)
@@ -160,6 +166,10 @@ bool Monster_type::load_data(std::istream &data)
       return false;
     }
   }
+// Add ourselves to our genus before exiting
+  if (genus) {
+    genus->add_member(this);
+  }
   return true;
 }
 
@@ -171,10 +181,35 @@ bool Monster_type::has_sense(Sense_type sense)
 Monster_genus::Monster_genus()
 {
   uid = -1;
+  total_chance = 0;
 }
 
 Monster_genus::~Monster_genus()
 {
+}
+
+void Monster_genus::add_member(Monster_type* member)
+{
+  if (!member) {
+    return;
+  }
+  total_chance += member->chance;
+  members.push_back(member);
+}
+
+Monster_type* Monster_genus::random_member()
+{
+  if (members.empty()) {
+    return NULL;
+  }
+  int index = rng(1, total_chance);
+  for (int i = 0; i < members.size(); i++) {
+    index -= members[i]->chance;
+    if (index <= 0) {
+      return members[i];
+    }
+  }
+  return members.back();
 }
 
 void Monster_genus::assign_uid(int id)
