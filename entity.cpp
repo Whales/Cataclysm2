@@ -215,6 +215,11 @@ bool Entity::has_sense(Sense_type sense)
   return false;
 }
 
+int Entity::get_genus_uid()
+{
+  return -2;
+}
+
 bool Entity::can_sense(Entity* entity)
 {
   return false;

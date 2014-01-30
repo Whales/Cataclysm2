@@ -87,6 +87,14 @@ Entity_AI Monster::get_AI()
   return type->AI;
 }
 
+int Monster::get_genus_uid()
+{
+  if (!type || !type->genus) {
+    return -1;
+  }
+  return type->genus->uid;
+}
+
 int Monster::get_speed()
 {
   if (!type) {
@@ -148,6 +156,7 @@ bool Monster::try_goal(AI_goal goal)
 bool Monster::pick_attack_victim()
 {
 // TODO: Include an estimate of the target's strength relative to our own
+// TODO: Differentiate between "attacking aggresors" and "preying upon randos"
   int closest = 0;
   std::vector<Entity*> best;
   Entity_pool *pool = &(GAME.entities);
@@ -155,7 +164,8 @@ bool Monster::pick_attack_victim()
        it != pool->instances.end();
        it++) {
     Entity* tmp = (*it);
-    if (tmp->uid != uid && can_sense(tmp)) {
+    if (tmp->uid != uid && tmp->get_genus_uid() != get_genus_uid() &&
+        can_sense(tmp)) {
       int dist = rl_dist(pos, tmp->pos);
       if (closest == 0 || dist < closest) {
         closest = dist;

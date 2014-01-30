@@ -27,6 +27,7 @@ public:
 
   virtual bool has_sense(Sense_type sense);
   virtual Entity_AI   get_AI();
+  virtual int get_genus_uid();
 
   virtual int get_speed();
   void make_plans();

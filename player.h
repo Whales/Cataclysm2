@@ -18,6 +18,7 @@ public:
   virtual std::string get_possessive();
   virtual std::string conjugate(const std::string &verb) { return verb; }
   virtual glyph get_glyph();
+  virtual int get_genus_uid();
 
   virtual bool is_player()  { return true; }
   virtual bool is_you()     { return true; } // TODO: No?

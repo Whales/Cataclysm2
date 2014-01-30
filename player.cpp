@@ -48,6 +48,11 @@ glyph Player::get_glyph()
   return glyph('@', c_white, c_black);
 }
 
+int Player::get_genus_uid()
+{
+  return -3;
+}
+
 bool Player::has_sense(Sense_type sense)
 {
 // TODO: Turn off senses if we're blinded, deafened, etc.

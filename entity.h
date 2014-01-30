@@ -68,6 +68,7 @@ public:
 
   virtual Entity_AI   get_AI();
   virtual bool has_sense(Sense_type sense);
+  virtual int  get_genus_uid();
 
   virtual bool can_sense  (Entity* entity);
   virtual bool can_see    (Map* map, Tripoint target);
