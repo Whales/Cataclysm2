@@ -686,7 +686,11 @@ void Entity::attack(Entity* target)
       damage_ss << target->get_possessive() << " " << body_part_name(bp_hit);
     }
     if (target->is_you()) {
-      damage_ss << " for " << damage.total_damage() << " damage";
+      if (damage.total_damage() == 0) {
+        damage_ss << " but does no damage";
+      } else {
+        damage_ss << " for " << damage.total_damage() << " damage";
+      }
     }
     damage_ss << "!";
     GAME.add_msg( damage_ss.str() );
