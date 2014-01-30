@@ -81,6 +81,7 @@ struct Biome
   Variable_world_terrain terrain;
 
   Variable_monster_genus monsters;
+  int monster_min, monster_max;
 
   void assign_uid(int id);
   std::string get_name();

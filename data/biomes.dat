@@ -16,6 +16,7 @@ Name: rocky
 Name: city
   terrain: town square
   monsters: zombies
+  monster_count: 2 10
   flags: city
   Done
 Name: lake
