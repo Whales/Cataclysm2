@@ -16,6 +16,7 @@ public:
   ~Monster();
 
   void set_type(std::string name);
+  void set_type(Monster_type* newtype);
 
   virtual glyph get_glyph();
   virtual std::string get_name();

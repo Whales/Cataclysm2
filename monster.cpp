@@ -15,11 +15,18 @@ Monster::Monster()
 
 void Monster::set_type(std::string name)
 {
+  set_type(MONSTER_TYPES.lookup_name(name));
+}
+
+void Monster::set_type(Monster_type* newtype)
+{
   dead = false;
   killed_by_player = false;
-  type = MONSTER_TYPES.lookup_name(name);
+  type = newtype;
   if (type) {
     current_hp = rng(type->minimum_hp, type->maximum_hp);
+  } else {
+    debugmsg("Monster::set_type(NULL)!");
   }
   action_points = 0;
 }

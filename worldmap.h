@@ -7,6 +7,7 @@
 #include "worldmap.h"
 #include "cuss.h"
 #include "pathfind.h"
+#include "monster_spawn.h"
 #include <string>
 
 #define WORLDMAP_SIZE 150
