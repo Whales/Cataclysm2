@@ -15,6 +15,7 @@ Name: rocky
   Done
 Name: city
   terrain: town square
+  monsters: zombies
   flags: city
   Done
 Name: lake
