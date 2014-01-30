@@ -27,11 +27,16 @@ public:
 
   virtual bool has_sense(Sense_type sense);
   virtual Intel_level get_intelligence();
+  virtual Entity_AI   get_AI();
 
   virtual int get_speed();
   void make_plans();
+  virtual bool try_goal(AI_goal goal);
+  virtual bool pick_attack_victim();
+  virtual bool pick_flee_target();
   virtual void take_turn();
 
+  virtual bool can_sense(Entity* entity);
   bool can_attack(Entity* entity);
   virtual Attack base_attack();
   virtual void take_damage(Damage_type type, int damage, std::string reason,

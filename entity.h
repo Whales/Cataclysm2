@@ -23,21 +23,23 @@ struct Entity_plan
   Entity_plan();
   ~Entity_plan();
 
-  void set_target(Tripoint target, int att = -1);
-  void set_target(Entity*  target, int att = -1);
+  void set_target(AI_goal goal, Tripoint target, int att = -1);
+  void set_target(AI_goal goal, Entity*  target, int att = -1);
 
-  void path_to_target(Intel_level intel);
+  void generate_path_to_target(Entity_AI AI, Tripoint origin);
 
   bool is_active();
 
   Tripoint next_step();
   void erase_step();
+  void clear();
 
   Tripoint target_point;
   Entity*  target_entity;
   Pathfinder pf;
   Path path;
   int attention;
+  AI_goal goal_type;
 };
 
 class Entity
@@ -60,15 +62,26 @@ public:
   virtual void gain_action_points();
   virtual int  get_speed();
   virtual void take_turn();
+  virtual bool try_goal(AI_goal goal);
+  virtual bool pick_attack_victim();
+  virtual bool pick_flee_target();
 
   virtual Intel_level get_intelligence();
+  virtual Entity_AI   get_AI();
   virtual bool has_sense(Sense_type sense);
+
+  virtual bool can_sense  (Entity* entity);
   virtual bool can_see    (Map* map, Tripoint target);
   virtual bool can_see    (Map* map, int x, int y, int z = 999);
+
   virtual bool can_move_to(Map* map, Tripoint move);
   virtual bool can_move_to(Map* map, int x, int y, int z = 999);
+  virtual bool can_smash  (Map* map, Tripoint move);
+  virtual bool can_smash  (Map* map, int x, int y, int z = 999);
   virtual void move_to    (Map* map, Tripoint move);
   virtual void move_to    (Map* map, int x, int y, int z = 999);
+  virtual void smash      (Map* map, Tripoint sm);
+  virtual void smash      (Map* map, int x, int y, int z = 999);
   virtual void pause();
 
 // Misc action functions
@@ -138,8 +151,9 @@ public:
 };
 
 /* For now, Entity_pool does NOT include a map which uses location as a key.
- * In order for this map to be useful, we'd have to update it every turn, which
- * means it' probably be more trouble than it's worth, except when the map is
+ * Originally I thought this would speed up Game::entity_at(int x, int y), but
+ * in order for this map to be useful, we'd have to update it every turn, which
+ * means it'd probably be more trouble than it's worth, except when the map is
  * being called several times per turn.  We'd also have to update it after
  * every monster moves, which is a lot.
  * This means that monster_at() has to iterate over all monsters, which is

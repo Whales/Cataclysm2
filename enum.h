@@ -3,6 +3,9 @@
 
 #include <string>
 
+// TODO: Remove these.  For now I'm not sure how to specify them, but no.
+#define SIGHT_DIST 20
+
 enum Intel_level
 {
   INTEL_NULL = 0,
@@ -18,11 +21,12 @@ std::string intel_level_name(Intel_level level);
 
 enum Sense_type
 {
-  SENSE_NULL = 0, // Can't sense anything
-  SENSE_SIGHT,    // Blocked by opaque terrain
-  SENSE_SOUND,    // Semi-blocked by solid terrain, only shows noise sources
+  SENSE_NULL = 0,     // Can't sense anything
+  SENSE_SIGHT,        // Blocked by opaque terrain
+  SENSE_SOUND,        // Semi-blocked by solid terrain, only shows noise sources
   SENSE_ECHOLOCATION, // Blocked by solid terrain
-  SENSE_SMELL,    // Blocked by solid terrain, only shows scent
+  SENSE_SMELL,        // Blocked by solid terrain, only shows scent
+  SENSE_INFRARED,     // Not blocked, but only works on warm-blooded targets
   SENSE_OMNISCIENT,   // Not blocked by anything!
   SENSE_MAX
 };

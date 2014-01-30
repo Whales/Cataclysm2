@@ -55,9 +55,21 @@ void Path::reverse()
   std::reverse(path.begin(), path.end());
 }
 
+void Path::offset(int x_offset, int y_offset, int z_offset)
+{
+  for (int i = 0; i < path.size(); i++) {
+    path[i].x += x_offset;
+    path[i].y += y_offset;
+    path[i].z += z_offset;
+  }
+}
+
 Generic_map::Generic_map(int x, int y, int z)
 {
   set_size(x, y, z);
+  x_offset = 0;
+  y_offset = 0;
+  z_offset = 0;
 }
 
 Generic_map::~Generic_map()
@@ -429,6 +441,20 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
   int y_size = map.get_size_y();
   int z_size = map.get_size_z();
 
+  start.x -= map.x_offset;
+  start.y -= map.y_offset;
+  start.z -= map.z_offset;
+  end.x   -= map.x_offset;
+  end.y   -= map.y_offset;
+  end.z   -= map.z_offset;
+
+  if (x_size == 0 || y_size == 0 || z_size == 0) {
+    debugmsg("A* generated; [%d:%d:%d] => [%d:%d:%d] (size %d, %d, %d",
+             start.x, start.y, start.z, end.x, end.y, end.z,
+             x_size, y_size, z_size);
+    return Path();
+  }
+
   std::vector<Tripoint> open_points;
   A_star_status status[x_size][y_size][z_size];
   int           gscore[x_size][y_size][z_size];
@@ -560,6 +586,8 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
     ret.add_step(cur, map.get_cost(cur));
   }
   ret.reverse();
+// Add the offsets back in.
+  ret.offset(map.x_offset, map.y_offset, map.z_offset);
 
   return ret;
 }

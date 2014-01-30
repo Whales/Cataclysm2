@@ -102,8 +102,7 @@ public:
   Generic_map get_movement_map(Intel_level intel);
   Generic_map get_dijkstra_map(Tripoint target, int weight,
                                bool include_smashable = true);
-  Generic_map get_movement_map(const Entity_AI &AI,
-                               Tripoint origin, Tripoint target);
+  Generic_map get_movement_map(Entity_AI AI, Tripoint origin, Tripoint target);
   void set_movement_map(Generic_map &map, Intel_level intel);
   int  move_cost(Tripoint pos);
   int  move_cost(int x, int y, int z = 999);
@@ -132,20 +131,21 @@ public:
   std::string get_name(Tripoint pos);
   std::string get_name(int x, int y, int z = 999);
 
-  std::string smash(int x, int y, Damage_set damage); // Returns the sound
-  std::string smash(int x, int y, int z, Damage_set damage);
-  std::string smash(Tripoint pos, Damage_set damage);
+  void smash(int x, int y,        Damage_set damage, bool make_sound = true);
+  void smash(int x, int y, int z, Damage_set damage, bool make_sound = true);
+  void smash(Tripoint pos,        Damage_set damage, bool make_sound = true);
 
   bool open (Tripoint pos);
   bool open (int x, int y, int z = 999);
   bool close(Tripoint pos);
   bool close(int x, int y, int z = 999);
 
-  bool senses(int x0, int y0, int x1, int y1, Sense_type sense = SENSE_SIGHT);
-  bool senses(int x0, int y0, int z0, int x1, int y1, int z1,
-              Sense_type sense = SENSE_SIGHT);
-  bool senses(Point origin, Point target, Sense_type sense = SENSE_SIGHT);
-  bool senses(Tripoint origin, Tripoint target, Sense_type sense = SENSE_SIGHT);
+  bool senses(int x0, int y0, int x1, int y1, int range, Sense_type sense);
+  bool senses(int x0, int y0, int z0, int x1, int y1, int z1, int range,
+              Sense_type sense);
+  bool senses(Point origin, Point target, int range, Sense_type sense);
+  bool senses(Tripoint origin, Tripoint target, int range, Sense_type sense);
+
   std::vector<Point> line_of_sight(int x0, int y0, int x1, int y1);
   std::vector<Point> line_of_sight(int x0, int y0, int z0,
                                    int x1, int y1, int z1);

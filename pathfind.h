@@ -30,6 +30,7 @@ public:
   void add_step(Tripoint p, int cost);
   void erase_step(int index);
   void reverse();
+  void offset(int x_offset, int y_offset, int z_offset);
 private:
   std::vector<Tripoint> path;
   int total_cost;
@@ -42,6 +43,7 @@ public:
   ~Generic_map();
 
   void set_size(int x, int y, int z = 1);
+  void set_offset(int x, int y, int z);
   void set_cost(int x, int y, int c);
   void set_cost(int x, int y, int z, int c);
   void set_cost(Tripoint p, int c);
@@ -57,6 +59,8 @@ public:
   bool blocked(int x, int y, int z = 0);
   bool blocked(Point p);
   bool blocked(Tripoint p);
+
+  int x_offset, y_offset, z_offset;
 private:
   std::vector<std::vector<std::vector<int> > > cost;
 };

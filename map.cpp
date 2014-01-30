@@ -534,7 +534,7 @@ void Map::set_movement_map(Generic_map &map, Intel_level intel)
   }
 }
 
-Generic_map Map::get_movement_map(const Entity_AI &AI,
+Generic_map Map::get_movement_map(Entity_AI AI,
                                   Tripoint origin, Tripoint target)
 {
 // Set the bounds of the map
@@ -558,6 +558,9 @@ Generic_map Map::get_movement_map(const Entity_AI &AI,
   int z_size = 1 + max_z - min_z;
 
   Generic_map ret(x_size, y_size, z_size);
+  ret.x_offset = min_x;
+  ret.y_offset = min_y;
+  ret.z_offset = min_z;
 
   for (int x = min_x; x <= max_x; x++) {
     for (int y = min_y; y <= max_y; y++) {
@@ -765,21 +768,23 @@ std::string Map::get_name(int x, int y, int z)
   return ter->name;
 }
 
-std::string Map::smash(int x, int y, Damage_set damage)
+void Map::smash(int x, int y, Damage_set damage, bool make_sound)
 {
-  return smash(x, y, 999, damage);
+  return smash(x, y, 999, damage, make_sound);
 }
 
-std::string Map::smash(int x, int y, int z, Damage_set damage)
+void Map::smash(int x, int y, int z, Damage_set damage, bool make_sound)
 {
   Tile* hit = get_tile(x, y, z);
   if (hit) {
-    return hit->smash(damage);
+    std::string sound = hit->smash(damage);
+    if (make_sound) {
+      GAME.make_sound(sound, x, y);
+    }
   }
-  return "";
 }
 
-std::string Map::smash(Tripoint pos, Damage_set damage)
+void Map::smash(Tripoint pos, Damage_set damage, bool make_sound)
 {
   return smash(pos.x, pos.y, pos.z, damage);
 }
@@ -820,30 +825,34 @@ bool Map::close(int x, int y, int z)
  * return true.  If we iterate through all of them and they all block, return
  * false.
  */
-bool Map::senses(int x0, int y0, int x1, int y1, Sense_type sense)
+bool Map::senses(int x0, int y0, int x1, int y1, int range, Sense_type sense)
 {
-  return senses(x0, x0, posz, x1, y1, posz, sense);
+  return senses(x0, x0, posz, x1, y1, posz, range, sense);
 }
 
-bool Map::senses(int x0, int y0, int z0, int x1, int y1, int z1,
+bool Map::senses(int x0, int y0, int z0, int x1, int y1, int z1, int range,
                  Sense_type sense)
 {
   if (sense == SENSE_SIGHT) {
-    return (!line_of_sight(x0, y0, z0, x1, y1, z1).empty());
-  } else {
-    return false;
+    std::vector<Point> line = line_of_sight(x0, y0, z0, x1, y1, z1);
+    return (!line.empty() && line.size() <= range);
+  } else if (sense == SENSE_SMELL) {
+// TODO: More realistic smell
+    return (rl_dist(x0, y0, z0, x1, y1, z1) <= range);
   }
+  return false;
 }
 
-bool Map::senses(Point origin, Point target, Sense_type sense)
+bool Map::senses(Point origin, Point target, int range, Sense_type sense)
 {
-  return senses(origin.x, origin.y, posz, target.x, target.y, posz, sense);
+  return senses(origin.x, origin.y, posz, target.x, target.y, posz, range,
+                sense);
 }
 
-bool Map::senses(Tripoint origin, Tripoint target, Sense_type sense)
+bool Map::senses(Tripoint origin, Tripoint target, int range, Sense_type sense)
 {
   return senses(origin.x, origin.y, origin.z, target.x, target.y, target.z,
-                sense);
+                range, sense);
 }
 
 std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
@@ -954,10 +963,11 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
     return;
   }
   int winx = w->sizex(), winy = w->sizey();
+  int dist = winx > winy ? winx / 2 : winy / 2;
   for (int x = 0; x < winx; x++) {
     for (int y = 0; y < winy; y++) {
       int terx = refx + x - (winx / 2), tery = refy + y - (winy / 2);
-      if (senses(refx, refy, refz, terx, tery, posz, sense)) {
+      if (senses(refx, refy, refz, terx, tery, posz, dist, sense)) {
         draw_tile(w, entities, terx, tery, refx, refy, false);
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE

@@ -87,6 +87,14 @@ Intel_level Monster::get_intelligence()
   return type->intel;
 }
 
+Entity_AI Monster::get_AI()
+{
+  if (!type) {
+    return Entity_AI();
+  }
+  return type->AI;
+}
+
 int Monster::get_speed()
 {
   if (!type) {
@@ -97,18 +105,109 @@ int Monster::get_speed()
 
 void Monster::make_plans()
 {
-  Player *player = GAME.player;
-  Map *map = GAME.map;
+// TODO: Don't hard-code this, add a "don't cancel plan" function or something
+  if (plan.is_active() && plan.goal_type == AIGOAL_FLEE) {
+    return;
+  }
 // TODO: Support different senses
-// TODO: Support non-aggressive monsters
 // TODO: Don't hard-code for player; instead select a target from Game.entities
-  bool senses_player = false;
-  if (has_sense(SENSE_SIGHT) && can_sense(map, player->pos)) {
-    senses_player = true;
+// Iterate through our AI's goals until we find one we can try for
+  Entity_AI AI = get_AI();
+  bool found_goal = false;
+  for (int i = 0; !found_goal && i < AI.goals.size(); i++) {
+    found_goal = try_goal(AI.goals[i]);
   }
-  if (senses_player) {
-    plan.set_target(player);
+  if (!found_goal) {
+// TODO: Straight line / pinball wandering
+    debugmsg("No goal found.");
+  } else {
+    plan.generate_path_to_target(AI, pos);
   }
+}
+
+bool Monster::try_goal(AI_goal goal)
+{
+  switch (goal) {
+
+    case AIGOAL_NULL: // Shouldn't happen
+      return false;
+
+    case AIGOAL_ATTACK_ENEMIES:
+    case AIGOAL_ATTACK_NEUTRALS:
+      return pick_attack_victim();
+
+    case AIGOAL_FLEE:
+      return pick_flee_target();
+
+    case AIGOAL_EAT_CORPSES:  // TODO: This.
+      return false;
+
+    case AIGOAL_COLLECT_ITEMS: // TODO: This.
+      return false;
+
+    default:
+      debugmsg("Monster::try_goal doesn't know how to handle %s!",
+               AI_goal_name(goal).c_str());
+      return false;
+
+  }
+  return false;
+}
+
+bool Monster::pick_attack_victim()
+{
+// TODO: Include an estimate of the target's strength relative to our own
+  int closest = 0;
+  std::vector<Entity*> best;
+  Entity_pool *pool = &(GAME.entities);
+  for (std::list<Entity*>::iterator it = pool->instances.begin();
+       it != pool->instances.end();
+       it++) {
+    Entity* tmp = (*it);
+    if (tmp->uid != uid && can_sense(tmp)) {
+      int dist = rl_dist(pos, tmp->pos);
+      if (closest == 0 || dist < closest) {
+        closest = dist;
+        best.clear();
+        best.push_back(tmp);
+      } else if (dist == closest) {
+        best.push_back(tmp);
+      }
+    }
+  }
+
+  if (best.empty()) {
+    return false;
+  }
+  int index = rng(0, best.size() - 1);
+  Entity_AI AI = get_AI();
+  plan.set_target( AIGOAL_ATTACK_ENEMIES, best[index], AI.attention_span );
+  return true;
+}
+
+bool Monster::pick_flee_target()
+{
+// TODO: This could be better.
+  Tripoint flee_target;
+  int map_max = MAP_SIZE * SUBMAP_SIZE - 1;
+  int z_level = (pos.z >= 0 ? 0 : pos.z);
+  switch (rng(1, 4)) {
+    case 1:
+      flee_target = Tripoint(0      , 0      , z_level);
+      break;
+    case 2:
+      flee_target = Tripoint(0      , map_max, z_level);
+      break;
+    case 3:
+      flee_target = Tripoint(map_max, 0      , z_level);
+      break;
+    case 4:
+      flee_target = Tripoint(map_max, map_max, z_level);
+      break;
+  }
+  Entity_AI AI = get_AI();
+  plan.set_target( AIGOAL_FLEE, flee_target, AI.attention_span * 3 );
+  return true;
 }
 
 void Monster::take_turn()
@@ -127,11 +226,40 @@ void Monster::take_turn()
   if (plan.target_entity && can_attack(plan.target_entity)) {
     debugmsg("attack");
     attack(plan.target_entity);
+  } else if (can_move_to(GAME.map, plan.next_step())) {
+    move_to(GAME.map, plan.next_step());
+    plan.erase_step();
+  } else if (can_smash(GAME.map, plan.next_step())) {
+    smash(GAME.map, plan.next_step());
   } else {
-    move_towards(plan.target_point);
+    Tripoint next = plan.next_step();
+    debugmsg("Failed to path [%d:%d:%d] => [%d:%d:%d]", pos.x, pos.y, pos.z,
+             next.x, next.y, next.z);
+    plan.generate_path_to_target(get_AI(), pos);
+    pause();
   }
 }
 
+bool Monster::can_sense(Entity* entity)
+{
+  if (!entity) {
+    return false;
+  }
+// Do it in order of lowest resource cost to highest!
+  if (has_sense(SENSE_OMNISCIENT)) {
+    return true;
+  }
+// TODO: require that the target is warm-blooded
+  if (has_sense(SENSE_INFRARED)) {
+    return true;
+  }
+// TODO: Use a range other than 15
+  if (has_sense(SENSE_SIGHT)) {
+    return GAME.map->senses(pos, entity->pos, 15, SENSE_SIGHT);
+  }
+// TODO: Other senses (e.g. echolocation)
+  return false;
+}
 bool Monster::can_attack(Entity* entity)
 {
   if (!entity) {
@@ -221,8 +349,7 @@ void Monster::move_towards(Tripoint target)
     move_to( GAME.map, move );
 // TODO: Add a "smashes terrain" flag, and if we can't move then smash
   } else if (GAME.map->is_smashable(move)) {
-    std::string sound = GAME.map->smash(move, base_attack().roll_damage());
-    GAME.make_sound(sound, move);
+    GAME.map->smash(move, base_attack().roll_damage());
     use_ap(100);
   } else {
     pause();

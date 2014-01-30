@@ -197,8 +197,7 @@ void Game::do_action(Interface_action act)
       } else {
         Tripoint sm = player->pos + dir;
         add_msg("You smash the %s.", map->get_name(sm).c_str());
-        std::string sound = map->smash(sm, player->std_attack().roll_damage());
-        make_sound(sound, player->pos);
+        map->smash(sm, player->std_attack().roll_damage());
         player->use_ap(100);
       }
     } break;
@@ -481,7 +480,7 @@ void Game::launch_projectile(Item it, Ranged_attack attack,
   for (int i = 0; i < path.size(); i++) {
     if (map->move_cost(path[i].x, path[i].y) == 0) {
 // It's a solid tile, so let's try to smash through it!
-      map->smash(path[i].x, path[i].y, attack.roll_damage());
+      map->smash(path[i].x, path[i].y, attack.roll_damage(), false);
       if (map->move_cost(path[i].x, path[i].y) == 0) {
         return; // We didn't make it!
       }

@@ -49,7 +49,7 @@ bool Entity_AI::load_data(std::istream &data, std::string parent_name)
       data >> attention_span;
       std::getline(data, junk);
 
-    } else if (ident == "feature:") {
+    } else if (ident == "recognizes:") {
       std::string feat_name;
       std::getline(data, feat_name);
       Pathing_feature feat = lookup_pathing_feature(feat_name);

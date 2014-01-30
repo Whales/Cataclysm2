@@ -22,13 +22,14 @@ Entity_plan::Entity_plan()
   target_point = Tripoint(-1, -1, -1);
   target_entity = NULL;
   attention = 0;
+  goal_type = AIGOAL_NULL;
 }
 
 Entity_plan::~Entity_plan()
 {
 }
 
-void Entity_plan::set_target(Tripoint target, int att)
+void Entity_plan::set_target(AI_goal goal, Tripoint target, int att)
 {
   if (att == -1) { // att defaults to -1
     att = 15;
@@ -36,9 +37,10 @@ void Entity_plan::set_target(Tripoint target, int att)
   target_point = target;
   target_entity = NULL; // TODO: Don't do this?
   attention = att;
+  goal_type = goal;
 }
 
-void Entity_plan::set_target(Entity* target, int att)
+void Entity_plan::set_target(AI_goal goal, Entity* target, int att)
 {
   if (!target) {
     target_point = Tripoint(-1, -1, -1);
@@ -52,6 +54,25 @@ void Entity_plan::set_target(Entity* target, int att)
   target_entity = target;
   target_point = target->pos;
   attention = att;
+  goal_type = goal;
+}
+
+void Entity_plan::generate_path_to_target(Entity_AI AI, Tripoint origin)
+{
+  if (!is_active() || target_point.x < 0 || target_point.y < 0) {
+    return;
+  }
+
+  Generic_map map = GAME.map->get_movement_map(AI, origin, target_point);
+  Pathfinder pf(map);
+
+  path = pf.get_path(PATH_A_STAR, origin, target_point);
+
+  if (path.empty()) {
+    attention = 0;
+    target_point = Tripoint(-1, -1, -1);
+    target_entity = NULL;
+  }
 }
 
 bool Entity_plan::is_active()
@@ -59,7 +80,7 @@ bool Entity_plan::is_active()
   if (attention <= 0) {
     return false;
   }
-  if (!target_entity && (target_point.x < 0 || target_point.y < 0)) {
+  if (target_point.x < 0 || target_point.y < 0) {
     return false;
   }
   return true;
@@ -76,6 +97,14 @@ Tripoint Entity_plan::next_step()
 void Entity_plan::erase_step()
 {
   path.erase_step(0);
+}
+
+void Entity_plan::clear()
+{
+  target_point = Tripoint(-1, -1, -1);
+  target_entity = NULL;
+  attention = 0;
+  goal_type = AIGOAL_NULL;
 }
 
 Entity::Entity()
@@ -137,6 +166,14 @@ void Entity::die()
   if (weapon.is_real()) {
     GAME.map->add_item( weapon, pos.x, pos.y, pos.z );
   }
+// Tell any monsters that're targeting us to QUIT IT
+  for (std::list<Entity*>::iterator it = GAME.entities.instances.begin();
+       it != GAME.entities.instances.end();
+       it++) {
+    if ( (*it)->plan.target_entity == this ) {
+      (*it)->plan.clear();
+    }
+  }
 }
 
 void Entity::gain_action_points()
@@ -153,12 +190,37 @@ void Entity::take_turn()
 {
 }
 
+bool Entity::try_goal(AI_goal goal)
+{
+  return false;
+}
+
+bool Entity::pick_attack_victim()
+{
+  return false;
+}
+
+bool Entity::pick_flee_target()
+{
+  return false;
+}
+
 Intel_level Entity::get_intelligence()
 {
   return INTEL_PLANT;
 }
 
+Entity_AI Entity::get_AI()
+{
+  return Entity_AI();
+}
+
 bool Entity::has_sense(Sense_type sense)
+{
+  return false;
+}
+
+bool Entity::can_sense(Entity* entity)
 {
   return false;
 }
@@ -176,7 +238,7 @@ bool Entity::can_see(Map* map, int x, int y, int z)
   if (!map || !has_sense(SENSE_SIGHT)) {
     return false;
   }
-  return map->senses(pos.x, pos.y, pos.z, x, y, z, SENSE_SIGHT);
+  return map->senses(pos.x, pos.y, pos.z, x, y, z, SIGHT_DIST, SENSE_SIGHT);
 }
 
 bool Entity::can_move_to(Map* map, Tripoint move)
@@ -201,6 +263,19 @@ bool Entity::can_move_to(Map* map, int x, int y, int z)
   return true;
 }
 
+bool Entity::can_smash(Map* map, int x, int y, int z)
+{
+  if (z == 999) { // z defaults to 999
+    z = pos.z;
+  }
+  return can_smash(map, Tripoint(x, y, z));
+}
+
+bool Entity::can_smash(Map *map, Tripoint sm)
+{
+  return map->is_smashable(sm);
+}
+
 void Entity::move_to(Map* map, Tripoint move)
 {
   move_to(map, move.x, move.y, move.z);
@@ -217,6 +292,23 @@ void Entity::move_to(Map* map, int x, int y, int z)
     action_points -= map->move_cost(x, y, z);
   }
 }
+
+void Entity::smash(Map* map, Tripoint sm)
+{
+  if (!map) {
+    return;
+  }
+  map->smash(sm, base_attack().roll_damage());
+}
+
+void Entity::smash(Map* map, int x, int y, int z)
+{
+  if (z == 999) { // z defaults to 999
+    z = pos.z;
+  }
+  smash(map, Tripoint(x, y, z));
+}
+  
 
 void Entity::pause()
 {
@@ -643,7 +735,7 @@ bool Entity::can_sense(Map* map, int x, int y, int z)
     z = pos.z;
   }
 // Default Entity function just uses sight
-  return map->senses(pos.x, pos.y, pos.z, x, y, z);
+  return map->senses(pos.x, pos.y, pos.z, x, y, z, SIGHT_DIST, SENSE_SIGHT);
 }
 
 bool Entity::can_sense(Map* map, Tripoint target)
