@@ -52,6 +52,7 @@ struct Monster_genus
   int uid;
 
   Monster_type default_values; // Default values for monsters in this genus
+// Spawning stuff
   std::vector<Monster_type*> members;
   int total_chance;
 

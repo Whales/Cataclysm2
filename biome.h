@@ -3,6 +3,7 @@
 
 #include "world_terrain.h"
 #include "monster_type.h"
+#include "dice.h"
 #include <istream>
 
 struct World_terrain_chance
@@ -81,7 +82,7 @@ struct Biome
   Variable_world_terrain terrain;
 
   Variable_monster_genus monsters;
-  int monster_min, monster_max;
+  Dice monster_population;
 
   void assign_uid(int id);
   std::string get_name();

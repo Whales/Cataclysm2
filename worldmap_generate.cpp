@@ -251,6 +251,7 @@ void Worldmap::generate()
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
       if (altitude[x][y] <= 0 && !biomes[x][y]->has_flag(BIOME_FLAG_NO_OCEAN)) {
         tiles[x][y].set_terrain("ocean");
+        biomes[x][y] = BIOMES.lookup_name("ocean");
 // If it's a hub, i.e. a city_seed, try to reposition it within 5 tiles
         if (city[x][y] == CITY_HUB) {
           for (int i = 0; i < city_seeds.size(); i++) {
@@ -469,6 +470,14 @@ void Worldmap::generate()
           }
         }
       }
+    }
+  }
+}
+
+void Worldmap::place_monsters()
+{
+  for (int x = 0; x < WORLDMAP_SIZE; x++) {
+    for (int y = 0; y < WORLDMAP_SIZE; y++) {
     }
   }
 }

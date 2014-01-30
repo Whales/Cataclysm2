@@ -1,3 +1,6 @@
+Name: ocean
+  terrain: ocean
+  Done
 Name: grassland
   terrain: field
   Done
@@ -16,7 +19,7 @@ Name: rocky
 Name: city
   terrain: town square
   monsters: zombies
-  monster_count: 2 10
+  population: 2d6 - 4
   flags: city
   Done
 Name: lake

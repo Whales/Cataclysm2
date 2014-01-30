@@ -159,8 +159,6 @@ Biome::Biome()
 {
   name = "Unknown";
   uid = -1;
-  monster_min = 0;
-  monster_max = 0;
   for (int i = 0; i < BIOME_FLAG_MAX; i++) {
     flags.push_back(false);
   }
@@ -211,9 +209,11 @@ bool Biome::load_data(std::istream &data)
       std::istringstream monster_data(monster_line);
       monsters.load_data(monster_data, name);
 
-    } else if (ident == "monster_count:") {
-      data >> monster_min >> monster_max;
-      std::getline(data, junk);
+    } else if (ident == "population:" || ident == "monster_population:") {
+      std::string dice_line;
+      std::getline(data, dice_line);
+      std::istringstream dice_data(dice_line);
+      monster_population.load_data(dice_data, name);
 
     } else if (ident == "flags:") {
       std::string line;

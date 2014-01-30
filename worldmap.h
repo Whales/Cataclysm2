@@ -15,6 +15,7 @@
 struct Worldmap_tile
 {
   World_terrain *terrain;
+  std::vector<Monster_spawn> monsters;
   glyph top_glyph();
   void set_terrain(std::string name);
 };
@@ -26,6 +27,7 @@ public:
   ~Worldmap();
 
   void generate();
+  void place_monsters();
   void set_terrain(int x, int y, std::string terrain_name);
 
   void init_shop_picker();
