@@ -68,6 +68,7 @@ struct Submap
   bool add_item(Item item, int x, int y);
   int  item_count(int x, int y);
   std::vector<Item>* items_at(int x, int y);
+  Point random_empty_tile();
 
 };
 
@@ -97,6 +98,7 @@ public:
   void generate(Worldmap *world, int wposx = -999, int wposy = -999,
                                  int wposz = -999);
   void shift(Worldmap *world, int shiftx, int shifty, int shiftz = 0);
+  void spawn_monsters(Worldmap *world, int x, int y);
 
 // Game engine access
   Generic_map get_dijkstra_map(Tripoint target, int weight,

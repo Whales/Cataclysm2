@@ -421,7 +421,6 @@ void Game::shift_if_needed()
     shifty =  1 + (player->pos.y - max) / SUBMAP_SIZE;
   }
   map->shift(worldmap, shiftx, shifty);
-  //player->shift(shiftx, shifty);
   for (std::list<Entity*>::iterator it = entities.instances.begin();
        it != entities.instances.end();
        it++) {

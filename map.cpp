@@ -403,6 +403,23 @@ std::vector<Item>* Submap::items_at(int x, int y)
   return &(tiles[x][y].items);
 }
 
+Point Submap::random_empty_tile()
+{
+  std::vector<Point> options;
+  for (int x = 0; x < SUBMAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE; y++) {
+      if (tiles[x][y].move_cost() > 0) {
+        options.push_back( Point(x, y) );
+      }
+    }
+  }
+
+  if (options.empty()) {
+    return Point(-1, -1);
+  }
+  return options[ rng(0, options.size() - 1) ];
+}
+
 Submap_pool::Submap_pool()
 {
 }
@@ -509,6 +526,52 @@ void Map::shift(Worldmap *world, int shiftx, int shifty, int shiftz)
   posy += shifty;
   posz += shiftz;
   generate(world);
+
+// Also, handle generating monsters for any new submaps!
+  int x_start = (shiftx > 0 ? MAP_SIZE - shiftx : 0);
+  int y_start = (shifty > 0 ? MAP_SIZE - shifty : 0);
+  int x_end   = (shiftx > 0 ? MAP_SIZE - 1 : shiftx);
+  int y_end   = (shifty > 0 ? MAP_SIZE - 1 : shifty);
+  for (int x = x_start; x <= x_end; x++) {
+    for (int y = y_start; y <= y_end; y++) {
+      spawn_monsters(world, x, y);
+    }
+  }
+}
+
+void Map::spawn_monsters(Worldmap *world, int x, int y)
+{
+  if (!world) {
+    debugmsg("Map::spawn_monsters() called with NULL world");
+    return;
+  }
+  if (x < 0 || y < 0 || x >= MAP_SIZE || y >= MAP_SIZE) {
+    debugmsg("Map::spawn_monsters() called on submap [%d:%d]", x, y);
+    return;
+  }
+  int monx = posx + x, mony = posx + y;
+  std::vector<Monster_spawn>* monsters = world->get_spawns(monx, mony);
+
+  for (int i = 0; i < monsters->size(); i++) {
+    for (int n = 0; n < (*monsters)[i].population; n++) {
+      Monster_type* type = (*monsters)[i].genus->random_member();
+/* TODO: Support placing aquatic monsters in water tiles, etc.
+ *       Perhaps by replacing random_empty_tile() with tile_for(Monster_type*)?
+ */
+      Point tmppos = submaps[x][y][posz]->random_empty_tile();
+      if (tmppos.x >= 0 && tmppos.y <= 0) {
+// Adjust to be relative to the map, not the submap
+        tmppos.x += SUBMAP_SIZE * x;
+        tmppos.y += SUBMAP_SIZE * y;
+        Tripoint monpos(tmppos.x, tmppos.y, posz);
+        Monster* mon = new Monster;
+        mon->set_type(type);
+        mon->pos = monpos;
+        GAME.entities.add_entity(mon);
+      }
+    }
+    (*monsters)[i].population = 0;
+  }
 }
 
 Generic_map Map::get_movement_map(Entity_AI AI,

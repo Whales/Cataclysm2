@@ -161,6 +161,7 @@ Worldmap_tile* Worldmap::get_tile(int x, int y)
 {
   if (x < 0 || x >= WORLDMAP_SIZE || y < 0 || y >= WORLDMAP_SIZE) {
     tile_oob.terrain = WORLD_TERRAIN.lookup_uid(0);
+    tile_oob.monsters.clear();
     return &tile_oob;
   }
 
@@ -185,6 +186,12 @@ glyph Worldmap::get_glyph(int x, int y)
   }
 
   return ret;
+}
+
+std::vector<Monster_spawn>* Worldmap::get_spawns(int x, int y)
+{
+  Worldmap_tile* tile = get_tile(x, y);
+  return &(tile->monsters);
 }
 
 Generic_map Worldmap::get_generic_map()
