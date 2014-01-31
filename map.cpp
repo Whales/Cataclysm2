@@ -572,8 +572,10 @@ void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
     for (int x = 0; x < MAP_SIZE; x++) {
       for (int y = 0; y < MAP_SIZE; y++) {
         submaps[x][y][z_index] = SUBMAP_POOL.at_location(posx + x, posy + y, z);
-        submaps[x][y][z_index]->spawn_monsters(world, posx+x, posy+y, z_index,
-                                               x, y);
+        if (z == 0) {
+          submaps[x][y][z_index]->spawn_monsters(world, posx+x, posy+y, 0,
+                                                 x, y);
+        }
       }
     }
   }
@@ -943,6 +945,13 @@ bool Map::senses(int x0, int y0, int x1, int y1, int range, Sense_type sense)
 bool Map::senses(int x0, int y0, int z0, int x1, int y1, int z1, int range,
                  Sense_type sense)
 {
+  if (x0 < 0 || y0 < 0 ||
+      x1 >= SUBMAP_SIZE * MAP_SIZE || y1 >= SUBMAP_SIZE * MAP_SIZE) {
+    return false;
+  }
+  if (rl_dist(x0, y0, z0, x1, y1, z1) > range) {
+    return false;
+  }
   if (sense == SENSE_SIGHT) {
     std::vector<Point> line = line_of_sight(x0, y0, z0, x1, y1, z1);
     return (!line.empty() && line.size() <= range);
