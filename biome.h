@@ -52,7 +52,10 @@ public:
   void add_genus(Monster_genus_chance genus);
   bool load_data(std::istream &data, std::string name = "unknown");
 
-  Monster_genus* pick();
+  int size();
+  Monster_genus* pick();  // Pick a single random genus
+  std::vector<Monster_genus*> pick(int num);  // Return a list of $num genera
+  int pick_number(); // Pick how many genera to spawn
 
 private:
   std::vector<Monster_genus_chance> genera;

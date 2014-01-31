@@ -139,6 +139,11 @@ bool Variable_monster_genus::load_data(std::istream &data, std::string name)
   return true;
 }
 
+int Variable_monster_genus::size()
+{
+  return genera.size();
+}
+
 Monster_genus* Variable_monster_genus::pick()
 {
   if (genera.empty()) {
@@ -153,6 +158,54 @@ Monster_genus* Variable_monster_genus::pick()
     }
   }
   return genera.back().genus;
+}
+
+std::vector<Monster_genus*> Variable_monster_genus::pick(int num)
+{
+  std::vector<Monster_genus*> ret;
+
+  if (genera.empty()) {
+    return ret;
+  }
+
+  if (num >= genera.size()) {
+    for (int i = 0; i < genera.size(); i++) {
+      ret.push_back( genera[i].genus );
+    }
+    return ret;
+  }
+
+  std::vector<bool> picked;
+  for (int i = 0; i < genera.size(); i++) {
+    picked.push_back(false);
+  }
+
+  int new_total = total_chance;
+  while (ret.size() < num) {
+    int index = rng(1, new_total);
+    for (int i = 0; i < genera.size(); i++) {
+// Skip any we've already picked
+      while (picked[i] && i < genera.size()) {
+        i++;
+      }
+      index -= genera[i].chance;
+      if (index <= 0) {
+        picked[i] = true;
+        new_total -= genera[i].chance;
+        ret.push_back( genera[i].genus );
+      }
+    }
+  }
+  return ret;
+}
+
+int Variable_monster_genus::pick_number()
+{
+  int ret = 0;
+  while (rng(1, size()) > ret) {
+    ret++;
+  }
+  return ret;
 }
 
 Biome::Biome()

@@ -478,6 +478,24 @@ void Worldmap::place_monsters()
 {
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
+      if (biomes[x][y]) {
+        Variable_monster_genus var = biomes[x][y]->monsters;
+// Decide how many genera to place here.
+        int placed = var.pick_number();
+        if (placed > 0) {
+          std::vector<Monster_genus*> gens = var.pick(placed);
+          for (int i = 0; i < gens.size(); i++) {
+            Monster_genus* genus = gens[i];
+            int population = biomes[x][y]->monster_population.roll() / placed;
+            if (genus && population > 0) {
+              Monster_spawn tmpspawn;
+              tmpspawn.genus = genus;
+              tmpspawn.population = population;
+              tiles[x][y].monsters.push_back(tmpspawn);
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -4,6 +4,9 @@
 
 int Dice::roll()
 {
+  if (number == 0 || sides == 0) {
+    return 0;
+  }
   return dice(number, sides) + bonus;
 }
 
