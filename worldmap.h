@@ -16,7 +16,10 @@ struct Worldmap_tile
 {
   World_terrain *terrain;
   std::vector<Monster_spawn> monsters;
+
   glyph top_glyph();
+  std::string get_name();
+
   void set_terrain(std::string name);
 };
 

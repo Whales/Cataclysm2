@@ -2,6 +2,7 @@
 #include "biome.h"
 #include "rng.h"
 #include "globals.h"
+#include "window.h"
 #include <math.h>
 
 #define NUM_RADIAL_POINTS 150
@@ -472,6 +473,8 @@ void Worldmap::generate()
       }
     }
   }
+// Finally, place mosnters!
+  place_monsters();
 }
 
 void Worldmap::place_monsters()
@@ -555,4 +558,3 @@ void draw_island(std::vector<std::vector<int> > &altitude, Point center,
     }
   }
 }
-

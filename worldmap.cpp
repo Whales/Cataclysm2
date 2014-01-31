@@ -9,6 +9,14 @@ glyph Worldmap_tile::top_glyph()
   return terrain->sym;
 }
 
+std::string Worldmap_tile::get_name()
+{
+  if (!terrain) {
+    return "Unknown";
+  }
+  return terrain->name;
+}
+
 void Worldmap_tile::set_terrain(std::string name)
 {
   World_terrain *ter = WORLD_TERRAIN.lookup_name(name);
@@ -109,6 +117,10 @@ void Worldmap::draw(int posx, int posy)
         if ((terx == posx && tery == posy) ||
             (terx == origx && tery == origy) ) {
           sym = sym.invert();
+        } else if (terx >= 0 && tery >= 0 &&
+                   terx < WORLDMAP_SIZE && tery < WORLDMAP_SIZE &&
+                   !tiles[terx][tery].monsters.empty()) {
+          sym = sym.hilite(c_red);
         }
         w_worldmap.putglyph(x, y, sym);
       }
