@@ -63,7 +63,7 @@ name: std_house_2_whales
 subname: stone_whales
 type: house
 level: 1
-tile_group: # = stone wall / wood wall
+tile_group: # = stone wall
 tile: . = floor
 tile: x = empty
 tile: + = closed door
