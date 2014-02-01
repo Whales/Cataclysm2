@@ -268,3 +268,33 @@ name: stairs down
   flags: stairs_down
 done
 
+name: stove
+  glyph: S grey black
+  movecost: 0
+done
+  
+name: bed
+  glyph: B red black
+  movecost: 180
+done
+
+name: shelves
+  glyph: E yellow black
+  movecost: 0
+done
+
+name: sink
+  glyph: K grey black
+  movecost: 0
+done
+
+name: toilet
+  glyph: T white black
+  movecost: 150
+done
+
+name: fridge
+  glyph: F grey black
+  movecost: 0
+  flags: opaque
+done
