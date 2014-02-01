@@ -12,12 +12,12 @@ Name: zombies
       done
     done
     attack:
-      verb: hits
+      verb: hit / hits
       speed: 100
       bash: 3
     done
     attack:
-      verb: bites
+      verb: bite / bites
       weight: 2
       speed: 150
       to_hit: -2

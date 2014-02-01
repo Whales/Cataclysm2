@@ -42,7 +42,7 @@ inline Damage_set operator-(Damage_set lhs, const Damage_set& rhs)
 
 struct Attack
 {
-  std::string verb_first;
+  std::string verb_second;
   std::string verb_third;
   int weight; // For monster attacks - how likely this attack is to be used
   int speed;
@@ -52,7 +52,7 @@ struct Attack
   Attack();
   ~Attack();
 
-  bool load_data(std::istream &data, std::string owner_name = "unknown");
+  bool load_data(std::istream &data, std::string parent_name = "unknown");
   void use_weapon(Item weapon, Stats stats);
 
   Damage_set roll_damage();
@@ -63,7 +63,7 @@ struct Ranged_attack
   Ranged_attack();
   ~Ranged_attack();
 
-  std::string verb_first;
+  std::string verb_second;
   std::string verb_third;
   int weight; // For monster attacks - how likely this attack is to be used
   int speed; // AP used
@@ -80,7 +80,7 @@ struct Ranged_attack
  *      Other???
  */
 
-  bool load_data(std::istream &data, std::string owner_name = "unknown");
+  bool load_data(std::istream &data, std::string parent_name = "unknown");
 
   int roll_variance();
   Damage_set roll_damage();

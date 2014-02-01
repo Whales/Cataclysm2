@@ -675,7 +675,7 @@ void Entity::attack(Entity* target)
     std::stringstream damage_ss;
     damage_ss << get_name_to_player() << " ";
     if (attacker_is_you) {
-      damage_ss << att.verb_first;
+      damage_ss << att.verb_second;
     } else {
       damage_ss << att.verb_third;
     }

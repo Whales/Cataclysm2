@@ -5,6 +5,9 @@
 #include "entity.h" // For Stats
 #include <sstream>
 
+bool load_verbs(std::istream &data, std::string &verb_second,
+                std::string &verb_third, std::string parent_name);
+
 Damage_set::Damage_set()
 {
   for (int i = 0; i < DAMAGE_MAX; i++) {
@@ -72,7 +75,7 @@ Damage_set& Damage_set::operator-=(const Damage_set& rhs)
 
 Attack::Attack()
 {
-  verb_first = "hit";
+  verb_second = "hit";
   verb_third = "hits";
   weight =  10;
   speed  = 100;
@@ -86,7 +89,7 @@ Attack::~Attack()
 {
 }
 
-bool Attack::load_data(std::istream &data, std::string owner_name)
+bool Attack::load_data(std::istream &data, std::string parent_name)
 {
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {
@@ -100,21 +103,31 @@ bool Attack::load_data(std::istream &data, std::string owner_name)
     if (!ident.empty() && ident[0] == '#') { // I'ts a comment
       std::getline(data, junk);
 
-    } else if (ident == "verb_first:") {
-      std::getline(data, verb_first);
-      verb_first = trim(verb_first);
-    } else if (ident == "verb:" || ident == "verb_third:") {
+    } else if (ident == "verb_second:") {
+      std::getline(data, verb_second);
+      verb_second = trim(verb_second);
+
+    } else if (ident == "verb_third:") {
       std::getline(data, verb_third);
       verb_third = trim(verb_third);
+
+    } else if (ident == "verb:") {
+      if (!load_verbs(data, verb_second, verb_third, parent_name)) {
+        return false;
+      }
+
     } else if (ident == "weight:") {
       data >> weight;
       std::getline(data, junk);
+
     } else if (ident == "speed:") {
       data >> speed;
       std::getline(data, junk);
+
     } else if (ident == "to_hit:") {
       data >> to_hit;
       std::getline(data, junk);
+
     } else if (ident != "done") {
       std::string damage_name = ident;
       size_t colon = ident.find(':');
@@ -124,12 +137,13 @@ bool Attack::load_data(std::istream &data, std::string owner_name)
       Damage_type type = lookup_damage_type(damage_name);
       if (type == DAMAGE_NULL) {
         debugmsg("Unknown Attack property '%s' (%s)",
-                 ident.c_str(), owner_name.c_str());
+                 ident.c_str(), parent_name.c_str());
         return false;
       } else {
         data >> damage[type];
       }
     }
+
   }
   return true;
 }
@@ -154,7 +168,7 @@ Damage_set Attack::roll_damage()
 
 Ranged_attack::Ranged_attack()
 {
-  verb_first = "shoot";
+  verb_second = "shoot";
   verb_third = "shoots";
   weight = 0;
   speed = 100;
@@ -170,7 +184,7 @@ Ranged_attack::~Ranged_attack()
 {
 }
 
-bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
+bool Ranged_attack::load_data(std::istream &data, std::string parent_name)
 {
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {
@@ -184,24 +198,35 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
     if (!ident.empty() && ident[0] == '#') { // I'ts a comment
       std::getline(data, junk);
 
-    } else if (ident == "verb_first:") {
-      std::getline(data, verb_first);
-      verb_first = trim(verb_first);
-    } else if (ident == "verb:" || ident == "verb_third:") {
+    } else if (ident == "verb_second:") {
+      std::getline(data, verb_second);
+      verb_second = trim(verb_second);
+
+    } else if (ident == "verb_third:") {
       std::getline(data, verb_third);
       verb_third = trim(verb_third);
+
+    } else if (ident == "verb:" ) {
+      if (!load_verbs(data, verb_second, verb_third, parent_name)) {
+        return false;
+      }
+
     } else if (ident == "weight:") {
       data >> weight;
       std::getline(data, junk);
+
     } else if (ident == "speed:") {
       data >> speed;
       std::getline(data, junk);
+
     } else if (ident == "charge:" || ident == "charge_time:") {
       data >> charge_time;
       std::getline(data, junk);
+
     } else if (ident == "range:") {
       data >> range;
       std::getline(data, junk);
+
     } else if (ident == "variance:") {
       std::string variance_line;
       std::getline(data, variance_line);
@@ -210,19 +235,21 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
       while (data >> tmpnum) {
         variance.push_back(tmpnum);
       }
+
     } else if (ident == "armor_pierce:") {
       std::string damage_name;
       data >> damage_name;
       Damage_type damtype = lookup_damage_type(damage_name);
       if (damtype == DAMAGE_NULL) {
         debugmsg("Unknown damage type for Ranged_attack pierce: '%s' (%s)",
-                 damage_name.c_str(), owner_name.c_str());
+                 damage_name.c_str(), parent_name.c_str());
         return false;
       }
       data >> armor_divisor[damtype];
       if (armor_divisor[damtype] == 0) {
         armor_divisor[damtype] = 1;
       }
+
     } else if (ident != "done") {
       std::string damage_name = ident;
       size_t colon = ident.find(':');
@@ -232,12 +259,13 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
       Damage_type type = lookup_damage_type(damage_name);
       if (type == DAMAGE_NULL) {
         debugmsg("Unknown Attack property '%s' (%s)",
-                 ident.c_str(), owner_name.c_str());
+                 ident.c_str(), parent_name.c_str());
         return false;
       } else {
         data >> damage[type];
       }
     }
+
   }
   return true;
 }
@@ -284,3 +312,39 @@ Body_part random_body_part_to_hit()
   return BODYPART_TORSO;
 }
 
+bool load_verbs(std::istream &data, std::string &verb_second,
+                std::string &verb_third, std::string parent_name)
+{
+  std::string verb_line;
+  std::getline(data, verb_line);
+  std::istringstream verb_data(verb_line);
+
+  std::string tmpword;
+  std::string tmpverb;
+  bool reading_second = true;
+
+  while (verb_data >> tmpword) {
+    if (tmpword == "/") {
+      if (!reading_second) {
+        debugmsg("Too many / in verb definition (%s)", parent_name.c_str());
+        return false;
+      }
+      reading_second = false;
+      verb_second = tmpverb;
+      tmpverb = "";
+    } else {
+      if (!tmpverb.empty()) {
+        tmpverb += " ";
+      }
+      tmpverb += tmpword;
+    }
+  }
+
+  if (reading_second) {
+    debugmsg("Verb definition has 2nd person, but no 3rd", parent_name.c_str());
+    return false;
+  }
+  verb_third = tmpverb;
+
+  return true;
+}
