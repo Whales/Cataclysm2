@@ -10,6 +10,18 @@ name: grass
   flags: floor
 done
 
+name: concrete
+  glyph: . ltgray black
+  movecost: 100
+  flags: floor
+done
+
+name: asphalt
+  glyph: . dkgray black
+  movecost: 100
+  flags: floor
+done
+
 name: empty
   glyph: x blue ltgray
   movecost: 100
