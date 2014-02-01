@@ -203,7 +203,7 @@ void Item_group::assign_uid(int id)
   uid = id;
 }
 
-std::string Item_group::get_name()
+std::string Item_group::get_data_name()
 {
   return name;
 }

@@ -82,6 +82,19 @@ Terrain::Terrain()
   }
 }
 
+std::string Terrain::get_data_name()
+{
+  return name;
+}
+
+std::string Terrain::get_name()
+{
+  if (display_name.empty()) {
+    return name;
+  }
+  return display_name;
+}
+
 bool Terrain::load_data(std::istream &data)
 {
   std::string ident, junk;
@@ -98,6 +111,10 @@ bool Terrain::load_data(std::istream &data)
     } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+
+    } else if (ident == "display_name:") {
+      std::getline(data, display_name);
+      display_name = trim(display_name);
 
     } else if (ident == "glyph:") {
       sym.load_data_text(data);

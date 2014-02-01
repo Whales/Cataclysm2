@@ -124,6 +124,11 @@ Entity::~Entity()
 {
 }
 
+std::string Entity::get_data_name()
+{
+  return "Nothing";
+}
+
 std::string Entity::get_name()
 {
   return "Nothing";

@@ -24,7 +24,7 @@
 name: franklin_house_trevmillion_gd
 subname: franklin_house_trevmillion
 type: house
-tile_group: # = stone wall / wood wall
+tile_group: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
@@ -70,7 +70,7 @@ name: franklin_house_trevmillion_2nd
 subname: franklin_house_trevmillion
 type: house
 level: 1
-tile_group: # = stone wall / wood wall
+tile_group: # = stone wall
 tile: . = floor
 tile: x = empty
 tile: + = closed door
@@ -113,7 +113,7 @@ name: franklin_house_trevmillion_roof
 subname: franklin_house_trevmillion
 type: house
 level: 2
-tile_group: # = stone wall / wood wall
+tile_group: # = stone wall
 tile: . = floor
 tile: x = empty
 tile: + = closed door

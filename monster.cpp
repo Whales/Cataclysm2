@@ -43,10 +43,18 @@ glyph Monster::get_glyph()
   return glyph();
 }
 
+std::string Monster::get_data_name()
+{
+  if (type) {
+    return type->get_data_name();
+  }
+  return "Typeless Monster";
+}
+
 std::string Monster::get_name()
 {
   if (type) {
-    return type->name;
+    return type->get_name();
   }
   return "Typeless Monster";
 }
@@ -65,7 +73,8 @@ std::string Monster::get_possessive()
 
 std::string Monster::get_name_indefinite()
 {
-// TODO: more complicated
+// TODO: Support a/an
+// TODO: For unique monsters - redirect to definite=
   std::stringstream ret;
   ret << "a " << get_name();
   return ret.str();

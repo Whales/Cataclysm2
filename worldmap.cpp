@@ -14,7 +14,7 @@ std::string Worldmap_tile::get_name()
   if (!terrain) {
     return "Unknown";
   }
-  return terrain->name;
+  return terrain->get_name();
 }
 
 void Worldmap_tile::set_terrain(std::string name)

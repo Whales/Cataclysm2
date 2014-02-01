@@ -69,7 +69,8 @@ struct Item_group
   int total_chance;
 
   void assign_uid(int id);
-  std::string get_name();
+  std::string get_data_name();
+// TODO: Do we need a get_name()?
   bool load_data(std::istream &data);
 
   void add_item(int chance, Item_type* item_type);
