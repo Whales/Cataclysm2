@@ -716,8 +716,7 @@ void Entity::take_damage(Damage_type type, int damage, std::string reason,
 Ranged_attack Entity::throw_item(Item it)
 {
   Ranged_attack ret = it.get_thrown_attack();
-// TODO: Base on skill.
-  ret.variance.push_back(-10);
+// TODO: Alter variance based on skill
   return ret;
 }
 

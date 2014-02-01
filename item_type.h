@@ -3,6 +3,7 @@
 
 #include "glyph.h"
 #include "enum.h"
+#include "dice.h"
 #include <string>
 #include <istream>
 #include <vector>
@@ -39,10 +40,10 @@ public:
   int damage[DAMAGE_MAX];
   int to_hit;
   int attack_speed;
-  int ranged_variance; // Angle our thrown attack can be off by, in 1/10ths of a
-                       // degree; defaults to 100!
-  int ranged_dmg_bonus; // ranged damage = (normal * r_d_b) / 10
-  int ranged_speed; // AP cost of throwing; if 0, it's calculated
+  Dice  thrown_variance;// Angle our thrown attack is off by, in 1/10ths of
+                        // a degree; defaults to 5d20!
+  int thrown_dmg_percent; // Percent of normal damage done when thrown
+  int thrown_speed; // AP cost of throwing; if 0, it's calculated
 
   void assign_uid(int id);
   std::string get_name();
@@ -95,7 +96,7 @@ public:
   int damage;       // Base damage
   int armor_pierce; // Armor ignored
   int range;
-  int accuracy;     // Low is good!  In 1/10ths of a degree
+  Dice accuracy;     // Low is good!  In 1/10ths of a degree
   int count;        // How many to a box
 };
 
@@ -113,7 +114,7 @@ public:
 
   std::string ammo_type;  // Ammo type - links this to a launcher
   int damage;     // Damage bonus
-  int accuracy;   // Low is good!  In 1/10ths of a degree
+  Dice accuracy;   // Low is good!  In 1/10ths of a degree
   int recoil;     // Recoil added
   int durability; // HP basically
   int capacity;   // Shots per reload

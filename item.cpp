@@ -255,22 +255,23 @@ Ranged_attack Item::get_thrown_attack()
   if (!type) {
     return ret;
   }
-  if (type->ranged_speed == 0) {
+// If the ranged speed is 0, then set it based on our weight
+  if (type->thrown_speed == 0) {
     ret.speed = 50 + 5 * type->weight;
     ret.speed += type->volume / 10;
   } else {
-    ret.speed = type->ranged_speed;
+    ret.speed = type->thrown_speed;
   }
-  if (type->ranged_variance == 0) {
-    ret.variance.push_back(10);
-    if (type->weight > 0) {
-      ret.variance.back() += type->volume / (5 * type->weight);
-    }
-  } else {
-    ret.variance.push_back(type->ranged_variance);
-  }
+// Copy variance from type
+  ret.variance = type->thrown_variance;
+// Add variance for heavy items
+  Dice extra_variance;
+  extra_variance.number = 1 + type->weight / 20;
+  extra_variance.sides  = type->volume / 5;
+  ret.variance += extra_variance;
+// Copy damage; note that thrown_dmg_percent defaults to 50
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    ret.damage[i] = (type->damage[i] * type->ranged_dmg_bonus) / 10;
+    ret.damage[i] = (type->damage[i] * type->thrown_dmg_percent) / 100;
   }
   return ret;
 }
@@ -289,8 +290,7 @@ Ranged_attack Item::get_fired_attack()
   Ranged_attack ret;
   ret.speed = launcher->fire_ap;
   ret.range = itammo->range;
-  ret.variance.push_back(launcher->accuracy);
-  ret.variance.push_back(itammo->accuracy);
+  ret.variance = launcher->accuracy + itammo->accuracy;
 // TODO: Can fired items ever be non-pierce?
   ret.damage       [DAMAGE_PIERCE] = itammo->damage + launcher->damage;
   ret.armor_divisor[DAMAGE_PIERCE] = itammo->armor_pierce;

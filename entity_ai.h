@@ -42,7 +42,7 @@ struct Entity_AI
   bool uses_feature(Pathing_feature feat) const;
   bool uses_goal(AI_goal goal) const;
 
-  bool load_data(std::istream &data, std::string parent_name = "Unknown");
+  bool load_data(std::istream &data, std::string owner_name = "Unknown");
 
   int  area_awareness; // Extra squares considered for pathing
   int  attention_span; // Default attention level upon setting a new target

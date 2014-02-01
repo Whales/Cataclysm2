@@ -26,7 +26,7 @@ bool Entity_AI::uses_goal(AI_goal goal) const
   return goals_in_use[goal];
 }
 
-bool Entity_AI::load_data(std::istream &data, std::string parent_name)
+bool Entity_AI::load_data(std::istream &data, std::string owner_name)
 {
   std::string ident, junk;
   while (ident != "done") {
@@ -55,7 +55,7 @@ bool Entity_AI::load_data(std::istream &data, std::string parent_name)
       Pathing_feature feat = lookup_pathing_feature(feat_name);
       if (feat == PATHFEAT_NULL) {
         debugmsg("Unknown pathing feature '%s' (%s)", feat_name.c_str(),
-                 parent_name.c_str());
+                 owner_name.c_str());
         return false;
       }
       pathing_features[feat] = true;
@@ -70,7 +70,7 @@ bool Entity_AI::load_data(std::istream &data, std::string parent_name)
           AI_goal goal = lookup_AI_goal(goal_name);
           if (goal == AIGOAL_NULL) {
             debugmsg("Unknown AI goal '%s' (%s)", goal_name.c_str(),
-                     parent_name.c_str());
+                     owner_name.c_str());
             return false;
           }
           goals.push_back(goal);
@@ -80,7 +80,7 @@ bool Entity_AI::load_data(std::istream &data, std::string parent_name)
 
     } else if (ident != "done") {
       debugmsg("Unknown AI property '%s' (%s)", ident.c_str(),
-               parent_name.c_str());
+               owner_name.c_str());
       return false;
     }
   }

@@ -6,7 +6,7 @@
 #include <sstream>
 
 bool load_verbs(std::istream &data, std::string &verb_second,
-                std::string &verb_third, std::string parent_name);
+                std::string &verb_third, std::string owner_name);
 
 Damage_set::Damage_set()
 {
@@ -89,7 +89,7 @@ Attack::~Attack()
 {
 }
 
-bool Attack::load_data(std::istream &data, std::string parent_name)
+bool Attack::load_data(std::istream &data, std::string owner_name)
 {
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {
@@ -112,7 +112,7 @@ bool Attack::load_data(std::istream &data, std::string parent_name)
       verb_third = trim(verb_third);
 
     } else if (ident == "verb:") {
-      if (!load_verbs(data, verb_second, verb_third, parent_name)) {
+      if (!load_verbs(data, verb_second, verb_third, owner_name)) {
         return false;
       }
 
@@ -137,7 +137,7 @@ bool Attack::load_data(std::istream &data, std::string parent_name)
       Damage_type type = lookup_damage_type(damage_name);
       if (type == DAMAGE_NULL) {
         debugmsg("Unknown Attack property '%s' (%s)",
-                 ident.c_str(), parent_name.c_str());
+                 ident.c_str(), owner_name.c_str());
         return false;
       } else {
         data >> damage[type];
@@ -184,7 +184,7 @@ Ranged_attack::~Ranged_attack()
 {
 }
 
-bool Ranged_attack::load_data(std::istream &data, std::string parent_name)
+bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
 {
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {
@@ -207,7 +207,7 @@ bool Ranged_attack::load_data(std::istream &data, std::string parent_name)
       verb_third = trim(verb_third);
 
     } else if (ident == "verb:" ) {
-      if (!load_verbs(data, verb_second, verb_third, parent_name)) {
+      if (!load_verbs(data, verb_second, verb_third, owner_name)) {
         return false;
       }
 
@@ -228,12 +228,8 @@ bool Ranged_attack::load_data(std::istream &data, std::string parent_name)
       std::getline(data, junk);
 
     } else if (ident == "variance:") {
-      std::string variance_line;
-      std::getline(data, variance_line);
-      std::istringstream variance_data(variance_line);
-      int tmpnum;
-      while (data >> tmpnum) {
-        variance.push_back(tmpnum);
+      if (!variance.load_data(data, owner_name)) {
+        return false;
       }
 
     } else if (ident == "armor_pierce:") {
@@ -242,7 +238,7 @@ bool Ranged_attack::load_data(std::istream &data, std::string parent_name)
       Damage_type damtype = lookup_damage_type(damage_name);
       if (damtype == DAMAGE_NULL) {
         debugmsg("Unknown damage type for Ranged_attack pierce: '%s' (%s)",
-                 damage_name.c_str(), parent_name.c_str());
+                 damage_name.c_str(), owner_name.c_str());
         return false;
       }
       data >> armor_divisor[damtype];
@@ -259,7 +255,7 @@ bool Ranged_attack::load_data(std::istream &data, std::string parent_name)
       Damage_type type = lookup_damage_type(damage_name);
       if (type == DAMAGE_NULL) {
         debugmsg("Unknown Attack property '%s' (%s)",
-                 ident.c_str(), parent_name.c_str());
+                 ident.c_str(), owner_name.c_str());
         return false;
       } else {
         data >> damage[type];
@@ -272,12 +268,7 @@ bool Ranged_attack::load_data(std::istream &data, std::string parent_name)
 
 int Ranged_attack::roll_variance()
 {
-  int ret = 0;
-  for (int i = 0; i < variance.size(); i++) {
-    ret += rng(0, variance[i]);
-    debugmsg("[%d/%d]: %d, total %d", i, variance.size(), variance[i], ret);
-  }
-  return ret;
+  return variance.roll();
 }
 
 Damage_set Ranged_attack::roll_damage()
@@ -313,7 +304,7 @@ Body_part random_body_part_to_hit()
 }
 
 bool load_verbs(std::istream &data, std::string &verb_second,
-                std::string &verb_third, std::string parent_name)
+                std::string &verb_third, std::string owner_name)
 {
   std::string verb_line;
   std::getline(data, verb_line);
@@ -326,7 +317,7 @@ bool load_verbs(std::istream &data, std::string &verb_second,
   while (verb_data >> tmpword) {
     if (tmpword == "/") {
       if (!reading_second) {
-        debugmsg("Too many / in verb definition (%s)", parent_name.c_str());
+        debugmsg("Too many / in verb definition (%s)", owner_name.c_str());
         return false;
       }
       reading_second = false;
@@ -341,7 +332,7 @@ bool load_verbs(std::istream &data, std::string &verb_second,
   }
 
   if (reading_second) {
-    debugmsg("Verb definition has 2nd person, but no 3rd", parent_name.c_str());
+    debugmsg("Verb definition has 2nd person, but no 3rd", owner_name.c_str());
     return false;
   }
   verb_third = tmpverb;

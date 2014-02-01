@@ -3,6 +3,7 @@
 
 #include <istream>
 #include <string>
+#include <vector>
 
 struct Dice
 {
@@ -10,12 +11,25 @@ struct Dice
   int sides;
   int bonus;
 
+  std::vector<Dice> others;
+
   Dice(int N = 0, int S = 1, int B = 0) : number (N), sides (S), bonus (B) { }
   ~Dice() { }
 
   int roll();
+  Dice base() const;  // Strip off all others
+  Dice& operator= (const Dice& rhs);
+  Dice& operator+=(const Dice& rhs);
+
+  std::string str();
 
   bool load_data(std::istream &data, std::string owner_name = "Unknown");
+
 };
+inline Dice operator+(Dice lhs, const Dice& rhs)
+{
+  lhs += rhs;
+  return lhs;
+}
 
 #endif

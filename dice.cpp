@@ -1,6 +1,7 @@
 #include "dice.h"
 #include "rng.h"
 #include "window.h"
+#include <sstream>
 
 int Dice::roll()
 {
@@ -8,6 +9,49 @@ int Dice::roll()
     return 0;
   }
   return dice(number, sides) + bonus;
+}
+
+Dice Dice::base() const
+{
+  return Dice(number, sides, bonus);
+}
+
+Dice& Dice::operator=(const Dice& rhs)
+{
+  if (this == &rhs) {
+    return (*this);
+  }
+  number = rhs.number;
+  sides  = rhs.sides;
+  bonus  = rhs.bonus;
+  others.clear();
+  for (int i = 0; i < rhs.others.size(); i++) {
+    others.push_back( rhs.others[i] );
+  }
+  return (*this);
+}
+
+Dice& Dice::operator+=(const Dice& rhs)
+{
+  if ((rhs.sides > 0 && rhs.number > 0) || rhs.bonus > 0) {
+    others.push_back(rhs.base());
+  }
+  for (int i = 0; i < rhs.others.size(); i++) {
+    (*this) += rhs.others[i].base();
+  }
+  return *this;
+}
+
+std::string Dice::str()
+{
+  std::stringstream ret;
+  ret << number << "d" << sides;
+  if (bonus < 0) {
+    ret << " - " << int(0 - bonus);
+  } else {
+    ret << " + " << bonus;
+  }
+  return ret.str();
 }
 
 bool Dice::load_data(std::istream &data, std::string owner_name)
@@ -18,7 +62,8 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
 
   int current_number = 0;
   bool set_number = false, set_sides = false, negative_bonus = false;
-  while (data.good()) {
+  bool done = false;
+  while (!done && data.good()) {
     char ch = data.get();
     if (data.good()) {
       if (ch >= '0' && ch <= '9') {
@@ -42,6 +87,8 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
         if (ch == '-') {
           negative_bonus = true;
         }
+      } else if (ch == '\n') {
+        done = true;
       } else if (ch != ' ') {
         debugmsg("Extraneous character '%c' in dice spec (%s)", ch,
                  owner_name.c_str());
@@ -50,10 +97,15 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
     } // if (data.good())
   } // while (data.good())
 
-  if (negative_bonus) {
-    bonus = 0 - current_number;
+  if (set_sides) {
+    if (negative_bonus) {
+      bonus = 0 - current_number;
+    } else {
+      bonus = current_number;
+    }
   } else {
-    bonus = current_number;
+    sides = current_number;
   }
   return true;
 }
+

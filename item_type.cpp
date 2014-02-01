@@ -15,9 +15,9 @@ Item_type::Item_type()
   }
   to_hit = 0;
   attack_speed = 0;
-  ranged_variance = 0;
-  ranged_dmg_bonus = 5;
-  ranged_speed = 0;
+  thrown_variance = Dice(5, 20, 0);
+  thrown_dmg_percent = 50;
+  thrown_speed = 0;
 }
 
 Item_type::~Item_type()
@@ -37,14 +37,12 @@ Item_type_ammo::Item_type_ammo()
   damage = 0;
   armor_pierce = 1;
   range = 0;
-  accuracy = 0;
   count = 100;
 }
 
 Item_type_launcher::Item_type_launcher()
 {
   damage = 0;
-  accuracy = 0;
   recoil = 0;
   durability = 100;
   capacity = 15;
@@ -119,16 +117,17 @@ bool Item_type::load_data(std::istream &data)
       data >> attack_speed;
       std::getline(data, junk);
 
-    } else if (ident == "ranged_variance:") {
-      data >> ranged_variance;
+    } else if (ident == "thrown_variance:") {
+      if (!thrown_variance.load_data(data, name)) {
+        return false;
+      }
+
+    } else if (ident == "thrown_dmg_percent:") {
+      data >> thrown_dmg_percent;
       std::getline(data, junk);
 
-    } else if (ident == "ranged_dmg_bonus:") {
-      data >> ranged_dmg_bonus;
-      std::getline(data, junk);
-
-    } else if (ident == "ranged_speed:") {
-      data >> ranged_speed;
+    } else if (ident == "thrown_speed:") {
+      data >> thrown_speed;
       std::getline(data, junk);
 
     } else if (!handle_data(ident, data)) {
@@ -217,8 +216,9 @@ bool Item_type_ammo::handle_data(std::string ident, std::istream &data)
     std::getline(data, junk);
 
   } else if (ident == "accuracy:") {
-    data >> accuracy;
-    std::getline(data, junk);
+    if (!accuracy.load_data(data, name)) {
+      return false;
+    }
 
   } else if (ident == "count:") {
     data >> count;
@@ -241,8 +241,9 @@ bool Item_type_launcher::handle_data(std::string ident, std::istream &data)
     std::getline(data, junk);
 
   } else if (ident == "accuracy:") {
-    data >> accuracy;
-    std::getline(data, junk);
+    if (!accuracy.load_data(data, name)) {
+      return false;
+    }
 
   } else if (ident == "recoil:") {
     data >> recoil;

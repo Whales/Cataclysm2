@@ -52,7 +52,7 @@ struct Attack
   Attack();
   ~Attack();
 
-  bool load_data(std::istream &data, std::string parent_name = "unknown");
+  bool load_data(std::istream &data, std::string owner_name = "unknown");
   void use_weapon(Item weapon, Stats stats);
 
   Damage_set roll_damage();
@@ -65,12 +65,12 @@ struct Ranged_attack
 
   std::string verb_second;
   std::string verb_third;
-  int weight; // For monster attacks - how likely this attack is to be used
-  int speed; // AP used
-  int charge_time; // Also for monsters - how frequently can we use this?
-  int range;    // Max range of the attack
-  std::vector<int> variance; // In 1/10ths of a degree
-  int damage[DAMAGE_MAX];
+  int weight;       // Monster attacks - how likely this attack is to be used
+  int speed;        // AP used
+  int charge_time;  // Also for monsters - how frequently can we use this?
+  int range;        // Max range of the attack
+  Dice variance;    // In 1/10ths of a degree
+  int damage       [DAMAGE_MAX];
   int armor_divisor[DAMAGE_MAX];
 
 /* TODO: Add the following as they're implemented:
@@ -80,7 +80,7 @@ struct Ranged_attack
  *      Other???
  */
 
-  bool load_data(std::istream &data, std::string parent_name = "unknown");
+  bool load_data(std::istream &data, std::string owner_name = "unknown");
 
   int roll_variance();
   Damage_set roll_damage();

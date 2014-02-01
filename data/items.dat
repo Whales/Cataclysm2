@@ -23,6 +23,8 @@ weapon
   cut:     0
   pierce:  0
   to_hit: -3
+  thrown_variance: 3d20
+  thrown_dmg_percent: 100
 done
 
 weapon
@@ -69,7 +71,7 @@ ammo
   damage:   18
   pierce:    0
   range:     0
-  accuracy: 30
+  accuracy: 3d10
   count:   100
 done
 
@@ -86,7 +88,7 @@ gun
   bash:    7
   to_hit: -2
   damage:  0
-  accuracy:  100
+  accuracy:  5d20
   recoil:      5
   durability: 80
   capacity:   15
