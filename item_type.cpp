@@ -160,6 +160,10 @@ bool Item_type::handle_data(std::string ident, std::istream &data)
   return false;
 }
 
+/* TODO:  Right now, armor{_bash,_cut,_pierce} is hard-coded here.  But what if
+ *        we add a damage type and want to protect against it with armor?  We
+ *        should generalize and look up damage type names instead.
+ */
 bool Item_type_clothing::handle_data(std::string ident, std::istream &data)
 {
   std::string junk;
@@ -196,7 +200,13 @@ bool Item_type_clothing::handle_data(std::string ident, std::istream &data)
         covers[BODYPART_LEFT_LEG]  = true;
         covers[BODYPART_RIGHT_LEG] = true;
       } else {
-        covers[ lookup_body_part( body_part_name ) ] = true;
+        Body_part bp = lookup_body_part( body_part_name );
+        if (bp == BODYPART_NULL) {
+          debugmsg("Unknown body part '%s' (%s)", body_part_name.c_str(),
+                   name.c_str());
+          return false;
+        }
+        covers[bp] = true;
       }
     }
 

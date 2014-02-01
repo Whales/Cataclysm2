@@ -129,10 +129,12 @@ bool Attack::load_data(std::istream &data, std::string owner_name)
       std::getline(data, junk);
 
     } else if (ident != "done") {
+// Check if it's a damage type; TODO: make this less ugly.
+// Damage_set::load_data() maybe?
       std::string damage_name = ident;
-      size_t colon = ident.find(':');
+      size_t colon = damage_name.find(':');
       if (colon != std::string::npos) {
-        damage_name = ident.substr(0, colon);
+        damage_name = damage_name.substr(0, colon);
       }
       Damage_type type = lookup_damage_type(damage_name);
       if (type == DAMAGE_NULL) {

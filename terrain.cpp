@@ -1,9 +1,9 @@
-#include <sstream>
 #include "terrain.h"
 #include "stringfunc.h"
 #include "files.h"
 #include "window.h"
 #include "globals.h"
+#include <sstream>
 
 Terrain_smash::Terrain_smash()
 {
@@ -139,14 +139,16 @@ bool Terrain::load_data(std::istream &data)
       close_result = trim(close_result);
 
     } else if (ident == "flags:") {
-      std::getline(data, junk);
-      std::istringstream flagdata(junk);
+      std::string flag_line;
+      std::getline(data, flag_line);
+      std::istringstream flagdata(flag_line);
       std::string flagname;
       while (flagdata >> flagname) {
         Terrain_flag tf = lookup_terrain_flag(flagname);
         if (tf == TF_NULL) {
           debugmsg("Unknown terrain flag '%s' (%s)",
                    flagname.c_str(), name.c_str());
+          return false;
         }
         flags[tf] = true;
       }
