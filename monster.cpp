@@ -226,13 +226,12 @@ void Monster::take_turn()
 // TODO: Move make_plans() outside of this function?
   make_plans();
   if (!plan.is_active()) {
-    debugmsg("No plan");
+    //debugmsg("No plan");
     wander();
     return;
   }
   plan.attention--;
   if (plan.target_entity && can_attack(plan.target_entity)) {
-    debugmsg("attack");
     attack(plan.target_entity);
   } else if (can_move_to(GAME.map, plan.next_step())) {
     move_to(GAME.map, plan.next_step());
@@ -309,11 +308,11 @@ void Monster::take_damage(Damage_type type, int damage, std::string reason,
 // TODO: Rewrite this function.
 void Monster::wander()
 {
+  pause();
   if (wander_duration <= 0) {
     wander_target = Tripoint( pos.x + rng(-3, 3), pos.y + rng(-3, 3), pos.z );
     wander_duration = 3;
   }
-  pause();
 }
 
 void Monster::pause()

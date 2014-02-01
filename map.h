@@ -31,6 +31,7 @@ struct Tile
 
   glyph top_glyph();
   int move_cost();
+  std::string get_name();
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
   bool has_flag(Terrain_flag flag);
 
@@ -64,6 +65,8 @@ struct Submap
   void generate(Mapgen_spec* spec);
   void generate_adjacent(Mapgen_spec* spec);
   void generate_above(World_terrain* type, Submap* below);
+  void spawn_monsters(Worldmap* world, int worldx, int worldy, int worldz,
+                      int smx, int smy);
 
   bool add_item(Item item, int x, int y);
   int  item_count(int x, int y);
