@@ -19,6 +19,7 @@ public:
   void set_type(Monster_type* newtype);
 
   virtual glyph get_glyph();
+  virtual std::string get_data_name();
   virtual std::string get_name();
   virtual std::string get_name_to_player();
   virtual std::string get_possessive();

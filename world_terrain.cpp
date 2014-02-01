@@ -15,6 +15,19 @@ World_terrain::World_terrain()
   }
 }
 
+std::string World_terrain::get_data_name()
+{
+  return name;
+}
+
+std::string World_terrain::get_name()
+{
+  if (display_name.empty()) {
+    return name;
+  }
+  return display_name;
+}
+
 bool World_terrain::load_data(std::istream &data)
 {
   std::string ident, junk;
@@ -32,6 +45,10 @@ bool World_terrain::load_data(std::istream &data)
     } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+
+    } else if (ident == "display_name:") {
+      std::getline(data, display_name);
+      display_name = trim(display_name);
 
     } else if (ident == "beach:") {
       std::getline(data, beach_name);

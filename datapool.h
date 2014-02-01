@@ -17,7 +17,7 @@
  *                                    exist nevertheless).
  *   bool load_data(std::istream&)  - Load data from a stream. Should return
  *                                    false on failure, true on success.
- *   std::string get_name()         - Return its name
+ *   std::string get_data_name()    - Return its formal name
  */
 
 // Everything is inline cause compilers are dumb etc. etc.
@@ -68,7 +68,7 @@ public:
     tmp->assign_uid(next_uid);
     instances.push_back(tmp);
     uid_map[next_uid] = tmp;
-    std::string name = no_caps( tmp->get_name() );
+    std::string name = no_caps( tmp->get_data_name() );
     if (name.empty()) {
       debugmsg("Item with no name in %s!", filename.c_str());
       return false;
@@ -160,7 +160,7 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
   tmp->assign_uid(next_uid);
   instances.push_back(tmp);
   uid_map[next_uid] = tmp;
-  name_map[no_caps(tmp->get_name())] = tmp;
+  name_map[no_caps(tmp->get_data_name())] = tmp;
   next_uid++;
   return true;
 };

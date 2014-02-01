@@ -37,6 +37,7 @@ public:
 // Info fetching
   int get_uid();
   glyph top_glyph();
+  std::string get_data_name();
   std::string get_name();
   std::string get_name_indefinite();
   std::string get_name_definite();

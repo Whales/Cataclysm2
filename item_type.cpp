@@ -53,9 +53,17 @@ void Item_type::assign_uid(int id)
   uid = id;
 }
 
-std::string Item_type::get_name()
+std::string Item_type::get_data_name()
 {
   return name;
+}
+
+std::string Item_type::get_name()
+{
+  if (display_name.empty()) {
+    return name;
+  }
+  return display_name;
 }
 
 bool Item_type::load_data(std::istream &data)
@@ -74,6 +82,10 @@ bool Item_type::load_data(std::istream &data)
     } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+
+    } else if (ident == "display_name:") {
+      std::getline(data, display_name);
+      display_name = trim(display_name);
 
     } else if (ident == "description:") {
       std::string desc;

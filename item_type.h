@@ -32,6 +32,7 @@ public:
 
   int uid;
   std::string name;
+  std::string display_name;
   std::string description;
   int weight;       // In 1/10ths of a pound / 0.045 kg (sorry)
   int volume;       // 1 volume = a ping pong ball
@@ -46,6 +47,7 @@ public:
   int thrown_speed; // AP cost of throwing; if 0, it's calculated
 
   void assign_uid(int id);
+  std::string get_data_name();
   std::string get_name();
   virtual bool load_data(std::istream &data);
   virtual bool handle_data(std::string ident, std::istream &data);

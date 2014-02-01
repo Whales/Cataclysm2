@@ -18,7 +18,8 @@ struct Monster_type
 
   Monster_genus *genus;
   std::string name;
-  std::string name_plural;
+  std::string display_name;
+  std::string display_name_plural;
   int uid;
   glyph sym;
 
@@ -31,7 +32,9 @@ struct Monster_type
 
   void set_genus(Monster_genus *mg);
   void assign_uid(int id);
+  std::string get_data_name();
   std::string get_name();
+  std::string get_name_plural();
   bool load_data(std::istream &data);
 
   bool has_sense(Sense_type type);
@@ -49,6 +52,7 @@ struct Monster_genus
   ~Monster_genus();
 
   std::string name;
+  std::string display_name;
   int uid;
 
   Monster_type default_values; // Default values for monsters in this genus
@@ -60,6 +64,7 @@ struct Monster_genus
   Monster_type* random_member();
 
   void assign_uid(int id);
+  std::string get_data_name();
   std::string get_name();
   bool load_data(std::istream &data);
 

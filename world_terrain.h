@@ -30,6 +30,7 @@ struct World_terrain
 {
   int uid;
   std::string name;
+  std::string display_name;
   std::string beach_name;
   int beach_range;
   int road_cost;
@@ -38,9 +39,10 @@ struct World_terrain
   World_terrain();
   ~World_terrain(){}
 
+  std::string get_data_name();
+  std::string get_name();
   void assign_uid(int id) { uid = id; }
   bool load_data(std::istream &data);
-  std::string get_name() { return name; }
 
   bool has_flag(World_terrain_flag flag);
 private:

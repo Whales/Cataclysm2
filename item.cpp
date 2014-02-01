@@ -87,10 +87,18 @@ glyph Item::top_glyph()
   return glyph();
 }
 
+std::string Item::get_data_name()
+{
+  if (type) {
+    return type->get_data_name();
+  }
+  return "Typeless item";
+}
+
 std::string Item::get_name()
 {
   if (type) {
-    return type->name;
+    return type->get_name();
   }
   return "Typeless item";
 }

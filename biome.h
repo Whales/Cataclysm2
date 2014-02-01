@@ -80,6 +80,7 @@ struct Biome
   ~Biome();
 
   std::string name;
+  std::string display_name;
   int uid;
 
   Variable_world_terrain terrain;
@@ -88,6 +89,7 @@ struct Biome
   Dice monster_population;
 
   void assign_uid(int id);
+  std::string get_data_name();
   std::string get_name();
   bool load_data(std::istream &data);
 

@@ -29,6 +29,7 @@ struct Terrain
 {
   int uid;
   std::string name;
+  std::string display_name;
   glyph sym;
   unsigned int movecost;
   unsigned int height; // Range: 0 - 100, how well it blocks vertically
@@ -44,9 +45,10 @@ struct Terrain
   Terrain();
   ~Terrain(){}
 
+  std::string get_data_name();
+  std::string get_name();
   void assign_uid(int id) { uid = id; }
   bool load_data(std::istream &data);
-  std::string get_name() { return name; }
   bool has_flag(Terrain_flag flag);
 private:
   std::vector<bool> flags;

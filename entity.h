@@ -48,6 +48,7 @@ public:
   Entity();
   virtual ~Entity();
 
+  virtual std::string get_data_name();
   virtual std::string get_name();
   virtual std::string get_name_to_player();
   virtual std::string get_possessive();
