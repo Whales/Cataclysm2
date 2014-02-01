@@ -1,7 +1,7 @@
-#include <sstream>
 #include "glyph.h"
 #include "options.h"
 #include "window.h"
+#include <sstream>
 
 std::string glyph::save_data()
 {
@@ -27,7 +27,13 @@ void glyph::load_data_text(std::istream &datastream)
 
   symbol = tmpch;
   fg = color_string(fgtmp);
+  if (fg == c_null) {
+    debugmsg("Loaded bad color '%s'", fgtmp.c_str());
+  }
   bg = color_string(bgtmp);
+  if (bg == c_null) {
+    debugmsg("Loaded bad color '%s'", bgtmp.c_str());
+  }
 }
 
 glyph glyph::invert()

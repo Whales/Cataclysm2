@@ -125,7 +125,7 @@ nc_color color_string(std::string id)
 {
  if (id == "black")
   return c_black;
- if (id == "ltgray")
+ if (id == "grey" || id == "gray" || id == "ltgray")
   return c_ltgray;
  if (id == "red")
   return c_red;
