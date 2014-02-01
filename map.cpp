@@ -877,7 +877,7 @@ std::string Map::get_name(int x, int y, int z)
   if (!ter) {
     return "Bug - Null terrain";
   }
-  return ter->name;
+  return ter->get_name();
 }
 
 void Map::smash(int x, int y, Damage_set damage, bool make_sound)
@@ -918,7 +918,7 @@ bool Map::open(int x, int y, int z)
 
 bool Map::close(Tripoint pos)
 {
-  return close(pos.x, pos.y, pos.y);
+  return close(pos.x, pos.y, pos.z);
 }
 
 bool Map::close(int x, int y, int z)

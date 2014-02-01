@@ -173,12 +173,14 @@ name: broken door
 done
 
 name: open broken door
+  display_name: broken door
   glyph: ' brown black
   movecost: 100
   close: broken door
 done
 
 name: closed door
+  display_name: door
   glyph: + brown black
   movecost: 0
   flags: opaque
@@ -194,12 +196,14 @@ name: closed door
 done
 
 name: open door
+  display_name: door
   glyph: ' brown black
   movecost: 100
   close: closed door
 done
 
 name: closed glass door
+  display_name: glass door
   glyph: + ltcyan black
   movecost: 0
   open: open glass door
@@ -214,6 +218,7 @@ name: closed glass door
 done
 
 name: open glass door
+  display_name: glass door
   glyph: ' ltcyan black
   movecost: 100
   close: closed glass door
@@ -257,12 +262,14 @@ name: counter
 done
 
 name: stairs up
+  display_name: stairs
   glyph: < yellow black
   movecost: 100
   flags: stairs_up
 done
 
 name: stairs down
+  display_name: stairs
   glyph: > yellow black
   movecost: 100
   flags: stairs_down
