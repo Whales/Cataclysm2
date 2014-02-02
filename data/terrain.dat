@@ -19,7 +19,7 @@ done
 name: tree
   glyph: 7 green black
   movecost:   0
-  flags: opaque
+  flags: opaque flammable
 done
 
 name: underbrush
@@ -33,6 +33,7 @@ name: underbrush
     armor: bash 40
     ignore_chance: 25
   done
+  flags: flammable
 done
 
 name: small tree
@@ -45,6 +46,7 @@ name: small tree
     hp: 15
     armor: bash 8
   done
+  flags: flammable
 done
 
 name: sand
@@ -122,7 +124,7 @@ done
 name: wood wall
   glyph: # brown black
   movecost: 0
-  flags: opaque
+  flags: opaque flammable
 done
 
 name: stockade fence
@@ -174,6 +176,7 @@ done
 name: door frame
   glyph: . brown black
   movecost: 100
+  flags: flammable
 done
 
 name: broken door
@@ -188,6 +191,7 @@ name: broken door
     armor: bash 4
     armor: pierce 14
   done
+  flags: flammable
 done
 
 name: open broken door
@@ -195,6 +199,7 @@ name: open broken door
   glyph: ' brown black
   movecost: 100
   close: broken door
+  flags: flammable
 done
 
 name: closed door
@@ -211,6 +216,7 @@ name: closed door
     armor: bash 5
     armor: pierce 16
   done
+  flags: flammable
 done
 
 name: open door
@@ -218,6 +224,7 @@ name: open door
   glyph: ' brown black
   movecost: 100
   close: closed door
+  flags: flammable
 done
 
 name: closed glass door
@@ -245,6 +252,7 @@ done
 name: window frame
   glyph: 0 ltcyan black
   movecost: 250
+  flags: flammable
 done
 
 name: window
@@ -258,6 +266,7 @@ name: window
     armor: cut 5
     armor: pierce 1
   done
+  flags: flammable
 done
 
 name: display rack
@@ -272,11 +281,13 @@ name: display rack
     armor: bash 5
     ignore_chance: 50
   done
+  flags: flammable
 done
 
 name: counter
   glyph: % blue black
   movecost: 180
+  flags: flammable
 done
 
 name: stairs up
@@ -284,6 +295,7 @@ name: stairs up
   glyph: < yellow black
   movecost: 100
   flags: stairs_up
+  flags: flammable
 done
 
 name: stairs down
@@ -291,6 +303,7 @@ name: stairs down
   glyph: > yellow black
   movecost: 100
   flags: stairs_down
+  flags: flammable
 done
 
 name: stove
@@ -306,6 +319,7 @@ done
 name: shelves
   glyph: { yellow black
   movecost: 0
+  flags: flammable
 done
 
 name: sink

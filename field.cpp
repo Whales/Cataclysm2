@@ -1,7 +1,8 @@
 #include "field.h"
-#include "window.h" // For debugmsg
+#include "window.h"     // For debugmsg
 #include "stringfunc.h" // For no_caps and trim
-#include "terrain.h" // For Terrain_flag
+#include "terrain.h"    // For Terrain_flag
+#include "globals.h"    // For TERRAIN
 #include <sstream>
 
 Field_level::Field_level()
@@ -122,6 +123,8 @@ bool Field_level::has_flag(Terrain_flag tf)
 Field_type::Field_type()
 {
   uid = -1;
+  spread_chance = 0;
+  consumption_result = NULL;
 }
 
 Field_type::~Field_type()
@@ -188,6 +191,59 @@ bool Field_type::load_data(std::istream& data)
     } else if (ident == "display_name:") {
       std::getline(data, display_name);
       display_name = trim(display_name);
+
+    } else if (ident == "spread_chance:") {
+      data >> spread_chance;
+      std::getline(data, junk);
+
+    } else if (ident == "consumption_result:") {
+      std::string terrain_name;
+      std::getline(data, terrain_name);
+      terrain_name = trim(terrain_name);
+      consumption_result = TERRAIN.lookup_name(terrain_name);
+      if (consumption_result == NULL) {
+        debugmsg("Unknown terrain '%s' (%s)", terrain_name.c_str(),
+                 name.c_str());
+        return false;
+      }
+
+    } else if (ident == "terrain_modifier:") {
+      std::string flag_name;
+      int mod = 0;
+      bool consume = false;
+      data >> flag_name >> mod;
+      std::getline(data, junk);
+      junk = no_caps(junk);
+      junk = trim(junk);
+      if (junk == "consume") {
+        consume = true;
+      }
+      Terrain_flag tf = lookup_terrain_flag(flag_name);
+      if (tf == TF_NULL) {
+        debugmsg("Unknown terrain flag '%s' (%s)", flag_name.c_str(),
+                 name.c_str());
+        return false;
+      }
+      terrain_modifiers.push_back( Field_terrain_modifier(tf, mod, consume) );
+
+    } else if (ident == "item_modifier:") {
+      std::string flag_name;
+      int mod = 0;
+      bool consume = false;
+      data >> flag_name >> mod;
+      std::getline(data, junk);
+      junk = no_caps(junk);
+      junk = trim(junk);
+      if (junk == "consume") {
+        consume = true;
+      }
+      Item_flag itf = lookup_item_flag(flag_name);
+      if (itf == ITEM_FLAG_NULL) {
+        debugmsg("Unknown item flag '%s' (%s)", flag_name.c_str(),
+                 name.c_str());
+        return false;
+      }
+      item_modifiers.push_back( Field_item_modifier(itf, mod, consume) );
 
     } else if (ident == "level:") {
       Field_level* tmp_level = new Field_level;

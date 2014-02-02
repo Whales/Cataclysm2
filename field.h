@@ -6,6 +6,7 @@
 #include "enum.h"       // For Terrain_flag
 #include "item_type.h"  // For Item_flag
 #include "glyph.h"
+#include "terrain.h"    // For Terrain*
 #include <string>
 #include <vector>
 #include <list>
@@ -85,8 +86,10 @@ public:
   std::string display_name;
   int uid;
 
-  std::list<Terrain_flag> terrain_fuel, terrain_neutralizers;
-  std::list<Item_flag>    item_fuel,    item_neutralizers;
+  std::list<Field_terrain_modifier> terrain_modifiers;
+  std::list<Field_item_modifier>    item_modifiers;
+  int spread_chance;  // Percentage chance each turn
+  Terrain* consumption_result; // What happens when we consume terrain
 
   std::string  get_data_name();
   std::string  get_name();
