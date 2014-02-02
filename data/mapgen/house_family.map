@@ -1,4 +1,4 @@
-### FILENAME GOES HERE
+### FAMILY HOUSE
 #
 # The following tags are used: (# marks a line or part of a line as a comment)
 #
@@ -22,7 +22,7 @@
 # specifications, item drop specifications, and adjacency maps.
 
 name: family_house_drakasin
-subname: fhouse_drakasin
+subname: family_house_drakasin
 type: house
 tile_group: # = stone wall
 tile: . = floor
