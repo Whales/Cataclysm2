@@ -2,3 +2,8 @@ name: zombie
   genus: zombies
   glyph: Z ltgreen black
 done
+
+name: Mutant rabbit
+  genus: Rabbits
+  glyph: R dkbrown black
+done
