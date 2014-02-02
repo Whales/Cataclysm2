@@ -127,6 +127,19 @@ name: wood wall
   flags: opaque flammable
 done
 
+name: stockade fence
+  glyph: { yellow    
+  movecost: 0
+  flags: opaque
+  smash:
+    result: grass
+    failure_sound: "Thump!"
+    success_sound: "Crunch!"
+    hp: 12
+    armor: bash 10
+  done
+done
+
 name: floor
   glyph: . cyan black
   movecost: 100
@@ -324,3 +337,5 @@ name: fridge
   movecost: 0
   flags: opaque
 done
+
+
