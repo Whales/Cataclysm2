@@ -25,3 +25,26 @@ Name: zombies
     done
   done
 done
+
+Name: Mutant_rabbits
+  Default:
+    hp: 5 10
+    speed: 120
+    senses: sight smell hearing
+    AI:
+      awareness: 1
+      attention: 10
+      goals:
+        attack_enemies
+        attack_neutrals
+      done
+    done
+    attack:
+      verb: bite / bites
+      weight: 2
+      speed: 50
+      to_hit: 0
+      cut: 2
+    done
+  done
+done
