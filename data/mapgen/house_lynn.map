@@ -1,4 +1,4 @@
-### LYNN HOUSE
+### carport HOUSE
 #
 # The following tags are used: (# marks a line or part of a line as a comment)
 #
@@ -21,12 +21,12 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: lynn_house_trevmillion_gd
-subname: lynn_house_trevmillion
+name: carport_house_trevmillion_gd
+subname: carport_house_trevmillion
 type: house
 tile_group: # = stone wall
 tile: . = floor
-tile: * = concrete
+tile: * = pavement
 tile: o = dirt / grass
 tile: + = closed door
 tile: " = window
@@ -37,38 +37,37 @@ tile: F = fridge
 tile: S = stove
 tile: K = sink
 tile: T = toilet
-tile: B = bed
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-oooooooooooooooo******ooo
-oooooooooooooooo******ooo
-oooooooooooooooo******ooo
-ooooooooooooooo#******#oo
-oooooooooooooooo******ooo
-ooooooooo*************ooo
-oo#"#"#"#"#+#"##******ooo
-oo#...#........#******#oo
-oo#...#......#.#******ooo
-oo#...#......#<#"##***ooo
-oo#...#..###.###.T#***ooo
+ooooooooooooooo#*******#o
+ooooooooooooooo*********o
+ooooooooo***************o
+oo#"#"#"#"#+#"##********o
+oo#...#E.......#*******#o
+oo#...#E.....#.#********o
+oo#...#......#<#"##*****o
+oo#...#..###.###.T#*****o
 oo#...+...#F...+..#*####o
 oo#EEE#........####*#EE#o
 oo#####...#S......+*+..#o
-oooooo#...#%K%%...#*#EE#o
-oooooo#+#"#"#"#"#"#*####o
-oooooo**************ooooo
-oooooo****ooooooooooooooo
-oooooo****ooooooooooooooo
+oo****#...#%K%%...#*#EE#o
+oo****#+#"#"#"#"#"#*####o
+oo******************ooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 endmap
 done
 
-name: lynn_house_trevmillion_2nd
-subname: lynn_house_trevmillion
+name: carport_house_trevmillion_2nd
+subname: carport_house_trevmillion
 type: house
 level: 1
 tile_group: # = stone wall
@@ -81,23 +80,24 @@ tile: < = stairs up
 tile: E = shelves
 tile: T = toilet
 tile: B = bed
+tile: % = counter
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxx.........x
+xxxxxxxxxxxxxxx.........x
+xxxxxxxxxxxxxxx.........x
+xx....#"#"#"#"##........x
+xx....#.....+.E#........x
+xx...."B..#+####........x
+xx....#B..#..#>#""#.....x
+xx....#####..#.#.B#.....x
+xx....#...+....+.B#.....x
+xx...."...##+###..#.....x
+xx....#B..E#.%#E..#.....x
+xxxxxx#B..E#.T#...#.....x
+xxxxxx#"#"##"##"#"#.....x
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -110,8 +110,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-name: lynn_house_trevmillion_roof
-subname: lynn_house_trevmillion
+name: carport_house_trevmillion_roof
+subname: carport_house_trevmillion
 type: house
 level: 2
 tile_group: # = stone wall
@@ -127,16 +127,16 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxx..........xxxxxxxxx
+xxxxxx..........xxxxxxxxx
+xxxxxx..........xxxxxxxxx
+xxxxxx.............xxxxxx
+xxxxxx.............xxxxxx
+xxxxxx.............xxxxxx
+xxxxxx.............xxxxxx
+xxxxxx.............xxxxxx
+xxxxxx.............xxxxxx
+xxxxxx.............xxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
