@@ -32,11 +32,12 @@ Name: Mutant_rabbits
     speed: 120
     senses: sight smell hearing
     AI:
-      awareness: 1
+      awareness: 0
       attention: 10
       goals:
         attack_enemies
         attack_neutrals
+        flee
       done
     done
     attack:
@@ -48,3 +49,27 @@ Name: Mutant_rabbits
     done
   done
 done
+
+Name: Small_birds
+  Default:
+    hp: 2 6
+    speed: 140
+    senses: sight smell hearing
+    AI:
+      awareness: 2
+      attention: 12
+      goals:
+        flee
+        attack_enemies
+      done
+    done
+    attack:
+      verb: peck / pecks
+      weight: 1
+      speed: 60
+      to_hit: -2
+      pierce: 1
+    done
+  done
+done
+
