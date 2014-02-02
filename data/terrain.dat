@@ -130,7 +130,6 @@ done
 name: stockade fence
   glyph: { yellow    
   movecost: 0
-  flags: opaque
   smash:
     result: grass
     failure_sound: "Thump!"
@@ -138,6 +137,7 @@ name: stockade fence
     hp: 12
     armor: bash 10
   done
+  flags: opaque flammable
 done
 
 name: floor
