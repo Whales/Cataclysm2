@@ -56,26 +56,31 @@ done
 name: mud
   glyph: ~ brown black
   movecost: 300
+  flags: water
 done
 
 name: shallow water
   glyph: ~ ltblue black
   movecost: 200
+  flags: water
 done
 
 name: deep water
   glyph: ~ blue black
   movecost: 0
+  flags: water
 done
 
 name: shallow salt water
   glyph: ~ ltcyan black
   movecost: 200
+  flags: water
 done
 
 name: deep salt water
   glyph: ~ cyan black
   movecost: 0
+  flags: water
 done
 
 name: fungal tree
