@@ -28,7 +28,7 @@ done
 
 Name: Mutant_rabbits
   Default:
-    hp: 25 35
+    hp: 5 10
     speed: 120
     senses: sight smell hearing
     AI:
@@ -42,7 +42,7 @@ Name: Mutant_rabbits
     attack:
       verb: bite / bites
       weight: 2
-      speed: 200
+      speed: 50
       to_hit: 0
       cut: 2
     done
