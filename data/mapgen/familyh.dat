@@ -84,6 +84,8 @@ tile: % = counter
 tile: T = toilet
 tile: B = bed
 tile: E = shelves
+tile: s = sink
+
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx

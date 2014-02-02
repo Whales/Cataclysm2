@@ -121,7 +121,7 @@ name: wood wall
 done
 
 name: stockade fence
-  glyph: * brown black    // please add a light-brown color
+  glyph: { yellow    
   movecost: 0
   flags: opaque
   smash:
