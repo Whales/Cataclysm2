@@ -24,6 +24,16 @@ enum Item_class
 Item_class lookup_item_class(std::string name);
 std::string item_class_name(Item_class iclass);
 
+enum Item_flag
+{
+  ITEM_FLAG_NULL = 0,
+  ITEM_FLAG_LIQUID,
+  ITEM_FLAG_MAX
+};
+
+Item_flag lookup_item_flag(std::string name);
+std::string item_flag_name(Item_flag flag);
+
 class Item_type
 {
 public:
@@ -57,8 +67,10 @@ public:
   virtual int  default_charges() { return 0; }
   virtual bool always_combines()    { return false; }
   virtual bool combine_by_charges() { return false; }
+  bool has_flag(Item_flag flag);
 
 private:
+  std::vector<bool> flags;
 };
 
 class Item_type_clothing : public Item_type

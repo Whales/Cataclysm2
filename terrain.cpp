@@ -192,6 +192,7 @@ std::string terrain_flag_name(Terrain_flag flag)
     case TF_STAIRS_UP:    return "stairs_up";
     case TF_STAIRS_DOWN:  return "stairs_down";
     case TF_OPEN_SPACE:   return "open_space";
+    case TF_WATER:        return "water";
     default:              return "ERROR"; // All caps means it'll never be used
   }
   return "ERROR";

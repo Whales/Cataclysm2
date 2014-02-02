@@ -18,6 +18,9 @@ Item_type::Item_type()
   thrown_variance = Dice(5, 20, 0);
   thrown_dmg_percent = 50;
   thrown_speed = 0;
+  for (int i = 0; i < ITEM_FLAG_MAX; i++) {
+    flags.push_back(false);
+  }
 }
 
 Item_type::~Item_type()
@@ -142,6 +145,21 @@ bool Item_type::load_data(std::istream &data)
       data >> thrown_speed;
       std::getline(data, junk);
 
+    } else if (ident == "flags:") {
+      std::string flag_line;
+      std::getline(data, flag_line);
+      std::istringstream flag_data(flag_line);
+      std::string flag_name;
+      while (flag_data >> flag_name) {
+        Item_flag flag = lookup_item_flag(flag_name);
+        if (flag == ITEM_FLAG_NULL) {
+          debugmsg("Unknown item flag '%s' (%s)",
+                   flag_name.c_str(), name.c_str());
+          return false;
+        }
+        flags[flag] = true;
+      }
+
     } else if (!handle_data(ident, data)) {
       debugmsg("Unknown item_type flag '%s' (%s)", ident.c_str(), name.c_str());
       return false;
@@ -158,6 +176,11 @@ bool Item_type::handle_data(std::string ident, std::istream &data)
     return true;
   }
   return false;
+}
+
+bool Item_type::has_flag(Item_flag flag)
+{
+  return flags[flag];
 }
 
 /* TODO:  Right now, armor{_bash,_cut,_pierce} is hard-coded here.  But what if
@@ -344,5 +367,28 @@ std::string item_class_name(Item_class iclass)
     case ITEM_CLASS_MAX:      return "BUG - ITEM_CLASS_MAX";
     default:                  return "BUG - Unnamed Item_class";
   }
-  return "BUG - Escaped Switch";
+  return "BUG - Escaped item_class_name switch";
+}
+
+Item_flag lookup_item_flag(std::string name)
+{
+  name = no_caps(name);
+  for (int i = 0; i < ITEM_FLAG_MAX; i++) {
+    Item_flag ret = Item_flag(i);
+    if ( no_caps( item_flag_name(ret) ) == name ) {
+      return ret;
+    }
+  }
+  return ITEM_FLAG_NULL;
+}
+
+std::string item_flag_name(Item_flag flag)
+{
+  switch (flag) {
+    case ITEM_FLAG_NULL:    return "NULL";
+    case ITEM_FLAG_LIQUID:  return "liquid";
+    case ITEM_FLAG_MAX:     return "BUG - ITEM_FLAG_MAX";
+    default:                return "BUG - Unnamed Item_flag";
+  }
+  return "BUG - Escaped item_flag_name switch";
 }
