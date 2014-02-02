@@ -7,3 +7,8 @@ name: Mutant rabbit
   genus: Mutant_Rabbit
   glyph: R brown black
 done
+
+name: Kiwi
+  genus: Small_bird
+  glyph: K brown red
+done
