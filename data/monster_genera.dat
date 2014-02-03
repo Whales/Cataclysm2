@@ -1,11 +1,11 @@
-Name: Demented dog
+Name: demented_dog
   Default:
 	hp: 3d5 + 20
 	speed: 160
 	senses: sight smell hearing
 	AI:
-	  awareness: 1
-	  attention: 80
+	  awareness: 2
+	  attention: 30
 	  goals:
 	    attack_enemies
 		attack_neutrals
@@ -14,7 +14,6 @@ Name: Demented dog
 	done
 	attack:
 	  verb: bite / bites
-	  weight: 5
 	  speed: 150
 	  to_hit: 0
 	  pierce: 8
@@ -22,6 +21,7 @@ Name: Demented dog
 	attack:
 	  verb: tackle / tackles
 	  speed: 100
+	  weight: 2
 	  to_hit: +3
 	  pierce: 4
 	  bash: 8
@@ -29,21 +29,21 @@ Name: Demented dog
   done
 done
 
-Name: Dog
+Name: dog
   Default:
 	hp: 2d4 + 20
 	speed: 150
 	senses: sight smell hearing
 	AI:
 	  awareness: 1                  // is awareness a 1=true 0=false thing or is it a scale between 0-10?
-	  attention: 50
+	  attention: 20
+	  recognizes: fields
 	  goals:
 	    attack_enemies
 	  done
 	done
 	attack:
 	  verb: bite / bites
-	  weight: 5
 	  speed: 150
 	  to_hit: 0
 	  pierce: 8
@@ -51,6 +51,7 @@ Name: Dog
 	attack:
 	  verb: tackle / tackles
 	  speed: 100
+	  weight: 2
 	  to_hit: +3
 	  pierce: 2
 	  bash: 8
@@ -58,7 +59,7 @@ Name: Dog
   done
 done
 
-Name: Mutant_rabbits
+Name: mutant_rabbits
   Default:
     hp: 2d4 + 4
     speed: 120
@@ -81,14 +82,15 @@ Name: Mutant_rabbits
   done
 done
 
-Name: Wolf
+Name: wolf
   Default:
 	hp: 3d5 + 30
 	speed: 160
 	senses: sight smell hearing
 	AI:
-	  awareness: 1
-	  attention: 50
+	  awareness: 2
+	  attention: 30
+	  recognizes: fields
 	  goals:
 	    attack_enemies
 		attack_neutrals
@@ -96,7 +98,6 @@ Name: Wolf
 	done
 	attack:
 	  verb: bite / bites
-	  weight: 5
 	  speed: 150
 	  to_hit: 0
 	  pierce: 12
@@ -104,6 +105,7 @@ Name: Wolf
 	attack:
 	  verb: tackle / tackles
 	  speed: 100
+	  weight: 2
 	  to_hit: +3
 	  pierce: 4
 	  bash: 10
@@ -111,14 +113,14 @@ Name: Wolf
   done
 done
 
-Name: Zombie dog
+Name: zombie_dog
   Default:
 	hp: 3d5 + 25
 	speed: 130
 	senses: sight smell hearing
 	AI:
 	  awareness: 1
-	  attention: 30
+	  attention: 25
 	  goals:
 	    attack_enemies
 		attack_neutrals
