@@ -5,7 +5,7 @@ Name: grassland
   terrain: field
   Done
 Name: forest
-  terrain: w:1 field / forest
+  terrain: w:1 field / w:10 forest
   Done
 Name: swamp
   terrain: swamp
