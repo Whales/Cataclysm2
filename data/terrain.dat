@@ -173,6 +173,11 @@ name: white pavement
   movecost: 100
 done
 
+name: sidewalk
+  glyph: . ltgrey black
+  movecost: 100
+done
+
 name: door frame
   glyph: . brown black
   movecost: 100

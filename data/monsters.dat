@@ -4,6 +4,81 @@ name: zombie
 done
 
 name: Mutant rabbit
-  genus: Rabbits
+  genus: Mutant_Rabbits
   glyph: R brown black
+done
+
+name: Kiwi
+  genus: Small_birds_nofly
+  glyph: k brown black
+done
+#Tiger color placeholder
+name: Tiger
+  genus: Big_cats
+  glyph: T red black
+done
+
+name: Elephant
+  genus: Pachyderms
+  glyph: E dkgrey black
+done
+
+name: Penguin
+  genus: Penguins
+  glyph: p white black
+done
+
+name: Panda
+  genus: Bears
+  glyph: P white black
+done
+
+name: Flamingo
+  genus: Small_birds_fly
+  glyph: f pink black
+done
+
+name: Gorilla
+  genus: Apes
+  glyph: G dkgrey black
+done
+
+name: Llama
+  genus: Camelids
+  glyph: L ltgrey black
+done
+
+name: Porcupine
+  genus: Spiked_mammals
+  glyph: P brown black
+done
+
+name: Toucan
+  genus: Small_birds_fly
+  glyph: T yellow black
+done
+
+name: Otter
+  genus: Water_mammals
+  glyph: o brown black
+done
+
+name: Armadillo
+  genus: Armadillos
+  glyph: a brown black
+done
+
+name: Hedgehog
+  genus: Spiked_mammals
+  glyph: h brown black
+done
+
+name: Lion
+  genus: Big_cats
+  glyph: L yellow
+done
+
+name: Alpaca
+  genus: Camelids
+  glyph: A white black
 done
