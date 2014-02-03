@@ -7,6 +7,9 @@ Graphics:
   -SDL integration with cuss stuff
   -Tiles, what do they look like
 
+Monsters:
+  -Add natural armor to Monster_type
+
 Status effects:
   Stuff like "Stunned" "Blinded" "Poisoned" etc. 
   Need to add this to:

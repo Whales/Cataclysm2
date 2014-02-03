@@ -40,6 +40,14 @@ inline Damage_set operator-(Damage_set lhs, const Damage_set& rhs)
   return lhs;
 }
 
+/* TODO:  Special effects.  It'd be nice to specify that an attack (or an item
+ *        from which attacks are derived) has the ability to knock the target
+ *        back a tile or two, to poison them, to stun them, etc.
+ * TODO:  Special effects bound to damage type.  Like in Cataclysm 1.  Bashing
+ *        could stun the target, cutting could cause bleeding or something, and
+ *        piercing could "skewer" them, reducing speed but also possibly yanking
+ *        the attacker's weapon out of their hands.
+ */
 struct Attack
 {
   std::string verb_second;

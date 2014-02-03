@@ -1,9 +1,67 @@
 name: zombie
+  name_plural: zombies
   genus: zombies
   glyph: Z ltgreen black
+  chance: 100
 done
 
-name: Mutant rabbit
+name: fast zombie
+  name_plural: fast zombies
+  genus: zombies
+  glyph: Z ltred black
+  chance: 10
+  hp: 4d5 + 30
+  speed: 130
+  AI:
+    awareness:  2
+    attention: 15
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+  attack:
+    verb: claw / claws
+    weight: 10
+    speed:  80
+    to_hit:  1
+    cut:     4
+  done
+  attack:
+    verb: impale / impales
+    weight:  1
+    speed: 140
+    pierce:  7
+    to_hit: -1
+  done
+done
+
+name: zombie brute
+  name_plural: zombie brutes
+  genus: zombies
+  glyph: Z red black
+  chance: 5
+  hp: 4d6 + 40
+  speed: 65
+  AI:
+    awareness: 0
+    attention: 8
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+  attack:
+    verb: hit / hits
+    speed: 100
+    bash:    8
+    to_hit: -1
+  done
+# TODO: Once we have special melee effects, add "body slam" which knocks back
+done
+
+name: mutant rabbit
+  name_plural: mutant rabbits
   genus: Rabbits
   glyph: R brown black
 done
