@@ -66,6 +66,7 @@ name: mutant rabbit
 done
 
 name: demented dog
+  name_plural: demented dogs
   genus: canis
   glyph: d ltgray black
 	hp: 3d5 + 20
@@ -96,11 +97,13 @@ name: demented dog
 done
 
 name: dog
+  name_plural: dogs
   genus: canis
   glyph: d white black
 done
  
 Name: wolf
+  name_plural: wolves
   genus: canis
   glyph: W gray black
 	hp: 3d5 + 30
@@ -132,6 +135,7 @@ Name: wolf
 done
 
 Name: zombie dog
+  name_plural: zombie dogs
   genus: zombies
   glyph: d ltgreen black
 	hp: 3d5 + 25
