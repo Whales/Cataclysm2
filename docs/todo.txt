@@ -6,3 +6,10 @@ Worldmap Generation:
 Graphics:
   -SDL integration with cuss stuff
   -Tiles, what do they look like
+
+Status effects:
+  Stuff like "Stunned" "Blinded" "Poisoned" etc. 
+  Need to add this to:
+    -Melee attacks
+    -Ranged attacks
+    -Fields
