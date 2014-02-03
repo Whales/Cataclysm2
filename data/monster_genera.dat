@@ -35,7 +35,7 @@ Name: dog
 	speed: 150
 	senses: sight smell hearing
 	AI:
-	  awareness: 1                  // is awareness a 1=true 0=false thing or is it a scale between 0-10?
+	  awareness: 1
 	  attention: 20
 	  recognizes: fields
 	  goals:
