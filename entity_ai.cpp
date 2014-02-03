@@ -10,6 +10,8 @@ Entity_AI::Entity_AI()
   for (int i = 0; i < AIGOAL_MAX; i++) {
     goals_in_use[i] = false;
   }
+  area_awareness = 0;
+  attention_span = 15;
 }
 
 Entity_AI::~Entity_AI()
@@ -43,6 +45,10 @@ bool Entity_AI::load_data(std::istream &data, std::string owner_name)
 
     } else if (ident == "awareness:" || ident == "area_awareness:") {
       data >> area_awareness;
+      if (area_awareness < 0) {
+        debugmsg("Negative awareness value (%s)", owner_name.c_str());
+        return false;
+      }
       std::getline(data, junk);
 
     } else if (ident == "attention:" || ident == "attention_span:") {
