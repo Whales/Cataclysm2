@@ -25,7 +25,8 @@ struct glyph
 
   std::string save_data();
   void load_data(std::istream &datastream);
-  void load_data_text(std::istream &datastream); // For human-readable data
+  void load_data_text(std::istream &datastream, // For human-readable data
+                      std::string owner_name = "Unknown");
 };
 
 #endif

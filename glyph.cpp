@@ -19,7 +19,7 @@ void glyph::load_data(std::istream &datastream)
  bg = nc_color(bgtmp);
 }
 
-void glyph::load_data_text(std::istream &datastream)
+void glyph::load_data_text(std::istream &datastream, std::string owner_name)
 {
   std::string fgtmp, bgtmp;
   char tmpch;
@@ -28,11 +28,11 @@ void glyph::load_data_text(std::istream &datastream)
   symbol = tmpch;
   fg = color_string(fgtmp);
   if (fg == c_null) {
-    debugmsg("Loaded bad color '%s'", fgtmp.c_str());
+    debugmsg("Loaded bad color '%s' (%s)", fgtmp.c_str(), owner_name.c_str());
   }
   bg = color_string(bgtmp);
   if (bg == c_null) {
-    debugmsg("Loaded bad color '%s'", bgtmp.c_str());
+    debugmsg("Loaded bad color '%s' (%s)", fgtmp.c_str(), owner_name.c_str());
   }
 }
 
