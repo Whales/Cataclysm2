@@ -310,3 +310,8 @@ name: fridge
   movecost: 0
   flags: opaque
 done
+
+name: metal bars
+  glyph: H dkgrey black
+  movecost: 0
+done
