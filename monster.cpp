@@ -308,7 +308,10 @@ void Monster::take_damage(Damage_type type, int damage, std::string reason,
   current_hp -= damage;
   if (current_hp <= 0) {
     dead = true;
-    if (reason == "you") {
+/* TODO:  This is inefficient.  Maybe make a wrapper struct for damage reasons,
+ *        which has a flag "is_the_player"?
+ */
+    if (reason.find("you") != std::string::npos) {
       killed_by_player = true;
     }
   }
