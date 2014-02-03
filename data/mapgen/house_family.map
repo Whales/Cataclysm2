@@ -21,7 +21,7 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: family_house_drakasin
+name: family_house_drakasin_1
 subname: family_house_drakasin
 type: house
 tile_group: # = stone wall
@@ -69,8 +69,8 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: std_house_2_whales
-subname: stone_whales
+name: family_house_drakasin_2
+subname: family_house_drakasin
 type: house
 level: 1
 tile_group: # = stone wall
@@ -115,8 +115,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-name: std_house_roof_whales
-subname: stone_whales
+name: family_house_drakasin_3
+subname: family_house_drakasin
 type: house
 level: 2
 tile_group: # = stone wall / wood wall
