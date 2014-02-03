@@ -24,6 +24,7 @@
 name: family_house_drakasin_1
 subname: family_house_drakasin
 type: house
+weight: 10
 tile_group: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
@@ -63,6 +64,56 @@ oo##""#####"G"#####""##oo
 ooFgggggggggggggggggggFoo
 ooFgggggggggggggggggggFoo
 ooFgggggggggggggggggggFoo
+ooFFFFFFFFFFFFFFFFFFFFFoo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: family_house_drakasin_1_alt
+subname: family_house_drakasin
+type: house
+weight: 5
+tile_group: # = stone wall
+tile: . = floor
+tile: o = dirt / grass
+tile: + = closed door
+tile: " = window
+tile: < = stairs up
+tile: F = stockade fence
+tile: % = counter
+tile: S = stove
+tile: s = sink
+tile: f = fridge
+tile: T = toilet
+tile: G = closed glass door
+tile: g = grass
+tile: E = shelves
+tile: D = sand
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo#######"""########+"#oo
+oo#...............#%..#oo
+oo"...............#%..#oo
+oo"...............##..#oo
+oo#................+..#oo
+oo#..######<########EE#oo
+oo#..#SS%E####Es#sE####oo
+oo"......E#..+.....+.T"oo
+oo#......s######+######oo
+oo"......##........+.E#oo
+oo#.......#........#EE#oo
+oo".......#........####oo
+oo#.......+........#.."oo
+oo##+############+##.."oo
+oo#...................#oo
+oo#...................#oo
+oo##""#####"G"#####""##oo
+ooFgggggggggggggggggggFoo
+ooFgSSggggggggggggggggFoo
+ooFgSSggggggggggggggggFoo
 ooFFFFFFFFFFFFFFFFFFFFFoo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
