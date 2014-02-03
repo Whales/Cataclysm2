@@ -57,6 +57,7 @@ public:
   glyph sym;
 
   int duration; // Our starting "hp," lose one per turn
+  int duration_lost_without_fuel; // Extra duration lost if there's no fuel
 
   std::string verb; // The fire [burns] you!  The electricity [shocks] you!
   Damage_set damage;  
@@ -104,6 +105,8 @@ public:
   std::string  get_level_name(int level);
   Field_level* get_level(int level);
 
+  int duration_needed_to_reach_level(int level);
+
   int get_uid();
 
   bool load_data(std::istream& data);
@@ -122,6 +125,7 @@ public:
   Field_type* type;
   int level;
   int duration;
+  bool dead;    // If true, this needs to be cleaned up
 /* We use creator to tell the player what killed them; e.g. if creator is 
  * "a spitter zombie" then we got killed by "acid created by a spitter zombie"
  */
@@ -131,7 +135,9 @@ public:
   std::string get_full_name();  // get_name() + " created by " + owner
 
   void hit_entity(Entity* entity);
-  void process();
+  void process(Tile* tile_here);
+  void gain_level();
+  void lose_level();
 };
 
 #endif

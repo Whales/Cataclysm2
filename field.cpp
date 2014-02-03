@@ -94,6 +94,7 @@ bool Field_item_fuel::load_data(std::istream& data,
 Field_level::Field_level()
 {
   duration = 0;
+  duration_lost_without_fuel = 0;
   for (int i = 0; i < TF_MAX; i++) {
     terrain_flags.push_back(false);
   }
@@ -126,6 +127,10 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
 
     } else if (ident == "duration:") {
       data >> duration;
+      std::getline(data, junk);
+
+    } else if (ident == "duration_lost_without_fuel:") {
+      data >> duration_lost_without_fuel;
       std::getline(data, junk);
 
     } else if (ident == "verb:") {
@@ -249,6 +254,14 @@ Field_level* Field_type::get_level(int level)
     return NULL;
   }
   return levels[level];
+}
+
+int Field_type::duration_needed_to_reach_level(int level)
+{
+  if (level <= 0 || level >= levels.size()) {
+    return 999999;
+  }
+  return levels[level - 1]->duration + levels[level]->duration;
 }
 
 int Field_type::get_uid()
@@ -405,7 +418,101 @@ void Field::hit_entity(Entity* entity)
 // TODO: Status effects etc.
 }
 
-void Field::process()
+/* Field::process handles its per-turn effects:
+ *  Lose 1 duration
+ *  Consume fuel, if any is available
+ *  Lose extra duration, if our type calls for it, if no fuel was consumed
+ *  Change level, if appropriate
+ */
+void Field::process(Tile* tile_here)
 {
-  
+  if (!tile_here) {
+    debugmsg("Field::process() called without tile information!");
+    return;
+  }
+  if (!type) {
+    debugmsg("Field::process() called for a Field without any type!");
+    return;
+  }
+
+  Field_level* level_data = type->get_level(level);
+
+  duration--;
+  bool found_fuel = false;
+// Check for terrain fuel/extinguishers
+  for (std::list<Field_terrain_fuel>::iterator it = type->terrain_fuels.begin();
+       it != type->terrain_fuels.end();
+       it++) {
+    Field_terrain_fuel fuel = (*it);
+    if (tile_here->has_flag(fuel.flag)) {
+      found_fuel = true;
+      int fuel_gained = fuel.fuel;
+      if (tile_here->hp < fuel.damage) {
+        double fuel_percent = tile_here->hp / fuel.damage;
+        fuel_gained = int( double(fuel.fuel) * fuel_percent );
+      }
+      duration += fuel_gained;
+// TODO: Assign a damage type to Field_terrain_fuel?
+      tile_here->damage(DAMAGE_NULL, fuel.damage);
+    }
+  }
+
+// Check for item fuel/extinguishers
+  for (std::list<Field_item_fuel>::iterator it = type->item_fuels.begin();
+       it != type->item_fuels.end();
+       it++) {
+    Field_item_fuel fuel = (*it);
+    for (int n = 0; n < tile_here->items.size(); n++) {
+      found_fuel = true;
+      Item* it = &(tile_here->items[n]);
+      if (it->has_flag(fuel.flag)) {
+        duration += fuel.fuel;
+        if (it->damage(fuel.damage)) { // Item was destroyed
+          tile_here->items.erase( tile_here->items.begin() + n );
+          n--;
+        }
+      }
+    }
+  }
+
+// Lose extra duration if we didn't find fuel
+  if (!found_fuel && level_data) {
+    duration -= level_data->duration_lost_without_fuel;
+  }
+
+// Change our level, if appropriate!
+  while (duration >= type->duration_needed_to_reach_level(level + 1)) {
+    gain_level();
+  }
+
+// TODO: Output extra stuff (output_type from type)
+}
+
+void Field::gain_level()
+{
+  if (!type) {
+    return;
+  }
+  Field_level* lev = type->get_level(level);
+  if (!lev) {
+    return;
+  }
+  duration -= lev->duration;
+  level++;
+}
+
+void Field::lose_level()
+{
+  if (level == 0) {
+    dead = true;
+  }
+  level--;
+  if (!type) {
+    return;
+  }
+  Field_level* lev = type->get_level(level);
+  if (!lev) {
+    return;
+  }
+  duration = lev->duration;
 }
