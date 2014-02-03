@@ -117,7 +117,7 @@ bool Terrain::load_data(std::istream &data)
       display_name = trim(display_name);
 
     } else if (ident == "glyph:") {
-      sym.load_data_text(data);
+      sym.load_data_text(data, name);
       std::getline(data, junk);
 
     } else if (ident == "movecost:") {
@@ -193,6 +193,7 @@ std::string terrain_flag_name(Terrain_flag flag)
     case TF_STAIRS_DOWN:  return "stairs_down";
     case TF_OPEN_SPACE:   return "open_space";
     case TF_WATER:        return "water";
+    case TF_FLAMMABLE:    return "flammable";
     default:              return "ERROR"; // All caps means it'll never be used
   }
   return "ERROR";
