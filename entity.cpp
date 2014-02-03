@@ -718,6 +718,15 @@ void Entity::take_damage(Damage_type type, int damage, std::string reason,
 {
 }
 
+void Entity::take_damage(Damage_set damage, std::string reason, Body_part part)
+{
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    Damage_type type = Damage_type(i);
+    int dam = damage.get_damage(type);
+    take_damage(type, dam, reason, part);
+  }
+}
+
 Ranged_attack Entity::throw_item(Item it)
 {
   Ranged_attack ret = it.get_thrown_attack();
