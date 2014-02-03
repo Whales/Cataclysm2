@@ -50,10 +50,10 @@ Name: Mutant_rabbits
   done
 done
 
-Name: Small_birds
+Name: Small_birds_nofly
   Default:
     hp: 2 6
-    speed: 140
+    speed: 150
     senses: sight smell hearing
     AI:
       awareness: 2
@@ -73,3 +73,238 @@ Name: Small_birds
   done
 done
 
+Name: Big_cats
+  Default:
+    hp: 60 80
+    speed: 150
+    senses: sight smell hearing
+    AI:
+      awareness: 3
+      attention: 15
+      goals:
+        attack_enemies
+        attack_neutrals
+      done
+    done
+    attack:
+      verb: Bite / Bites
+      weight: 1
+      speed: 150
+      to_hit: -2
+      pierce: 4
+    done
+    attack:
+      verb: Claw / Claws
+      weight: 3
+      speed: 70
+      to_hit: 1
+      cut: 2
+    done
+  done
+done
+
+Name: Pachyderms
+  Default:
+    hp: 120 140
+    speed: 50
+    senses: sight smell hearing
+    AI:
+      awareness: 0
+      attention: 3
+      goals:
+        attack_enemies
+        attack_neutrals
+      done
+    done
+    attack:
+      verb: Use its trunk to wack / Uses its trunk to wack
+      weight: 1
+      speed: 200
+      to_hit: -1
+      bash: 10
+    done
+    attack:
+      verb: Kick / Kicks
+      weight: 4
+      speed: 125
+      to_hit: -3
+      bash: 4
+    done
+  done
+done
+
+Name: Penguins
+  Default:
+    hp: 2 6
+    speed: 90
+    senses: sight smell hearing
+    AI:
+      awareness: 1
+      attention: 20
+      goals:
+        flee
+        attack_enemies
+      done
+    done
+    attack:
+      verb: Slap / Slaps 
+      weight: 1 
+      speed: 50
+      to_hit: 5
+      bash: 0
+    done
+  done
+done
+
+Name: Bears
+  Default:
+    hp: 100 120
+    speed: 110
+    senses: sight smell hearing
+    AI:
+      awareness: 4
+      attention: 10
+      goals:
+        attack_enemies
+        attack_neutrals
+        flee
+      done
+    done
+    attack:
+      verb: Bite / Bites
+      weight: 3
+      speed: 100
+      to_hit: -2
+      pierce: 5
+    done
+    attack:
+      verb: Claw / Claws
+      weight: 5
+      speed: 75
+      to_hit: 0
+      cut: 2
+    done
+    attack:
+      verb: Ram / Rams
+      weight: 1
+      speed: 140
+      to_hit: -4
+      bash: 8
+    done
+  done
+done
+
+Name: Small_birds_fly
+  Default:
+    hp: 4 10
+    speed: 150
+    senses: sight smell hearing
+    AI:
+      awareness: 2
+      attention: 12
+      goals:
+        flee
+        attack_enemies
+      done
+    done
+    attack:
+      verb: Peck / Pecks
+      weight: 1
+      speed: 60
+      to_hit: -2
+      pierce: 1
+    done
+  done
+done
+
+Name: Apes
+  Default:
+    hp: 110 140
+    speed: 100
+    senses: sight smell hearing
+    AI:
+      awareness: 3
+      attention: 14
+      goals:
+        attack_enemies
+        attack_neutrals
+        flee
+      done
+    done
+    attack: 
+      verb: Punch / Punches
+      weight: 1
+      speed: 100
+      to_hit: -1
+      bash: 3 
+    done
+  done
+done
+
+Name: Camelids
+  Default:
+    hp: 60 80
+    speed: 175
+    senses: sight smell hearing
+    AI:
+      awareness: 2
+      attention: 10
+      goals:
+        flee
+      done
+    done
+  done
+done
+
+Name: Spiked_mammals
+  Default:
+    hp: 6 12
+    speed: 120
+    senses: sight smell hearing
+    AI:
+      awareness: 0
+      attention: 3
+      goals:
+        flee
+        attack_enemies
+      done
+    done
+    attack: 
+      verb: Poke / Pokes
+      weight: 1
+      speed: 50
+      to_hit: 1
+      pierce: 1
+    done
+  done
+done
+
+Name: Water_mammal
+  Default:
+    hp: 5 10
+    speed: 85
+    senses: sight smell hearing
+    AI:
+      awareness: 1
+      attention: 2
+      goals:
+        flee
+      done
+    done
+  done
+done
+
+Name: Armadillos
+  Default:
+    hp: 4 8
+    speed: 70
+    senses: sight smell hearing
+    AI:
+      awareness: 2
+      attention: 5
+      goals:
+        flee
+      done
+    done
+  done
+done
