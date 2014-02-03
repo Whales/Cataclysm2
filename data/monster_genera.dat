@@ -1,6 +1,6 @@
 Name: Demented dog
   Default:
-	hp: 20 30
+	hp: 3d5 + 20
 	speed: 160
 	senses: sight smell hearing
 	AI:
@@ -31,7 +31,7 @@ done
 
 Name: Dog
   Default:
-	hp: 20 25
+	hp: 2d4 + 20
 	speed: 150
 	senses: sight smell hearing
 	AI:
@@ -60,7 +60,7 @@ done
 
 Name: Mutant_rabbits
   Default:
-    hp: 5 10
+    hp: 2d4 + 4
     speed: 120
     senses: sight smell hearing
     AI:
@@ -83,7 +83,7 @@ done
 
 Name: Wolf
   Default:
-	hp: 35 35
+	hp: 3d5 + 30
 	speed: 160
 	senses: sight smell hearing
 	AI:
@@ -113,7 +113,7 @@ done
 
 Name: Zombie dog
   Default:
-	hp: 30 30
+	hp: 3d5 + 25
 	speed: 130
 	senses: sight smell hearing
 	AI:
@@ -135,7 +135,7 @@ done
 
 Name: zombies
   Default:
-    hp: 50 60
+    hp: 4d5 + 40
     speed: 70
     senses: sight smell hearing
     AI:
