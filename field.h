@@ -19,24 +19,32 @@
  *       field?
  */
 
-struct Field_terrain_modifier
+struct Field_terrain_fuel
 {
-  Field_terrain_modifier(Terrain_flag F = TF_NULL, int M = 0, bool C = false) :
-    flag (F), modifier (M), consume_terrain (C) { }
-  ~Field_terrain_modifier(){}
+  Field_terrain_fuel(Terrain_flag F = TF_NULL, int M = 0, int D = 0) :
+    flag (F), fuel (M), damage (D) { }
+  ~Field_terrain_fuel(){}
   Terrain_flag flag;
-  int modifier;
-  bool consume_terrain;
+  int fuel;
+// Damage done to the terrain each turn
+// If 0, then the terrain is not damaged or destroyed at all.
+  int damage;
+
+  bool load_data(std::istream& data, std::string owner_name = "Unknown");
 };
 
-struct Field_item_modifier
+struct Field_item_fuel
 {
-  Field_item_modifier(Item_flag F = ITEM_FLAG_NULL, int M = 0, bool C = false) :
-    flag (F), modifier (M), consume_item (C) { }
-  ~Field_item_modifier(){}
+  Field_item_fuel(Item_flag F = ITEM_FLAG_NULL, int M = 0, int D = 0) :
+    flag (F), fuel (M), damage (D) { }
+  ~Field_item_fuel(){}
   Item_flag flag;
-  int modifier;
-  bool consume_item;
+  int fuel;
+// Damage done to the terrain for every 100 duration gained/lost by the field.
+// If 0, then the terrain is not damaged or destroyed at all.
+  int damage;
+
+  bool load_data(std::istream& data, std::string owner_name = "Unknown");
 };
 
 class Field_level
@@ -45,7 +53,6 @@ public:
   Field_level();
   ~Field_level();
 
-// TODO: Do we need a display_name too?
   std::string name;
   glyph sym;
 
@@ -74,12 +81,6 @@ private:
 
 };
 
-/* TODO:  Field_type should have a list of fuels and extinguishers.  These could
- *        be specific terrain names, terrain flags, item names, item flags,
- *        other fields...
- *        Or do these belong in Field_level?
- */
-
 class Field_type
 {
 public:
@@ -90,14 +91,13 @@ public:
   std::string display_name;
   int uid;
 
-  std::list<Field_terrain_modifier> terrain_modifiers;
-  std::list<Field_item_modifier>    item_modifiers;
+  std::list<Field_terrain_fuel> terrain_fuels;
+  std::list<Field_item_fuel>    item_fuels;
   int spread_chance;  // Percentage chance each turn
   int spread_cost;    // Percentage of our duration lost when spreading
   int output_chance;  // Percentage chance of extra output each turn
   int output_cost;    // Percent of our duration lost when outputting
   std::string output_type;  // Name of the field we output
-  Terrain* consumption_result; // What happens when we consume terrain
 
   std::string  get_data_name();
   std::string  get_name();

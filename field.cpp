@@ -5,6 +5,92 @@
 #include "globals.h"    // For TERRAIN
 #include <sstream>
 
+bool Field_terrain_fuel::load_data(std::istream& data,
+                                       std::string owner_name)
+{
+  std::string ident, junk;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+    ident = no_caps(ident);
+
+    if (!ident.empty() && ident[0] == '#') {
+// It's a comment
+      std::getline(data, junk);
+
+    } else if (ident == "terrain_flag:") {
+      std::string flagname;
+      std::getline(data, flagname);
+      flagname = trim(flagname);
+      Terrain_flag tf = lookup_terrain_flag(flagname);
+      if (tf == TF_NULL) {
+        debugmsg("Unknown terrain flag '%s' (%s)", flagname.c_str(),
+                 owner_name.c_str());
+        return false;
+      }
+      flag = tf;
+
+    } else if (ident == "fuel:") {
+      data >> fuel;
+      std::getline(data, junk);
+
+    } else if (ident == "damage:") {
+      data >> damage;
+      std::getline(data, junk);
+
+    } else if (ident != "done") {
+      debugmsg("Unknown Field_terrain_fuel property '%s' (%s)", ident.c_str(),
+               owner_name.c_str());
+      return false;
+    }
+  }
+  return true;
+}
+  
+bool Field_item_fuel::load_data(std::istream& data,
+                                       std::string owner_name)
+{
+  std::string ident, junk;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+    ident = no_caps(ident);
+
+    if (!ident.empty() && ident[0] == '#') {
+// It's a comment
+      std::getline(data, junk);
+
+    } else if (ident == "item_flag:") {
+      std::string flagname;
+      std::getline(data, flagname);
+      flagname = trim(flagname);
+      Item_flag itf = lookup_item_flag(flagname);
+      if (itf == ITEM_FLAG_NULL) {
+        debugmsg("Unknown item flag '%s' (%s)", flagname.c_str(),
+                 owner_name.c_str());
+        return false;
+      }
+      flag = itf;
+
+    } else if (ident == "fuel:") {
+      data >> fuel;
+      std::getline(data, junk);
+
+    } else if (ident == "damage:") {
+      data >> damage;
+      std::getline(data, junk);
+
+    } else if (ident != "done") {
+      debugmsg("Unknown Field_item_fuel property '%s' (%s)", ident.c_str(),
+               owner_name.c_str());
+      return false;
+    }
+  }
+  return true;
+}
+
 Field_level::Field_level()
 {
   duration = 0;
@@ -124,7 +210,6 @@ Field_type::Field_type()
 {
   uid = -1;
   spread_chance = 0;
-  consumption_result = NULL;
 }
 
 Field_type::~Field_type()
@@ -228,54 +313,18 @@ bool Field_type::load_data(std::istream& data)
       std::getline(data, output_type);
       output_type = trim(output_type);
 
-    } else if (ident == "consumption_result:") {
-      std::string terrain_name;
-      std::getline(data, terrain_name);
-      terrain_name = trim(terrain_name);
-      consumption_result = TERRAIN.lookup_name(terrain_name);
-      if (consumption_result == NULL) {
-        debugmsg("Unknown terrain '%s' (%s)", terrain_name.c_str(),
-                 name.c_str());
-        return false;
+    } else if (ident == "terrain_fuel:") {
+      Field_terrain_fuel tmpmod;
+      if (tmpmod.load_data(data, name)) {
+        terrain_fuels.push_back(tmpmod);
       }
 
-    } else if (ident == "terrain_modifier:") {
-      std::string flag_name;
-      int mod = 0;
-      bool consume = false;
-      data >> flag_name >> mod;
-      std::getline(data, junk);
-      junk = no_caps(junk);
-      junk = trim(junk);
-      if (junk == "consume") {
-        consume = true;
+    } else if (ident == "item_fuel:") {
+      Field_item_fuel tmpmod;
+      if (tmpmod.load_data(data, name)) {
+        item_fuels.push_back(tmpmod);
       }
-      Terrain_flag tf = lookup_terrain_flag(flag_name);
-      if (tf == TF_NULL) {
-        debugmsg("Unknown terrain flag '%s' (%s)", flag_name.c_str(),
-                 name.c_str());
-        return false;
-      }
-      terrain_modifiers.push_back( Field_terrain_modifier(tf, mod, consume) );
 
-    } else if (ident == "item_modifier:") {
-      std::string flag_name;
-      int mod = 0;
-      bool consume = false;
-      data >> flag_name >> mod;
-      std::getline(data, junk);
-      junk = no_caps(junk);
-      junk = trim(junk);
-      if (junk == "consume") {
-        consume = true;
-      }
-      Item_flag itf = lookup_item_flag(flag_name);
-      if (itf == ITEM_FLAG_NULL) {
-        debugmsg("Unknown item flag '%s' (%s)", flag_name.c_str(),
-                 name.c_str());
-        return false;
-      }
-      item_modifiers.push_back( Field_item_modifier(itf, mod, consume) );
 
     } else if (ident == "level:") {
       Field_level* tmp_level = new Field_level;
