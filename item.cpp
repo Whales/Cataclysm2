@@ -13,6 +13,7 @@ Item::Item(Item_type* T)
   count = 1;
   ammo = NULL;
   charges = 0;
+  hp = 100;   // TODO: Use Item_type durability instead
   if (type) {
     uid = GAME.get_item_uid();
     charges = type->default_charges();
@@ -182,6 +183,14 @@ int Item::get_volume()
   return type->volume;
 }
 
+bool Item::has_flag(Item_flag itf)
+{
+  if (!type) {
+    return false;
+  }
+  return type->has_flag(itf);
+}
+
 int Item::get_damage(Damage_type dtype)
 {
   if (type) {
@@ -345,6 +354,15 @@ bool Item::combine_with(const Item& rhs)
     count += rhs.count;
   }
   return true;
+}
+
+bool Item::damage(int dam)
+{
+  hp -= dam;
+  if (hp <= 0) {
+    return true;
+  }
+  return false;
 }
 
 Item_action Item::show_info()
