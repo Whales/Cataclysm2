@@ -7,6 +7,7 @@
 #include "item_type.h"  // For Item_flag
 #include "glyph.h"
 #include "terrain.h"    // For Terrain*
+#include "entity.h"     // For hit_entity()
 #include <string>
 #include <vector>
 #include <list>
@@ -54,8 +55,11 @@ public:
   Damage_set damage;  
   std::list<Body_part> body_parts_hit;
 
-// TODO:  Add status effect inflicted
-//        And anything else?
+/* TODO:  Add status effect inflicted
+ *        And anything else?
+ * TODO:  Maybe some flags for hard-coded effects; e.g. electricity stays close
+ *        to walls
+ */
 
   bool load_data(std::istream& data, std::string owner_name);
 
@@ -89,6 +93,10 @@ public:
   std::list<Field_terrain_modifier> terrain_modifiers;
   std::list<Field_item_modifier>    item_modifiers;
   int spread_chance;  // Percentage chance each turn
+  int spread_cost;    // Percentage of our duration lost when spreading
+  int output_chance;  // Percentage chance of extra output each turn
+  int output_cost;    // Percent of our duration lost when outputting
+  std::string output_type;  // Name of the field we output
   Terrain* consumption_result; // What happens when we consume terrain
 
   std::string  get_data_name();
@@ -102,6 +110,28 @@ public:
 
 private:
   std::vector<Field_level*> levels;
+};
+
+// This one is actually used in Tile (part of Submaps)
+class Field
+{
+public:
+  Field(Field_type* T = NULL, int L = 1, std::string C = "");
+  ~Field();
+
+  Field_type* type;
+  int level;
+  int duration;
+/* We use creator to tell the player what killed them; e.g. if creator is 
+ * "a spitter zombie" then we got killed by "acid created by a spitter zombie"
+ */
+  std::string creator;  // Name of what created us
+
+  std::string get_name();       // Type name
+  std::string get_full_name();  // get_name() + " created by " + owner
+
+  void hit_entity(Entity* entity);
+  void process();
 };
 
 #endif

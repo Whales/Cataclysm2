@@ -194,7 +194,39 @@ bool Field_type::load_data(std::istream& data)
 
     } else if (ident == "spread_chance:") {
       data >> spread_chance;
+      if (spread_chance < 0 || spread_chance > 100) {
+        debugmsg("Bad spread_chance %d (%s)", spread_chance, name.c_str());
+        return false;
+      }
       std::getline(data, junk);
+
+    } else if (ident == "spread_cost:") {
+      data >> spread_cost;
+      if (spread_cost < 0 || spread_cost > 100) {
+        debugmsg("Bad spread_cost %d (%s)", spread_cost, name.c_str());
+        return false;
+      }
+      std::getline(data, junk);
+
+    } else if (ident == "output_chance:") {
+      data >> output_chance;
+      if (output_chance < 0 || output_chance > 100) {
+        debugmsg("Bad output_chance %d (%s)", output_chance, name.c_str());
+        return false;
+      }
+      std::getline(data, junk);
+
+    } else if (ident == "output_cost:") {
+      data >> output_cost;
+      if (output_cost < 0 || output_cost > 100) {
+        debugmsg("Bad output_cost %d (%s)", output_cost, name.c_str());
+        return false;
+      }
+      std::getline(data, junk);
+
+    } else if (ident == "output_type:") {
+      std::getline(data, output_type);
+      output_type = trim(output_type);
 
     } else if (ident == "consumption_result:") {
       std::string terrain_name;
@@ -260,4 +292,71 @@ bool Field_type::load_data(std::istream& data)
     }
   }
   return true;
+}
+
+Field::Field(Field_type* T, int L, std::string C)
+{
+  type = T;
+  level = L;
+  creator = C;
+  duration = 0;
+  if (type) {
+    Field_level* lev = type->get_level(level);
+    if (lev) {
+      duration = lev->duration;
+    }
+  }
+}
+
+Field::~Field()
+{
+}
+
+std::string Field::get_name()
+{
+  if (!type) {
+    return "BUG - Typeless field";
+  }
+  Field_level* lev = type->get_level(level);
+  if (!lev) {
+    return "BUG - Invalid field level";
+  }
+  return lev->name;
+}
+
+std::string Field::get_full_name()
+{
+  std::stringstream ret;
+  ret << get_name();
+  if (!creator.empty()) {
+    ret << " (created by " << creator << ")";
+  }
+  return ret.str();
+}
+
+void Field::hit_entity(Entity* entity)
+{
+  if (!entity || !type) {
+    return;
+  }
+  Field_level* lev = type->get_level(level);
+  if (!lev) {
+    return;
+  }
+
+  std::list<Body_part>* bp_hit = &(lev->body_parts_hit);
+  if (bp_hit->empty()) {
+    return;
+  }
+  for (std::list<Body_part>::iterator it = bp_hit->begin();
+       it != bp_hit->end();
+       it++) {
+    entity->take_damage(lev->damage, get_full_name(), (*it));
+  }
+// TODO: Status effects etc.
+}
+
+void Field::process()
+{
+  
 }
