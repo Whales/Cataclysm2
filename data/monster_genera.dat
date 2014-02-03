@@ -1,6 +1,6 @@
 Name: zombies
   Default:
-    hp: 50 60
+    hp: 4d5 + 40
     speed: 70
     senses: sight smell hearing
     AI:
@@ -26,9 +26,9 @@ Name: zombies
   done
 done
 
-Name: Mutant_rabbits
+Name: rabbits
   Default:
-    hp: 5 10
+    hp: 2d4 + 4
     speed: 120
     senses: sight smell hearing
     AI:

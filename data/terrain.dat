@@ -128,7 +128,7 @@ name: wood wall
 done
 
 name: stockade fence
-  glyph: { yellow    
+  glyph: { yellow black
   movecost: 0
   smash:
     result: grass
@@ -294,16 +294,14 @@ name: stairs up
   display_name: stairs
   glyph: < yellow black
   movecost: 100
-  flags: stairs_up
-  flags: flammable
+  flags: stairs_up flammable
 done
 
 name: stairs down
   display_name: stairs
   glyph: > yellow black
   movecost: 100
-  flags: stairs_down
-  flags: flammable
+  flags: stairs_down flammable
 done
 
 name: stove
@@ -337,5 +335,3 @@ name: fridge
   movecost: 0
   flags: opaque
 done
-
-
