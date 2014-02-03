@@ -63,6 +63,41 @@ done
 name: mutant rabbit
   name_plural: mutant rabbits
   genus: mutant rabbits
+  glyph: r brown black
+  chance: 499
+done
+
+name: red mutant rabbit
+  name_plural: red mutant rabbits
+  genus: mutant rabbits
+  glyph: r red black
+  chance: 1
+  hp: 2d4 + 12
+  speed: 140
+  AI:
+    awareness: 2
+    attention: 20
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+  attack:
+    verb: bite / bites
+    weight:4
+    speed: 50
+    to_hit: 0
+    pierce: 8
+  done
+  attack:
+    verb: chomp on / chomps on
+    weight:1
+    speed: 150
+    to_hit: -1
+    pierce: 12
+    cut: 4
+  done
+#Todo: potentially add mutant rabbits following red mutant rabbits, for rabbit swarms.
 done
 
 name: demented dog
