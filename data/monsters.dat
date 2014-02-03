@@ -14,22 +14,22 @@ name: Kiwi
 done
 #Tiger color placeholder
 name: Tiger
-  genus: Big_cat
+  genus: Big_cats
   glyph: T red black
 done
 
 name: Elephant
-  genus: Pachyderm
+  genus: Pachyderms
   glyph: E dkgrey black
 done
 
 name: Penguin
-  genus: Penguin
+  genus: Penguins
   glyph: p white black
 done
 
 name: Panda
-  genus: Bear
+  genus: Bears
   glyph: P white black
 done
 
@@ -39,17 +39,17 @@ name: Flamingo
 done
 
 name: Gorilla
-  genus: Ape
+  genus: Apes
   glyph: G dkgrey black
 done
 
 name: Llama
-  genus: Camelid
+  genus: Camelids
   glyph: L ltgrey black
 done
 
 name: Porcupine
-  genus: spiked_mammals
+  genus: Spiked_mammals
   glyph: P brown black
 done
 
@@ -59,16 +59,26 @@ name: Toucan
 done
 
 name: Otter
-  genus: Water_mammal
+  genus: Water_mammals
   glyph: o brown black
 done
 
 name: Armadillo
-  genus: Armadillo
+  genus: Armadillos
   glyph: a brown black
 done
 
 name: Hedgehog
-  genus: spiked_mammals
+  genus: Spiked_mammals
   glyph: h brown black
+done
+
+name: Lion
+  genus: Big_cats
+  glyph: L yellow
+done
+
+name: Alpaca
+  genus: Camelids
+  glyph: A white black
 done
