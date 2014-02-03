@@ -24,7 +24,7 @@ void Monster::set_type(Monster_type* newtype)
   killed_by_player = false;
   type = newtype;
   if (type) {
-    current_hp = rng(type->minimum_hp, type->maximum_hp);
+    current_hp = type->hp_dice.roll();
   } else {
     debugmsg("Monster::set_type(NULL)!");
   }

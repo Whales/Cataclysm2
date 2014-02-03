@@ -12,10 +12,9 @@ Monster_type::Monster_type()
   uid = -1;
   sym = glyph();
   total_attack_weight = 0;
-  minimum_hp = 0;
-  maximum_hp = 0;
   speed = 0;
   chance = 100;
+  hp_set = false;
   attacks_copied_from_genus = false;
   senses_copied_from_genus = false;
   
@@ -43,11 +42,8 @@ void Monster_type::set_genus(Monster_genus *mg)
     attacks = mg->default_values.attacks;
     total_attack_weight = mg->default_values.total_attack_weight;
   }
-  if (minimum_hp == 0) {
-    minimum_hp = mg->default_values.minimum_hp;
-  }
-  if (maximum_hp == 0) {
-    maximum_hp = mg->default_values.maximum_hp;
+  if (!hp_set) {
+    hp_dice = mg->default_values.hp_dice;
   }
   if (speed == 0) {
     speed = mg->default_values.speed;
@@ -135,7 +131,8 @@ bool Monster_type::load_data(std::istream &data)
       std::getline(data, junk);
 
     } else if (ident == "hp:") {
-      data >> minimum_hp >> maximum_hp;
+      hp_dice.load_data(data, name);
+      hp_set = true;
       std::getline(data, junk);
 
     } else if (ident == "speed:") {

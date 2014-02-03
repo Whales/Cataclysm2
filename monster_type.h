@@ -5,6 +5,7 @@
 #include "enum.h"
 #include "attack.h"
 #include "entity_ai.h"
+#include "dice.h"
 #include <string>
 #include <istream>
 #include <vector>
@@ -23,7 +24,8 @@ struct Monster_type
   int uid;
   glyph sym;
 
-  int minimum_hp, maximum_hp;
+  Dice hp_dice;
+  bool hp_set;
   int speed;
   int chance;
   std::vector<Attack> attacks;
