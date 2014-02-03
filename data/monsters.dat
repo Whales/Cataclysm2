@@ -1,9 +1,29 @@
-name: zombie
-  genus: zombies
-  glyph: Z ltgreen black
+name: Demented dog				// Feral Dog
+  genus: canis
+  glyph: d ltgray black
 done
 
+name: Dog
+  genus: canis
+  glyph: d white black
+ done
+ 
 name: Mutant rabbit
   genus: Rabbits
   glyph: R brown black
+done
+
+name: Wolf
+  genus: canis
+  glyph: W gray black
+done
+
+name: Zombie dog
+  genus: zombies				// canis?
+  glyph: d ltgreen black
+done
+
+name: zombie
+  genus: zombies
+  glyph: Z ltgreen black
 done

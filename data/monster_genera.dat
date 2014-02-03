@@ -1,3 +1,138 @@
+Name: Demented dog
+  Default:
+	hp: 20 30
+	speed: 160
+	senses: sight smell hearing
+	AI:
+	  awareness: 1
+	  attention: 80
+	  goals:
+	    attack_enemies
+		attack_neutrals
+		// attack_allies (ain't in the game yet?)
+	  done
+	done
+	attack:
+	  verb: bite / bites
+	  weight: 5
+	  speed: 150
+	  to_hit: 0
+	  pierce: 8
+	done
+	attack:
+	  verb: tackle / tackles
+	  speed: 100
+	  to_hit: +3
+	  pierce: 4
+	  bash: 8
+	done
+  done
+done
+
+Name: Dog
+  Default:
+	hp: 20 25
+	speed: 150
+	senses: sight smell hearing
+	AI:
+	  awareness: 1                  // is awareness a 1=true 0=false thing or is it a scale between 0-10?
+	  attention: 50
+	  goals:
+	    attack_enemies
+	  done
+	done
+	attack:
+	  verb: bite / bites
+	  weight: 5
+	  speed: 150
+	  to_hit: 0
+	  pierce: 8
+	done
+	attack:
+	  verb: tackle / tackles
+	  speed: 100
+	  to_hit: +3
+	  pierce: 2
+	  bash: 8
+	done
+  done
+done
+
+Name: Mutant_rabbits
+  Default:
+    hp: 5 10
+    speed: 120
+    senses: sight smell hearing
+    AI:
+      awareness:  0
+      attention: 10
+      goals:
+        attack_enemies
+        attack_neutrals
+      done
+    done
+    attack:
+      verb: bite / bites
+      weight: 2
+      speed: 50
+      to_hit: 0
+      cut: 2
+    done
+  done
+done
+
+Name: Wolf
+  Default:
+	hp: 35 35
+	speed: 160
+	senses: sight smell hearing
+	AI:
+	  awareness: 1
+	  attention: 50
+	  goals:
+	    attack_enemies
+		attack_neutrals
+	  done
+	done
+	attack:
+	  verb: bite / bites
+	  weight: 5
+	  speed: 150
+	  to_hit: 0
+	  pierce: 12
+	done
+	attack:
+	  verb: tackle / tackles
+	  speed: 100
+	  to_hit: +3
+	  pierce: 4
+	  bash: 10
+	done
+  done
+done
+
+Name: Zombie dog
+  Default:
+	hp: 30 30
+	speed: 130
+	senses: sight smell hearing
+	AI:
+	  awareness: 1
+	  attention: 30
+	  goals:
+	    attack_enemies
+		attack_neutrals
+	  done
+	done
+	attack:
+	  verb: bite / bites
+	  speed: 150
+	  to_hit: -1
+	  pierce: 8
+	done
+  done
+done
+
 Name: zombies
   Default:
     hp: 50 60
@@ -22,29 +157,6 @@ Name: zombies
       speed: 150
       to_hit: -2
       pierce: 5
-    done
-  done
-done
-
-Name: Mutant_rabbits
-  Default:
-    hp: 5 10
-    speed: 120
-    senses: sight smell hearing
-    AI:
-      awareness: 1
-      attention: 10
-      goals:
-        attack_enemies
-        attack_neutrals
-      done
-    done
-    attack:
-      verb: bite / bites
-      weight: 2
-      speed: 50
-      to_hit: 0
-      cut: 2
     done
   done
 done
