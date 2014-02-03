@@ -41,14 +41,14 @@ map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-ooooooooooooooo#*******#o
-ooooooooooooooo*********o
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
 ooooooooo***************o
-oo#"#"#"#"#+#"##********o
-oo#...#E.......#*******#o
-oo#...#E.....#.#********o
-oo#...#......#<#"##*****o
-oo#...#..###.###.T#*****o
+oo#"#"#"#"#"#"#"#+#****#o
+oo#...#........ ..#*****o
+oo#...#......#.#EE#*****o
+oo#...#......#<####*****o
+oo#...#..###.###.T"****#o
 oo#...+...#F...+..#*####o
 oo#EEE#........####*#EE#o
 oo#####...#S......+*+..#o
@@ -85,9 +85,9 @@ map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxx.........x
-xxxxxxxxxxxxxxx.........x
-xxxxxxxxxxxxxxx.........x
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
 xx....#"#"#"#"##........x
 xx....#.....+.E#........x
 xx...."B..#+####........x
