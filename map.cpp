@@ -12,7 +12,7 @@ void Tile::set_terrain(Terrain* ter)
     return;
   }
   terrain = ter;
-  hp = ter->smash.hp;
+  hp = ter->hp;
 }
 
 glyph Tile::top_glyph()
@@ -30,8 +30,8 @@ glyph Tile::top_glyph()
     return glyph();
   }
   glyph ret = terrain->sym;
-  if (terrain->smash.hp > 0 && hp < terrain->smash.hp) {
-    int percent = (100 * hp) / terrain->smash.hp;
+  if (is_smashable() && terrain->hp > 0 && hp < terrain->hp) {
+    int percent = (100 * hp) / terrain->hp;
     if (percent >= 80) {
       ret = ret.hilite(c_green);
     } else if (percent >= 40) {
@@ -91,40 +91,75 @@ bool Tile::has_flag(Terrain_flag flag)
   return terrain->has_flag(flag);
 }
 
-std::string Tile::smash(Damage_set damage)
+bool Tile::is_smashable()
 {
-  if (!terrain || terrain->smash.result.empty()) {
+  return (terrain && terrain->can_smash());
+}
+
+std::string Tile::smash(Damage_set dam)
+{
+  if (!is_smashable()) {  // This verifies that terrain != NULL
     return "";
   }
   Terrain_smash smash = terrain->smash;
   if (rng(1, 100) <= smash.ignore_chance) {
     return smash.failure_sound; // Make our "saving throw"
   }
+  if (damage(dam)) {
+    return smash.success_sound;
+  }
+  return smash.failure_sound;
+}
+
+bool Tile::damage(Damage_set dam)
+{
+  bool destroyed = false;
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    int dam   = damage.get_damage(i),
-        armor = rng(smash.armor[i] / 2, smash.armor[i]);
-    dam -= armor;
-    if (dam > 0) {
-      hp -= dam;
+    Damage_type type = Damage_type(i);
+    int dmg = dam.get_damage(type);
+/* We don't return immediately upon getting true back from damage(type, dmg)
+ * because we need to apply the rest of the damage types to the result.
+ */
+    if (damage(type, dmg)) {
+      destroyed = true;
     }
   }
-  std::string ret = smash.failure_sound;
-  if (hp <= 0) {
-    ret = smash.success_sound;
-    Terrain* result = TERRAIN.lookup_name(smash.result);
+  return destroyed;
+}
+
+bool Tile::damage(Damage_type type, int dam)
+{
+  if (dam <= 0) {
+    return false;
+  }
+  if (!terrain) {
+    return false;
+  }
+  int armor = terrain->smash.armor[type];
+  dam -= rng(armor / 2, armor);
+  if (dam <= 0) {
+    return false;
+  }
+  hp -= dam;
+  if (hp < 0) {
+// If HP is negative, then we run damage *again* with the extra damage
+    int extra = 0 - hp;
+    Terrain* result = TERRAIN.lookup_name( terrain->destroy_result );
     if (!result) {
-      debugmsg("Smash resulted in unknown terrain '%s'", smash.result.c_str());
+      debugmsg("Tried to destroy '%s' but couldn't look up result '%s'.",
+               get_name().c_str(), terrain->destroy_result.c_str());
     } else {
       set_terrain(result);
+      damage(type, extra);  // See above
     }
+    return true;
   }
-
-  return ret;
+  return false;
 }
 
 void Tile::open()
 {
-  if (!terrain->can_open()) {
+  if (!terrain || !terrain->can_open()) {
     return;
   }
   Terrain* result = TERRAIN.lookup_name( terrain->open_result );
@@ -137,7 +172,7 @@ void Tile::open()
 
 void Tile::close()
 {
-  if (!terrain->can_close()) {
+  if (!terrain || !terrain->can_close()) {
     return;
   }
   Terrain* result = TERRAIN.lookup_name( terrain->close_result );
@@ -757,10 +792,10 @@ bool Map::is_smashable(Tripoint pos)
 bool Map::is_smashable(int x, int y, int z)
 {
   Tile *t = get_tile(x, y, z);
-  if (!t->terrain) {
+  if (!t) {
     return false;
   }
-  return !(t->terrain->smash.result.empty());
+  return t->is_smashable();
 }
 
 bool Map::has_flag(Terrain_flag flag, Tripoint pos)
@@ -880,25 +915,43 @@ std::string Map::get_name(int x, int y, int z)
   return ter->get_name();
 }
 
-void Map::smash(int x, int y, Damage_set damage, bool make_sound)
+void Map::smash(int x, int y, Damage_set dam, bool make_sound)
 {
-  return smash(x, y, 999, damage, make_sound);
+  return smash(x, y, 999, dam, make_sound);
 }
 
-void Map::smash(int x, int y, int z, Damage_set damage, bool make_sound)
+void Map::smash(int x, int y, int z, Damage_set dam, bool make_sound)
 {
   Tile* hit = get_tile(x, y, z);
   if (hit) {
-    std::string sound = hit->smash(damage);
+    std::string sound = hit->smash(dam);
     if (make_sound) {
       GAME.make_sound(sound, x, y);
     }
   }
 }
 
-void Map::smash(Tripoint pos, Damage_set damage, bool make_sound)
+void Map::smash(Tripoint pos, Damage_set dam, bool make_sound)
 {
-  return smash(pos.x, pos.y, pos.z, damage);
+  return smash(pos.x, pos.y, pos.z, dam);
+}
+
+void Map::damage(int x, int y, Damage_set dam)
+{
+  damage(x, y, 999, dam);
+}
+
+void Map::damage(int x, int y, int z, Damage_set dam)
+{
+  Tile* hit = get_tile(x, y, z);
+  if (hit) {
+    hit->damage(dam);
+  }
+}
+
+void Map::damage(Tripoint pos, Damage_set dam)
+{
+  damage(pos.x, pos.y, pos.z, dam);
 }
 
 bool Map::open(Tripoint pos)

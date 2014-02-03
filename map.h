@@ -35,7 +35,10 @@ struct Tile
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
   bool has_flag(Terrain_flag flag);
 
-  std::string smash(Damage_set damage); // Returns the sound
+  bool is_smashable();
+  std::string smash(Damage_set dam);  // Returns the sound
+  bool damage(Damage_set dam);            // Returns true on destruction
+  bool damage(Damage_type type, int dam); // Returns true on destruction
   void open();
   void close();
 };
@@ -134,9 +137,12 @@ public:
   std::string get_name(Tripoint pos);
   std::string get_name(int x, int y, int z = 999);
 
-  void smash(int x, int y,        Damage_set damage, bool make_sound = true);
-  void smash(int x, int y, int z, Damage_set damage, bool make_sound = true);
-  void smash(Tripoint pos,        Damage_set damage, bool make_sound = true);
+  void smash(int x, int y,          Damage_set dam, bool make_sound = true);
+  void smash(int x, int y, int z,   Damage_set dam, bool make_sound = true);
+  void smash(Tripoint pos,          Damage_set dam, bool make_sound = true);
+  void damage(int x, int y,         Damage_set dam);
+  void damage(int x, int y, int z,  Damage_set dam);
+  void damage(Tripoint pos,         Damage_set dam);
 
   bool open (Tripoint pos);
   bool open (int x, int y, int z = 999);

@@ -7,8 +7,6 @@
 
 Terrain_smash::Terrain_smash()
 {
-  result = "";
-  hp = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     armor[i] = 0;
   }
@@ -29,10 +27,6 @@ bool Terrain_smash::load_data(std::istream &data, std::string name)
 // It's a comment
       std::getline(data, junk);
 
-    } else if (ident == "result:") {
-      std::getline(data, result);
-      result = trim(result);
-
     } else if (ident == "success_sound:") {
       std::getline(data, success_sound);
       success_sound = trim(success_sound);
@@ -40,10 +34,6 @@ bool Terrain_smash::load_data(std::istream &data, std::string name)
     } else if (ident == "failure_sound:") {
       std::getline(data, failure_sound);
       failure_sound = trim(failure_sound);
-
-    } else if (ident == "hp:") {
-      data >> hp;
-      std::getline(data, junk);
 
     } else if (ident == "armor:") {
       std::string damage_name;
@@ -75,8 +65,10 @@ Terrain::Terrain()
   uid = -1;
   name = "ERROR";
   sym = glyph();
-  movecost = 100;
-  height   = 100;
+  movecost  = 100;
+  height    = 100;
+  hp        =   0;
+  smashable = false;
   for (int i = 0; i < TF_MAX; i++) {
     flags.push_back(false);
   }
@@ -124,9 +116,15 @@ bool Terrain::load_data(std::istream &data)
       data >> movecost;
       std::getline(data, junk);
 
+    } else if (ident == "hp:") {
+      data >> hp;
+      std::getline(data, junk);
+
     } else if (ident == "smashable" || ident == "smash:") {
       std::getline(data, junk);
-      if (!smash.load_data(data, name)) {
+      if (smash.load_data(data, name)) {
+        smashable = true;
+      } else {
         smash = Terrain_smash();
       }
 
@@ -137,6 +135,10 @@ bool Terrain::load_data(std::istream &data)
     } else if (ident == "close:") {
       std::getline(data, close_result);
       close_result = trim(close_result);
+
+    } else if (ident == "destroy:") {
+      std::getline(data, destroy_result);
+      destroy_result = trim(destroy_result);
 
     } else if (ident == "flags:") {
       std::string flag_line;
@@ -157,6 +159,13 @@ bool Terrain::load_data(std::istream &data)
       debugmsg("Unknown terrain property '%s' (%s)",
                ident.c_str(), name.c_str());
     }
+  }
+  if (hp > 0 && destroy_result.empty()) {
+    debugmsg("\
+Terrain '%s' has HP %d but no destroy_result.\n\
+Either set a destroy_result or omit HP line.",
+             name.c_str(), hp);
+    return false;
   }
   return true;
 }

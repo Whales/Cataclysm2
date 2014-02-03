@@ -196,9 +196,13 @@ void Game::do_action(Interface_action act)
         add_msg("Invalid direction.");
       } else {
         Tripoint sm = player->pos + dir;
-        add_msg("You smash the %s.", map->get_name(sm).c_str());
-        map->smash(sm, player->std_attack().roll_damage());
-        player->use_ap(100);
+        if (!map->is_smashable(sm)) {
+          add_msg("Nothing to smash there.");
+        } else {
+          add_msg("You smash the %s.", map->get_name(sm).c_str());
+          map->smash(sm, player->std_attack().roll_damage());
+          player->use_ap(100);
+        }
       }
     } break;
 

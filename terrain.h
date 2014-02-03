@@ -15,10 +15,8 @@ struct Terrain_smash
   Terrain_smash();
   ~Terrain_smash(){}
 
-  std::string result;
   std::string failure_sound;
   std::string success_sound;
-  int hp;
   int armor[DAMAGE_MAX];
   int ignore_chance;
 
@@ -32,13 +30,19 @@ struct Terrain
   std::string display_name;
   glyph sym;
   unsigned int movecost;
-  unsigned int height; // Range: 0 - 100, how well it blocks vertically
+/* Height ranged from 0-100 and reflects how much vertical space is blocked (for
+ * line of sight calculations).  It defaults to 100.
+ */
+  unsigned int height;
+  unsigned int hp;      // Defaults to 0.  0 HP means it's indestructible.
 
   Terrain_smash smash;
+  bool smashable;
   std::string open_result;
   std::string close_result;
+  std::string destroy_result;
 
-  bool can_smash() { return !smash.result.empty(); }
+  bool can_smash() { return smashable; }
   bool can_open()  { return !open_result.empty();  }
   bool can_close() { return !close_result.empty(); }
 
