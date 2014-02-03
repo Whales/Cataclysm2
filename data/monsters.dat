@@ -1,26 +1,96 @@
-name: Demented dog				// Feral Dog
-  genus: canis
+name: Demented dog
+  genus: demented_dog
   glyph: d ltgray black
-done
+	hp: 3d5 + 20
+	speed: 160
+	senses: sight smell hearing
+	attack:
+	  verb: bite / bites
+	  speed: 150
+	  to_hit: 0
+	  pierce: 8
+	done
+	attack:
+	  verb: tackle / tackles
+	  speed: 100
+	  weight: 2
+	  to_hit: +3
+	  pierce: 4
+	  bash: 8
+	done
+	AI:
+	  awareness: 2
+	  attention: 30
+	  goals:
+	    attack_enemies
+		attack_neutrals
+		// attack_allies (ain't in the game yet?)
+	  done
+	done
+  done
 
 name: Dog
   genus: canis
   glyph: d white black
- done
+done
  
 name: Mutant rabbit
   genus: Rabbits
   glyph: R brown black
 done
 
-name: Wolf
+Name: Wolf
   genus: canis
   glyph: W gray black
-done
+	hp: 3d5 + 30
+	speed: 160
+	senses: sight smell hearing
+	attack:
+	  verb: bite / bites
+	  speed: 150
+	  to_hit: 0
+	  pierce: 12
+	done
+	attack:
+	  verb: tackle / tackles
+	  speed: 100
+	  weight: 2
+	  to_hit: +3
+	  pierce: 4
+	  bash: 10
+	done
+	AI:
+	  awareness: 2
+	  attention: 30
+	  recognizes: fields
+	  goals:
+	    attack_enemies
+		attack_neutrals
+	  done
+	done
+  done
 
-name: Zombie dog
-  genus: zombies				// canis?
+Name: Zombie dog
+  genus: zombie
   glyph: d ltgreen black
+	hp: 3d5 + 25
+	speed: 130
+	senses: sight smell hearing
+		attack:
+	  verb: bite / bites
+	  speed: 150
+	  to_hit: -1
+	  pierce: 8
+	done
+	AI:
+	  awareness: 1
+	  attention: 25
+	  goals:
+	    attack_enemies
+		attack_neutrals
+	  done
+	done
+  done
 done
 
 name: zombie

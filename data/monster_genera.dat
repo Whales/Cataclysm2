@@ -1,42 +1,11 @@
-Name: demented_dog
-  Default:
-	hp: 3d5 + 20
-	speed: 160
-	senses: sight smell hearing
-	AI:
-	  awareness: 2
-	  attention: 30
-	  goals:
-	    attack_enemies
-		attack_neutrals
-		// attack_allies (ain't in the game yet?)
-	  done
-	done
-	attack:
-	  verb: bite / bites
-	  speed: 150
-	  to_hit: 0
-	  pierce: 8
-	done
-	attack:
-	  verb: tackle / tackles
-	  speed: 100
-	  weight: 2
-	  to_hit: +3
-	  pierce: 4
-	  bash: 8
-	done
-  done
-done
-
-Name: dog
+Name: canis
   Default:
 	hp: 2d4 + 20
 	speed: 150
 	senses: sight smell hearing
 	AI:
 	  awareness: 1
-	  attention: 20
+	  attention: 30
 	  recognizes: fields
 	  goals:
 	    attack_enemies
@@ -79,59 +48,6 @@ Name: mutant_rabbits
       to_hit: 0
       cut: 2
     done
-  done
-done
-
-Name: wolf
-  Default:
-	hp: 3d5 + 30
-	speed: 160
-	senses: sight smell hearing
-	AI:
-	  awareness: 2
-	  attention: 30
-	  recognizes: fields
-	  goals:
-	    attack_enemies
-		attack_neutrals
-	  done
-	done
-	attack:
-	  verb: bite / bites
-	  speed: 150
-	  to_hit: 0
-	  pierce: 12
-	done
-	attack:
-	  verb: tackle / tackles
-	  speed: 100
-	  weight: 2
-	  to_hit: +3
-	  pierce: 4
-	  bash: 10
-	done
-  done
-done
-
-Name: zombie_dog
-  Default:
-	hp: 3d5 + 25
-	speed: 130
-	senses: sight smell hearing
-	AI:
-	  awareness: 1
-	  attention: 25
-	  goals:
-	    attack_enemies
-		attack_neutrals
-	  done
-	done
-	attack:
-	  verb: bite / bites
-	  speed: 150
-	  to_hit: -1
-	  pierce: 8
-	done
   done
 done
 
