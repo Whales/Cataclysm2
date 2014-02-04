@@ -84,14 +84,14 @@ name: red mutant rabbit
   done
   attack:
     verb: bite / bites
-    weight:4
+    weight: 4
     speed: 50
     to_hit: 0
     pierce: 4
   done
   attack:
     verb: chomp on / chomps on
-    weight:1
+    weight: 1
     speed: 150
     to_hit: -1
     pierce: 4
