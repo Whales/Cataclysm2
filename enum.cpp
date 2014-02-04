@@ -75,6 +75,7 @@ std::string damage_type_name(Damage_type type)
     case DAMAGE_BASH:   return "bash";
     case DAMAGE_CUT:    return "cut";
     case DAMAGE_PIERCE: return "pierce";
+    case DAMAGE_FIRE:   return "fire";
     case DAMAGE_MAX:    return "BUG - DAMAGE_MAX";
     default:            return "Unnamed Damage_type";
   }

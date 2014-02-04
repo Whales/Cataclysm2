@@ -43,6 +43,7 @@ enum Damage_type
   DAMAGE_BASH,
   DAMAGE_CUT,
   DAMAGE_PIERCE,
+  DAMAGE_FIRE,
   DAMAGE_MAX
 };
 
@@ -52,13 +53,13 @@ std::string damage_type_name(Damage_type type);
 enum Terrain_flag
 {
   TF_NULL,
-  TF_OPAQUE,
-  TF_FLOOR,
-  TF_STAIRS_UP,
-  TF_STAIRS_DOWN,
-  TF_OPEN_SPACE,
-  TF_WATER,
-  TF_FLAMMABLE,
+  TF_OPAQUE,        // "opaque" - Blocks sight
+  TF_FLOOR,         // "floor" - May be changed by adjacent terrain
+  TF_STAIRS_UP,     // "stairs_up" - Can be climbed to gain a Z-level
+  TF_STAIRS_DOWN,   // "stairs_down" - Can be climbed to lose a Z-level
+  TF_OPEN_SPACE,    // "open_space" - Air.  Shows Z-level below.
+  TF_WATER,         // "water" - Swimmable.  Puts out fire.
+  TF_FLAMMABLE,     // "flammable" - Consumed by fire.
   TF_MAX
 };
 
