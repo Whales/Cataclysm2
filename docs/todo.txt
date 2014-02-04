@@ -7,8 +7,28 @@ Graphics:
   -SDL integration with cuss stuff
   -Tiles, what do they look like
 
+Data (general):
+  -All data types (anything that goes into a Data_pool) needs a error_check()
+   function.  Several types contain a string that's supposed to point to data.
+   For instance, Terrain holds a string that's the name of the terrain it turns
+   into when destroyed/opened/closed/etc.  Fields may hold a string that's the
+   name of a field it produces when it consumes fuel.  Most of the time, we can
+   check the validity of a data file as we read it, but in these cases, we're
+   referencing data that may not have been loaded yet, so we need to check it
+   after everything's been loaded.
+   The function should be crafted specifically for each class that needs it, and
+   should check anything that needs verification and throw a debugmsg if it's an
+   issue.  The function should return true if everything's OK, false otherwise.
+   Most functions will just be error_check() { return true; }
+  -The function could also replace the string with a pointer to the data, since
+   string lookup is a slow function, especially compared to a pointer deref.
+
 Monsters:
   -Add natural armor to Monster_type
+
+AI and Pathing:
+  -Add a Pathing_feature, "cover" - prefer to path through tiles which are
+   opaque!
 
 Status effects:
   Stuff like "Stunned" "Blinded" "Poisoned" etc. 
@@ -16,3 +36,7 @@ Status effects:
     -Melee attacks
     -Ranged attacks
     -Fields
+
+Fields:
+  Add a flag that indicates that this field likes to rise; meaning, that unless
+  there's a roof over it, it will dissipate rapidly.
