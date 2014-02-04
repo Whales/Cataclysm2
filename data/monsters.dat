@@ -64,7 +64,7 @@ name: mutant rabbit
   name_plural: mutant rabbits
   genus: mutant rabbits
   glyph: r brown black
-  chance: 499
+  chance: 999
 done
 
 name: red mutant rabbit
