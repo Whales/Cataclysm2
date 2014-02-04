@@ -18,9 +18,9 @@ void Tile::set_terrain(Terrain* ter)
 
 glyph Tile::top_glyph()
 {
-/* TODO: If terrain is "important" (i.e. not ground) and there's items on top,
- * display terrain glyph, highlighted.
- */
+  if (field.is_valid()) {
+    return field.top_glyph();
+  }
   if (!items.empty()) {
     if (terrain && !terrain->has_flag(TF_FLOOR)) {
       return terrain->sym.hilite(c_blue);
@@ -86,7 +86,7 @@ bool Tile::blocks_sense(Sense_type sense)
 
 bool Tile::has_flag(Terrain_flag flag)
 {
-  if (field.level > 0 && field.has_flag(flag)) {
+  if (field.is_valid() && field.has_flag(flag)) {
     return true;
   }
   if (!terrain) {
@@ -97,7 +97,7 @@ bool Tile::has_flag(Terrain_flag flag)
 
 bool Tile::has_field()
 {
-  return (field.type && field.level > 0);
+  return field.is_valid();
 }
 
 bool Tile::is_smashable()
@@ -925,7 +925,7 @@ bool Map::contains_field(Tripoint pos)
 
 bool Map::contains_field(int x, int y, int z)
 {
-  return (get_tile(x, y, z)->field.level > 0);
+  return (get_tile(x, y, z)->has_field());
 }
 
 Field* Map::field_at(Tripoint pos)
@@ -1081,7 +1081,7 @@ void Map::process_fields()
           debugmsg("Somehow encountered NULL field at [%d:%d:%d]", x, y, z);
           return;
         }
-        if (field->level > 0) {
+        if (field->is_valid()) {
           Entity* ent = GAME.entities.entity_at(x, y, z);
           if (ent) {
             field->hit_entity(ent);

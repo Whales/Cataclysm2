@@ -136,7 +136,7 @@ private:
 class Field
 {
 public:
-  Field(Field_type* T = NULL, int L = 1, std::string C = "");
+  Field(Field_type* T = NULL, int L = 0, std::string C = "");
   ~Field();
 
   Field_type* type;
@@ -150,10 +150,12 @@ public:
 
 // Type information
   int get_type_uid() const;
+  bool is_valid();
   bool has_flag(Field_flag flag);
   bool has_flag(Terrain_flag flag);
   std::string get_name();       // Type name
   std::string get_full_name();  // get_name() + " created by " + owner
+  glyph top_glyph();
 
 // Status information
   int get_full_duration() const;

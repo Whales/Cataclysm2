@@ -372,6 +372,11 @@ int Field::get_type_uid() const
   return type->uid;
 }
 
+bool Field::is_valid()
+{
+  return (type && level >= 0 && !dead);
+}
+
 bool Field::has_flag(Field_flag flag)
 {
   if (!type) {
@@ -416,6 +421,15 @@ std::string Field::get_full_name()
     ret << " (created by " << creator << ")";
   }
   return ret.str();
+}
+
+glyph Field::top_glyph()
+{
+  if (!type) {
+    return glyph();
+  }
+  Field_level* lev = type->get_level(level);
+  return lev->sym;
 }
 
 int Field::get_full_duration() const
@@ -557,13 +571,17 @@ void Field::adjust_level()
     return;
   }
 
-  while (duration < 0 && level > 0) {
+  while (duration < 0 && level >= 0) {
     level--;
     duration += type->get_level(level)->duration;
   }
 
   while (duration >= type->duration_needed_to_reach_level(level + 1)) {
     level++;
+  }
+
+  if (duration < 0) {
+    dead = true;
   }
 }
 
