@@ -2,14 +2,18 @@
 #define _ENTITY_H_
 
 #include "glyph.h"
-#include "map.h"
 #include "item.h"
 #include "player_activity.h"
 #include "geometry.h"
 #include "enum.h"
 #include "pathfind.h"
 #include "attack.h"
+#include "entity_ai.h"
 #include <string>
+#include <map>
+#include <list>
+
+class Map;
 
 struct Stats
 {

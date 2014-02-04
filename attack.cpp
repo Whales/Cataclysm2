@@ -3,6 +3,7 @@
 #include "stringfunc.h"
 #include "window.h"
 #include "entity.h" // For Stats
+#include "item.h"
 #include <sstream>
 
 bool load_verbs(std::istream &data, std::string &verb_second,

@@ -2,7 +2,7 @@
 #define _ATTACK_H_
 
 #include "enum.h"
-#include "item.h"
+#include "dice.h"
 #include <string>
 #include <vector>
 #include <istream>
@@ -10,6 +10,7 @@
 Body_part random_body_part_to_hit();
 
 struct Stats;
+class Item;
 
 struct Damage_set
 {
