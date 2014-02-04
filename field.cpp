@@ -2,7 +2,7 @@
 #include "window.h"     // For debugmsg
 #include "stringfunc.h" // For no_caps and trim
 #include "terrain.h"    // For Terrain_flag
-#include "globals.h"    // For TERRAIN and FIELD_TYPES
+#include "globals.h"    // For TERRAIN and FIELDS
 #include "rng.h"
 #include "map.h"
 #include "entity.h"
@@ -614,7 +614,7 @@ bool Field::consume_fuel(Map* map, Tripoint pos)
        it++) {
     Field_fuel fuel = (*it);
 // Create a new field that we're going to output
-    Field_type* smoke_type = FIELD_TYPES.lookup_name(fuel.output_field);
+    Field_type* smoke_type = FIELDS.lookup_name(fuel.output_field);
     if (!fuel.output_field.empty() && !smoke_type) {
       debugmsg("Couldn't find field type '%s' (Field::consume_fuel() for '%s'",
                fuel.output_field.c_str(), get_name().c_str());
