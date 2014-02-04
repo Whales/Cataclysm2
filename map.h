@@ -18,8 +18,6 @@
 #include "field.h"
 
 class Entity_pool;
-class Field;
-class Field_type;
 
 struct Tile
 {
