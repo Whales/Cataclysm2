@@ -1,3 +1,4 @@
+#include "field.h"
 #include "globals.h"
 #include "datapool.h"
 #include "files.h"
@@ -12,6 +13,7 @@ Data_pool<Item_group>     ITEM_GROUPS;
 Data_pool<Monster_genus>  MONSTER_GENERA;
 Data_pool<Monster_type>   MONSTER_TYPES;
 Data_pool<Biome>          BIOMES;
+Data_pool<Field_type>     FIELD_TYPES;
 Submap_pool               SUBMAP_POOL;
 Mapgen_spec_pool          MAPGEN_SPECS;
 Keybinding_pool           KEYBINDINGS;
@@ -20,6 +22,7 @@ void load_global_data()
 {
   TERRAIN.load_from       ("data/terrain.dat"       );
   WORLD_TERRAIN.load_from ("data/world_terrain.dat" );
+  FIELD_TYPES.load_from   ("data/fields.dat"        );
   ITEM_TYPES.load_from    ("data/items.dat"         );
   ITEM_GROUPS.load_from   ("data/item_groups.dat"   );
   MONSTER_GENERA.load_from("data/monster_genera.dat");
