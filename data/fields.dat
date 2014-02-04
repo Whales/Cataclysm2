@@ -1,0 +1,128 @@
+# TODO: Add status effects, like lighting the entity on fire or causing lung
+#       issues from smoke.
+
+name: fire
+  spread_chance: 10
+  spread_cost:  200
+  fuel:
+    terrain_flag: flammable
+    item_flag:    flammable
+    fuel: 20
+    damage: 4d10 + 10
+    output_field: smoke
+    output_duration: 6d6 + 10
+  done
+  fuel:
+    terrain_flag: water
+    fuel: -50
+    output_field: steam
+    output_duration: 6d6 - 10
+  done
+# Extinguishment from liquid items is different cause the fuel amount is less
+  fuel:
+    item_flag:    liquid
+    fuel: -10
+# Very high damage basically guarantees that the liquid will be destroyed!
+    damage: 50
+    output_field: steam
+# Low chance of producing steam.
+    output_duration: 2d6 - 6
+  done
+  level:
+    name: small fire
+    glyph: 4 yellow black
+    duration: 100
+    duration_lost_without_fuel: 15
+    danger: 150
+    verb: burns
+    parts_hit: legs
+    fire: 8
+  done
+  level:
+    name: fire
+    glyph: 4 ltred black
+    duration: 200
+    duration_lost_without_fuel: 30
+    danger: 250
+    verb: burns
+    parts_hit: legs torso
+    fire: 15
+  done
+  level:
+    name: raging fire
+    glyph: 4 red black
+    flags: opaque
+    duration: 400
+    duration_lost_without_fuel: 60
+    danger: 500
+    verb: burns
+    parts_hit: all
+    fire: 30
+  done
+done
+
+name: smoke
+# Smoke is very likely to spread; it diffuses to, meaning it'll spread even if
+# doing so would use up all of its duration!
+  spread_chance: 90
+  spread_cost:   50
+  flags: diffuse
+  level:
+    name: thin smoke
+    glyph: 8 white black
+    duration: 50
+  done
+# TODO: Smoke of level 1 & 2 should cause the entity in it to cough and lose HP
+#       or AP.  But we need status effects for that.
+  level:
+    name: smoke
+    glyph: 8 ltgray black
+    flags: opaque
+# Danger of 10 makes pathing around smoke *slightly* more appealing.  This is
+# good because smoke cuts off our LoS.  But maybe we *want* to stay hidden among
+# the smoke??
+    danger: 10
+    duration: 50
+  done
+  level:
+    name: thick smoke
+    glyph: 8 dkgray black
+    flags: opaque
+# TODO: Increase danger once this smoke is hazardous to your health
+    danger: 10
+    duration: 80
+  done
+done
+
+name: steam
+# Steam is very likely to spread; it diffuses to, meaning it'll spread even if
+# doing so would use up all of its duration!
+  spread_chance: 90
+  spread_cost:   50
+  flags: diffuse
+  level:
+    name: thin steam
+    glyph: 8 white ltgray
+    duration: 50
+  done
+  level:
+    name: steam
+    glyph: 8 ltgray ltgray
+    danger: 50
+    duration: 80
+    verb: burns
+    parts_hit: all
+    fire: 3
+  done
+  level:
+    name: thick steam
+    glyph: 8 dkgray ltgray
+    flags: opaque
+    danger: 80
+    duration: 100
+    verb: burns
+    parts_hit: all
+    fire: 6
+  done
+done
+
