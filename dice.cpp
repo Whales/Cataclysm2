@@ -97,13 +97,18 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
     } // if (data.good())
   } // while (data.good())
 
-  if (set_sides) {
+/* If we've set our sides, then anything left is the bonus
+ * If we haven't set our sides OR our number of dice, then it's just a number,
+ *  i.e., it's our bonus - just a flat value.
+ */
+  if (set_sides || !set_number) {
     if (negative_bonus) {
       bonus = 0 - current_number;
     } else {
       bonus = current_number;
     }
-  } else {
+  } else if (!set_number) {
+// If we haven't set our sides, then it's the number of sides our dice have
     sides = current_number;
   }
   return true;
