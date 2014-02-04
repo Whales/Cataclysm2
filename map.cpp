@@ -1,3 +1,4 @@
+#include "field.h"
 #include "map.h"
 #include "rng.h"
 #include "globals.h"
@@ -85,10 +86,18 @@ bool Tile::blocks_sense(Sense_type sense)
 
 bool Tile::has_flag(Terrain_flag flag)
 {
+  if (field.level > 0 && field.has_flag(flag)) {
+    return true;
+  }
   if (!terrain) {
     return false;
   }
   return terrain->has_flag(flag);
+}
+
+bool Tile::has_field()
+{
+  return (field.type && field.level > 0);
 }
 
 bool Tile::is_smashable()
@@ -827,7 +836,7 @@ bool Map::add_item(Item item, Tripoint pos)
 
 bool Map::add_item(Item item, int x, int y, int z)
 {
-  if (z == 999) {
+  if (z == 999) { // z defaults to 999
     z = posz;
   }
   z = z - posz + VERTICAL_MAP_SIZE;
@@ -840,6 +849,37 @@ bool Map::add_item(Item item, int x, int y, int z)
   x %= SUBMAP_SIZE;
   y %= SUBMAP_SIZE;
   return submaps[sx][sy][z]->add_item(item, x, y);
+}
+
+bool Map::add_field(Field_type* type, Tripoint pos, std::string creator)
+{
+  return add_field(type, pos.x, pos.y, pos.z);
+}
+
+bool Map::add_field(Field_type* type, int x, int y, int z, std::string creator)
+{
+  Field field(type, 1, creator);
+  return add_field(field, x, y, z);
+}
+
+bool Map::add_field(Field field, Tripoint pos)
+{
+  return add_field(field, pos.x, pos.y, pos.z);
+}
+
+bool Map::add_field(Field field, int x, int y, int z)
+{
+  Tile* tile = get_tile(x, y, z);
+  if (tile->has_field()) {
+// We can combine fields of the same type
+    tile->field += field;
+    return true;
+  }
+  if (tile->move_cost() == 0 && !field.has_flag(FIELD_FLAG_SOLID)) {
+    return false;
+  }
+  tile->field = field;
+  return true;
 }
 
 int Map::item_count(Tripoint pos)
@@ -863,7 +903,7 @@ std::vector<Item>* Map::items_at(Tripoint pos)
 
 std::vector<Item>* Map::items_at(int x, int y, int z)
 {
-  if (z == 999) {
+  if (z == 999) { // z defaults to 999
     z = posz;
   }
   z = z - posz + VERTICAL_MAP_SIZE;
@@ -878,6 +918,41 @@ std::vector<Item>* Map::items_at(int x, int y, int z)
   return submaps[sx][sy][z]->items_at(x, y);
 }
 
+bool Map::contains_field(Tripoint pos)
+{
+  return contains_field(pos.x, pos.y, pos.z);
+}
+
+bool Map::contains_field(int x, int y, int z)
+{
+  return (get_tile(x, y, z)->field.level > 0);
+}
+
+Field* Map::field_at(Tripoint pos)
+{
+  return field_at(pos.x, pos.y, pos.z);
+}
+
+Field* Map::field_at(int x, int y, int z)
+{
+  Tile* tile = get_tile(x, y, z);
+  return &(tile->field);
+}
+
+int Map::field_uid_at(Tripoint pos)
+{
+  return field_uid_at(pos.x, pos.y, pos.z);
+}
+
+int Map::field_uid_at(int x, int y, int z)
+{
+  Field* tmp = field_at(x, y, z);
+  if (tmp->level <= 0) {
+    return -1;
+  }
+  return tmp->get_type_uid();
+}
+
 Tile* Map::get_tile(Tripoint pos)
 {
   return get_tile(pos.x, pos.y, pos.z);
@@ -885,8 +960,8 @@ Tile* Map::get_tile(Tripoint pos)
 
 Tile* Map::get_tile(int x, int y, int z)
 {
-// z defaults to 999
-  if (z == 999) {
+// TODO: Set all fields, traps, etc. on tile_oob to "nothing"
+  if (z == 999) { // z defaults to 999
     z = posz;
   }
   z = z - posz + VERTICAL_MAP_SIZE;
@@ -894,6 +969,7 @@ Tile* Map::get_tile(int x, int y, int z)
       y < 0 || y >= SUBMAP_SIZE * MAP_SIZE ||
       z < 0 || z >= VERTICAL_MAP_SIZE * 2 + 1 ) {
     tile_oob.set_terrain(TERRAIN.lookup_uid(0));
+    tile_oob.field.level = 0;
     return &tile_oob;
   }
 
@@ -983,6 +1059,40 @@ bool Map::close(int x, int y, int z)
   }
   return false;
 }
+
+/* TODO:  We should track currently-active fields in a list of points.  At
+ *        present, we check *all* tiles for an active field.  This is probably
+ *        inefficient.
+ */
+void Map::process_fields()
+{
+/* TODO:  Won't work below ground level.
+ * TODO:  Since we start at the upper-left and work our way down & right, fields
+ *        to the north-west will have a better chance of spreading than fields
+ *        to the south-east.  Best way to fix this is to create a output map of
+ *        fields, the copy that output map back to this after processing is
+ *        done.
+ */
+  for (int x = 0; x < SUBMAP_SIZE * MAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE * MAP_SIZE; y++) {
+      for (int z = 0; z <= posz; z++) {
+        Field* field = field_at(x, y, z);
+        if (!field) {
+          debugmsg("Somehow encountered NULL field at [%d:%d:%d]", x, y, z);
+          return;
+        }
+        if (field->level > 0) {
+          Entity* ent = GAME.entities.entity_at(x, y, z);
+          if (ent) {
+            field->hit_entity(ent);
+          }
+          field->process(this, Tripoint(x, y, z));
+        }
+      }
+    }
+  }
+}
+          
 
 /* Still using Cataclysm style LOS.  It sucks and is slow and I hate it.
  * Basically, iterate over all Bresenham lines between [x0,y0] and [x1,y1].
