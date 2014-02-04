@@ -87,15 +87,15 @@ name: red mutant rabbit
     weight:4
     speed: 50
     to_hit: 0
-    pierce: 8
+    pierce: 4
   done
   attack:
     verb: chomp on / chomps on
     weight:1
     speed: 150
     to_hit: -1
-    pierce: 12
-    cut: 4
+    pierce: 4
+    cut: 2
   done
 #Todo: potentially add mutant rabbits following red mutant rabbits, for rabbit swarms.
 done
