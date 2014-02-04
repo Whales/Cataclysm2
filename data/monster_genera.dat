@@ -47,7 +47,7 @@ Name: mutant rabbits
       weight: 2
       speed: 50
       to_hit: 0
-      cut: 2
+      pierce: 2
     done
   done
 done
