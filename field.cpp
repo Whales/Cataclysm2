@@ -50,7 +50,7 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
       std::getline(data, junk);
 
     } else if (ident == "damage:") {
-      data >> damage;
+      damage.load_data(data, owner_name + " fuel");
       std::getline(data, junk);
 
     } else if (ident == "output_field:") {
@@ -123,11 +123,12 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
       std::getline(data, verb);
       verb = trim(verb);
 
-    } else if (ident == "damages:") {
+    } else if (ident == "parts_hit:") {
       std::string body_part_line;
       std::getline(data, body_part_line);
       std::istringstream body_part_data(body_part_line);
       std::string body_part_name;
+// TODO: Standardize this somewhere, it's used in Attack too I think?
       while (body_part_data >> body_part_name) {
         if (body_part_name == "arms") {
           body_parts_hit.push_back(BODYPART_LEFT_ARM);
@@ -135,6 +136,11 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
         } else if (body_part_name == "legs") {
           body_parts_hit.push_back(BODYPART_LEFT_LEG);
           body_parts_hit.push_back(BODYPART_RIGHT_LEG);
+        } else if (body_part_name == "all") {
+          body_parts_hit.clear();
+          for (int i = 1; i < BODYPART_MAX; i++) {
+            body_parts_hit.push_back( Body_part(i) );
+          }
         } else {
           Body_part bp = lookup_body_part( body_part_name );
           if (bp == BODYPART_NULL) {
@@ -147,6 +153,10 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
       }
 
     } else if (ident == "flags:") {
+/* TODO:  Should terrain flags and field flags be loaded with different property
+ *        tags?  Normally it's not an issue, but if there's a name collision we
+ *        obviously need to be able to distinguish between the two.
+ */
       std::string flag_line;
       std::getline(data, flag_line);
       std::istringstream flag_data(flag_line);
@@ -297,10 +307,6 @@ bool Field_type::load_data(std::istream& data)
 
     } else if (ident == "spread_cost:") {
       data >> spread_cost;
-      if (spread_cost < 0 || spread_cost > 100) {
-        debugmsg("Bad spread_cost %d (%s)", spread_cost, name.c_str());
-        return false;
-      }
       std::getline(data, junk);
 
     } else if (ident == "output_chance:") {
@@ -613,6 +619,7 @@ bool Field::consume_fuel(Map* map, Tripoint pos)
        it != type->fuel.end();
        it++) {
     Field_fuel fuel = (*it);
+    int damage = fuel.damage.roll();
 // Create a new field that we're going to output
     Field_type* smoke_type = FIELDS.lookup_name(fuel.output_field);
     if (!fuel.output_field.empty() && !smoke_type) {
@@ -626,14 +633,14 @@ bool Field::consume_fuel(Map* map, Tripoint pos)
     if (tile_here->has_flag(fuel.terrain_flag)) {
       found_fuel = true;
       int fuel_gained = fuel.fuel;
-      if (tile_here->hp < fuel.damage) {
-        double fuel_percent = tile_here->hp / fuel.damage;
+      if (tile_here->hp < damage) {
+        double fuel_percent = tile_here->hp / damage;
         fuel_gained = int( double(fuel.fuel) * fuel_percent );
       }
       duration += fuel_gained;
       tmp_field.duration += fuel.output_duration.roll();
 // TODO: Assign a damage type to Field_terrain_fuel?
-      tile_here->damage(DAMAGE_NULL, fuel.damage);
+      tile_here->damage(DAMAGE_NULL, damage);
     }
 // Check items at this tile
     for (int n = 0; n < tile_here->items.size(); n++) {
@@ -641,19 +648,20 @@ bool Field::consume_fuel(Map* map, Tripoint pos)
       if (it->has_flag(fuel.item_flag)) {
         found_fuel = true;
         int fuel_gained = fuel.fuel;
-        if (it->hp < fuel.damage) {
-          double fuel_percent = it->hp / fuel.damage;
+        if (it->hp < damage) {
+          double fuel_percent = it->hp / damage;
           fuel_gained = int( double(fuel.fuel) * fuel_percent );
         }
         duration += fuel_gained;
         tmp_field.duration += fuel.output_duration.roll();
-        if (it->damage(fuel.damage)) { // Item was destroyed
+        if (it->damage(damage)) { // Item was destroyed
           tile_here->items.erase( tile_here->items.begin() + n );
           n--;
         }
       }
     }
 // Push our output to the vector of new fields
+// Ensure tmp_field.duration > 0 because sometimes it rolls < 0
     if (tmp_field.type && tmp_field.duration > 0) {
       tmp_field.adjust_level();
       output.push_back(tmp_field);

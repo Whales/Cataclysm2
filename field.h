@@ -44,8 +44,8 @@ struct Field_fuel
   Item_flag     item_flag;
   int fuel;
 // Damage done to the terrain each turn
-// If 0, then the terrain is not damaged or destroyed at all.
-  int damage;
+// If 0, then the terrain is not damaged or destroyed at all!
+  Dice damage;
 
   std::string output_field; // A field created as output, e.g. smoke
 // Duration of the output; if a negative number is rolled, no output
