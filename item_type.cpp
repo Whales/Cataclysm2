@@ -385,10 +385,11 @@ Item_flag lookup_item_flag(std::string name)
 std::string item_flag_name(Item_flag flag)
 {
   switch (flag) {
-    case ITEM_FLAG_NULL:    return "NULL";
-    case ITEM_FLAG_LIQUID:  return "liquid";
-    case ITEM_FLAG_MAX:     return "BUG - ITEM_FLAG_MAX";
-    default:                return "BUG - Unnamed Item_flag";
+    case ITEM_FLAG_NULL:      return "NULL";
+    case ITEM_FLAG_LIQUID:    return "liquid";
+    case ITEM_FLAG_FLAMMABLE: return "flammable";
+    case ITEM_FLAG_MAX:       return "BUG - ITEM_FLAG_MAX";
+    default:                  return "BUG - Unnamed Item_flag";
   }
   return "BUG - Escaped item_flag_name switch";
 }

@@ -27,7 +27,8 @@ std::string item_class_name(Item_class iclass);
 enum Item_flag
 {
   ITEM_FLAG_NULL = 0,
-  ITEM_FLAG_LIQUID,
+  ITEM_FLAG_LIQUID,     // "liquid" - Puts out fires, needs a container
+  ITEM_FLAG_FLAMMABLE,  // "flammable" - Consumed by fires
   ITEM_FLAG_MAX
 };
 
