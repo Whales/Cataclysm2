@@ -203,6 +203,7 @@ Name: zombie dog
   name_plural: zombie dogs
   genus: zombies
   glyph: d ltgreen black
+  chance: 1
 	hp: 3d5 + 25
 	speed: 130
 	senses: sight smell hearing
