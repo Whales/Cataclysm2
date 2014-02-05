@@ -437,7 +437,16 @@ int Field::get_type_uid() const
 
 bool Field::is_valid()
 {
-  return (type && level >= 0 && !dead);
+  if (!type) {
+    return false;
+  }
+  if (level < 0) {
+    return false;
+  }
+  if (dead) {
+    return false;
+  }
+  return true;
 }
 
 bool Field::has_flag(Field_flag flag)
@@ -655,12 +664,11 @@ bool Field::consume_fuel(Map* map, Tripoint pos)
   std::vector<Tripoint> open_points_passable; // i.e. not walls
   for (int x = pos.x - 1; x <= pos.x + 1; x++) {
     for (int y = pos.y - 1; x <= pos.y + 1; y++) {
-      for (int z = pos.z; z <= pos.z + 1; z++) {
-        if (!map->contains_field(x, y, z)) {
-          open_points_all.push_back( Tripoint(x, y, z) );
-          if (map->move_cost(x, y, z) > 0) {
-            open_points_passable.push_back( Tripoint(x, y, z) );
-          }
+      int z = pos.z;
+      if (!map->contains_field(x, y, z)) {
+        open_points_all.push_back( Tripoint(x, y, z) );
+        if (map->move_cost(x, y, z) > 0) {
+          open_points_passable.push_back( Tripoint(x, y, z) );
         }
       }
     }

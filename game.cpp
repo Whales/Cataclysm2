@@ -94,16 +94,20 @@ bool Game::main_loop()
     if (!player->activity.is_active()) {
       long ch = input();
       if (ch == '!') {
+/*
         Monster* mon = new Monster;
         mon->set_type("zombie");
         mon->pos.x = player->pos.x - 3;
         mon->pos.y = player->pos.y - 3;
         entities.add_entity(mon);
+*/
+        map->add_field( FIELDS.lookup_name("fire"), player->pos.x - 3, player->pos.y - 3, player->pos.z, "magic" );
       }
       Interface_action act = KEYBINDINGS.bound_to_key(ch);
       do_action(act);
     }
   }
+  map->process_fields();
   shift_if_needed();
   move_entities();
   if (game_over) {
