@@ -83,37 +83,55 @@ bool Game::main_loop()
   if (game_over) {
     return false;
   }
+/* TODO:  It's be nice to move all of this to Player::take_turn().  Then we
+ *        won't have to special case it - it'd just be another entity taking
+ *        their turn!
+ */
+// Give the player their action points
   player->gain_action_points();
   while (player->action_points > 0) {
+// Handle the player's activity (e.g. reloading, crafting, etc)
     handle_player_activity();
+// Update the map in case we need to right now
     shift_if_needed();
+// Update the HUD with our HP and all that
     update_hud();
+// Draw the map
     map->draw(w_map, &entities, player->pos);
     w_map->refresh();
 
+// The player doesn't get to give input if they have an active activity.
     if (!player->activity.is_active()) {
       long ch = input();
+// Quick and dirty ad-hoc debug key.
+// TODO: Set up a debug menu.
       if (ch == '!') {
-/*
         Monster* mon = new Monster;
         mon->set_type("zombie");
         mon->pos.x = player->pos.x - 3;
         mon->pos.y = player->pos.y - 3;
         entities.add_entity(mon);
-*/
+/*
         map->add_field( FIELDS.lookup_name("fire"), player->pos.x - 3, player->pos.y - 3, player->pos.z, "magic" );
+*/
       }
+// Fetch the action bound to whatever key we pressed...
       Interface_action act = KEYBINDINGS.bound_to_key(ch);
+// ... and do that action.
       do_action(act);
     }
   }
+// Map processes fields after the player
   map->process_fields();
+// Shift the map - it's likely that the player moved or something
   shift_if_needed();
+// Now all other entities get their turn
   move_entities();
+// Maybe a monster killed us
   if (game_over) {
-    return false;
+    return false; // This terminates the game
   }
-  return true;
+  return true;    // This keeps the game going
 }
 
 void Game::do_action(Interface_action act)
@@ -129,10 +147,11 @@ void Game::do_action(Interface_action act)
     case IACTION_MOVE_SE: player_move( 1,  1);  break;
     case IACTION_PAUSE:   player->pause();      break;
 
+// TODO: Allow player_move() to handle vertical movement?
     case IACTION_MOVE_UP:
       if (!map->has_flag(TF_STAIRS_UP, player->pos)) {
         add_msg("You cannot go up here.");
-        player_move_vertical(1);
+        player_move_vertical(1);  // Snuck this in for debugging purposes
       } else {
         player_move_vertical(1);
       }
@@ -141,14 +160,13 @@ void Game::do_action(Interface_action act)
     case IACTION_MOVE_DOWN:
       if (!map->has_flag(TF_STAIRS_DOWN, player->pos)) {
         add_msg("You cannot go down here.");
-        player_move_vertical(-1);
+        player_move_vertical(-1); // Snuck this in for debugging purposes
       } else {
         player_move_vertical(-1);
       }
       break;
 
     case IACTION_PICK_UP:
-// TODO: Interface for picking up >1 item
       if (map->item_count(player->pos) == 0) {
         add_msg("No items here.");
       } else if (map->item_count(player->pos) == 1) {
@@ -163,6 +181,7 @@ void Game::do_action(Interface_action act)
       break;
 
     case IACTION_OPEN: {
+// TODO: Add a message that prompts for direction input
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
@@ -179,6 +198,7 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_CLOSE: {
+// TODO: Add a message that prompts for direction input
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
@@ -195,6 +215,7 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_SMASH: {
+// TODO: Add a message that prompts for direction input
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
