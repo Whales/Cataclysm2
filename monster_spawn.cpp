@@ -17,5 +17,6 @@ Monster* Monster_spawn::generate_monster()
     return NULL;
   }
   Monster* ret = new Monster();
+  ret->set_type( genus->random_member() );
   return ret;
 }

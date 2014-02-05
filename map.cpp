@@ -633,8 +633,11 @@ void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
       for (int y = 0; y < MAP_SIZE; y++) {
         submaps[x][y][z_index] = SUBMAP_POOL.at_location(posx + x, posy + y, z);
         if (z == 0) {
+          spawn_monsters(world, posx + x, posy + y, x, y, z);
+/*
           submaps[x][y][z_index]->spawn_monsters(world, posx+x, posy+y, 0,
                                                  x, y);
+*/
         }
       }
     }
@@ -665,44 +668,70 @@ void Map::shift(Worldmap *world, int shiftx, int shifty, int shiftz)
 */
 }
 
-void Map::spawn_monsters(Worldmap *world, int x, int y)
+void Map::spawn_monsters(Worldmap *world, int worldx, int worldy,
+                         int subx, int suby, int posz)
 {
+// If we have bad inputs, return with an error message
   if (!world) {
     debugmsg("Map::spawn_monsters() called with NULL world");
     return;
   }
-  if (x < 0 || y < 0 || x >= MAP_SIZE || y >= MAP_SIZE) {
-    debugmsg("Map::spawn_monsters() called on submap [%d:%d]", x, y);
+  if (subx < 0 || suby < 0 || subx >= MAP_SIZE || suby >= MAP_SIZE) {
+    debugmsg("Map::spawn_monsters() called on submap [%d:%d]", subx, suby);
     return;
   }
-  int monx = posx + x, mony = posx + y;
-  std::vector<Monster_spawn>* monsters = world->get_spawns(monx, mony);
+// Fetch the monsters from the world
+  std::vector<Monster_spawn>* monsters = world->get_spawns(worldx, worldy);
 
-  if (monsters->size() > 0) {
-    debugmsg("Spawning monsters: [%d:%d] / [%d:%d] (%d)", x, y, posx+x, posy+y,
-             monsters->size());
+  if (monsters->empty()) {
+    return; // No monsters here, skip the rest!
   }
-  for (int i = 0; i < monsters->size(); i++) {
-    for (int n = 0; n < (*monsters)[i].population; n++) {
-      Monster_type* type = (*monsters)[i].genus->random_member();
+
+/*
+debugmsg("Spawning monsters at [%d:%d] - %d genera, first '%s', first pop %d",
+         worldx, worldy, monsters->size(),
+         (*monsters)[0].genus->get_name().c_str(),
+         (*monsters)[0].population);
+*/
+
+// Pick some empty tiles
 /* TODO: Support placing aquatic monsters in water tiles, etc.
  *       Perhaps by replacing random_empty_tile() with tile_for(Monster_type*)?
  */
-      debugmsg("%d:%d:%d => %d", x, y, posz, submaps[x][y][posz]);
-      Point tmppos = submaps[x][y][posz]->random_empty_tile();
-      if (tmppos.x >= 0 && tmppos.y <= 0) {
-// Adjust to be relative to the map, not the submap
-        tmppos.x += SUBMAP_SIZE * x;
-        tmppos.y += SUBMAP_SIZE * y;
-        Tripoint monpos(tmppos.x, tmppos.y, posz);
-        Monster* mon = new Monster;
-        mon->set_type(type);
-        mon->pos = monpos;
-        GAME.entities.add_entity(mon);
-        debugmsg("Spawned %s", mon->get_name().c_str());
+  int minx = subx * SUBMAP_SIZE, miny = suby * SUBMAP_SIZE;
+  int maxx = minx + SUBMAP_SIZE - 1, maxy = miny + SUBMAP_SIZE - 1;
+  std::vector<Point> available_tiles;
+  for (int x = minx; x <= maxx; x++) {
+    for (int y = miny; y <= maxy; y++) {
+      if (move_cost(x, y, posz) > 0) {
+        available_tiles.push_back( Point(x, y) );
       }
     }
-    (*monsters)[i].population = 0;
+  }
+
+/*
+  if (available_tiles.empty()) {
+    debugmsg("No available tiles!");
+    return;
+  }
+*/
+  for (int i = 0; !available_tiles.empty() && i < monsters->size(); i++) {
+    while (!available_tiles.empty() && (*monsters)[i].population > 0) {
+// Pick an available tile and remove it from the list
+      int index = rng(0, available_tiles.size() - 1);
+      Point pos = available_tiles[index];
+      available_tiles.erase( available_tiles.begin() + index );
+// Create a monster and place it there
+      Monster* mon = (*monsters)[i].generate_monster();
+//debugmsg("Generating '%s'", mon->get_name().c_str());
+      mon->pos = Tripoint(pos.x, pos.y, posz);
+/*
+debugmsg("Placed at [%d:%d:%d] - '%s'", pos.x, pos.y, posz,
+         get_name(pos.x, pos.y, posz).c_str());
+*/
+      GAME.entities.add_entity(mon);
+      (*monsters)[i].population--;
+    }
   }
 }
 
