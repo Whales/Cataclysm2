@@ -27,6 +27,7 @@ enum Field_flag
   FIELD_FLAG_NULL = 0,
   FIELD_FLAG_SOLID,     // "solid" - can be placed on solid terrain
   FIELD_FLAG_DIFFUSE,   // "diffuse" - spread even if the cost will destroy us
+  FIELD_FLAG_RISE,      // "rise" - goes up, loses duration if empty ter above
   FIELD_FLAG_MAX
 };
 

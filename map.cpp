@@ -122,6 +122,9 @@ std::string Tile::smash(Damage_set dam)
 
 bool Tile::damage(Damage_set dam)
 {
+  if (!terrain || terrain->hp == 0) {
+    return false;
+  }
   bool destroyed = false;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     Damage_type type = Damage_type(i);
@@ -141,7 +144,7 @@ bool Tile::damage(Damage_type type, int dam)
   if (dam <= 0) {
     return false;
   }
-  if (!terrain) {
+  if (!terrain || terrain->hp == 0) {
     return false;
   }
   int armor = terrain->smash.armor[type];
@@ -611,7 +614,7 @@ void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
     posz = wposz;
   }
 // TODO: Support posz < 0
-  for (int z = 0; z <= posz; z++) {
+  for (int z = 0; z <= posz + 1; z++) {
     int z_index = z + VERTICAL_MAP_SIZE - posz;
     for (int x = 0; x < MAP_SIZE; x++) {
       for (int y = 0; y < MAP_SIZE; y++) {
@@ -862,7 +865,7 @@ bool Map::add_field(Field_type* type, int x, int y, int z, std::string creator)
     debugmsg("Tried to add NULL field! (%s)", creator.c_str());
     return false;
   }
-  Field field(type, 1, creator);
+  Field field(type, 0, creator);
   return add_field(field, x, y, z);
 }
 
@@ -877,15 +880,12 @@ bool Map::add_field(Field field, int x, int y, int z)
   if (tile->has_field()) {
 // We can combine fields of the same type
     tile->field += field;
-    debugmsg("Combined field");
     return true;
   }
   if (tile->move_cost() == 0 && !field.has_flag(FIELD_FLAG_SOLID)) {
-    debugmsg("Solid");
     return false;
   }
   tile->field = field;
-  debugmsg("Added field (%s, [%d:%d]", field.get_name().c_str(), field.level, field.duration);
   return true;
 }
 
@@ -976,7 +976,7 @@ Tile* Map::get_tile(int x, int y, int z)
       y < 0 || y >= SUBMAP_SIZE * MAP_SIZE ||
       z < 0 || z >= VERTICAL_MAP_SIZE * 2 + 1 ) {
     tile_oob.set_terrain(TERRAIN.lookup_uid(0));
-    tile_oob.field.level = 0;
+    tile_oob.field.dead = true;
     return &tile_oob;
   }
 

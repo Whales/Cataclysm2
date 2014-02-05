@@ -191,6 +191,7 @@ void Worldmap::generate()
   for (int i = 0; i < river_seeds.size(); i++) {
     Point rp = river_seeds[i];
     bool done = false;
+// TODO: This occasionally fails to terminate.
     while (!done) {
       if (!tiles[rp.x][rp.y].terrain->has_flag(WTF_NO_RIVER) &&
           !tiles[rp.x][rp.y].terrain->has_flag(WTF_WATER)      ) {

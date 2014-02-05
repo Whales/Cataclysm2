@@ -3,20 +3,21 @@
 
 name: fire
   spread_chance: 10
-  spread_cost:  200
+  spread_cost:  100
+  flags: solid
   fuel:
     terrain_flag: flammable
     item_flag:    flammable
-    fuel: 20
-    damage: 4d10 + 10
+    fuel: 100
+    damage: 3d10
     output_field: smoke
-    output_duration: 6d6 + 10
+    output_duration: 6d6 - 10
   done
   fuel:
     terrain_flag: water
     fuel: -50
     output_field: steam
-    output_duration: 6d6 - 10
+    output_duration: 5d6 - 10
   done
 # Extinguishment from liquid items is different cause the fuel amount is less
   fuel:
@@ -53,7 +54,7 @@ name: fire
     glyph: 4 red black
     flags: opaque
     duration: 400
-    duration_lost_without_fuel: 60
+    duration_lost_without_fuel: 100
     danger: 500
     verb: burns
     parts_hit: all
@@ -62,11 +63,11 @@ name: fire
 done
 
 name: smoke
-# Smoke is very likely to spread; it diffuses to, meaning it'll spread even if
+# Smoke is very likely to spread; it diffuses too, meaning it'll spread even if
 # doing so would use up all of its duration!
-  spread_chance: 90
+  spread_chance: 50
   spread_cost:   50
-  flags: diffuse
+  flags: diffuse rise
   level:
     name: thin smoke
     glyph: 8 white black
@@ -95,11 +96,11 @@ name: smoke
 done
 
 name: steam
-# Steam is very likely to spread; it diffuses to, meaning it'll spread even if
+# Steam is very likely to spread; it diffuses too, meaning it'll spread even if
 # doing so would use up all of its duration!
-  spread_chance: 90
+  spread_chance: 50
   spread_cost:   50
-  flags: diffuse
+  flags: diffuse rise
   level:
     name: thin steam
     glyph: 8 white ltgray
