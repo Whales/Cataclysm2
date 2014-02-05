@@ -36,7 +36,3 @@ Status effects:
     -Melee attacks
     -Ranged attacks
     -Fields
-
-Fields:
-  Add a flag that indicates that this field likes to rise; meaning, that unless
-  there's a roof over it, it will dissipate rapidly.

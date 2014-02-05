@@ -11,6 +11,7 @@ Body_part random_body_part_to_hit();
 
 struct Stats;
 class Item;
+class Field_type;
 
 struct Damage_set
 {
@@ -67,6 +68,18 @@ struct Attack
   Damage_set roll_damage();
 };
 
+struct Field_pool
+{
+  Field_pool();
+  ~Field_pool();
+
+  Field_type* type;
+  Dice duration;
+  Dice tiles;
+
+  bool load_data(std::istream& data, std::string owner_name = "Unknown");
+};
+
 struct Ranged_attack
 {
   Ranged_attack();
@@ -88,6 +101,11 @@ struct Ranged_attack
  *      Field pool this plants at its destination (acid, fire)
  *      Other???
  */
+
+// Field_pool that we leave in our wake
+  Field_pool wake_pool;
+// Field_pool that is created at the tile hit
+  Field_pool target_pool;
 
   bool load_data(std::istream &data, std::string owner_name = "unknown");
 

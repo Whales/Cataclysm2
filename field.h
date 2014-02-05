@@ -43,6 +43,7 @@ struct Field_fuel
 
   Terrain_flag  terrain_flag;
   Item_flag     item_flag;
+  bool any_item;  // If true, then we consume any item!
   int fuel;
 // Damage done to the terrain each turn
 // If 0, then the terrain is not damaged or destroyed at all!

@@ -127,3 +127,37 @@ name: steam
   done
 done
 
+name: acid
+  fuel:
+    any_item
+    fuel: -3
+    damage: 15d5
+  done
+  level:
+    name: acid splatter
+    glyph: 5 ltgreen black
+    duration: 10
+    danger: 100
+    verb: burns
+    parts_hit: legs
+    fire: 6
+  done
+  level: 
+    name: acid streak
+    glyph: 5 green black
+    duration: 15
+    danger: 150
+    verb: burns
+    parts_hit: legs
+    fire: 8
+  done
+  level:
+    name: acid pool
+    glyph: 5 green black
+    duration: 20
+    danger: 200
+    verb: burns
+    parts_hit: legs
+    fire: 10
+  done
+done

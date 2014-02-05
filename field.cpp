@@ -46,6 +46,10 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
       }
       item_flag = itf;
 
+    } else if (ident == "any_item") {
+      any_item = true;
+      std::getline(data, junk);
+
     } else if (ident == "fuel:") {
       data >> fuel;
       std::getline(data, junk);
