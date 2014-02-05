@@ -143,7 +143,6 @@ bool Monster_type::load_data(std::istream &data)
     } else if (ident == "hp:") {
       hp_dice.load_data(data, name);
       hp_set = true;
-      std::getline(data, junk);
 
     } else if (ident == "speed:") {
       data >> speed;
@@ -298,6 +297,7 @@ bool Monster_genus::load_data(std::istream &data)
 
     } else if (ident == "default:") {
       if (!default_values.load_data(data)) {
+        debugmsg("Genus %s failed to load default values", name.c_str());
         return false;
       }
 
