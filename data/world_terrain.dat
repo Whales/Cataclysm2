@@ -59,11 +59,13 @@ Name: river
 Name: road
   Glyph: + ltgray black
   Flags: line_drawing relational road
+  Connector: bridge
   Road_cost: 1
   Done
 Name: bridge
   Glyph: + ltgray blue
   Flags: relational no_road line_drawing
+  Connector: road
   Road_cost: 20
   Done
 Name: town square

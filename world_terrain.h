@@ -32,6 +32,7 @@ struct World_terrain
   std::string name;
   std::string display_name;
   std::string beach_name;
+  std::vector<std::string> connectors;
   int beach_range;
   int road_cost;
   glyph sym;

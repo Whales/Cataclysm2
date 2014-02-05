@@ -58,6 +58,12 @@ bool World_terrain::load_data(std::istream &data)
       data >> beach_range;
       std::getline(data, junk);
 
+    } else if (ident == "connector:") {
+      std::string conn;
+      std::getline(data, conn);
+      conn = trim(conn);
+      connectors.push_back(conn);
+
     } else if (ident == "road_cost:") {
       data >> road_cost;
       std::getline(data, junk);

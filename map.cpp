@@ -282,7 +282,20 @@ void Submap::generate(World_terrain* terrain[5], int posz)
         if (terrain[i] == terrain[0]) {
           neighbor.push_back(true);
         } else {
-          neighbor.push_back(false);
+// Check the terrain's list of connectors
+// E.g. "road" and "bridge" connect to each other
+          bool found = false;
+          for (int n = 0; !found && n < terrain[0]->connectors.size(); n++) {
+            std::string conn = terrain[0]->connectors[n];
+            conn = no_caps(conn);
+            if ( no_caps( terrain[i]->get_data_name() ) == conn ) {
+              neighbor.push_back(true);
+              found = true;
+            }
+          }
+          if (!found) {
+            neighbor.push_back(false);
+          }
         }
       }
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
