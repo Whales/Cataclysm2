@@ -13,6 +13,7 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
+      debugmsg("Couldn't read ident for fuel (%s)", owner_name.c_str());
       return false;
     }
     ident = no_caps(ident);
@@ -51,7 +52,6 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
 
     } else if (ident == "damage:") {
       damage.load_data(data, owner_name + " fuel");
-      std::getline(data, junk);
 
     } else if (ident == "output_field:") {
       std::getline(data, output_field);
@@ -59,7 +59,6 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
 
     } else if (ident == "output_duration:") {
       output_duration.load_data(data, owner_name);
-      std::getline(data, junk);
 
     } else if (ident != "done") {
       debugmsg("Unknown Field_terrain_fuel property '%s' (%s)", ident.c_str(),
@@ -222,6 +221,12 @@ Field_type::Field_type()
 {
   uid = -1;
   spread_chance = 0;
+  for (int i = 0; i < TF_MAX; i++) {
+    terrain_flags.push_back(false);
+  }
+  for (int i = 0; i < FIELD_FLAG_MAX; i++) {
+    field_flags.push_back(false);
+  }
 }
 
 Field_type::~Field_type()
@@ -263,6 +268,28 @@ Field_level* Field_type::get_level(int level)
   return levels[level];
 }
 
+bool Field_type::has_flag(Terrain_flag tf, int level)
+{
+  if (terrain_flags[tf]) {
+    return true;
+  }
+  if (level >= 0 && level < levels.size() && get_level(level)->has_flag(tf)) {
+    return true;
+  }
+  return false;
+}
+
+bool Field_type::has_flag(Field_flag ff, int level)
+{
+  if (terrain_flags[ff]) {
+    return true;
+  }
+  if (level >= 0 && level < levels.size() && get_level(level)->has_flag(ff)) {
+    return true;
+  }
+  return false;
+}
+
 int Field_type::duration_needed_to_reach_level(int level)
 {
   if (level <= 0 || level >= levels.size()) {
@@ -296,6 +323,32 @@ bool Field_type::load_data(std::istream& data)
     } else if (ident == "display_name:") {
       std::getline(data, display_name);
       display_name = trim(display_name);
+
+    } else if (ident == "flags:") {
+/* TODO:  Should terrain flags and field flags be loaded with different property
+ *        tags?  Normally it's not an issue, but if there's a name collision we
+ *        obviously need to be able to distinguish between the two.
+ */
+      std::string flag_line;
+      std::getline(data, flag_line);
+      std::istringstream flag_data(flag_line);
+      std::string flag_name;
+      while (flag_data >> flag_name) {
+        Terrain_flag tf = lookup_terrain_flag(flag_name);
+        if (tf == TF_NULL) {
+          Field_flag ff = lookup_field_flag(flag_name);
+          if (ff == FIELD_FLAG_NULL) {
+            debugmsg("'%s' is not a terrain nor a field flag (%s)",
+                     flag_name.c_str(), name.c_str());
+            return false;
+          } else {
+            field_flags[ff] = true;
+          }
+        } else {
+          terrain_flags[tf] = true;
+        }
+      }
+
 
     } else if (ident == "spread_chance:") {
       data >> spread_chance;
@@ -333,12 +386,16 @@ bool Field_type::load_data(std::istream& data)
       Field_fuel tmpfuel;
       if (tmpfuel.load_data(data, name)) {
         fuel.push_back(tmpfuel);
+      } else {
+        debugmsg("Fuel failed to load (%s)", name.c_str());
+        return false;
       }
 
     } else if (ident == "level:") {
       Field_level* tmp_level = new Field_level;
       if (!tmp_level->load_data(data, name)) {
         delete tmp_level;
+        debugmsg("Field level failed to load (%s)", name.c_str());
         return false;
       }
       levels.push_back(tmp_level);

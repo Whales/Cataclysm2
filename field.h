@@ -120,6 +120,8 @@ public:
   std::string  get_name();
   std::string  get_level_name(int level);
   Field_level* get_level(int level);
+  bool has_flag(Terrain_flag tf, int level = -1);
+  bool has_flag(Field_flag   ff, int level = -1);
 
   int duration_needed_to_reach_level(int level);
 
@@ -129,6 +131,12 @@ public:
 
 private:
   std::vector<Field_level*> levels;
+/* terrain_flags is mostly included so we can make a field block LoS, but it
+ * could have other uses too...?
+ */
+  std::vector<bool> terrain_flags; // Same as terrain uses!
+  std::vector<bool> field_flags;
+
 
 };
 
