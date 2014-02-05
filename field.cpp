@@ -643,13 +643,17 @@ void Field::adjust_level()
     return;
   }
 
+  debugmsg("Duration %d; level => %d", duration, level);
   while (duration < 0 && level >= 0) {
     level--;
     duration += type->get_level(level)->duration;
+    debugmsg("Duration %d; level => %d", duration, level);
   }
 
   while (duration >= type->duration_needed_to_reach_level(level + 1)) {
+    duration -= type->get_level(level)->duration;
     level++;
+    debugmsg("Duration %d; level => %d", duration, level);
   }
 
   if (duration < 0) {

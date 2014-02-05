@@ -877,12 +877,15 @@ bool Map::add_field(Field field, int x, int y, int z)
   if (tile->has_field()) {
 // We can combine fields of the same type
     tile->field += field;
+    debugmsg("Combined field");
     return true;
   }
   if (tile->move_cost() == 0 && !field.has_flag(FIELD_FLAG_SOLID)) {
+    debugmsg("Solid");
     return false;
   }
   tile->field = field;
+  debugmsg("Added field (%s, [%d:%d]", field.get_name().c_str(), field.level, field.duration);
   return true;
 }
 
