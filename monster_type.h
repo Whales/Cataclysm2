@@ -29,7 +29,9 @@ struct Monster_type
   int speed;
   int chance;
   std::vector<Attack> attacks;
+  std::vector<Ranged_attack> ranged_attacks;
   int total_attack_weight;
+  int total_ranged_attack_weight;
   Entity_AI AI;
 
   void set_genus(Monster_genus *mg);
@@ -43,6 +45,7 @@ struct Monster_type
 
 private:
   bool attacks_copied_from_genus;
+  bool ranged_attacks_copied_from_genus;
   bool senses_copied_from_genus;
   std::vector<bool> senses;
 

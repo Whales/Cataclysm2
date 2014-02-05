@@ -60,6 +60,36 @@ name: zombie brute
 # TODO: Once we have special melee effects, add "body slam" which knocks back
 done
 
+name: spitter zombie
+  name_plural: spitter zombies
+  genus: zombies
+  glyph: Z yellow black
+  chance: 7
+# Use default HP/speed
+  AI:
+    awareness: 1
+    attention: 15
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+# Use default melee attacks
+  ranged_attack:
+    verb: spit / spits
+    speed: 150
+    charge: 10
+    range: 10
+    variance: 5d15
+    target_field:
+      field: acid
+      duration: 2d6 + 10
+# 2d4 - 1 = 1 to 7, most likely 4
+      tiles: 2d4 - 1
+    done
+  done
+done
+
 name: mutant rabbit
   name_plural: mutant rabbits
   genus: mutant rabbits

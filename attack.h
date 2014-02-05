@@ -103,9 +103,9 @@ struct Ranged_attack
  */
 
 // Field_pool that we leave in our wake
-  Field_pool wake_pool;
+  Field_pool wake_field;
 // Field_pool that is created at the tile hit
-  Field_pool target_pool;
+  Field_pool target_field;
 
   bool load_data(std::istream &data, std::string owner_name = "unknown");
 

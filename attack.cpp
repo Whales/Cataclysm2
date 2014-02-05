@@ -4,6 +4,7 @@
 #include "window.h"
 #include "entity.h" // For Stats
 #include "item.h"
+#include "globals.h" // For FIELDS
 #include <sstream>
 
 bool load_verbs(std::istream &data, std::string &verb_second,
@@ -169,11 +170,62 @@ Damage_set Attack::roll_damage()
   return ret;
 }
 
+Field_pool::Field_pool()
+{
+  type = NULL;
+  duration = Dice(0, 0, 0);
+  tiles = Dice(0, 0, 1);
+}
+
+Field_pool::~Field_pool()
+{
+}
+
+bool Field_pool::load_data(std::istream& data, std::string owner_name)
+{
+  std::string ident, junk;
+  while (ident != "done" && !data.eof()) {
+
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+
+    ident = no_caps(ident);
+
+    if (!ident.empty() && ident[0] == '#') { // I'ts a comment
+      std::getline(data, junk);
+
+    } else if (ident == "field:") {
+      std::string field_name;
+      std::getline(data, field_name);
+      field_name = trim(field_name);
+      type = FIELDS.lookup_name(field_name);
+      if (!type) {
+        debugmsg("Unknown field '%s' in Field_pool (%s)", field_name.c_str(),
+                 owner_name.c_str());
+        return false;
+      }
+
+    } else if (ident == "duration:") {
+      duration.load_data(data, owner_name + " Field_pool duration");
+
+    } else if (ident == "tiles:") {
+      tiles.load_data(data, owner_name + " Field_pool tiles");
+
+    } else if (ident != "done") {
+      debugmsg("Unknown Field_pool property '%s' (%s)", ident.c_str(),
+               owner_name.c_str());
+      return false;
+    }
+  }
+  return true;
+}
+
 Ranged_attack::Ranged_attack()
 {
   verb_second = "shoot";
   verb_third = "shoots";
-  weight = 0;
+  weight = 10;
   speed = 100;
   charge_time = 0;
   range = 0;
@@ -247,6 +299,18 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
       data >> armor_divisor[damtype];
       if (armor_divisor[damtype] == 0) {
         armor_divisor[damtype] = 1;
+      }
+
+    } else if (ident == "wake_field:") {
+      if (!wake_field.load_data(data, owner_name + " " + verb_third)) {
+        debugmsg("Failed to load wake_field (%s)", owner_name.c_str());
+        return false;
+      }
+
+    } else if (ident == "target_field:") {
+      if (!target_field.load_data(data, owner_name + " " + verb_third)) {
+        debugmsg("Failed to load target_field (%s)", owner_name.c_str());
+        return false;
       }
 
     } else if (ident != "done") {
