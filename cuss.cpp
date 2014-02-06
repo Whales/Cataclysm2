@@ -1034,16 +1034,20 @@ bool interface::save_to_file(std::string filename)
  return true;
 }
 
-bool interface::load_from_file(std::string filename)
+bool interface::load_from_file(std::string filename, bool warn)
 {
- std::ifstream fin;
- fin.open(filename.c_str());
- if (!fin.is_open())
-  return false;
+  std::ifstream fin;
+  fin.open(filename.c_str());
+  if (!fin.is_open()) {
+    if (warn) {
+      debugmsg("Can't load %s!", filename.c_str());
+    }
+    return false;
+  }
 
- load_data(fin);
- fin.close();
- return true;
+  load_data(fin);
+  fin.close();
+  return true;
 }
 
 std::vector<std::string> interface::element_names()
