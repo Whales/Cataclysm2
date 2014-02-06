@@ -127,7 +127,7 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual int time_to_reload() { return reload_ap; }
-  virtual int  time_to_fire()  { return fire_ap; }
+  virtual int time_to_fire()   { return fire_ap; }
 
   std::string ammo_type;  // Ammo type - links this to a launcher
   int damage;     // Damage bonus

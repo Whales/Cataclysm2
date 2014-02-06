@@ -247,6 +247,8 @@ bool Item_type_ammo::handle_data(std::string ident, std::istream &data)
   } else if (ident == "armor_pierce:" || ident == "pierce:") {
     data >> armor_pierce;
     if (armor_pierce <= 0) {
+      debugmsg("Armor pierce of %d found in %s.  Changed to 1.", armor_pierce,
+               name.c_str());
       armor_pierce = 1;
     }
     std::getline(data, junk);
