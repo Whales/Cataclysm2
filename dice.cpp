@@ -65,9 +65,11 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
   bool done = false;
   while (!done && data.good()) {
     char ch = data.get();
+    //debugmsg("Dice '%c'", ch);
     if (data.good()) {
       if (ch >= '0' && ch <= '9') {
         current_number = current_number * 10 + (ch - '0');
+        //debugmsg("Dice Current %d", current_number);
       } else if (ch == 'd' || ch == 'D') {
         if (set_number) {
           debugmsg("Two 'd' characters in dice spec (%s)", owner_name.c_str());
@@ -79,6 +81,11 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
       } else if (ch == '+' || ch == '-') {
         if (set_sides) {
           debugmsg("More than one bonus in dice spec (%s)", owner_name.c_str());
+          return false;
+        }
+        if (!set_number) {
+          debugmsg("Encountered + before d in dice spec (%s)",
+                   owner_name.c_str());
           return false;
         }
         set_sides = true;
@@ -95,7 +102,7 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
         return false;
       }
     } // if (data.good())
-  } // while (data.good())
+  } // while (!done && data.good())
 
 /* If we've set our sides, then anything left is the bonus
  * If we haven't set our sides OR our number of dice, then it's just a number,
@@ -107,7 +114,7 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
     } else {
       bonus = current_number;
     }
-  } else if (!set_number) {
+  } else if (!set_sides) {
 // If we haven't set our sides, then it's the number of sides our dice have
     sides = current_number;
   }
