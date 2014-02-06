@@ -522,6 +522,7 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
   }
   int range = rl_dist(origin, target);
   int angle_missed_by = attack.roll_variance();
+  //debugmsg(attack.variance.str().c_str());
 // Use 1800 since attack.variance is measured in 10ths of a degree
   double distance_missed_by = range * tan(angle_missed_by * PI / 1800);
   int tiles_off = int(distance_missed_by);

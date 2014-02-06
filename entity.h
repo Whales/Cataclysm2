@@ -158,6 +158,7 @@ public:
 
   Stats stats;
   int hunger, thirst;
+  int special_timer;
 
   Item weapon;
   std::vector<Item> inventory;

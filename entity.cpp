@@ -118,6 +118,7 @@ Entity::Entity()
   killed_by_player = false;
   hunger = 0;
   thirst = 0;
+  special_timer = 0;
 }
 
 Entity::~Entity()
@@ -817,6 +818,9 @@ void Entity::attack_ranged(Entity* target)
   if (ra.range == 0) {
     return; // This means that pick_ranged_attack() failed to find anything
   }
+// Set the special_timer.  This really only affects monsters - monsters can't
+// use ranged attacks if their special_timer is more than 0.
+  special_timer = ra.charge_time;
   GAME.launch_projectile(this, ra, pos, target->pos);
   action_points -= ra.speed;
 // TODO: Set a delay timer to prvent us from using this attack again soon?

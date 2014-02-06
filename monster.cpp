@@ -11,6 +11,7 @@ Monster::Monster()
   current_hp = 0;
   type = NULL;
   action_points = 0;
+  special_timer = 0;
 }
 
 void Monster::set_type(std::string name)
@@ -248,9 +249,13 @@ void Monster::take_turn()
     return;
   }
   plan.attention--;
+  if (special_timer > 0) {
+    special_timer--;
+  }
   if (plan.target_entity && can_attack(plan.target_entity)) {
     attack(plan.target_entity);
-  } else if (plan.target_entity && can_attack_ranged(plan.target_entity)) {
+  } else if (special_timer <= 0 && plan.target_entity &&
+             can_attack_ranged(plan.target_entity)) {
     attack_ranged(plan.target_entity);
   } else if (can_move_to(GAME.map, plan.next_step())) {
     move_to(GAME.map, plan.next_step());
