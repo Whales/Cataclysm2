@@ -80,12 +80,12 @@ name: spitter zombie
     speed: 150
     charge: 10
     range: 10
-    variance: 5d15
+    variance: 20d10
     target_field:
       field: acid
-      duration: 3d6 + 10
-# 2d4 - 1 = 1 to 7, most likely 4
-      tiles: 2d4 - 1
+      duration: 4d6 + 10
+# 2d4 - 1 = 1 to 11, most likely 6
+      tiles: 2d6 - 1
     done
   done
 done

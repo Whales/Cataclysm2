@@ -128,8 +128,8 @@ name: steam
 done
 
 name: acid
-  spread_chance: 40
-  spread_cost: 10
+  spread_chance: 50
+  spread_cost: 15
   fuel:
     any_item
     fuel: -3
