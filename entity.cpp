@@ -75,6 +75,16 @@ void Entity_plan::generate_path_to_target(Entity_AI AI, Tripoint origin)
   }
 }
 
+void Entity_plan::update()
+{
+  if (attention > 0) {
+    attention--;
+  }
+  if (attention <= 0) {
+    target_entity = NULL;
+  }
+}
+
 bool Entity_plan::is_active()
 {
   if (attention <= 0) {
@@ -791,6 +801,28 @@ Ranged_attack Entity::fire_weapon()
   return weapon.get_fired_attack();
 }
 
+bool Entity::can_fire_weapon()
+{
+  if (!weapon.is_real()) {
+    if (is_player()) {
+      GAME.add_msg("You are not wielding anything.");
+    }
+    return false;
+  } else if (weapon.get_item_class() != ITEM_CLASS_LAUNCHER) {
+    if (is_player()) {
+      GAME.add_msg("You cannot fire %s.", weapon.get_name_indefinite().c_str());
+    }
+    return false;
+  } else if (weapon.charges == 0 || !weapon.ammo) {
+    if (is_player()) {
+      GAME.add_msg("You need to reload %s.",
+                   weapon.get_name_definite().c_str());
+    }
+    return false;
+  }
+  return true;
+}
+
 bool Entity::can_attack_ranged(Entity* target)
 {
   if (!target) {
@@ -809,14 +841,13 @@ bool Entity::can_attack_ranged(Entity* target)
   return false;
 }
 
-void Entity::attack_ranged(Entity* target)
+void Entity::attack_ranged(Entity* target, Ranged_attack ra)
 {
   if (!target) {
     return;
   }
-  Ranged_attack ra = pick_ranged_attack(target);
   if (ra.range == 0) {
-    return; // This means that pick_ranged_attack() failed to find anything
+    return; // This means that it's not a real ranged attack
   }
 // Set the special_timer.  This really only affects monsters - monsters can't
 // use ranged attacks if their special_timer is more than 0.

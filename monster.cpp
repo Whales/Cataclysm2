@@ -244,11 +244,10 @@ void Monster::take_turn()
 // TODO: Move make_plans() outside of this function?
   make_plans();
   if (!plan.is_active()) {
-    //debugmsg("No plan");
     wander();
     return;
   }
-  plan.attention--;
+  plan.update();
   if (special_timer > 0) {
     special_timer--;
   }
@@ -256,7 +255,7 @@ void Monster::take_turn()
     attack(plan.target_entity);
   } else if (special_timer <= 0 && plan.target_entity &&
              can_attack_ranged(plan.target_entity)) {
-    attack_ranged(plan.target_entity);
+    attack_ranged(plan.target_entity, pick_ranged_attack(plan.target_entity));
   } else if (can_move_to(GAME.map, plan.next_step())) {
     move_to(GAME.map, plan.next_step());
     plan.erase_step();
@@ -264,8 +263,9 @@ void Monster::take_turn()
     smash(GAME.map, plan.next_step());
   } else {
     Tripoint next = plan.next_step();
-    debugmsg("Failed to path %s => %s",
-             pos.string().c_str(), next.string().c_str());
+    debugmsg("Failed to path %s => %s (%s => %s)",
+             pos.str().c_str(), next.str().c_str(),
+             GAME.map->get_name(pos).c_str(), GAME.map->get_name(next).c_str());
     plan.generate_path_to_target(get_AI(), pos);
     pause();
   }

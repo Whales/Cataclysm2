@@ -450,7 +450,7 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
 
   if (x_size == 0 || y_size == 0 || z_size == 0) {
     debugmsg("A* generated; %s => %s (size %d, %d, %d)",
-             start.string().c_str(), end.string().c_str(),
+             start.str().c_str(), end.str().c_str(),
              x_size, y_size, z_size);
     return Path();
   }

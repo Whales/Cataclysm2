@@ -114,6 +114,8 @@ bool Game::main_loop()
 /*
         map->add_field( FIELDS.lookup_name("fire"), player->pos.x - 3, player->pos.y - 3, player->pos.z, "magic" );
 */
+      } else if (ch == '?') {
+        debugmsg( map->get_center_submap()->get_spec_name().c_str() );
       }
 // Fetch the action bound to whatever key we pressed...
       Interface_action act = KEYBINDINGS.bound_to_key(ch);
@@ -297,15 +299,7 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_FIRE:
-      if (!player->weapon.is_real()) {
-        add_msg("You are not wielding anything.");
-      } else if (player->weapon.get_item_class() != ITEM_CLASS_LAUNCHER) {
-        add_msg("You cannot fire %s.",
-                player->weapon.get_name_indefinite().c_str());
-      } else if (player->weapon.charges == 0 || !player->weapon.ammo) {
-        add_msg("You need to reload %s.",
-                player->weapon.get_name_definite().c_str());
-      } else {
+      if (player->can_fire_weapon()) {
         Point target = target_selector();
         if (target.x == -1) { // We canceled
           add_msg("Never mind.");

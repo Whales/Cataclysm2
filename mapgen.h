@@ -141,6 +141,7 @@ struct Mapgen_spec
   void rotate(Direction dir);
   Terrain* pick_terrain(int x, int y);
 
+  std::string get_name();
   void debug_output();
 
   int uid;

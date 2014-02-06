@@ -197,6 +197,7 @@ void Tile::close()
 
 Submap::Submap()
 {
+  spec_used = NULL;
   rotation = DIR_NULL;
   level = 0;
 }
@@ -330,10 +331,12 @@ void Submap::generate(World_terrain* terrain[5], int posz)
   }
 }
 
+/*
 void Submap::generate(std::string terrain_name)
 {
   generate( MAPGEN_SPECS.random_for_terrain( terrain_name ) );
 }
+*/
 
 void Submap::generate(Mapgen_spec* spec)
 {
@@ -345,6 +348,7 @@ void Submap::generate(Mapgen_spec* spec)
 // Set our subname to the spec's subname (defaults to empty, only matters for
 // multi-story buildings
 // Ditto rotation.
+  spec_used = spec;
   subname = spec->subname;
   rotation = spec->rotation;
 // First, set the terrain.
@@ -427,57 +431,6 @@ void Submap::generate_above(World_terrain* type, Submap* below)
   generate(spec);
 }
 
-void Submap::spawn_monsters(Worldmap* world, int worldx, int worldy, int worldz,
-                                             int smx, int smy)
-{
-  if (!world) {
-    debugmsg("Submap::spawn_monsters() called with NULL world");
-    return;
-  }
-  if (worldx < 0 || worldy < 0 ||
-      worldx >= WORLDMAP_SIZE || worldy >= WORLDMAP_SIZE) {
-    debugmsg("Submap::spawn_monsters() called for world position [%d:%d]",
-             worldx, worldy);
-    return;
-  }
-  std::vector<Monster_spawn>* monsters = world->get_spawns(worldx, worldy);
-  if (monsters->empty()) {
-    return;
-  }
-  std::vector<Point> valid_points;
-  for (int x = 0; x < SUBMAP_SIZE; x++) {
-    for (int y = 0; y < SUBMAP_SIZE; y++) {
-// TODO: Allow swimming mosnters to spawn in water, etc.
-      if (tiles[x][y].move_cost() > 0) {
-        valid_points.push_back( Point(x, y) );
-      }
-    }
-  }
-
-// Iterate through all the spawn data on this tile
-  for (int i = 0; i < monsters->size(); i++) {
-// Proceed once for each population member
-    while ((*monsters)[i].population > 0) {
-      if (valid_points.empty()) { // The map is saturated with monsters!
-        return;
-      }
-      Monster_type* type = (*monsters)[i].genus->random_member();
-      int index = rng(0, valid_points.size());
-      Point placement = valid_points[index];
-      valid_points.erase( valid_points.begin() + index );
-// Adjust placement to be relative to the map, not the submap
-      placement.x += SUBMAP_SIZE * smx;
-      placement.y += SUBMAP_SIZE * smy;
-      Tripoint monpos(placement.x, placement.y, worldz);
-      Monster* mon = new Monster;
-      mon->set_type(type);
-      mon->pos = monpos;
-      GAME.entities.add_entity(mon);
-      (*monsters)[i].population--;
-    }
-  }
-}
-
 bool Submap::add_item(Item item, int x, int y)
 {
   if (x < 0 || y < 0 || x >= SUBMAP_SIZE || y >= SUBMAP_SIZE) {
@@ -527,7 +480,6 @@ Point Submap::random_empty_tile()
   std::vector<Point> options;
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
-      debugmsg("Trying tile [%d:%d] (%s)", x, y, tiles[x][y].get_name().c_str());
       if (tiles[x][y].move_cost() > 0) {
         options.push_back( Point(x, y) );
       }
@@ -538,6 +490,14 @@ Point Submap::random_empty_tile()
     return Point(-1, -1);
   }
   return options[ rng(0, options.size() - 1) ];
+}
+
+std::string Submap::get_spec_name()
+{
+  if (!spec_used) {
+    return "Unknown";
+  }
+  return spec_used->get_name();
 }
 
 Submap_pool::Submap_pool()
@@ -605,6 +565,7 @@ void Map::generate_empty()
   }
 }
 
+/*
 void Map::test_generate(std::string terrain_name)
 {
   for (int x = 0; x < MAP_SIZE; x++) {
@@ -613,6 +574,7 @@ void Map::test_generate(std::string terrain_name)
     }
   }
 }
+*/
 
 void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
 {
@@ -634,10 +596,6 @@ void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
         submaps[x][y][z_index] = SUBMAP_POOL.at_location(posx + x, posy + y, z);
         if (z == 0) {
           spawn_monsters(world, posx + x, posy + y, x, y, z);
-/*
-          submaps[x][y][z_index]->spawn_monsters(world, posx+x, posy+y, 0,
-                                                 x, y);
-*/
         }
       }
     }
@@ -653,19 +611,6 @@ void Map::shift(Worldmap *world, int shiftx, int shifty, int shiftz)
   posy += shifty;
   posz += shiftz;
   generate(world);
-
-// Also, handle generating monsters for any new submaps!
-/*
-  int x_start = (shiftx > 0 ? MAP_SIZE - shiftx : 0         );
-  int y_start = (shifty > 0 ? MAP_SIZE - shifty : 0         );
-  int x_end   = (shiftx > 0 ? MAP_SIZE - 1      : 0 - shiftx);
-  int y_end   = (shifty > 0 ? MAP_SIZE - 1      : 0 - shifty);
-  for (int x = x_start; x <= x_end; x++) {
-    for (int y = y_start; y <= y_end; y++) {
-      spawn_monsters(world, x, y);
-    }
-  }
-*/
 }
 
 void Map::spawn_monsters(Worldmap *world, int worldx, int worldy,
@@ -1368,6 +1313,11 @@ void Map::draw_tile(Window* w, Entity_pool *entities,
   w->putglyph(tile_winx, tile_winy, output);
 }
   
+
+Submap* Map::get_center_submap()
+{
+  return submaps[MAP_SIZE / 2][MAP_SIZE / 2][VERTICAL_MAP_SIZE];
+}
 
 Point Map::get_center_point()
 {

@@ -49,7 +49,7 @@ struct Point
   Point(const Point &p) : x (p.x), y (p.y) {}
   ~Point(){}
 
-  std::string string();
+  std::string str();
 
   bool operator==(const Point &other) const
   {
@@ -84,7 +84,7 @@ struct Tripoint
   Tripoint(const Tripoint &p) : x (p.x), y (p.y), z (p.z) {}
   ~Tripoint(){}
 
-  std::string string();
+  std::string str();
 
   bool operator==(const Tripoint &other) const
   {

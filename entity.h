@@ -33,6 +33,8 @@ struct Entity_plan
 
   void generate_path_to_target(Entity_AI AI, Tripoint origin);
 
+  void update();  // Decrement attention, reset target_entity if <= 0
+
   bool is_active();
 
   Tripoint next_step();
@@ -137,8 +139,9 @@ public:
   virtual Ranged_attack fire_weapon();
   virtual std::vector<Ranged_attack> get_ranged_attacks();
   virtual Ranged_attack pick_ranged_attack(Entity* target);
+  virtual bool can_fire_weapon();
   virtual bool can_attack_ranged(Entity* target);
-  virtual void attack_ranged(Entity* target);
+  virtual void attack_ranged(Entity* target, Ranged_attack ra);
 
   virtual bool can_sense(Map* map, int x, int y, int z = 999);
   virtual bool can_sense(Map* map, Tripoint target);

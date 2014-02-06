@@ -1,11 +1,11 @@
-#include <stdlib.h>
-#include <sstream>
-#include <fstream>
 #include "mapgen.h"
 #include "window.h"
 #include "globals.h"
 #include "stringfunc.h"
 #include "rng.h"
+#include <stdlib.h>
+#include <sstream>
+#include <fstream>
 
 Variable_terrain::Variable_terrain()
 {
@@ -767,6 +767,13 @@ void Mapgen_spec::rotate(Direction dir)
       prepped_terrain[x][y] = tmp_terrain[x][y];
     }
   }
+}
+
+std::string Mapgen_spec::get_name()
+{
+  std::stringstream ret;
+  ret << terrain_name << ":" << subname << ":" << name;
+  return ret.str();
 }
 
 void Mapgen_spec::debug_output()

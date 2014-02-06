@@ -50,11 +50,14 @@ struct Submap
 {
   Tile tiles[SUBMAP_SIZE][SUBMAP_SIZE];
 
-/* Subname is the specific flavor of the mapgen_spec used here.  This is used
+/* spec_used is the Mapgen_spec used to generate this.  It's tracked strictly
+ * for debugging purposes.
+ * Subname is the specific flavor of the mapgen_spec used here.  This is used
  * when building second stories; so only use house_wood to build the 2nd floor
  * of a house_wood map.
  * rotation and level are used to further match to the floor below.
  */
+  Mapgen_spec* spec_used;
   std::string subname;
   Direction rotation;
   int level;
@@ -67,17 +70,16 @@ struct Submap
 
   void generate(Worldmap* map, int posx, int posy, int posz = 0);
   void generate(World_terrain* terrain[5], int posz = 0);
-  void generate(std::string terrain_name);
+  //void generate(std::string terrain_name);
   void generate(Mapgen_spec* spec);
   void generate_adjacent(Mapgen_spec* spec);
   void generate_above(World_terrain* type, Submap* below);
-  void spawn_monsters(Worldmap* world, int worldx, int worldy, int worldz,
-                      int smx, int smy);
 
   bool add_item(Item item, int x, int y);
   int  item_count(int x, int y);
   std::vector<Item>* items_at(int x, int y);
   Point random_empty_tile();
+  std::string get_spec_name();
 
 };
 
@@ -103,7 +105,7 @@ public:
 
 // Generation
   void generate_empty();
-  void test_generate(std::string terrain_name);
+  //void test_generate(std::string terrain_name);
   void generate(Worldmap *world, int wposx = -999, int wposy = -999,
                                  int wposz = -999);
   void shift(Worldmap *world, int shiftx, int shifty, int shiftz = 0);
@@ -197,6 +199,7 @@ public:
                  int tilex, int tiley, int tilez,
                  int refx, int refy, bool invert);
 
+  Submap* get_center_submap(); // i.e. the one the player is in
   Point get_center_point();
   int posx, posy, posz;
 

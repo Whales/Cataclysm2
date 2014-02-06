@@ -92,14 +92,14 @@ int rl_dist(int x0, int y0, int z0, int x1, int y1, int z1)
   return dz;
 }
 
-std::string Point::string()
+std::string Point::str()
 {
   std::stringstream ret;
   ret << "[" << x << ":" << y << "]";
   return ret.str();
 }
 
-std::string Tripoint::string()
+std::string Tripoint::str()
 {
   std::stringstream ret;
   ret << "[" << x << ":" << y << ":" << z << "]";
