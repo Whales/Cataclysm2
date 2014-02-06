@@ -666,12 +666,12 @@ void Game::update_hud()
   } else {
     i_hud.set_data("text_weapon", "None");
   }
-  i_hud.set_data("hp_head",  player->hp_text(BODYPART_HEAD     ) );
-  i_hud.set_data("hp_torso", player->hp_text(BODYPART_TORSO    ) );
-  i_hud.set_data("hp_l_arm", player->hp_text(BODYPART_LEFT_ARM ) );
-  i_hud.set_data("hp_r_arm", player->hp_text(BODYPART_RIGHT_ARM) );
-  i_hud.set_data("hp_l_leg", player->hp_text(BODYPART_LEFT_LEG ) );
-  i_hud.set_data("hp_r_leg", player->hp_text(BODYPART_RIGHT_LEG) );
+  i_hud.set_data("hp_head",  player->hp_text(HP_PART_HEAD     ) );
+  i_hud.set_data("hp_torso", player->hp_text(HP_PART_TORSO    ) );
+  i_hud.set_data("hp_l_arm", player->hp_text(HP_PART_LEFT_ARM ) );
+  i_hud.set_data("hp_r_arm", player->hp_text(HP_PART_RIGHT_ARM) );
+  i_hud.set_data("hp_l_leg", player->hp_text(HP_PART_LEFT_LEG ) );
+  i_hud.set_data("hp_r_leg", player->hp_text(HP_PART_RIGHT_LEG) );
   
   i_hud.draw(w_hud);
   w_hud->refresh();

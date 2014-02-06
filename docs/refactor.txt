@@ -12,3 +12,8 @@ Map drawing:
 
 Worldmap generation:
   It's a big, messy function.  Would be nice to clean it up a bunch.
+
+Damage loading
+  Fields and melee attacks have a sloppy bit at the end of load_data() where we
+  check if the ident is also the name of a damage type.  Clean this up and make
+  a Damage_set::load_data() function!

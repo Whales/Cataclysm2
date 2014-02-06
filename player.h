@@ -47,9 +47,10 @@ public:
                            Body_part part);
 
   std::string hp_text(Body_part part);
+  std::string hp_text(HP_part part);
 
-  int current_hp[BODYPART_MAX];
-  int max_hp[BODYPART_MAX];
+  int current_hp[HP_PART_MAX];
+  int max_hp[HP_PART_MAX];
 
 private:
   std::string name;

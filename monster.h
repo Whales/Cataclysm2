@@ -43,7 +43,7 @@ public:
   virtual bool can_sense(Entity* entity);
   virtual Attack base_attack();
   virtual void take_damage(Damage_type type, int damage, std::string reason,
-                           Body_part part = BODYPART_NULL);
+                           Body_part part = BODY_PART_NULL);
 
   void move_towards(Entity* entity);
   void move_towards(int target_x, int target_y);

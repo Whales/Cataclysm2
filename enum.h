@@ -2,6 +2,7 @@
 #define _ENUM_H_
 
 #include <string>
+#include <vector> // For get_body_part_list
 
 // TODO: Remove these.  For now I'm not sure how to specify them, but no.
 #define SIGHT_DIST 20
@@ -23,18 +24,40 @@ std::string sense_type_name(Sense_type type);
 
 enum Body_part
 {
-  BODYPART_NULL = 0,
-  BODYPART_HEAD,
-  BODYPART_TORSO,
-  BODYPART_LEFT_ARM,
-  BODYPART_RIGHT_ARM,
-  BODYPART_LEFT_LEG,
-  BODYPART_RIGHT_LEG,
-  BODYPART_MAX
+  BODY_PART_NULL = 0,
+  BODY_PART_HEAD,
+  BODY_PART_TORSO,
+  BODY_PART_LEFT_HAND,
+  BODY_PART_RIGHT_HAND,
+  BODY_PART_LEFT_ARM,
+  BODY_PART_RIGHT_ARM,
+  BODY_PART_LEFT_FOOT,
+  BODY_PART_RIGHT_FOOT,
+  BODY_PART_LEFT_LEG,
+  BODY_PART_RIGHT_LEG,
+  BODY_PART_MAX
 };
 
 Body_part lookup_body_part(std::string name);
 std::string body_part_name(Body_part part);
+// get_body_part_list provides support for "legs" referring to both legs, etc.
+std::vector<Body_part> get_body_part_list(std::string name);
+
+enum HP_part
+{
+  HP_PART_NULL = 0,
+  HP_PART_HEAD,
+  HP_PART_TORSO,
+  HP_PART_LEFT_ARM,
+  HP_PART_RIGHT_ARM,
+  HP_PART_LEFT_LEG,
+  HP_PART_RIGHT_LEG,
+  HP_PART_MAX
+};
+
+HP_part lookup_HP_part(std::string name);
+std::string HP_part_name(HP_part part);
+HP_part convert_to_HP(Body_part part);
 
 // TODO: Fire damage? Acid damage? etc etc
 enum Damage_type

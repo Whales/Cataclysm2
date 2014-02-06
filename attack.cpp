@@ -379,24 +379,35 @@ Damage_set Ranged_attack::roll_damage()
 
 Body_part random_body_part_to_hit()
 {
-  int pick = rng(1, 13);
-  switch (pick) {
-    case  1:  return BODYPART_HEAD;
-    case  2:
-    case  3:  return BODYPART_LEFT_ARM;
-    case  4:
-    case  5:  return BODYPART_RIGHT_ARM;
-    case  6:
-    case  7:  return BODYPART_LEFT_LEG;
-    case  8:
-    case  9:  return BODYPART_RIGHT_LEG;
-    case 10:
-    case 11:
-    case 12:
-    case 13:  return BODYPART_TORSO;
+  int pick = rng(1, 38);
+  if (pick <= 4) {
+    return BODY_PART_HEAD;
   }
-
-  return BODYPART_TORSO;
+  if (pick <= 16) {
+    return BODY_PART_TORSO;
+  }
+  if (pick == 17) {
+    return BODY_PART_LEFT_HAND;
+  }
+  if (pick == 18) {
+    return BODY_PART_RIGHT_HAND;
+  }
+  if (pick <= 22) {
+    return BODY_PART_LEFT_ARM;
+  }
+  if (pick <= 26) {
+    return BODY_PART_RIGHT_ARM;
+  }
+  if (pick == 27) {
+    return BODY_PART_LEFT_FOOT;
+  }
+  if (pick == 28) {
+    return BODY_PART_RIGHT_FOOT;
+  }
+  if (pick <= 33) {
+    return BODY_PART_LEFT_LEG;
+  }
+  return BODY_PART_RIGHT_LEG;
 }
 
 bool load_verbs(std::istream &data, std::string &verb_second,

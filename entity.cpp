@@ -725,7 +725,7 @@ void Entity::attack(Entity* target)
   }
 
   Body_part bp_hit = (target->is_player() ? random_body_part_to_hit() :
-                                            BODYPART_NULL);
+                                            BODY_PART_NULL);
 
 // TODO: Should total_damage be reduced by damage absorbed by armor?
   Damage_set damage = att.roll_damage();
@@ -743,7 +743,7 @@ void Entity::attack(Entity* target)
       damage_ss << att.verb_third;
     }
     damage_ss << " ";
-    if (bp_hit == BODYPART_NULL) {
+    if (bp_hit == BODY_PART_NULL) {
       damage_ss << target->get_name_to_player();
     } else {
       damage_ss << target->get_possessive() << " " << body_part_name(bp_hit);

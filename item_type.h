@@ -90,7 +90,7 @@ public:
   int armor_cut;
   int armor_pierce;
   int encumbrance;
-  bool covers[BODYPART_MAX];
+  bool covers[BODY_PART_MAX];
 
 };
 

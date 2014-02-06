@@ -17,7 +17,7 @@ Player::Player()
   pos.y = 15;
   action_points = 100;
   name = "Whales";
-  for (int i = 0; i < BODYPART_MAX; i++) {
+  for (int i = 0; i < HP_PART_MAX; i++) {
     current_hp[i] = 100;
     max_hp[i] = 100;
   }
@@ -454,13 +454,18 @@ void Player::take_damage(Damage_type type, int damage, std::string reason,
                          Body_part part)
 {
 // TODO: Armor absorbs damage
-  current_hp[part] -= damage;
+  current_hp[ convert_to_HP(part) ] -= damage;
 }
 
 std::string Player::hp_text(Body_part part)
 {
+  return hp_text( convert_to_HP(part) );
+}
+
+std::string Player::hp_text(HP_part part)
+{
 // Sanity check
-  if (part == BODYPART_MAX) {
+  if (part == HP_PART_MAX) {
     return "BP_MAX???";
   }
   std::stringstream ret;

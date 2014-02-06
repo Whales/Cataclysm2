@@ -131,27 +131,15 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
       std::getline(data, body_part_line);
       std::istringstream body_part_data(body_part_line);
       std::string body_part_name;
-// TODO: Standardize this somewhere, it's used in Attack too I think?
       while (body_part_data >> body_part_name) {
-        if (body_part_name == "arms") {
-          body_parts_hit.push_back(BODYPART_LEFT_ARM);
-          body_parts_hit.push_back(BODYPART_RIGHT_ARM);
-        } else if (body_part_name == "legs") {
-          body_parts_hit.push_back(BODYPART_LEFT_LEG);
-          body_parts_hit.push_back(BODYPART_RIGHT_LEG);
-        } else if (body_part_name == "all") {
-          body_parts_hit.clear();
-          for (int i = 1; i < BODYPART_MAX; i++) {
-            body_parts_hit.push_back( Body_part(i) );
-          }
-        } else {
-          Body_part bp = lookup_body_part( body_part_name );
-          if (bp == BODYPART_NULL) {
-            debugmsg("Unknown body part '%s' (%s:%s)", body_part_name.c_str(),
-                     owner_name.c_str(), name.c_str());
-            return false;
-          }
-          body_parts_hit.push_back(bp);
+        std::vector<Body_part> parts = get_body_part_list( body_part_name );
+        for (int i = 0; i < parts.size(); i++) {
+          body_parts_hit.push_back( parts[i] );
+        }
+        if (parts.empty()) {
+          debugmsg("Unknown body part '%s' (%s:%s)", body_part_name.c_str(),
+                   owner_name.c_str(), name.c_str());
+          return false;
         }
       }
 

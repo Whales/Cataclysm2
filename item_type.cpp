@@ -217,20 +217,14 @@ bool Item_type_clothing::handle_data(std::string ident, std::istream &data)
     std::istringstream cover_data(line);
     std::string body_part_name;
     while (cover_data >> body_part_name) {
-      if (body_part_name == "arms") {
-        covers[BODYPART_LEFT_ARM]  = true;
-        covers[BODYPART_RIGHT_ARM] = true;
-      } else if (body_part_name == "legs") {
-        covers[BODYPART_LEFT_LEG]  = true;
-        covers[BODYPART_RIGHT_LEG] = true;
-      } else {
-        Body_part bp = lookup_body_part( body_part_name );
-        if (bp == BODYPART_NULL) {
-          debugmsg("Unknown body part '%s' (%s)", body_part_name.c_str(),
-                   name.c_str());
-          return false;
-        }
-        covers[bp] = true;
+      std::vector<Body_part> parts = get_body_part_list( body_part_name );
+      for (int i = 0; i < parts.size(); i++) {
+        covers[ parts[i] ] = true;
+      }
+      if (parts.empty()) {
+        debugmsg("Unknown body part '%s' (%s)", body_part_name.c_str(),
+                 name.c_str());
+        return false;
       }
     }
 
