@@ -234,8 +234,8 @@ type: rocky
 adjacent
 tile: a = w:30 nothing / w:15 rubble / w:1 boulder
 tile: b = w:60 nothing / w:20 rubble / w:1 boulder
-tile: c = w:90 nothing / w:25 rubble / w:1 boulder
-tile: d = w:100 nothing / w:1 boulder
+tile: c = w:90 nothing / w:10 rubble / w:1 boulder
+tile: d = w:100 nothing / w:5 rubble / w:1 boulder
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
