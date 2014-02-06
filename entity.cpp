@@ -688,6 +688,9 @@ bool Entity::can_attack(Entity* target)
   if (!target) {
     return false;
   }
+  if (pos.z != target->pos.z) {
+    return false;
+  }
   if (rl_dist(pos, target->pos) <= 1){
     return true;
   }
