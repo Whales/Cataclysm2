@@ -1,5 +1,6 @@
 #include "worldmap.h"
 #include "rng.h"
+#include "map.h"
 
 glyph Worldmap_tile::top_glyph()
 {
@@ -169,11 +170,14 @@ void Worldmap::draw_minimap(cuss::element *drawing, int cornerx, int cornery)
 }
 
 
-Worldmap_tile* Worldmap::get_tile(int x, int y)
+Worldmap_tile* Worldmap::get_tile(int x, int y, bool warn)
 {
   if (x < 0 || x >= WORLDMAP_SIZE || y < 0 || y >= WORLDMAP_SIZE) {
     tile_oob.terrain = WORLD_TERRAIN.lookup_uid(0);
     tile_oob.monsters.clear();
+    if (warn) {
+      debugmsg("Worldmap::get_tile(%d, %d) OOB", x, y);
+    }
     return &tile_oob;
   }
 
@@ -187,7 +191,7 @@ glyph Worldmap::get_glyph(int x, int y)
     return glyph();
   }
 */
-  Worldmap_tile* tile = get_tile(x, y);
+  Worldmap_tile* tile = get_tile(x, y, false);
   glyph ret = tile->top_glyph();
   if (tile->terrain->has_flag(WTF_LINE_DRAWING)) {
     bool north = (get_tile(x, y - 1)->terrain->has_flag(WTF_LINE_DRAWING));
@@ -198,6 +202,12 @@ glyph Worldmap::get_glyph(int x, int y)
   }
 
   return ret;
+}
+
+std::string Worldmap::get_name(int x, int y)
+{
+  Worldmap_tile* tile = get_tile(x, y, false);
+  return tile->get_name();
 }
 
 std::vector<Monster_spawn>* Worldmap::get_spawns(int x, int y)

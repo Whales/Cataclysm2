@@ -38,10 +38,12 @@ public:
 
   void draw(int posx, int posy);
   void draw_minimap(cuss::element *drawing, int cornerx, int cornery);
-  Worldmap_tile* get_tile(int x, int y);
+  Worldmap_tile* get_tile(int x, int y, bool warn = true);
   glyph get_glyph(int x, int y);
+  std::string get_name(int x, int y);
   std::vector<Monster_spawn>* get_spawns(int x, int y);
-  Generic_map get_generic_map();
+
+  Generic_map get_generic_map();  // For road drawing and long-travel
 
   Point random_tile_with_terrain(std::string name);
   Point random_tile_with_terrain(World_terrain* terrain);

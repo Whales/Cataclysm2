@@ -593,6 +593,10 @@ void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
     int z_index = z + VERTICAL_MAP_SIZE - posz;
     for (int x = 0; x < MAP_SIZE; x++) {
       for (int y = 0; y < MAP_SIZE; y++) {
+/* at_location either returns the existing submap with that location keyed in,
+ * or creates a new submap, generates it with the world information at that
+ * location, and returns it.
+ */
         submaps[x][y][z_index] = SUBMAP_POOL.at_location(posx + x, posy + y, z);
         if (z == 0) {
           spawn_monsters(world, posx + x, posy + y, x, y, z);
@@ -614,7 +618,7 @@ void Map::shift(Worldmap *world, int shiftx, int shifty, int shiftz)
 }
 
 void Map::spawn_monsters(Worldmap *world, int worldx, int worldy,
-                         int subx, int suby, int posz)
+                         int subx, int suby, int zlevel)
 {
 // If we have bad inputs, return with an error message
   if (!world) {
@@ -633,10 +637,10 @@ void Map::spawn_monsters(Worldmap *world, int worldx, int worldy,
   }
 
 /*
-debugmsg("Spawning monsters at [%d:%d] - %d genera, first '%s', first pop %d",
-         worldx, worldy, monsters->size(),
-         (*monsters)[0].genus->get_name().c_str(),
-         (*monsters)[0].population);
+  int zdex = zlevel + VERTICAL_MAP_SIZE - posz;
+debugmsg("Spawning monsters at World[%d:%d](%s), Submap[%d:%d:%d](%s)", 
+         worldx, worldy, world->get_name(worldx, worldy).c_str(),
+         subx, suby, posz, submaps[subx][suby][zdex]->get_spec_name().c_str());
 */
 
 // Pick some empty tiles
@@ -645,10 +649,14 @@ debugmsg("Spawning monsters at [%d:%d] - %d genera, first '%s', first pop %d",
  */
   int minx = subx * SUBMAP_SIZE, miny = suby * SUBMAP_SIZE;
   int maxx = minx + SUBMAP_SIZE - 1, maxy = miny + SUBMAP_SIZE - 1;
+/*
+  debugmsg("Submap [%d:%d:%d], tiles [%d:%d] to [%d:%d]",
+           subx, suby, zlevel, minx, miny, maxx, maxy);
+*/
   std::vector<Point> available_tiles;
   for (int x = minx; x <= maxx; x++) {
     for (int y = miny; y <= maxy; y++) {
-      if (move_cost(x, y, posz) > 0) {
+      if (move_cost(x, y, zlevel) > 0) {
         available_tiles.push_back( Point(x, y) );
       }
     }
@@ -669,7 +677,7 @@ debugmsg("Spawning monsters at [%d:%d] - %d genera, first '%s', first pop %d",
 // Create a monster and place it there
       Monster* mon = (*monsters)[i].generate_monster();
 //debugmsg("Generating '%s'", mon->get_name().c_str());
-      mon->pos = Tripoint(pos.x, pos.y, posz);
+      mon->pos = Tripoint(pos.x, pos.y, zlevel);
 /*
 debugmsg("Placed at [%d:%d:%d] - '%s'", pos.x, pos.y, posz,
          get_name(pos.x, pos.y, posz).c_str());

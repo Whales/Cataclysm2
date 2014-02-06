@@ -110,7 +110,7 @@ public:
                                  int wposz = -999);
   void shift(Worldmap *world, int shiftx, int shifty, int shiftz = 0);
   void spawn_monsters(Worldmap *world, int worldx, int worldy,
-                      int subx, int suby, int posz);
+                      int subx, int suby, int zlevel);
 
 // Mapping & pathing
   Generic_map get_dijkstra_map(Tripoint target, int weight,
