@@ -101,8 +101,12 @@ void chomp(std::istream &data)
 
 void set_default_dirs()
 {
-  DATA_DIR = "./data";
-  CUSS_DIR = "./cuss";
+  if (DATA_DIR.empty()) {
+    DATA_DIR = "./data";
+  }
+  if (CUSS_DIR.empty()) {
+    CUSS_DIR = "./cuss";
+  }
 }
 
 bool set_data_dir(std::string dir)
