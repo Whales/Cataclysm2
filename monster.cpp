@@ -262,11 +262,12 @@ void Monster::take_turn()
   } else if (can_smash(GAME.map, plan.next_step())) {
     smash(GAME.map, plan.next_step());
   } else {
+/*
+    Most likely, an entity is in our way
+    TODO: Check if we want to attack that enemy
     Tripoint next = plan.next_step();
-    debugmsg("Failed to path %s => %s (%s => %s)",
-             pos.str().c_str(), next.str().c_str(),
-             GAME.map->get_name(pos).c_str(), GAME.map->get_name(next).c_str());
     plan.generate_path_to_target(get_AI(), pos);
+*/
     pause();
   }
 }
@@ -325,10 +326,18 @@ void Monster::take_damage(Damage_type type, int damage, std::string reason,
 // TODO: Rewrite this function.
 void Monster::wander()
 {
-  pause();
-  if (wander_duration <= 0) {
-    wander_target = Tripoint( pos.x + rng(-3, 3), pos.y + rng(-3, 3), pos.z );
-    wander_duration = 3;
+  std::vector<Tripoint> open_points;
+  for (int x = pos.x - 1; x <= pos.x + 1; x++) {
+    for (int y = pos.y - 1; y <= pos.y + 1; y++) {
+      if (can_move_to(GAME.map, x, y, pos.z)) {
+        open_points.push_back( Tripoint(x, y, pos.z) );
+      }
+    }
+  }
+  if (open_points.empty()) {
+    pause();
+  } else {
+    move_to(GAME.map, open_points[ rng(0, open_points.size() - 1) ]);
   }
 }
 
