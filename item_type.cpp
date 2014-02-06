@@ -15,7 +15,7 @@ Item_type::Item_type()
   }
   to_hit = 0;
   attack_speed = 0;
-  thrown_variance = Dice(5, 20, 0);
+  thrown_variance = Dice(8, 20, 0);
   thrown_dmg_percent = 50;
   thrown_speed = 0;
   for (int i = 0; i < ITEM_FLAG_MAX; i++) {
