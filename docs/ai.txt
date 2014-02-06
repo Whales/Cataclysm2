@@ -46,23 +46,23 @@ Examples: @ = monster, ^ = target, . = floor, # = wall
   Awareness = 0:  Can't reach target!
   @..#.
   ##.#.
-  .####
-  ....^
+  ^####
+  .....
 
-  Awareness = 1:  Can reach target after a long path
+  Awareness = 1:  Can reach target in 12 steps
   .......
   .@..##.
   ###.#.#
   #^####.
-  #......
+  .......
   #.#####
 
-  Awareness = 2:  Can reach target quickly
+  Awareness = 2:  Can reach target in 5 steps
   #########
   .........
   ..@..##..
   .###.#.#.
   .#^####..
-  .#.......
+  .........
   .#.#####.
   ....#....

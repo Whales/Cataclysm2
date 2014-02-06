@@ -7,6 +7,34 @@ Graphics:
   -SDL integration with cuss stuff
   -Tiles, what do they look like
 
+Command line:
+  -Add runtime options:
+    --data-dir=<PATH>
+      Sets the location of the top-level data directory.  The data directory
+      may contain several subdirectories, each of which stores a data set.  Each
+      of this may be selected when generating a new world.
+      Default: "./Data"
+    --data-set=<NAME>
+      Sets the data set used.  Must be the name of a directory inside the data
+      directory.  If blank, then the data set may be selected when creating a
+      new world.
+      Default: ""
+    --profile-dir=<PATH>
+      Sets the location of the top-level profile directory.  The profile
+      directory may contain sever subdirectories, each of which stores options,
+      save directories, character types, and other files.
+      Default: "./Profiles"
+    --profile=<NAME>
+      Sets the name of the profile to use.  Must match the name of a directory
+      inside the profile directory.
+      Default: "Global" (?)
+    --character=<NAME>
+      Sets the name of the character to use.  If a save file exists in the
+      profile directory in use, then the character will automatically be loaded.
+      If blank, you'll be given a list of save files to choose from, or will be
+      prompted for a name when creating a character.
+      Default: ""
+
 Data (general):
   -All data types (anything that goes into a Data_pool) needs a error_check()
    function.  Several types contain a string that's supposed to point to data.
@@ -29,6 +57,13 @@ Monsters:
 AI and Pathing:
   -Add a Pathing_feature, "cover" - prefer to path through tiles which are
    opaque!
+    Or maybe it's better to path *next to* tiles which are opaque?
+    Can we / should we try to path so that opaque tiles are between us and our
+    target?  Or is that too crazy?
+      We can do this by adding a check to Map::get_movement_map():
+        if (!senses(target, origin, 10, SENSE_SIGHT)) {
+          cost -= 25;
+        }
 
 Status effects:
   Stuff like "Stunned" "Blinded" "Poisoned" etc. 
