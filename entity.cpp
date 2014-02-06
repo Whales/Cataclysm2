@@ -823,7 +823,16 @@ void Entity::attack_ranged(Entity* target)
   special_timer = ra.charge_time;
   GAME.launch_projectile(this, ra, pos, target->pos);
   action_points -= ra.speed;
-// TODO: Set a delay timer to prvent us from using this attack again soon?
+  if (GAME.player->can_see(GAME.map, pos)) {
+    std::string target_name;
+    if (GAME.player->can_see(GAME.map, target->pos)) {
+      target_name = target->get_name_to_player();
+    } else {
+      target_name = "something";
+    }
+    GAME.add_msg("%s %s at %s!", get_name_to_player().c_str(),
+                 ra.verb_third.c_str(), target_name.c_str());
+  }
 }
 
 bool Entity::can_sense(Map* map, int x, int y, int z)
