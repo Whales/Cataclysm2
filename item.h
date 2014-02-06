@@ -33,6 +33,7 @@ public:
   bool is_real();
   bool can_reload();
   int time_to_reload();
+  int time_to_fire();
 
 // Info fetching
   int get_uid();

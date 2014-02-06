@@ -801,6 +801,7 @@ Ranged_attack Entity::fire_weapon()
     return Ranged_attack();
   }
   weapon.charges--;
+  action_points -= weapon.time_to_fire();
   return weapon.get_fired_attack();
 }
 

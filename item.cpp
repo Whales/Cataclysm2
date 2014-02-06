@@ -67,9 +67,17 @@ bool Item::can_reload()
 int Item::time_to_reload()
 {
   if (!can_reload() || !is_real()) {
-    return -1;
+    return 0;
   }
   return type->time_to_reload();
+}
+
+int Item::time_to_fire()
+{
+  if (!is_real()) {
+    return 0;
+  }
+  return type->time_to_fire();
 }
 
 int Item::get_uid()

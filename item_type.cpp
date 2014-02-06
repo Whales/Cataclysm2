@@ -50,6 +50,7 @@ Item_type_launcher::Item_type_launcher()
   durability = 100;
   capacity = 15;
   reload_ap = 300;
+  fire_ap = 100;
 }
 void Item_type::assign_uid(int id)
 {

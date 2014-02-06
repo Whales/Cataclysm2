@@ -65,6 +65,7 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_MISC; }
   virtual int  time_to_reload()  { return 0; }
+  virtual int  time_to_fire()    { return 0; }
   virtual int  default_charges() { return 0; }
   virtual bool always_combines()    { return false; }
   virtual bool combine_by_charges() { return false; }
@@ -126,6 +127,7 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual int time_to_reload() { return reload_ap; }
+  virtual int  time_to_fire()  { return fire_ap; }
 
   std::string ammo_type;  // Ammo type - links this to a launcher
   int damage;     // Damage bonus
