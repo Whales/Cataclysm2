@@ -172,6 +172,7 @@ public:
 
 // Active functions
   Field& operator+=(const Field& rhs);
+  void set_duration(int dur);
   void hit_entity(Entity* entity);
   void process(Map* map, Tripoint pos);
   void gain_level();

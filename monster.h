@@ -37,10 +37,10 @@ public:
   virtual bool try_goal(AI_goal goal);
   virtual bool pick_attack_victim();
   virtual bool pick_flee_target();
+  virtual std::vector<Ranged_attack> get_ranged_attacks();
   virtual void take_turn();
 
   virtual bool can_sense(Entity* entity);
-  bool can_attack(Entity* entity);
   virtual Attack base_attack();
   virtual void take_damage(Damage_type type, int damage, std::string reason,
                            Body_part part = BODYPART_NULL);

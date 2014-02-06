@@ -107,7 +107,7 @@ bool Game::main_loop()
 // TODO: Set up a debug menu.
       if (ch == '!') {
         Monster* mon = new Monster;
-        mon->set_type("zombie");
+        mon->set_type("spitter zombie");
         mon->pos.x = player->pos.x - 3;
         mon->pos.y = player->pos.y - 3;
         entities.add_entity(mon);
@@ -291,7 +291,7 @@ void Game::do_action(Interface_action act)
         } else {
           player->remove_item_uid(it.get_uid(), 1);
           Ranged_attack att = player->throw_item(it);
-          launch_projectile(it, att, player->pos, target);
+          launch_projectile(player, it, att, player->pos, target);
         }
       }
     } break;
@@ -311,7 +311,7 @@ void Game::do_action(Interface_action act)
           add_msg("Never mind.");
         } else {
           Ranged_attack att = player->fire_weapon();
-          launch_projectile(Item(), att, player->pos, target);
+          launch_projectile(player, att, player->pos, target);
         }
       }
       break;
@@ -484,9 +484,42 @@ void Game::make_sound(std::string desc, int x, int y)
   }
 }
 
-void Game::launch_projectile(Item it, Ranged_attack attack,
+void Game::launch_projectile(Ranged_attack attack, Point origin, Point target)
+{
+  launch_projectile(NULL, attack, origin, target);
+}
+
+void Game::launch_projectile(Item it, Ranged_attack attack, Point origin,
+                             Point target)
+{
+  launch_projectile(NULL, it, attack, origin, target);
+}
+
+void Game::launch_projectile(Entity* shooter, Ranged_attack attack,
                              Point origin, Point target)
 {
+  launch_projectile(shooter, Item(), attack, origin, target);
+}
+
+// TODO: Make this 3D
+//       Also, move it to projectile.cpp?
+void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
+                             Point origin, Point target)
+{
+  std::string shooter_name, verb = "shoot";
+  if (shooter) {
+    shooter_name = shooter->get_name_to_player();
+    verb = shooter->conjugate(verb);
+  } else {
+/* If there's no shooter, that implies that natural forces launched the
+ * projectile, e.g. rubble from an explosion.  In that case, we want our hit
+ * message to be "A piece of rubble hits you!"
+ */
+    if (it.is_real()) {
+      shooter_name = it.get_name_indefinite();
+    }
+    verb = "hits";
+  }
   int range = rl_dist(origin, target);
   int angle_missed_by = attack.roll_variance();
 // Use 1800 since attack.variance is measured in 10ths of a degree
@@ -498,42 +531,70 @@ void Game::launch_projectile(Item it, Ranged_attack attack,
   }
 // fine_distance is used later to see if we hit the target or "barely missed"
   int fine_distance = 100 * (distance_missed_by - tiles_off);
-  debugmsg("angle %d, missed %f, tiles %d, fine %d", angle_missed_by, distance_missed_by, tiles_off, fine_distance);
+  //debugmsg("angle %d, missed %f, tiles %d, fine %d", angle_missed_by, distance_missed_by, tiles_off, fine_distance);
 
   std::vector<Point> path = map->line_of_sight(origin, target);
   if (path.empty()) { // Lost line of sight at some point
     path = line_to(origin, target);
   }
 
-  for (int i = 0; i < path.size(); i++) {
+// We track i outside of the function, because we need it to know where the
+// projectile stopped.
+  int i = 0;
+  bool stopped = false;
+  while (!stopped && i < path.size()) {
     if (map->move_cost(path[i].x, path[i].y) == 0) {
 // It's a solid tile, so let's try to smash through it!
       map->smash(path[i].x, path[i].y, attack.roll_damage(), false);
       if (map->move_cost(path[i].x, path[i].y) == 0) {
-        return; // We didn't make it!
+        stopped = true; // Couldn't get through the terrain!
+        i--; // Stop at the terrain before the solid one
       }
     } else {
+// Drop a field in our wake?
+      if (attack.wake_field.exists()) {
+// TODO: Replace this 0 with the real Z-level
+        attack.wake_field.drop(Tripoint(path[i].x, path[i].y, 0), shooter_name);
+      }
+// Did we hit an entity?
       Entity* entity_hit = entities.entity_at(path[i].x, path[i].y);
       if (entity_hit) {
         bool hit;
-// TODO: Incorporate the size of the monster
         if (i == path.size() - 1) {
           hit = rng(0, 100) >= fine_distance;
         } else {
-          hit = one_in(3);
+          hit = one_in(3);// TODO: Incorporate the size of the monster
         }
+
         if (hit) {
-          add_msg("You shoot %s!", entity_hit->get_name_to_player().c_str());
+          add_msg("%s %s %s!", shooter_name.c_str(), verb.c_str(),
+                  entity_hit->get_name_to_player().c_str());
           Damage_set dam = attack.roll_damage();
           entity_hit->take_damage(DAMAGE_PIERCE, dam.get_damage(DAMAGE_PIERCE),
                                   "you");
-          return;
-        } else if (i == path.size() - 1) {
+          stopped = true;
+        } else if (i == path.size() - 1 && shooter == player) {
           add_msg("You barely miss %s.",
                   entity_hit->get_name_to_player().c_str());
         }
-      }
-    }
+      } // if (entity hit)
+    } // Didn't hit solid terrain
+    i++;
+  } // while (!stopped && i < path.size())
+
+  Tripoint end_point;
+  if (i == path.size()) {
+    end_point = Tripoint(path.back().x, path.back().y, 0);
+  } else {
+    end_point = Tripoint(path[i].x, path[i].y, 0);
+  }
+// Drop the projectile we threw, if it's "real"
+  if (it.is_real()) {
+    map->add_item(it, end_point);
+  }
+// Create the target_field from our attack, if it's "real"
+  if (attack.target_field.exists()) {
+    attack.target_field.drop(end_point, shooter_name);
   }
 }
 

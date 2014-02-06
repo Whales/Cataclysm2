@@ -2,6 +2,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <math.h>
+#include <sstream> // For Tripoint::string()
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
@@ -89,6 +90,20 @@ int rl_dist(int x0, int y0, int z0, int x1, int y1, int z1)
     return dy;
   }
   return dz;
+}
+
+std::string Point::string()
+{
+  std::stringstream ret;
+  ret << "[" << x << ":" << y << "]";
+  return ret.str();
+}
+
+std::string Tripoint::string()
+{
+  std::stringstream ret;
+  ret << "[" << x << ":" << y << ":" << z << "]";
+  return ret.str();
 }
 
 int rl_dist(Tripoint origin, Tripoint target)

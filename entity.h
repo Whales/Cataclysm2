@@ -124,6 +124,7 @@ public:
 // Combat functions
   virtual Attack base_attack();
   virtual Attack std_attack(); // With weapon if it exists
+  virtual bool can_attack(Entity* target);
   virtual void attack(Entity* target);
   virtual int  hit_roll(int bonus);
   virtual int  dodge_roll();
@@ -131,8 +132,13 @@ public:
                            Body_part part = BODYPART_NULL);
   virtual void take_damage(Damage_set damage, std::string reason,
                            Body_part part = BODYPART_NULL);
+
   virtual Ranged_attack throw_item(Item it);
   virtual Ranged_attack fire_weapon();
+  virtual std::vector<Ranged_attack> get_ranged_attacks();
+  virtual Ranged_attack pick_ranged_attack(Entity* target);
+  virtual bool can_attack_ranged(Entity* target);
+  virtual void attack_ranged(Entity* target);
 
   virtual bool can_sense(Map* map, int x, int y, int z = 999);
   virtual bool can_sense(Map* map, Tripoint target);

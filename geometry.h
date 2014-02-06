@@ -49,6 +49,8 @@ struct Point
   Point(const Point &p) : x (p.x), y (p.y) {}
   ~Point(){}
 
+  std::string string();
+
   bool operator==(const Point &other) const
   {
     return (x == other.x && y == other.y);
@@ -81,6 +83,8 @@ struct Tripoint
   Tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
   Tripoint(const Tripoint &p) : x (p.x), y (p.y), z (p.z) {}
   ~Tripoint(){}
+
+  std::string string();
 
   bool operator==(const Tripoint &other) const
   {

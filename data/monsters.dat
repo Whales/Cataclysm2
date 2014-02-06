@@ -83,7 +83,7 @@ name: spitter zombie
     variance: 5d15
     target_field:
       field: acid
-      duration: 2d6 + 10
+      duration: 3d6 + 10
 # 2d4 - 1 = 1 to 7, most likely 4
       tiles: 2d4 - 1
     done

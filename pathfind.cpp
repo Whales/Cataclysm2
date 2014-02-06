@@ -449,8 +449,8 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
   end.z   -= map.z_offset;
 
   if (x_size == 0 || y_size == 0 || z_size == 0) {
-    debugmsg("A* generated; [%d:%d:%d] => [%d:%d:%d] (size %d, %d, %d",
-             start.x, start.y, start.z, end.x, end.y, end.z,
+    debugmsg("A* generated; %s => %s (size %d, %d, %d)",
+             start.string().c_str(), end.string().c_str(),
              x_size, y_size, z_size);
     return Path();
   }

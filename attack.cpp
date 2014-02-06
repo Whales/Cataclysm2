@@ -5,6 +5,7 @@
 #include "entity.h" // For Stats
 #include "item.h"
 #include "globals.h" // For FIELDS
+#include "game.h"
 #include <sstream>
 
 bool load_verbs(std::istream &data, std::string &verb_second,
@@ -179,6 +180,34 @@ Field_pool::Field_pool()
 
 Field_pool::~Field_pool()
 {
+}
+
+bool Field_pool::exists()
+{
+  return type;
+}
+
+void Field_pool::drop(Tripoint pos, std::string creator)
+{
+  int num_tiles = tiles.roll();
+  if (num_tiles <= 0) {
+    return; // Don't drop anything!
+  }
+  num_tiles--; // The one at the exact point is the first
+  int dur = duration.roll();
+  Field tmp(type);
+  tmp.set_duration(dur);
+  if (!creator.empty()) {
+    tmp.creator = creator;
+  }
+  GAME.map->add_field(tmp, pos);
+
+  for (int i = 0; i < num_tiles; i++) {
+    Tripoint next_pos(pos.x + rng(-1, 1), pos.y + rng(-1, 1), pos.z);
+    dur = duration.roll();
+    tmp.set_duration(dur);
+    GAME.map->add_field(tmp, next_pos);
+  }
 }
 
 bool Field_pool::load_data(std::istream& data, std::string owner_name)

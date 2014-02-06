@@ -227,6 +227,14 @@ bool Monster::pick_flee_target()
   return true;
 }
 
+std::vector<Ranged_attack> Monster::get_ranged_attacks()
+{
+  if (!type) {
+    return std::vector<Ranged_attack>();
+  }
+  return type->ranged_attacks;
+}
+
 void Monster::take_turn()
 {
   if (action_points <= 0 || dead) {
@@ -242,6 +250,8 @@ void Monster::take_turn()
   plan.attention--;
   if (plan.target_entity && can_attack(plan.target_entity)) {
     attack(plan.target_entity);
+  } else if (plan.target_entity && can_attack_ranged(plan.target_entity)) {
+    attack_ranged(plan.target_entity);
   } else if (can_move_to(GAME.map, plan.next_step())) {
     move_to(GAME.map, plan.next_step());
     plan.erase_step();
@@ -249,8 +259,8 @@ void Monster::take_turn()
     smash(GAME.map, plan.next_step());
   } else {
     Tripoint next = plan.next_step();
-    debugmsg("Failed to path [%d:%d:%d] => [%d:%d:%d]", pos.x, pos.y, pos.z,
-             next.x, next.y, next.z);
+    debugmsg("Failed to path %s => %s",
+             pos.string().c_str(), next.string().c_str());
     plan.generate_path_to_target(get_AI(), pos);
     pause();
   }
@@ -274,16 +284,6 @@ bool Monster::can_sense(Entity* entity)
     return GAME.map->senses(pos, entity->pos, 15, SENSE_SIGHT);
   }
 // TODO: Other senses (e.g. echolocation)
-  return false;
-}
-bool Monster::can_attack(Entity* entity)
-{
-  if (!entity) {
-    return false;
-  }
-  if (rl_dist(pos.x, pos.y, pos.z, entity->pos.x, entity->pos.y, entity->pos.z) <= 1){
-    return true;
-  }
   return false;
 }
 

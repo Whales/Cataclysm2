@@ -210,6 +210,40 @@ bool Entity::pick_flee_target()
   return false;
 }
 
+std::vector<Ranged_attack> Entity::get_ranged_attacks()
+{
+  return std::vector<Ranged_attack>();
+}
+
+Ranged_attack Entity::pick_ranged_attack(Entity* target)
+{
+  std::vector<Ranged_attack> ra = get_ranged_attacks();
+  if (ra.empty()) {
+    return Ranged_attack();
+  }
+  int total_chance = 0;
+  std::vector<Ranged_attack> used;
+  for (int i = 0; i < ra.size(); i++) {
+    if (target && rl_dist(pos, target->pos) > ra[i].range) {
+      ra.erase(ra.begin() + i);
+      i--;
+    } else {
+      total_chance += ra[i].weight;
+    }
+  }
+  if (ra.empty()) { // No attacks in range!
+    return Ranged_attack();
+  }
+  int index = rng(1, total_chance);
+  for (int i = 0; i < ra.size(); i++) {
+    index -= ra[i].weight;
+    if (index <= 0) {
+      return ra[i];
+    }
+  }
+  return ra.back();
+}
+
 Entity_AI Entity::get_AI()
 {
   return Entity_AI();
@@ -638,7 +672,17 @@ Attack Entity::std_attack()
   return att;
 }
 
-  
+bool Entity::can_attack(Entity* target)
+{
+  if (!target) {
+    return false;
+  }
+  if (rl_dist(pos, target->pos) <= 1){
+    return true;
+  }
+  return false;
+}
+
 void Entity::attack(Entity* target)
 {
   if (!target) {
@@ -744,6 +788,38 @@ Ranged_attack Entity::fire_weapon()
   }
   weapon.charges--;
   return weapon.get_fired_attack();
+}
+
+bool Entity::can_attack_ranged(Entity* target)
+{
+  if (!target) {
+    return false;
+  }
+  std::vector<Ranged_attack> ra = get_ranged_attacks();
+  if (ra.empty()) {
+    return false;
+  }
+  int range = rl_dist(pos, target->pos);
+  for (int i = 0; i < ra.size(); i++) {
+    if (ra[i].range >= range) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void Entity::attack_ranged(Entity* target)
+{
+  if (!target) {
+    return;
+  }
+  Ranged_attack ra = pick_ranged_attack(target);
+  if (ra.range == 0) {
+    return; // This means that pick_ranged_attack() failed to find anything
+  }
+  GAME.launch_projectile(this, ra, pos, target->pos);
+  action_points -= ra.speed;
+// TODO: Set a delay timer to prvent us from using this attack again soon?
 }
 
 bool Entity::can_sense(Map* map, int x, int y, int z)

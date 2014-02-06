@@ -128,6 +128,8 @@ name: steam
 done
 
 name: acid
+  spread_chance: 40
+  spread_cost: 10
   fuel:
     any_item
     fuel: -3
@@ -136,7 +138,7 @@ name: acid
   level:
     name: acid splatter
     glyph: 5 ltgreen black
-    duration: 10
+    duration: 5
     danger: 100
     verb: burns
     parts_hit: legs
@@ -145,7 +147,7 @@ name: acid
   level: 
     name: acid streak
     glyph: 5 green black
-    duration: 15
+    duration: 10
     danger: 150
     verb: burns
     parts_hit: legs

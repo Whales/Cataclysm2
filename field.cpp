@@ -523,6 +523,12 @@ Field& Field::operator+=(const Field& rhs)
   return (*this);
 }
 
+void Field::set_duration(int dur)
+{
+  duration = dur;
+  adjust_level();
+}
+
 void Field::hit_entity(Entity* entity)
 {
   if (!entity || !type) {

@@ -3,6 +3,7 @@
 
 #include "enum.h"
 #include "dice.h"
+#include "geometry.h" // For Tripoint
 #include <string>
 #include <vector>
 #include <istream>
@@ -77,6 +78,10 @@ struct Field_pool
   Dice duration;
   Dice tiles;
 
+  bool exists();
+
+  void drop(Tripoint pos, std::string creator = "");
+
   bool load_data(std::istream& data, std::string owner_name = "Unknown");
 };
 
@@ -97,8 +102,6 @@ struct Ranged_attack
 
 /* TODO: Add the following as they're implemented:
  *      Status_effect this causes (Blinding, stunning, etc)
- *      Field this leaves in its wake (smoke, slime, etc)
- *      Field pool this plants at its destination (acid, fire)
  *      Other???
  */
 

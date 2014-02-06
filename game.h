@@ -40,8 +40,16 @@ public:
   void make_sound(std::string desc, Tripoint pos);
   void make_sound(std::string desc, Point pos);
   void make_sound(std::string desc, int x, int y);
+
+  void launch_projectile(Ranged_attack attack,
+                         Point origin, Point target);
   void launch_projectile(Item it, Ranged_attack attack,
                          Point origin, Point target);
+  void launch_projectile(Entity* shooter, Ranged_attack attack,
+                         Point origin, Point target);
+  void launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
+                         Point origin, Point target);
+
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
   void player_move_vertical(int zdif);
   void add_msg(std::string msg, ...);
