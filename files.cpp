@@ -1,8 +1,33 @@
+#include "files.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
 #include <fstream>
-#include "files.h"
+
+std::string DATA_DIR;
+std::string CUSS_DIR;
+
+bool directory_exists(std::string name)
+{
+  DIR *dir;
+  dir = opendir(name.c_str());
+  if (dir) {
+    closedir(dir);
+    return true;
+  }
+  return false;
+}
+
+bool file_exists(std::string name)
+{
+  std::ifstream fin;
+  fin.open(name.c_str());
+  if (fin.is_open()) {
+    fin.close();
+    return true;
+  }
+  return false;
+}
 
 std::vector<std::string> files_in(std::string dir, std::string suffix)
 {
@@ -72,4 +97,19 @@ void chomp(std::istream &data)
     std::string junk;
     std::getline(data, junk);
   }
+}
+
+void set_default_dirs()
+{
+  DATA_DIR = "./data";
+  CUSS_DIR = "./cuss";
+}
+
+bool set_data_dir(std::string dir)
+{
+  if (!directory_exists(dir)) {
+    return false;
+  }
+  DATA_DIR = dir;
+  return true;
 }

@@ -1,6 +1,7 @@
 #include "player.h"
 #include "cuss.h"
 #include "game.h"
+#include "files.h"  // For CUSS_DIR
 #include <sstream>
 
 void populate_item_lists(Player* p, int offset_size,
@@ -145,17 +146,15 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
 {
   Window w_inv(0, 0, 80, 24);
   cuss::interface i_inv;
+  std::string inv_file = CUSS_DIR + "/i_inventory.cuss";
 // Sanity checks
-  if (!i_inv.load_from_file("cuss/i_inventory.cuss")) {
-    debugmsg("Couldn't open cuss/i_inventory.cuss!");
-    std::vector<Item> ret;
-    return ret;
+  if (!i_inv.load_from_file(inv_file)) {
+    return std::vector<Item>();
   }
   cuss::element *ele_list_items = i_inv.find_by_name("list_items");
   if (ele_list_items == NULL) {
-    debugmsg("No element 'list_items' in cuss/i_inventory.cuss");
-    std::vector<Item> ret;
-    return ret;
+    debugmsg("No element 'list_items' in %s", inv_file.c_str());
+    return std::vector<Item>();
   }
   int offset_size = ele_list_items->sizey;
 // Set static text fields, which are different depending on single/remove

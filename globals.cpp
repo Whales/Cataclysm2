@@ -20,15 +20,15 @@ Keybinding_pool           KEYBINDINGS;
 
 void load_global_data()
 {
-  TERRAIN.load_from       ("data/terrain.dat"       );
-  WORLD_TERRAIN.load_from ("data/world_terrain.dat" );
-  FIELDS.load_from        ("data/fields.dat"        );
-  ITEM_TYPES.load_from    ("data/items.dat"         );
-  ITEM_GROUPS.load_from   ("data/item_groups.dat"   );
-  MONSTER_GENERA.load_from("data/monster_genera.dat");
-  MONSTER_TYPES.load_from ("data/monsters.dat"      );
-  BIOMES.load_from        ("data/biomes.dat"        );
-  KEYBINDINGS.load_from   ("data/keybindings.txt"   );
+  TERRAIN.load_from       (DATA_DIR + "/terrain.dat"       );
+  WORLD_TERRAIN.load_from (DATA_DIR + "/world_terrain.dat" );
+  FIELDS.load_from        (DATA_DIR + "/fields.dat"        );
+  ITEM_TYPES.load_from    (DATA_DIR + "/items.dat"         );
+  ITEM_GROUPS.load_from   (DATA_DIR + "/item_groups.dat"   );
+  MONSTER_GENERA.load_from(DATA_DIR + "/monster_genera.dat");
+  MONSTER_TYPES.load_from (DATA_DIR + "/monsters.dat"      );
+  BIOMES.load_from        (DATA_DIR + "/biomes.dat"        );
+  KEYBINDINGS.load_from   (DATA_DIR + "/keybindings.txt"   );
 
   load_mapgen_specs();
 }

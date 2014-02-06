@@ -2,19 +2,22 @@
 #include "window.h"
 #include "rng.h"
 #include "game.h"
+#include "files.h"
 #include <ctime>
 
 int main()
 {
-  srand(time(NULL));
-  init_display();
+  srand(time(NULL));  // Seed the RNG - TODO: Wrap this up
+  init_display();     // See window.cpp
 
-  load_global_data();
+  set_default_dirs(); // See files.cpp
 
-  GAME.setup();
+  load_global_data(); // See globals.cpp
 
-  do {} while (GAME.main_loop());
+  GAME.setup();       // See game.cpp
 
-  endwin();
+  do {} while (GAME.main_loop()); // See game.cpp
+
+  endwin();           // See window.cpp
   return 0;
 }

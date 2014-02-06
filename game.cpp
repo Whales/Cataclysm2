@@ -4,6 +4,7 @@
 #include "map.h"
 #include "rng.h"
 #include "pathfind.h"
+#include "files.h"      // For CUSS_DIR
 #include <stdarg.h>
 #include <math.h>
 #include <sstream>
@@ -38,8 +39,7 @@ Game::~Game()
   
 bool Game::setup()
 {
-  if (!i_hud.load_from_file("cuss/i_hud.cuss")) {
-    debugmsg("Can't load cuss/i_hud.cuss!");
+  if (!i_hud.load_from_file(CUSS_DIR + "/i_hud.cuss")) {
     return false;
   }
   int xdim, ydim;
@@ -722,8 +722,7 @@ void Game::pickup_items(int posx, int posy)
   }
 
   cuss::interface i_pickup;
-  if (!i_pickup.load_from_file("cuss/i_pickup.cuss")) {
-    debugmsg("Couldn't open cuss/i_pickup.cuss");
+  if (!i_pickup.load_from_file(CUSS_DIR + "/i_pickup.cuss")) {
     return;
   }
 

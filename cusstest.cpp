@@ -8,7 +8,7 @@ int main(int argc, char** argv)
   if (argc < 2) {
     debugmsg("Usage: cusstest <file to test>");
   } else if (!cint.load_from_file(argv[1])) {
-    debugmsg("Couldn't load %s", argv[1]);
+    return 1;
   } else {
     Window w(0, 0, 80, 24);
     bool quit = false;

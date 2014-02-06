@@ -361,7 +361,7 @@ namespace cuss {
     void load_data(std::istream &datastream);
 
     bool save_to_file(std::string filename);
-    bool load_from_file(std::string filename);
+    bool load_from_file(std::string filename, bool warn = true);
 
     std::vector<std::string> element_names();
 

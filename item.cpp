@@ -5,6 +5,7 @@
 #include "cuss.h"
 #include "entity.h"
 #include "attack.h"
+#include "files.h"    // For CUSS_DIR
 #include <sstream>
 
 Item::Item(Item_type* T)
@@ -380,8 +381,7 @@ Item_action Item::show_info()
   }
   Window w_info(0, 0, 80, 24);
   cuss::interface i_info;
-  if (!i_info.load_from_file("cuss/i_item_info.cuss")) {
-    debugmsg("Couldn't load cuss/i_item_info.cuss!");
+  if (!i_info.load_from_file(CUSS_DIR + "/i_item_info.cuss")) {
     return IACT_NULL;
   }
 
