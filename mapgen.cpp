@@ -26,7 +26,7 @@ void Variable_terrain::add_terrain(Terrain_chance terrain)
   ter.push_back(terrain);
 }
 
-void Variable_terrain::load_data(std::istream &data, std::string name,
+bool Variable_terrain::load_data(std::istream &data, std::string name,
                                  bool allow_nothing)
 {
   std::string tile_ident;
@@ -42,6 +42,7 @@ void Variable_terrain::load_data(std::istream &data, std::string name,
       if (terrain_name != "nothing" && !tmpter) {
         debugmsg("Unknown terrain '%s' (%s)", terrain_name.c_str(),
                  name.c_str());
+        return false;
       }
       tmp_chance.terrain = tmpter;
       add_terrain(tmp_chance);
@@ -55,8 +56,14 @@ void Variable_terrain::load_data(std::istream &data, std::string name,
 // Add the last terrain def to our list, if the terrain is valid
   terrain_name = trim(terrain_name);
   Terrain* tmpter = TERRAIN.lookup_name(terrain_name);
+  if (terrain_name != "nothing" && !tmpter) {
+    debugmsg("Unknown terrain '%s' (%s)", terrain_name.c_str(),
+             name.c_str());
+    return false;
+  }
   tmp_chance.terrain = tmpter;
   add_terrain(tmp_chance);
+  return true;
 }
 
 void Variable_terrain::prepare()
@@ -428,7 +435,10 @@ bool Mapgen_spec::load_data(std::istream &data)
           symbols += tile_ident;
         }
       }
-      tmp_var.load_data(tile_data, name);
+      if (!tmp_var.load_data(tile_data, name)) {
+        debugmsg("Failed to load Variable_terrain (%s)", name.c_str());
+        return false;
+      }
 // For every character in symbols, map that char to tmp_var
       for (int i = 0; i < symbols.length(); i++) {
         char ch = symbols[i];

@@ -41,7 +41,7 @@ public:
 
   void add_terrain(int chance, Terrain* terrain);
   void add_terrain(Terrain_chance terrain);
-  void load_data(std::istream &data, std::string name = "unknown",
+  bool load_data(std::istream &data, std::string name = "unknown",
                  bool allow_nothing = false);
 
   void prepare(); // If it's a lock, then define Terrain* choice.
