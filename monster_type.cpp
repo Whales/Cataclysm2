@@ -36,7 +36,6 @@ void Monster_type::set_genus(Monster_genus *mg)
   }
 
   genus = mg;
-  genus->add_member(this);
 // Copy any unset values from the genus
   if (attacks.empty()) {
     attacks = mg->default_values.attacks;
@@ -211,6 +210,10 @@ bool Monster_type::load_data(std::istream &data)
                ident.c_str(), name.c_str());
       return false;
     }
+  }
+// Don't add ourselfs to the genus until *after* we've loaded our values!
+  if (genus) {
+    genus->add_member(this);
   }
   return true;
 }
