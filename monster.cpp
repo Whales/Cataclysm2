@@ -257,6 +257,10 @@ void Monster::take_turn()
              can_attack_ranged(plan.target_entity)) {
     attack_ranged(plan.target_entity, pick_ranged_attack(plan.target_entity));
   } else if (can_move_to(GAME.map, plan.next_step())) {
+    if (rl_dist(pos, plan.next_step()) > 1) {
+      debugmsg("Monster %s jumping %d steps", get_name().c_str(),
+               rl_dist(pos, plan.next_step()));
+    }
     move_to(GAME.map, plan.next_step());
     plan.erase_step();
   } else if (can_smash(GAME.map, plan.next_step())) {

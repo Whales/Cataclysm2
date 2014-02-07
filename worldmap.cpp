@@ -126,6 +126,7 @@ void Worldmap::draw(int posx, int posy)
         w_worldmap.putglyph(x, y, sym);
       }
     }
+    w_worldmap.putstr(0, 0, c_red, c_black, "[%d:%d]", posx, posy);
     w_worldmap.refresh();
     long ch = input();
     switch (ch) {
