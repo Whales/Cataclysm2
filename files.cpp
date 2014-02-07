@@ -109,11 +109,11 @@ void set_default_dirs()
   }
 }
 
-bool set_data_dir(std::string dir)
+bool set_dir(std::string &dir, std::string name)
 {
-  if (!directory_exists(dir)) {
+  if (!directory_exists(name)) {
     return false;
   }
-  DATA_DIR = dir;
+  dir = name;
   return true;
 }
