@@ -1,0 +1,366 @@
+name: dirt
+  glyph: . brown black
+  movecost: 100
+  flags: floor
+done
+
+name: grass
+  glyph: . green black
+  movecost: 100
+  flags: floor
+done
+
+name: empty
+  glyph: x blue ltgray
+  movecost: 100
+  flags: open_space
+done
+
+name: tree
+  glyph: 7 green black
+  movecost:   0
+  hp: 500
+  destroy: underbrush
+  flags: opaque flammable
+done
+
+name: underbrush
+  glyph: % ltgreen black
+  movecost: 200
+  hp: 10
+  destroy: grass
+  smash:
+    failure_sound: "crunch."
+    success_sound: "crunch."
+    armor: bash 40
+    ignore_chance: 25
+  done
+  flags: flammable
+done
+
+name: small tree
+  glyph: 1 green black
+  movecost:   0
+  hp: 65
+  destroy: underbrush
+  smash:
+    failure_sound: "thump."
+    success_sound: "crunch!"
+    armor: bash 8
+  done
+  flags: flammable
+done
+
+name: sand
+  glyph: . yellow black
+  movecost: 100
+  flags: floor
+done
+
+name: mud
+  glyph: ~ brown black
+  movecost: 300
+  flags: water
+done
+
+name: shallow water
+  glyph: ~ ltblue black
+  movecost: 200
+  flags: water
+done
+
+name: deep water
+  glyph: ~ blue black
+  movecost: 0
+  flags: water
+done
+
+name: shallow salt water
+  glyph: ~ ltcyan black
+  movecost: 200
+  flags: water
+done
+
+name: deep salt water
+  glyph: ~ cyan black
+  movecost: 0
+  flags: water
+done
+
+name: fungal tree
+  glyph: 7 dkgray black
+  movecost: 0
+  hp: 300
+  destroy: dirt
+  flags: opaque
+done
+
+name: fungal undergrowth
+  glyph: % dkgray black
+  movecost: 150
+  destroy: dirt
+  hp: 50
+done
+
+name: rubble
+  glyph: % ltgray black
+  movecost: 120
+done
+
+name: boulder
+  glyph: # ltgray black
+  movecost: 0
+  flags: opaque
+  hp: 600
+  destroy: rubble
+done
+
+name: stone wall
+  glyph: # ltgray black
+  movecost: 0
+  hp: 800
+  destroy: rubble
+  flags: opaque
+done
+
+name: wood wall
+  glyph: # brown black
+  movecost: 0
+  hp: 400
+  destroy: rubble
+  flags: opaque flammable
+done
+
+name: stockade fence
+  glyph: { yellow black
+  movecost: 0
+  hp: 12
+  destroy: dirt
+  smash:
+    failure_sound: "Thump!"
+    success_sound: "Crunch!"
+    armor: bash 10
+  done
+  flags: opaque flammable
+done
+
+name: floor
+  glyph: . cyan black
+  movecost: 100
+done
+
+name: glass wall
+  glyph: # ltcyan black
+  movecost: 0
+  hp: 1
+  destroy: floor
+  smash:
+    failure_sound: "whunk."
+    success_sound: glass shattering.
+    armor: cut 8
+    armor: pierce 1
+  done
+done
+
+name: pavement
+  glyph: . dkgray black
+  movecost: 100
+done
+
+name: yellow pavement
+  glyph: . yellow black
+  movecost: 100
+done
+
+name: white pavement
+  glyph: . white black
+  movecost: 100
+done
+
+name: door frame
+  glyph: . brown black
+  movecost: 100
+  hp: 150
+  destroy: floor
+  flags: flammable
+done
+
+name: broken door
+  glyph: { brown black
+  movecost: 0
+  open: open broken door
+  hp: 15
+  destroy: door frame
+  smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+    armor: bash 4
+    armor: pierce 14
+  done
+  flags: flammable
+done
+
+name: open broken door
+  display_name: broken door
+  glyph: ' brown black
+  movecost: 100
+  hp: 15
+  destroy: door frame
+  close: broken door
+  flags: flammable
+done
+
+name: closed door
+  display_name: door
+  glyph: + brown black
+  movecost: 0
+  hp: 20
+  destroy: broken door
+  flags: opaque
+  open: open door
+  smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+    armor: bash 5
+    armor: pierce 16
+  done
+  flags: flammable
+done
+
+name: open door
+  display_name: door
+  glyph: ' brown black
+  movecost: 100
+  hp: 20
+  destroy: open broken door
+  close: closed door
+  flags: flammable
+done
+
+name: closed glass door
+  display_name: glass door
+  glyph: + ltcyan black
+  movecost: 0
+  hp: 2
+  open: open glass door
+  destroy: door frame
+  smash:
+    failure_sound: "whunk."
+    success_sound: glass shattering.
+    armor: cut 5
+    armor: pierce 1
+  done
+done
+
+name: open glass door
+  display_name: glass door
+  glyph: ' ltcyan black
+  movecost: 100
+  hp: 2
+  destroy: door frame
+  close: closed glass door
+done
+
+name: window frame
+  glyph: 0 ltcyan black
+  movecost: 250
+  hp: 150
+  destroy: rubble
+  flags: flammable
+done
+
+name: window
+  glyph: " ltcyan black
+  movecost: 0
+  hp: 2
+  destroy: window frame
+  smash:
+    failure_sound: "whunk."
+    success_sound: glass shattering.
+    armor: cut 5
+    armor: pierce 1
+  done
+  flags: flammable
+done
+
+name: display rack
+  glyph: { ltgray black
+  movecost: 0
+  hp: 5
+  destroy: rubble
+  smash:
+    failure_sound: "whack."
+    success_sound: "crash!"
+    armor: cut 40
+    armor: bash 5
+    ignore_chance: 50
+  done
+  flags: flammable
+done
+
+name: counter
+  glyph: % blue black
+  movecost: 180
+  hp: 250
+  destroy: rubble
+  flags: flammable
+done
+
+name: stairs up
+  display_name: stairs
+  glyph: < yellow black
+  movecost: 100
+  hp: 200
+  destroy: rubble
+  flags: stairs_up flammable
+done
+
+name: stairs down
+  display_name: stairs
+  glyph: > yellow black
+  movecost: 100
+  hp: 200
+  destroy: rubble
+  flags: stairs_down flammable
+done
+
+name: stove
+  glyph: { dkgray black
+  movecost: 0
+done
+  
+name: bed
+  glyph: % red black
+  movecost: 180
+  hp: 100
+  destroy: floor
+  flags: flammable
+done
+
+name: shelves
+  glyph: { yellow black
+  movecost: 0
+  hp: 15
+  destroy: floor
+  flags: flammable
+done
+
+name: sink
+  glyph: { ltcyan black
+  movecost: 0
+  hp: 30
+  destroy: rubble
+done
+
+name: toilet
+  glyph: % white black
+  movecost: 150
+  hp: 50
+  destroy: rubble
+done
+
+name: fridge
+  glyph: { white black
+  movecost: 0
+  flags: opaque
+done

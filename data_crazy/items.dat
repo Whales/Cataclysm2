@@ -1,0 +1,96 @@
+weapon
+  name: test weapon
+  description:
+    This is an item added strictly for testing purposes.
+  done
+  glyph: / white black
+  weight: 20
+  volume: 16
+  bash:   10
+  cut:    10
+  pierce:  5
+done
+
+weapon
+  name: rock
+  description:
+    A chunk of solid rock.  Makes a decent thrown or wielded weapon in a pinch.
+  done
+  glyph: * ltgray black
+  weight:  5
+  volume:  8
+  bash:   10
+  cut:     0
+  pierce:  0
+  to_hit: -3
+  thrown_variance: 3d20
+  thrown_dmg_percent: 100
+done
+
+weapon
+  name: stick
+  description:
+    A heavy stick.
+  done
+  glyph: / brown black
+  weight: 25
+  volume: 20
+  bash:   12
+  cut:     0
+  pierce:  0
+  to_hit:  1
+done
+
+clothing
+  name: leather jacket
+  description:
+    A tough leather jacket.  Provides decent protection for your arms and torso.
+  done
+  glyph: [ brown black
+  weight:   30
+  volume:   50
+  carries:  15
+  armor_bash:    1
+  armor_cut:     8
+  armor_pierce:  4
+  encumbrance:   2
+  covers: torso arms
+done
+
+ammo
+  name: 9mm
+  description:
+    9mm parabellum is generally regarded as the most popular handgun cartridge,
+    used by the majority of US police forces.  It is also a very popular round
+    in submachine guns.
+  done
+  glyph: = ltblue black
+  weight: 16
+  volume: 16
+  type: 9mm
+  damage:   18
+  pierce:    0
+  range:     0
+  accuracy: 3d10
+  count:   100
+done
+
+gun
+  name: Glock 19
+  description:
+    Possibly the most popular handgun in existence.  The Glock 19 is often
+    derided for its plastic construction, but it is easy to shoot.
+  done
+  glyph: ) ltgray black
+  weight: 14
+  volume:  6
+  type: 9mm
+  bash:    7
+  to_hit: -2
+  damage:  0
+  accuracy:  5d20
+  recoil:      5
+  durability: 80
+  capacity:   15
+  reload_ap: 300
+done

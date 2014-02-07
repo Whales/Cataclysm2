@@ -1,0 +1,28 @@
+Name: ocean
+  terrain: ocean
+  Done
+Name: grassland
+  terrain: field
+  Done
+Name: forest
+  terrain: w:1 field / w:10 forest
+  Done
+Name: swamp
+  terrain: swamp
+  Done
+Name: mushroom forest
+  terrain: mushroom forest
+  Done
+Name: rocky
+  terrain: rocky
+  Done
+Name: city
+  terrain: town square
+  monsters: zombies
+  population: 2d6 - 4
+  flags: city
+  Done
+Name: lake
+  terrain: fresh water
+  flags: lake
+  Done

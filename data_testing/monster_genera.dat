@@ -1,0 +1,81 @@
+Name: canis
+  display_name: canines
+  Default:
+	  hp: 2d4 + 20
+	  speed: 150
+	  senses: sight smell hearing
+	  AI:
+	    awareness: 1
+	    attention: 30
+	    recognizes: fields
+	    goals:
+	      attack_enemies
+	    done
+	  done
+	  attack:
+	    verb: bite / bites
+	    speed: 150
+	    to_hit: 0
+	    pierce: 8
+	  done
+	  attack:
+	    verb: tackle / tackles
+	    speed: 100
+	    weight: 2
+	    to_hit: +3
+	    pierce: 2
+	    bash: 8
+	  done
+  done
+done
+
+Name: mutant rabbits
+  Default:
+    hp: 2d4 + 4
+    speed: 120
+    senses: sight smell hearing
+    AI:
+      awareness:  0
+      attention: 10
+      goals:
+        attack_enemies
+        attack_neutrals
+      done
+    done
+    attack:
+      verb: bite / bites
+      weight: 2
+      speed: 50
+      to_hit: 0
+      pierce: 2
+    done
+  done
+done
+
+Name: zombies
+  Default:
+    hp: 4d5 + 40
+    speed: 70
+    senses: sight smell hearing
+    AI:
+      awareness:  0
+      attention: 10
+      goals:
+        attack_enemies
+        attack_neutrals
+      done
+    done
+    attack:
+      verb: hit / hits
+      speed: 100
+      bash: 3
+    done
+    attack:
+      verb: bite / bites
+      weight: 2
+      speed: 150
+      to_hit: -2
+      pierce: 5
+    done
+  done
+done

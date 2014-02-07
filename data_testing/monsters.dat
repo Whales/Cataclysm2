@@ -1,0 +1,224 @@
+name: zombie
+  name_plural: zombies
+  genus: zombies
+  glyph: Z ltgreen black
+  chance: 100
+done
+
+name: fast zombie
+  name_plural: fast zombies
+  genus: zombies
+  glyph: Z ltred black
+  chance: 10
+  hp: 4d5 + 30
+  speed: 130
+  AI:
+    awareness:  2
+    attention: 15
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+  attack:
+    verb: claw / claws
+    weight: 10
+    speed:  80
+    to_hit:  1
+    cut:     4
+  done
+  attack:
+    verb: impale / impales
+    weight:  1
+    speed: 140
+    pierce:  7
+    to_hit: -1
+  done
+done
+
+name: zombie brute
+  name_plural: zombie brutes
+  genus: zombies
+  glyph: Z red black
+  chance: 5
+  hp: 4d6 + 40
+  speed: 65
+  AI:
+    awareness: 0
+    attention: 8
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+  attack:
+    verb: hit / hits
+    speed: 100
+    bash:    8
+    to_hit: -1
+  done
+# TODO: Once we have special melee effects, add "body slam" which knocks back
+done
+
+name: spitter zombie
+  name_plural: spitter zombies
+  genus: zombies
+  glyph: Z yellow black
+  chance: 7
+# Use default HP/speed
+  AI:
+    awareness: 1
+    attention: 15
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+# Use default melee attacks
+  ranged_attack:
+    verb: spit / spits
+    speed: 150
+    charge: 10
+    range: 10
+    variance: 20d10
+    target_field:
+      field: acid
+      duration: 4d6 + 10
+# 2d4 - 1 = 1 to 11, most likely 6
+      tiles: 2d6 - 1
+    done
+  done
+done
+
+name: mutant rabbit
+  name_plural: mutant rabbits
+  genus: mutant rabbits
+  glyph: r brown black
+  chance: 999
+done
+
+name: red mutant rabbit
+  name_plural: red mutant rabbits
+  genus: mutant rabbits
+  glyph: r red black
+  chance: 1
+  hp: 2d4 + 12
+  speed: 140
+  AI:
+    awareness: 2
+    attention: 20
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+  attack:
+    verb: bite / bites
+    weight: 4
+    speed: 50
+    to_hit: 0
+    pierce: 4
+  done
+  attack:
+    verb: chomp on / chomps on
+    weight: 1
+    speed: 150
+    to_hit: -1
+    pierce: 4
+    cut: 2
+  done
+#Todo: potentially add mutant rabbits following red mutant rabbits, for rabbit swarms.
+done
+
+name: demented dog
+  name_plural: demented dogs
+  genus: canis
+  glyph: d ltgray black
+	hp: 3d5 + 20
+	speed: 160
+	senses: sight smell hearing
+	attack:
+	  verb: bite / bites
+	  speed: 150
+	  to_hit: 0
+	  pierce: 8
+	done
+	attack:
+	  verb: tackle / tackles
+	  speed: 100
+	  weight: 2
+	  to_hit: +3
+	  pierce: 4
+	  bash: 8
+	done
+	AI:
+	  awareness: 2
+	  attention: 30
+	  goals:
+	    attack_enemies
+		  attack_neutrals
+	  done
+	done
+done
+
+name: dog
+  name_plural: dogs
+  genus: canis
+  glyph: d white black
+done
+ 
+Name: wolf
+  name_plural: wolves
+  genus: canis
+  glyph: W gray black
+	hp: 3d5 + 30
+	speed: 160
+	senses: sight smell hearing
+	attack:
+	  verb: bite / bites
+	  speed: 150
+	  to_hit: 0
+	  pierce: 12
+	done
+	attack:
+	  verb: tackle / tackles
+	  speed: 100
+	  weight: 2
+	  to_hit: +3
+	  pierce: 4
+	  bash: 10
+	done
+	AI:
+	  awareness: 2
+	  attention: 30
+	  recognizes: fields
+	  goals:
+	    attack_enemies
+		  attack_neutrals
+	  done
+	done
+done
+
+Name: zombie dog
+  name_plural: zombie dogs
+  genus: zombies
+  glyph: d ltgreen black
+  chance: 1
+	hp: 3d5 + 25
+	speed: 130
+	senses: sight smell hearing
+		attack:
+	  verb: bite / bites
+	  speed: 150
+	  to_hit: -1
+	  pierce: 8
+	done
+	AI:
+	  awareness: 1
+	  attention: 25
+	  goals:
+	    attack_enemies
+		  attack_neutrals
+	  done
+	done
+done
