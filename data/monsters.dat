@@ -136,6 +136,7 @@ name: demented dog
   glyph: d ltgray black
 	hp: 3d5 + 20
 	speed: 160
+  chance: 10
 	senses: sight smell hearing
 	attack:
 	  verb: bite / bites
@@ -170,6 +171,7 @@ done
 Name: wolf
   name_plural: wolves
   genus: canis
+  chance: 4
   glyph: W gray black
 	hp: 3d5 + 30
 	speed: 160
