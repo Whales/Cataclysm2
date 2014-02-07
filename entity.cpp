@@ -348,7 +348,9 @@ void Entity::smash(Map* map, Tripoint sm)
   if (!map) {
     return;
   }
-  map->smash(sm, base_attack().roll_damage());
+  Attack att = base_attack();
+  action_points -= att.speed;
+  map->smash(sm, att.roll_damage());
 }
 
 void Entity::smash(Map* map, int x, int y, int z)
