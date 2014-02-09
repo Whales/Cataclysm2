@@ -548,8 +548,8 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
     } else {
 // Drop a field in our wake?
       if (attack.wake_field.exists()) {
-// TODO: Replace this 0 with the real Z-level
-        attack.wake_field.drop(Tripoint(path[i].x, path[i].y, 0), shooter_name);
+        attack.wake_field.drop(Tripoint(path[i].x, path[i].y, path[y.z]),
+                               shooter_name);
       }
 // Did we hit an entity?
       Entity* entity_hit = entities.entity_at(path[i].x, path[i].y);
@@ -622,7 +622,8 @@ void Game::player_move(int xdif, int ydif)
 
 void Game::player_move_vertical(int zdif)
 {
-// TODO: Move entities into a stairs-following queue
+// FRODO: Move entities into a stairs-following queue
+//        (except not, since we're on a 3D map nowadays)
   map->shift(worldmap, 0, 0, zdif);
   player->pos.z += zdif;
 }
