@@ -1,7 +1,9 @@
+# Testing groups
 name: items_test
   items: w:15 glock 19 / w:5 9mm / w:1 rock
   done
 
+# Wilderness groups
 name: items_beach
   items: w:14 rock / w:1 stick
   done
@@ -29,3 +31,8 @@ name: items_salt_marsh
 name: items_swamp
   items: stick
   done
+
+# House and shop groups
+name: items_tools
+  items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar
+done
