@@ -97,7 +97,7 @@ done
 
 # Hardware store
 
-melee
+weapon
   name: machete
   description:
     A heavy, long, single-bladed knife.  Ideal for hacking through undergrowth,
@@ -111,7 +111,7 @@ melee
   to_hit:  2
 done
 
-melee
+weapon
   name: hammer
   description:
     A useful tool, both for constructing and fortifying defenses, and for
@@ -124,7 +124,7 @@ melee
   to_hit:  1
 done
 
-melee
+weapon
   name: wrench
   description:
     Vital for mechanical work, this heavy wrench also makes a good melee weapon.
@@ -136,7 +136,7 @@ melee
   to_hit:  1
 done
 
-melee
+weapon
   name: sledgehammer
   description:
     A demolition tool, the sledgehammer excels at knocking through doors, or
@@ -149,7 +149,7 @@ melee
   to_hit:   1
 done
 
-melee
+weapon
   name: steel pipe
   description:
     A thin, but strong, metal pipe.  Useful in many crafting recipes.
@@ -161,7 +161,7 @@ melee
   to_hit:  1
 done
 
-melee
+weapon
   name: screwdriver
   description:
     A tool for putting screws into items.  Invaluable for many crafting
@@ -176,7 +176,7 @@ done
 
 tool
   name: crowbar
-  descriptiong:
+  description:
     A useful prying tool.  It can force open locked doors without the need for
     smashing through them, prying manholes up, and several other similar
     applications.
@@ -189,5 +189,6 @@ tool
   to_hit:  1
 
   action: pry
+  target: adjacent
   action_ap: 100
 done
