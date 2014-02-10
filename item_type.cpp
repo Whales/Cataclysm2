@@ -52,6 +52,21 @@ Item_type_launcher::Item_type_launcher()
   reload_ap = 300;
   fire_ap = 100;
 }
+
+Item_type_food::Item_type_food()
+{
+  food = 0;
+  water = 0;
+}
+
+Item_type_tool::Item_type_tool()
+{
+  action = TOOL_ACT_NULL;
+  action_ap = 0;
+  default_charges = 0;
+  max_charges = 0;
+}
+
 void Item_type::assign_uid(int id)
 {
   uid = id;
@@ -341,6 +356,43 @@ bool Item_type_food::handle_data(std::string ident, std::istream &data)
   return true;
 }
 
+bool Item_type_tool::handle_data(std::string ident, std::istream &data)
+{
+  std::string junk;
+
+  if (ident == "action:") {
+    std::string action_name;
+    std::getline(data, action_name);
+    action_name = trim(action_name);
+    action = lookup_tool_action(action_name);
+    if (action == TOOL_ACT_NULL) {
+      debugmsg("Unknown tool action '%s' (%s)", action_name.c_str(),
+               name.c_str());
+      return false;
+    }
+
+  } else if (ident == "action_ap:") {
+    data >> action_ap;
+    std::getline(data, junk);
+
+  } else if (ident == "default_charges:") {
+    data >> default_charges;
+    std::getline(data, junk);
+
+  } else if (ident == "max_charges:") {
+    data >> max_charges;
+    std::getline(data, junk);
+
+  } else if (ident == "fuel:") {
+    std::getline(data, fuel);
+
+  } else if (ident != "done") {
+    debugmsg("Unknown Tool property '%s' (%s)", ident.c_str(), name.c_str());
+    return false;
+  }
+  return true;
+}
+
 Item_class lookup_item_class(std::string name)
 {
   name = no_caps(name);
@@ -353,14 +405,21 @@ Item_class lookup_item_class(std::string name)
   return ITEM_CLASS_MISC;
 }
 
-std::string item_class_name(Item_class iclass)
+std::string item_class_name_plural(Item_class iclass)
+{
+  return item_class_name(iclass, true);
+}
+
+// plural defaults to false
+std::string item_class_name(Item_class iclass, bool plural)
 {
   switch (iclass) {
     case ITEM_CLASS_MISC:     return "Misc";
     case ITEM_CLASS_CLOTHING: return "Clothing";
     case ITEM_CLASS_AMMO:     return "Ammo";
-    case ITEM_CLASS_LAUNCHER: return "Launcher";
+    case ITEM_CLASS_LAUNCHER: return (plural ? "Launchers" : "Launcher");
     case ITEM_CLASS_FOOD:     return "Food";
+    case ITEM_CLASS_TOOL:     return (plural ? "Tools" : "Tool");
     case ITEM_CLASS_MAX:      return "BUG - ITEM_CLASS_MAX";
     default:                  return "BUG - Unnamed Item_class";
   }

@@ -174,7 +174,7 @@ melee
   to_hit: -1
 done
 
-melee
+tool
   name: crowbar
   descriptiong:
     A useful prying tool.  It can force open locked doors without the need for
@@ -187,4 +187,7 @@ melee
   bash:   14
   pierce:  4
   to_hit:  1
+
+  action: pry
+  action_ap: 100
 done

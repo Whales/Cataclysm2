@@ -4,6 +4,7 @@
 #include "glyph.h"
 #include "enum.h"
 #include "dice.h"
+#include "tool.h"
 #include <string>
 #include <istream>
 #include <vector>
@@ -18,11 +19,13 @@ enum Item_class
   ITEM_CLASS_AMMO,
   ITEM_CLASS_LAUNCHER,
   ITEM_CLASS_FOOD,
+  ITEM_CLASS_TOOL,
   ITEM_CLASS_MAX
 };
 
 Item_class lookup_item_class(std::string name);
-std::string item_class_name(Item_class iclass);
+std::string item_class_name_plural(Item_class iclass);
+std::string item_class_name(Item_class iclass, bool plural = false);
 
 enum Item_flag
 {
@@ -145,7 +148,7 @@ class Item_type_food : public Item_type
 {
 public:
   Item_type_food();
-  ~Item_type_food();
+  ~Item_type_food(){};
 
   virtual Item_class get_class() { return ITEM_CLASS_FOOD; }
 
@@ -154,6 +157,24 @@ public:
   int food;
   int water;
 
+};
+
+class Item_type_tool : public Item_type
+{
+public:
+  Item_type_tool();
+  ~Item_type_tool(){};
+
+  virtual Item_class get_class() { return ITEM_CLASS_TOOL; }
+
+  virtual bool handle_data(std::string ident, std::istream &data);
+
+  Tool_action action; // see tool.h and tool.cpp
+
+  int action_ap;  // AP to use the action
+  int default_charges;  // Charges it starts with
+  int max_charges;      // Max charges.  If 0, doesn't use charges.
+  std::string fuel;     // Ammo name - matches this with an ammo type for fuel
 };
 
 #endif

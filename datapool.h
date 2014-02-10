@@ -147,6 +147,8 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
   } else if (item_category == "gun" || item_category == "firearm" ||
              item_category == "launcher") {
     tmp = new Item_type_launcher;
+  } else if (item_category == "tool") {
+    tmp = new Item_type_tool;
   } else if (item_category.empty()) {
     return false;
   } else {
