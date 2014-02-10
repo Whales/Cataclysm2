@@ -1180,7 +1180,7 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
     return_values.push_back(seed);
     t_values.push_back(t);
   }
-  int z_value = 0; // Each tile is 100 microunits tall
+  int z_value = 50; // Each tile is 100 microunits tall
   int z_level = z0;
 // Keep going as long as we've got at least one valid line
   while (!lines.empty()) {
