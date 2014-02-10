@@ -25,6 +25,14 @@ std::string tool_action_name(Tool_action action)
   return "BUG - Escaped tool_action_name switch";
 }
 
+bool tool_action_targets_map(Tool_action action)
+{
+  switch (action) {
+    case TOOL_ACT_PRY:    return true;
+  }
+  return false;
+}
+
 Tool_target lookup_tool_target(std::string name)
 {
   name = no_caps(name);
