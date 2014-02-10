@@ -217,7 +217,7 @@ std::string Item_group::get_data_name()
 
 bool Item_group::load_data(std::istream &data)
 {
-  std::string ident;
+  std::string ident, junk;
 
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
@@ -225,7 +225,10 @@ bool Item_group::load_data(std::istream &data)
     }
     ident = no_caps(ident);
 
-    if (ident == "name:") {
+    if (!ident.empty() && ident[0] == '#') {
+      std::getline(data, junk); // It's a comment - clear the line
+
+    } else if (ident == "name:") {
       std::getline(data, name);
 
     } else if (ident == "items:") {
