@@ -170,6 +170,7 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   Tool_action action; // see tool.h and tool.cpp
+  Tool_target target; // ditto
 
   int action_ap;  // AP to use the action
   int default_charges;  // Charges it starts with

@@ -62,6 +62,7 @@ Item_type_food::Item_type_food()
 Item_type_tool::Item_type_tool()
 {
   action = TOOL_ACT_NULL;
+  target = TOOL_TARGET_NULL;
   action_ap = 0;
   default_charges = 0;
   max_charges = 0;
@@ -370,6 +371,18 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
                name.c_str());
       return false;
     }
+
+  } else if (ident == "target:") {
+    std::string target_name;
+    std::getline(data, target_name);
+    target_name = trim(target_name);
+    target = lookup_tool_target(target_name);
+    if (target == TOOL_TARGET_NULL) {
+      debugmsg("Unknown tool target '%s' (%s)", target_name.c_str(),
+               name.c_str());
+      return false;
+    }
+
 
   } else if (ident == "action_ap:") {
     data >> action_ap;
