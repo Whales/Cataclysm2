@@ -57,6 +57,38 @@ clothing
   covers: torso arms
 done
 
+clothing
+  name: work gloves
+  description:
+    A pair of heavy leather gloves.  Provides some protection, at the cost of a
+    loss in manual dexterity.
+  done
+  glyph: [ ltblue black
+  weight:   2
+  volume:   4
+  armor_bash:   1
+  armor_cut:    8
+  armor_pierce: 2
+  encumbrance:  2
+  covers: hands
+done
+
+ammo
+  name: nails
+  description:
+    A box of iron nails.  Very useful in contruction.
+  done
+  glyph: = ltcyan black
+  weight: 25
+  volume: 16
+  type: nails
+  damage: 1
+  range:  3
+# Accuracy is highly variable!
+  accuracy: 3d30
+  count: 100
+done
+  
 ammo
   name: 9mm
   description:
@@ -70,7 +102,7 @@ ammo
   type: 9mm
   damage:   18
   pierce:    0
-  range:     0
+  range:    20
   accuracy: 3d10
   count:   100
 done
@@ -95,7 +127,29 @@ gun
   reload_ap: 300
 done
 
-# Hardware store
+weapon
+  name: baseball bat
+  description:
+    A sturdy wooden bat.  Makes an excellent melee weapon.
+  done
+  glyph: / brown black
+  weight:  20
+  volume: 100
+  bash:    28
+  to_hit:   2
+done
+
+weapon
+  name: golf club
+  description:
+    A golfing "iron" - a heavy, round head at the end of a long, flimsy shaft.
+  done
+  glyph: / cyan black
+  weight: 26
+  volume: 45
+  bash:   18
+  to_hit:  3
+done
 
 weapon
   name: machete
@@ -191,4 +245,22 @@ tool
   action: pry
   target: adjacent
   action_ap: 100
+done
+
+tool
+  name: shovel
+  description:
+    A sturdy shovel with an iron head and a wooden shaft.  Useful for digging
+    holes.
+  done
+  glyph: ; brown black
+  weight: 40
+  volume: 80
+  bash:   10
+  cut:     3
+  to_hit:  2
+
+  action: dig
+  target: adjacent
+  action_ap: 1000
 done
