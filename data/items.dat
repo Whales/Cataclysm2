@@ -94,3 +94,97 @@ gun
   capacity:   15
   reload_ap: 300
 done
+
+# Hardware store
+
+melee
+  name: machete
+  description:
+    A heavy, long, single-bladed knife.  Ideal for hacking through undergrowth,
+    or your enemies.
+  done
+  glyph: / ltblue black
+  weight: 32
+  volume: 64
+  bash:    6
+  cut:    28
+  to_hit:  2
+done
+
+melee
+  name: hammer
+  description:
+    A useful tool, both for constructing and fortifying defenses, and for
+    smashing in heads.
+  done
+  glyph: ; brown black
+  weight: 10
+  volume:  8
+  bash:   16
+  to_hit:  1
+done
+
+melee
+  name: wrench
+  description:
+    Vital for mechanical work, this heavy wrench also makes a good melee weapon.
+  done
+  glyph: ; cyan black
+  weight: 14
+  volume:  6
+  bash:   14
+  to_hit:  1
+done
+
+melee
+  name: sledgehammer
+  description:
+    A demolition tool, the sledgehammer excels at knocking through doors, or
+    through foes.
+  done
+  glyph: / brown black
+  weight: 200
+  volume:  44
+  bash:    40
+  to_hit:   1
+done
+
+melee
+  name: steel pipe
+  description:
+    A thin, but strong, metal pipe.  Useful in many crafting recipes.
+  done
+  glyph: / ltcyan black
+  weight: 10
+  volume: 10
+  bash:   10
+  to_hit:  1
+done
+
+melee
+  name: screwdriver
+  description:
+    A tool for putting screws into items.  Invaluable for many crafting
+    projects.  In a pinch, it can serve as a clumsy stabbing weapon.
+  done
+  glyph: ; ltcyan black
+  weight:  2
+  volume:  4
+  pierce:  8
+  to_hit: -1
+done
+
+melee
+  name: crowbar
+  descriptiong:
+    A useful prying tool.  It can force open locked doors without the need for
+    smashing through them, prying manholes up, and several other similar
+    applications.
+  done
+  glyph: ; ltblue black
+  weight: 26
+  volume: 14
+  bash:   14
+  pierce:  4
+  to_hit:  1
+done
