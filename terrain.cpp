@@ -66,7 +66,7 @@ Terrain::Terrain()
   name = "ERROR";
   sym = glyph();
   movecost  = 100;
-  height    = 100;
+  height    =  -1;
   hp        =   0;
   smashable = false;
   for (int i = 0; i < TF_MAX; i++) {
@@ -140,6 +140,18 @@ bool Terrain::load_data(std::istream &data)
       std::getline(data, destroy_result);
       destroy_result = trim(destroy_result);
 
+    } else if (ident == "tool:") {
+      std::string tool_action, result;
+      data >> tool_action;
+      Tool_action act = lookup_tool_action(tool_action);
+      if (act == TOOL_ACT_NULL) {
+        debugmsg("Unknown tool action '%s' (%s)", tool_action.c_str(),
+                 name.c_str());
+        return false;
+      }
+      std::getline(data, result);
+      tool_result[act] = result;
+
     } else if (ident == "flags:") {
       std::string flag_line;
       std::getline(data, flag_line);
@@ -166,6 +178,15 @@ Terrain '%s' has HP %d but no destroy_result.\n\
 Either set a destroy_result or omit HP line.",
              name.c_str(), hp);
     return false;
+  }
+
+// Finally, set height (if it's not set)
+  if (height == -1) {
+    if (movecost == 0) {
+      height = 100;
+    } else {
+      height =   0;
+    }
   }
   return true;
 }

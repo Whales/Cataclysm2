@@ -176,9 +176,11 @@ Worldmap_tile* Worldmap::get_tile(int x, int y, bool warn)
   if (x < 0 || x >= WORLDMAP_SIZE || y < 0 || y >= WORLDMAP_SIZE) {
     tile_oob.terrain = WORLD_TERRAIN.lookup_uid(0);
     tile_oob.monsters.clear();
+/*
     if (warn) {
       debugmsg("Worldmap::get_tile(%d, %d) OOB", x, y);
     }
+*/
     return &tile_oob;
   }
 

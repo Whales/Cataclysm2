@@ -1,9 +1,11 @@
 #ifndef _TERRAIN_H_
 #define _TERRAIN_H_
 
-#include <vector>
 #include "glyph.h"
 #include "enum.h"
+#include "tool.h"
+#include <vector>
+#include <map>
 
 Terrain_flag lookup_terrain_flag(std::string name);
 std::string terrain_flag_name(Terrain_flag flag);
@@ -41,6 +43,8 @@ struct Terrain
   std::string open_result;
   std::string close_result;
   std::string destroy_result;
+// A map of what happens when a Tool_action is applied
+  std::map<Tool_action,std::string> tool_result;
 
   bool can_smash() { return smashable; }
   bool can_open()  { return !open_result.empty();  }

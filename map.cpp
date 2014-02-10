@@ -52,6 +52,14 @@ int Tile::move_cost()
   return (terrain->movecost);
 }
 
+int Tile::get_height()
+{
+  if (!terrain) {
+    return 0;
+  }
+  return terrain->height;
+}
+
 std::string Tile::get_name()
 {
   if (!terrain) {
@@ -190,6 +198,32 @@ void Tile::close()
   Terrain* result = TERRAIN.lookup_name( terrain->close_result );
   if (!result) {
     debugmsg("Failed to find terrain '%s'", terrain->close_result.c_str());
+    return;
+  }
+  terrain = result;
+}
+
+bool Tile::tool_action_applies(Tool_action act)
+{
+  if (!terrain || terrain->tool_result.count(act) == 0) {
+    return false;
+  }
+  return true;
+}
+
+void Tile::apply_tool_action(Tool_action act)
+{
+  if (!terrain) {
+    return;
+  }
+  if (terrain->tool_result.count(act) == 0) {
+    return;
+  }
+  Terrain* result = TERRAIN.lookup_name( terrain->tool_result[act] );
+  if (!result) {
+    debugmsg("Applied '%s' to '%s', failed to find terrain '%s'",
+             tool_action_name(act).c_str(), get_name().c_str(),
+             terrain->tool_result[act].c_str());
     return;
   }
   terrain = result;
@@ -791,6 +825,20 @@ int Map::move_cost(int x, int y, int z)
   return t->move_cost();
 }
 
+int Map::get_height(Tripoint pos)
+{
+  return get_height(pos.x, pos.y, pos.z);
+}
+
+int Map::get_height(int x, int y, int z)
+{
+  Tile *t = get_tile(x, y, z);
+  if (!t) {
+    return 0;
+  }
+  return t->get_height();
+}
+
 bool Map::is_smashable(Tripoint pos)
 {
   return is_smashable(pos.x, pos.y, pos.z);
@@ -1062,6 +1110,21 @@ bool Map::close(int x, int y, int z)
   return false;
 }
 
+bool Map::apply_tool_action(Tool_action act, Tripoint pos)
+{
+  return apply_tool_action(act, pos.x, pos.y, pos.z);
+}
+
+bool Map::apply_tool_action(Tool_action act, int x, int y, int z)
+{
+  Tile* target = get_tile(x, y, z);
+  if (target->tool_action_applies(act)) {
+    target->apply_tool_action(act);
+    return true;
+  }
+  return false;
+}
+
 /* TODO:  We should track currently-active fields in a list of points.  At
  *        present, we check *all* tiles for an active field.  This is probably
  *        inefficient.
@@ -1215,7 +1278,8 @@ std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
       if (lines[i].x == x1 && lines[i].y == y1) {
         return return_values[i];
       }
-      if (blocks_sense(SENSE_SIGHT, lines[i].x, lines[i].y, z_level)) {
+      if (blocks_sense(SENSE_SIGHT, lines[i]) &&
+          (z_value <= get_height(lines[i]) || z1 <= z0)) {
         lines.erase(lines.begin() + i);
         t_values.erase(t_values.begin() + i);
         return_values.erase(return_values.begin() + i);

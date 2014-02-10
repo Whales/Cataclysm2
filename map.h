@@ -16,6 +16,7 @@
 #include "attack.h"
 #include "pathfind.h"
 #include "field.h"
+#include "tool.h" // For Tool_action
 
 class Entity_pool;
 
@@ -33,6 +34,7 @@ struct Tile
 
   glyph top_glyph();
   int move_cost();
+  int get_height();
   std::string get_name();
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
   bool has_flag(Terrain_flag flag);
@@ -44,6 +46,8 @@ struct Tile
   bool damage(Damage_type type, int dam); // Returns true on destruction
   void open();
   void close();
+  bool tool_action_applies(Tool_action act);
+  void apply_tool_action  (Tool_action act);
 };
 
 struct Submap
@@ -134,6 +138,9 @@ public:
   int  move_cost(Tripoint pos);
   int  move_cost(int x, int y, int z = 999);
 
+  int  get_height(Tripoint pos);
+  int  get_height(int x, int y, int z = 999);
+
   bool is_smashable(Tripoint pos);
   bool is_smashable(int x, int y, int z = 999);
 
@@ -183,6 +190,8 @@ public:
   bool open (int x, int y, int z = 999);
   bool close(Tripoint pos);
   bool close(int x, int y, int z = 999);
+  bool apply_tool_action(Tool_action act, Tripoint pos);
+  bool apply_tool_action(Tool_action act, int x, int y, int z = 999);
 
 // Regularly-run functions
   void process_fields();
