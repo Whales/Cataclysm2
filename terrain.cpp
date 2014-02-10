@@ -120,6 +120,10 @@ bool Terrain::load_data(std::istream &data)
       data >> hp;
       std::getline(data, junk);
 
+    } else if (ident == "height:") {
+      data >> height;
+      std::getline(data, junk);
+
     } else if (ident == "smashable" || ident == "smash:") {
       std::getline(data, junk);
       if (smash.load_data(data, name)) {

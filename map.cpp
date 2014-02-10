@@ -1279,7 +1279,7 @@ std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
         return return_values[i];
       }
       if (blocks_sense(SENSE_SIGHT, lines[i]) &&
-          (z_value <= get_height(lines[i]) || z1 <= z0)) {
+          (z_value <= get_height(lines[i]) || z1 < z0)) {
         lines.erase(lines.begin() + i);
         t_values.erase(t_values.begin() + i);
         return_values.erase(return_values.begin() + i);
@@ -1317,7 +1317,11 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
   for (int x = 0; x < winx; x++) {
     for (int y = 0; y < winy; y++) {
       int terx = refx + x - (winx / 2), tery = refy + y - (winy / 2);
-      if (senses(refx, refy, refz, terx, tery, posz, dist, sense)) {
+      int z_used = posz;
+      while (z_used > 0 && has_flag(TF_OPEN_SPACE, terx, tery, z_used)) {
+        z_used--;
+      }
+      if (senses(refx, refy, refz, terx, tery, z_used, dist, sense)) {
         draw_tile(w, entities, terx, tery, refx, refy, false);
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE
