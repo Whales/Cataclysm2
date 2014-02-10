@@ -19,6 +19,7 @@ std::string tool_action_name(Tool_action action)
   switch (action) {
     case TOOL_ACT_NULL:   return "NULL";
     case TOOL_ACT_PRY:    return "pry";
+    case TOOL_ACT_DIG:    return "dig";
     case TOOL_ACT_MAX:    return "BUG - TOOL_ACT_MAX";
     default:              return "BUG - Unnamed Tool_action";
   }
@@ -28,7 +29,9 @@ std::string tool_action_name(Tool_action action)
 bool tool_action_targets_map(Tool_action action)
 {
   switch (action) {
-    case TOOL_ACT_PRY:    return true;
+    case TOOL_ACT_PRY:
+    case TOOL_ACT_DIG:
+      return true;
   }
   return false;
 }
