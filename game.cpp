@@ -683,6 +683,10 @@ bool Game::apply_tool(Entity* user, Item* it)
 // TODO: Put code for targeting an item or an entity here
 
 // At this point, we've had all our chances to cancel, so inflict costs
+/* TODO:  Some tools (e.g. shovel) take a long time to process.  We should
+ *        either set the player's action, or make the shovel a non-tool item and
+ *        make shoveling a construction.
+ */
   if (tool->uses_charges()) {
     it->charges -= tool->charges_per_use;
   }
