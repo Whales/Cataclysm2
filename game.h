@@ -41,14 +41,20 @@ public:
   void make_sound(std::string desc, Point pos);
   void make_sound(std::string desc, int x, int y);
 
+// Pass NULL as shooter and Item() as it
   void launch_projectile(Ranged_attack attack,
                          Tripoint origin, Tripoint target);
+// Pass NULL as shooter
   void launch_projectile(Item it, Ranged_attack attack,
                          Tripoint origin, Tripoint target);
+// Pass Item() as it
   void launch_projectile(Entity* shooter, Ranged_attack attack,
                          Tripoint origin, Tripoint target);
+// This one is the *real* one
   void launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
                          Tripoint origin, Tripoint target);
+
+  bool apply_tool(Entity* user, Item* tool);
 
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
   void player_move_vertical(int zdif);
@@ -63,7 +69,7 @@ public:
   void pickup_items(Point    pos);
   void pickup_items(int posx, int posy);
 // TODO: Both are limited in that they can not return a point that the player
-//       cannot currently see (they return Point() instead).
+//       cannot currently see (they return Tripoint() instead).
   Tripoint target_selector           (int startx = -1, int starty = -1);
   std::vector<Tripoint> path_selector(int startx = -1, int starty = -1);
 
