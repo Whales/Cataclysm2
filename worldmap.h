@@ -36,7 +36,7 @@ public:
   void init_shop_picker();
   World_terrain* random_shop();
 
-  void draw(int posx, int posy);
+  Point get_point(int posx, int posy);
   void draw_minimap(cuss::element *drawing, int cornerx, int cornery);
   Worldmap_tile* get_tile(int x, int y, bool warn = true);
   glyph get_glyph(int x, int y);

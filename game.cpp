@@ -319,7 +319,11 @@ void Game::do_action(Interface_action act)
 
     case IACTION_VIEW_WORLDMAP: {
       Point p = map->get_center_point();
-      worldmap->draw(p.x, p.y);
+      Point got = worldmap->get_point(p.x, p.y);
+// Adjust to match the upper-left corner
+      got.x -= MAP_SIZE / 2;
+      got.y -= MAP_SIZE / 2;
+      map->generate(worldmap, got.x, got.y);
     }  break;
 
     case IACTION_QUIT:

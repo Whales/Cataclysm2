@@ -102,7 +102,7 @@ World_terrain* Worldmap::random_shop()
   return shops.back();
 }
 
-void Worldmap::draw(int posx, int posy)
+Point Worldmap::get_point(int posx, int posy)
 {
   int origx = posx, origy = posy;
   int xdim, ydim;
@@ -151,9 +151,17 @@ void Worldmap::draw(int posx, int posy)
       case 'n':
       case '3': posx++; posy++; break;
       case 'q':
-      case 'Q': done = true;    break;
+      case 'Q':
+        done = true;
+        posx = origx;
+        posy = origy;
+        break;
+      case '\n':
+        done = true;
+        break;
     }
   }
+  return Point(posx, posy);
 }
 
 void Worldmap::draw_minimap(cuss::element *drawing, int cornerx, int cornery)
