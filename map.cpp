@@ -1118,7 +1118,7 @@ bool Map::senses(int x0, int y0, int z0, int x1, int y1, int z1, int range,
     return false;
   }
   if (sense == SENSE_SIGHT) {
-    std::vector<Point> line = line_of_sight(x0, y0, z0, x1, y1, z1);
+    std::vector<Tripoint> line = line_of_sight(x0, y0, z0, x1, y1, z1);
     return (!line.empty() && line.size() <= range);
   } else if (sense == SENSE_SMELL) {
 // TODO: More realistic smell
@@ -1139,16 +1139,16 @@ bool Map::senses(Tripoint origin, Tripoint target, int range, Sense_type sense)
                 range, sense);
 }
 
-std::vector<Point> Map::line_of_sight(int x0, int y0, int x1, int y1)
+std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int x1, int y1)
 {
   return line_of_sight(x0, y0, posz, x1, y1, posz);
 }
 
-std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
-                                      int x1, int y1, int z1)
+std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
+                                         int x1, int y1, int z1)
 {
-  std::vector<Point>  lines;    // Process many lines at once.
-  std::vector<std::vector<Point> > return_values;
+  std::vector<Tripoint>  lines;    // Process many lines at once.
+  std::vector<std::vector<Tripoint> > return_values;
   std::vector<int>    t_values; // T-values for Bresenham lines
 
   int dx = x1 - x0, dy = y1 - y0, dz = z1 - z0;
@@ -1174,13 +1174,13 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
     min_t = 0;
   }
 // Init our "lines"
-  std::vector<Point> seed;
+  std::vector<Tripoint> seed;
   for (int t = min_t; t <= max_t; t++) {
-    lines.push_back( Point(x0, y0) );
+    lines.push_back( Tripoint(x0, y0, z0) );
     return_values.push_back(seed);
     t_values.push_back(t);
   }
-  int z_value = 50; // Each tile is 100 microunits tall
+  int z_value = 50; // Each tile is 100 microunits tall, start halfway up
   int z_level = z0;
 // Keep going as long as we've got at least one valid line
   while (!lines.empty()) {
@@ -1194,6 +1194,7 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
       z_value -= 100;
     }
     for (int i = 0; i < lines.size(); i++) {
+      lines[i].z = z_level;
       if (ax > ay) {
         lines[i].x += sx;
         if (t_values[i] >= 0) {
@@ -1210,6 +1211,7 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
         t_values[i] += ax;
       }
       return_values[i].push_back(lines[i]);
+// Don't need to check z, right?
       if (lines[i].x == x1 && lines[i].y == y1) {
         return return_values[i];
       }
@@ -1221,15 +1223,15 @@ std::vector<Point> Map::line_of_sight(int x0, int y0, int z0,
       }
     }
   }
-  return std::vector<Point>();
+  return std::vector<Tripoint>();
 }
 
-std::vector<Point> Map::line_of_sight(Point origin, Point target)
+std::vector<Tripoint> Map::line_of_sight(Point origin, Point target)
 {
   return line_of_sight(origin.x, origin.y, target.x, target.y);
 }
 
-std::vector<Point> Map::line_of_sight(Tripoint origin, Tripoint target)
+std::vector<Tripoint> Map::line_of_sight(Tripoint origin, Tripoint target)
 {
   return line_of_sight(origin.x, origin.y, origin.z,
                        target.x, target.y, target.z);

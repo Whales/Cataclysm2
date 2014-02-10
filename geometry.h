@@ -162,6 +162,8 @@ struct Tripointcomp
 
 std::vector<Point> line_to(int x0, int y0, int x1, int y1);
 std::vector<Point> line_to(Point origin, Point target);
+std::vector<Tripoint> line_to(Tripoint origin, Tripoint target);
+std::vector<Tripoint> line_to(int x0, int y0, int z0, int x1, int y1, int z1);
 
 int rl_dist       (int x0, int y0, int x1, int y1);
 int rl_dist       (Point origin, Point target);

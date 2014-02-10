@@ -42,13 +42,13 @@ public:
   void make_sound(std::string desc, int x, int y);
 
   void launch_projectile(Ranged_attack attack,
-                         Point origin, Point target);
+                         Tripoint origin, Tripoint target);
   void launch_projectile(Item it, Ranged_attack attack,
-                         Point origin, Point target);
+                         Tripoint origin, Tripoint target);
   void launch_projectile(Entity* shooter, Ranged_attack attack,
-                         Point origin, Point target);
+                         Tripoint origin, Tripoint target);
   void launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
-                         Point origin, Point target);
+                         Tripoint origin, Tripoint target);
 
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
   void player_move_vertical(int zdif);
@@ -64,8 +64,8 @@ public:
   void pickup_items(int posx, int posy);
 // TODO: Both are limited in that they can not return a point that the player
 //       cannot currently see (they return Point() instead).
-  Point target_selector           (int startx = -1, int starty = -1);
-  std::vector<Point> path_selector(int startx = -1, int starty = -1);
+  Tripoint target_selector           (int startx = -1, int starty = -1);
+  std::vector<Tripoint> path_selector(int startx = -1, int starty = -1);
 
 // Data - Universal access functions
   int get_item_uid();

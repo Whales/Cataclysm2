@@ -287,7 +287,7 @@ void Game::do_action(Interface_action act)
       if (!it.is_real()) {
         add_msg("Never mind.");
       } else {
-        Point target = target_selector();
+        Tripoint target = target_selector();
         if (target.x == -1) { // We canceled
           add_msg("Never mind.");
         } else {
@@ -300,7 +300,7 @@ void Game::do_action(Interface_action act)
 
     case IACTION_FIRE:
       if (player->can_fire_weapon()) {
-        Point target = target_selector();
+        Tripoint target = target_selector();
         if (target.x == -1) { // We canceled
           add_msg("Never mind.");
         } else {
@@ -478,19 +478,20 @@ void Game::make_sound(std::string desc, int x, int y)
   }
 }
 
-void Game::launch_projectile(Ranged_attack attack, Point origin, Point target)
+void Game::launch_projectile(Ranged_attack attack,
+                             Tripoint origin, Tripoint target)
 {
   launch_projectile(NULL, attack, origin, target);
 }
 
-void Game::launch_projectile(Item it, Ranged_attack attack, Point origin,
-                             Point target)
+void Game::launch_projectile(Item it, Ranged_attack attack, Tripoint origin,
+                             Tripoint target)
 {
   launch_projectile(NULL, it, attack, origin, target);
 }
 
 void Game::launch_projectile(Entity* shooter, Ranged_attack attack,
-                             Point origin, Point target)
+                             Tripoint origin, Tripoint target)
 {
   launch_projectile(shooter, Item(), attack, origin, target);
 }
@@ -498,7 +499,7 @@ void Game::launch_projectile(Entity* shooter, Ranged_attack attack,
 // TODO: Make this 3D
 //       Also, move it to projectile.cpp?
 void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
-                             Point origin, Point target)
+                             Tripoint origin, Tripoint target)
 {
   std::string shooter_name, verb = "shoot";
   if (shooter) {
@@ -528,7 +529,7 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
   int fine_distance = 100 * (distance_missed_by - tiles_off);
   //debugmsg("angle %d, missed %f, tiles %d, fine %d", angle_missed_by, distance_missed_by, tiles_off, fine_distance);
 
-  std::vector<Point> path = map->line_of_sight(origin, target);
+  std::vector<Tripoint> path = map->line_of_sight(origin, target);
   if (path.empty()) { // Lost line of sight at some point
     path = line_to(origin, target);
   }
@@ -548,7 +549,7 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
     } else {
 // Drop a field in our wake?
       if (attack.wake_field.exists()) {
-        attack.wake_field.drop(Tripoint(path[i].x, path[i].y, path[y.z]),
+        attack.wake_field.drop(Tripoint(path[i].x, path[i].y, path[i].z),
                                shooter_name);
       }
 // Did we hit an entity?
@@ -844,18 +845,18 @@ void Game::pickup_items(int posx, int posy)
   
 }
 
-Point Game::target_selector(int startx, int starty)
+Tripoint Game::target_selector(int startx, int starty)
 {
-  std::vector<Point> path = path_selector(startx, starty);
+  std::vector<Tripoint> path = path_selector(startx, starty);
   if (path.empty()) {
-    return Point(-1, -1);
+    return Tripoint(-1, -1, -1);
   }
   return path.back();
 }
 
-std::vector<Point> Game::path_selector(int startx, int starty)
+std::vector<Tripoint> Game::path_selector(int startx, int starty)
 {
-  std::vector<Point> ret;
+  std::vector<Tripoint> ret;
   if (!player) {
     return ret;
   }
@@ -871,14 +872,13 @@ std::vector<Point> Game::path_selector(int startx, int starty)
   while (true) {
     long ch = input();
     if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
-      std::vector<Point> empty;
-      return empty;
+      return std::vector<Tripoint>();
     } else if (ch == '\n') {
       return ret;
     } else {
       Point p = input_direction(ch);
       if (p.x == 0 && p.y == 0) {
-        return ret; // Return out path on hitting "pause"
+        return ret; // Return our path on hitting "pause"
       } else if (p.x != -2 && p.y != -2) {
         target += p;
         ret = map->line_of_sight(player->pos, target);

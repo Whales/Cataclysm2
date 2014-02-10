@@ -123,11 +123,11 @@ public:
   bool senses(Point origin, Point target, int range, Sense_type sense);
   bool senses(Tripoint origin, Tripoint target, int range, Sense_type sense);
 
-  std::vector<Point> line_of_sight(int x0, int y0, int x1, int y1);
-  std::vector<Point> line_of_sight(int x0, int y0, int z0,
+  std::vector<Tripoint> line_of_sight(int x0, int y0, int x1, int y1);
+  std::vector<Tripoint> line_of_sight(int x0, int y0, int z0,
                                    int x1, int y1, int z1);
-  std::vector<Point> line_of_sight(Point origin, Point target);
-  std::vector<Point> line_of_sight(Tripoint origin, Tripoint target);
+  std::vector<Tripoint> line_of_sight(Point origin, Point target);
+  std::vector<Tripoint> line_of_sight(Tripoint origin, Tripoint target);
 
 
 // Tile information
