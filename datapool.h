@@ -133,7 +133,6 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
 {
   Item_type* tmp;
   std::string item_category;
-  //std::getline(data, item_category);
   data >> item_category;
   item_category = no_caps(item_category);
   item_category = trim(item_category);
@@ -149,6 +148,10 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
     tmp = new Item_type_launcher;
   } else if (item_category == "tool") {
     tmp = new Item_type_tool;
+  } else if (item_category == "#") {  // It's a commented line - skip it
+    std::string junk;
+    std::getline(data, junk);
+    return load_element(data, filename);
   } else if (item_category.empty()) {
     return false;
   } else {
