@@ -66,6 +66,7 @@ Item_type_tool::Item_type_tool()
   action_ap = 0;
   default_charges = 0;
   max_charges = 0;
+  charges_per_use = 1;
 }
 
 void Item_type::assign_uid(int id)
@@ -396,6 +397,10 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
     data >> max_charges;
     std::getline(data, junk);
 
+  } else if (ident == "use_charges:") {
+    data >> charges_per_use;
+    std::getline(data, junk);
+
   } else if (ident == "fuel:") {
     std::getline(data, fuel);
 
@@ -404,6 +409,11 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
     return false;
   }
   return true;
+}
+
+bool Item_type_tool::uses_charges()
+{
+  return (max_charges > 0 && charges_per_use > 0);
 }
 
 Item_class lookup_item_class(std::string name)

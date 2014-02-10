@@ -169,12 +169,15 @@ public:
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
+  bool uses_charges();  // true if max_charges > 0 && charges_per_use > 0
+
   Tool_action action; // see tool.h and tool.cpp
   Tool_target target; // ditto
 
   int action_ap;  // AP to use the action
   int default_charges;  // Charges it starts with
   int max_charges;      // Max charges.  If 0, doesn't use charges.
+  int charges_per_use;  // Charges per use - defaults to 1
   std::string fuel;     // Ammo name - matches this with an ammo type for fuel
 };
 
