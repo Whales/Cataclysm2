@@ -1248,13 +1248,17 @@ std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
 // Keep going as long as we've got at least one valid line
   while (!lines.empty()) {
 // Since we track z_value universally, don't do it inside the for loop below
+    bool z_stepped = false;
+    int old_z = z_level;
     z_value += z_step;
     if (z_value < 0) {
       z_level--;
       z_value += 100;
+      z_stepped = true;
     } else if (z_value >= 100) {
       z_level++;
       z_value -= 100;
+      z_stepped = true;
     }
     for (int i = 0; i < lines.size(); i++) {
       lines[i].z = z_level;
@@ -1278,8 +1282,10 @@ std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
       if (lines[i].x == x1 && lines[i].y == y1) {
         return return_values[i];
       }
-      if (blocks_sense(SENSE_SIGHT, lines[i]) &&
-          (z_value <= get_height(lines[i]) || z1 < z0)) {
+      if ((blocks_sense(SENSE_SIGHT, lines[i]) &&
+           z_value <= get_height(lines[i])) ||
+          (z_stepped &&
+           blocks_sense(SENSE_SIGHT, lines[i].x, lines[i].y, old_z))) {
         lines.erase(lines.begin() + i);
         t_values.erase(t_values.begin() + i);
         return_values.erase(return_values.begin() + i);
