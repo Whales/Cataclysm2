@@ -79,3 +79,9 @@ Status effects:
     -Melee attacks
     -Ranged attacks
     -Fields
+
+Messages:
+  Set up a Game::add_canned_msg(std::string identifier) function.  This function
+  should look at a table of canned messages, like "You don't have that item." or
+  "Never mind." and print the result.  The table can be loaded from data,
+  improving localization.
