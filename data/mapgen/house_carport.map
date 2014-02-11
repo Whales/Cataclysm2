@@ -32,11 +32,12 @@ tile: + = closed door
 tile: " = window
 tile: < = stairs up
 tile: % = counter
-tile: E = shelves
+tile: EG = shelves
 tile: F = fridge
 tile: S = stove
 tile: K = sink
 tile: T = toilet
+item_group: 70 G = items_garage
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -50,9 +51,9 @@ oo#...#......#.#EE#****#o
 oo"...#......#<####****#o
 oo#...#..###.###.T"****#o
 oo#...+...#F...+..#*####o
-oo#EEE#........####*#EE#o
+oo#EEE#........####*#GG#o
 oo#####...#S......+*+..#o
-oo****#...#%K%%...#*#EE#o
+oo****#...#%K%%...#*#GG#o
 oo****#+"###"###"##*####o
 oo******************ooooo
 ooooooooooooooooooooooooo

@@ -151,6 +151,12 @@ name: floor
   flags: opaque
 done
 
+name: roof
+  glyph: . brown black
+  movecost: 120
+  flags: opaque
+done
+
 name: glass wall
   glyph: # ltcyan black
   movecost: 0
@@ -162,6 +168,11 @@ name: glass wall
     armor: cut 8
     armor: pierce 1
   done
+done
+
+name: concrete floor
+  glyph: . ltgray black
+  movecost: 100
 done
 
 name: pavement
@@ -344,6 +355,22 @@ name: shelves
   movecost: 0
   hp: 15
   destroy: floor
+  smash:
+    failure_sound: "whack."
+    success_sound: "wood splintering."
+  done
+  flags: flammable
+done
+
+name: dresser
+  glyph: { brown black
+  movecost: 0
+  hp: 25
+  destroy: floor
+  smash:
+    failure_sound: "whack."
+    success_sound: "wood splintering."
+  done
   flags: flammable
 done
 

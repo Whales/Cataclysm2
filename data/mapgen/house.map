@@ -24,7 +24,7 @@
 name: std_house_whales
 subname: stone_whales
 type: house
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
@@ -135,6 +135,142 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+name: shed_house_whales_1
+subname: shed_house_whales
+type: house
+tile: # = stone wall
+tile: . = floor
+tile: o = grass / dirt
+tile: * = concrete floor
+tile: X = wood wall
+tile: { = shelves
+item_group: 70 { = items_garage
+tile: V = shelves
+tile: % = counter
+tile: F = fridge
+tile: S = stove
+tile: K = sink
+tile: T = toilet
+tile: 1 = bed
+tile: D = dresser
+tile: < = stairs up
+tile: +A = closed door
+tile: "aB = window
+shuffle: abcd
+shuffle: AB
+shuffle: 123
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo##"#A#"###"#B#"##**oooo
+oo#.......#.......#**oooo
+oo#.......#......F#**oooo
+oo#..............%#**oooo
+oo#..........%S%%%#**oooo
+oo#.......#########**oooo
+oo#.......#.D.11..#**oooo
+oo#.......#......."**oooo
+oo#.#.....#......2"**oooo
+oo#<#.....+..33..2#**oooo
+oo###.....####""###**oooo
+oo#.......#*ooooooo**oooo
+oo#.......#**oooooo**oooo
+oo#.......+**********oooo
+oo###+#+###**ooo*oooooooo
+oo#K..#..V#*oooo*XXbbXXoo
+oo#...#..V#ooooo*+***{Xoo
+oo#T..#..V#ooooooa***{coo
+oo#########ooooooX{{{{Xoo
+oooooooooooooooooXXddXXoo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: shed_house_whales_2
+subname: shed_house_whales
+type: house
+floor: 2
+tile: # = stone wall
+tile: . = floor
+tile: o = empty
+tile: * = roof
+tile: V = shelves
+tile: % = counter
+tile: K = sink
+tile: T = toilet
+tile: 14 = bed
+tile: D = dresser
+tile: > = stairs down
+tile: +A = closed door
+tile: "aB = window
+shuffle: 123
+shuffle: 456
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo*****************oooooo
+oo*****************oooooo
+oo*****************oooooo
+oo*****************oooooo
+oo*****************oooooo
+oo###""#######""###oooooo
+oo#.......#.D.11..#oooooo
+oo".......#......."oooooo
+oo#.#.....#..3...."oooooo
+oo#>#.....+..3..22#oooooo
+oo######..####""###oooooo
+oo#K...+..#oooooooooooooo
+oo"T...#..#oooooooooooooo
+oo#######+#oooooooooooooo
+oo#D..66..#oooooooooooooo
+oo#.......#oooooo******oo
+oo"..4...5"oooooo******oo
+oo#..4...5#oooooo******oo
+oo##"###"##oooooo******oo
+ooooooooooooooooo******oo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: shed_house_whales_3
+subname: shed_house_whales
+type: house
+floor: 3
+tile: o = empty
+tile: * = roof
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo*****************oooooo
+oo*****************oooooo
+oo*****************oooooo
+oo*****************oooooo
+oo*****************oooooo
+oo*****************oooooo
+oo*********oooooooooooooo
+oo*********oooooooooooooo
+oo*********oooooooooooooo
+oo*********oooooooooooooo
+oo*********oooooooooooooo
+oo*********oooooooooooooo
+oo*********oooooooooooooo
+oo*********oooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
 endmap
 done
 
