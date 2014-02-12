@@ -54,6 +54,14 @@ Item_class Item::get_item_class()
   return type->get_class();
 }
 
+Item_action Item::default_action()
+{
+  if (!type) {
+    return IACT_NULL;
+  }
+  return type->default_action();
+}
+
 bool Item::is_real()
 {
   return type;

@@ -67,6 +67,7 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual Item_class get_class() { return ITEM_CLASS_MISC; }
+  virtual Item_action default_action() { return IACT_NULL; }
   virtual int  time_to_reload()  { return 0; }
   virtual int  time_to_fire()    { return 0; }
   virtual int  default_charges() { return 0; }
@@ -85,6 +86,7 @@ public:
   ~Item_type_clothing(){}
 
   virtual Item_class get_class() { return ITEM_CLASS_CLOTHING; }
+  virtual Item_action default_action() { return IACT_WEAR; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
@@ -151,6 +153,7 @@ public:
   ~Item_type_food(){};
 
   virtual Item_class get_class() { return ITEM_CLASS_FOOD; }
+  virtual Item_action default_action() { return IACT_EAT; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
@@ -166,6 +169,7 @@ public:
   ~Item_type_tool(){};
 
   virtual Item_class get_class() { return ITEM_CLASS_TOOL; }
+  virtual Item_action default_action() { return IACT_APPLY; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 

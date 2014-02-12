@@ -6,15 +6,6 @@
 #include <string>
 #include <vector>
 
-enum Item_action
-{
-  IACT_NULL = 0,
-  IACT_WIELD,
-  IACT_WEAR,
-  IACT_DROP,
-  IACT_MAX
-};
-
 class Stats;
 class Entity;
 struct Ranged_attack;
@@ -30,6 +21,7 @@ public:
 
   Item_type* type;
   Item_class get_item_class();
+  Item_action default_action();
   bool is_real();
   bool can_reload();
   int time_to_reload();
