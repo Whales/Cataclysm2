@@ -145,8 +145,18 @@ bool Terrain::load_data(std::istream &data)
       destroy_result = trim(destroy_result);
 
     } else if (ident == "tool:") {
-      std::string tool_action, result;
-      data >> tool_action;
+      std::string tool_action, tmpstr, result;
+      while (tmpstr != "=") {
+        data >> tmpstr;
+        if (tmpstr != "=") {
+          if (!tool_action.empty()) {
+// Insert a space only if this isn't the first word
+            tool_action += " ";
+          }
+          tool_action += tmpstr;
+        }
+      }
+          
       Tool_action act = lookup_tool_action(tool_action);
       if (act == TOOL_ACT_NULL) {
         debugmsg("Unknown tool action '%s' (%s)", tool_action.c_str(),
@@ -154,6 +164,7 @@ bool Terrain::load_data(std::istream &data)
         return false;
       }
       std::getline(data, result);
+      result = trim(result);
       tool_result[act] = result;
 
     } else if (ident == "flags:") {
