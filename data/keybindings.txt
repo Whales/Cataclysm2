@@ -17,6 +17,7 @@ i         = inventory
 d         = drop
 w         = wield
 W         = wear
+a         = apply
 r         = reload_equipped
 R         = reload
 t         = throw
