@@ -86,4 +86,15 @@ enum Terrain_flag
   TF_MAX
 };
 
+enum Item_action
+{
+  IACT_NULL = 0,
+  IACT_WIELD,
+  IACT_WEAR,
+  IACT_DROP,
+  IACT_EAT,
+  IACT_APPLY,
+  IACT_MAX
+};
+
 #endif
