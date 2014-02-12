@@ -2,12 +2,20 @@ name: dirt
   glyph: . brown black
   movecost: 100
   flags: floor
+  tool: dig = hole
 done
 
 name: grass
   glyph: . green black
   movecost: 100
   flags: floor
+  tool: dig = hole
+done
+
+# TODO: redo hole as a trapish thing
+name: hole
+  glyph: 0 brown black
+  movecost: 300
 done
 
 name: empty
@@ -55,12 +63,14 @@ name: sand
   glyph: . yellow black
   movecost: 100
   flags: floor
+  tool: dig = shallow salt water
 done
 
 name: mud
   glyph: ~ brown black
   movecost: 300
   flags: water
+  tool: dig = shallow water
 done
 
 name: shallow water
@@ -201,9 +211,10 @@ done
 name: broken door
   glyph: { brown black
   movecost: 0
-  open: open broken door
   hp: 15
   destroy: door frame
+  open: open broken door
+  tool: pry = open broken door
   smash:
     failure_sound: "whack."
     success_sound: wood splintering.
@@ -229,15 +240,15 @@ name: closed door
   movecost: 0
   hp: 20
   destroy: broken door
-  flags: opaque
   open: open door
+  tool: pry = open door
   smash:
     failure_sound: "whack."
     success_sound: wood splintering.
     armor: bash 5
     armor: pierce 16
   done
-  flags: flammable
+  flags: flammable opaque
 done
 
 name: open door
@@ -256,6 +267,7 @@ name: closed glass door
   movecost: 0
   hp: 2
   open: open glass door
+  tool: pry = open glass dor
   destroy: door frame
   smash:
     failure_sound: "whunk."
