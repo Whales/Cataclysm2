@@ -180,7 +180,8 @@ void Game::do_action(Interface_action act)
       break;
 
     case IACTION_OPEN: {
-// TODO: Add a message that prompts for direction input
+      add_msg("<c=ltred>Open where? (Press direction key)<c=/>");
+      draw_all();
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
@@ -197,7 +198,8 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_CLOSE: {
-// TODO: Add a message that prompts for direction input
+      add_msg("<c=ltred>Close where? (Press direction key)<c=/>");
+      draw_all();
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
@@ -214,7 +216,8 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_SMASH: {
-// TODO: Add a message that prompts for direction input
+      add_msg("<c=ltred>Smash where? (Press direction key)<c=/>");
+      draw_all();
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
         add_msg("Invalid direction.");
@@ -290,7 +293,6 @@ void Game::do_action(Interface_action act)
         case IACT_APPLY:
 // Need to redraw the map
 // TODO:  Replace this with draw_all()?
-          draw_all();
           add_msg( player->apply_item_message(it) );
           player->apply_item_uid(it.get_uid());
           break;

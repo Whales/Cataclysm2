@@ -456,6 +456,7 @@ Tripoint Player::pick_target_for(Item* it)
   }
 
   Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
+  std::string verb = tool_action_name(tool->action);
 
   Tripoint ret = pos;
 
@@ -466,6 +467,9 @@ Tripoint Player::pick_target_for(Item* it)
       break;
 
     case TOOL_TARGET_ADJACENT: {
+      GAME.add_msg("<c=ltred>%s where? (Press direction key)<c=/>",
+                   verb.c_str());
+      GAME.draw_all();
       Point dir = input_direction(input());
       if (dir.x == -2) {  // We canceled
         return Tripoint(-1, -1, -1);
