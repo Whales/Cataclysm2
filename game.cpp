@@ -670,6 +670,9 @@ void Game::add_msg(std::string msg, ...)
   vsprintf(buff, msg.c_str(), ap);
   va_end(ap);
   std::string text(buff);
+/* TODO:  Capitalization doesn't work with color tags.  Recode this so that
+ *        instead of text[0] we find and use the first non-tag character.
+ */
   if (text[0] >= 'a' && text[0] <= 'z') {
 // Capitalize!
     text[0] += 'A' - 'a';
