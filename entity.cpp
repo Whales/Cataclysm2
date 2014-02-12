@@ -525,8 +525,6 @@ void Entity::sheath_weapon()
 
 void Entity::wear_item_uid(int uid)
 {
-// TODO: Return a failure reason when attempting to wear something we're wearing
-//       or a non-clothing item
   if (weapon.is_real() && weapon.get_uid() == uid) {
     if (weapon.get_item_class() == ITEM_CLASS_CLOTHING) {
       items_worn.push_back(weapon);
@@ -548,6 +546,51 @@ void Entity::wear_item_uid(int uid)
       return;
     }
   }
+}
+
+void Entity::apply_item_uid(int uid)
+{
+  Item* it;
+  if (weapon.is_real() && weapon.get_uid() == uid) {
+    it = &weapon;
+  }
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i].get_uid() == uid) {
+      it = &(inventory[i]);
+    }
+  }
+// Return for item not found or item isn't a tool
+  if (!it || it->get_item_class() != ITEM_CLASS_TOOL) {
+    return;
+  }
+  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
+  if (tool->uses_charges() && it->charges < tool->charges_per_use) {
+    return;
+  }
+
+  Tripoint pos = pick_target_for(it);
+  if (pos.x == -1) {  // We canceled
+    return;
+  }
+
+  bool targeting_map = tool_action_targets_map(tool->action);
+
+  if (targeting_map) {
+    std::string old_name = GAME.map->get_name(pos);
+    if (GAME.map->apply_tool_action(tool->action, pos)) {
+      GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
+                   tool_action_name(tool->action).c_str(), old_name.c_str());
+    } else {
+      GAME.add_msg("%s can't %s there.", get_name_to_player().c_str(),
+                   tool_action_name(tool->action).c_str());
+      return;
+    }
+  }
+
+  if (tool->uses_charges()) {
+    it->charges -= tool->charges_per_use;
+  }
+  use_ap(tool->action_ap);
 }
 
 void Entity::reload_prep(int uid)
@@ -576,6 +619,12 @@ Item Entity::pick_ammo_for(Item *it)
   }
 // TODO: Automate ammo selection for NPCs
   return Item();
+}
+
+// Overloaded for Player
+Tripoint Entity::pick_target_for(Item *it)
+{
+  return Tripoint(-1, -1, -1);
 }
 
 bool Entity::is_wielding_item_uid(int uid)
@@ -652,6 +701,28 @@ std::string Entity::wield_item_message(Item &it)
     ret << "'re wearing that item - take it off first.";
   } else {
     ret << " " << conjugate("wield") << " " << it.get_name_definite() << ".";
+  }
+  return ret.str();
+}
+
+std::string Entity::apply_item_message(Item &it)
+{
+  int uid = it.get_uid();
+  std::stringstream ret;
+  if (!it.is_real() || !ref_item_uid(uid)) {
+    ret << get_name_to_player() << " don't have that item.";
+  } else if (it.get_item_class() != ITEM_CLASS_TOOL) {
+    ret << get_name_to_player() << " cannot apply that.";
+  } else {
+    Item_type_tool* tool = dynamic_cast<Item_type_tool*>(it.type);
+    if (tool->uses_charges() && it.charges < tool->charges_per_use) {
+// TODO: Make this more appropriate / less technical?  I.e. reference the fuel?
+      ret << get_possessive() << " " << it.get_name() << " doesn't have " <<
+             (it.charges == 0 ? "any" : "enough") << " charges.";
+    } else {
+      ret << get_name_to_player() << " " << conjugate("use") << " " <<
+             get_possessive() << " " << it.get_name() << ".";
+    }
   }
   return ret.str();
 }

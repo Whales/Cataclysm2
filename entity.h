@@ -106,11 +106,14 @@ public:
   Item* ref_item_of_type(Item_type *type);
   Item* ref_item_uid   (int uid);
   Item  remove_item_uid(int uid, int count = 0);
+// These functions just handle the meat - messages are handled in Message below
   void  wield_item_uid (int uid);
   void  sheath_weapon();
   void  wear_item_uid  (int uid);
+  void  apply_item_uid (int uid);
   void  reload_prep    (int uid);
   virtual Item pick_ammo_for(Item *it);
+  virtual Tripoint pick_target_for(Item *it);
 
   bool is_wielding_item_uid(int uid);
   bool is_wearing_item_uid(int uid);
@@ -118,9 +121,16 @@ public:
   bool has_item_uid(int uid); // wielding, wearing or carrying
 
 // Message functions
-  virtual std::string drop_item_message(Item &it);
-  virtual std::string wear_item_message(Item &it);
+/* TODO (?):  These are all only in entity.cpp, with the assumption that NPCs
+ *            will never generate messages like "That is not an article of
+ *            clothing" because they'll check beforehand.  Should we instead
+ *            move this stuff to player.cpp - if only to make it clear that we
+ *            don't expect NPCs to be generating these?
+ */
+  virtual std::string drop_item_message (Item &it);
+  virtual std::string wear_item_message (Item &it);
   virtual std::string wield_item_message(Item &it);
+  virtual std::string apply_item_message(Item &it);
   virtual std::string sheath_weapon_message();
 
 // Combat functions

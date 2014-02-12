@@ -449,6 +449,47 @@ Item Player::pick_ammo_for(Item *it)
   return ret;
 }
 
+Tripoint Player::pick_target_for(Item* it)
+{
+  if (!it || it->get_item_class() != ITEM_CLASS_TOOL) {
+    return Tripoint(-1, -1, -1);
+  }
+
+  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
+
+  Tripoint ret = pos;
+
+  switch (tool->target) {
+
+    case TOOL_TARGET_NULL:
+// No need to do anything
+      break;
+
+    case TOOL_TARGET_ADJACENT: {
+      Point dir = input_direction(input());
+      if (dir.x == -2) {  // We canceled
+        return Tripoint(-1, -1, -1);
+      }
+      ret.x += dir.x;
+      ret.y += dir.y;
+     } break;
+
+    case TOOL_TARGET_RANGED:
+      ret = GAME.target_selector();
+      if (ret.x == -1) { // We canceled
+        return Tripoint(-1, -1, -1);
+      }
+      break;
+
+    default:
+      debugmsg("Don't know how to handle Tool_target %s",
+               tool_target_name(tool->target).c_str());
+      return Tripoint(-1, -1, -1);
+  }
+
+  return ret;
+}
+
 void Player::take_damage(Damage_type type, int damage, std::string reason,
                          Body_part part)
 {

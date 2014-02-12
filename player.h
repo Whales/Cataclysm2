@@ -40,7 +40,8 @@ public:
   std::vector<Item> drop_items(); // Provides an interface via inventory()
   std::vector<Item> inventory_ui(bool single = false, bool remove = false);
 
-  virtual Item pick_ammo_for(Item *it);
+  virtual Item pick_ammo_for      (Item *it);
+  virtual Tripoint pick_target_for(Item *it); // E.g. when using a tool
 
 // Combat functions
   virtual void take_damage(Damage_type type, int damage, std::string reason,
