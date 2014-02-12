@@ -54,13 +54,12 @@ public:
   void launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
                          Tripoint origin, Tripoint target);
 
-  bool apply_tool(Entity* user, Item* tool);
-
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
   void player_move_vertical(int zdif);
   void add_msg(std::string msg, ...);
 
 // UI - Output functions
+  void draw_all();
   void update_hud();
   void print_messages();
 

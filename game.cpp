@@ -94,11 +94,8 @@ bool Game::main_loop()
     handle_player_activity();
 // Update the map in case we need to right now
     shift_if_needed();
-// Update the HUD with our HP and all that
-    update_hud();
-// Draw the map
-    map->draw(w_map, &entities, player->pos);
-    w_map->refresh();
+// Print everything (update_hud() and map->draw())
+    draw_all();
 
 // The player doesn't get to give input if they have an active activity.
     if (!player->activity.is_active()) {
@@ -271,6 +268,33 @@ void Game::do_action(Interface_action act)
       Item it = player->inventory_single();
       add_msg( player->wear_item_message(it) );
       player->wear_item_uid(it.get_uid());
+    } break;
+
+    case IACTION_APPLY: {
+      Item it = player->inventory_single();
+      Item_action act = it.default_action();
+      switch (act) {
+        case IACT_NULL:
+          add_msg("Can't do anything with that item.");
+          break;
+        case IACT_WIELD:
+          add_msg( player->wield_item_message(it) );
+          player->wield_item_uid(it.get_uid());
+          break;
+        case IACT_WEAR:
+          add_msg( player->wear_item_message(it) );
+          player->wear_item_uid(it.get_uid());
+          break;
+        case IACT_EAT:
+// TODO: Eating code
+        case IACT_APPLY:
+// Need to redraw the map
+// TODO:  Replace this with draw_all()?
+          draw_all();
+          add_msg( player->apply_item_message(it) );
+          player->apply_item_uid(it.get_uid());
+          break;
+      }
     } break;
 
     case IACTION_RELOAD: {
@@ -598,102 +622,6 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
   }
 }
 
-bool Game::apply_tool(Entity* user, Item* it)
-{
-  if (!user) {
-    debugmsg("Game::apply_tool() called with NULL user!");
-    return false;
-  }
-
-  if (!it) {
-    debugmsg("Game::apply_tool() called with NULL item!");
-    return false;
-  }
-
-  if (it->get_item_class() != ITEM_CLASS_TOOL) {
-    debugmsg("Game::apply_tool() called with non-tool item (%s)",
-             it->get_name().c_str());
-    return false;
-  }
-
-  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
-  if (tool->uses_charges()) {
-    if (it->charges < tool->charges_per_use) {
-// If the entity is a player, then print an error message; otherwise, print a
-// debug message (since NPCs should never try to use a chargeless tool
-      if (user->is_player()) {
-// TODO: Make this more appropriate / less technical?  E.g. reference the fuel?
-        add_msg("Your %s doesn't have %s charges!", it->get_name().c_str(),
-                (it->charges == 0 ? "any" : "enough"));
-      } else {
-        debugmsg("%s tried to use %s with insufficient charges!",
-                 user->get_name().c_str(),
-                 it->get_name_indefinite().c_str());
-      }
-      return false;
-    }
-  }
-
-  Tripoint target = user->pos;
-
-  bool targeting_map = tool_action_targets_map(tool->action);
-
-// If it's a player applying the tool, we need to know where to apply it...
-  if (user->is_player()) {
-
-    switch (tool->target) {
-
-      case TOOL_TARGET_NULL:
-// No need to do anything
-        break;
-
-      case TOOL_TARGET_ADJACENT: {
-        Point dir = input_direction(input());
-        if (dir.x == -2) {  // We canceled
-          return false;
-        }
-        target.x += dir.x;
-        target.y += dir.y;
-        targeting_map = true;
-       } break;
-
-      case TOOL_TARGET_RANGED:
-        target = target_selector();
-        if (target.x == -1) { // We canceled
-          return false;
-        }
-        targeting_map = true;
-        break;
-
-      default:
-        debugmsg("Don't know how to handle Tool_target %s",
-                 tool_target_name(tool->target).c_str());
-        return false;
-    }
-  } else {
-// TODO: Put NPC target-selecting code here!
-  }
-
-  if (targeting_map) {
-    if (!map->apply_tool_action(tool->action, target)) {
-      debugmsg("You can't %s there.", tool_action_name(tool->action).c_str());
-      return false;
-    }
-  }
-// TODO: Put code for targeting an item or an entity here
-
-// At this point, we've had all our chances to cancel, so inflict costs
-/* TODO:  Some tools (e.g. shovel) take a long time to process.  We should
- *        either set the player's action, or make the shovel a non-tool item and
- *        make shoveling a construction.
- */
-  if (tool->uses_charges()) {
-    it->charges -= tool->charges_per_use;
-  }
-  user->use_ap(tool->action_ap);
-  return true;
-}
-
 void Game::player_move(int xdif, int ydif)
 {
 // TODO: Remove this?
@@ -753,6 +681,13 @@ void Game::add_msg(std::string msg, ...)
   new_messages++;
 }
 
+void Game::draw_all()
+{
+  update_hud();
+  map->draw(w_map, &entities, player->pos);
+  w_map->refresh();
+}
+  
 void Game::update_hud()
 {
   print_messages();
