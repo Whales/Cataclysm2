@@ -291,8 +291,14 @@ bool Monster::can_sense(Entity* entity)
     return true;
   }
 // TODO: Use a range other than 15
-  if (has_sense(SENSE_SIGHT)) {
-    return GAME.map->senses(pos, entity->pos, 15, SENSE_SIGHT);
+  if (has_sense(SENSE_SIGHT) &&
+      GAME.map->senses(pos, entity->pos, 15, SENSE_SIGHT)) {
+    return true;
+  }
+// TODO:  Use a range other than 10
+  if (has_sense(SENSE_SMELL) &&
+      GAME.map->senses(pos, entity->pos, 10, SENSE_SMELL)) {
+    return true;
   }
 // TODO: Other senses (e.g. echolocation)
   return false;
