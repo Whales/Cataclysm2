@@ -63,6 +63,15 @@ name: sand
   glyph: . yellow black
   movecost: 100
   flags: floor
+  tool: dig = pit
+done
+
+# Identical to sand, but when dug in, produces shallow salt water!
+name: beach sand
+  display_name: sand
+  glyph: . yellow black
+  movecost: 100
+  flags: floor
   tool: dig = shallow salt water
 done
 

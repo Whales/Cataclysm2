@@ -24,7 +24,7 @@
 name: test_beach_whales
 type: beach
 weight: 99999
-base_terrain: sand
+base_terrain: beach sand
 item_group: 80 . = items_test
 tile: + = closed door
 tile: * = closed glass door
@@ -59,7 +59,7 @@ done
 
 name: std_beach_whales
 type: beach
-base_terrain: sand
+base_terrain: beach sand
 item_group: 20 a = items_beach
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -92,12 +92,12 @@ done
 
 name: pool1_beach_whales
 type: beach
-base_terrain: sand
+base_terrain: beach sand
 weight: 15
 item_group: 20 a = items_beach
 tile: b = shallow salt water
-tile: c = shallow salt water / sand
-tile: d = w:1 shallow salt water / w:2 sand
+tile: c = shallow salt water / beach sand
+tile: d = w:1 shallow salt water / w:2 beach sand
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -129,12 +129,12 @@ done
 
 name: pool2_beach_whales
 type: beach
-base_terrain: sand
+base_terrain: beach sand
 weight: 15
 item_group: 20 a = items_beach
 tile: b = shallow salt water
-tile: c = shallow salt water / sand
-tile: d = w:1 shallow salt water / w:2 sand
+tile: c = shallow salt water / beach sand
+tile: d = w:1 shallow salt water / w:2 beach sand
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -166,12 +166,12 @@ done
 
 name: pool3_beach_whales
 type: beach
-base_terrain: sand
+base_terrain: beach sand
 weight: 15
 item_group: 20 a = items_beach
 tile: b = shallow salt water
-tile: c = shallow salt water / sand
-tile: d = w:1 shallow salt water / w:2 sand
+tile: c = shallow salt water / beach sand
+tile: d = w:1 shallow salt water / w:2 beach sand
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaa
@@ -203,7 +203,7 @@ done
 
 name: boulder_beach_whales
 type: beach
-base_terrain: sand
+base_terrain: w:50 beach sand / w:3 rubble / w:1 boulder
 weight: 500
 item_group: 20 a = items_beach
 map:
@@ -238,13 +238,13 @@ done
 name: adj_beach_whales
 type: beach
 adjacent
-tile: a = w:1 nothing / w:3 sand
-tile: b = w:1 nothing / w:2 sand
-tile: c = w:1 nothing / w:1 sand
-tile: d = w:3 nothing / w:2 sand
-tile: e = w:2 nothing / w:1 sand
-tile: f = w:3 nothing / w:1 sand
-tile: g = w:5 nothing / w:1 sand
+tile: a = w:1 nothing / w:3 beach sand
+tile: b = w:1 nothing / w:2 beach sand
+tile: c = w:1 nothing / w:1 beach sand
+tile: d = w:3 nothing / w:2 beach sand
+tile: e = w:2 nothing / w:1 beach sand
+tile: f = w:3 nothing / w:1 beach sand
+tile: g = w:5 nothing / w:1 beach sand
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 bbbbbbbbbbbbbbbbbbbbbbbbb
