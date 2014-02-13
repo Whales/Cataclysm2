@@ -43,8 +43,8 @@ struct Terrain
   std::string open_result;
   std::string close_result;
   std::string destroy_result;
-// A map of what happens when a Tool_action is applied
-  std::map<Tool_action,std::string> tool_result;
+// A map of what happens when a tool' terrain_action is applied
+  std::map<std::string,std::string> tool_result;
 
   bool can_smash() { return smashable; }
   bool can_open()  { return !open_result.empty();  }

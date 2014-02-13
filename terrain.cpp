@@ -144,7 +144,7 @@ bool Terrain::load_data(std::istream &data)
       std::getline(data, destroy_result);
       destroy_result = trim(destroy_result);
 
-    } else if (ident == "tool:") {
+    } else if (ident == "receiver:") {
       std::string tool_action, tmpstr, result;
       while (tmpstr != "=") {
         data >> tmpstr;
@@ -156,16 +156,17 @@ bool Terrain::load_data(std::istream &data)
           tool_action += tmpstr;
         }
       }
-          
-      Tool_action act = lookup_tool_action(tool_action);
-      if (act == TOOL_ACT_NULL) {
-        debugmsg("Unknown tool action '%s' (%s)", tool_action.c_str(),
-                 name.c_str());
+
+      tool_action = no_caps(tool_action);
+      tool_action = trim(tool_action);
+      if (tool_action.empty()) {
+        debugmsg("Empty tool_action (%s)", name.c_str());
         return false;
       }
+          
       std::getline(data, result);
       result = trim(result);
-      tool_result[act] = result;
+      tool_result[tool_action] = result;
 
     } else if (ident == "flags:") {
       std::string flag_line;

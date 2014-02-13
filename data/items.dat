@@ -242,7 +242,7 @@ tool
   pierce:  4
   to_hit:  1
 
-  action: pry
+  terrain_action: pry
   target: adjacent
   action_ap: 100
 done
@@ -260,7 +260,7 @@ tool
   cut:     3
   to_hit:  2
 
-  action: dig
+  terrain_action: dig
   target: adjacent
   action_ap: 1000
 done

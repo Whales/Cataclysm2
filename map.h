@@ -16,7 +16,6 @@
 #include "attack.h"
 #include "pathfind.h"
 #include "field.h"
-#include "tool.h" // For Tool_action
 
 class Entity_pool;
 
@@ -46,8 +45,8 @@ struct Tile
   bool damage(Damage_type type, int dam); // Returns true on destruction
   void open();
   void close();
-  bool tool_action_applies(Tool_action act);
-  void apply_tool_action  (Tool_action act);
+  bool tool_action_applies(std::string act);
+  void apply_tool_action  (std::string act);
 };
 
 struct Submap
@@ -190,8 +189,8 @@ public:
   bool open (int x, int y, int z = 999);
   bool close(Tripoint pos);
   bool close(int x, int y, int z = 999);
-  bool apply_tool_action(Tool_action act, Tripoint pos);
-  bool apply_tool_action(Tool_action act, int x, int y, int z = 999);
+  bool apply_tool_action(std::string act, Tripoint pos);
+  bool apply_tool_action(std::string act, int x, int y, int z = 999);
 
 // Regularly-run functions
   void process_fields();

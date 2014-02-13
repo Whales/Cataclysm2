@@ -573,18 +573,26 @@ void Entity::apply_item_uid(int uid)
     return;
   }
 
-  bool targeting_map = tool_action_targets_map(tool->action);
+  bool targeting_map = tool->targets_map();
+  bool found_target = false;
 
   if (targeting_map) {
+// Fetch the terrain's name BEFORE changing it.
     std::string old_name = GAME.map->get_name(pos);
-    if (GAME.map->apply_tool_action(tool->action, pos)) {
+    if (GAME.map->apply_tool_action(tool->terrain_action, pos)) {
       GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
-                   tool_action_name(tool->action).c_str(), old_name.c_str());
+                   tool->terrain_action.c_str(), old_name.c_str());
+      found_target = true;
     } else {
       GAME.add_msg("%s can't %s there.", get_name_to_player().c_str(),
-                   tool_action_name(tool->action).c_str());
-      return;
+                   tool->terrain_action.c_str());
     }
+  }
+
+// TODO: Item & monster effects
+
+  if (!found_target) {
+    return;
   }
 
   if (tool->uses_charges()) {

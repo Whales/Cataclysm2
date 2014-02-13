@@ -456,7 +456,14 @@ Tripoint Player::pick_target_for(Item* it)
   }
 
   Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
-  std::string verb = tool_action_name(tool->action);
+  std::string verb;
+  if (tool->targets_map()) {
+    verb = tool->terrain_action;
+  } else if (tool->targets_items()) {
+    verb = tool->item_action;
+  } else if (tool->action != TOOL_ACT_NULL) {
+    verb = tool_action_name( tool->action );
+  }
 
   Tripoint ret = pos;
 

@@ -203,16 +203,20 @@ void Tile::close()
   terrain = result;
 }
 
-bool Tile::tool_action_applies(Tool_action act)
+bool Tile::tool_action_applies(std::string act)
 {
+  act = no_caps(act);
+  act = trim(act);
   if (!terrain || terrain->tool_result.count(act) == 0) {
     return false;
   }
   return true;
 }
 
-void Tile::apply_tool_action(Tool_action act)
+void Tile::apply_tool_action(std::string act)
 {
+  act = no_caps(act);
+  act = trim(act);
   if (!terrain) {
     return;
   }
@@ -222,7 +226,7 @@ void Tile::apply_tool_action(Tool_action act)
   Terrain* result = TERRAIN.lookup_name( terrain->tool_result[act] );
   if (!result) {
     debugmsg("Applied '%s' to '%s', failed to find terrain '%s'",
-             tool_action_name(act).c_str(), get_name().c_str(),
+             act.c_str(), get_name().c_str(),
              terrain->tool_result[act].c_str());
     return;
   }
@@ -1110,12 +1114,12 @@ bool Map::close(int x, int y, int z)
   return false;
 }
 
-bool Map::apply_tool_action(Tool_action act, Tripoint pos)
+bool Map::apply_tool_action(std::string act, Tripoint pos)
 {
   return apply_tool_action(act, pos.x, pos.y, pos.z);
 }
 
-bool Map::apply_tool_action(Tool_action act, int x, int y, int z)
+bool Map::apply_tool_action(std::string act, int x, int y, int z)
 {
   Tile* target = get_tile(x, y, z);
   if (target->tool_action_applies(act)) {

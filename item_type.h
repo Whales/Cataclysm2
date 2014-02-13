@@ -174,9 +174,20 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   bool uses_charges();  // true if max_charges > 0 && charges_per_use > 0
+  bool targets_map();   // true if terrain_action isn't empty
+  bool targets_items(); // true if item_action isn't empty
 
   Tool_action action; // see tool.h and tool.cpp
   Tool_target target; // ditto
+
+  std::string terrain_action; // Action to send to terrain
+  std::string item_action;    // Action to send to items
+/* TODO:  Action to send to monsters
+ *        Field to generate
+ *        Toggle on/off
+ *        Special effects (use Tool_action here)
+ *        Parameters for special effects
+ */
 
   int action_ap;  // AP to use the action
   int default_charges;  // Charges it starts with

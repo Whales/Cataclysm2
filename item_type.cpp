@@ -373,6 +373,24 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
       return false;
     }
 
+  } else if (ident == "terrain_action:") {
+    std::getline(data, terrain_action);
+    terrain_action = no_caps(terrain_action);
+    terrain_action = trim(terrain_action);
+    if (terrain_action.empty()) {
+      debugmsg("Empty terrain_action (%s)", name.c_str());
+      return false;
+    }
+
+  } else if (ident == "item_action:") {
+    std::getline(data, item_action);
+    item_action = no_caps(item_action);
+    item_action = trim(item_action);
+    if (item_action.empty()) {
+      debugmsg("Empty item_action (%s)", name.c_str());
+      return false;
+    }
+
   } else if (ident == "target:") {
     std::string target_name;
     std::getline(data, target_name);
@@ -414,6 +432,16 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
 bool Item_type_tool::uses_charges()
 {
   return (max_charges > 0 && charges_per_use > 0);
+}
+
+bool Item_type_tool::targets_map()
+{
+  return !terrain_action.empty();
+}
+
+bool Item_type_tool::targets_items()
+{
+  return !item_action.empty();
 }
 
 Item_class lookup_item_class(std::string name)
