@@ -1,3 +1,5 @@
+##### Zombies #####
+
 name: zombie
   name_plural: zombies
   genus: zombies
@@ -84,11 +86,37 @@ name: spitter zombie
     target_field:
       field: acid
       duration: 4d6 + 10
-# 2d4 - 1 = 1 to 11, most likely 6
+# 2d6 - 1 = 1 to 11, most likely 6
       tiles: 2d6 - 1
     done
   done
 done
+
+Name: zombie dog
+  name_plural: zombie dogs
+  genus: zombies
+  glyph: d ltgreen black
+  chance: 1
+  hp: 3d5 + 25
+  speed: 130
+  senses: sight smell hearing
+  attack:
+    verb: bite / bites
+    speed: 150
+    to_hit: -1
+    pierce: 8
+  done
+  AI:
+    awareness: 1
+    attention: 25
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+done
+
+##### Mutant rabbits (remove?) #####
 
 name: mutant rabbit
   name_plural: mutant rabbits
@@ -130,36 +158,38 @@ name: red mutant rabbit
 #Todo: potentially add mutant rabbits following red mutant rabbits, for rabbit swarms.
 done
 
+##### Canis #####
+
 name: demented dog
   name_plural: demented dogs
   genus: canis
   glyph: d ltgray black
-	hp: 3d5 + 20
-	speed: 160
+  hp: 3d5 + 20
+  speed: 160
   chance: 10
-	senses: sight smell hearing
-	attack:
-	  verb: bite / bites
-	  speed: 150
-	  to_hit: 0
-	  pierce: 8
-	done
-	attack:
-	  verb: tackle / tackles
-	  speed: 100
-	  weight: 2
-	  to_hit: +3
-	  pierce: 4
-	  bash: 8
-	done
-	AI:
-	  awareness: 2
-	  attention: 30
-	  goals:
-	    attack_enemies
-		  attack_neutrals
-	  done
-	done
+  senses: sight smell hearing
+  attack:
+    verb: bite / bites
+    speed: 150
+    to_hit: 0
+    pierce: 8
+  done
+  attack:
+    verb: tackle / tackles
+    speed: 100
+    weight: 2
+    to_hit: +3
+    pierce: 4
+    bash: 8
+  done
+  AI:
+    awareness: 2
+    attention: 30
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
 done
 
 name: dog
@@ -173,54 +203,31 @@ Name: wolf
   genus: canis
   chance: 4
   glyph: W gray black
-	hp: 3d5 + 30
-	speed: 160
-	senses: sight smell hearing
-	attack:
-	  verb: bite / bites
-	  speed: 150
-	  to_hit: 0
-	  pierce: 12
-	done
-	attack:
-	  verb: tackle / tackles
-	  speed: 100
-	  weight: 2
-	  to_hit: +3
-	  pierce: 4
-	  bash: 10
-	done
-	AI:
-	  awareness: 2
-	  attention: 30
-	  recognizes: fields
-	  goals:
-	    attack_enemies
-		  attack_neutrals
-	  done
-	done
+  hp: 3d5 + 30
+  speed: 160
+  senses: sight smell hearing
+  attack:
+    verb: bite / bites
+    speed: 150
+    to_hit: 0
+    pierce: 12
+  done
+  attack:
+    verb: tackle / tackles
+    speed: 100
+    weight: 2
+    to_hit: +3
+    pierce: 4
+    bash: 10
+  done
+  AI:
+    awareness: 2
+    attention: 30
+    recognizes: fields
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
 done
 
-Name: zombie dog
-  name_plural: zombie dogs
-  genus: zombies
-  glyph: d ltgreen black
-  chance: 1
-	hp: 3d5 + 25
-	speed: 130
-	senses: sight smell hearing
-		attack:
-	  verb: bite / bites
-	  speed: 150
-	  to_hit: -1
-	  pierce: 8
-	done
-	AI:
-	  awareness: 1
-	  attention: 25
-	  goals:
-	    attack_enemies
-		  attack_neutrals
-	  done
-	done
-done
