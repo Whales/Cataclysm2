@@ -24,7 +24,7 @@
 name: doublewide_house_trevmillion_gd
 subname: doublewide_house_trevmillion
 type: house
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: * = pavement
 tile: o = dirt / grass
@@ -71,8 +71,8 @@ name: doublewide_house_trevmillion_roof
 subname: doublewide_house_trevmillion
 type: house
 level: 1
-tile_group: # = stone wall
-tile: . = floor
+tile: # = stone wall
+tile: . = roof
 tile: x = empty
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx

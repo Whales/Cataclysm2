@@ -1,4 +1,4 @@
-### FILENAME GOES HERE
+### house.map
 #
 # The following tags are used: (# marks a line or part of a line as a comment)
 #
@@ -63,7 +63,7 @@ name: std_house_2_whales
 subname: stone_whales
 type: house
 level: 1
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: x = empty
 tile: + = closed door
@@ -103,32 +103,32 @@ name: std_house_roof_whales
 subname: stone_whales
 type: house
 level: 2
-tile_group: # = stone wall / wood wall
-tile: . = floor
+tile_group: # = short stone wall
+tile: . = roof
 tile: x = empty
 tile: + = closed door
 tile: " = window
 tile: > = stairs down
 map:
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx...................xxx
-xxx............>......xxx
-xxx...................xxx
-xxx...................xxx
+xxx###################xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#.................#xxx
+xxx#...........>.....#xxx
+xxx#.................#xxx
+xxx###################xxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx

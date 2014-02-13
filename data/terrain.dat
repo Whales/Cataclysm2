@@ -49,7 +49,7 @@ done
 name: small tree
   glyph: 1 green black
   movecost:   0
-  hp: 65
+  hp: 40
   destroy: underbrush
   smash:
     failure_sound: "thump."
@@ -120,9 +120,18 @@ done
 name: boulder
   glyph: # ltgray black
   movecost: 0
-  flags: opaque
   hp: 600
   destroy: rubble
+  flags: opaque
+done
+
+name: short stone wall
+  glyph: # ltgray black
+  movecost: 180
+  hp: 400
+  destroy: rubble
+  flags: opaque
+  height: 25
 done
 
 name: stone wall
@@ -144,6 +153,7 @@ done
 name: stockade fence
   glyph: { yellow black
   movecost: 0
+  height: 80
   hp: 12
   destroy: dirt
   smash:
@@ -164,6 +174,7 @@ done
 name: roof
   glyph: . brown black
   movecost: 120
+  height: 1
   flags: opaque
 done
 
@@ -326,9 +337,10 @@ done
 name: counter
   glyph: % blue black
   movecost: 180
+  height: 25
   hp: 250
   destroy: rubble
-  flags: flammable
+  flags: flammable opaque
 done
 
 name: stairs up
@@ -352,26 +364,30 @@ done
 name: stove
   glyph: { dkgray black
   movecost: 0
+  height: 30
+  flags: opaque
 done
   
 name: bed
   glyph: % red black
   movecost: 180
   hp: 100
+  height: 20
   destroy: floor
-  flags: flammable
+  flags: flammable opaque
 done
 
 name: shelves
   glyph: { yellow black
   movecost: 0
   hp: 15
+  height: 90
   destroy: floor
   smash:
     failure_sound: "whack."
     success_sound: "wood splintering."
   done
-  flags: flammable
+  flags: flammable opaque
 done
 
 name: dresser
@@ -403,5 +419,6 @@ done
 name: fridge
   glyph: { white black
   movecost: 0
+  height: 80
   flags: opaque
 done

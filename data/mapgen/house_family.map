@@ -25,7 +25,7 @@ name: family_house_drakasin_1
 subname: family_house_drakasin
 type: house
 weight: 10
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
@@ -74,7 +74,7 @@ name: family_house_drakasin_1_alt
 subname: family_house_drakasin
 type: house
 weight: 5
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
@@ -124,7 +124,7 @@ name: family_house_drakasin_2
 subname: family_house_drakasin
 type: house
 level: 1
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: x = empty
 tile: + = closed door
@@ -170,8 +170,7 @@ name: family_house_drakasin_3
 subname: family_house_drakasin
 type: house
 level: 2
-tile_group: # = stone wall / wood wall
-tile: . = floor
+tile: . = roof
 tile: x = empty
 tile: + = closed door
 tile: " = window

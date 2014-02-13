@@ -24,7 +24,7 @@
 name: duplex_house_trevmillion_gd
 subname: duplex_house_trevmillion
 type: house
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: * = pavement
 tile: o = dirt / grass
@@ -38,6 +38,11 @@ tile: S = stove
 tile: K = sink
 tile: T = toilet
 tile: N = stockade fence
+# 1 in 5 chance of a shared back yard
+subst: M = w:4 N / w:1 o
+# Each yard has a 1 in 20 chance of having a sand box
+subst: PQ = w:19 o / w:1 Z
+tile: Z = sand
 map:
 ooooooooooooooooooooooooo
 o##+####"""###"""####+##o
@@ -54,14 +59,14 @@ o#......%%S%#%S%%......#o
 o"..........#.........."o
 o#......%K.F#F.K%......#o
 o##"####"#+###+#"####"##o
-oNooooooooooNooooooooooNo
-oNooooooooooNooooooooooNo
-oNooooooooooNooooooooooNo
-oNooooooooooNooooooooooNo
-oNooooooooooNooooooooooNo
-oNooooooooooNooooooooooNo
-oNooooooooooNooooooooooNo
-oNooooooooooNooooooooooNo
+oNooooooooooMooooooooooNo
+oNooooooooooMooooooooooNo
+oNooooooooooMooooooooooNo
+oNoPPPPoooooMoooooQQQQoNo
+oNoPPPPoooooMoooooQQQQoNo
+oNoPPPPoooooMoooooQQQQoNo
+oNoPPPPoooooMoooooQQQQoNo
+oNooooooooooMooooooooooNo
 oNNNNNNNNNNNNNNNNNNNNNNNo
 ooooooooooooooooooooooooo
 endmap
@@ -71,7 +76,7 @@ name: duplex_house_trevmillion_2nd
 subname: duplex_house_trevmillion
 type: house
 level: 1
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: x = empty
 tile: + = closed door
@@ -114,8 +119,8 @@ name: duplex_house_trevmillion_roof
 subname: duplex_house_trevmillion
 type: house
 level: 2
-tile_group: # = stone wall
-tile: . = floor
+tile: # = stone wall
+tile: . = roof
 tile: x = empty
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx

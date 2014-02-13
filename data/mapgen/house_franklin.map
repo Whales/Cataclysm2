@@ -70,7 +70,7 @@ name: franklin_house_trevmillion_2nd
 subname: franklin_house_trevmillion
 type: house
 level: 1
-tile_group: # = stone wall
+tile: # = stone wall
 tile: . = floor
 tile: x = empty
 tile: + = closed door
@@ -113,8 +113,8 @@ name: franklin_house_trevmillion_roof
 subname: franklin_house_trevmillion
 type: house
 level: 2
-tile_group: # = stone wall
-tile: . = floor
+tile: # = stone wall
+tile: . = roof
 tile: x = empty
 tile: + = closed door
 tile: " = window

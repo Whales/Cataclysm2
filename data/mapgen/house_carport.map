@@ -116,7 +116,7 @@ subname: carport_house_trevmillion
 type: house
 level: 2
 tile_group: # = stone wall
-tile: . = floor
+tile: . = roof
 tile: x = empty
 tile: + = closed door
 tile: " = window
