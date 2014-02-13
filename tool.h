@@ -6,15 +6,11 @@
 enum Tool_action
 {
   TOOL_ACT_NULL = 0,
-  TOOL_ACT_PRY,       // "pry" - Pry on adjacent tile, as a crowbar
-  TOOL_ACT_DIG,       // "dig" - Dig a hole on adjacent tile, as a shovel
   TOOL_ACT_MAX
 };
 
 Tool_action lookup_tool_action(std::string name);
 std::string tool_action_name(Tool_action action);
-
-bool tool_action_targets_map(Tool_action action);
 
 // Tool_target is a list of ways that tools can select their target
 enum Tool_target
