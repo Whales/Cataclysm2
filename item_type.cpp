@@ -61,12 +61,8 @@ Item_type_food::Item_type_food()
 
 Item_type_tool::Item_type_tool()
 {
-  action = TOOL_ACT_NULL;
-  target = TOOL_TARGET_NULL;
-  action_ap = 0;
   default_charges = 0;
   max_charges = 0;
-  charges_per_use = 1;
 }
 
 void Item_type::assign_uid(int id)
@@ -362,50 +358,20 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
 {
   std::string junk;
 
-  if (ident == "action:") {
-    std::string action_name;
-    std::getline(data, action_name);
-    action_name = trim(action_name);
-    action = lookup_tool_action(action_name);
-    if (action == TOOL_ACT_NULL) {
-      debugmsg("Unknown tool action '%s' (%s)", action_name.c_str(),
-               name.c_str());
+  if (ident == "applied:") {
+    if (!applied_action.load_data(data, name)) {
       return false;
     }
 
-  } else if (ident == "terrain_action:") {
-    std::getline(data, terrain_action);
-    terrain_action = no_caps(terrain_action);
-    terrain_action = trim(terrain_action);
-    if (terrain_action.empty()) {
-      debugmsg("Empty terrain_action (%s)", name.c_str());
+  } else if (ident == "powered:") {
+    if (!powered_action.load_data(data, name)) {
       return false;
     }
 
-  } else if (ident == "item_action:") {
-    std::getline(data, item_action);
-    item_action = no_caps(item_action);
-    item_action = trim(item_action);
-    if (item_action.empty()) {
-      debugmsg("Empty item_action (%s)", name.c_str());
+  } else if (ident == "countdown:") {
+    if (!countdown_action.load_data(data, name)) {
       return false;
     }
-
-  } else if (ident == "target:") {
-    std::string target_name;
-    std::getline(data, target_name);
-    target_name = trim(target_name);
-    target = lookup_tool_target(target_name);
-    if (target == TOOL_TARGET_NULL) {
-      debugmsg("Unknown tool target '%s' (%s)", target_name.c_str(),
-               name.c_str());
-      return false;
-    }
-
-
-  } else if (ident == "action_ap:") {
-    data >> action_ap;
-    std::getline(data, junk);
 
   } else if (ident == "default_charges:") {
     data >> default_charges;
@@ -413,10 +379,6 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
 
   } else if (ident == "max_charges:") {
     data >> max_charges;
-    std::getline(data, junk);
-
-  } else if (ident == "use_charges:") {
-    data >> charges_per_use;
     std::getline(data, junk);
 
   } else if (ident == "fuel:") {
@@ -431,17 +393,7 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
 
 bool Item_type_tool::uses_charges()
 {
-  return (max_charges > 0 && charges_per_use > 0);
-}
-
-bool Item_type_tool::targets_map()
-{
-  return !terrain_action.empty();
-}
-
-bool Item_type_tool::targets_items()
-{
-  return !item_action.empty();
+  return (max_charges > 0 && applied_action.charge_cost > 0);
 }
 
 Item_class lookup_item_class(std::string name)

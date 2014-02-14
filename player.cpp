@@ -456,18 +456,12 @@ Tripoint Player::pick_target_for(Item* it)
   }
 
   Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
-  std::string verb;
-  if (tool->targets_map()) {
-    verb = tool->terrain_action;
-  } else if (tool->targets_items()) {
-    verb = tool->item_action;
-  } else if (tool->action != TOOL_ACT_NULL) {
-    verb = tool_action_name( tool->action );
-  }
+  Tool_action* action = &(tool->applied_action);
+  std::string verb = action->signal;
 
   Tripoint ret = pos;
 
-  switch (tool->target) {
+  switch (action->target) {
 
     case TOOL_TARGET_NULL:
 // No need to do anything
@@ -494,7 +488,7 @@ Tripoint Player::pick_target_for(Item* it)
 
     default:
       debugmsg("Don't know how to handle Tool_target %s",
-               tool_target_name(tool->target).c_str());
+               tool_target_name(action->target).c_str());
       return Tripoint(-1, -1, -1);
   }
 

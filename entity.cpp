@@ -564,7 +564,8 @@ void Entity::apply_item_uid(int uid)
     return;
   }
   Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
-  if (tool->uses_charges() && it->charges < tool->charges_per_use) {
+  Tool_action* action  = &(tool->applied_action);
+  if (tool->uses_charges() && it->charges < action->charge_cost) {
     return;
   }
 
@@ -573,20 +574,17 @@ void Entity::apply_item_uid(int uid)
     return;
   }
 
-  bool targeting_map = tool->targets_map();
   bool found_target = false;
 
-  if (targeting_map) {
 // Fetch the terrain's name BEFORE changing it.
-    std::string old_name = GAME.map->get_name(pos);
-    if (GAME.map->apply_tool_action(tool->terrain_action, pos)) {
-      GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
-                   tool->terrain_action.c_str(), old_name.c_str());
-      found_target = true;
-    } else {
-      GAME.add_msg("%s can't %s there.", get_name_to_player().c_str(),
-                   tool->terrain_action.c_str());
-    }
+  std::string old_name = GAME.map->get_name(pos);
+  if (GAME.map->apply_tool_action(action->signal, pos)) {
+    GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
+                 action->signal.c_str(), old_name.c_str());
+    found_target = true;
+  } else {
+    GAME.add_msg("%s can't %s there.", get_name_to_player().c_str(),
+                 action->signal.c_str());
   }
 
 // TODO: Item & monster effects
@@ -596,9 +594,9 @@ void Entity::apply_item_uid(int uid)
   }
 
   if (tool->uses_charges()) {
-    it->charges -= tool->charges_per_use;
+    it->charges -= action->charge_cost;
   }
-  use_ap(tool->action_ap);
+  use_ap(action->ap_cost);
 }
 
 void Entity::reload_prep(int uid)
@@ -723,7 +721,8 @@ std::string Entity::apply_item_message(Item &it)
     ret << get_name_to_player() << " cannot apply that.";
   } else {
     Item_type_tool* tool = dynamic_cast<Item_type_tool*>(it.type);
-    if (tool->uses_charges() && it.charges < tool->charges_per_use) {
+    Tool_action* action = &(tool->applied_action);
+    if (tool->uses_charges() && it.charges < action->charge_cost) {
 // TODO: Make this more appropriate / less technical?  I.e. reference the fuel?
       ret << get_possessive() << " " << it.get_name() << " doesn't have " <<
              (it.charges == 0 ? "any" : "enough") << " charges.";
