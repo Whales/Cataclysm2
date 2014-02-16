@@ -20,6 +20,7 @@ enum Item_class
   ITEM_CLASS_LAUNCHER,
   ITEM_CLASS_FOOD,
   ITEM_CLASS_TOOL,
+  ITEM_CLASS_CONTAINER,
   ITEM_CLASS_MAX
 };
 
@@ -159,6 +160,8 @@ public:
 
   int food;
   int water;
+  int charges;  // So that you can partially consume a food item
+  std::string container;  // Name of another item type!
 
 };
 
@@ -182,6 +185,20 @@ public:
   int default_charges;  // Charges it starts with
   int max_charges;      // Max charges.  If 0, doesn't use charges.
   std::string fuel;     // Ammo name - matches this with an ammo type for fuel
+};
+
+class Item_type_container : public Item_type
+{
+public:
+  Item_type_container();
+  ~Item_type_container(){}
+
+  virtual Item_class get_class() { return ITEM_CLASS_CONTAINER; }
+  virtual Item_action default_action() { return IACT_EMPTY; }
+
+  virtual bool handle_data(std::string ident, std::istream &data);
+
+  int capacity; // Volume capacity, that is
 };
 
 #endif

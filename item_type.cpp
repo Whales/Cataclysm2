@@ -348,6 +348,19 @@ bool Item_type_food::handle_data(std::string ident, std::istream &data)
     data >> water;
     std::getline(data, junk);
 
+  } else if (ident == "charges:") {
+    data >> charges;
+    std::getline(data, junk);
+
+  } else if (ident == "container:") {
+    std::getline(data, container);
+    container = no_caps(container);
+    container = trim(container);
+    if (container.empty()) {
+      debugmsg("Empty container (%s)", name.c_str());
+      return false;
+    }
+
   } else if (ident != "done") {
     return false;
   }
@@ -396,6 +409,26 @@ bool Item_type_tool::uses_charges()
   return (max_charges > 0 && applied_action.charge_cost > 0);
 }
 
+Item_type_container::Item_type_container()
+{
+  capacity = 0;
+}
+
+bool Item_type_container::handle_data(std::string ident, std::istream &data)
+{
+  std::string junk;
+  if (ident == "capacity:") {
+    data >> capacity;
+    std::getline(data, junk);
+
+  } else if (ident != "done") {
+    debugmsg("Unknown Container property '%s' (%s)",
+             ident.c_str(), name.c_str());
+    return false;
+  }
+  return true;
+}
+
 Item_class lookup_item_class(std::string name)
 {
   name = no_caps(name);
@@ -417,14 +450,16 @@ std::string item_class_name_plural(Item_class iclass)
 std::string item_class_name(Item_class iclass, bool plural)
 {
   switch (iclass) {
-    case ITEM_CLASS_MISC:     return "Misc";
-    case ITEM_CLASS_CLOTHING: return "Clothing";
-    case ITEM_CLASS_AMMO:     return "Ammo";
-    case ITEM_CLASS_LAUNCHER: return (plural ? "Launchers" : "Launcher");
-    case ITEM_CLASS_FOOD:     return "Food";
-    case ITEM_CLASS_TOOL:     return (plural ? "Tools" : "Tool");
-    case ITEM_CLASS_MAX:      return "BUG - ITEM_CLASS_MAX";
-    default:                  return "BUG - Unnamed Item_class";
+    case ITEM_CLASS_MISC:       return "Misc";
+    case ITEM_CLASS_CLOTHING:   return "Clothing";
+    case ITEM_CLASS_AMMO:       return "Ammo";
+    case ITEM_CLASS_LAUNCHER:   return (plural ? "Launchers"  : "Launcher");
+    case ITEM_CLASS_FOOD:       return "Food";
+    case ITEM_CLASS_TOOL:       return (plural ? "Tools"      : "Tool");
+    case ITEM_CLASS_CONTAINER:  return (plural ? "Containers" : "Container");
+
+    case ITEM_CLASS_MAX:        return "BUG - ITEM_CLASS_MAX";
+    default:                    return "BUG - Unnamed Item_class";
   }
   return "BUG - Escaped item_class_name switch";
 }

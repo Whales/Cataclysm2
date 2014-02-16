@@ -136,24 +136,38 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
   data >> item_category;
   item_category = no_caps(item_category);
   item_category = trim(item_category);
+
   if (item_category == "weapon" || item_category == "vanilla") {
     tmp = new Item_type;
+
   } else if (item_category == "armor" || item_category == "armour" ||
              item_category == "clothing") {
     tmp = new Item_type_clothing;
+
   } else if (item_category == "ammo" || item_category == "ammunition") {
     tmp = new Item_type_ammo;
+
   } else if (item_category == "gun" || item_category == "firearm" ||
              item_category == "launcher") {
     tmp = new Item_type_launcher;
+
+  } else if (item_category == "food" || item_category == "drink") {
+    tmp = new Item_type_food;
+
   } else if (item_category == "tool") {
     tmp = new Item_type_tool;
+
+  } else if (item_category == "container") {
+    tmp = new Item_type_container;
+
   } else if (item_category == "#") {  // It's a commented line - skip it
     std::string junk;
     std::getline(data, junk);
     return load_element(data, filename);
+
   } else if (item_category.empty()) {
     return false;
+
   } else {
     debugmsg("Unknown item category '%s' (%s)", item_category.c_str(),
              filename.c_str());
