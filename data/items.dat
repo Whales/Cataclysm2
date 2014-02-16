@@ -242,9 +242,11 @@ tool
   pierce:  4
   to_hit:  1
 
-  terrain_action: pry
-  target: adjacent
-  action_ap: 100
+  applied:
+    signal: pry
+    target: adjacent
+    ap_cost: 100
+  done
 done
 
 tool
@@ -260,7 +262,9 @@ tool
   cut:     3
   to_hit:  2
 
-  terrain_action: dig
-  target: adjacent
-  action_ap: 1000
+  applied:
+    signal: dig
+    target: adjacent
+    ap_cost: 1000
+  done
 done
