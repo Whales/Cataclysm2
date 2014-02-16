@@ -26,6 +26,8 @@ enum Body_part
 {
   BODY_PART_NULL = 0,
   BODY_PART_HEAD,
+  BODY_PART_EYES,
+  BODY_PART_MOUTH,
   BODY_PART_TORSO,
   BODY_PART_LEFT_HAND,
   BODY_PART_RIGHT_HAND,
@@ -89,11 +91,12 @@ enum Terrain_flag
 enum Item_action
 {
   IACT_NULL = 0,
-  IACT_WIELD,
-  IACT_WEAR,
-  IACT_DROP,
-  IACT_EAT,
-  IACT_APPLY,
+  IACT_WIELD, // Wield as a wearpon
+  IACT_WEAR,  // Wear - only applies for clothing
+  IACT_DROP,  // Drop on the ground
+  IACT_EAT,   // Eat - only applies for food
+  IACT_APPLY, // Apply as in a tool
+  IACT_EMPTY, // As in emptying a container - only applies for containers
   IACT_MAX
 };
 

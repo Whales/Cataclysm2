@@ -45,6 +45,8 @@ std::string body_part_name(Body_part part)
   switch (part) {
     case BODY_PART_NULL:        return "NULL";
     case BODY_PART_HEAD:        return "head";
+    case BODY_PART_EYES:        return "eyes";
+    case BODY_PART_MOUTH:       return "mouth";
     case BODY_PART_TORSO:       return "torso";
     case BODY_PART_LEFT_HAND:   return "left hand";
     case BODY_PART_RIGHT_HAND:  return "right hand";
@@ -121,16 +123,24 @@ std::string HP_part_name(HP_part part)
 HP_part convert_to_HP(Body_part part)
 {
   switch (part) {
+    case BODY_PART_EYES:
+    case BODY_PART_MOUTH:
     case BODY_PART_HEAD:        return HP_PART_HEAD;
+
     case BODY_PART_TORSO:       return HP_PART_TORSO;
+
     case BODY_PART_LEFT_HAND:
     case BODY_PART_LEFT_ARM:    return HP_PART_LEFT_ARM;
+
     case BODY_PART_RIGHT_HAND:
     case BODY_PART_RIGHT_ARM:   return HP_PART_RIGHT_ARM;
+
     case BODY_PART_LEFT_FOOT:
     case BODY_PART_LEFT_LEG:    return HP_PART_LEFT_LEG;
+
     case BODY_PART_RIGHT_FOOT:
     case BODY_PART_RIGHT_LEG:   return HP_PART_RIGHT_LEG;
+
     default:                    return HP_PART_NULL;
   }
   return HP_PART_NULL;
