@@ -1,36 +1,40 @@
 # Testing groups
 name: items_test
   items: w:30 shovel / w:30 crowbar / w:15 glock 19 / w:5 9mm / w:30 leather jacket
-  done
+done
 
 # Wilderness groups
 name: items_beach
   items: w:14 rock / w:1 stick
-  done
+done
 
 name: items_field
   items: w:10 rock / w:1 stick
-  done
+done
 
 name: items_forest
   items: w:10 stick / w:3 rock
-  done
+done
 
 name: items_mangrove
   items: stick
-  done
+done
 
 name: items_rocky
   items: rock
-  done
+done
 
 name: items_salt_marsh
   items: stick
-  done
+done
 
 name: items_swamp
   items: stick
-  done
+done
+
+# Shipwreck - the first items made available to the player
+name: items_shipwreck
+  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water
 
 # House and shop groups
 name: items_tools
