@@ -184,15 +184,18 @@ Worldmap_tile* Worldmap::get_tile(int x, int y, bool warn)
   if (x < 0 || x >= WORLDMAP_SIZE || y < 0 || y >= WORLDMAP_SIZE) {
     tile_oob.terrain = WORLD_TERRAIN.lookup_uid(0);
     tile_oob.monsters.clear();
-/*
     if (warn) {
       debugmsg("Worldmap::get_tile(%d, %d) OOB", x, y);
     }
-*/
     return &tile_oob;
   }
 
   return &(tiles[x][y]);
+}
+
+Worldmap_tile* Worldmap::get_tile(Point p, bool warn)
+{
+  return get_tile(p.x, p.y, warn);
 }
 
 glyph Worldmap::get_glyph(int x, int y)
@@ -238,26 +241,37 @@ Generic_map Worldmap::get_generic_map()
   return ret;
 }
 
-Point Worldmap::random_tile_with_terrain(std::string name)
+Point Worldmap::random_tile_with_terrain(std::string name, int island)
 {
-  return random_tile_with_terrain( WORLD_TERRAIN.lookup_name(name) );
+  return random_tile_with_terrain( WORLD_TERRAIN.lookup_name(name), island );
 }
 
-Point Worldmap::random_tile_with_terrain(World_terrain* terrain)
+Point Worldmap::random_tile_with_terrain(World_terrain* terrain, int island)
 {
   if (!terrain) {
     return Point(0, 0);
   }
   std::vector<Point> ret;
-  for (int x = 0; x < WORLDMAP_SIZE; x++) {
-    for (int y = 0; y < WORLDMAP_SIZE; y++) {
-      if (get_tile(x, y)->terrain == terrain) {
-        ret.push_back( Point(x, y) );
+  if (island == -1) { // island defaults to -1, e.g., any island
+    for (int x = 0; x < WORLDMAP_SIZE; x++) {
+      for (int y = 0; y < WORLDMAP_SIZE; y++) {
+        if (get_tile(x, y)->terrain == terrain) {
+          ret.push_back( Point(x, y) );
+        }
+      }
+    }
+  } else {
+    if (islands.count(island) == 0) {
+      return Point(-1, -1);
+    }
+    for (int i = 0; i < islands[island].size(); i++) {
+      if (get_tile( (islands[island])[i] )->terrain == terrain) {
+        ret.push_back( (islands[island])[i] );
       }
     }
   }
   if (ret.empty()) {
-    return Point(0, 0);
+    return Point(-1, -1);
   }
 
   return ret[rng(0, ret.size() - 1)];

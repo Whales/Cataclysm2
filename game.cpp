@@ -62,7 +62,8 @@ bool Game::setup()
   worldmap->generate();
 
   map = new Map;
-  Point start = worldmap->random_tile_with_terrain("beach");
+// The second argument of 0 means "on the main island"
+  Point start = worldmap->random_tile_with_terrain("beach", 0);
   map->generate(worldmap, start.x, start.y, 0);
 
 

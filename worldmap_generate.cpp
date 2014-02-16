@@ -5,11 +5,6 @@
 #include "window.h"
 #include <math.h>
 
-#define NUM_RADIAL_POINTS 150
-
-void draw_island(std::vector<std::vector<int> > &altitude, Point center,
-                 int height, int edge_dist);
-
 void Worldmap::generate()
 {
 // Points_live is used below to track which points to update
@@ -107,7 +102,7 @@ void Worldmap::generate()
     altitude.push_back(tmpvec);
   }
 
-  draw_island(altitude, island_center, 400, 20);
+  draw_island(altitude, island_center, 400, 20, 0);
 
 // Now draw several (8) more, small islands
   for (int i = 0; i < 8; i++) {
@@ -131,7 +126,7 @@ void Worldmap::generate()
         break;
     }
     int size = 80;
-    draw_island(altitude, islet, size, 2);
+    draw_island(altitude, islet, size, 2, i + 1);
     while (one_in(3)) { // island chain
       if (one_in(2)) {
         islet.x -= rng(size / 5, size / 3);
@@ -144,7 +139,11 @@ void Worldmap::generate()
         islet.y += rng(size / 5, size / 3);
       }
       size -= rng(0, 20);
-      draw_island(altitude, islet, size, 2);
+/* Using "i + 1" as the ID means that all islands in the same chain are
+ * considered to be the "same" island - for whatever purposes the island ID is
+ * ultimately used for (e.g. random_tile_with_terrain()).  TODO: change???
+ */
+      draw_island(altitude, islet, size, 2, i + 1);
     }
   }
 
@@ -504,23 +503,32 @@ void Worldmap::place_monsters()
   }
 }
 
-void draw_island(std::vector<std::vector<int> > &altitude, Point center,
-                 int height, int edge_dist)
+void Worldmap::draw_island(std::vector<std::vector<int> > &altitude,
+                           Point center, int height, int edge_dist, int id)
 {
   if (center.x < 0 || center.x >= WORLDMAP_SIZE ||
       center.y < 0 || center.y >= WORLDMAP_SIZE   ) {
     return;
   }
   altitude[center.x][center.y] = height;
+  add_point_to_island(center, id);
+
   std::vector<Point> points_active;
   points_active.push_back(center);
-  int center_point = WORLDMAP_SIZE / 2;
-  int shift = WORLDMAP_SIZE / 10;
+
+  int center_point = WORLDMAP_SIZE /  2;
+  int shift        = WORLDMAP_SIZE / 10;
+
+// As long as we have active points...
   while (!points_active.empty()) {
+
+// We're going to empty out points_active and replace it with new_points.
     std::vector<Point> new_points;
     while (!points_active.empty()) {
+// Pick a random point...
       int index = rng(0, points_active.size() - 1);
       Point p = points_active[index];
+// Cycle through all adjacent points (no diagonals!)
       for (int i = 0; i < 4; i++) {
         int x, y;
         switch (i) {
@@ -531,31 +539,62 @@ void draw_island(std::vector<std::vector<int> > &altitude, Point center,
         }
         if (x > 0 && x < WORLDMAP_SIZE && y > 0 && y < WORLDMAP_SIZE &&
             altitude[x][y] == 0) {
+// Figure out how far we are from the edge - either vertically or horizontally
           int dist_from_edge = (x > center_point ? WORLDMAP_SIZE - x : x);
           int y_dist = (y > center_point ? WORLDMAP_SIZE - y : y);
           if (y_dist < dist_from_edge) {
             dist_from_edge = y_dist;
           }
+// Add that adjacent point to new_points & copy altitude
           new_points.push_back( Point(x, y) );
           altitude[x][y] = altitude[p.x][p.y];
+
+// Reduce the altitude in one of many ways:
           if (dist_from_edge < rng(0, edge_dist)) {
-            altitude[x][y] -= rng(0, 100);
+// Slope down rapidly if we're close to the edge, to avoid straight lines
+            altitude[x][y] -= rng(20, 100);
           } else if (one_in(30)) {
+// Rarely, slope down rapidly.  This promotes gulfs and fjords.
             altitude[x][y] -= rng(0, 100);
           } else if (!one_in(10)) {
+/* Otherwise, 90% of the time slope slowly; 10% don't slope.  The latter
+ * promotes peninsulae.
+ */
             altitude[x][y] -= rng(0, shift);
           }
-        }
-      }
+// If the altitude winds up greater than 0, add us to the island ID
+          if (altitude[x][y] > 0) {
+            add_point_to_island( Point(x, y), id );
+          }
+        } // if (is in bounds & altitude == 0)
+      } // for (int i = 0; i < 4; i++)
+// Erase the point we were working on
       points_active.erase(points_active.begin() + index);
-    }
+    } // while (!active_points.empty())
     points_active = new_points;
-  }
+  } // while (!active_points.empty())
+
+// Set anything < 0 to 0.
   for (int x = 0; x < WORLDMAP_SIZE; x++) {
     for (int y = 0; y < WORLDMAP_SIZE; y++) {
       if (altitude[x][y] < 0) {
         altitude[x][y] = 0;
       }
     }
+  }
+}
+
+void Worldmap::add_point_to_island(Point p, int id)
+{
+  if (id < 0) {
+    return;
+  }
+
+  if (islands.count(id) == 0) {
+    std::vector<Point> tmp;
+    tmp.push_back(p);
+    islands[id] = tmp;
+  } else {
+    islands[id].push_back(p);
   }
 }

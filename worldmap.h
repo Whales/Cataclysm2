@@ -38,21 +38,27 @@ public:
 
   Point get_point(int posx, int posy);
   void draw_minimap(cuss::element *drawing, int cornerx, int cornery);
-  Worldmap_tile* get_tile(int x, int y, bool warn = true);
+  Worldmap_tile* get_tile(int x, int y, bool warn = false);
+  Worldmap_tile* get_tile(Point p, bool warn = false);
   glyph get_glyph(int x, int y);
   std::string get_name(int x, int y);
   std::vector<Monster_spawn>* get_spawns(int x, int y);
 
   Generic_map get_generic_map();  // For road drawing and long-travel
 
-  Point random_tile_with_terrain(std::string name);
-  Point random_tile_with_terrain(World_terrain* terrain);
+  Point random_tile_with_terrain(std::string name,       int island = -1);
+  Point random_tile_with_terrain(World_terrain* terrain, int island = -1);
 
 private:
+  void draw_island(std::vector<std::vector<int> > &altitude,
+                   Point center, int height, int edge_dist, int id);
+  void add_point_to_island(Point p, int id);
+
   Worldmap_tile tiles[WORLDMAP_SIZE][WORLDMAP_SIZE];
   Biome*       biomes[WORLDMAP_SIZE][WORLDMAP_SIZE];
   Worldmap_tile tile_oob;
   std::vector<World_terrain*> shops;
+  std::map< int, std::vector<Point> > islands;
   std::map<World_terrain*,int> shop_count;
 };
 
