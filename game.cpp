@@ -109,9 +109,6 @@ bool Game::main_loop()
         mon->pos.x = player->pos.x - 3;
         mon->pos.y = player->pos.y - 3;
         entities.add_entity(mon);
-/*
-        map->add_field( FIELDS.lookup_name("fire"), player->pos.x - 3, player->pos.y - 3, player->pos.z, "magic" );
-*/
       } else if (ch == '?') {
         debugmsg( map->get_center_submap()->get_spec_name().c_str() );
       }
@@ -558,7 +555,6 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
   }
 // fine_distance is used later to see if we hit the target or "barely missed"
   int fine_distance = 100 * (distance_missed_by - tiles_off);
-  //debugmsg("angle %d, missed %f, tiles %d, fine %d", angle_missed_by, distance_missed_by, tiles_off, fine_distance);
 
   std::vector<Tripoint> path = map->line_of_sight(origin, target);
   if (path.empty()) { // Lost line of sight at some point
