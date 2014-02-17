@@ -270,6 +270,7 @@ food
     "Meal, Ready to Eat."  A military ration.  Though not particularly tasty,
     it is very filling and will not spoil.
   done
+  glyph: $ red black
   weight: 15
   volume: 15
   food: 60
@@ -282,6 +283,7 @@ food
     "Meal, Ready to Eat."  A military ration.  Though not particularly tasty,
     it is very filling and will not spoil.
   done
+  glyph: $ green black
   weight: 15
   volume: 15
   food: 60
@@ -293,6 +295,7 @@ food
   description:
     Water, the stuff of life, the best thirst-quencher available.
   done
+  glyph: $ ltblue black
   weight:  4
   volume: 10
   water:  25
@@ -356,6 +359,7 @@ container
     A plastic bottle with a resealable top.  Very light and ideal for carrying
     liquids.
   done
+  glyph: ( ltcyan black
   weight:    0
   volume:   22
   capacity: 20

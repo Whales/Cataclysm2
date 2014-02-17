@@ -1,6 +1,6 @@
 # Testing groups
 name: items_test
-  items: w:30 shovel / w:30 crowbar / w:15 glock 19 / w:5 9mm / w:30 leather jacket
+  items: w:30 shovel / w:30 crowbar / w:15 glock 19 / w:5 9mm / w:30 leather jacket / w:50 water
 done
 
 # Wilderness groups
