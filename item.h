@@ -59,7 +59,8 @@ public:
 
 // Changing
   bool combine_with(const Item& rhs);
-  Item in_its_container();
+  //Item in_its_container();
+  bool place_in_its_container();
   bool add_contents(Item it);
   bool reload(Entity* owner, int ammo_uid);
   bool damage(int dam); // Returns true if the item is destroyed

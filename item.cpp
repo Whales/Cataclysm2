@@ -30,6 +30,13 @@ Item::Item(const Item &rhs)
   uid   = rhs.uid;
   ammo  = rhs.ammo;
   charges = rhs.charges;
+
+  if (!rhs.contents.empty()) {
+    contents.clear();
+    for (int i = 0; i < rhs.contents.size(); i++) {
+      contents.push_back( rhs.contents[i] );
+    }
+  }
 }
 
 Item::~Item()
@@ -42,6 +49,13 @@ Item& Item::operator=(const Item& rhs)
   ammo    = rhs.ammo;
   count   = rhs.count;
   charges = rhs.charges;
+
+  if (!rhs.contents.empty()) {
+    contents.clear();
+    for (int i = 0; i < rhs.contents.size(); i++) {
+      contents.push_back( rhs.contents[i] );
+    }
+  }
 
   return *this;
 }
@@ -134,6 +148,10 @@ std::string Item::get_name_indefinite()
       default:
         ret << "a " << type->name;
     }
+// Display FULL info on contained items
+    if (!contents.empty()) {
+      ret << " of " << contents[0].get_name_full();
+    }
     return ret.str();
   }
   return "a typeless item";
@@ -158,12 +176,26 @@ std::string Item::get_name_full()
   }
   std::stringstream ret;
   ret << get_name();
+  if (!contents.empty()) {
+    ret << " of " << contents[0].get_name_full();
+  }
 
+// Display the number of charges for certain items
   switch (get_item_class()) {
+
     case ITEM_CLASS_AMMO:
     case ITEM_CLASS_LAUNCHER:
       ret << " (" << charges << ")";
       break;
+
+    case ITEM_CLASS_FOOD: {
+// For food, only display charges if it's not a single-use type
+      Item_type_food* food = static_cast<Item_type_food*>(type);
+      if (food->charges > 1) {
+        ret << " (" << charges << ")";
+      }
+    } break;
+
   }
 
   return ret.str();
@@ -373,7 +405,7 @@ bool Item::combine_with(const Item& rhs)
   return true;
 }
 
-Item Item::in_its_container()
+bool Item::place_in_its_container()
 {
   if (is_real() && get_item_class() == ITEM_CLASS_FOOD) {
     Item_type_food* food = static_cast<Item_type_food*>(type);
@@ -383,15 +415,16 @@ Item Item::in_its_container()
       if (!tmp.add_contents(*this)) {
         debugmsg("%s could not be placed in its container (%s)",
                  get_data_name().c_str(), food->container.c_str());
-        return *this;
+        return false;
       }
-      return tmp;
+      *this = tmp;
+      return true;
     } else {
       debugmsg("%s has non-existant container '%s'", get_data_name().c_str(),
                food->container.c_str());
     }
   }
-  return *this;
+  return false;
 }
 
 bool Item::add_contents(Item it)

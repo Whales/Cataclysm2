@@ -403,6 +403,9 @@ void Submap::generate(Mapgen_spec* spec)
     while (area && area->place_item()) {
       Point p = area->pick_location();
       Item item( area->pick_type() );
+      if (item.get_item_class() == ITEM_CLASS_FOOD) {
+        item.place_in_its_container();
+      }
       add_item(item, p.x, p.y);
     }
   }
