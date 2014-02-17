@@ -86,6 +86,7 @@ std::string Item_type::get_name()
 bool Item_type::load_data(std::istream &data)
 {
   std::string ident, junk;
+  bool set_name = false, set_glyph = false;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident)) {
       return false;
@@ -99,6 +100,7 @@ bool Item_type::load_data(std::istream &data)
     } else if (ident == "name:") {
       std::getline(data, name);
       name = trim(name);
+      set_name = true;
 
     } else if (ident == "display_name:") {
       std::getline(data, display_name);
@@ -117,6 +119,7 @@ bool Item_type::load_data(std::istream &data)
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
       std::getline(data, junk);
+      set_glyph = true;
 
     } else if (ident == "weight:") {
       data >> weight;
@@ -180,7 +183,15 @@ bool Item_type::load_data(std::istream &data)
 
     }
   }
-// TODO: Flag loading.
+// Ensure that we set a glyph and name!
+  if (!set_name) {
+    debugmsg("Item created without a name!");
+    return false;
+  }
+  if (!set_glyph) {
+    debugmsg("Item '%s' created without a glyph!", name.c_str());
+    return false;
+  }
   return true;
 }
 
