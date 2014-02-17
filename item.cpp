@@ -206,6 +206,24 @@ int Item::get_volume()
   return type->volume;
 }
 
+int Item::get_volume_capacity()
+{
+  if (!is_real() || get_item_class() != ITEM_CLASS_CONTAINER) {
+    return 0;
+  }
+  Item_type_container* container = static_cast<Item_type_container*>(type);
+  return container->capacity;
+}
+
+int Item::get_volume_capacity_used()
+{
+  int ret = 0;
+  for (int i = 0; i < contents.size(); i++) {
+    ret += contents[i].get_volume();
+  }
+  return ret;
+}
+
 bool Item::has_flag(Item_flag itf)
 {
   if (!type) {
@@ -338,6 +356,58 @@ Ranged_attack Item::get_fired_attack()
   return ret;
 }
 
+bool Item::combine_with(const Item& rhs)
+{
+// TODO: Handle combining items of different damage levels etc.
+  if (!combines()) {
+    return false;
+  }
+  if (type != rhs.type) {
+    return false;
+  }
+  if (combine_by_charges()) {
+    charges += rhs.charges;
+  } else {
+    count += rhs.count;
+  }
+  return true;
+}
+
+Item Item::in_its_container()
+{
+  if (is_real() && get_item_class() == ITEM_CLASS_FOOD) {
+    Item_type_food* food = static_cast<Item_type_food*>(type);
+    Item_type* container_type = ITEM_TYPES.lookup_name( food->container );
+    if (container_type) {
+      Item tmp(container_type);
+      if (!tmp.add_contents(*this)) {
+        debugmsg("%s could not be placed in its container (%s)",
+                 get_data_name().c_str(), food->container.c_str());
+        return *this;
+      }
+      return tmp;
+    } else {
+      debugmsg("%s has non-existant container '%s'", get_data_name().c_str(),
+               food->container.c_str());
+    }
+  }
+  return *this;
+}
+
+bool Item::add_contents(Item it)
+{
+// TODO: Require water-tight containers for liquids?
+  if (!is_real() || get_item_class() != ITEM_CLASS_CONTAINER ||
+      !it.is_real()) {
+    return false;
+  }
+  if (get_volume_capacity_used() + it.get_volume() > get_volume_capacity()) {
+    return false;
+  }
+  contents.push_back(it);
+  return true;
+}
+
 bool Item::reload(Entity* owner, int ammo_uid)
 {
   if (!owner) {
@@ -359,23 +429,6 @@ bool Item::reload(Entity* owner, int ammo_uid)
     owner->remove_item_uid(ammo_uid);
   }
   ammo = ammo_used->type;
-  return true;
-}
-
-bool Item::combine_with(const Item& rhs)
-{
-// TODO: Handle combining items of different damage levels etc.
-  if (!combines()) {
-    return false;
-  }
-  if (type != rhs.type) {
-    return false;
-  }
-  if (combine_by_charges()) {
-    charges += rhs.charges;
-  } else {
-    count += rhs.count;
-  }
   return true;
 }
 

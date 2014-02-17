@@ -40,6 +40,9 @@ public:
 
   int get_weight();
   int get_volume();
+  int get_volume_capacity();
+  int get_volume_capacity_used();
+
   bool has_flag(Item_flag itf);
 
   int get_damage(Damage_type dtype);
@@ -55,14 +58,17 @@ public:
   Ranged_attack get_fired_attack();
 
 // Changing
-  bool reload(Entity* owner, int ammo_uid);
   bool combine_with(const Item& rhs);
+  Item in_its_container();
+  bool add_contents(Item it);
+  bool reload(Entity* owner, int ammo_uid);
   bool damage(int dam); // Returns true if the item is destroyed
 
 // Interfaces
   Item_action show_info();
 
-  Item_type* ammo;
+  Item_type* ammo;  // Currently-loaded ammo type.
+  std::vector<Item> contents; // Contents, attached mods, etc.
   int count;
   int charges;
   int hp;
