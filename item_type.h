@@ -155,6 +155,7 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_FOOD; }
   virtual Item_action default_action() { return IACT_EAT; }
+  virtual int  default_charges() { return charges; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
