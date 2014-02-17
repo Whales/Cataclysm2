@@ -62,6 +62,33 @@ weapon
 done
 
 weapon
+  name: hatchet
+  description:
+    A short, one-handed ax.  Makes a good melee weapon, and servers as both a
+    hammer and a cutting tool.
+  done
+  glyph: / dkgray black
+  weight: 35
+  volume: 18
+  bash:   14
+  cut:    14
+  to_hit:  1
+done
+
+weapon
+  name: wood ax
+  description:
+    A heavy, long-handled ax.  Ideal for chopping all kinds of stuff!
+  done
+  glyph: / dkgray black
+  weight: 80
+  volume: 90
+  bash:   24
+  cut:    20
+  to_hit:  1
+done
+
+weapon
   name: baseball bat
   description:
     A sturdy wooden bat.  Makes an excellent melee weapon.

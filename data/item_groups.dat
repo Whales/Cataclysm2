@@ -34,13 +34,13 @@ done
 
 # Shipwreck - the first items made available to the player
 name: items_shipwreck
-  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water
+  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water / w:3 hatchet
 
 # House and shop groups
 name: items_tools
-  items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar
+  items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax
 done
 
 name: items_garage
-  items: w:40 work gloves / w:100 nails / w:10 baseball bat / w:10 golf club / w:1 machete / w:50 hammer / w:45 wrench / w:5 sledgehammer / w:8 steel pipe / w:60 screwdriver / w:30 crowbar / w:30 shovel
+  items: w:40 work gloves / w:100 nails / w:10 baseball bat / w:10 golf club / w:1 machete / w:50 hammer / w:45 wrench / w:5 sledgehammer / w:8 steel pipe / w:60 screwdriver / w:30 crowbar / w:30 shovel / w:15 hatchet / w:12 wood ax
 done
