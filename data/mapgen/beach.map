@@ -238,13 +238,15 @@ done
 name: adj_beach_whales
 type: beach
 adjacent
-tile: a = w:1 nothing / w:3 beach sand
-tile: b = w:1 nothing / w:2 beach sand
-tile: c = w:1 nothing / w:1 beach sand
-tile: d = w:3 nothing / w:2 beach sand
-tile: e = w:2 nothing / w:1 beach sand
-tile: f = w:3 nothing / w:1 beach sand
-tile: g = w:5 nothing / w:1 beach sand
+# We use just normal sand for the adjacency map, because we're far away enough
+# from the ocean to make pits, not shallow water.
+tile: a = w:1 nothing / w:3 sand
+tile: b = w:1 nothing / w:2 sand
+tile: c = w:1 nothing / w:1 sand
+tile: d = w:3 nothing / w:2 sand
+tile: e = w:2 nothing / w:1 sand
+tile: f = w:3 nothing / w:1 sand
+tile: g = w:5 nothing / w:1 sand
 map:
 aaaaaaaaaaaaaaaaaaaaaaaaa
 bbbbbbbbbbbbbbbbbbbbbbbbb
