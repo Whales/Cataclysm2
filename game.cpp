@@ -167,6 +167,7 @@ void Game::do_action(Interface_action act)
       if (map->item_count(player->pos) == 0) {
         add_msg("No items here.");
       } else if (map->item_count(player->pos) == 1) {
+// Only one item - no need for the interface
         std::vector<Item> *items = map->items_at(player->pos);
         std::string message = "You pick up " + list_items(items);
         player->add_item( (*items)[0] );
