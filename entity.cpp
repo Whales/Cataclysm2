@@ -390,8 +390,13 @@ void Entity::shift(int shiftx, int shifty)
 
 void Entity::prepare()
 {
-  hunger++;
-  thirst += 2;
+// Increment hunger and thirst when appropriate...
+  if (GAME.minute_timer(6)) {
+    hunger++;
+  }
+  if (GAME.minute_timer(4)) {
+    thirst++;
+  }
 }
 
 bool Entity::add_item(Item item)
