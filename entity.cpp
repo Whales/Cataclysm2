@@ -796,8 +796,8 @@ void Entity::attack(Entity* target)
   if (hit_roll(att.to_hit) < target->dodge_roll()) {
     if (you_see) {
       std::stringstream msg;
-      msg << get_name_to_player() << " " << miss_verb << " " <<
-             target->get_name_to_player() << "!";
+      msg << "<c=dkgray>" << get_name_to_player() << " " << miss_verb << " " <<
+             target->get_name_to_player() << "<c=/>.";
       GAME.add_msg( msg.str() );
     }
 // TODO: action_point penalty for missing?
@@ -816,6 +816,11 @@ void Entity::attack(Entity* target)
 
   if (you_see) {
     std::stringstream damage_ss;
+    if (damage.total_damage() == 0) {
+      damage_ss << "<c=dkgray>";
+    } else {
+      damage_ss << "<c=ltred>";
+    }
     damage_ss << get_name_to_player() << " ";
     if (attacker_is_you) {
       damage_ss << att.verb_second;
@@ -830,12 +835,12 @@ void Entity::attack(Entity* target)
     }
     if (target->is_you()) {
       if (damage.total_damage() == 0) {
-        damage_ss << " but does no damage";
+        damage_ss << " but does no damage.";
       } else {
-        damage_ss << " for " << damage.total_damage() << " damage";
+        damage_ss << " for " << damage.total_damage() << " damage!";
       }
     }
-    damage_ss << "!";
+    damage_ss << "<c=/>";
     GAME.add_msg( damage_ss.str() );
   }
 }
