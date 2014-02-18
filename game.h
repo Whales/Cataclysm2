@@ -69,8 +69,10 @@ public:
   void pickup_items(int posx, int posy);
 // TODO: Both are limited in that they can not return a point that the player
 //       cannot currently see (they return Tripoint() instead).
-  Tripoint target_selector           (int startx = -1, int starty = -1);
-  std::vector<Tripoint> path_selector(int startx = -1, int starty = -1);
+  Tripoint target_selector           (int startx = -1, int starty = -1,
+                                      int range  = -1);
+  std::vector<Tripoint> path_selector(int startx = -1, int starty = -1,
+                                      int range  = -1);
 
 // Data - Universal access functions
   int get_item_uid();

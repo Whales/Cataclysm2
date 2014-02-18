@@ -886,16 +886,16 @@ void Game::pickup_items(int posx, int posy)
   
 }
 
-Tripoint Game::target_selector(int startx, int starty)
+Tripoint Game::target_selector(int startx, int starty, int range)
 {
-  std::vector<Tripoint> path = path_selector(startx, starty);
+  std::vector<Tripoint> path = path_selector(startx, starty, range);
   if (path.empty()) {
     return Tripoint(-1, -1, -1);
   }
   return path.back();
 }
 
-std::vector<Tripoint> Game::path_selector(int startx, int starty)
+std::vector<Tripoint> Game::path_selector(int startx, int starty, int range)
 {
   std::vector<Tripoint> ret;
   if (!player) {
@@ -906,9 +906,18 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty)
     starty = player->pos.y;
   }
 
+  int minx, miny, maxx, maxy;
+  if (range == -1) {  // Range defaults to -1, "no limit"
+    range = 20; // TODO: Use sight distance (e.g. from sunlight)
+  }
+  minx = startx - range;
+  miny = starty - range;
+  maxx = startx + range;
+  maxy = starty + range;
+
   Tripoint target(startx, starty, player->pos.z);
 
-  map->draw(w_map, &entities, player->pos);
+  map->draw_area(w_map, &entities, player->pos, minx, miny, maxx, maxy);
   w_map->refresh();
   while (true) {
     long ch = input();
@@ -922,13 +931,26 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty)
         return ret; // Return our path on hitting "pause"
       } else if (p.x != -2 && p.y != -2) {
         target += p;
+// Ensure we're still in-range
+        if (target.x < minx) {
+          target.x = minx;
+        }
+        if (target.y < miny) {
+          target.y = miny;
+        }
+        if (target.x > maxx) {
+          target.x = maxx;
+        }
+        if (target.y > maxy) {
+          target.y = maxy;
+        }
         ret = map->line_of_sight(player->pos, target);
-        map->draw(w_map, &entities, player->pos);
+        map->draw_area(w_map, &entities, player->pos, minx, miny, maxx, maxy);
         for (int i = 0; i < ret.size(); i++) {
           map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
                          player->pos.x, player->pos.y, true); // true==inverted
         }
-// TODO: No no no remove this
+// TODO: No no no remove this!  Won't work for tiles!
         w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
                         w_map->sizey() / 2 - player->pos.y + target.y,
                         glyph('*', c_red, c_black));
