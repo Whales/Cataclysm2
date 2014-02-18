@@ -63,6 +63,7 @@ Item_type_tool::Item_type_tool()
 {
   default_charges = 0;
   max_charges = 0;
+  countdown_timer = 0;
 }
 
 void Item_type::assign_uid(int id)
@@ -397,6 +398,10 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
       return false;
     }
 
+  } else if (ident == "countdown_timer:") {
+    data >> countdown_timer;
+    std::getline(data, junk);
+
   } else if (ident == "default_charges:") {
     data >> default_charges;
     std::getline(data, junk);
@@ -407,6 +412,15 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
 
   } else if (ident == "fuel:") {
     std::getline(data, fuel);
+    fuel = no_caps(fuel);
+    fuel = trim(fuel);
+
+  } else if (ident == "powered_text:") {
+    std::getline(data, powered_text);
+    powered_text = no_caps(powered_text);
+    powered_text = trim(powered_text);
+
+
 
   } else if (ident != "done") {
     debugmsg("Unknown Tool property '%s' (%s)", ident.c_str(), name.c_str());
@@ -493,6 +507,7 @@ std::string item_flag_name(Item_flag flag)
     case ITEM_FLAG_NULL:      return "NULL";
     case ITEM_FLAG_LIQUID:    return "liquid";
     case ITEM_FLAG_FLAMMABLE: return "flammable";
+    case ITEM_FLAG_PLURAL:    return "plural";
     case ITEM_FLAG_MAX:       return "BUG - ITEM_FLAG_MAX";
     default:                  return "BUG - Unnamed Item_flag";
   }
