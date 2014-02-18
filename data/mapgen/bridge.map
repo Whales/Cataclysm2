@@ -132,11 +132,11 @@ name: 4_bridge_whales
 type: bridge
 neighbors: 4
 base_terrain: dirt / grass
-tile: o = w:1000 pavement / rubble
-tile: X = w:1000 yellow pavement / rubble
-tile: x = w:1000 white pavement / rubble
+tile:  o = w:1000 pavement / rubble
+tile:  X = w:1000 yellow pavement / rubble
+tile:  x = w:1000 white pavement / rubble
 subst: 7 = w:15 . / w:1 t
-tile: t = small tree
+tile:  t = small tree
 map:
 ........ooooooooo........
 ........ooooXoooo........

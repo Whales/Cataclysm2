@@ -142,10 +142,10 @@ name: shed_house_whales_1
 subname: shed_house_whales
 type: house
 tile: # = stone wall
-tile: . = floor
+tile: .23 = floor
 tile: o = grass / dirt
 tile: * = concrete floor
-tile: X = wood wall
+tile: Xbcd = wood wall
 tile: { = shelves
 item_group: 70 { = items_garage
 tile: V = shelves
@@ -196,7 +196,7 @@ subname: shed_house_whales
 type: house
 floor: 2
 tile: # = stone wall
-tile: . = floor
+tile: .2356 = floor
 tile: o = empty
 tile: * = roof
 tile: V = shelves
