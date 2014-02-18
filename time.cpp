@@ -110,14 +110,56 @@ Time& Time::operator-=(const int &rhs)
   return *this;
 }
 
+Time::operator int() const
+{
+  return get_turn();
+}
+
 int Time::get_turn() const
 {
   return turn;
 }
 
-Time::operator int() const
+int Time::get_second()
 {
-  return get_turn();
+  if (second < 0 || second >= 60) {
+    standardize();
+  }
+  return second;
+}
+
+int Time::get_minute()
+{
+  if (minute < 0 || minute >= 60) {
+    standardize();
+  }
+  return minute;
+}
+
+int Time::get_hour()
+{
+  if (hour < 0 || hour >= 24) {
+    standardize();
+  }
+  return hour;
+}
+
+int Time::get_day()
+{
+  if (day < 0 || day >= DAYS_IN_SEASON) {
+    standardize();
+  }
+  return day;
+}
+
+Season Time::get_season() const
+{
+  return season;
+}
+
+int Time::get_year() const
+{
+  return year;
 }
 
 std::string Time::get_text(bool twentyfour)

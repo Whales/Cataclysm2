@@ -46,8 +46,15 @@ public:
   Time& operator-=(const Time &rhs);
   Time& operator-=(const int  &rhs);
 
-  int get_turn() const;
-  operator int() const; // Returns get_turn()
+  operator int()      const; // Returns get_turn()
+  int get_turn()      const;
+// These four can't be const, since they may call standardize()
+  int get_second();
+  int get_minute();
+  int get_hour();
+  int get_day();
+  Season get_season() const;
+  int get_year()      const;
   std::string get_text(bool twentyfour = false); // "Spring, Day 4, 2:37 PM"
 
   void increment(); // turn++, second += SECONDS_IN_TURN
