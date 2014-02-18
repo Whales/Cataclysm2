@@ -292,6 +292,11 @@ done
 
 # Food
 
+# Note that "food" values are measured in 6 minutes; e.g. "60" is enough food to
+# last 6 hours.
+# "water" values are measured in 4 minutes; e.g. "60" is enough water to last
+# 4 hours.
+
 food
   name: MRE (meat)
   description:
@@ -326,7 +331,7 @@ food
   glyph: $ ltblue black
   weight:  4
   volume: 10
-  water:  25
+  water:  30
   charges: 2
   container: plastic bottle
   flags: liquid plural
