@@ -223,6 +223,7 @@ clothing
   armor_pierce: 2
   encumbrance:  2
   covers: hands
+  flags: plural
 done
 
 # END Clothing
@@ -328,7 +329,7 @@ food
   water:  25
   charges: 2
   container: plastic bottle
-  flags: liquid
+  flags: liquid plural
 done
 
 # END Food

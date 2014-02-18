@@ -33,6 +33,7 @@ enum Item_flag
   ITEM_FLAG_NULL = 0,
   ITEM_FLAG_LIQUID,     // "liquid" - Puts out fires, needs a container
   ITEM_FLAG_FLAMMABLE,  // "flammable" - Consumed by fires
+  ITEM_FLAG_PLURAL,     // "plural" - indefinite article is "some," not "a"
   ITEM_FLAG_MAX
 };
 

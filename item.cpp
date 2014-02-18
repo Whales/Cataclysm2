@@ -137,16 +137,16 @@ std::string Item::get_name()
 
 std::string Item::get_name_indefinite()
 {
-// TODO: Check Item_type for "plural" flag
 // TODO: Unique items?
+  std::string article = (has_flag(ITEM_FLAG_PLURAL) ? "some" : "a");
   if (type) {
     std::stringstream ret;
     switch (type->get_class()) {
       case ITEM_CLASS_AMMO:
-        ret << "a box of " << type->name << " ammo"; // TODO: Not always box?
+        ret << "a box of " << type->name; // TODO: Not always box?
         break;
       default:
-        ret << "a " << type->name;
+        ret << article << " " << type->name;
     }
 // Display FULL info on contained items
     if (!contents.empty()) {
