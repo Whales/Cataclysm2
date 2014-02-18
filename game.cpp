@@ -21,6 +21,7 @@ Game::Game()
   w_hud     = NULL;
   player    = NULL;
   new_messages = 0;
+  next_item_uid = 0;
   game_over = false;
 }
 
