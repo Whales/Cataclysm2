@@ -137,7 +137,11 @@ std::string Time::get_text(bool twentyfour)
     }
   }
   ret << season_name(season) << " " << year << ", Day " << day + 1 <<
-         hour << ":" << minute << period;
+         hour << ":";
+  if (minute < 10) {
+    ret << "0";
+  }
+  ret << minute << period;
 
   return ret.str();
 }
@@ -146,6 +150,7 @@ void Time::increment()
 {
   turn++;
   second += SECONDS_IN_TURN;
+  standardize();
 }
 
 void Time::standardize()

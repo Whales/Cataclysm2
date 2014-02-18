@@ -128,6 +128,8 @@ bool Game::main_loop()
   if (game_over) {
     return false; // This terminates the game
   }
+// Advance the turn
+  time.increment();
   return true;    // This keeps the game going
 }
 
@@ -697,6 +699,8 @@ void Game::draw_all()
 void Game::update_hud()
 {
   print_messages();
+// Update date
+  i_hud.set_data("text_date", time.get_text());
 // Draw minimap
   cuss::element* minimap = i_hud.find_by_name("draw_minimap");
   if (minimap) {
