@@ -839,6 +839,8 @@ void Entity::attack(Entity* target)
       } else {
         damage_ss << " for " << damage.total_damage() << " damage!";
       }
+    } else {
+      damage_ss << ".";
     }
     damage_ss << "<c=/>";
     GAME.add_msg( damage_ss.str() );
@@ -950,7 +952,7 @@ void Entity::attack_ranged(Entity* target, Ranged_attack ra)
     } else {
       target_name = "something";
     }
-    GAME.add_msg("%s %s at %s!", get_name_to_player().c_str(),
+    GAME.add_msg("<c=ltred>%s %s at %s!<c=/>", get_name_to_player().c_str(),
                  ra.verb_third.c_str(), target_name.c_str());
   }
 }

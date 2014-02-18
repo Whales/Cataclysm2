@@ -177,6 +177,37 @@ std::string no_caps(const std::string &orig)
   return ret;
 }
 
+std::string capitalize(const std::string &orig)
+{
+  std::string ret = orig;
+  size_t tagpos = orig.find("<c="); // Find the first tag
+  size_t start; // Used below
+  if (tagpos != std::string::npos) {
+    for (int i = 0; i < tagpos; i++) {  // Can we capitalize before the tag?
+      if (ret[i] >= 'a' && ret[i] <= 'z') {
+        ret[i] += 'A' - 'a';  // Capitalize!
+        return ret;
+      } else if (ret[i] != ' ') {
+        return ret; // We're already capitalized!
+      }
+    }
+// If we reach this point, we found a tag but there's nothing before it.
+    start = orig.find(">", tagpos);
+    start++;
+  } else {  // No tags - start from the beginning of the string
+    start = 0;
+  }
+  for (int i = start; i < ret.size(); i++) {
+    if (ret[i] >= 'a' && ret[i] <= 'z') {
+      ret[i] += 'A' - 'a';
+      return ret;
+    } else if (ret[i] != ' ') {
+      return ret; // We're already capitalized!
+    }
+  }
+  return ret; // All blank spaces??
+}
+
 std::string itos(int num)
 {
   std::stringstream ret;

@@ -671,10 +671,13 @@ void Game::add_msg(std::string msg, ...)
 /* TODO:  Capitalization doesn't work with color tags.  Recode this so that
  *        instead of text[0] we find and use the first non-tag character.
  */
+  text = capitalize(text);
+/*
   if (text[0] >= 'a' && text[0] <= 'z') {
 // Capitalize!
     text[0] += 'A' - 'a';
   }
+*/
 // TODO: Check if turn gap is small enough.
   if (!messages.empty() && messages.back().text == text) {
     messages.back().count++;
