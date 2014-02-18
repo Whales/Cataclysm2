@@ -1333,6 +1333,28 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
     return;
   }
   int winx = w->sizex(), winy = w->sizey();
+  int minx = refx - (winx / 2), maxx = refx + ( (winx - 1) / 2 );
+  int miny = refy - (winy / 2), maxy = refy + ( (winy - 1) / 2 );
+  draw_area(w, entities, refx, refy, refz, minx, miny, maxx, maxy, sense);
+}
+
+void Map::draw_area(Window *w, Entity_pool *entities, Tripoint ref,
+                    int minx, int miny, int maxx, int maxy,
+                    Sense_type sense)
+{
+  draw_area(w, entities, ref.x, ref.y, ref.z, minx, miny, maxx, maxy, sense);
+}
+ 
+void Map::draw_area(Window *w, Entity_pool *entities,
+                    int refx, int refy, int refz,
+                    int minx, int miny, int maxx, int maxy,
+                    Sense_type sense)
+{
+  if (!w) {
+    return;
+  }
+
+  int winx = w->sizex(), winy = w->sizey();
   int dist = winx > winy ? winx / 2 : winy / 2;
   for (int x = 0; x < winx; x++) {
     for (int y = 0; y < winy; y++) {
@@ -1342,7 +1364,12 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
         z_used--;
       }
       if (senses(refx, refy, refz, terx, tery, z_used, dist, sense)) {
-        draw_tile(w, entities, terx, tery, refx, refy, false);
+// If we're inbounds, draw normally...
+        if (terx >= minx && terx <= maxx && tery >= miny && tery <= maxy) {
+          draw_tile(w, entities, terx, tery, refx, refy, false);
+        } else {  // Otherwise, that last "true" means "change colors to dkgray"
+          draw_tile(w, entities, terx, tery, refx, refy, false, true);
+        }
       } else {
 // TODO: Don't use a literal glyph!  TILES GEEZE
         w->putglyph(x, y, glyph(' ', c_black, c_black));
@@ -1352,14 +1379,14 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
 }
 
 void Map::draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
-                    int refx, int refy, bool invert)
+                    int refx, int refy, bool invert, bool gray)
 {
-  draw_tile(w, entities, tilex, tiley, posz, refx, refy, invert);
+  draw_tile(w, entities, tilex, tiley, posz, refx, refy, invert, gray);
 }
 
 void Map::draw_tile(Window* w, Entity_pool *entities,
                     int tilex, int tiley, int tilez,
-                    int refx, int refy, bool invert)
+                    int refx, int refy, bool invert, bool gray)
 {
   if (!w) {
     return;
@@ -1407,6 +1434,9 @@ void Map::draw_tile(Window* w, Entity_pool *entities,
   }
   if (invert) {
     output = output.invert();
+  }
+  if (gray) {
+    output.fg = c_dkgray;
   }
   w->putglyph(tile_winx, tile_winy, output);
 }
