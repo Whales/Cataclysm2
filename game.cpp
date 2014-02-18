@@ -90,6 +90,8 @@ bool Game::main_loop()
  */
 // Give the player their action points
   player->gain_action_points();
+// Set all values, incur hunger/thirst, etc.
+    player->prepare();
   while (player->action_points > 0) {
 // Handle the player's activity (e.g. reloading, crafting, etc)
     handle_player_activity();
@@ -959,6 +961,12 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range)
 int Game::get_item_uid()
 {
   return next_item_uid++;
+}
+
+bool Game::minute_timer(int minutes)
+{
+  int turns = (minutes * 60) / SECONDS_IN_TURN;
+  return (time.get_turn() % turns == 0);
 }
 
 std::vector<std::string>

@@ -15,9 +15,9 @@
 
 struct Game_message
 {
+  std::string text;
   int turn;
   int count;
-  std::string text;
   Game_message() { turn = 0; count = 1; text = ""; }
   Game_message(std::string T, int TN) : text (T), turn (TN) { count = 1; }
 };
@@ -80,6 +80,7 @@ public:
 
 // Data - Universal access functions
   int get_item_uid();
+  bool minute_timer(int minutes);  // Returns true once every $minutes minutes
 
   Map*        map;
   Worldmap*   worldmap;
