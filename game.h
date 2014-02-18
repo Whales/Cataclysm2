@@ -10,13 +10,16 @@
 #include "pathfind.h"
 #include "time.h"
 
+// Identical messages within MESSAGE_GAP turns of each other are combined
+#define MESSAGE_GAP 3
+
 struct Game_message
 {
-// TODO: Add a turn number.
+  int turn;
   int count;
   std::string text;
-  Game_message() { count = 1; text = ""; }
-  Game_message(std::string T) : text (T) { count = 1; }
+  Game_message() { turn = 0; count = 1; text = ""; }
+  Game_message(std::string T, int TN) : text (T), turn (TN) { count = 1; }
 };
 
 class Game

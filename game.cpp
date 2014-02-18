@@ -670,22 +670,14 @@ void Game::add_msg(std::string msg, ...)
   vsprintf(buff, msg.c_str(), ap);
   va_end(ap);
   std::string text(buff);
-/* TODO:  Capitalization doesn't work with color tags.  Recode this so that
- *        instead of text[0] we find and use the first non-tag character.
- */
   text = capitalize(text);
-/*
-  if (text[0] >= 'a' && text[0] <= 'z') {
-// Capitalize!
-    text[0] += 'A' - 'a';
-  }
-*/
-// TODO: Check if turn gap is small enough.
-  if (!messages.empty() && messages.back().text == text) {
+  if (!messages.empty() && messages.back().text == text &&
+      time.get_turn() - messages.back().turn <= MESSAGE_GAP) {
     messages.back().count++;
+    messages.back().turn = time.get_turn();
     return;
   }
-  messages.push_back( Game_message(text) );
+  messages.push_back( Game_message(text, time.get_turn()) );
   new_messages++;
 }
 
