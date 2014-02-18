@@ -48,9 +48,9 @@ public:
   Terrain* pick(bool refresh_choice = false);
 
   bool lock;
+  std::vector<Terrain_chance> ter;
 
 private:
-  std::vector<Terrain_chance> ter;
   int total_chance;
   Terrain* choice;
 
@@ -123,8 +123,8 @@ struct Tile_substitution
   void make_selection();
   char current_selection();
 
-private:
   std::vector<Subst_chance> chances;
+private:
   int total_chance;
   char selected;
 };
@@ -164,6 +164,9 @@ struct Mapgen_spec
 
   char terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // Keys to terrain_defs, item_defs etc
   char prepped_terrain[MAPGEN_SIZE][MAPGEN_SIZE]; // After prepare() (subst etc)
+
+private:
+  bool verify_map();
 
 };
 

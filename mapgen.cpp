@@ -608,7 +608,64 @@ bool Mapgen_spec::load_data(std::istream &data)
                ident.c_str(), name.c_str());
     }
   } while (ident != "done" && !data.eof());
-  return true;
+
+  return verify_map();
+}
+
+bool Mapgen_spec::verify_map()
+{
+  std::vector<std::string> errors;
+  std::vector<char> chars_checked;
+  for (int x = 0; x < MAPGEN_SIZE; x++) {
+    for (int y = 0; y < MAPGEN_SIZE; y++) {
+      char ch = terrain[x][y];
+      bool needs_checked = true;
+      for (int i = 0; i < chars_checked.size(); i++) {
+        if (ch == chars_checked[i]) {
+          needs_checked = false;
+        }
+      }
+      if (needs_checked) {
+        chars_checked.push_back(ch);
+        if (substitutions.count(ch) > 0 && base_terrain.ter.empty()) {
+// The tile will end up being substituted, so check all possible outcomes
+          Tile_substitution *subst = &(substitutions[ch]);
+          for (int i = 0; i < subst->chances.size(); i++) {
+            char substch = subst->chances[i].result;
+            if (terrain_defs.count(substch) == 0) {
+              std::stringstream error_ss;
+              error_ss << ch << " - invalid subst result '" << substch << "'";
+              errors.push_back( error_ss.str() );
+            }
+          }
+        } else if (terrain_defs.count(ch) == 0 && base_terrain.ter.empty() &&
+                   !is_adjacent) {
+// "else if" because we don't NEED a valid terrain_def if the char is going to
+// end up substituted!
+          std::stringstream error_ss;
+          error_ss << ch << " - no terrain defined!";
+          errors.push_back( error_ss.str() );
+        }
+      }
+    }
+  }
+  if (errors.empty()) {
+    return true;
+  }
+  if (errors.size() == 1) {
+    debugmsg("Error in %s:\n%s", get_name().c_str(), errors[0].c_str() );
+  } else {
+    std::ofstream fout;
+    fout.open("error_mapgen.txt", std::fstream::app);
+    fout << name << std::endl;
+    for (int i = 0; i < errors.size(); i++) {
+      fout << errors[i] << std::endl;
+    }
+    fout.close();
+    debugmsg("%d errors in %s.\nLogged to ./error_mapgen.txt.", errors.size(),
+             get_name().c_str());
+  }
+  return false;
 }
 
 Terrain* Mapgen_spec::pick_terrain(int x, int y)

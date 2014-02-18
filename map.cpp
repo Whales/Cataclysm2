@@ -10,6 +10,7 @@
 void Tile::set_terrain(Terrain* ter)
 {
   if (!ter) {
+    debugmsg("Tile::set_terrain(NULL)!");
     return;
   }
   terrain = ter;
@@ -392,7 +393,13 @@ void Submap::generate(Mapgen_spec* spec)
 // First, set the terrain.
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
-      tiles[x][y].set_terrain(spec->pick_terrain(x, y));
+      Terrain* ter = spec->pick_terrain(x, y);
+      if (!ter) {
+        debugmsg("Generating null terrain at [%d:%d] (%s)", x, y,
+                 spec->get_name().c_str());
+        spec->debug_output();
+      }
+      tiles[x][y].set_terrain(ter);
     }
   }
 // Next, add items.
