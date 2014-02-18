@@ -479,12 +479,16 @@ Tripoint Player::pick_target_for(Item* it)
       ret.y += dir.y;
      } break;
 
-    case TOOL_TARGET_RANGED:
-      ret = GAME.target_selector();
+    case TOOL_TARGET_RANGED: {
+      int range = action->range;
+      if (range <= 0) {
+        range = -1; // -1 means "No range limit" for Game::target_selector()
+      }
+      ret = GAME.target_selector(pos.x, pos.y, range);
       if (ret.x == -1) { // We canceled
         return Tripoint(-1, -1, -1);
       }
-      break;
+    } break;
 
     default:
       debugmsg("Don't know how to handle Tool_target %s",

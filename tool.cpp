@@ -79,6 +79,8 @@ Tool_action::Tool_action()
   target  = TOOL_TARGET_NULL;
   ap_cost = 100;
   charge_cost = 1;
+  range = 0;
+  real = false;
 }
 
 Tool_action::~Tool_action()
@@ -149,12 +151,17 @@ bool Tool_action::load_data(std::istream& data, std::string owner_name)
       data >> charge_cost;
       std::getline(data, junk);
 
+    } else if (ident == "range:") {
+      data >> range;
+      std::getline(data, junk);
+
     } else if (ident != "done") {
       debugmsg("Unknown Tool_action property '%s' (%s)", ident.c_str(),
                owner_name.c_str());
       return false;
     }
   }
+  real = true;
   return true;
 }
 
@@ -177,6 +184,7 @@ std::string tool_target_name(Tool_target action)
     case TOOL_TARGET_NULL:      return "NULL";
     case TOOL_TARGET_ADJACENT:  return "adjacent";
     case TOOL_TARGET_RANGED:    return "ranged";
+    case TOOL_TARGET_ALL:       return "all";
     case TOOL_TARGET_MAX:       return "BUG - TOOL_TARGET_MAX";
     default:                    return "BUG - Unnamed Tool_target";
   }

@@ -11,6 +11,7 @@ enum Tool_target
   TOOL_TARGET_NULL = 0, // Default - doesn't use a target
   TOOL_TARGET_ADJACENT, // "adjacent" - press a direction key, apply there
   TOOL_TARGET_RANGED,   // "ranged" - target any square
+  TOOL_TARGET_ALL,      // "all" - target EVERYTHING that's within our range
   TOOL_TARGET_MAX
 };
 
@@ -77,6 +78,8 @@ struct Tool_action
   Tool_target target;     // The target it's sent to
   int ap_cost;            // Action Points used
   int charge_cost;        // Charges used
+  int range;              // Range for TOOL_TARGET_RANGED or TOOL_TARGET_ALL
+  bool real;              // If true, then this is in use
 
   bool load_data(std::istream& data, std::string owner_name = "Unknown");
 };
