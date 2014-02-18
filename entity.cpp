@@ -391,6 +391,7 @@ void Entity::shift(int shiftx, int shifty)
 void Entity::prepare()
 {
 // Increment hunger and thirst when appropriate...
+// TODO: Don't hardcode these values!
   if (GAME.minute_timer(6)) {
     hunger++;
   }
