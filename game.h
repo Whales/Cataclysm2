@@ -8,6 +8,7 @@
 #include "player.h"
 #include "keybind.h"
 #include "pathfind.h"
+#include "time.h"
 
 struct Game_message
 {
@@ -81,6 +82,8 @@ public:
   Worldmap*   worldmap;
   Player*     player;
   Entity_pool entities;
+
+  Time time;
 
   Generic_map scent_map;
 
