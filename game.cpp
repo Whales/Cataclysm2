@@ -951,6 +951,10 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
       } else {
 // Reset last_target
         last_target = -1;
+        Entity* new_target = entities.closest_seen_by(player, range);
+        if (new_target) { // It'll be NULL if no one is in range
+          target = new_target->pos;
+        }
       }
     }
   }
