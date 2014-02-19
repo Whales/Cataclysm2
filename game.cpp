@@ -320,10 +320,17 @@ void Game::do_action(Interface_action act)
       if (!it.is_real()) {
         add_msg("Never mind.");
       } else {
-        Tripoint target = target_selector();
+        int x = player->pos.x, y = player->pos.y,
+            range = player->weapon.get_fired_attack().range;
+        Tripoint target = target_selector(x, y, range, true);
         if (target.x == -1) { // We canceled
           add_msg("Never mind.");
         } else {
+// If we actually targeted an entity, set that to our last target.
+          Entity* targeted_entity = entities.entity_at(target);
+          if (targeted_entity) {
+            last_target = targeted_entity->uid;
+          }
           player->remove_item_uid(it.get_uid(), 1);
           Ranged_attack att = player->throw_item(it);
           launch_projectile(player, it, att, player->pos, target);
