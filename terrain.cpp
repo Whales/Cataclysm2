@@ -240,6 +240,7 @@ std::string terrain_flag_name(Terrain_flag flag)
     case TF_OPEN_SPACE:   return "open_space";
     case TF_WATER:        return "water";
     case TF_FLAMMABLE:    return "flammable";
+    case TF_CONTAINER:    return "container";
     default:              return "ERROR"; // All caps means it'll never be used
   }
   return "ERROR";
