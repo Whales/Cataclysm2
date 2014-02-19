@@ -20,6 +20,7 @@ Game::Game()
   w_map     = NULL;
   w_hud     = NULL;
   player    = NULL;
+  last_target = -1;
   new_messages = 0;
   next_item_uid = 0;
   game_over = false;
@@ -71,8 +72,10 @@ bool Game::setup()
   player = new Player;
   entities.add_entity(player);
 
-  game_over = false;
+  last_target = -1;
   new_messages = 0;
+  next_item_uid = 0;
+  game_over = false;
   return true;
 }
 
@@ -330,10 +333,18 @@ void Game::do_action(Interface_action act)
 
     case IACTION_FIRE:
       if (player->can_fire_weapon()) {
-        Tripoint target = target_selector();
+        int x = player->pos.x, y = player->pos.y,
+            range = player->weapon.get_fired_attack().range;
+        Tripoint target = target_selector(x, y, range, true);
         if (target.x == -1) { // We canceled
           add_msg("Never mind.");
         } else {
+// If we actually targeted an entity, set that to our last target.
+          Entity* targeted_entity = entities.entity_at(target);
+          if (targeted_entity) {
+            last_target = targeted_entity->uid;
+          }
+// And do the actual attack!
           Ranged_attack att = player->fire_weapon();
           launch_projectile(player, att, player->pos, target);
         }
@@ -738,7 +749,7 @@ void Game::print_messages()
     int index = messages.size() - new_messages + i;
     text << messages[index].text;
     if (messages[index].count > 1) {
-      text << " x " << messages[index].count;
+      text << " x" << messages[index].count;
     }
     text << '\n';
     //debugmsg("Adding %s", text.str().c_str());
@@ -885,16 +896,19 @@ void Game::pickup_items(int posx, int posy)
   
 }
 
-Tripoint Game::target_selector(int startx, int starty, int range)
+Tripoint Game::target_selector(int startx, int starty, int range,
+                               bool target_entities)
 {
-  std::vector<Tripoint> path = path_selector(startx, starty, range);
+  std::vector<Tripoint> path = path_selector(startx, starty, range,
+                                             target_entities);
   if (path.empty()) {
     return Tripoint(-1, -1, -1);
   }
   return path.back();
 }
 
-std::vector<Tripoint> Game::path_selector(int startx, int starty, int range)
+std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
+                                          bool target_entities)
 {
   std::vector<Tripoint> ret;
   if (!player) {
@@ -914,10 +928,46 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range)
   maxx = startx + range;
   maxy = starty + range;
 
-  Tripoint target(startx, starty, player->pos.z);
+  Tripoint target(startx, starty, player->pos.z);;
+  if (target_entities) {
+    if (last_target == -1) {  // No previous target to snap to, pick the closest
+      Entity* new_target = entities.closest_seen_by(player, range);
+      if (new_target) { // It'll be NULL if no one is in range
+        target = new_target->pos;
+      }
+    } else {
+      Entity* old_target = entities.lookup_uid(last_target);
+// It'll be NULL if the old target's dead, etc.
+      if (old_target &&
+          map->senses(player->pos, old_target->pos, range, SENSE_SIGHT)) {
+        target = old_target->pos;
+      } else {
+// Reset last_target
+        last_target = -1;
+      }
+    }
+  }
 
+// First draw; we need to draw the path since we might auto-target
+  ret = map->line_of_sight(player->pos, target);
   map->draw_area(w_map, &entities, player->pos, minx, miny, maxx, maxy);
+  for (int i = 0; i < ret.size(); i++) {
+    map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
+                   player->pos.x, player->pos.y, true); // true==inverted
+  }
+// TODO: No no no remove this!  Won't work for tiles!
+  Entity* ent_targeted = entities.entity_at(target);
+  if (ent_targeted) {
+    w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
+                    w_map->sizey() / 2 - player->pos.y + target.y,
+                    ent_targeted->get_glyph().invert());
+  } else {
+    w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
+                    w_map->sizey() / 2 - player->pos.y + target.y,
+                    glyph('*', c_red, c_black));
+  }
   w_map->refresh();
+
   while (true) {
     long ch = input();
     if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
@@ -950,9 +1000,16 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range)
                          player->pos.x, player->pos.y, true); // true==inverted
         }
 // TODO: No no no remove this!  Won't work for tiles!
-        w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
-                        w_map->sizey() / 2 - player->pos.y + target.y,
-                        glyph('*', c_red, c_black));
+        ent_targeted = entities.entity_at(target);
+        if (ent_targeted) {
+          w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
+                          w_map->sizey() / 2 - player->pos.y + target.y,
+                          ent_targeted->get_glyph().invert());
+        } else {
+          w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
+                          w_map->sizey() / 2 - player->pos.y + target.y,
+                          glyph('*', c_red, c_black));
+        }
         w_map->refresh();
       }
     }

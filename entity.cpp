@@ -1061,3 +1061,26 @@ Entity* Entity_pool::entity_at(int posx, int posy, int posz)
   }
   return NULL;
 }
+
+// range defaults to -1, which means "no range cap"
+Entity* Entity_pool::closest_seen_by(Entity* observer, int range)
+{
+  if (!observer) {
+    return NULL;
+  }
+  Tripoint pos = observer->pos;
+  int best_range = range;
+  Entity* ret = NULL;
+  for (std::list<Entity*>::iterator it = instances.begin();
+       it != instances.end();
+       it++) {
+    Entity* target = *it;
+    int dist = rl_dist(pos, target->pos);
+    if ( target != observer && (best_range == -1 || dist <= best_range) &&
+         GAME.map->senses(pos, target->pos, range, SENSE_SIGHT) ) {
+      best_range = dist;
+      ret = target;
+    }
+  }
+  return ret; // Might be NULL!
+}

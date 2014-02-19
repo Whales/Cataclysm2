@@ -73,10 +73,11 @@ public:
   void pickup_items(int posx, int posy);
 // TODO: Both are limited in that they can not return a point that the player
 //       cannot currently see (they return Tripoint() instead).
-  Tripoint target_selector           (int startx = -1, int starty = -1,
-                                      int range  = -1);
+  Tripoint target_selector(int startx = -1, int starty = -1,
+                           int range  = -1, bool target_entites = false);
   std::vector<Tripoint> path_selector(int startx = -1, int starty = -1,
-                                      int range  = -1);
+                                      int range  = -1,
+                                      bool target_entities = false);
 
 // Data - Universal access functions
   int get_item_uid();
@@ -96,6 +97,7 @@ private:
   Window *w_hud;
   cuss::interface i_hud;
   std::vector<Game_message> messages;
+  int last_target;
   int new_messages;
   int next_item_uid;
   bool game_over;

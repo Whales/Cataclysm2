@@ -204,6 +204,8 @@ public:
   Entity* entity_at(Tripoint pos);
   Entity* entity_at(int posx, int posy, int posz);
 
+  Entity* closest_seen_by(Entity* observer, int range = -1);
+
   std::list<Entity*> instances;
 private:
   std::map<int,Entity*> uid_map;
