@@ -9,11 +9,6 @@ Graphics:
 
 Command line:
   -Add runtime options:
-    --data-dir=<PATH>
-      Sets the location of the top-level data directory.  The data directory
-      may contain several subdirectories, each of which stores a data set.  Each
-      of this may be selected when generating a new world.
-      Default: "./Data"
     --data-set=<NAME>
       Sets the data set used.  Must be the name of a directory inside the data
       directory.  If blank, then the data set may be selected when creating a
@@ -85,3 +80,9 @@ Messages:
   should look at a table of canned messages, like "You don't have that item." or
   "Never mind." and print the result.  The table can be loaded from data,
   improving localization.
+
+Combat:
+  Allow cycling through ranged combat targets with > and <
+    Obviously entities are valid "targets" for these purposes... anything else?
+    Maybe gas pumps, etc?
+  Critical hits and headshots!
