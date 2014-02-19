@@ -22,6 +22,7 @@ r         = reload_equipped
 R         = reload
 t         = throw
 f         = fire
+e         = eat
 -         = messages_scroll_back
 +         = messages_scroll_forward
 :M        = view_worldmap
