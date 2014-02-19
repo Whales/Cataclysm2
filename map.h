@@ -83,6 +83,7 @@ struct Submap
   std::vector<Item>* items_at(int x, int y);
   Point random_empty_tile();
   std::string get_spec_name();
+  std::string get_world_ter_name();
 
 };
 

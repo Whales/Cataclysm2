@@ -548,6 +548,14 @@ std::string Submap::get_spec_name()
   return spec_used->get_name();
 }
 
+std::string Submap::get_world_ter_name()
+{
+  if (!spec_used) {
+    return "";
+  }
+  return spec_used->terrain_name;
+}
+
 Submap_pool::Submap_pool()
 {
 }
