@@ -797,7 +797,7 @@ void Entity::attack(Entity* target)
   bool you_see = GAME.player->can_sense(GAME.map, pos.x, pos.y);
   bool attacker_is_you = is_you();
 
-  std::string miss_verb = (attacker_is_you ? "miss" : "misses");
+  std::string miss_verb = conjugate("miss");
 
   if (hit_roll(att.to_hit) < target->dodge_roll()) {
     if (you_see) {
@@ -839,12 +839,10 @@ void Entity::attack(Entity* target)
     } else {
       damage_ss << target->get_possessive() << " " << body_part_name(bp_hit);
     }
-    if (target->is_you()) {
-      if (damage.total_damage() == 0) {
-        damage_ss << " but does no damage.";
-      } else {
-        damage_ss << " for " << damage.total_damage() << " damage!";
-      }
+    if (damage.total_damage() == 0) {
+      damage_ss << " but " << (is_you() ? "do" : "does") << " no damage.";
+    } else if (target->is_you()) {
+      damage_ss << " for " << damage.total_damage() << " damage!";
     } else {
       damage_ss << ".";
     }
