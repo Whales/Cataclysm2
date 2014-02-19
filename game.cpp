@@ -358,9 +358,30 @@ void Game::do_action(Interface_action act)
       }
       break;
 
+    case IACTION_EAT: {
+      Item it = player->inventory_single();
+      std::string mess = player->eat_item_message(it);
+      if (player->eat_item_uid(it.get_uid())) {
+        add_msg(mess);
+      } else {  // Try the contents, too
+        bool done = false;
+        for (int i = 0; !done && i < it.contents.size(); i++) {
+          mess = player->eat_item_message(it.contents[i]);
+          if (player->eat_item_uid( it.contents[i].get_uid() )) {
+            add_msg(mess);
+            done = true;
+          }
+        }
+        if (!done) {  // Well, at least print the failure message.
+          add_msg(mess);
+        }
+      }
+    } break;
+
     case IACTION_MESSAGES_SCROLL_BACK:
       i_hud.add_data("text_messages", -1);
       break;
+
     case IACTION_MESSAGES_SCROLL_FORWARD:
       i_hud.add_data("text_messages",  1);
       break;
@@ -716,6 +737,15 @@ void Game::update_hud()
   print_messages();
 // Update date
   i_hud.set_data("text_date", time.get_text());
+// Update location description
+  Submap* sm = map->get_center_submap();
+  if (sm) {
+    i_hud.set_data("text_location", sm->get_world_ter_name());
+  }
+// Add any player ailments
+  std::string status = player->get_hunger_text() + " " +
+                       player->get_thirst_text();
+  i_hud.set_data("text_status", status);
 // Draw minimap
   cuss::element* minimap = i_hud.find_by_name("draw_minimap");
   if (minimap) {

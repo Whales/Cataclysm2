@@ -49,6 +49,7 @@ Item& Item::operator=(const Item& rhs)
   ammo    = rhs.ammo;
   count   = rhs.count;
   charges = rhs.charges;
+  uid     = rhs.uid;    // Will this cause bugs?
 
   if (!rhs.contents.empty()) {
     contents.clear();

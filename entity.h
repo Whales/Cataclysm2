@@ -77,6 +77,8 @@ public:
   virtual Entity_AI   get_AI();
   virtual bool has_sense(Sense_type sense);
   virtual int  get_genus_uid();
+  virtual int get_hunger_minimum();
+  virtual int get_thirst_minimum();
 
   virtual bool can_sense  (Entity* entity);
   virtual bool can_see    (Map* map, Tripoint target);
@@ -105,12 +107,13 @@ public:
   Item  get_item_of_type(Item_type *type);
   Item* ref_item_of_type(Item_type *type);
   Item* ref_item_uid   (int uid);
-  Item  remove_item_uid(int uid, int count = 0);
+  Item  remove_item_uid(int uid, int count = 1);
 // These functions just handle the meat - messages are handled in Message below
   void  wield_item_uid (int uid);
   void  sheath_weapon();
   void  wear_item_uid  (int uid);
   void  apply_item_uid (int uid);
+  bool  eat_item_uid   (int uid);
   void  reload_prep    (int uid);
   virtual Item pick_ammo_for(Item *it);
   virtual Tripoint pick_target_for(Item *it);
@@ -131,7 +134,12 @@ public:
   virtual std::string wear_item_message (Item &it);
   virtual std::string wield_item_message(Item &it);
   virtual std::string apply_item_message(Item &it);
+  virtual std::string eat_item_message  (Item &it);
   virtual std::string sheath_weapon_message();
+
+// Routine message functions - not tied to any particular action like the above
+  virtual std::string get_hunger_text();
+  virtual std::string get_thirst_text();
 
 // Combat functions
   virtual Attack base_attack();

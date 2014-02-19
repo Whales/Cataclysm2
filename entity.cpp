@@ -270,6 +270,16 @@ int Entity::get_genus_uid()
   return -2;
 }
 
+int Entity::get_hunger_minimum()
+{
+  return -80;
+}
+
+int Entity::get_thirst_minimum()
+{
+  return -40;
+}
+
 bool Entity::can_sense(Entity* entity)
 {
   return false;
@@ -394,8 +404,6 @@ void Entity::prepare()
 // TODO: Don't hardcode these values!
   if (GAME.minute_timer(6)) {
     hunger++;
-  }
-  if (GAME.minute_timer(4)) {
     thirst++;
   }
 }
@@ -420,6 +428,12 @@ Item* Entity::ref_item_uid(int uid)
   if (weapon.is_real() && weapon.get_uid() == uid) {
     return &weapon;
   }
+  for (int i = 0; i < weapon.contents.size(); i++) {
+    if (weapon.contents[i].get_uid() == uid) {
+      return &(weapon.contents[i]);
+    }
+  }
+// Can't wear containers, right?  Don't need to check their contents.
   for (int i = 0; i < items_worn.size(); i++) {
     if (items_worn[i].get_uid() == uid) {
       return &(items_worn[i]);
@@ -428,6 +442,11 @@ Item* Entity::ref_item_uid(int uid)
   for (int i = 0; i < inventory.size(); i++) {
     if (inventory[i].get_uid() == uid) {
       return &(inventory[i]);
+    }
+    for (int n = 0; n < inventory[i].contents.size(); n++) {
+      if (inventory[i].contents[n].get_uid() == uid) {
+        return &(inventory[i].contents[n]);
+      }
     }
   }
   return NULL;
@@ -456,6 +475,11 @@ Item* Entity::ref_item_of_type(Item_type *type)
     if (inventory[i].type == type) {
       return &(inventory[i]);
     }
+    for (int n = 0; n < inventory[i].contents.size(); n++) {
+      if (inventory[i].contents[n].type == type) {
+        return &(inventory[i].contents[n]);
+      }
+    }
   }
 // TODO: Weapon & armor?
   return NULL;
@@ -479,7 +503,24 @@ Item Entity::remove_item_uid(int uid, int count)
     }
     return ret;
   }
-// Items_worn should never have a count.
+  for (int i = 0; i < weapon.contents.size(); i++) {
+    Item* it = &(weapon.contents[i]);
+    if (it->type && it->get_uid() == uid) {
+      if (count == 0) {
+        ret_count = it->count;
+      } else if (it->count < count) {
+        ret_count = it->count;
+      }
+      it->count -= count;
+      ret = (*it);
+      ret.count = ret_count;
+      if (it->count <= 0 || count == 0) {
+        weapon.contents.erase( weapon.contents.begin() + i );
+      }
+      return ret;
+    }
+  }
+// Items_worn should never have a count (or contents?).
   for (int i = 0; i < items_worn.size(); i++) {
     if (items_worn[i].get_uid() == uid) {
       ret = items_worn[i];
@@ -488,6 +529,7 @@ Item Entity::remove_item_uid(int uid, int count)
       return ret;
     }
   }
+// Check inventory
   for (int i = 0; i < inventory.size(); i++) {
     if (inventory[i].get_uid() == uid) {
       if (count == 0) {
@@ -496,9 +538,26 @@ Item Entity::remove_item_uid(int uid, int count)
         ret_count = inventory[i].count;
       }
       ret = inventory[i];
+      inventory[i].count--;
       ret.count = ret_count;
       if (count == 0 || inventory[i].count <= 0) {
         inventory.erase(inventory.begin() + i);
+      }
+      return ret;
+    }
+// Check contents, too!
+    for (int n = 0; n < inventory[i].contents.size(); n++) {
+      Item* it = &(inventory[i].contents[n]);
+      if (count == 0) {
+        ret_count = it->count;
+      } else if (it->count < count) {
+        ret_count = it->count;
+      }
+      ret = (*it);
+      ret.count = ret_count;
+      it->count--;
+      if (count == 0 || it->count <= 0) {
+        inventory[i].contents.erase( inventory[i].contents.begin() + n );
       }
       return ret;
     }
@@ -603,6 +662,31 @@ void Entity::apply_item_uid(int uid)
     it->charges -= action->charge_cost;
   }
   use_ap(action->ap_cost);
+}
+
+bool Entity::eat_item_uid(int uid)
+{
+  Item* it = ref_item_uid(uid);
+  if (!it || it->get_item_class() != ITEM_CLASS_FOOD) {
+    return false;
+  }
+  Item_type_food* food = static_cast<Item_type_food*>(it->type);
+  hunger -= food->food;
+  if (hunger < get_hunger_minimum()) {
+    hunger = get_hunger_minimum();
+  }
+  thirst -= food->water;
+  if (thirst < get_thirst_minimum()) {
+    thirst = get_thirst_minimum();
+  }
+
+  it->charges--;
+  if (it->charges <= 0) {
+    remove_item_uid(uid, 1);
+  }
+// TODO: Variable eating/drinking times?
+  use_ap(100);
+  return true;
 }
 
 void Entity::reload_prep(int uid)
@@ -740,6 +824,23 @@ std::string Entity::apply_item_message(Item &it)
   return ret.str();
 }
 
+std::string Entity::eat_item_message(Item &it)
+{
+  int uid = it.get_uid();
+  std::stringstream ret;
+  if (!it.is_real() || !ref_item_uid(uid)) {
+    ret << get_name_to_player() << " don't have that item.";
+  } else if (it.get_item_class() != ITEM_CLASS_FOOD) {
+    ret << get_name_to_player() << " cannot eat that.";
+  } else {
+    Item_type_food* food = static_cast<Item_type_food*>(it.type);
+    std::string verb = (food->food * 4 >= food->water ? "eat" : "drink");
+    ret << "<c=ltblue>" << get_name_to_player() << " " << conjugate(verb) <<
+           " " << get_possessive() << " " << it.get_name() << ".<c=/>";
+  }
+  return ret.str();
+}
+
 std::string Entity::sheath_weapon_message()
 {
   if (!weapon.is_real()) {
@@ -749,6 +850,58 @@ std::string Entity::sheath_weapon_message()
   ret << get_name_to_player() << " " << conjugate("put") << " away " <<
          get_possessive() << " " << weapon.get_name() << ".";
   return ret.str();
+}
+
+std::string Entity::get_hunger_text()
+{
+  if (hunger < get_hunger_minimum() / 2) {
+    return "<c=green>Overfull<c=/>";
+  }
+  if (hunger < 0) {
+    return "<c=ltgreen>Full<c=/>";
+  }
+  if (hunger < 60) {
+    return "";
+  }
+  if (hunger < 120) {
+    return "<c=yellow>Hungry<c=/>";
+  }
+  if (hunger < 240) {
+    return "<c=yellow>Very Hungry<c=/>";
+  }
+  if (hunger < 480) {
+    return "<c=ltred>Famished<c=/>";
+  }
+  if (hunger < 960) {
+    return "<c=red>Near Starving<c=/>";
+  }
+  return "<c=red>Starving<c=/>";
+}
+
+std::string Entity::get_thirst_text()
+{
+  if (thirst < get_thirst_minimum() / 2) {
+    return "<c=green>Quenched<c=/>";
+  }
+  if (thirst < 0) {
+    return "<c=ltgreen>Hydrated<c=/>";
+  }
+  if (thirst < 60) {
+    return "";
+  }
+  if (thirst < 90) {
+    return "<c=yellow>Thirsty<c=/>";
+  }
+  if (thirst < 120) {
+    return "<c=yellow>Very Thirsty<c=/>";
+  }
+  if (thirst < 240) {
+    return "<c=ltred>Parched<c=/>";
+  }
+  if (thirst < 360) { 
+    return "<c=red>Dehydrated<c=/>";
+  }
+  return "<c=red>Dying of thirst<c=/>";
 }
 
 Attack Entity::base_attack()
