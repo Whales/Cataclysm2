@@ -553,10 +553,11 @@ void Game::launch_projectile(Entity* shooter, Ranged_attack attack,
 void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
                              Tripoint origin, Tripoint target)
 {
-  std::string shooter_name, verb = "shoot";
+  std::string shooter_name, verb = "shoot", miss_verb = "miss";
   if (shooter) {
     shooter_name = shooter->get_name_to_player();
     verb = shooter->conjugate(verb);
+    miss_verb = shooter->conjugate(miss_verb);
   } else {
 /* If there's no shooter, that implies that natural forces launched the
  * projectile, e.g. rubble from an explosion.  In that case, we want our hit
@@ -566,6 +567,7 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
       shooter_name = it.get_name_indefinite();
     }
     verb = "hits";
+    miss_verb = "misses";
   }
   int range = rl_dist(origin, target);
   int angle_missed_by = attack.roll_variance();
@@ -614,19 +616,19 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
         }
 
         if (hit) {
-          add_msg("%s %s %s!", shooter_name.c_str(), verb.c_str(),
+          add_msg("<c=ltred>%s %s %s!<c=/>", shooter_name.c_str(), verb.c_str(),
                   entity_hit->get_name_to_player().c_str());
           Damage_set dam = attack.roll_damage();
           entity_hit->take_damage(DAMAGE_PIERCE, dam.get_damage(DAMAGE_PIERCE),
                                   "you");
           stopped = true;
         } else if (i == path.size() - 1 && shooter == player) {
-          add_msg("You barely miss %s.",
-                  entity_hit->get_name_to_player().c_str());
+          add_msg("<c=dkgray>%s barely %s %s.<c=/>", shooter_name.c_str(),
+                  miss_verb.c_str(), entity_hit->get_name_to_player().c_str());
         }
       } // if (entity hit)
-    } // Didn't hit solid terrain
-    i++;
+    } // End of <Didn't hit solid terrain>
+    i++;  // Increment which tile in the trajectory we're examining
   } // while (!stopped && i < path.size())
 
   Tripoint end_point;
