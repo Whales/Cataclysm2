@@ -292,10 +292,8 @@ done
 
 # Food
 
-# Note that "food" values are measured in 6 minutes; e.g. "60" is enough food to
-# last 6 hours.
-# "water" values are measured in 4 minutes; e.g. "60" is enough water to last
-# 4 hours.
+# Note that "food" and "water" values are measured in 6 minutes (AKA 1/10 of an
+# hour); e.g. "60" is enough food to last 6 hours.
 
 food
   name: MRE (meat)
