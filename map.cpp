@@ -484,7 +484,7 @@ bool Submap::add_item(Item item, int x, int y)
   if (x < 0 || y < 0 || x >= SUBMAP_SIZE || y >= SUBMAP_SIZE) {
     return false;
   }
-  if (tiles[x][y].move_cost() > 0) {
+  if (tiles[x][y].move_cost() > 0 || tiles[x][y].has_flag(TF_CONTAINER)) {
     tiles[x][y].items.push_back(item);
   } else {
 // Pick a random adjacent space with move_cost != 0

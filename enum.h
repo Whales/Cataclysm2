@@ -85,6 +85,7 @@ enum Terrain_flag
   TF_OPEN_SPACE,    // "open_space" - Air.  Shows Z-level below.
   TF_WATER,         // "water" - Swimmable.  Puts out fire.
   TF_FLAMMABLE,     // "flammable" - Consumed by fire.
+  TF_CONTAINER,     // "container" - Can hold items despite move_cost of 0
   TF_MAX
 };
 
