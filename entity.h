@@ -67,8 +67,12 @@ public:
   virtual bool is_you()     { return false; } // As in THE player
 
   virtual void die();
+
   virtual void gain_action_points();
   virtual int  get_speed();
+  int get_hunger_speed_penalty();
+  int get_thirst_speed_penalty();
+
   virtual void take_turn();
   virtual bool try_goal(AI_goal goal);
   virtual bool pick_attack_victim();

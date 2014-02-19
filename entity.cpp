@@ -199,7 +199,50 @@ void Entity::gain_action_points()
 
 int Entity::get_speed()
 {
+  int ret = 100;
+  ret -= get_hunger_speed_penalty();
+  ret -= get_thirst_speed_penalty();
   return 100;
+}
+
+int Entity::get_hunger_speed_penalty()
+{
+  if (hunger >= 960) {
+    return 30;
+  }
+  if (hunger >= 480) {
+    return 20;
+  }
+  if (hunger >= 240) {
+    return 12;
+  }
+  if (hunger >= 120) {
+    return 7;
+  }
+  if (hunger >= 60) {
+    return 5;
+  }
+  return 0;
+}
+
+int Entity::get_thirst_speed_penalty()
+{
+  if (thirst >= 360) {
+    return 35;
+  }
+  if (thirst >= 240) {
+    return 25;
+  }
+  if (thirst >= 120) {
+    return 18;
+  }
+  if (thirst >= 90) {
+    return 10;
+  }
+  if (thirst >= 60) {
+    return 5;
+  }
+  return 0;
 }
 
 void Entity::take_turn()
