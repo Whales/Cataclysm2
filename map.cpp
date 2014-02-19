@@ -1191,12 +1191,12 @@ bool Map::senses(int x0, int y0, int z0, int x1, int y1, int z1, int range,
       x1 >= SUBMAP_SIZE * MAP_SIZE || y1 >= SUBMAP_SIZE * MAP_SIZE) {
     return false;
   }
-  if (rl_dist(x0, y0, z0, x1, y1, z1) > range) {
+  if (range >= 0 && rl_dist(x0, y0, z0, x1, y1, z1) > range) {
     return false;
   }
   if (sense == SENSE_SIGHT) {
     std::vector<Tripoint> line = line_of_sight(x0, y0, z0, x1, y1, z1);
-    return (!line.empty() && line.size() <= range);
+    return (!line.empty() && (range < 0 || line.size() <= range));
   } else if (sense == SENSE_SMELL) {
 // TODO: More realistic smell
     return (rl_dist(x0, y0, z0, x1, y1, z1) <= range);
