@@ -7,10 +7,10 @@
 
 Stats::Stats()
 {
-  str   = 10;
-  dex   = 10;
-  intel = 10;
-  per   = 10;
+  strength     = 10;
+  dexterity    = 10;
+  intelligence = 10;
+  perception   = 10;
 }
 
 Stats::~Stats()
@@ -968,9 +968,9 @@ std::string Entity::get_thirst_text()
 Attack Entity::base_attack()
 {
   Attack ret;
-  ret.damage[DAMAGE_BASH] = 1 + stats.str / 4;
-  ret.speed  = 100 - stats.dex;
-  ret.to_hit = stats.dex / 4 - 3;
+  ret.damage[DAMAGE_BASH] = 1 + stats.strength / 4;
+  ret.speed  = 100 - stats.dexterity;
+  ret.to_hit = stats.dexterity / 4 - 3;
   return ret;
 }
 
