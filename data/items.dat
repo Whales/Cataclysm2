@@ -107,7 +107,7 @@ weapon
   done
   glyph: / cyan black
   weight: 26
-  volume: 45
+  volume: 65
   bash:   18
   to_hit:  3
 done
@@ -120,7 +120,7 @@ weapon
   done
   glyph: / ltblue black
   weight: 32
-  volume: 64
+  volume: 80
   bash:    6
   cut:    28
   to_hit:  2
@@ -134,7 +134,7 @@ weapon
   done
   glyph: / brown black
   weight: 10
-  volume:  8
+  volume: 14
   bash:   16
   to_hit:  1
 done
@@ -146,7 +146,7 @@ weapon
   done
   glyph: / cyan black
   weight: 14
-  volume:  6
+  volume: 12
   bash:   14
   to_hit:  1
 done
@@ -159,7 +159,7 @@ weapon
   done
   glyph: / brown black
   weight: 200
-  volume:  44
+  volume:  75
   bash:    40
   to_hit:   1
 done
