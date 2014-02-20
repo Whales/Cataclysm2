@@ -163,6 +163,7 @@ Item_type_food::Item_type_food()
 {
   food = 0;
   water = 0;
+  charges = 1;
 }
 
 std::string Item_type_food::get_property_description()
@@ -643,6 +644,7 @@ std::string item_flag_name(Item_flag flag)
     case ITEM_FLAG_LIQUID:    return "liquid";
     case ITEM_FLAG_FLAMMABLE: return "flammable";
     case ITEM_FLAG_PLURAL:    return "plural";
+    case ITEM_FLAG_CONSTANT:  return "constant_volume_weight";
     case ITEM_FLAG_MAX:       return "BUG - ITEM_FLAG_MAX";
     default:                  return "BUG - Unnamed Item_flag";
   }
