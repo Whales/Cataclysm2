@@ -447,6 +447,26 @@ void Entity::set_activity(Player_activity_type type, int duration,
   activity = Player_activity(type, duration, primary_uid, secondary_uid);
 }
 
+void Entity::add_status_effect(Status_effect_type type, int duration, int level)
+{
+  Status_effect effect(type, duration, level);
+  add_status_effect( effect );
+}
+
+void Entity::add_status_effect(Status_effect effect)
+{
+  if (effect.type == STATUS_NULL) {
+    return;
+  }
+  for (int i = 0; i < effects.size(); i++) {
+    if (effects[i].type == effect.type) {
+      effects[i].duration += effect.duration;
+      return;
+    }
+  }
+  effects.push_back(effect);
+}
+
 void Entity::use_ap(int amount)
 {
   if (amount < 0) {

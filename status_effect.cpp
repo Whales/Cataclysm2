@@ -4,14 +4,14 @@
 
 Status_effect::Status_effect()
 {
-  id = STATUS_NULL;
+  type = STATUS_NULL;
   duration = 0;
   level = 0;
 }
 
-Status_effect::Status_effect(Status_effect_id _id, int _duration, int _level)
+Status_effect::Status_effect(Status_effect_type _type, int _duration, int _level)
 {
-  id = _id;
+  type = _type;
   duration = _duration;
   level = _level;
 }
@@ -33,12 +33,12 @@ bool Status_effect::load_data(std::istream& data, std::string owner_name)
 // It's a comment
       std::getline(data, junk);
 
-    } else if (ident == "type:" || ident == "id:") {
-      std::string type;
-      std::getline(data, type);
-      id = lookup_status_effect(type);
-      if (id == STATUS_NULL) {
-        debugmsg("Unknown Status_effect_id '%s' (%s)", type.c_str(),
+    } else if (ident == "type:" || ident == "type:") {
+      std::string typestr;
+      std::getline(data, typestr);
+      type = lookup_status_effect(typestr);
+      if (type == STATUS_NULL) {
+        debugmsg("Unknown Status_effect_type '%s' (%s)", typestr.c_str(),
                  owner_name.c_str());
         return false;
       }
@@ -63,15 +63,15 @@ bool Status_effect::load_data(std::istream& data, std::string owner_name)
 
 std::string Status_effect::get_name()
 {
-  return status_effect_name(id);
+  return status_effect_name(type);
 }
 
-Status_effect_id lookup_status_effect(std::string name)
+Status_effect_type lookup_status_effect(std::string name)
 {
   name = no_caps(name);
   name = trim(name);
   for (int i = 0; i < STATUS_MAX; i++) {
-    Status_effect_id ret = Status_effect_id(i);
+    Status_effect_type ret = Status_effect_type(i);
     if (name == no_caps( status_effect_name(ret) ) ) {
       return ret;
     }
@@ -79,9 +79,9 @@ Status_effect_id lookup_status_effect(std::string name)
   return STATUS_NULL;
 }
 
-std::string status_effect_name(Status_effect_id id)
+std::string status_effect_name(Status_effect_type type)
 {
-  switch (id) {
+  switch (type) {
     case STATUS_NULL:           return "NULL";
     case STATUS_BLIND:          return "blind";
     case STATUS_CAFFEINE:       return "caffeine";
@@ -89,7 +89,7 @@ std::string status_effect_name(Status_effect_id id)
     case STATUS_PAINKILL_MED:   return "painkill_med";
     case STATUS_PAINKILL_HEAVY: return "painkill_heavy";
     case STATUS_MAX:            return "BUG - STATUS_MAX";
-    default:                    return "BUG - Unnamed Status_effect_id";
+    default:                    return "BUG - Unnamed Status_effect_type";
   }
   return "BUG - Escaped status_effect_name() switch";
 }

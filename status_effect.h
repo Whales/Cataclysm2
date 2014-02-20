@@ -4,7 +4,7 @@
 #include <string>
 #include <istream>
 
-enum Status_effect_id
+enum Status_effect_type
 {
   STATUS_NULL = 0,
   STATUS_BLIND,     // "blind" - lose sense of sight
@@ -15,19 +15,19 @@ enum Status_effect_id
   STATUS_MAX
 };
 
-Status_effect_id lookup_status_effect(std::string name);
-std::string status_effect_name(Status_effect_id id);
+Status_effect_type lookup_status_effect(std::string name);
+std::string status_effect_name(Status_effect_type type);
 
 struct Status_effect
 {
   Status_effect();
-  Status_effect(Status_effect_id _id, int _duration, int _level = 1);
+  Status_effect(Status_effect_type _type, int _duration, int _level = 1);
   ~Status_effect();
 
   bool load_data(std::istream& data, std::string owner_name);
   std::string get_name();
 
-  Status_effect_id id;
+  Status_effect_type type;
   int duration;
   int level;
 };
