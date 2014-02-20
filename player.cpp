@@ -67,16 +67,56 @@ bool Player::has_sense(Sense_type sense)
   return false;
 }
 
+// This function handles messages and yes/no prompts, too!
 bool Player::add_item(Item item)
 {
 // TODO: Weight isn't a hard limit
   if (current_weight() + item.get_weight() > maximum_weight()) {
+    GAME.add_msg("You cannot carry that much weight.");
     return false;
   }
 // TODO: Prompt player to wear/wield/etc the item
   if (current_volume() + item.get_volume() > maximum_volume()) {
-    return false;
-  }
+    if (item.get_item_class() == ITEM_CLASS_CLOTHING) {
+      if (query_yn("No room for that %s.  Put on now?",
+                   item.get_name().c_str())) {
+        inventory.push_back(item);
+        wear_item_uid(item.get_uid());
+      } else {
+        return false;
+      }
+    } else {
+// If it's not clothing, our only option is to wield it...
+      std::stringstream wield_prompt;
+      bool sheath_weap = false;
+      if (weapon.is_real()) {
+        if (current_volume() + weapon.get_volume() <= maximum_volume()) {
+          sheath_weap = true;
+        }
+        wield_prompt << (sheath_weap ? "Put away " : "Drop ") << "your " <<
+                        weapon.get_name() << " and w";
+      } else {
+        wield_prompt << "W";
+      }
+      wield_prompt << "ield that " << item.get_name() << "?";
+      if (query_yn(wield_prompt.str().c_str())) {
+        if (sheath_weap) {
+          GAME.add_msg( sheath_weapon_message() );
+          sheath_weapon();
+        } else if (weapon.is_real()) {
+          GAME.add_msg( drop_item_message(weapon) );
+          GAME.map->add_item( weapon, pos );
+          remove_item_uid( weapon.get_uid() );
+        }
+        inventory.push_back(item);
+        GAME.add_msg( wield_item_message(item) );
+        wield_item_uid( item.get_uid() );
+      } else {
+        return false;
+      }
+    } // End of non-clothing handling block
+  } // End of "too much volume" block
+  GAME.add_msg("You pick up %s.", item.get_name_indefinite().c_str());
   if (item.combines()) {
     Item* added = ref_item_of_type(item.type);
     if (added) {

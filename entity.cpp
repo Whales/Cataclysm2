@@ -672,6 +672,8 @@ void Entity::wear_item_uid(int uid)
       return;
     }
   }
+// TODO: Don't hardcode this.
+  use_ap(300);
 }
 
 void Entity::apply_item_uid(int uid)
