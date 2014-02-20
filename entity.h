@@ -116,7 +116,7 @@ public:
   void use_ap(int amount);
   void shift(int shiftx, int shifty); // For map shifting
 
-  void prepare(); // Reset their stats, increase hunger/thirst, etc.
+  void start_turn(); // Reset their stats, increase hunger/thirst, etc.
   
 // Inventory functions
   virtual bool add_item(Item item);

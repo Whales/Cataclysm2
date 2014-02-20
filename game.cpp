@@ -95,7 +95,7 @@ bool Game::main_loop()
 // Give the player their action points
   player->gain_action_points();
 // Set all values, incur hunger/thirst, etc.
-    player->prepare();
+  player->start_turn();
   while (player->action_points > 0) {
 // Handle the player's activity (e.g. reloading, crafting, etc)
     handle_player_activity();

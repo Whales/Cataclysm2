@@ -506,7 +506,7 @@ void Entity::shift(int shiftx, int shifty)
   pos.y -= shifty * SUBMAP_SIZE;
 }
 
-void Entity::prepare()
+void Entity::start_turn()
 {
 // Increment hunger and thirst when appropriate...
 // TODO: Don't hardcode these values!
@@ -514,6 +514,8 @@ void Entity::prepare()
     hunger++;
     thirst++;
   }
+
+  process_status_effects();
 }
 
 bool Entity::add_item(Item item)
