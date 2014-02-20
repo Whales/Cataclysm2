@@ -67,12 +67,6 @@ bool Player::has_sense(Sense_type sense)
   return false;
 }
 
-int Player::get_speed()
-{
-// TODO: Make this use actual stuff
-  return 100;
-}
-
 bool Player::add_item(Item item)
 {
 // TODO: Weight isn't a hard limit
