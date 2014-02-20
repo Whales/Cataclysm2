@@ -237,7 +237,8 @@ int Item::get_weight()
   if (get_item_class() == ITEM_CLASS_AMMO) {
     return (charges * type->weight) / 100;
   }
-  if (has_flag(ITEM_FLAG_LIQUID)) {
+  if (has_flag(ITEM_FLAG_LIQUID) ||
+      (get_item_class() == ITEM_CLASS_FOOD && !has_flag(ITEM_FLAG_CONSTANT))) {
     return (charges * type->weight);
   }
   return type->weight * count;
@@ -252,7 +253,8 @@ int Item::get_volume()
     Item_type_ammo* ammo = static_cast<Item_type_ammo*>(type);
     return (charges * type->volume) / ammo->count;
   }
-  if (has_flag(ITEM_FLAG_LIQUID)) {
+  if (has_flag(ITEM_FLAG_LIQUID) ||
+      (get_item_class() == ITEM_CLASS_FOOD && !has_flag(ITEM_FLAG_CONSTANT))) {
     return (charges * type->volume);
   }
 
