@@ -332,6 +332,51 @@ food
   food:   30
   water:   5
   container: can
+  flags: plural
+done
+
+food
+  name: tomatoes
+  description:
+    Diced and stewed tomatoes.  Decent on their own, but great when cooked with
+    other ingredients.
+  done
+  glyph: $ red black
+  weight:  4
+  volume: 20
+  food:   15
+  water:   8
+  container: can
+  flags: plural
+done
+
+food
+  name: potato chips
+  description:
+    Also known as "potato crisps."  Thinly sliced and fried potatoes.
+  done
+  glyph: $ brown black
+  weight:  1
+  volume: 10
+  food:    8
+  charges: 3
+  container: plastic bag
+  flags: plural
+done
+
+food
+  name: dry pasta
+  description:
+    A bunch of dry noodles.  You could eat it raw, but it's much, much better
+    after being cooked.
+  done
+  glyph: $ yellow black
+  weight: 2
+  volume: 5
+  food:   5
+  charges: 4
+  container: paper box
+  flags: plural
 done
 
 food
@@ -345,6 +390,21 @@ food
   water:  30
   charges: 2
   container: plastic bottle
+  flags: liquid plural
+done
+
+food
+  name: beer
+  description:
+    An alcoholic beverage made with malted grains and hops.  Very refreshing.
+  done
+  glyph: $ yellow black
+  weight:  4
+  volume: 10
+  water:  22
+  food:    8
+  charges: 2
+  container: glass bottle
   flags: liquid plural
 done
 
@@ -410,14 +470,48 @@ container
 done
 
 container
+  name: glass bottle
+  description:
+    A glass bottle with a resealable top.  Heavier than its plastic counterpart,
+    but still a good container for carrying liquids.
+  done
+  glyph: ( cyan black
+  weight:    2
+  volume:   22
+  capacity: 20
+done
+
+container
   name: can
   description:
     A sturdy aluminum can with a pull-tab top.  Any food inside has a shelf life
     of several years!
   done
   glyph: ( ltblue black
-  weight:  1
+  weight:    1
   volume:   20
+  capacity: 20
+done
+
+container
+  name: plastic bag
+  description:
+    Any one of several types of plastic bags, often used to store food.
+  done
+  glyph: ( yellow black
+  weight:  0
+  volume:  1
+  capacity: 30
+done
+
+container
+  name: paper box
+  description:
+    A small box made out of thin cardboard.
+  done
+  glyph: ( brown black
+  weight: 0
+  volume: 20
   capacity: 20
 done
 

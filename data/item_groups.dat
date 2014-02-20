@@ -44,3 +44,10 @@ done
 name: items_garage
   items: w:40 work gloves / w:100 nails / w:10 baseball bat / w:10 golf club / w:1 machete / w:50 hammer / w:45 wrench / w:5 sledgehammer / w:8 steel pipe / w:60 screwdriver / w:30 crowbar / w:30 shovel / w:15 hatchet / w:12 wood ax
 done
+
+name: items_fridge
+  items: w:10 water / w:5 beer
+done
+
+name: items_food_shelves
+  items: w:20 beans / w:12 tomatoes / w:10 potato chips / w:24 dry pasta
