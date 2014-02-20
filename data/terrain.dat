@@ -238,7 +238,7 @@ name: broken door
   smash:
     failure_sound: "whack."
     success_sound: wood splintering.
-    armor: bash 4
+    armor: bash 2
     armor: pierce 14
   done
   flags: flammable
@@ -265,7 +265,7 @@ name: closed door
   smash:
     failure_sound: "whack."
     success_sound: wood splintering.
-    armor: bash 5
+    armor: bash 2
     armor: pierce 16
   done
   flags: flammable opaque
@@ -292,7 +292,7 @@ name: closed glass door
   smash:
     failure_sound: "whunk."
     success_sound: glass shattering.
-    armor: cut 5
+    armor: cut 3
     armor: pierce 1
   done
 done
@@ -322,7 +322,7 @@ name: window
   smash:
     failure_sound: "whunk."
     success_sound: glass shattering.
-    armor: cut 5
+    armor: cut 3
     armor: pierce 1
   done
   flags: flammable

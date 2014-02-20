@@ -16,7 +16,7 @@ Name: canis
 	    verb: bite / bites
 	    speed: 150
 	    to_hit: 0
-	    pierce: 8
+	    pierce: 10
 	  done
 	  attack:
 	    verb: tackle / tackles
@@ -24,7 +24,7 @@ Name: canis
 	    weight: 2
 	    to_hit: +3
 	    pierce: 2
-	    bash: 8
+	    bash: 5
 	  done
   done
 done
@@ -68,14 +68,14 @@ Name: zombies
     attack:
       verb: hit / hits
       speed: 100
-      bash: 3
+      bash: 5
     done
     attack:
       verb: bite / bites
       weight: 2
       speed: 150
       to_hit: -2
-      pierce: 5
+      pierce: 7
     done
   done
 done
