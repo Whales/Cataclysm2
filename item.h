@@ -45,6 +45,7 @@ public:
   int get_volume_capacity_used();
 
   bool has_flag(Item_flag itf);
+  bool covers(Body_part part);
 
   int get_damage(Damage_type dtype);
   int get_to_hit();
@@ -65,6 +66,7 @@ public:
   bool add_contents(Item it);
   bool reload(Entity* owner, int ammo_uid);
   bool damage(int dam); // Returns true if the item is destroyed
+  bool absorb_damage(Damage_type damtype, int dam); // Returns true if destroyed
 
 // Interfaces
   Item_action show_info(Entity* user = NULL);

@@ -80,6 +80,8 @@ public:
   virtual int  get_speed();
   int get_hunger_speed_penalty();
   int get_thirst_speed_penalty();
+  int get_net_pain();
+  int get_pain_speed_penalty();
 
 // AI
   virtual void take_turn();
@@ -90,7 +92,7 @@ public:
 // Type data
   virtual Entity_AI   get_AI();
   virtual bool has_sense(Sense_type sense);
-  virtual int  get_genus_uid();
+  virtual int get_genus_uid();
   virtual int get_hunger_minimum();
   virtual int get_thirst_minimum();
 
@@ -158,6 +160,7 @@ public:
 // Routine message functions - not tied to any particular action like the above
   virtual std::string get_hunger_text();
   virtual std::string get_thirst_text();
+  virtual std::string get_pain_text();
 
 // Combat functions
   virtual Attack base_attack();
@@ -170,6 +173,7 @@ public:
                            Body_part part = BODY_PART_NULL);
   virtual void take_damage(Damage_set damage, std::string reason,
                            Body_part part = BODY_PART_NULL);
+  virtual void absorb_damage(Damage_type type, int &damage, Body_part part);
 
   virtual Ranged_attack throw_item(Item it);
   virtual Ranged_attack fire_weapon();

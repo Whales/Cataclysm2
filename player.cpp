@@ -2,6 +2,7 @@
 #include "cuss.h"
 #include "game.h"
 #include "files.h"  // For CUSS_DIR
+#include "rng.h"
 #include <sstream>
 
 void populate_item_lists(Player* p, int offset_size,
@@ -540,8 +541,10 @@ Tripoint Player::pick_target_for(Item* it)
 void Player::take_damage(Damage_type type, int damage, std::string reason,
                          Body_part part)
 {
+  absorb_damage(type, damage, part);
 // TODO: Armor absorbs damage
   current_hp[ convert_to_HP(part) ] -= damage;
+  pain += rng(0, damage);
 }
 
 std::string Player::hp_text(Body_part part)

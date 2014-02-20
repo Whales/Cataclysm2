@@ -6,6 +6,7 @@
 #include "entity.h"
 #include "attack.h"
 #include "files.h"    // For CUSS_DIR
+#include "rng.h"
 #include <sstream>
 
 Item::Item(Item_type* T)
@@ -18,6 +19,12 @@ Item::Item(Item_type* T)
   if (type) {
     uid = GAME.get_item_uid();
     charges = type->default_charges();
+    if (type->volume < 100) {
+      hp = type->volume;
+    }
+    if (hp < 5) {
+      hp = 5;
+    }
   } else {
     uid = -1;
   }
@@ -307,6 +314,15 @@ bool Item::has_flag(Item_flag itf)
   return type->has_flag(itf);
 }
 
+bool Item::covers(Body_part part)
+{
+  if (!is_real() || get_item_class() != ITEM_CLASS_CLOTHING) {
+    return false;
+  }
+  Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
+  return clothing->covers[part];
+}
+
 int Item::get_damage(Damage_type dtype)
 {
   if (type) {
@@ -512,11 +528,47 @@ bool Item::reload(Entity* owner, int ammo_uid)
 
 bool Item::damage(int dam)
 {
+  if (dam < 0) {
+    return false;
+  }
   hp -= dam;
   if (hp <= 0) {
     return true;
   }
   return false;
+}
+
+bool Item::absorb_damage(Damage_type damtype, int dam)
+{
+  if (!is_real() || get_item_class() == ITEM_CLASS_CLOTHING) {
+    return false; // Don't do anything
+  }
+  Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
+/* TODO:  Item_type_clothing should, eventually, use a Damage_set for its armor
+ *        ratings.  Once it does, the following can be simplified.
+ */
+  int armor = 0;
+  switch (damtype) {
+    case DAMAGE_BASH:
+      armor = clothing->armor_bash;
+      break;
+    case DAMAGE_CUT:
+      armor = clothing->armor_cut;
+      break;
+    case DAMAGE_PIERCE:
+      armor = clothing->armor_pierce;
+      break;
+  }
+
+  armor = rng(0, armor);  // Absorb some of the damage!
+  int damage_to_item = armor;
+  if (dam < armor) {
+    damage_to_item = dam;
+  }
+  damage_to_item = dice(2, damage_to_item + 1) - 2;
+// Reduce the damage by the amount of the armor used
+  dam -= armor;
+  return damage(damage_to_item);
 }
 
 Item_action Item::show_info(Entity* user)

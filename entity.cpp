@@ -279,6 +279,21 @@ int Entity::get_thirst_speed_penalty()
   return 0;
 }
 
+int Entity::get_net_pain()
+{
+  int ret = pain;
+  ret -= painkill;
+  return (ret < 0 ? 0 : ret);
+}
+
+int Entity::get_pain_speed_penalty()
+{
+  int p = get_net_pain();
+  p -= 16;
+  int ret = p / 4;
+  return (ret > 50 ? 50 : ret);
+}
+
 void Entity::take_turn()
 {
 }
@@ -1019,6 +1034,24 @@ std::string Entity::get_thirst_text()
   return "<c=red>Dying of thirst<c=/>";
 }
 
+std::string Entity::get_pain_text()
+{
+  if (pain == 0) {
+    return "";
+  } else if (pain < 20) {
+    return "<c=ltgray>Minor Pain<c=/>";
+  } else if (pain < 40) {
+    return "<c=yellow>Pain<c=/>";
+  } else if (pain < 60) {
+    return "<c=yellow>Heavy Pain<c=/>";
+  } else if (pain < 100) {
+    return "<c=ltred>Severe Pain<c=/>";
+  } else if (pain < 160) {
+    return "<c=ltred>Agonizing Pain<c=/>";
+  }
+  return "<c=red>Excrutiating Pain!<c=/>";
+}
+
 Attack Entity::base_attack()
 {
   Attack ret;
@@ -1141,6 +1174,15 @@ void Entity::take_damage(Damage_set damage, std::string reason, Body_part part)
     Damage_type type = Damage_type(i);
     int dam = damage.get_damage(type);
     take_damage(type, dam, reason, part);
+  }
+}
+
+void Entity::absorb_damage(Damage_type type, int& damage, Body_part part)
+{
+  for (int i = 0; damage > 0 && i < items_worn.size(); i++) {
+    if (items_worn[i].covers(part)) {
+      items_worn[i].absorb_damage(type, damage);
+    }
   }
 }
 
