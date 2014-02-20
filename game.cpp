@@ -110,11 +110,16 @@ bool Game::main_loop()
 // Quick and dirty ad-hoc debug key.
 // TODO: Set up a debug menu.
       if (ch == '!') {
+/*
         Monster* mon = new Monster;
         mon->set_type("spitter zombie");
         mon->pos.x = player->pos.x - 3;
         mon->pos.y = player->pos.y - 3;
         entities.add_entity(mon);
+*/
+        player->hunger += 20;
+        player->thirst += 20;
+  
       } else if (ch == '?') {
         debugmsg( map->get_center_submap()->get_spec_name().c_str() );
       }
@@ -742,6 +747,10 @@ void Game::update_hud()
   if (sm) {
     i_hud.set_data("text_location", sm->get_world_ter_name());
   }
+// Update speed
+  i_hud.set_data("num_speed", player->get_speed());
+// Colorize speed
+  i_hud.set_data("num_speed", player->get_speed_color());
 // Add any player ailments
   std::string status = player->get_hunger_text() + " " +
                        player->get_thirst_text();
