@@ -483,6 +483,11 @@ bool Item_type_food::handle_data(std::string ident, std::istream &data)
     data >> water;
     std::getline(data, junk);
 
+  } else if (ident == "effect:") {
+    if (!effect.load_data(data, name)) {
+      return false;
+    }
+
   } else if (ident == "charges:") {
     data >> charges;
     std::getline(data, junk);

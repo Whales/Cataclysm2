@@ -5,6 +5,7 @@
 #include "enum.h"
 #include "dice.h"
 #include "tool.h"
+#include "status_effect.h"
 #include <string>
 #include <istream>
 #include <vector>
@@ -168,6 +169,7 @@ public:
 
   int food;
   int water;
+  Status_effect effect; // Special effect inflicted; see status_effect.h
   int charges;  // So that you can partially consume a food item
   std::string container;  // Name of another item type!
 
