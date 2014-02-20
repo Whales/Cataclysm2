@@ -1,6 +1,7 @@
 #ifndef _STRINGFUNC_H_
 #define _STRINGFUNC_H_
 
+#include "color.h"
 #include <string>
 #include <vector>
 #include <istream>
@@ -24,5 +25,8 @@ std::string no_caps (const std::string &orig);
 std::string capitalize(const std::string &orig);
 
 std::string itos(int num);
+
+std::string color_gradient(int value, std::vector<int> breakpoints,
+                           std::vector<nc_color> colors);
 
 #endif
