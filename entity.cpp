@@ -194,6 +194,18 @@ void Entity::die()
   }
 }
 
+void Entity::process_status_effects()
+{
+  for (int i = 0; i < effects.size(); i++) {
+// TODO: Put actual effects here
+    effects[i].duration--;
+    if (effects[i].duration <= 0) {
+      effects.erase(effects.begin() + i);
+      i--;
+    }
+  }
+}
+
 void Entity::gain_action_points()
 {
   action_points += get_speed();
@@ -222,6 +234,9 @@ int Entity::get_speed()
   int ret = 100;
   ret -= get_hunger_speed_penalty();
   ret -= get_thirst_speed_penalty();
+  if (has_status_effect(STATUS_CAFFEINE)) {
+    ret += 5;
+  }
   return ret;
 }
 
@@ -465,6 +480,16 @@ void Entity::add_status_effect(Status_effect effect)
     }
   }
   effects.push_back(effect);
+}
+
+bool Entity::has_status_effect(Status_effect_type type)
+{
+  for (int i = 0; i < effects.size(); i++) {
+    if (effects[i].type == type) {
+      return true;
+    }
+  }
+  return false;
 }
 
 void Entity::use_ap(int amount)

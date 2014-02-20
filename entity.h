@@ -56,6 +56,7 @@ public:
   Entity();
   virtual ~Entity();
 
+// Name and glyph
   virtual std::string get_data_name();
   virtual std::string get_name();
   virtual std::string get_name_to_player();
@@ -63,29 +64,35 @@ public:
   virtual std::string conjugate(const std::string &verb);
   virtual glyph get_glyph();
 
+// Entity type
   virtual bool is_player()  { return false; }
   virtual bool is_monster() { return false; }
   virtual bool is_you()     { return false; } // As in THE player
 
+// Standard turn functions
   virtual void die();
 
+  void process_status_effects();
   virtual void gain_action_points();
   nc_color     get_speed_color();
   virtual int  get_speed();
   int get_hunger_speed_penalty();
   int get_thirst_speed_penalty();
 
+// AI
   virtual void take_turn();
   virtual bool try_goal(AI_goal goal);
   virtual bool pick_attack_victim();
   virtual bool pick_flee_target();
 
+// Type data
   virtual Entity_AI   get_AI();
   virtual bool has_sense(Sense_type sense);
   virtual int  get_genus_uid();
   virtual int get_hunger_minimum();
   virtual int get_thirst_minimum();
 
+// World interaction
   virtual bool can_sense  (Entity* entity);
   virtual bool can_see    (Map* map, Tripoint target);
   virtual bool can_see    (Map* map, int x, int y, int z = 999);
@@ -105,6 +112,7 @@ public:
                     int primary_uid = -1, int secondary_uid = -1);
   void add_status_effect(Status_effect_type type, int duration, int level = 1);
   void add_status_effect(Status_effect effect);
+  bool has_status_effect(Status_effect_type type);
   void use_ap(int amount);
   void shift(int shiftx, int shifty); // For map shifting
 
