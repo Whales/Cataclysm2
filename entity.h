@@ -9,6 +9,7 @@
 #include "pathfind.h"
 #include "attack.h"
 #include "entity_ai.h"
+#include "status_effect.h"
 #include <string>
 #include <map>
 #include <list>
@@ -182,9 +183,15 @@ public:
   Player_activity activity;
   Entity_plan plan;
 
+// Permanent (more or less) attributes
   Stats stats;
+
+// Temporary attributes
   int hunger, thirst;
+  int pain, painkill;
   int special_timer;
+
+  std::vector<Status_effect> effects;
 
   Item weapon;
   std::vector<Item> inventory;

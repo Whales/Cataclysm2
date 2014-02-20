@@ -128,6 +128,8 @@ Entity::Entity()
   killed_by_player = false;
   hunger = 0;
   thirst = 0;
+  pain = 0;
+  painkill = 0;
   special_timer = 0;
 }
 
