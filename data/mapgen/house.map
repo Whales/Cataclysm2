@@ -279,6 +279,140 @@ ooooooooooooooooooooooooo
 endmap
 done
 
+name: abandoned_house_whales_ground
+subname: abandoned_house
+type: house
+weight: 5
+tile: #23 = w:40 stone wall / w:1 rubble
+tile: " = w:10 window / w:1 window frame
+tile: +1 = w:30 closed door / w:5 broken door / w:1 door frame
+tile: o = w:40 dirt / w:40 grass / w:5 underbrush / w:1 small tree
+tile: . = w:200 floor / w:1 rubble
+tile: T = w:20 toilet / w:1 rubble
+tile: K = w:20 sink / w:1 rubble
+tile: % = w:30 counter / w:1 rubble
+tile: F = fridge
+tile: V = stove
+tile: S$ = w:30 shelves / w:25 floor / w:1 rubble
+tile: B = bed
+tile: < = stairs up
+subst: & = #+
+item_group: 5 % = items_kitchen_counter
+item_group: 3 F = items_fridge
+item_group: 1 $ = items_food_shelves
+item_group: 85 . = items_trash
+shuffle: 123
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo##"+###"######""###ooo
+ooo#.........#$%%%K%%#ooo
+ooo#.........#$......"ooo
+ooo#.................#ooo
+ooo#............F%%V%#ooo
+ooo##1##..############ooo
+ooo#...#....<#SSSSSSS#ooo
+ooo#K..2...###.......#ooo
+ooo#T..#.............#ooo
+ooo#...3.............#ooo
+ooo##"####&#####+#####ooo
+ooooooooooooo#S....BB#ooo
+ooooooooooooo#S....BB#ooo
+ooooooooooooo"......."ooo
+ooooooooooooo#.......#ooo
+ooooooooooooo#####"###ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: abandoned_house_whales_1
+subname: abandoned_house
+type: house
+floor: 1
+tile: o = empty
+tile: #24 = w:80 stone wall / w:1 rubble
+tile: " = w:10 window / w:1 window frame
+# Holes in the floor!  Bad idea?
+tile: . = w:60 floor / w:1 empty
+tile: T = w:20 toilet / w:1 rubble
+tile: K = w:20 sink / w:1 rubble
+tile: +13 = w:50 closed door / w:5 broken door / w:1 door frame
+tile: S = w:30 shelves / w:25 floor / w:1 rubble
+tile: B = bed
+tile: > = stairs down
+item_group: 70 . = items_trash
+shuffle: 12
+shuffle: 34
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo###"###"###########ooo
+ooo#.........#..#.K.T#ooo
+ooo".........+..#...."ooo
+ooo#.........#..1....#ooo
+ooo#BB...SSSS#..#....#ooo
+ooo###########..###2##ooo
+ooo#....SSS#>........#ooo
+ooo".......###......."ooo
+ooo#BB.......+......."ooo
+ooo#BB.......#.......#ooo
+ooo###"###"#####3#4###ooo
+ooooooooooooo#......B#ooo
+ooooooooooooo#......B#ooo
+ooooooooooooo"......."ooo
+ooooooooooooo#.....SS#ooo
+ooooooooooooo####"####ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: abandoned_house_whales_2
+subname: abandoned_house
+type: house
+floor: 2
+tile: o = empty
+tile: . = w:100 roof / w:1 empty
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooooooooooooo.........ooo
+ooooooooooooo.........ooo
+ooooooooooooo.........ooo
+ooooooooooooo.........ooo
+ooooooooooooo.........ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".
