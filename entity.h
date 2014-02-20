@@ -69,6 +69,7 @@ public:
   virtual void die();
 
   virtual void gain_action_points();
+  nc_color     get_speed_color();
   virtual int  get_speed();
   int get_hunger_speed_penalty();
   int get_thirst_speed_penalty();

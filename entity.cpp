@@ -197,12 +197,30 @@ void Entity::gain_action_points()
   action_points += get_speed();
 }
 
+nc_color Entity::get_speed_color()
+{
+  int speed = get_speed();
+  if (speed <= 70) {
+    return c_red;
+  }
+  if (speed < 100) {
+    return c_ltred;
+  }
+  if (speed == 100) {
+    return c_white;
+  }
+  if (speed < 115) {
+    return c_ltgreen;
+  }
+  return c_green;
+}
+
 int Entity::get_speed()
 {
   int ret = 100;
   ret -= get_hunger_speed_penalty();
   ret -= get_thirst_speed_penalty();
-  return 100;
+  return ret;
 }
 
 int Entity::get_hunger_speed_penalty()
