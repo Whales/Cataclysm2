@@ -118,7 +118,7 @@ int Player::current_volume()
 
 int Player::maximum_volume()
 {
-  int ret = 0;
+  int ret = 100;
   for (int i = 0; i < items_worn.size(); i++) {
     ret += items_worn[i].get_volume_capacity();
   }

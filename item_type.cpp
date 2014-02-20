@@ -33,14 +33,96 @@ Item_type_clothing::Item_type_clothing()
   armor_bash = 0;
   armor_cut = 0;
   armor_pierce = 0;
+  encumbrance = 0;
+}
+
+std::string Item_type_clothing::get_property_description()
+{
+  std::stringstream ret;
+  ret << "<c=white>Covers:<c=/> ";
+  bool printed_any = false;
+  for (int i = 0; i < BODY_PART_MAX; i++) {
+    if (covers[i]) {
+      if (printed_any) {
+        ret << ", ";
+      } else {
+        printed_any = true;
+      }
+      ret << body_part_name( Body_part(i) );
+    }
+  }
+  ret << std::endl;
+
+  ret << "<c=ltblue>Storage space: ";
+  if (carry_capacity == 0) {
+    ret << "<c=dkgray>";
+  } else if (carry_capacity >= 25) {  // TODO: Change / don't hardcode this
+    ret << "<c=white>";
+  } else {
+    ret << "<c=ltgray>";
+  }
+  ret << carry_capacity << "<c=/>\n";
+  ret << "<c=magenta>Encumbrance: ";
+  if (encumbrance == 0) {
+    ret << "<c=white>";
+  } else if (encumbrance < 3) {
+    ret << "<c=ltgray>";
+  } else if (encumbrance < 5) {
+    ret << "<c=ltred>";
+  } else {
+    ret << "<c=red>";
+  }
+  ret << encumbrance << std::endl;
+// Set up vectors for use in color_gradient() below
+  std::vector<int> breakpoints;
+  breakpoints.push_back(0);
+  breakpoints.push_back(10);
+  std::vector<nc_color> colors;
+  colors.push_back( c_dkgray );
+  colors.push_back( c_ltgray );
+  colors.push_back( c_white  );
+
+  ret << "<c=brown>Armor (bash): " <<
+         color_gradient(armor_bash, breakpoints, colors) << armor_bash <<
+         "<c=/>\n";
+  ret << "<c=brown>Armor (cut): " <<
+         color_gradient(armor_cut, breakpoints, colors) << armor_cut <<
+         "<c=/>\n";
+  ret << "<c=brown>Armor (pierce): " <<
+         color_gradient(armor_pierce, breakpoints, colors) << armor_pierce <<
+         "<c=/>\n";
+
+  return ret.str();
 }
 
 Item_type_ammo::Item_type_ammo()
 {
   damage = 0;
-  armor_pierce = 1;
+  armor_pierce = 10;
   range = 0;
   count = 100;
+}
+
+std::string Item_type_ammo::get_property_description()
+{
+  std::stringstream ret;
+  ret << "<c=white>Type:<c=/> " << ammo_type << std::endl;
+  ret << "<c=cyan>Accuracy:<c=/> " << accuracy.str() << std::endl;
+  ret << "<c=red>Damage:<c=white> " << damage << "\n<c=ltblue>Armor Piercing: ";
+  if (armor_pierce == 10) {
+    ret << "<c=dkgray>None";
+  } else {
+    if (armor_pierce < 10) {
+      ret << "<c=red>";
+    } else {
+      ret << "<c=white>";
+    }
+    ret << "x" << armor_pierce / 10 << "." << armor_pierce % 10;
+  }
+  ret << "<c=/>\n";
+  ret << "<c=ltgray>Range: " << range << "<c=/>\n";
+
+  return ret.str();
 }
 
 Item_type_launcher::Item_type_launcher()
@@ -53,10 +135,42 @@ Item_type_launcher::Item_type_launcher()
   fire_ap = 100;
 }
 
+std::string Item_type_launcher::get_property_description()
+{
+  std::stringstream ret;
+  ret << "<c=white>Ammo:<c=/> " << ammo_type << std::endl;
+  ret << "<c=ltred>Damage bonus:<c=/> " << (damage >= 0 ? "+" : "") <<
+         damage << std::endl;
+  ret << "<c=cyan>Accuracy:<c=/> " << accuracy.str() << std::endl;
+  ret << "<c=magenta>Recoil:<c=/> " << (recoil >= 0 ? "+" : "") <<
+         recoil << std::endl;
+  ret << "<c=brown>Durability:<c=/> " << durability << std::endl;
+  ret << "<c=ltblue>Capacity:<c=/> " << capacity << " rounds" << std::endl;
+  ret << "<c=green>Reload time:<c=/> " << reload_ap / 100 << "." <<
+         (reload_ap % 100) / 10 << reload_ap % 10 << " turns" << std::endl;
+  ret << "<c=ltgreen>Fire time:<c=/> " << fire_ap / 100 << "." <<
+         (fire_ap % 100) / 10 << fire_ap % 10 << " turns" << std::endl;
+  ret << "<c=red>Fire modes:<c=/> ";
+// TODO: If there's special mods, like "snipe," handle them specially
+  for (int i = 0; i < modes.size(); i++) {
+    ret << "[" << modes[i] << "] ";
+  }
+  return ret.str();
+}
+
+
 Item_type_food::Item_type_food()
 {
   food = 0;
   water = 0;
+}
+
+std::string Item_type_food::get_property_description()
+{
+  std::stringstream ret;
+  ret << "<c=green>Nutrition: <c=/>" << food << std::endl;
+  ret << "<c=ltblue>Water: <c=/>" << water << std::endl;
+  return ret.str();
 }
 
 Item_type_tool::Item_type_tool()
@@ -64,6 +178,15 @@ Item_type_tool::Item_type_tool()
   default_charges = 0;
   max_charges = 0;
   countdown_timer = 0;
+}
+
+// We won't try to handle the Tool_action here - that's better done by hand
+std::string Item_type_tool::get_property_description()
+{
+  std::stringstream ret;
+  ret << "<c=yellow>Fuel:<c=/> " << fuel << std::endl;
+  ret << "<c=white>Max charges:<c=/> " << max_charges << std::endl;
+  return ret.str();
 }
 
 void Item_type::assign_uid(int id)
@@ -274,9 +397,7 @@ bool Item_type_ammo::handle_data(std::string ident, std::istream &data)
   } else if (ident == "armor_pierce:" || ident == "pierce:") {
     data >> armor_pierce;
     if (armor_pierce <= 0) {
-      debugmsg("Armor pierce of %d found in %s.  Changed to 1.", armor_pierce,
-               name.c_str());
-      armor_pierce = 1;
+      armor_pierce = 10;
     }
     std::getline(data, junk);
 
@@ -439,6 +560,13 @@ bool Item_type_tool::uses_charges()
 Item_type_container::Item_type_container()
 {
   capacity = 0;
+}
+
+std::string Item_type_container::get_property_description()
+{
+  std::stringstream ret;
+  ret << "<c=white>Capacity:<c=/> " << capacity;
+  return ret.str();
 }
 
 bool Item_type_container::handle_data(std::string ident, std::istream &data)

@@ -37,6 +37,7 @@ public:
   std::string get_name_definite();
   std::string get_name_full();  // Includes charges, mode, etc.
   std::string get_description();
+  std::string get_description_full();  // Includes type-specific values
 
   int get_weight();
   int get_volume();
@@ -66,7 +67,7 @@ public:
   bool damage(int dam); // Returns true if the item is destroyed
 
 // Interfaces
-  Item_action show_info();
+  Item_action show_info(Entity* user = NULL);
 
   Item_type* ammo;  // Currently-loaded ammo type.
   std::vector<Item> contents; // Contents, attached mods, etc.

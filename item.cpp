@@ -210,6 +210,18 @@ std::string Item::get_description()
   return "Undefined item - type is NULL (this is a bug)";
 }
 
+std::string Item::get_description_full()
+{
+  if (!type) {
+    return "Undefined item - type is NULL (this is a bug)";
+  }
+  std::stringstream ret;
+  ret << type->description << std::endl << std::endl <<
+         type->get_property_description();
+
+  return ret.str();
+}
+
 int Item::get_weight()
 {
   if (!type) {
@@ -507,7 +519,7 @@ bool Item::damage(int dam)
   return false;
 }
 
-Item_action Item::show_info()
+Item_action Item::show_info(Entity* user)
 {
   if (!type) {
     return IACT_NULL;
@@ -525,9 +537,13 @@ Item_action Item::show_info()
   i_info.set_data("num_cut",    get_damage(DAMAGE_CUT));
   i_info.set_data("num_pierce", get_damage(DAMAGE_PIERCE));
   i_info.set_data("num_to_hit", get_to_hit());
-// TODO: Use GAME.player's stats
-  i_info.set_data("num_speed",  get_base_attack_speed());
-  i_info.set_data("description",get_description());
+  if (user) {
+    i_info.set_data("num_speed",  get_base_attack_speed(user->stats));
+  } else {
+    i_info.set_data("num_speed",  get_base_attack_speed());
+  }
+// get_desciption_full() includes type-specific info, e.g. nutrition for food
+  i_info.set_data("description", get_description_full());
   i_info.draw(&w_info);
   while (true) {
     long ch = input();

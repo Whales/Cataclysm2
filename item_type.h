@@ -70,6 +70,7 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_MISC; }
   virtual Item_action default_action() { return IACT_NULL; }
+  virtual std::string get_property_description() { return ""; }
   virtual int  time_to_reload()  { return 0; }
   virtual int  time_to_fire()    { return 0; }
   virtual int  default_charges() { return 0; }
@@ -89,6 +90,7 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_CLOTHING; }
   virtual Item_action default_action() { return IACT_WEAR; }
+  virtual std::string get_property_description();
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
@@ -112,6 +114,7 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual int default_charges() { return count; }
+  virtual std::string get_property_description();
   virtual bool always_combines()    { return true;  }
   virtual bool combine_by_charges() { return true;  }
 
@@ -133,9 +136,11 @@ public:
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
+  virtual std::string get_property_description();
   virtual int time_to_reload() { return reload_ap; }
   virtual int time_to_fire()   { return fire_ap; }
 
+// TODO: Add in gun class / skill used / however we do that
   std::string ammo_type;  // Ammo type - links this to a launcher
   int damage;     // Damage bonus
   Dice accuracy;   // Low is good!  In 1/10ths of a degree
@@ -156,6 +161,7 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_FOOD; }
   virtual Item_action default_action() { return IACT_EAT; }
+  virtual std::string get_property_description();
   virtual int  default_charges() { return charges; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
@@ -175,6 +181,7 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_TOOL; }
   virtual Item_action default_action() { return IACT_APPLY; }
+  virtual std::string get_property_description();
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
@@ -199,6 +206,7 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_CONTAINER; }
   virtual Item_action default_action() { return IACT_EMPTY; }
+  virtual std::string get_property_description();
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
