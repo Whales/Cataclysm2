@@ -472,6 +472,9 @@ bool Item::place_in_its_container()
 {
   if (is_real() && get_item_class() == ITEM_CLASS_FOOD) {
     Item_type_food* food = static_cast<Item_type_food*>(type);
+    if (food->container.empty()) {
+      return false;
+    }
     Item_type* container_type = ITEM_TYPES.lookup_name( food->container );
     if (container_type) {
       Item tmp(container_type);
