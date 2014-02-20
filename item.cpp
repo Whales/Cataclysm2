@@ -236,6 +236,21 @@ int Item::get_volume()
   if (has_flag(ITEM_FLAG_LIQUID)) {
     return (charges * type->volume);
   }
+
+/* Some containers, like a plastic bag, can hold more than their own volume
+ * (since when they're empty you can wad them up).  If that's the case, return
+ * the total volume of its contents instead!
+ */
+  if (get_item_class() == ITEM_CLASS_CONTAINER) {
+    int own_volume = type->volume;
+    int contents_volume = get_volume_capacity_used();
+    if (own_volume > contents_volume) {
+      return own_volume;
+    }
+    return contents_volume;
+  }
+
+// Everything else just returns its type's volume.
   return type->volume;
 }
 
