@@ -20,7 +20,7 @@ struct Stats
   Stats();
   ~Stats();
 
-  int str, dex, intel, per;
+  int strength, dexterity, intelligence, perception;
 };
 
 struct Entity_plan
