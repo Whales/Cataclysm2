@@ -5,11 +5,14 @@
 #include <istream>
 #include <vector>
 
+struct Stats;
+
 enum Status_effect_type
 {
   STATUS_NULL = 0,
   STATUS_BLIND,     // "blind" - lose sense of sight
   STATUS_CAFFEINE,  // "caffeine" - minor speed & stat boost
+  STATUS_STIMULANT, // "stimulant" - larger speed & stat boost
   STATUS_PAINKILL_MILD, // "painkill_mild" - lift painkill to 10
   STATUS_PAINKILL_MED,  // "painkill_med" - lift painkill to 50
   STATUS_PAINKILL_HEAVY,// "painkill_heavy" - lift painkill to 100
@@ -32,6 +35,10 @@ struct Status_effect
   void boost(const Status_effect& rhs);
 // Returns true if timed out
   bool decrement();
+
+// Simple effects - for active use and info screens
+  int speed_mod();
+  Stats stats_mod();
 
   Status_effect_type type;
   int duration;

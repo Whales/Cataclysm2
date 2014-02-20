@@ -233,8 +233,8 @@ int Entity::get_speed()
   int ret = 100;
   ret -= get_hunger_speed_penalty();
   ret -= get_thirst_speed_penalty();
-  if (has_status_effect(STATUS_CAFFEINE)) {
-    ret += 5;
+  for (int i = 0; i < effects.size(); i++) {
+    ret += effects[i].speed_mod();
   }
   return ret;
 }

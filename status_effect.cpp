@@ -1,6 +1,7 @@
 #include "status_effect.h"
 #include "stringfunc.h" // For no_caps and trim
 #include "window.h" // For debugmsg
+#include "entity.h" // For Stats
 
 Status_effect::Status_effect()
 {
@@ -100,6 +101,48 @@ bool Status_effect::decrement()
   return (duration <= 0);
 }
 
+int Status_effect::speed_mod()
+{
+  switch (type) {
+
+    case STATUS_CAFFEINE:
+      return 3;
+
+    case STATUS_STIMULANT:
+      if (level >= 5) {
+        return 15;
+      } else if (level >= 3) {
+        return 10;
+      } else {
+        return 5;
+      }
+      break;
+  }
+  return 0;
+}
+
+Stats Status_effect::stats_mod()
+{
+  Stats ret(0, 0, 0, 0);
+
+  switch (type) {
+
+    case STATUS_CAFFEINE:
+      ret.intelligence++;
+      ret.perception++;
+      break;
+
+    case STATUS_STIMULANT:
+      ret.dexterity++;
+      ret.intelligence += (level > 3 ? 3 : level);
+      ret.perception += (level > 2 ? 2 : level);
+      break;
+  }
+
+  return ret;
+}
+      
+
 Status_effect_type lookup_status_effect(std::string name)
 {
   name = no_caps(name);
@@ -119,6 +162,7 @@ std::string status_effect_name(Status_effect_type type)
     case STATUS_NULL:           return "NULL";
     case STATUS_BLIND:          return "blind";
     case STATUS_CAFFEINE:       return "caffeine";
+    case STATUS_STIMULANT:      return "stimulant";
     case STATUS_PAINKILL_MILD:  return "painkill_mild";
     case STATUS_PAINKILL_MED:   return "painkill_med";
     case STATUS_PAINKILL_HEAVY: return "painkill_heavy";
