@@ -438,6 +438,10 @@ food
   volume: 15
   water:  20
   food:    2
+  effect:
+    type: caffeine
+    duration: 150
+  done
   charges: 1
   container: soda can
   flags: liquid plural
