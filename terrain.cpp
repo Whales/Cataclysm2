@@ -7,10 +7,7 @@
 
 Terrain_smash::Terrain_smash()
 {
-  for (int i = 0; i < DAMAGE_MAX; i++) {
-    armor[i] = 0;
-  }
-  armor[DAMAGE_PIERCE] = 50; // Ignore pierce by default.
+  armor[DAMAGE_PIERCE] = Dice(0, 0, 50); // Ignore pierce by default.
   ignore_chance = 0;
 }
 
@@ -44,8 +41,7 @@ bool Terrain_smash::load_data(std::istream &data, std::string name)
                  damage_name.c_str(), name.c_str());
         return false;
       } else {
-        data >> armor[dmgtype];
-        std::getline(data, junk);
+        armor[dmgtype].load_data(data, name);
       }
 
     } else if (ident == "ignore_chance:") {

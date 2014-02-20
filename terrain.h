@@ -4,6 +4,7 @@
 #include "glyph.h"
 #include "enum.h"
 #include "tool.h"
+#include "dice.h"
 #include <vector>
 #include <map>
 
@@ -19,7 +20,7 @@ struct Terrain_smash
 
   std::string failure_sound;
   std::string success_sound;
-  int armor[DAMAGE_MAX];
+  Dice armor[DAMAGE_MAX];
   int ignore_chance;
 
   bool load_data(std::istream &data, std::string name = "unknown");

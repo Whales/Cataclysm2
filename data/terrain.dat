@@ -40,7 +40,7 @@ name: underbrush
   smash:
     failure_sound: "crunch."
     success_sound: "crunch."
-    armor: bash 40
+    armor: bash 1d20 + 20
     ignore_chance: 25
   done
   flags: flammable
@@ -54,7 +54,7 @@ name: small tree
   smash:
     failure_sound: "thump."
     success_sound: "crunch!"
-    armor: bash 8
+    armor: bash 1d10 + 5
   done
   flags: flammable
 done
@@ -168,7 +168,7 @@ name: stockade fence
   smash:
     failure_sound: "Thump!"
     success_sound: "Crunch!"
-    armor: bash 10
+    armor: bash 1d10
   done
   flags: opaque flammable
 done
@@ -195,8 +195,8 @@ name: glass wall
   smash:
     failure_sound: "whunk."
     success_sound: glass shattering.
-    armor: cut 8
-    armor: pierce 1
+    armor: cut 1d8
+    armor: pierce 2
   done
 done
 
@@ -238,8 +238,8 @@ name: broken door
   smash:
     failure_sound: "whack."
     success_sound: wood splintering.
-    armor: bash 2
-    armor: pierce 14
+    armor: bash 1d5
+    armor: pierce 1d10 + 4
   done
   flags: flammable
 done
@@ -265,8 +265,8 @@ name: closed door
   smash:
     failure_sound: "whack."
     success_sound: wood splintering.
-    armor: bash 2
-    armor: pierce 16
+    armor: bash 1d5
+    armor: pierce 1d10 + 6
   done
   flags: flammable opaque
 done
@@ -292,8 +292,8 @@ name: closed glass door
   smash:
     failure_sound: "whunk."
     success_sound: glass shattering.
-    armor: cut 3
-    armor: pierce 1
+    armor: cut 1d4
+    armor: pierce 2
   done
 done
 
@@ -322,8 +322,8 @@ name: window
   smash:
     failure_sound: "whunk."
     success_sound: glass shattering.
-    armor: cut 3
-    armor: pierce 1
+    armor: cut 1d4
+    armor: pierce 2
   done
   flags: flammable
 done
@@ -337,7 +337,7 @@ name: display rack
     failure_sound: "whack."
     success_sound: "crash!"
     armor: cut 40
-    armor: bash 5
+    armor: bash 2d6
     ignore_chance: 50
   done
   flags: flammable

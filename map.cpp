@@ -156,8 +156,8 @@ bool Tile::damage(Damage_type type, int dam)
   if (!terrain || terrain->hp == 0) {
     return false;
   }
-  int armor = terrain->smash.armor[type];
-  dam -= rng(armor / 2, armor);
+  Dice armor = terrain->smash.armor[type];
+  dam -= armor.roll();
   if (dam <= 0) {
     return false;
   }
