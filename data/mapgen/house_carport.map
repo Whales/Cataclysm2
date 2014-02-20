@@ -32,12 +32,15 @@ tile: + = closed door
 tile: " = window
 tile: < = stairs up
 tile: % = counter
-tile: EG = shelves
+tile: EG$ = shelves
 tile: F = fridge
 tile: S = stove
 tile: K = sink
 tile: T = toilet
 item_group: 70 G = items_garage
+item_group: 40 F = items_fridge
+item_group: 50 % = items_kitchen_counter
+item_group: 30 $ = items_food_shelves
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -53,7 +56,7 @@ oo#...#..###.###.T"****#o
 oo#...+...#F...+..#*####o
 oo#EEE#........####*#GG#o
 oo#####...#S......+*+..#o
-oo****#...#%K%%...#*#GG#o
+oo****#...#%K%$$..#*#GG#o
 oo****#+"###"###"##*####o
 oo******************ooooo
 ooooooooooooooooooooooooo
@@ -73,6 +76,7 @@ type: house
 level: 1
 tile_group: # = stone wall
 tile: . = floor
+tile: * = roof
 tile: x = empty
 tile: + = closed door
 tile: " = window
@@ -89,16 +93,16 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
-xx....##""###"##........x
-xx....#.....+.E#........x
-xx...."B..#+####........x
-xx....#B..#..#>#""#.....x
-xx....#####..#.#.B#.....x
-xx....#...+....+.B#.....x
-xx...."...##+###..#.....x
-xx....#B..E#.%#E..#.....x
-xxxxxx#B..E#.T#...#.....x
-xxxxxx##"###"###"##.....x
+xx****##""###"##********x
+xx****#.....+.E#********x
+xx****"B..#+####********x
+xx****#B..#..#>#""#*****x
+xx****#####..#.#.B#*****x
+xx****#...+....+.B#*****x
+xx****"...##+###..#*****x
+xx****#B..E#.%#E..#*****x
+xxxxxx#B..E#.T#...#*****x
+xxxxxx##"###"###"##*****x
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx

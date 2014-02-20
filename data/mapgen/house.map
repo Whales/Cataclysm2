@@ -148,7 +148,7 @@ tile: * = concrete floor
 tile: Xbcd = wood wall
 tile: { = shelves
 item_group: 70 { = items_garage
-tile: V = shelves
+tile: V$ = shelves
 tile: % = counter
 tile: F = fridge
 tile: S = stove
@@ -162,13 +162,18 @@ tile: "aB = window
 shuffle: abcd
 shuffle: AB
 shuffle: 123
+
+item_group: 30 $ = items_food_shelves
+item_group: 30 F = items_fridge
+item_group: 30 % = items_kitchen_counter
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 oo##"#A#"###"#B#"##**oooo
-oo#.......#.......#**oooo
-oo#.......#......F#**oooo
+oo#.......#$......#**oooo
+oo#.......#$.....F#**oooo
 oo#..............%#**oooo
 oo#..........%S%%%#**oooo
 oo#.......#########**oooo

@@ -29,15 +29,18 @@ tile: . = floor
 tile: * = pavement
 tile: o = dirt / grass
 tile: + = closed door
-tile: $ = closed glass door
+tile: & = closed glass door / stone wall
 tile: " = window
 tile: % = counter
-tile: E = shelves
+tile: E$ = shelves
 tile: F = fridge
 tile: S = stove
 tile: B = bed
 tile: K = sink
 tile: T = toilet
+item_group: 30 $ = items_food_shelves
+item_group: 40 F = items_fridge
+item_group: 50 % = items_kitchen_counter
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -45,9 +48,9 @@ ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 oo##""####+###"#####""#oo
-oo$....#E+.+.FK%%....."oo
+oo&....#E+.+.FK%%....."oo
 oo#....###.#....%....."oo
-oo#........#%%S......E#oo
+oo#........#$$S......E#oo
 oo######..##########+##oo
 oo#....+..+.....#E....#oo
 oo"BB..#+##....B#E....+oo
@@ -71,7 +74,6 @@ name: doublewide_house_trevmillion_roof
 subname: doublewide_house_trevmillion
 type: house
 level: 1
-tile: # = stone wall
 tile: . = roof
 tile: x = empty
 map:

@@ -189,6 +189,41 @@ weapon
   to_hit: -1
 done
 
+weapon
+  name: chef knife
+  description:
+    A foot-long knife.  Designed for chopping up meat and vegetables.
+  done
+  glyph: / blue black
+  weight: 8
+  volume: 14
+  pierce: 8
+  cut:    12
+  to_hit: -1
+done
+
+weapon
+  name: frying pan
+  description:
+    A cast-iron frying pan.  Heavy and very hard.
+  done
+  glyph: / dkgray black
+  weight: 70
+  volume: 60
+  bash:   28
+  to_hit: -1
+done
+
+weapon
+  name: rag
+  description:
+    A more-or-less square piece of fabric.
+  done
+  glyph: / ltred black
+  weight:  2
+  volume: 14
+done
+
 # END Weapons / vanilla
 
 # Clothing
@@ -365,21 +400,6 @@ food
 done
 
 food
-  name: dry pasta
-  description:
-    A bunch of dry noodles.  You could eat it raw, but it's much, much better
-    after being cooked.
-  done
-  glyph: $ yellow black
-  weight: 2
-  volume: 5
-  food:   5
-  charges: 4
-  container: paper box
-  flags: plural
-done
-
-food
   name: water
   description:
     Water, the stuff of life, the best thirst-quencher available.
@@ -401,12 +421,93 @@ food
   glyph: $ yellow black
   weight:  4
   volume: 10
-  water:  22
+  water:  18
   food:    8
   charges: 2
   container: glass bottle
   flags: liquid plural
 done
+
+food
+  name: cola
+  description:
+    A highly caffeinated sugary drink.
+  done
+  glyph: $ brown black
+  weight: 4
+  volume: 15
+  water:  20
+  food:    2
+  charges: 1
+  container: soda can
+  flags: liquid plural
+done
+
+# Dry food - stuff that is MUCH more beneficial if prepped before eating.
+
+food
+  name: dry pasta
+  description:
+    A bunch of dry noodles.  You could eat it raw, but it's much, much better
+    after being cooked.
+  done
+  glyph: $ yellow black
+  weight: 2
+  volume: 5
+  food:   5
+  charges: 4
+  container: paper box
+  flags: plural
+done
+
+
+food
+  name: dry rice
+  description:
+    Some dry white rice.  You could struggle to eat it raw, but it'd be much
+    tastier after being cooked.
+  done
+  glyph: $ white black
+  weight: 4
+  volume: 3
+  food:   3
+  charges: 8
+  container: plastic bag
+done
+
+food
+  name: dry tea
+  description:
+    A number of tea bags, containing some caffeinated black tea leaves.  You
+    could suck on them, I suppose, but it'd be much nicer to brew tea using hot
+    water.
+  done
+  glyph: $ dkgray black
+  weight: 1
+  volume: 1
+  water: -2
+  food:   0
+  charges: 15
+  container: paper box
+  flags: plural
+done
+
+food
+  name: dry coffee
+  description:
+    Some dry, ground coffee beans.  You could eat the grounds if you really
+    want, but it'd be more pleasant to brew coffee using hot water.
+  done
+  glyph: $ dkgray black
+  weight: 1
+  volume: 1
+  water: -4
+  food: 0
+  charges: 20
+  container: can
+  flags: plural
+done
+
 
 # END Food
 
@@ -487,10 +588,21 @@ container
     A sturdy aluminum can with a pull-tab top.  Any food inside has a shelf life
     of several years!
   done
-  glyph: ( ltblue black
+  glyph: ( blue black
   weight:    1
   volume:   20
   capacity: 20
+done
+
+container
+  name: soda can
+  description:
+    A very thin aluminum can.
+  done
+  glyph: ( ltblue black
+  weight:  0
+  volume: 15
+  capacity: 15
 done
 
 container

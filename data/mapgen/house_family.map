@@ -39,7 +39,11 @@ tile: f = fridge
 tile: T = toilet
 tile: G = closed glass door
 tile: g = grass
-tile: E = shelves
+tile: E$ = shelves
+
+item_group: 30 $ = items_food_shelves
+item_group: 40 f = items_fridge
+item_group: 50 % = items_kitchen_counter
 
 map:
 ooooooooooooooooooooooooo
@@ -57,9 +61,9 @@ oo#########...##+##S%s#oo
 oo#....#EE#...#..#%...#oo
 oo"....#..#...#..#%..."oo
 oo"....##+#...#..#f..."oo
-oo#.......#...#.......#oo
-oo#.......+...+.......#oo
-oo#.......#...#.......#oo
+oo#.......#...#......$#oo
+oo#.......+...+......$#oo
+oo#.......#...#......$#oo
 oo##""#####"G"#####""##oo
 ooFgggggggggggggggggggFoo
 ooFgggggggggggggggggggFoo

@@ -31,12 +31,17 @@ tile: + = closed door
 tile: " = window
 tile: < = stairs up
 tile: % = counter
-tile: E = shelves
+tile: E$ = shelves
 tile: F = fridge
 tile: S = stove
 tile: K = sink
 tile: T = toilet
 tile: B = bed
+
+item_group: 30 $ = items_food_shelves
+item_group: 40 F = items_fridge
+item_group: 50 % = items_kitchen_counter
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -46,10 +51,10 @@ oooooooo#......#ooooooooo
 oo##"####......##"##ooooo
 oo#..B.E#......%F.S#ooooo
 oo#..B.E####...%..K#ooooo
-oo".....#.T#...%...+ooooo
-oo#.....#..#.......#ooooo
-oo###+###+##...###+#ooooo
-oo#E+..........#<..#ooooo
+oo".....#.T#...%..$#ooooo
+oo#.....#..#......$#ooooo
+oo###+###+##...#.###ooooo
+oo#E+..........#..<#ooooo
 oo#####+##.....#####ooooo
 oo#E.....#.........#ooooo
 oo#.....B#.........#ooooo
@@ -72,6 +77,7 @@ type: house
 level: 1
 tile: # = stone wall
 tile: . = floor
+tile: * = roof
 tile: x = empty
 tile: + = closed door
 tile: " = window
@@ -83,16 +89,16 @@ tile: B = bed
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxx........xxxxxxxxx
-xxxxxxxx........xxxxxxxxx
-xxxxxxxx........xxxxxxxxx
+xxxxxxxx********xxxxxxxxx
+xxxxxxxx********xxxxxxxxx
+xxxxxxxx********xxxxxxxxx
 xx####"####"####"###xxxxx
-xx#EE...EE#.T#.....#xxxxx
+xx#EE...EE#.T#....E#xxxxx
 xx#.......#..#.....#xxxxx
 xx#.......#..#....."xxxxx
 xx".......#+##.....#xxxxx
-xx"..........#+###+#xxxxx
-xx#.............>#E#xxxxx
+xx"..........#+#####xxxxx
+xx#...............>#xxxxx
 xx#####+#####+######xxxxx
 xx#B.....+.#.......#xxxxx
 xx"B.....#E#......."xxxxx
@@ -113,12 +119,8 @@ name: franklin_house_trevmillion_roof
 subname: franklin_house_trevmillion
 type: house
 level: 2
-tile: # = stone wall
 tile: . = roof
 tile: x = empty
-tile: + = closed door
-tile: " = window
-tile: > = stairs down
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx

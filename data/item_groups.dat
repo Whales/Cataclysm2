@@ -46,8 +46,14 @@ name: items_garage
 done
 
 name: items_fridge
-  items: w:10 water / w:5 beer
+  items: w:10 water / w:5 beer / w:5 cola
 done
 
 name: items_food_shelves
-  items: w:20 beans / w:12 tomatoes / w:10 potato chips / w:24 dry pasta
+  items: w:20 beans / w:12 tomatoes / w:10 potato chips / w:24 dry pasta / w:3 dry tea / w:5 dry coffee / w:12 dry rice
+done
+
+# Not food, just miscellaneous kitchen items, like knives
+name: items_kitchen_counter
+  items: w:15 chef knife / w:10 frying pan / w:12 rag
+done

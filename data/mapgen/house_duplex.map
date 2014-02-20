@@ -32,8 +32,11 @@ tile: + = closed door
 tile: " = window
 tile: < = stairs up
 tile: % = counter
-tile: E = shelves
+item_group: 50 % = items_kitchen_counter
+tile: E$ = shelves
+item_group: 30 $ = items_food_shelves
 tile: F = fridge
+item_group: 40 F = items_fridge
 tile: S = stove
 tile: K = sink
 tile: T = toilet
@@ -55,7 +58,7 @@ o#E..%..#%K%#%K%#..%..E#o
 o#E..%..+...#...+..%..E#o
 o#E..%..#.T.#.T.#..%..E#o
 o#......#########......#o
-o#......%%S%#%S%%......#o
+o#......%%S$#$S%%......#o
 o"..........#.........."o
 o#......%K.F#F.K%......#o
 o##"####"#+###+#"####"##o
