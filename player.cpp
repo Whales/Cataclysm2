@@ -102,7 +102,8 @@ int Player::current_weight()
 
 int Player::maximum_weight()
 {
-// TODO: Base this on Strength or something.
+// 25 pounds, plus 10 per point of strength; 10 strength = 125 lbs
+  return 250 + 100 * stats.strength;
   return 1000;
 }
 
@@ -117,8 +118,11 @@ int Player::current_volume()
 
 int Player::maximum_volume()
 {
-// TODO: Base this on items_worn
-  return 1000;
+  int ret = 0;
+  for (int i = 0; i < items_worn.size(); i++) {
+    ret += items_worn[i].get_volume_capacity();
+  }
+  return ret;
 }
 
 Item Player::inventory_single()
