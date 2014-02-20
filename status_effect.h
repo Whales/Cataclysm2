@@ -12,6 +12,7 @@ enum Status_effect_type
   STATUS_NULL = 0,
   STATUS_BLIND,     // "blind" - lose sense of sight
   STATUS_CAFFEINE,  // "caffeine" - minor speed & stat boost
+  STATUS_NICOTINE,  // "nicotine" - minor stat boost
   STATUS_STIMULANT, // "stimulant" - larger speed & stat boost
   STATUS_PAINKILL_MILD, // "painkill_mild" - lift painkill to 10
   STATUS_PAINKILL_MED,  // "painkill_med" - lift painkill to 50

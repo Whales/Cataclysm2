@@ -132,6 +132,14 @@ Stats Status_effect::stats_mod()
       ret.perception++;
       break;
 
+    case STATUS_NICOTINE:
+      if (level <= 2) {
+        ret.dexterity++;
+        ret.intelligence++;
+        ret.perception++;
+      }
+      break;
+
     case STATUS_STIMULANT:
       ret.dexterity++;
       ret.intelligence += (level > 3 ? 3 : level);
@@ -162,6 +170,7 @@ std::string status_effect_name(Status_effect_type type)
     case STATUS_NULL:           return "NULL";
     case STATUS_BLIND:          return "blind";
     case STATUS_CAFFEINE:       return "caffeine";
+    case STATUS_NICOTINE:       return "nicotine";
     case STATUS_STIMULANT:      return "stimulant";
     case STATUS_PAINKILL_MILD:  return "painkill_mild";
     case STATUS_PAINKILL_MED:   return "painkill_med";
