@@ -1074,6 +1074,9 @@ int Game::get_item_uid()
 
 bool Game::minute_timer(int minutes)
 {
+  if (minutes <= 0) {
+    return true;
+  }
   int turns = (minutes * 60) / SECONDS_IN_TURN;
   return (time.get_turn() % turns == 0);
 }
