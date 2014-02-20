@@ -109,6 +109,7 @@ bool Item_type::load_data(std::istream &data)
 
     } else if (ident == "description:") {
       std::string desc;
+      description = "";
       while (no_caps(desc) != "done") {
         std::getline(data, desc);
         desc = trim(desc);
@@ -116,6 +117,7 @@ bool Item_type::load_data(std::istream &data)
           description = description + " " + desc;
         }
       }
+      description = trim(description);  // Get rid of extra " "
 
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
