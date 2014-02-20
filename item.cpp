@@ -307,9 +307,11 @@ int Item::get_base_attack_speed(Stats stats)
   if (!type) {
     return 0;
   }
-  int ret = type->attack_speed;
-  int min_weight_penalty = stats.strength * 3;
-  int penalty_per_pound  = 20 - stats.strength;
+// TODO: Do we really need Item_type::attack_speed?
+  int ret = 50 + type->attack_speed;
+
+  int min_weight_penalty = stats.strength;
+  int penalty_per_pound  = (2 * (20 - stats.strength) ) / 3;
   int wgt = get_weight();
   if (stats.strength < 20 && wgt >= min_weight_penalty) {
     wgt -= min_weight_penalty;
@@ -318,8 +320,8 @@ int Item::get_base_attack_speed(Stats stats)
   }
 
 // TODO: Tweak this section - this is very guess-y.
-  int min_volume_penalty = stats.dexterity * 10;
-  int penalty_per_10_volume = 20 - stats.dexterity;
+  int min_volume_penalty = stats.dexterity * 3;
+  int penalty_per_10_volume = (2 * (20 - stats.dexterity) ) / 3;
   int vol = get_volume();
   if (stats.dexterity < 20 && vol >= min_volume_penalty) {
     vol -= min_volume_penalty;
