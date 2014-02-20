@@ -19,6 +19,8 @@ class Map;
 struct Stats
 {
   Stats();
+  Stats(int S, int D, int I, int P) :
+    strength (S), dexterity (D), intelligence (I), perception (P) {}
   ~Stats();
 
   int strength, dexterity, intelligence, perception;
