@@ -57,3 +57,8 @@ done
 name: items_kitchen_counter
   items: w:15 chef knife / w:10 frying pan / w:12 rag
 done
+
+# Misc junk
+name: items_trash
+  items: w:1 rock / w:3 stick / w:1 wood plank / w:3 steel pipe / w:20 rag / w:20 plastic bottle / w:12 glass bottle / w:8 can / w:25 soda can / w:30 plastic bag / w:8 paper box
+done
