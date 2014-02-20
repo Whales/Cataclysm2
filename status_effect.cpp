@@ -6,7 +6,7 @@ Status_effect::Status_effect()
 {
   type = STATUS_NULL;
   duration = 0;
-  level = 0;
+  level = 1;
 }
 
 Status_effect::Status_effect(Status_effect_type _type, int _duration, int _level)
@@ -64,6 +64,40 @@ bool Status_effect::load_data(std::istream& data, std::string owner_name)
 std::string Status_effect::get_name()
 {
   return status_effect_name(type);
+}
+
+void Status_effect::boost(int dur, int lev)
+{
+  int old_dur = duration;
+  duration += dur;
+  level += lev;
+/* Set many step_down points; first when we hit our current duration, more
+ * evenly spaced between the current duration and the new duration.
+ */
+  if (lev > 0) {
+    int gap = dur / lev;
+    for (int i = 0; i < lev; i++) {
+      step_down.push_back(old_dur);
+      old_dur += gap;
+    }
+  }
+}
+
+void Status_effect::boost(const Status_effect& rhs)
+{
+  boost(rhs.duration, rhs.level);
+}
+
+bool Status_effect::decrement()
+{
+  duration--;
+  if (!step_down.empty() && duration <= step_down.back()) {
+    step_down.pop_back();
+    if (level > 1) {
+      level--;
+    }
+  }
+  return (duration <= 0);
 }
 
 Status_effect_type lookup_status_effect(std::string name)

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <istream>
+#include <vector>
 
 enum Status_effect_type
 {
@@ -27,8 +28,14 @@ struct Status_effect
   bool load_data(std::istream& data, std::string owner_name);
   std::string get_name();
 
+  void boost(int dur, int lev = 1);
+  void boost(const Status_effect& rhs);
+// Returns true if timed out
+  bool decrement();
+
   Status_effect_type type;
   int duration;
+  std::vector<int> step_down;  // The duration(s) at which we lose a level.
   int level;
 };
 

@@ -198,8 +198,7 @@ void Entity::process_status_effects()
 {
   for (int i = 0; i < effects.size(); i++) {
 // TODO: Put actual effects here
-    effects[i].duration--;
-    if (effects[i].duration <= 0) {
+    if (effects[i].decrement()) { // Returns true if duration <= 0
       effects.erase(effects.begin() + i);
       i--;
     }
@@ -475,7 +474,7 @@ void Entity::add_status_effect(Status_effect effect)
   }
   for (int i = 0; i < effects.size(); i++) {
     if (effects[i].type == effect.type) {
-      effects[i].duration += effect.duration;
+      effects[i].boost(effect);
       return;
     }
   }
