@@ -241,11 +241,26 @@ int Item::get_volume()
 
 int Item::get_volume_capacity()
 {
-  if (!is_real() || get_item_class() != ITEM_CLASS_CONTAINER) {
+  if (!is_real()) {
     return 0;
   }
-  Item_type_container* container = static_cast<Item_type_container*>(type);
-  return container->capacity;
+
+  if (get_item_class() == ITEM_CLASS_CONTAINER) {
+    Item_type_container* container = static_cast<Item_type_container*>(type);
+    return container->capacity;
+  }
+
+/* Even though "volume capacity" means something totally different for
+ * containers and clothing, put clothing in this function too.  It makes sense,
+ * and there shouldn't be any overlap.
+ */
+  if (get_item_class() == ITEM_CLASS_CLOTHING) {
+    Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
+    return clothing->carry_capacity;
+  }
+
+// We're neither a container nor clothing, return 0.
+  return 0;
 }
 
 int Item::get_volume_capacity_used()
@@ -293,20 +308,20 @@ int Item::get_base_attack_speed(Stats stats)
     return 0;
   }
   int ret = type->attack_speed;
-  int min_weight_penalty = stats.str * 3;
-  int penalty_per_pound  = 20 - stats.str;
+  int min_weight_penalty = stats.strength * 3;
+  int penalty_per_pound  = 20 - stats.strength;
   int wgt = get_weight();
-  if (stats.str < 20 && wgt >= min_weight_penalty) {
+  if (stats.strength < 20 && wgt >= min_weight_penalty) {
     wgt -= min_weight_penalty;
 // Divide by 10 since the penalty is per pound - 1 unit of weight is 0.1 lbs
     ret += (wgt * penalty_per_pound) / 10;
   }
 
 // TODO: Tweak this section - this is very guess-y.
-  int min_volume_penalty = stats.dex * 10;
-  int penalty_per_10_volume = 20 - stats.dex;
+  int min_volume_penalty = stats.dexterity * 10;
+  int penalty_per_10_volume = 20 - stats.dexterity;
   int vol = get_volume();
-  if (stats.dex < 20 && vol >= min_volume_penalty) {
+  if (stats.dexterity < 20 && vol >= min_volume_penalty) {
     vol -= min_volume_penalty;
     ret += (vol * penalty_per_10_volume) / 10;
   }
