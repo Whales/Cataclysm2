@@ -765,6 +765,10 @@ bool Entity::eat_item_uid(int uid)
     thirst = get_thirst_minimum();
   }
 
+  if (food->effect.type != STATUS_NULL) {
+    add_status_effect( food->effect );
+  }
+
   it->charges--;
   if (it->charges <= 0) {
     remove_item_uid(uid, 1);
