@@ -464,7 +464,6 @@ food
   flags: plural
 done
 
-
 food
   name: dry rice
   description:
@@ -512,6 +511,42 @@ food
   flags: plural
 done
 
+# Medications - only food on a technical level!
+
+food
+  name: cigarettes
+  description:
+    A pack of cigarettes.  They will boost your dexterity, intelligence, and
+    perception for a short while.  They are also quite addictive.
+  done
+  glyph: ! dkgray black
+  weight: 1
+  volume: 5
+  charges: 20
+  effect:
+    type: nicotine
+    duration: 100
+  done
+  flags: plural constant_volume_weight
+done
+
+food
+  name: amphetamine
+  description:
+    A bottle of stimulants, frequently prescribed for attention deficit
+    disorders.  Also used recreationally, or as an illicit study aid.
+  done
+  glyph: ! yellow black
+  weight: 1
+  volume: 2
+  charges: 10
+  effect:
+    type: stimulant
+    duration: 300
+  done
+  flags: plural constant_volume_weight
+done
+  
 
 # END Food
 
