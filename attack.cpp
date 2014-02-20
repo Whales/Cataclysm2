@@ -260,7 +260,7 @@ Ranged_attack::Ranged_attack()
   range = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     damage[i] = 0;
-    armor_divisor[i] = 1;
+    armor_divisor[i] = 10;
   }
 }
 
@@ -327,7 +327,7 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
       }
       data >> armor_divisor[damtype];
       if (armor_divisor[damtype] == 0) {
-        armor_divisor[damtype] = 1;
+        armor_divisor[damtype] = 10;
       }
 
     } else if (ident == "wake_field:") {
