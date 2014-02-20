@@ -322,6 +322,19 @@ food
 done
 
 food
+  name: beans
+  description:
+    Pinto beans, a delicious and nutritious source of protein.
+  done
+  glyph: $ brown black
+  weight:  8
+  volume: 20
+  food:   30
+  water:   5
+  container: can
+done
+
+food
   name: water
   description:
     Water, the stuff of life, the best thirst-quencher available.
@@ -393,6 +406,18 @@ container
   glyph: ( ltcyan black
   weight:    0
   volume:   22
+  capacity: 20
+done
+
+container
+  name: can
+  description:
+    A sturdy aluminum can with a pull-tab top.  Any food inside has a shelf life
+    of several years!
+  done
+  glyph: ( ltblue black
+  weight:  1
+  volume:   20
   capacity: 20
 done
 
