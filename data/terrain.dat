@@ -135,7 +135,7 @@ name: boulder
 done
 
 name: short stone wall
-  glyph: # ltgray black
+  glyph: % ltgray black
   movecost: 180
   hp: 400
   destroy: rubble
