@@ -909,28 +909,37 @@ void Entity::apply_item_uid(int uid)
     return;
   }
 
-  bool found_target = false;
+  bool had_effect = false;
 
+// Apply the signal.
 // Fetch the terrain's name BEFORE changing it.
   std::string old_name = GAME.map->get_name(pos);
   if (GAME.map->apply_tool_action(action->signal, pos)) {
     GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
                  action->signal.c_str(), old_name.c_str());
-    found_target = true;
+    had_effect = true;
   } else {
     GAME.add_msg("%s can't %s there.", get_name_to_player().c_str(),
                  action->signal.c_str());
   }
 
-// TODO: Item & monster effects
+// TODO: Send signal to monsters and items
 
-  if (!found_target) {
+// Apply the Tool_special, if any
+  if (action->special) {
+    if (action->special->effect(this)) {
+      had_effect = true;
+    }
+  }
+
+  if (!had_effect) {
     return;
   }
 
   if (tool->uses_charges()) {
     it->charges -= action->charge_cost;
   }
+// TODO: Some items are destroyed when they run out of charges - do that
   use_ap(action->ap_cost);
 }
 
@@ -1382,6 +1391,11 @@ void Entity::absorb_damage(Damage_type type, int& damage, Body_part part)
       items_worn[i].absorb_damage(type, damage);
     }
   }
+}
+
+// Overridden in monster.cpp and player.cpp
+void Entity::heal_damage(int damage, HP_part part)
+{
 }
 
 Ranged_attack Entity::throw_item(Item it)

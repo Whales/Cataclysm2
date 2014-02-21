@@ -44,6 +44,7 @@ public:
   virtual Attack base_attack();
   virtual void take_damage(Damage_type type, int damage, std::string reason,
                            Body_part part = BODY_PART_NULL);
+  virtual void heal_damage(int damage, HP_part part = HP_PART_NULL);
 
   void move_towards(Entity* entity);
   void move_towards(int target_x, int target_y);
@@ -52,7 +53,7 @@ public:
   void pause();
 
   Monster_type *type;
-  int current_hp;
+  int current_hp, max_hp;
 
 private:
   Entity* entity_target;

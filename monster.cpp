@@ -9,6 +9,7 @@ Monster::Monster()
   dead = false;
   killed_by_player = false;
   current_hp = 0;
+  max_hp = 0;
   type = NULL;
   action_points = 0;
   special_timer = 0;
@@ -26,6 +27,7 @@ void Monster::set_type(Monster_type* newtype)
   type = newtype;
   if (type) {
     current_hp = type->hp_dice.roll();
+    max_hp = current_hp;
   } else {
     debugmsg("Monster::set_type(NULL)!");
   }
@@ -331,6 +333,14 @@ void Monster::take_damage(Damage_type type, int damage, std::string reason,
     if (reason.find("you") != std::string::npos) {
       killed_by_player = true;
     }
+  }
+}
+
+void Monster::heal_damage(int damage, HP_part part)
+{
+  current_hp += damage;
+  if (current_hp > max_hp) {
+    current_hp = max_hp;
   }
 }
 

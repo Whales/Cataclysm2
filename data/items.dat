@@ -667,6 +667,24 @@ tool
   done
 done
 
+tool
+  name: bandages
+  description:
+    A roll of bandages, soaked in a nanotech healing compound.  Able to heal
+    minor wounds very quickly.
+  done
+  glyph: : white black
+  weight: 2
+  volume: 4
+
+  applied:
+    ap_cost: 250
+    special: heal
+      amount: 5
+    done
+  done
+done
+
 # END Tools
 
 # Containers

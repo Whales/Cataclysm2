@@ -547,6 +547,14 @@ void Player::take_damage(Damage_type type, int damage, std::string reason,
   pain += rng(0, damage);
 }
 
+void Player::heal_damage(int damage, HP_part part)
+{
+  current_hp[part] += damage;
+  if (current_hp[part] > max_hp[part]) {
+    current_hp[part] = max_hp[part];
+  }
+}
+
 std::string Player::hp_text(Body_part part)
 {
   return hp_text( convert_to_HP(part) );

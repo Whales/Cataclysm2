@@ -42,9 +42,10 @@ public:
   virtual Item pick_ammo_for      (Item *it);
   virtual Tripoint pick_target_for(Item *it); // E.g. when using a tool
 
-// Combat functions
+// Combat & HP functions
   virtual void take_damage(Damage_type type, int damage, std::string reason,
                            Body_part part);
+  virtual void heal_damage(int damage, HP_part part = HP_PART_NULL);
 
   std::string hp_text(Body_part part);
   std::string hp_text(HP_part part);

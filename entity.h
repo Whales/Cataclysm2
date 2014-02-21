@@ -170,7 +170,7 @@ public:
   std::string get_fatigue_text();
   std::string get_pain_text();
 
-// Combat functions
+// Combat & HP functions
   virtual Attack base_attack();
   virtual Attack std_attack(); // With weapon if it exists
   virtual bool can_attack(Entity* target);
@@ -182,6 +182,7 @@ public:
   virtual void take_damage(Damage_set damage, std::string reason,
                            Body_part part = BODY_PART_NULL);
   virtual void absorb_damage(Damage_type type, int &damage, Body_part part);
+  virtual void heal_damage(int damage, HP_part part = HP_PART_NULL);
 
   virtual Ranged_attack throw_item(Item it);
   virtual Ranged_attack fire_weapon();

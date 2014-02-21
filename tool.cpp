@@ -1,6 +1,10 @@
 #include "tool.h"
 #include "stringfunc.h" // For trim() and no_caps()
 #include "window.h" // For debugmsg()
+#include "enum.h" // For HP_part etc
+#include "entity.h"
+#include "player.h"
+#include <sstream>
 
 Tool_special_explosion::Tool_special_explosion()
 {
@@ -71,7 +75,78 @@ bool Tool_special_light::load_data(std::istream& data, std::string owner_name)
   }
   return true;
 }
-  
+
+Tool_special_heal::Tool_special_heal()
+{
+  amount = 0;
+}
+
+bool Tool_special_heal::load_data(std::istream& data, std::string owner_name)
+{
+  std::string ident, junk;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident)) {
+      return false;
+    }
+    ident = no_caps(ident);
+
+    if (!ident.empty() && ident[0] == '#') {
+// It's a comment
+      std::getline(data, junk);
+
+    } else if (ident == "amount:") {
+      data >> amount;
+      std::getline(data, junk);
+
+    } else if (ident != "done") {
+      debugmsg("Unknown Tool_special_heal flag '%s' (%s)",
+               ident.c_str(), owner_name.c_str());
+      return false;
+    }
+  }
+  return true;
+}
+
+bool Tool_special_heal::effect(Entity* user)
+{
+  if (!user) {
+    return false;
+  }
+
+// TODO: Increase amount as our First Aid skill increases.
+  int amount_healed = amount;
+// TODO: If user is an NPC, auto-choose
+// TODO: Allow us to target things (monsters/NPCs) other than ourselves
+  Player* player = NULL;
+  if (user->is_you()) {
+    player = static_cast<Player*>(user);
+  }
+  std::vector<std::string> options;
+  options.push_back("Cancel");
+  for (int i = 1; i < HP_PART_MAX; i++) {
+    std::stringstream option_ss;
+    option_ss << HP_part_name( HP_part(i) );
+    if (player) {
+      option_ss << ": " << player->hp_text( HP_part(i) );
+      int result = player->current_hp[i] + amount_healed;
+      if (result > player->max_hp[i]) {
+        result = player->max_hp[i];
+      }
+      option_ss << " => " << result;
+    }
+    options.push_back( option_ss.str() );
+  }
+
+  std::stringstream menu_title;
+  menu_title << "Healing " << amount_healed << ":";
+  int selection = menu_vec(menu_title.str().c_str(), options);
+  if (selection == 0) {
+    return false; // We canceled
+  }
+  user->heal_damage(amount_healed, HP_part(selection));
+  return true;
+}
+
 Tool_action::Tool_action()
 {
   signal = "";
@@ -121,6 +196,8 @@ bool Tool_action::load_data(std::istream& data, std::string owner_name)
         special = new Tool_special_explosion;
       } else if (special_name == "light") {
         special = new Tool_special_light;
+      } else if (special_name == "heal") {
+        special = new Tool_special_heal;
       } else {
         debugmsg("Unknown Tool_special '%s' (%s)", special_name.c_str(),
                  owner_name.c_str());

@@ -1,6 +1,6 @@
 # Testing groups
 name: items_test
-  items: w:30 shovel / w:30 crowbar / w:150 glock 19 / w:150 9mm / w:30 leather jacket / w:500 cola / w:500 cigarettes
+  items: w:30 shovel / w:30 crowbar / w:150 glock 19 / w:150 9mm / w:30 leather jacket / w:500 cola / w:500 bandages
 done
 
 # Wilderness groups
@@ -39,6 +39,14 @@ name: items_shipwreck
 # House and shop groups
 name: items_tools
   items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax
+done
+
+name: items_hard_drugs
+  items: w:10 codeine / w:8 tramadol / w:3 oxycodone / w:5 amphetamine
+done
+
+name: items_soft_drugs
+  items: w:20 aspirin
 done
 
 name: items_garage

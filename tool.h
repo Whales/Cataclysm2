@@ -1,9 +1,9 @@
 #ifndef _TOOL_H_
 #define _TOOL_H_
 
+#include "dice.h"
 #include <string>
 #include <istream>
-#include "dice.h"
 
 // Tool_target is a list of ways that tools can select their target
 enum Tool_target
@@ -23,8 +23,11 @@ enum Tool_special_type
   TOOL_SPECIAL_NULL = 0,  // Default - don't do anything
   TOOL_SPECIAL_EXPLOSION, // Make an explosion
   TOOL_SPECIAL_LIGHT,     // Provide some light
+  TOOL_SPECIAL_HEAL,      // Heal some damage
   TOOL_SPECIAL_MAX
 };
+
+class Entity;
 
 struct Tool_special
 {
@@ -37,7 +40,7 @@ struct Tool_special
     return false;
   }
 
-  virtual bool effect() { return false; }
+  virtual bool effect(Entity* user) { return false; }
 };
 
 struct Tool_special_explosion : public Tool_special
@@ -48,7 +51,7 @@ struct Tool_special_explosion : public Tool_special
   virtual Tool_special_type get_type() { return TOOL_SPECIAL_EXPLOSION; }
 
   virtual bool load_data(std::istream& data, std::string owner_name);
-  virtual bool effect() { return false; }; // TODO: This
+  virtual bool effect(Entity* user) { return false; }; // TODO: This
 
   Dice damage;
   Dice radius;
@@ -63,9 +66,22 @@ struct Tool_special_light : public Tool_special
   virtual Tool_special_type get_type() { return TOOL_SPECIAL_LIGHT; }
 
   virtual bool load_data(std::istream& data, std::string owner_name);
-  virtual bool effect() { return false; }  // TODO: This
+  virtual bool effect(Entity* user) { return false; }  // TODO: This
 
   int light;
+};
+
+struct Tool_special_heal : public Tool_special
+{
+  Tool_special_heal();
+  virtual ~Tool_special_heal(){}
+
+  virtual Tool_special_type get_type() { return TOOL_SPECIAL_HEAL; }
+
+  virtual bool load_data(std::istream& data, std::string owner_name);
+  virtual bool effect(Entity* user);
+
+  int amount;
 };
 
 struct Tool_action
