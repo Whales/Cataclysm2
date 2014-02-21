@@ -128,6 +128,7 @@ Entity::Entity()
   killed_by_player = false;
   hunger = 0;
   thirst = 0;
+  fatigue = 0;
   pain = 0;
   painkill = 0;
   special_timer = 0;
@@ -259,6 +260,7 @@ int Entity::get_speed()
   int ret = 100;
   ret -= get_hunger_speed_penalty();
   ret -= get_thirst_speed_penalty();
+  ret -= get_fatigue_speed_penalty();
   for (int i = 0; i < effects.size(); i++) {
     ret += effects[i].speed_mod();
   }
@@ -285,6 +287,34 @@ int Entity::get_hunger_speed_penalty()
   return 0;
 }
 
+Stats Entity::get_hunger_stats_penalty()
+{
+  Stats ret;
+  if (hunger >= 960) {
+    ret.strength     = -3;
+    ret.dexterity    = -3;
+    ret.intelligence = -3;
+    ret.perception   = -2;
+  } else if (hunger >= 480) {
+    ret.strength     = -3;
+    ret.dexterity    = -2;
+    ret.intelligence = -3;
+    ret.perception   = -1;
+  } else if (hunger >= 240) {
+    ret.strength     = -2;
+    ret.dexterity    = -1;
+    ret.intelligence = -2;
+    ret.perception   = -1;
+  } else if (hunger >= 120) {
+    ret.strength     = -1;
+    ret.dexterity    = -1;
+    ret.intelligence = -1;
+  } else if (hunger >= 60) {
+    ret.intelligence = -1;
+  }
+  return ret;
+}
+
 int Entity::get_thirst_speed_penalty()
 {
   if (thirst >= 360) {
@@ -303,6 +333,86 @@ int Entity::get_thirst_speed_penalty()
     return 5;
   }
   return 0;
+}
+
+
+Stats Entity::get_thirst_stats_penalty()
+{
+  Stats ret;
+  if (thirst >= 360) {
+    ret.strength     = -3;
+    ret.dexterity    = -3;
+    ret.intelligence = -3;
+    ret.perception   = -3;
+  } else if (thirst >= 240) {
+    ret.strength     = -3;
+    ret.dexterity    = -2;
+    ret.intelligence = -3;
+    ret.perception   = -2;
+  } else if (thirst >= 120) {
+    ret.strength     = -2;
+    ret.dexterity    = -1;
+    ret.intelligence = -2;
+    ret.perception   = -1;
+  } else if (thirst >= 90) {
+    ret.strength     = -1;
+    ret.intelligence = -1;
+  } else if (thirst >= 60) {
+    ret.intelligence = -1;
+  }
+  return ret;
+}
+
+int Entity::get_fatigue_speed_penalty()
+{
+// Note that we're "tired" starting at 160; the first four hours have no penalty
+  if (fatigue >= 360) {
+    return 35;
+  }
+  if (fatigue >= 320) {
+    return 25;
+  }
+  if (fatigue >= 280) {
+    return 15;
+  }
+  if (fatigue >= 240) {
+    return 10;
+  }
+  if (fatigue >= 200) {
+    return 5;
+  }
+  return 0;
+}
+
+Stats Entity::get_fatigue_stats_penalty()
+{
+  Stats ret;
+  if (fatigue >= 360) {
+    ret.strength     = -3;
+    ret.dexterity    = -2;
+    ret.intelligence = -3;
+    ret.perception   = -3;
+  } else if (fatigue >= 320) {
+    ret.strength     = -3;
+    ret.dexterity    = -1;
+    ret.intelligence = -3;
+    ret.perception   = -2;
+  } else if (fatigue >= 280) {
+    ret.strength     = -2;
+    ret.dexterity    = -1;
+    ret.intelligence = -3;
+    ret.perception   = -2;
+  } else if (fatigue >= 240) {
+    ret.strength     = -1;
+    ret.intelligence = -2;
+    ret.perception   = -1;
+  } else if (fatigue >= 200) {
+    ret.intelligence = -1;
+    ret.perception   = -1;
+  } else if (fatigue >= 160) {
+    ret.intelligence = -1;
+  }
+  return ret;
 }
 
 int Entity::get_net_pain()
@@ -549,10 +659,11 @@ void Entity::shift(int shiftx, int shifty)
 void Entity::start_turn()
 {
 // Increment hunger and thirst when appropriate...
-// TODO: Don't hardcode these values!
+// TODO: Don't hardcode these values?
   if (GAME.minute_timer(6)) {
     hunger++;
     thirst++;
+    fatigue++;
   }
 
   process_status_effects();
@@ -1082,6 +1193,29 @@ std::string Entity::get_thirst_text()
     return "<c=red>Dehydrated<c=/>";
   }
   return "<c=red>Dying of thirst<c=/>";
+}
+
+std::string Entity::get_fatigue_text()
+{
+  if (fatigue < 160) {
+    return "";
+  }
+  if (fatigue < 200) {
+    return "<c=yellow>Tired<c=/>";
+  }
+  if (fatigue < 240) {
+    return "<c=yellow>Very Tired<c=/>";
+  }
+  if (fatigue < 280) {
+    return "<c=ltred>Severely Tired<c=/>";
+  }
+  if (fatigue < 320) {
+    return "<c=ltred>Exahusted<c=/>";
+  }
+  if (fatigue < 360) {
+    return "<c=ltred>Nearly Fainting<c=/>";
+  }
+  return "<c=red>Fainting<c=/>";
 }
 
 std::string Entity::get_pain_text()

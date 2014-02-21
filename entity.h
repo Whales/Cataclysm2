@@ -78,8 +78,14 @@ public:
   virtual void gain_action_points();
   nc_color     get_speed_color();
   virtual int  get_speed();
+
   int get_hunger_speed_penalty();
+  Stats get_hunger_stats_penalty();
   int get_thirst_speed_penalty();
+  Stats get_thirst_stats_penalty();
+  int get_fatigue_speed_penalty();
+  Stats get_fatigue_stats_penalty();
+
   int get_net_pain();
   int get_pain_speed_penalty();
 
@@ -161,6 +167,7 @@ public:
   virtual std::string get_all_status_text();  // Returns all of the following
   virtual std::string get_hunger_text();
   virtual std::string get_thirst_text();
+  virtual std::string get_fatigue_text();
   virtual std::string get_pain_text();
 
 // Combat functions
@@ -204,7 +211,7 @@ public:
   Stats stats;
 
 // Temporary attributes
-  int hunger, thirst;
+  int hunger, thirst, fatigue;
   int pain, painkill;
   int special_timer;
 
