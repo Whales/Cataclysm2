@@ -38,7 +38,9 @@ void load_mapgen_specs()
   std::vector<std::string> mapgen_files = files_in("data/mapgen", "map");
   for (int i = 0; i < mapgen_files.size(); i++) {
     std::string filename = "data/mapgen/" + mapgen_files[i];
-    MAPGEN_SPECS.load_from(filename);
+    if (!filename.empty() && filename.find("/.") == std::string::npos) {
+      MAPGEN_SPECS.load_from(filename);
+    }
   }
 
 // Now confirm we have a mapgen_spec for every WORLD_TERRAIN
