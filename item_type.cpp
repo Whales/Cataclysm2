@@ -164,6 +164,7 @@ Item_type_food::Item_type_food()
   food = 0;
   water = 0;
   charges = 1;
+  verb = "eat";
 }
 
 std::string Item_type_food::get_property_description()
@@ -499,6 +500,15 @@ bool Item_type_food::handle_data(std::string ident, std::istream &data)
     container = trim(container);
     if (container.empty()) {
       debugmsg("Empty container (%s)", name.c_str());
+      return false;
+    }
+
+  } else if (ident == "verb:") {
+    std::getline(data, verb);
+    verb = no_caps(verb);
+    verb = trim(verb);
+    if (verb.empty()) {
+      debugmsg("Empty verb (%s)", name.c_str());
       return false;
     }
 

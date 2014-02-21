@@ -173,6 +173,7 @@ public:
   Status_effect effect; // Special effect inflicted; see status_effect.h
   int charges;  // So that you can partially consume a food item
   std::string container;  // Name of another item type!
+  std::string verb; // Verb for consuming this.  "You ____ your <name>"
 
 };
 
