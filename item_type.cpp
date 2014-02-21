@@ -188,6 +188,16 @@ std::string Item_type_tool::get_property_description()
   std::stringstream ret;
   ret << "<c=yellow>Fuel:<c=/> " << fuel << std::endl;
   ret << "<c=white>Max charges:<c=/> " << max_charges << std::endl;
+  ret << "<c=green>Time to apply:<c=/> ";
+  if (applied_action.real) {
+    ret << applied_action.ap_cost / 100 << ".";
+    if (applied_action.ap_cost % 100 < 10) {
+      ret << "0";
+    }
+    ret << applied_action.ap_cost % 100 << " turns";
+  } else {
+    ret << "N/A";
+  }
   return ret.str();
 }
 
