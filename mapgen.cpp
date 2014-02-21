@@ -774,6 +774,7 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
                world_ter[0]->name.c_str(), num_neighbors, name.c_str(),
                terrain_name.c_str());
     }
+// If we're a road-facing map, face the road...
   } else if (!is_adjacent && world_ter[0] &&
              world_ter[0]->has_flag(WTF_FACE_ROAD)) {
     std::vector<Direction> valid_rotate;
@@ -796,8 +797,8 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
        it++) {
     it->second.clear_points();
   }
-// Set up item locations
   
+// Set up item locations
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       char ch = prepped_terrain[x][y];
