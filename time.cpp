@@ -184,10 +184,10 @@ int Time::get_sunrise() const
 int Time::get_sunset() const
 {
   switch (season) {
-    case SEASON_WINTER: return 4;
-    case SEASON_SPRING: return 5;
-    case SEASON_SUMMER: return 7;
-    case SEASON_AUTUMN: return 5;
+    case SEASON_WINTER: return 16;
+    case SEASON_SPRING: return 17;
+    case SEASON_SUMMER: return 19;
+    case SEASON_AUTUMN: return 17;
   }
   return 6;
 }
@@ -209,7 +209,7 @@ std::string Time::get_text(bool twentyfour)
     }
   }
   ret << season_name(season) << " " << year << ", Day " << day + 1 <<
-         hour << ":";
+         ", " << hour_output << ":";
   if (minute < 10) {
     ret << "0";
   }
