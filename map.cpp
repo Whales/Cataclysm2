@@ -1329,13 +1329,14 @@ std::vector<Tripoint> Map::line_of_sight(Tripoint origin, Tripoint target)
                        target.x, target.y, target.z);
 }
 
-void Map::draw(Window* w, Entity_pool *entities, Tripoint ref, Sense_type sense)
+void Map::draw(Window* w, Entity_pool *entities, Tripoint ref,
+               int range, Sense_type sense)
 {
-  draw(w, entities, ref.x, ref.y, ref.z, sense);
+  draw(w, entities, ref.x, ref.y, ref.z, range, sense);
 }
 
 void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
-               Sense_type sense)
+               int range, Sense_type sense)
 {
   if (!w) {
     return;
@@ -1343,23 +1344,30 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
   int winx = w->sizex(), winy = w->sizey();
   int minx = refx - (winx / 2), maxx = refx + ( (winx - 1) / 2 );
   int miny = refy - (winy / 2), maxy = refy + ( (winy - 1) / 2 );
-  draw_area(w, entities, refx, refy, refz, minx, miny, maxx, maxy, sense);
+  draw_area(w, entities, refx, refy, refz, minx, miny, maxx, maxy, range,
+            sense);
 }
 
 void Map::draw_area(Window *w, Entity_pool *entities, Tripoint ref,
                     int minx, int miny, int maxx, int maxy,
-                    Sense_type sense)
+                    int range, Sense_type sense)
 {
-  draw_area(w, entities, ref.x, ref.y, ref.z, minx, miny, maxx, maxy, sense);
+  draw_area(w, entities, ref.x, ref.y, ref.z, minx, miny, maxx, maxy, range,
+            sense);
 }
  
 void Map::draw_area(Window *w, Entity_pool *entities,
                     int refx, int refy, int refz,
                     int minx, int miny, int maxx, int maxy,
-                    Sense_type sense)
+                    int range, Sense_type sense)
 {
   if (!w) {
     return;
+  }
+
+// Range defaults to -1; which means use light level
+  if (range == -1) {
+    range = GAME.get_light_level();
   }
 
   int winx = w->sizex(), winy = w->sizey();
@@ -1371,7 +1379,8 @@ void Map::draw_area(Window *w, Entity_pool *entities,
       while (z_used > 0 && has_flag(TF_OPEN_SPACE, terx, tery, z_used)) {
         z_used--;
       }
-      if (senses(refx, refy, refz, terx, tery, z_used, dist, sense)) {
+      int range_used = (dist < range ? dist : range);
+      if (senses(refx, refy, refz, terx, tery, z_used, range_used, sense)) {
 // If we're inbounds, draw normally...
         if (terx >= minx && terx <= maxx && tery >= miny && tery <= maxy) {
           draw_tile(w, entities, terx, tery, refx, refy, false);

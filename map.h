@@ -198,15 +198,15 @@ public:
 
 // Output
   void draw(Window *w, Entity_pool *entities, Tripoint ref,
-            Sense_type sense = SENSE_SIGHT);
+            int range = -1, Sense_type sense = SENSE_SIGHT);
   void draw(Window *w, Entity_pool *entities, int refx, int refy, int refz,
-            Sense_type sense = SENSE_SIGHT);
+            int range = -1, Sense_type sense = SENSE_SIGHT);
   void draw_area(Window *w, Entity_pool *entities, Tripoint ref,
                  int minx, int miny, int maxx, int maxy,
-                 Sense_type sense = SENSE_SIGHT);
+                 int range = -1, Sense_type sense = SENSE_SIGHT);
   void draw_area(Window *w, Entity_pool *entities, int refx, int refy, int refz,
                  int minx, int miny, int maxx, int maxy,
-                 Sense_type sense = SENSE_SIGHT);
+                 int range = -1, Sense_type sense = SENSE_SIGHT);
 
   void draw_tile(Window* w, Entity_pool *entities, int tilex, int tiley,
                  int refx, int refy, bool invert, bool gray = false);

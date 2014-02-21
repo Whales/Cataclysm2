@@ -970,7 +970,10 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
 
   int minx, miny, maxx, maxy;
   if (range == -1) {  // Range defaults to -1, "no limit"
-    range = 20; // TODO: Use sight distance (e.g. from sunlight)
+    range = get_light_level();
+  }
+  if (range > get_light_level()) {
+    range = get_light_level();
   }
   minx = startx - range;
   miny = starty - range;
