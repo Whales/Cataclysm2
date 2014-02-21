@@ -5,7 +5,8 @@
 //#include "attack.h"     // For Damage_set
 #include "damage_set.h"
 #include "enum.h"       // For Terrain_flag
-#include "item_type.h"  // For Item_flag
+//#include "item_type.h"  // For Item_flag
+#include "enum.h"       // For Item_flag
 #include "glyph.h"
 #include "terrain.h"    // For Terrain*
 #include "geometry.h"   // For Tripoint

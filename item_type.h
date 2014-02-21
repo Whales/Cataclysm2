@@ -29,16 +29,6 @@ Item_class lookup_item_class(std::string name);
 std::string item_class_name_plural(Item_class iclass);
 std::string item_class_name(Item_class iclass, bool plural = false);
 
-enum Item_flag
-{
-  ITEM_FLAG_NULL = 0,
-  ITEM_FLAG_LIQUID,     // "liquid" - Puts out fires, needs a container
-  ITEM_FLAG_FLAMMABLE,  // "flammable" - Consumed by fires
-  ITEM_FLAG_PLURAL,     // "plural" - indefinite article is "some," not "a"
-  ITEM_FLAG_CONSTANT,   // "constant_volume_weight" - doesn't use usual food v/w
-  ITEM_FLAG_MAX
-};
-
 Item_flag lookup_item_flag(std::string name);
 std::string item_flag_name(Item_flag flag);
 

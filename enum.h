@@ -101,4 +101,14 @@ enum Item_action
   IACT_MAX
 };
 
+enum Item_flag
+{
+  ITEM_FLAG_NULL = 0,
+  ITEM_FLAG_LIQUID,     // "liquid" - Puts out fires, needs a container
+  ITEM_FLAG_FLAMMABLE,  // "flammable" - Consumed by fires
+  ITEM_FLAG_PLURAL,     // "plural" - indefinite article is "some," not "a"
+  ITEM_FLAG_CONSTANT,   // "constant_volume_weight" - doesn't use usual food v/w
+  ITEM_FLAG_MAX
+};
+
 #endif
