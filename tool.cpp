@@ -4,6 +4,7 @@
 #include "enum.h" // For HP_part etc
 #include "entity.h"
 #include "player.h"
+#include "field.h"
 #include <sstream>
 
 Tool_special_explosion::Tool_special_explosion()
@@ -230,6 +231,12 @@ bool Tool_action::load_data(std::istream& data, std::string owner_name)
       if (target == TOOL_TARGET_NULL) {
         debugmsg("Unknown tool target '%s' (%s)", target_name.c_str(),
                  owner_name.c_str());
+        return false;
+      }
+
+    } else if (ident == "field:") {
+      if (!field.load_data(data, owner_name + " action field")) {
+        debugmsg("Failed to load field (%s)", owner_name.c_str());
         return false;
       }
 
