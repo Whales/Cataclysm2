@@ -1,0 +1,220 @@
+### FILENAME GOES HERE
+#
+# The following tags are used: (# marks a line or part of a line as a comment)
+#
+# "name:" - Required.  A description of this spec.  It should appear first for
+#           debugging reasons.
+# "type:" - Required.  The World_terrain name this spec applies to.  See
+#           world_terrain.dat for a list of World_terrains.
+# "adjacent" - If this tag is present, then this map is an "adjacency" map.
+#              This should appear before "base_terrain:" or "tile:" lines.
+# "base_terrain:" - Recommended.  A terrain specification to be used for tiles
+#                   which are not defined in the map section.
+# "weight:" - A weight used when randomly choosing specs.  If omitted, the
+#             weight defaults to 100.  A spec with weight 200 is twice as likely#             to be used as one with weight 100.
+# "tile:" - Defines a terrain used in the map section.
+# "items:" - Defines an item drop used in the map section.
+# "map:" - Defines the start of the map section.
+# "endmap" - Defines the end of the map section.
+# "done" - Required.  Marks the end of this spec.
+#
+# See the bottom of this file for details on base_terrain and tile terrain
+# specifications, item drop specifications, and adjacency maps.
+
+name: apartment_house_whales_ground
+subname: apartment_house_whales
+type: house
+tile: #wxyz = stone wall
+tile: " = window
+tile: +v = closed door
+tile: < = stairs up
+tile: . = floor
+tile: o = grass / dirt
+tile: * = white pavement
+tile: K = sink
+tile: F = fridge
+tile: V = stove
+tile: T = toilet
+tile: % = counter
+tile: S$ = shelves
+tile: B = bed
+tile_group: 1234567 = w:2 floor / w:1 shelves
+# 33% chance of a large bed, 66% of a small bed
+tile_group: bc = w:2 floor / w:1 bed
+item_group: 50 % = items_kitchen_counter
+item_group: 40 F = items_fridge
+item_group: 30 $ = items_food_shelves
+# v is a closed door; wxyz are stone walls; shuffle them around
+shuffle: vwxyz
+map:
+oooo***oooooooooooooooooo
+oooo***oooooooooooooooooo
+oooo***oooooooooooooooooo
+oooo***oooooooooooooooooo
+oooo***oooooooooooooooooo
+ooo##+####"####"######ooo
+ooo#...#.........#.TK#ooo
+ooo#...+.........#...#ooo
+ooo#...#3........+..."ooo
+ooo#...#3........#####ooo
+ooo#...#3........#222#ooo
+ooo#...#3....###+#...#ooo
+ooo#...#F...$#......."ooo
+ooo#...#%...$#1......#ooo
+ooo#.#.#%....#1....bB"ooo
+ooo#<#.#%%VK%#1....bB#ooo
+ooo###+###############ooo
+ooo#55............+.."ooo
+ooo".....#vwxyz#..#TK#ooo
+ooo#.....#.....#..####ooo
+ooo#....4#7....#...F%#ooo
+ooo"....4#7..cc#....%"ooo
+ooo#66..4#7..BB#$$KV%#ooo
+ooo###"####""#####"###ooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: apartment_house_whales_1
+subname: apartment_house_whales
+type: house
+floor: 1
+tile: #bdfgijkmp = stone wall
+tile: " = window
+tile: +acerhln = closed door
+tile: > = stairs down
+tile: < = stairs up
+tile: . = floor
+tile: o = empty
+tile: K = sink
+tile: F = fridge
+tile: V = stove
+tile: T = toilet
+tile: % = counter
+tile: S$ = shelves
+tile: B = bed
+# Randomly either place shelves or floor
+tile_group: 12345678 = w:2 floor / w:1 shelves
+# Randomly extend a bed to 2x2, or keep it 2x1
+tile_group: xyz = w:2 floor / w:1 bed
+item_group: 50 % = items_kitchen_counter
+item_group: 40 F = items_fridge
+item_group: 30 $ = items_food_shelves
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo####"######"###""##ooo
+ooo#%F%VK%%..l.T#7.BB#ooo
+ooo#$........m.K#7.xx"ooo
+ooo#$........####7...#ooo
+ooo".........n......."ooo
+ooo#...6666..p....888#ooo
+ooo#cd################ooo
+ooo#..#333....$$F%VK%#ooo
+ooo#<.#3............."ooo
+ooo#..e.............."ooo
+ooo#>.f..............#ooo
+ooo#..g..4444..#hij#.#ooo
+ooo#ab##########...k.#ooo
+ooo#..111..#.22#...#.#ooo
+ooo#.......+...#####+#ooo
+ooo###+#$.$#...#.....#ooo
+ooo#T..#F.K#.zz#By..."ooo
+ooo#K..#%V%#.BB#By.55#ooo
+ooo##"#######"###"####ooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: apartment_house_whales_roof
+subname: apartment_house_whales
+type: house
+floor: 2
+tile: # = stone wall
+tile: % = short stone wall
+tile: + = closed door
+tile: < = stairs down
+tile: . = floor
+tile: o = empty
+item_group: 15 . = items_trash
+# TODO: Add HVAC units, etc?
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo%%%%%%%%%%%%%%%%%%%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo###...............%ooo
+ooo#<+...............%ooo
+ooo###...............%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo%%%%%%%%%%%%%%%%%%%ooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# A recommended format for spec names is <DESC>_<TYPE>_<NAME>
+#  <DESC> is a short description of the unusual feature of this spec.  If it is
+#         not unusual, use "std".
+#  <TYPE> is the World_terrain used here.
+#  <NAME> is your name, initials, or handle.
+# This format makes it easy to identify the spec when debugging.
+#
+# The "tile:" line uses the following format:
+#       tile: abc = w:20 dirt / w:15 grass / tree
+# "abc" is a list of characters which, when found in the map section, will use
+# this terrain.  You can include spaces and they will be ignored.
+# " = " delineates between the list of characters and the terrain spec.  It must
+# be surrounded by spaces.
+# The rest of the line is a list of terrain names (from terrain.dat).  A terrain
+# is randomly picked from this list.  You must place " / " between terrain
+# names.  You can also include "w:20" with the terrain name to define its
+# weight for random selection.  If omitted, the weight defaults to 10.  A
+# terrain with weight 20 is twice as likely to be chosen as a terrain with
+# weight 10.
+#
+# The "base_terrain:" line uses the same terrain spec format, but of course the
+# list of characters and the " = " are not used.
+#
+# The "items:" line uses the following format:
+#       50 abc = rock / w:20 stick
+# The number at the front MUST be present.  It's the percentage chance of
+# placing a single item.  If one item is used, the same chance is used to decide
+# whether to place a second item, and so on until the chance fails.  It must be
+# between 1 and 99.  If it's not, you will be warned and the chance will be
+# corrected.
+# The rest of the line is very similar to the terrain specifications, but with
+# item names (from items.dat) instead of terrain names.
+#
+# The "map:" tag should appear on its own line.  It is followed by 25 lines of
+# 25 characters each - you will be warned if there are missing characters or
+# extra characters.  It is a list of characters which refer back to the "tile:"
+# or "items:" lines.  If no matching "tile:" is found, the base_terrain is used;
+# if the base_terrain is not present, the first terrain in terrain.dat is used.
+#
+# "Adjacency" specs are identified by placing the "adjacent" tag in the spec.
+# These specs are used when generating a map ADJACENT to the specified type.
+# Adjacency specs should be designed as if the adjacent terrain were to the
+# north; the spec will be rotated as needed.
+# The base terrain is generated, and then the adjacency map is generated on top.
+# Adjacency specs are the same as normal maps, but with the difference that
+# it is allowed to use "nothing" as a terrain name.  If "nothing" is selected,
+# then the terrain in the map will be unchanged.  Also, ONLY floor terrain will
+# be changed; non-floor terrain will be unchanged.
