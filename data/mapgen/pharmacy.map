@@ -26,37 +26,44 @@ type: pharmacy
 tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
-tile: + = closed glass door
-tile: * = closed door
+tile_group: * = w:4 closed glass door / w:1 closed door
+tile: + = closed door
 tile: X = glass wall
 tile: " = window
-tile: { = display rack
+tile: 1{ = display rack
+tile: ST = display fridge
 tile: % = counter
+
+item_group: 40 1 = items_behind_counter
+item_group: 30 2 = items_soft_drugs
+item_group: 40 3 = items_snacks
+item_group: 10 4 = items_food_shelves
+item_group: 35 ST = items_fridge_snacks
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-ooo##XXXXXX+++XXXXXX##ooo
-ooo#.................#ooo
-ooo#{..{..%.........{#ooo
-ooo#{..{..%...{..{..{#ooo
-ooo#{..{......{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#.............{..{#ooo
-ooo##########....{..{#ooo
-ooo#........#....{..{#ooo
-ooo"........#.......{#ooo
-ooo#........*...{{{{{#ooo
-ooo#####"#############ooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
+ooo#####XXX***XXXXXX##ooo
+ooo#1..%.............#ooo
+ooo#1..%............S#ooo
+ooo#1..%............S#ooo
+ooo#1..%............S#ooo
+ooo#%.%%............S#ooo
+ooo#................S#ooo
+ooo#......{...{..{..S#ooo
+ooo#T..{..{...{..{..S#ooo
+ooo#T..{..{...{..{..S#ooo
+ooo#T..{..{...{..{..S#ooo
+ooo#T..{..{...{..{..S#ooo
+ooo#T..{..{...{..{..S#ooo
+ooo#.............{..S#ooo
+ooo#%%%%%%%%#....{..S#ooo
+ooo#........#....{..S#ooo
+ooo######...#........#ooo
+ooo#....#...+........#ooo
+ooo#....##+###########ooo
+ooo#........#oooooooooooo
+ooo##########oooooooooooo
 ooooooooooooooooooooooooo
 endmap
 done

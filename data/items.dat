@@ -280,6 +280,19 @@ ammo
   accuracy: 3d30
   count: 100
 done
+
+ammo
+  name: batteries
+  description:
+    A universal battery.  Attaching it to an electric device will charge the
+    device.
+  done
+  glyph: = yellow black
+  weight: 8
+  volume: 8
+  type: batteries
+  count: 100
+done
   
 ammo
   name: 9mm
@@ -390,13 +403,54 @@ food
   description:
     Also known as "potato crisps."  Thinly sliced and fried potatoes.
   done
-  glyph: $ brown black
+  glyph: $ yellow black
   weight:  1
   volume: 10
   food:    8
   charges: 3
   container: plastic bag
   flags: plural
+done
+
+food
+  name: pretzels
+  description:
+    A number of short, crispy bread sticks, covered in salt.
+  done
+  glyph: $ brown black
+  weight: 2
+  volume: 10
+  food: 10
+  charges: 3
+  container: plastic bag
+  flags: plural
+done
+
+food
+  name: beef jerky
+  description:
+    Dried and salted beef.  Full of preservatives.
+  done
+  glyph: $ brown black
+  weight: 1
+  volume: 4
+  food: 10
+  water: -1
+  charges: 6
+  container: plastic bag
+  flags: plural
+done
+
+food
+  name: chocolate bar
+  description:
+    A bar of sweet milk chocolate.
+  done
+  glyph: $ brown black
+  weight: 1
+  volume: 3
+  food: 8
+  charges: 1
 done
 
 food
@@ -436,7 +490,7 @@ food
     A highly caffeinated sugary drink.
   done
   glyph: $ brown black
-  weight: 4
+  weight:  4
   volume: 15
   water:  20
   food:    2
@@ -449,6 +503,44 @@ food
   container: soda can
   flags: liquid plural
 done
+
+food
+  name: energy drink
+  description:
+    A highly sugary drink designed to give you a boost of energy.
+  done
+  glyph: $ ltred black
+  weight:  4
+  volume: 15
+  water:  18
+  food:    2
+  effect:
+    type: caffeine
+    duration: 250
+  done
+  charges: 1
+  verb: drink
+  container: soda can
+  flags: liquid plural
+done
+
+food
+  name: V8
+  description:
+    A blend of eight different vegetables, with added salt.  Delicious and
+    nutritious.
+  done
+  glyph: $ red black
+  weight:  4
+  volume: 10
+  food:    6
+  water:   5
+  charges: 2
+  verb: drink
+  container: plastic bottle
+  flags: liquid plural
+done
+
 
 # Dry food - stuff that is MUCH more beneficial if prepped before eating.
 
@@ -479,6 +571,7 @@ food
   food:   3
   charges: 8
   container: plastic bag
+  flags: plural
 done
 
 food
@@ -686,6 +779,18 @@ tool
 done
 
 tool
+  name: lighter
+  description:
+    A powerful pocket lighter.  Designed for everything from lighting a
+    cigarette to starting a camp fire.
+  done
+  glyph: ; ltblue black
+  weight: 1
+  volume: 2
+
+done
+
+tool
   name: bandages
   description:
     A roll of bandages, soaked in a nanotech healing compound.  Able to heal
@@ -702,6 +807,8 @@ tool
       max: 15
     done
   done
+
+  flags: plural
 done
 
 tool

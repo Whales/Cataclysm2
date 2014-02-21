@@ -331,7 +331,7 @@ done
 name: display rack
   glyph: { ltgray black
   movecost: 0
-  hp: 5
+  hp: 15
   destroy: rubble
   smash:
     failure_sound: "whack."
@@ -341,6 +341,26 @@ name: display rack
     ignore_chance: 50
   done
   flags: flammable
+done
+
+name: display fridge
+  glyph: { ltcyan black
+  movecost: 0
+  hp: 5
+  destroy: broken display fridge
+  smash:
+    failure_sound: "whunk."
+    success_sound: "glass shattering."
+    armor: cut 1d4
+    armor: pierce 2
+  done
+done
+
+name: broken display fridge
+  glyph: { white black
+  movecost: 0
+  hp: 100
+  destroy: rubble
 done
 
 name: counter
@@ -429,5 +449,7 @@ name: fridge
   glyph: { white black
   movecost: 0
   height: 80
+  hp: 100
+  destroy: rubble
   flags: opaque
 done

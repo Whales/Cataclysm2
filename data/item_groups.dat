@@ -35,10 +35,15 @@ done
 # Shipwreck - the first items made available to the player
 name: items_shipwreck
   items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water / w:3 hatchet
+done
 
 # House and shop groups
 name: items_tools
   items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax
+done
+
+name: items_behind_counter
+  items: w:5 aspirin / w:20 cigarettes / w:10 batteries / w:15 lighter
 done
 
 name: items_hard_drugs
@@ -54,11 +59,19 @@ name: items_garage
 done
 
 name: items_fridge
-  items: w:10 water / w:5 beer / w:5 cola
+  items: w:10 water / w:5 beer / w:5 cola / w:1 V8 / w:2 energy drink
 done
 
 name: items_food_shelves
   items: w:20 beans / w:12 tomatoes / w:10 potato chips / w:24 dry pasta / w:3 dry tea / w:5 dry coffee / w:12 dry rice
+done
+
+name: items_snacks
+  items: w:10 potato chips / w:6 pretzels / w:4 beef jerky / w:5 chocolate bar
+done
+
+name: items_fridge_snacks
+  items: w:10 water / w:10 cola / w:5 V8 / w:8 energy drink
 done
 
 # Not food, just miscellaneous kitchen items, like knives
