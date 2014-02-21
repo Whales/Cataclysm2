@@ -230,6 +230,8 @@ bool Item_group::load_data(std::istream &data)
 
     } else if (ident == "name:") {
       std::getline(data, name);
+      name = no_caps(name);
+      name = trim(name);
 
     } else if (ident == "items:") {
       std::string item_ident;
@@ -524,6 +526,8 @@ bool Mapgen_spec::load_data(std::istream &data)
       }
       std::string group_name;
       std::getline(data, group_name);
+      group_name = no_caps(group_name);
+      group_name = trim(group_name);
 
       Item_group* group = ITEM_GROUPS.lookup_name(group_name);
       if (!group) {
