@@ -1078,10 +1078,10 @@ bool Game::minute_timer(int minutes)
     return true;
   }
   int turns = (minutes * 60) / SECONDS_IN_TURN;
-  return turns_timer(turns);
+  return turn_timer(turns);
 }
 
-bool Game::turns_timer(int turns)
+bool Game::turn_timer(int turns)
 {
   if (turns <= 0) {
     return true;
