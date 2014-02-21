@@ -81,7 +81,8 @@ public:
 
 // Data - Universal access functions
   int get_item_uid();
-  bool minute_timer(int minutes);  // Returns true once every $minutes minutes
+  bool minute_timer(int minutes); // Returns true once every $minutes minutes
+  bool turn_timer(int turns);     // Returns true once every $turns turns
 
   Map*        map;
   Worldmap*   worldmap;
