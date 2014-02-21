@@ -622,6 +622,24 @@ food
   flags: plural constant_volume_weight
 done
 
+food
+  name: sleeping pills
+  description:
+    A bottle of sleeping pills.  Taking these will increase your sleepiness
+    rapidly.
+  done
+  glyph: ! cyan black
+  weight: 1
+  volume: 2
+  charges: 15
+  verb: take
+  effect:
+    type: sleep_aid
+    duration: 400
+  done
+  flags: plural constant_volume_weight
+done
+
 # END Food
 
 # Tools

@@ -202,6 +202,12 @@ void Entity::process_status_effects()
 
     switch (effects[i].type) {
 
+      case STATUS_SLEEP_AID:
+        if (GAME.minute_timer(1)) {
+          fatigue++;
+        }
+        break;
+
       case STATUS_PAINKILL_MILD: {
         int pkill = (level > 2 ? 20 : 10 * level);
         if (GAME.turn_timer(24 - level * 4) && painkill < pkill) {

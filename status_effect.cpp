@@ -37,6 +37,8 @@ bool Status_effect::load_data(std::istream& data, std::string owner_name)
     } else if (ident == "type:" || ident == "type:") {
       std::string typestr;
       std::getline(data, typestr);
+      typestr = no_caps(typestr);
+      typestr = trim(typestr);
       type = lookup_status_effect(typestr);
       if (type == STATUS_NULL) {
         debugmsg("Unknown Status_effect_type '%s' (%s)", typestr.c_str(),
@@ -172,6 +174,7 @@ std::string status_effect_name(Status_effect_type type)
     case STATUS_CAFFEINE:       return "caffeine";
     case STATUS_NICOTINE:       return "nicotine";
     case STATUS_STIMULANT:      return "stimulant";
+    case STATUS_SLEEP_AID:      return "sleep_aid";
     case STATUS_PAINKILL_MILD:  return "painkill_mild";
     case STATUS_PAINKILL_MED:   return "painkill_med";
     case STATUS_PAINKILL_LONG:  return "painkill_long";
