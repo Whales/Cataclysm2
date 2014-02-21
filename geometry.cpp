@@ -245,17 +245,17 @@ Direction_full get_general_direction(Point origin, Point target)
     }
   } else if (dx > 0) {
     if (dy >= 0) {
-      if (ay * 2 >= ax) {
+      if (ay / 2 >= ax) {
         return DIRFULL_SOUTH;
-      } else if (ax * 2 >= ay) {
+      } else if (ax / 2 >= ay) {
         return DIRFULL_EAST;
       } else {
         return DIRFULL_SOUTHEAST;
       }
     } else {
-      if (ay * 2 > ax) {
+      if (ay / 2 > ax) {
         return DIRFULL_NORTH;
-      } else if (ax * 2 >= ay) {
+      } else if (ax / 2 >= ay) {
         return DIRFULL_EAST;
       } else {
         return DIRFULL_NORTHEAST;
@@ -263,17 +263,17 @@ Direction_full get_general_direction(Point origin, Point target)
     }
   } else {
     if (dy >= 0) {
-      if (ay * 2 >= ax) {
+      if (ay / 2 >= ax) {
         return DIRFULL_SOUTH;
-      } else if (ax * 2 >= ay) {
+      } else if (ax / 2 >= ay) {
         return DIRFULL_WEST;
       } else {
         return DIRFULL_SOUTHWEST;
       }
     } else {
-      if (ay * 2 > ax) {
+      if (ay / 2 > ax) {
         return DIRFULL_NORTH;
-      } else if (ax * 2 >= ay) {
+      } else if (ax / 2 >= ay) {
         return DIRFULL_WEST;
       } else {
         return DIRFULL_NORTHWEST;
