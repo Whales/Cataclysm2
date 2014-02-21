@@ -913,17 +913,18 @@ void Entity::apply_item_uid(int uid)
 
 // Apply the signal.
 // Fetch the terrain's name BEFORE changing it.
-  std::string old_name = GAME.map->get_name(pos);
-  if (GAME.map->apply_tool_action(action->signal, pos)) {
-    GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
-                 action->signal.c_str(), old_name.c_str());
-    had_effect = true;
-  } else {
-    GAME.add_msg("%s can't %s there.", get_name_to_player().c_str(),
-                 action->signal.c_str());
-  }
-
+  if (!action->signal.empty()) {
+    std::string old_name = GAME.map->get_name(pos);
+    if (GAME.map->apply_tool_action(action->signal, pos)) {
+      GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
+                   action->signal.c_str(), old_name.c_str());
+      had_effect = true;
+    } else {
+      GAME.add_msg("%s can't %s there.", get_name_to_player().c_str(),
+                   action->signal.c_str());
+    }
 // TODO: Send signal to monsters and items
+  }
 
 // Apply the Tool_special, if any
   if (action->special) {
