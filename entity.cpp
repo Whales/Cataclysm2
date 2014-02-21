@@ -1121,6 +1121,12 @@ std::string Entity::sheath_weapon_message()
 
 std::string Entity::get_all_status_text()
 {
+  std::stringstream ret;
+  ret << get_hunger_text() << " " << get_thirst_text() << " " <<
+         get_pain_text();
+  return ret.str();
+/*
+
   return get_hunger_text() + " " + get_thirst_text() + " " + get_pain_text();
   std::string ret = get_hunger_text();
 
@@ -1141,6 +1147,7 @@ std::string Entity::get_all_status_text()
   }
 
   return ret;
+*/
 }
 
 std::string Entity::get_hunger_text()
