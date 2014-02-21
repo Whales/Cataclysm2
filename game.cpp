@@ -68,10 +68,10 @@ bool Game::setup()
   Point start = worldmap->random_tile_with_terrain("beach", 0);
   map->generate(worldmap, start.x, start.y, 0);
 
-
   player = new Player;
   entities.add_entity(player);
 
+  time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
   last_target = -1;
   new_messages = 0;
   next_item_uid = 0;
@@ -121,6 +121,7 @@ bool Game::main_loop()
         player->thirst += 20;
   
       } else if (ch == '?') {
+        debugmsg("%d (%d / %d / %d)", get_light_level(), time.get_hour(), time.get_sunrise(), time.get_sunset() );
         debugmsg( player->get_all_status_text().c_str() );
         debugmsg( player->get_thirst_text().c_str() );
         //debugmsg( map->get_center_submap()->get_spec_name().c_str() );
