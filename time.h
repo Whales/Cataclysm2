@@ -14,8 +14,18 @@ enum Season
 Season lookup_season(std::string name);
 std::string season_name(Season season);
 
+enum Moon_phase
+{
+  MOON_NEW = 0,
+  MOON_WAXING,
+  MOON_FULL,
+  MOON_WANING,
+};
+
 // TODO: Pull this stuff from a config file?
 
+// Light during daytime - also, the max sight distance!
+#define DAY_LIGHT 30
 // Days in a season - 1/4 of this is a moon cycle!
 #define DAYS_IN_SEASON 20
 // Seconds per turn; changing this will wildly alter gameplay!
@@ -55,7 +65,11 @@ public:
   int get_day();
   Season get_season() const;
   int get_year()      const;
+  Moon_phase get_moon_phase() const;
+  int get_sunrise() const;  // Depends on season
+  int get_sunset()  const;  // Depends on season
   std::string get_text(bool twentyfour = false); // "Spring, Day 4, 2:37 PM"
+  int get_light_level();
 
   void increment(); // turn++, second += SECONDS_IN_TURN
   void standardize(); // Ensure seconds < 60, hours < 24, etc

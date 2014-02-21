@@ -83,6 +83,7 @@ public:
   int get_item_uid();
   bool minute_timer(int minutes); // Returns true once every $minutes minutes
   bool turn_timer(int turns);     // Returns true once every $turns turns
+  int get_light_level();          // Current light distance, based on the time
 
   Map*        map;
   Worldmap*   worldmap;

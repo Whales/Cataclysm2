@@ -1091,6 +1091,11 @@ bool Game::turn_timer(int turns)
   return (time.get_turn() % turns == 0);
 }
 
+int Game::get_light_level()
+{
+  return (time.get_light_level());
+}
+
 std::vector<std::string>
 get_pickup_strings(std::vector<Item> *items, std::vector<bool> *picking_up)
 {

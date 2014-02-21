@@ -162,6 +162,36 @@ int Time::get_year() const
   return year;
 }
 
+Moon_phase Time::get_moon_phase() const
+{
+  int phase_time = DAYS_IN_SEASON / 4;
+  int ret = day / phase_time;
+  return Moon_phase(ret);
+}
+
+// TODO: Base get_sunrise() and get_sunset() on island's location (latitude)
+int Time::get_sunrise() const
+{
+  switch (season) {
+    case SEASON_WINTER: return 7;
+    case SEASON_SPRING: return 6;
+    case SEASON_SUMMER: return 5;
+    case SEASON_AUTUMN: return 6;
+  }
+  return 6;
+}
+
+int Time::get_sunset() const
+{
+  switch (season) {
+    case SEASON_WINTER: return 4;
+    case SEASON_SPRING: return 5;
+    case SEASON_SUMMER: return 7;
+    case SEASON_AUTUMN: return 5;
+  }
+  return 6;
+}
+
 std::string Time::get_text(bool twentyfour)
 {
   std::stringstream ret;
@@ -186,6 +216,32 @@ std::string Time::get_text(bool twentyfour)
   ret << minute << period;
 
   return ret.str();
+}
+
+/* TODO:  Don't hardcode these values.  At least use a #define...
+ *        Also, base them on weather.
+ */
+int Time::get_light_level()
+{
+  int night_level;
+  int day_level = DAY_LIGHT;
+  switch (get_moon_phase()) {
+    case MOON_NEW:    night_level = 1;
+    case MOON_WAXING: night_level = 2;
+    case MOON_FULL:   night_level = 4;
+    case MOON_WANING: night_level = 2;
+  }
+  int sunrise = get_sunrise(), sunset = get_sunset();
+  if (hour < sunrise || hour > sunset) {
+    return night_level;
+  }
+  if (hour == sunrise) {
+    return (night_level * (60 - minute)) / 60 + (day_level * minute) / 60;
+  }
+  if (hour == sunset) {
+    return (day_level * (60 - minute)) / 60 + (night_level * minute) / 60;
+  }
+  return day_level;
 }
 
 void Time::increment()
