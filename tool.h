@@ -81,7 +81,7 @@ struct Tool_special_heal : public Tool_special
   virtual bool load_data(std::istream& data, std::string owner_name);
   virtual bool effect(Entity* user);
 
-  int amount;
+  int min_amount, max_amount;
 };
 
 struct Tool_action

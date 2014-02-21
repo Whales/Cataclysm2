@@ -78,7 +78,8 @@ bool Tool_special_light::load_data(std::istream& data, std::string owner_name)
 
 Tool_special_heal::Tool_special_heal()
 {
-  amount = 0;
+  min_amount = 0;
+  max_amount = 0;
 }
 
 bool Tool_special_heal::load_data(std::istream& data, std::string owner_name)
@@ -95,7 +96,16 @@ bool Tool_special_heal::load_data(std::istream& data, std::string owner_name)
       std::getline(data, junk);
 
     } else if (ident == "amount:") {
-      data >> amount;
+      data >> min_amount;
+      max_amount = min_amount;
+      std::getline(data, junk);
+
+    } else if (ident == "min:" || ident == "min_amount:") {
+      data >> min_amount;
+      std::getline(data, junk);
+
+    } else if (ident == "max:" || ident == "max_amount:") {
+      data >> max_amount;
       std::getline(data, junk);
 
     } else if (ident != "done") {
@@ -103,6 +113,9 @@ bool Tool_special_heal::load_data(std::istream& data, std::string owner_name)
                ident.c_str(), owner_name.c_str());
       return false;
     }
+  }
+  if (max_amount < min_amount) {
+    max_amount = min_amount;
   }
   return true;
 }
@@ -114,7 +127,7 @@ bool Tool_special_heal::effect(Entity* user)
   }
 
 // TODO: Increase amount as our First Aid skill increases.
-  int amount_healed = amount;
+  int amount_healed = min_amount;
 // TODO: If user is an NPC, auto-choose
 // TODO: Allow us to target things (monsters/NPCs) other than ourselves
   Player* player = NULL;

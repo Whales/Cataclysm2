@@ -680,7 +680,8 @@ tool
   applied:
     ap_cost: 250
     special: heal
-      amount: 5
+      min: 3
+      max: 20
     done
   done
 done
