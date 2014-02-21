@@ -197,7 +197,33 @@ void Entity::die()
 void Entity::process_status_effects()
 {
   for (int i = 0; i < effects.size(); i++) {
-// TODO: Put actual effects here
+    int level = effects[i].level;
+
+    switch (effects[i].type) {
+
+      case STATUS_PAINKILL_MILD: {
+        int pkill = (level > 2 ? 20 : 10 * level);
+        if (GAME.turn_timer(24 - level * 4) && painkill < pkill) {
+          painkill++;
+        }
+      } break;
+
+      case STATUS_PAINKILL_MED: {
+        int pkill = (level > 4 ? 70 : 30 + 10 * level);
+        if (GAME.turn_timer(17 - level * 2) && painkill < pkill) {
+          painkill++;
+        }
+      } break;
+
+      case STATUS_PAINKILL_HEAVY: {
+        int pkill = (level > 6 ? 200 : 80 + 20 * level);
+        if (GAME.turn_timer(11 - level) && painkill < pkill) {
+          painkill++;
+        }
+      } break;
+
+    } // switch (effects[i].type)
+
     if (effects[i].decrement()) { // Returns true if duration <= 0
       effects.erase(effects.begin() + i);
       i--;
@@ -964,7 +990,7 @@ std::string Entity::eat_item_message(Item &it)
     ret << get_name_to_player() << " cannot eat that.";
   } else {
     Item_type_food* food = static_cast<Item_type_food*>(it.type);
-    std::string verb = (food->food * 4 >= food->water ? "eat" : "drink");
+    std::string verb = food->verb;
     ret << "<c=ltblue>" << get_name_to_player() << " " << conjugate(verb) <<
            " " << get_possessive() << " " << it.get_name() << ".<c=/>";
   }
