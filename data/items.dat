@@ -409,6 +409,7 @@ food
   volume: 10
   water:  30
   charges: 2
+  verb: drink
   container: plastic bottle
   flags: liquid plural
 done
@@ -424,6 +425,7 @@ food
   water:  18
   food:    8
   charges: 2
+  verb: drink
   container: glass bottle
   flags: liquid plural
 done
@@ -443,6 +445,7 @@ food
     duration: 150
   done
   charges: 1
+  verb: drink
   container: soda can
   flags: liquid plural
 done
@@ -523,12 +526,66 @@ food
   weight: 1
   volume: 5
   charges: 20
+  verb: smoke
   effect:
     type: nicotine
     duration: 100
   done
   flags: plural constant_volume_weight
 done
+
+food
+  name: aspirin
+  description:
+    A low-grade painkiller for treating light pain.  Best taken in pairs.
+  done
+  glyph: ! ltblue black
+  weight: 1
+  volume: 2
+  charges: 20
+  verb: take
+  effect:
+    type: painkill_mild
+    duration: 600
+  done
+  flags: plural constant_volume_weight
+done
+
+food
+  name: codeine
+  description:
+    A prescription painkiller for moderate to heavy pain.
+  done
+  glyph: ! blue black
+  weight: 1
+  volume: 2
+  charges: 15
+  verb: take
+  effect:
+    type: painkill_med
+    duration: 1500
+  done
+  flags: plural constant_volume_weight
+done
+
+food
+  name: oxycodone
+  description:
+    A prescription painkiller for severe pain.  Careful; an oxycodone overdose
+    may be deadly.
+  done
+  glyph: ! blue black
+  weight: 1
+  volume: 2
+  charges: 10
+  verb: take
+  effect:
+    type: painkill_heavy
+    duration: 2400
+  done
+  flags: plural constant_volume_weight
+done
+
 
 food
   name: amphetamine
@@ -540,13 +597,13 @@ food
   weight: 1
   volume: 2
   charges: 10
+  verb: take
   effect:
     type: stimulant
     duration: 300
   done
   flags: plural constant_volume_weight
 done
-  
 
 # END Food
 
