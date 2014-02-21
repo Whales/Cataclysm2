@@ -158,6 +158,7 @@ public:
   virtual std::string sheath_weapon_message();
 
 // Routine message functions - not tied to any particular action like the above
+  virtual std::string get_all_status_text();  // Returns all of the following
   virtual std::string get_hunger_text();
   virtual std::string get_thirst_text();
   virtual std::string get_pain_text();

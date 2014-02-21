@@ -121,7 +121,9 @@ bool Game::main_loop()
         player->thirst += 20;
   
       } else if (ch == '?') {
-        debugmsg( map->get_center_submap()->get_spec_name().c_str() );
+        debugmsg( player->get_all_status_text().c_str() );
+        debugmsg( player->get_thirst_text().c_str() );
+        //debugmsg( map->get_center_submap()->get_spec_name().c_str() );
       }
 // Fetch the action bound to whatever key we pressed...
       Interface_action act = KEYBINDINGS.bound_to_key(ch);
@@ -751,8 +753,8 @@ void Game::update_hud()
 // Colorize speed
   i_hud.set_data("num_speed", player->get_speed_color());
 // Add any player ailments
-  std::string status = player->get_hunger_text() + " " +
-                       player->get_thirst_text();
+  std::string status = player->get_all_status_text();
+  //std::string status = player->get_hunger_text() + " " + player->get_thirst_text();
   i_hud.set_data("text_status", status);
 // Draw minimap
   cuss::element* minimap = i_hud.find_by_name("draw_minimap");

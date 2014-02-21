@@ -1008,6 +1008,30 @@ std::string Entity::sheath_weapon_message()
   return ret.str();
 }
 
+std::string Entity::get_all_status_text()
+{
+  return get_hunger_text() + " " + get_thirst_text() + " " + get_pain_text();
+  std::string ret = get_hunger_text();
+
+  std::string thirst_text = get_thirst_text();
+  if (!thirst_text.empty()) {
+    if (!ret.empty()) {
+      ret += " ";
+    }
+    ret += thirst_text;
+  }
+
+  std::string pain_text = get_pain_text();
+  if (!pain_text.empty()) {
+    if (!ret.empty()) {
+      ret += " ";
+    }
+    ret += pain_text;
+  }
+
+  return ret;
+}
+
 std::string Entity::get_hunger_text()
 {
   if (hunger < get_hunger_minimum() / 2) {
