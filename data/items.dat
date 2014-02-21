@@ -569,6 +569,23 @@ food
 done
 
 food
+  name: tramadol
+  description:
+    A long-duration painkiller for moderate pain.
+  done
+  glyph: ! blue black
+  weight: 1
+  volume: 2
+  charges: 15
+  verb: take
+  effect:
+    type: painkill_long
+    duration: 3600
+  done
+  flags: plural constant_volume_weight
+done
+
+food
   name: oxycodone
   description:
     A prescription painkiller for severe pain.  Careful; an oxycodone overdose

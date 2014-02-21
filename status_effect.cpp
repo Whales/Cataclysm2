@@ -174,6 +174,7 @@ std::string status_effect_name(Status_effect_type type)
     case STATUS_STIMULANT:      return "stimulant";
     case STATUS_PAINKILL_MILD:  return "painkill_mild";
     case STATUS_PAINKILL_MED:   return "painkill_med";
+    case STATUS_PAINKILL_LONG:  return "painkill_long";
     case STATUS_PAINKILL_HEAVY: return "painkill_heavy";
     case STATUS_MAX:            return "BUG - STATUS_MAX";
     default:                    return "BUG - Unnamed Status_effect_type";

@@ -210,8 +210,15 @@ void Entity::process_status_effects()
       } break;
 
       case STATUS_PAINKILL_MED: {
-        int pkill = (level > 4 ? 70 : 30 + 10 * level);
+        int pkill = (level > 4 ? 90 : 30 + 15 * level);
         if (GAME.turn_timer(17 - level * 2) && painkill < pkill) {
+          painkill++;
+        }
+      } break;
+
+      case STATUS_PAINKILL_LONG: {
+        int pkill = (level > 3 ? 60 : 30 + 10 * level);
+        if (GAME.minute_timer(2) && painkill < pkill) {
           painkill++;
         }
       } break;
