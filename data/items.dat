@@ -681,7 +681,27 @@ tool
     ap_cost: 250
     special: heal
       min: 3
-      max: 20
+      max: 15
+    done
+  done
+done
+
+tool
+  name: first aid
+  description:
+    A complete first aid kit.  Its central component is a fast-acting nanotech
+    healing compound, which will repair moderate to severe injuries in a matter
+    of seconds.  Its efficacy is highly skill-dependent.
+  done
+  glyph: : white black
+  weight: 2
+  volume: 4
+
+  applied:
+    ap_cost: 400
+    special: heal
+      min: 5
+      max: 40
     done
   done
 done
