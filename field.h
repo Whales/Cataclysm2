@@ -2,7 +2,8 @@
 #define _FIELD_H_
 
 #include "enum.h"       // For Body_part
-#include "attack.h"     // For Damage_set
+//#include "attack.h"     // For Damage_set
+#include "damage_set.h"
 #include "enum.h"       // For Terrain_flag
 #include "item_type.h"  // For Item_flag
 #include "glyph.h"
@@ -140,6 +141,23 @@ private:
   std::vector<bool> field_flags;
 
 
+};
+
+// Used for attacks and tools
+struct Field_pool
+{
+  Field_pool();
+  ~Field_pool();
+
+  Field_type* type;
+  Dice duration;
+  Dice tiles;
+
+  bool exists();
+
+  void drop(Tripoint pos, std::string creator = "");
+
+  bool load_data(std::istream& data, std::string owner_name = "Unknown");
 };
 
 // This one is actually used in Tile (part of Submaps)

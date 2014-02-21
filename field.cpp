@@ -6,6 +6,7 @@
 #include "rng.h"
 #include "map.h"
 #include "entity.h"
+#include "game.h"
 #include <sstream>
 
 bool Field_fuel::load_data(std::istream& data, std::string owner_name)
@@ -395,6 +396,85 @@ bool Field_type::load_data(std::istream& data)
     } else if (ident != "done") {
       debugmsg("Unknown Field_type property: '%s' (%s)", ident.c_str(),
                name.c_str());
+      return false;
+    }
+  }
+  return true;
+}
+
+Field_pool::Field_pool()
+{
+  type = NULL;
+  duration = Dice(0, 0, 0);
+  tiles = Dice(0, 0, 1);
+}
+
+Field_pool::~Field_pool()
+{
+}
+
+bool Field_pool::exists()
+{
+  return type;
+}
+
+void Field_pool::drop(Tripoint pos, std::string creator)
+{
+  int num_tiles = tiles.roll();
+  if (num_tiles <= 0) {
+    return; // Don't drop anything!
+  }
+  num_tiles--; // The one at the exact point is the first
+  int dur = duration.roll();
+  Field tmp(type);
+  tmp.set_duration(dur);
+  if (!creator.empty()) {
+    tmp.creator = creator;
+  }
+  GAME.map->add_field(tmp, pos);
+
+  for (int i = 0; i < num_tiles; i++) {
+    Tripoint next_pos(pos.x + rng(-1, 1), pos.y + rng(-1, 1), pos.z);
+    dur = duration.roll();
+    tmp.set_duration(dur);
+    GAME.map->add_field(tmp, next_pos);
+  }
+}
+
+bool Field_pool::load_data(std::istream& data, std::string owner_name)
+{
+  std::string ident, junk;
+  while (ident != "done" && !data.eof()) {
+
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+
+    ident = no_caps(ident);
+
+    if (!ident.empty() && ident[0] == '#') { // I'ts a comment
+      std::getline(data, junk);
+
+    } else if (ident == "field:") {
+      std::string field_name;
+      std::getline(data, field_name);
+      field_name = trim(field_name);
+      type = FIELDS.lookup_name(field_name);
+      if (!type) {
+        debugmsg("Unknown field '%s' in Field_pool (%s)", field_name.c_str(),
+                 owner_name.c_str());
+        return false;
+      }
+
+    } else if (ident == "duration:") {
+      duration.load_data(data, owner_name + " Field_pool duration");
+
+    } else if (ident == "tiles:") {
+      tiles.load_data(data, owner_name + " Field_pool tiles");
+
+    } else if (ident != "done") {
+      debugmsg("Unknown Field_pool property '%s' (%s)", ident.c_str(),
+               owner_name.c_str());
       return false;
     }
   }

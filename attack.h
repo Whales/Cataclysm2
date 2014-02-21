@@ -4,6 +4,8 @@
 #include "enum.h"
 #include "dice.h"
 #include "geometry.h" // For Tripoint
+#include "damage_set.h"
+#include "field.h"
 #include <string>
 #include <vector>
 #include <istream>
@@ -13,35 +15,7 @@ Body_part random_body_part_to_hit();
 struct Stats;
 class Item;
 class Field_type;
-
-struct Damage_set
-{
-  Damage_set();
-  ~Damage_set();
-
-  void set_damage(Damage_type type, int amount);
-  void set_damage(int index, int amount);
-  int  get_damage(Damage_type type) const;
-  int  get_damage(int index) const;
-
-  int  total_damage();
-
-  Damage_set& operator+=(const Damage_set& rhs);
-  Damage_set& operator-=(const Damage_set& rhs);
-
-private:
-  int damage[DAMAGE_MAX];
-};
-inline Damage_set operator+(Damage_set lhs, const Damage_set& rhs)
-{
-  lhs += rhs;
-  return lhs;
-}
-inline Damage_set operator-(Damage_set lhs, const Damage_set& rhs)
-{
-  lhs -= rhs;
-  return lhs;
-}
+class Field_pool;
 
 /* TODO:  Special effects.  It'd be nice to specify that an attack (or an item
  *        from which attacks are derived) has the ability to knock the target
@@ -67,22 +41,6 @@ struct Attack
   void use_weapon(Item weapon, Stats stats);
 
   Damage_set roll_damage();
-};
-
-struct Field_pool
-{
-  Field_pool();
-  ~Field_pool();
-
-  Field_type* type;
-  Dice duration;
-  Dice tiles;
-
-  bool exists();
-
-  void drop(Tripoint pos, std::string creator = "");
-
-  bool load_data(std::istream& data, std::string owner_name = "Unknown");
 };
 
 struct Ranged_attack

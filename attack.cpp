@@ -1,3 +1,4 @@
+#include "field.h"
 #include "attack.h"
 #include "rng.h"
 #include "stringfunc.h"
@@ -10,71 +11,6 @@
 
 bool load_verbs(std::istream &data, std::string &verb_second,
                 std::string &verb_third, std::string owner_name);
-
-Damage_set::Damage_set()
-{
-  for (int i = 0; i < DAMAGE_MAX; i++) {
-    damage[i] = 0;
-  }
-}
-
-Damage_set::~Damage_set()
-{
-}
-
-void Damage_set::set_damage(Damage_type type, int amount)
-{
-  damage[type] = amount;
-}
-
-void Damage_set::set_damage(int index, int amount)
-{
-  if (index < 0 || index >= DAMAGE_MAX) {
-    return;
-  }
-  damage[index] = amount;
-}
-
-int Damage_set::get_damage(Damage_type type) const
-{
-  return damage[type];
-}
-
-int Damage_set::get_damage(int index) const
-{
-  if (index < 0 || index >= DAMAGE_MAX) {
-    return 0;
-  }
-  return damage[index];
-}
-
-int Damage_set::total_damage()
-{
-  int ret = 0;
-  for (int i = 0; i < DAMAGE_MAX; i++) {
-    ret += get_damage(i);
-  }
-  return ret;
-}
-
-Damage_set& Damage_set::operator+=(const Damage_set& rhs)
-{
-  for (int i = 0; i < DAMAGE_MAX; i++) {
-    damage[i] += rhs.get_damage(i);
-  }
-  return *this;
-}
-
-Damage_set& Damage_set::operator-=(const Damage_set& rhs)
-{
-  for (int i = 0; i < DAMAGE_MAX; i++) {
-    damage[i] -= rhs.get_damage(i);
-    if (damage[i] < 0) {
-      damage[i] = 0;
-    }
-  }
-  return *this;
-}
 
 Attack::Attack()
 {
@@ -169,85 +105,6 @@ Damage_set Attack::roll_damage()
     ret.set_damage( Damage_type(i), rng(0, damage[i]) );
   }
   return ret;
-}
-
-Field_pool::Field_pool()
-{
-  type = NULL;
-  duration = Dice(0, 0, 0);
-  tiles = Dice(0, 0, 1);
-}
-
-Field_pool::~Field_pool()
-{
-}
-
-bool Field_pool::exists()
-{
-  return type;
-}
-
-void Field_pool::drop(Tripoint pos, std::string creator)
-{
-  int num_tiles = tiles.roll();
-  if (num_tiles <= 0) {
-    return; // Don't drop anything!
-  }
-  num_tiles--; // The one at the exact point is the first
-  int dur = duration.roll();
-  Field tmp(type);
-  tmp.set_duration(dur);
-  if (!creator.empty()) {
-    tmp.creator = creator;
-  }
-  GAME.map->add_field(tmp, pos);
-
-  for (int i = 0; i < num_tiles; i++) {
-    Tripoint next_pos(pos.x + rng(-1, 1), pos.y + rng(-1, 1), pos.z);
-    dur = duration.roll();
-    tmp.set_duration(dur);
-    GAME.map->add_field(tmp, next_pos);
-  }
-}
-
-bool Field_pool::load_data(std::istream& data, std::string owner_name)
-{
-  std::string ident, junk;
-  while (ident != "done" && !data.eof()) {
-
-    if ( ! (data >> ident) ) {
-      return false;
-    }
-
-    ident = no_caps(ident);
-
-    if (!ident.empty() && ident[0] == '#') { // I'ts a comment
-      std::getline(data, junk);
-
-    } else if (ident == "field:") {
-      std::string field_name;
-      std::getline(data, field_name);
-      field_name = trim(field_name);
-      type = FIELDS.lookup_name(field_name);
-      if (!type) {
-        debugmsg("Unknown field '%s' in Field_pool (%s)", field_name.c_str(),
-                 owner_name.c_str());
-        return false;
-      }
-
-    } else if (ident == "duration:") {
-      duration.load_data(data, owner_name + " Field_pool duration");
-
-    } else if (ident == "tiles:") {
-      tiles.load_data(data, owner_name + " Field_pool tiles");
-
-    } else if (ident != "done") {
-      debugmsg("Unknown Field_pool property '%s' (%s)", ident.c_str(),
-               owner_name.c_str());
-      return false;
-    }
-  }
-  return true;
 }
 
 Ranged_attack::Ranged_attack()
