@@ -592,6 +592,7 @@ bool Mapgen_spec::load_data(std::istream &data)
       do {
         std::getline(data, mapchars);
         if (mapchars != "endmap" && mapchars.length() != MAPGEN_SIZE) {
+          debugmsg("Width %d", mapchars.length());
           debugmsg("Bad map width '%s' (%s)", mapchars.c_str(), name.c_str());
         }
         for (int i = 0; i < mapchars.length(); i++) {
