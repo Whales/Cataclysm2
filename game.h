@@ -84,6 +84,7 @@ public:
   bool minute_timer(int minutes); // Returns true once every $minutes minutes
   bool turn_timer(int turns);     // Returns true once every $turns turns
   int get_light_level();          // Current light distance, based on the time
+  Tripoint find_item_uid(int uid);  // Returns the location of the item
 
   Map*        map;
   Worldmap*   worldmap;

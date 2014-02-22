@@ -133,7 +133,6 @@ public:
   std::vector<Tripoint> line_of_sight(Point origin, Point target);
   std::vector<Tripoint> line_of_sight(Tripoint origin, Tripoint target);
 
-
 // Tile information
   int  move_cost(Tripoint pos);
   int  move_cost(int x, int y, int z = 999);
@@ -214,8 +213,11 @@ public:
                  int tilex, int tiley, int tilez,
                  int refx, int refy, bool invert, bool gray = false);
 
+// Other information
   Submap* get_center_submap(); // i.e. the one the player is in
   Point get_center_point();
+  Tripoint find_item_uid(int uid);
+
   int posx, posy, posz;
 
 private:

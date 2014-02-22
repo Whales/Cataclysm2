@@ -121,9 +121,14 @@ bool Game::main_loop()
         player->thirst += 20;
   
       } else if (ch == '?') {
+        for (int i = 0; i < 5; i++) {
+          debugmsg( find_item_uid(i).str().c_str() );
+        }
+/*
         debugmsg("%d (%d / %d / %d)", get_light_level(), time.get_hour(), time.get_sunrise(), time.get_sunset() );
         debugmsg( player->get_all_status_text().c_str() );
         debugmsg( player->get_thirst_text().c_str() );
+*/
         //debugmsg( map->get_center_submap()->get_spec_name().c_str() );
       }
 // Fetch the action bound to whatever key we pressed...
@@ -1098,6 +1103,24 @@ bool Game::turn_timer(int turns)
 int Game::get_light_level()
 {
   return (time.get_light_level());
+}
+
+Tripoint Game::find_item_uid(int uid)
+{
+// Sanity check
+  if (uid < 0 || uid >= next_item_uid) {
+    return Tripoint(-1, -1, -1);
+  }
+// Check entities first - almost certainly faster than the map
+  for (std::list<Entity*>::iterator it = entities.instances.begin();
+       it != entities.instances.end();
+       it++) {
+    if ( (*it)->has_item_uid(uid) ) {
+      return (*it)->pos;
+    }
+  }
+  Tripoint ret = map->find_item_uid(uid);
+  return ret;
 }
 
 std::vector<std::string>

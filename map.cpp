@@ -606,6 +606,14 @@ Map::Map()
   posx = 0;
   posy = 0;
   posz = 0;
+
+  for (int x = 0; x < MAP_SIZE; x++) {
+    for (int y = 0; y < MAP_SIZE; y++) {
+      for (int z = 0; z < VERTICAL_MAP_SIZE * 2 + 1; z++) {
+        submaps[x][y][z] = NULL;
+      }
+    }
+  }
 }
 
 Map::~Map()
@@ -1467,4 +1475,36 @@ Submap* Map::get_center_submap()
 Point Map::get_center_point()
 {
   return Point(posx + MAP_SIZE / 2, posy + MAP_SIZE / 2);
+}
+
+// TODO: Clean this up?
+Tripoint Map::find_item_uid(int uid)
+{
+  for (int x = 0; x < MAP_SIZE; x++) {
+    for (int y = 0; y < MAP_SIZE; y++) {
+      for (int z = 0; z < VERTICAL_MAP_SIZE * 2 + 1; z++) {
+        Submap* sm = submaps[x][y][z];
+        int rz = z - VERTICAL_MAP_SIZE + posz;
+        if (sm) {
+          for (int sx = 0; sx < SUBMAP_SIZE; sx++) {
+            for (int sy = 0; sy < SUBMAP_SIZE; sy++) {
+              int rx = x * SUBMAP_SIZE + sx;
+              int ry = y * SUBMAP_SIZE + sy;
+              std::vector<Item>* items = sm->items_at(sx, sy);
+              if (!items) {
+                debugmsg("NULL Items in Map::find_item_uid()");
+              }
+              for (int i = 0; i < items->size(); i++) {
+                if ( (*items)[i].get_uid() == uid ) {
+                  return Tripoint(rx, ry, rz);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+// If we never found it... return nothing point
+  return Tripoint(-1, -1, -1);
 }
