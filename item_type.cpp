@@ -559,6 +559,10 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
     data >> max_charges;
     std::getline(data, junk);
 
+  } else if (ident == "subcharges:") {
+    data >> subcharges;
+    std::getline(data, junk);
+
   } else if (ident == "fuel:") {
     std::getline(data, fuel);
     fuel = no_caps(fuel);

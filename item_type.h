@@ -187,6 +187,7 @@ public:
 
   int default_charges;  // Charges it starts with
   int max_charges;      // Max charges.  If 0, doesn't use charges.
+  int subcharges;      // How many turns, while powered, until we use 1 charge
   int countdown_timer;  // How many turns after applying before countdown_action
   std::string fuel;     // Ammo name - matches this with an ammo type for fuel
   std::string powered_text; // Text for when it's powered; e.g. "on", "active"

@@ -15,10 +15,17 @@ Item::Item(Item_type* T)
   count = 1;
   ammo = NULL;
   charges = 0;
+  subcharges = 0;
   hp = 100;   // TODO: Use Item_type durability instead
+  powered = false;
   if (type) {
     uid = GAME.get_item_uid();
     charges = type->default_charges();
+    if (charges > 0 && get_item_class() == ITEM_CLASS_TOOL) {
+// Tools have subcharges, so set that up
+      Item_type_tool* tool = static_cast<Item_type_tool*>(type);
+      subcharges = tool->subcharges;
+    }
     if (type->volume < 100) {
       hp = type->volume;
     }
@@ -528,6 +535,10 @@ bool Item::reload(Entity* owner, int ammo_uid)
     owner->remove_item_uid(ammo_uid);
   }
   ammo = ammo_used->type;
+  if (get_item_class() == ITEM_CLASS_TOOL) {  // Need to set up subcharges too
+    Item_type_tool* tool = static_cast<Item_type_tool*>(type);
+    subcharges = tool->subcharges;
+  }
   return true;
 }
 

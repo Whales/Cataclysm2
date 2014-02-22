@@ -74,7 +74,8 @@ public:
   Item_type* ammo;  // Currently-loaded ammo type.
   std::vector<Item> contents; // Contents, attached mods, etc.
   int count;
-  int charges;
+  int charges, subcharges;
+  bool powered;
   int hp;
 private:
   int uid;
