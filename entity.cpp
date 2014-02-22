@@ -938,41 +938,6 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
     return;
   }
 
-/*
-  bool had_effect = false;
-
-// Send the signal, if any.
-// Fetch the terrain's name BEFORE changing it.
-  if (!action->signal.empty()) {
-    std::string old_name = GAME.map->get_name(tool_pos);
-    if (GAME.map->apply_tool_action(action->signal, tool_pos)) {
-      GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
-                   action->signal.c_str(), old_name.c_str());
-      had_effect = true;
-    } else {
-      GAME.add_msg("%s can't %s there.", get_name_to_player().c_str(),
-                   action->signal.c_str());
-    }
-// TODO: Send signal to monsters and items
-  }
-
-// Generate the field, if any
-  if (action->field.exists()) {
-// TODO: Directional dropping?  To ensure that the fields aren't dropped on us
-    action->field.drop(tool_pos, get_name_to_player());
-  }
-
-// Apply the Tool_special, if any
-  if (action->special) {
-    if (action->special->effect(this)) {
-      had_effect = true;
-    }
-  }
-
-*/
-/* The signal, the field, or the Tool_special should have set had_effect to
- * true.  If not, thenwe return now - so as not to use AP or charges.
- */
   if (!action->activate(it, this, tool_pos)) {
     return;
   }

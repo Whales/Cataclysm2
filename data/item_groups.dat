@@ -1,6 +1,6 @@
 # Testing groups
 name: items_test
-  items: w:30 shovel / w:30 crowbar / w:150 glock 19 / w:150 9mm / w:30 leather jacket / w:500 lighter / w:500 bandages
+  items: w:500 shovel / w:30 crowbar / w:150 glock 19 / w:150 9mm / w:30 leather jacket / w:50 lighter / w:50 bandages
 done
 
 # Wilderness groups
@@ -40,6 +40,10 @@ done
 # House and shop groups
 name: items_tools
   items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax
+done
+
+name: items_misc_goods
+  items: w:10 broom / w:3 showerhead / w:3 wrench / w:2 screwdriver / w:8 batteries / w:8 lighter / w:2 cotton gloves / w:3 cotton hat
 done
 
 name: items_behind_counter

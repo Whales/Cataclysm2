@@ -15,7 +15,7 @@ weapon
   bash:   10
   cut:     0
   pierce:  0
-  to_hit: -3
+  to_hit: -2
   thrown_variance: 3d20
   thrown_dmg_percent: 100
 done
@@ -28,8 +28,8 @@ weapon
   glyph: / brown black
   weight: 25
   volume: 20
-  bash:   12
-  to_hit:  1
+  bash:    8
+  to_hit:  2
   flags: flammable
 done
 
@@ -41,7 +41,7 @@ weapon
   glyph: / brown black
   weight:  20
   volume: 144
-  bash:     8
+  bash:    10
 # -1 to_hit because it's awkward to grip...
   to_hit:  -1
   flags: flammable
@@ -83,9 +83,9 @@ weapon
   glyph: / dkgray black
   weight: 80
   volume: 90
-  bash:   24
+  bash:   20
   cut:    20
-  to_hit:  1
+  to_hit:  2
 done
 
 weapon
@@ -96,7 +96,7 @@ weapon
   glyph: / brown black
   weight:  20
   volume: 100
-  bash:    28
+  bash:    26
   to_hit:   2
 done
 
@@ -108,7 +108,7 @@ weapon
   glyph: / cyan black
   weight: 26
   volume: 65
-  bash:   18
+  bash:   14
   to_hit:  3
 done
 
@@ -121,8 +121,8 @@ weapon
   glyph: / ltblue black
   weight: 32
   volume: 80
-  bash:    6
-  cut:    28
+  bash:    8
+  cut:    24
   to_hit:  2
 done
 
@@ -160,7 +160,7 @@ weapon
   glyph: / brown black
   weight: 200
   volume:  75
-  bash:    40
+  bash:    32
   to_hit:   1
 done
 
@@ -210,8 +210,7 @@ weapon
   glyph: / dkgray black
   weight: 70
   volume: 60
-  bash:   28
-  to_hit: -1
+  bash:   22
 done
 
 weapon
@@ -219,9 +218,33 @@ weapon
   description:
     A more-or-less square piece of fabric.
   done
-  glyph: / ltred black
-  weight:  2
+  glyph: * ltred black
+  weight:  1
   volume: 14
+done
+
+weapon
+  name: broom
+  description:
+    A wooden-handled broom.
+  done
+  glyph: / ltred black
+  weight: 4
+  volume: 56
+  bash:  8
+  to_hit: 2
+done
+
+weapon
+  name: showerhead
+  description:
+    A chrome-plated showerhead with five different settings!
+  done
+  glyph: / ltcyan black
+  weight: 3
+  volume: 16
+  bash: 8
+  to_hit: 1
 done
 
 # END Weapons / vanilla
@@ -259,6 +282,33 @@ clothing
   encumbrance:  2
   covers: hands
   flags: plural
+done
+
+clothing
+  name: cotton gloves
+  description:
+    A pair of light cotton gloves.  Provides a bit of warmth.
+  done
+  glyph: [ ltblue black
+  weight:   1
+  volume:   2
+  armor_bash:   1
+  encumbrance:  1
+  covers: hands
+  flags: plural
+done
+
+clothing
+  name: cotton hat
+  description:
+    A light, snug-fitting cotton hat.  Provides a bit of warmth.
+  done
+  glyph: [ magenta black
+  weight: 1
+  volume: 5
+  armor_bash:  1
+  encumbrance: 1
+  covers: head
 done
 
 # END Clothing
@@ -838,6 +888,23 @@ tool
       max: 40
     done
   done
+done
+
+tool
+  name: flashlight
+  description:
+    A plastic flashlight.  Runs on batteries and provides 8 tiles of light at
+    night.
+  done
+  glyph: ; yellow black
+  weight:  4
+  volume: 14
+
+  powered:
+  done
+  default_charges: 100
+  max_charges: 100
+  subcharges: 50
 done
 
 # END Tools
