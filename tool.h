@@ -90,13 +90,13 @@ struct Tool_action
   Tool_action();
   ~Tool_action();
 
-  std::string signal;     // Signal sent to terrain/items/monsters
+  std::string signal;     // Signal sent to terrain/items/entities
   Tool_special *special;  // Hardcoded action
   Tool_target target;     // The target it's sent to
   Field_pool field;       // A field we drop
   int ap_cost;            // Action Points used
   int charge_cost;        // Charges used
-  int range;              // Range for TOOL_TARGET_RANGED or TOOL_TARGET_ALL
+  int range;              // Range for TOOL_TARGET_RANGED, TOOL_TARGET_ALL, etc
   bool real;              // If true, then this is in use
 
   bool load_data(std::istream& data, std::string owner_name = "Unknown");
