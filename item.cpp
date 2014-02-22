@@ -59,11 +59,12 @@ Item::~Item()
 
 Item& Item::operator=(const Item& rhs)
 {
-  type    = rhs.type;
-  ammo    = rhs.ammo;
-  count   = rhs.count;
-  charges = rhs.charges;
-  uid     = rhs.uid;    // Will this cause bugs?
+  type       = rhs.type;
+  ammo       = rhs.ammo;
+  count      = rhs.count;
+  charges    = rhs.charges;
+  subcharges = rhs.subcharges;
+  uid        = rhs.uid;    // Will this cause bugs?
 
   if (!rhs.contents.empty()) {
     contents.clear();
@@ -585,6 +586,64 @@ bool Item::absorb_damage(Damage_type damtype, int dam)
 // Reduce the damage by the amount of the armor used
   dam -= armor;
   return damage(damage_to_item);
+}
+
+bool Item::power_on()
+{
+// TODO: Can we power on other classes?
+  if (!is_real() || get_item_class() != ITEM_CLASS_TOOL) {
+    return false;
+  }
+  if (charges == 0 && subcharges == 0) {
+    return false;
+  }
+  if (powered) {
+    return false;
+  }
+  powered = true;
+  return true;
+}
+
+bool Item::power_off()
+{
+  if (!is_real() || !powered) {
+    return false;
+  }
+  powered = false;
+  return true;
+}
+
+bool Item::process_powered()
+{
+// TODO: Can we power on other classes?
+  if (!is_real() || !powered || get_item_class() != ITEM_CLASS_TOOL) {
+    return false;
+  }
+  Item_type_tool* tool = static_cast<Item_type_tool*>(type);
+  subcharges--;
+  if (subcharges <= 0) {
+    charges--;
+    if (charges >= 0) {
+      subcharges += tool->subcharges;
+    } else {
+// We're truly out of power!
+      charges = 0;
+      subcharges = 0;
+// If we're on a timer, activate the timer function!
+      bool did_countdown = false;
+      if (tool->countdown_action.real) {
+        tool->countdown_action.activate(this);
+        did_countdown = true;
+      }
+      power_off();
+      return did_countdown;
+    }
+  }
+
+  if (tool->powered_action.real) {
+    tool->powered_action.activate(this);
+  }
+  return true;
 }
 
 Item_action Item::show_info(Entity* user)

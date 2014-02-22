@@ -67,6 +67,9 @@ public:
   bool reload(Entity* owner, int ammo_uid);
   bool damage(int dam); // Returns true if the item is destroyed
   bool absorb_damage(Damage_type damtype, int dam); // Returns true if destroyed
+  bool power_on();
+  bool power_off();
+  bool process_powered();
 
 // Interfaces
   Item_action show_info(Entity* user = NULL);
