@@ -29,6 +29,7 @@ enum Tool_special_type
 };
 
 class Entity;
+class Item;
 
 struct Tool_special
 {
@@ -100,6 +101,12 @@ struct Tool_action
   bool real;              // If true, then this is in use
 
   bool load_data(std::istream& data, std::string owner_name = "Unknown");
+
+  bool activate(Item* it);  // Uses NULL user
+// Uses Game::find_item to create pos for activate() below
+  bool activate(Item* it, Entity* user); 
+// Send signal, create field, activate special!
+  bool activate(Item* it, Entity* user, Tripoint pos);
 };
   
 #endif

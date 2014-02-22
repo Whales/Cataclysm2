@@ -907,10 +907,16 @@ void Entity::apply_item_uid(int uid)
   }
 
 // Get the tool information
-  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
-  Tool_action* action  = &(tool->applied_action);
+  Item_type_tool* tool   = static_cast<Item_type_tool*>(it->type);
+  Tool_action* action    = &(tool->applied_action);
+  Tool_action* powered   = &(tool->powered_action);
+  Tool_action* countdown = &(tool->countdown_action);
+// Apply the base action, if any
   if (action->real) {
     apply_item_action(it, action);
+  }
+// We have an effect that happens while we're powered on; so power us on!
+  if (powered->real) {
   }
 }
 
@@ -932,6 +938,7 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
     return;
   }
 
+/*
   bool had_effect = false;
 
 // Send the signal, if any.
@@ -962,10 +969,11 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
     }
   }
 
+*/
 /* The signal, the field, or the Tool_special should have set had_effect to
  * true.  If not, thenwe return now - so as not to use AP or charges.
  */
-  if (!had_effect) {
+  if (!action->activate(it, this, tool_pos)) {
     return;
   }
 

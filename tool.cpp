@@ -5,6 +5,7 @@
 #include "entity.h"
 #include "player.h"
 #include "field.h"
+#include "game.h"
 #include <sstream>
 
 Tool_special_explosion::Tool_special_explosion()
@@ -260,6 +261,76 @@ bool Tool_action::load_data(std::istream& data, std::string owner_name)
   }
   real = true;
   return true;
+}
+
+bool Tool_action::activate(Item* it)
+{
+  if (!it) {
+    return false;
+  }
+  return activate(it, NULL);
+}
+
+bool Tool_action::activate(Item* it, Entity* user)
+{
+  if (!it) {
+    return false;
+  }
+  //Tripoint pos = GAME.find_item_uid(it->get_uid());
+  Tripoint pos = GAME.player->pos;
+  if (pos.x == -1) {  // Couldn't find item!
+    return false;
+  }
+  return activate(it, user, pos);
+}
+
+bool Tool_action::activate(Item* it, Entity* user, Tripoint pos)
+{
+  bool seen_by_player = GAME.player->can_see(GAME.map, pos);
+  if (!seen_by_player && user && user->is_you()) {
+    seen_by_player = true;
+  }
+  bool had_effect = false;  // return value; true if we did anything
+
+// Pick a name for whoever's activating us
+  std::string user_name = "Something";  // TODO: "Someone"?
+  if (user) {
+    user_name = user->get_name_to_player();
+  }
+
+  if (!signal.empty()) {
+// Pick a verb; TODO - be smarter about this?
+    std::string verb = signal;
+    if (user) {
+      verb = user->conjugate(verb);
+    }
+
+    std::string old_name = GAME.map->get_name(pos);
+    if (GAME.map->apply_tool_action(signal, pos)) {
+      had_effect = true;
+      if (seen_by_player) {
+        GAME.add_msg("%s %s the %s.", user_name.c_str(), verb.c_str(),
+                     old_name.c_str());
+      }
+    } else if (seen_by_player) {
+      GAME.add_msg("%s can't %s there.", user_name.c_str(), signal.c_str());
+    }
+// TODO: Send signal to monsters and items.
+  }
+
+// Generate the field, if any
+  if (field.exists()) {
+    field.drop(pos, user_name);
+    had_effect = true;
+  }
+
+// Apply the special, if any
+  if (special) {
+    special->effect(user);
+    had_effect = true;
+  }
+
+  return had_effect;
 }
 
 Tool_target lookup_tool_target(std::string name)
