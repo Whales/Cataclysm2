@@ -788,6 +788,15 @@ tool
   weight: 1
   volume: 2
 
+  applied:
+    target: adjacent
+    field:
+      type: fire
+      duration: 1d4 + 2
+      tiles: 1
+    done
+  done
+
 done
 
 tool
