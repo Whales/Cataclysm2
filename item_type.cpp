@@ -177,7 +177,7 @@ std::string Item_type_food::get_property_description()
 
 Item_type_tool::Item_type_tool()
 {
-  default_charges = 0;
+  def_charges = 0;
   max_charges = 0;
   countdown_timer = 0;
 }
@@ -551,8 +551,8 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
     data >> countdown_timer;
     std::getline(data, junk);
 
-  } else if (ident == "default_charges:") {
-    data >> default_charges;
+  } else if (ident == "def_charges:" || ident == "default_charges:") {
+    data >> def_charges;
     std::getline(data, junk);
 
   } else if (ident == "max_charges:") {

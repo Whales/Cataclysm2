@@ -175,6 +175,7 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_TOOL; }
   virtual Item_action default_action() { return IACT_APPLY; }
+  virtual int default_charges() { return def_charges; }
   virtual std::string get_property_description();
 
   virtual bool handle_data(std::string ident, std::istream &data);
@@ -185,7 +186,7 @@ public:
   Tool_action powered_action;   // Action every turn, while powered
   Tool_action countdown_action; // Action when countdown finishes
 
-  int default_charges;  // Charges it starts with
+  int def_charges;  // Charges it starts with
   int max_charges;      // Max charges.  If 0, doesn't use charges.
   int subcharges;      // How many turns, while powered, until we use 1 charge
   int countdown_timer;  // How many turns after applying before countdown_action
