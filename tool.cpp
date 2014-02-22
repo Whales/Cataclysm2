@@ -276,8 +276,7 @@ bool Tool_action::activate(Item* it, Entity* user)
   if (!it) {
     return false;
   }
-  //Tripoint pos = GAME.find_item_uid(it->get_uid());
-  Tripoint pos = GAME.player->pos;
+  Tripoint pos = GAME.find_item_uid(it->get_uid());
   if (pos.x == -1) {  // Couldn't find item!
     return false;
   }
