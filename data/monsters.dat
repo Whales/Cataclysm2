@@ -84,7 +84,7 @@ name: spitter zombie
     range: 10
     variance: 20d10
     target_field:
-      field: acid
+      type: acid
       duration: 4d6 + 10
 # 2d6 - 1 = 1 to 11, most likely 6
       tiles: 2d6 - 1

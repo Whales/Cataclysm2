@@ -455,7 +455,7 @@ bool Field_pool::load_data(std::istream& data, std::string owner_name)
     if (!ident.empty() && ident[0] == '#') { // I'ts a comment
       std::getline(data, junk);
 
-    } else if (ident == "field:") {
+    } else if (ident == "type:") {
       std::string field_name;
       std::getline(data, field_name);
       field_name = trim(field_name);
