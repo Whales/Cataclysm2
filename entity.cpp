@@ -910,18 +910,18 @@ void Entity::apply_item_uid(int uid)
     return;
   }
 
-  Tripoint pos = pick_target_for(it);
-  if (pos.x == -1) {  // We canceled
+  Tripoint tool_pos = pick_target_for(it);
+  if (action->target != TOOL_TARGET_NULL && tool_pos.x == -1) {  // We canceled
     return;
   }
 
   bool had_effect = false;
 
-// Apply the signal.
+// Apply the signal, if any.
 // Fetch the terrain's name BEFORE changing it.
   if (!action->signal.empty()) {
-    std::string old_name = GAME.map->get_name(pos);
-    if (GAME.map->apply_tool_action(action->signal, pos)) {
+    std::string old_name = GAME.map->get_name(tool_pos);
+    if (GAME.map->apply_tool_action(action->signal, tool_pos)) {
       GAME.add_msg("%s %s the %s.", get_name_to_player().c_str(),
                    action->signal.c_str(), old_name.c_str());
       had_effect = true;
@@ -930,6 +930,12 @@ void Entity::apply_item_uid(int uid)
                    action->signal.c_str());
     }
 // TODO: Send signal to monsters and items
+  }
+
+// Apply the field, if any
+  if (action->field.exists()) {
+// TODO: Directional dropping?  To ensure that the fields aren't dropped on us
+    action->field.drop(tool_pos, get_name_to_player());
   }
 
 // Apply the Tool_special, if any
