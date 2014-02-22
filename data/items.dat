@@ -255,7 +255,7 @@ weapon
   glyph: / dkgray black
   weight: 80
   volume: 24
-  bash:   12
+  bash:   18
   to_hit: -2
 done
 
