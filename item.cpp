@@ -39,11 +39,13 @@ Item::Item(Item_type* T)
 
 Item::Item(const Item &rhs)
 {
-  type  = rhs.type;
-  count = rhs.count;
-  uid   = rhs.uid;
-  ammo  = rhs.ammo;
-  charges = rhs.charges;
+  type        = rhs.type;
+  count       = rhs.count;
+  uid         = rhs.uid;
+  ammo        = rhs.ammo;
+  charges     = rhs.charges;
+  subcharges  = rhs.subcharges;
+  powered     = rhs.powered;
 
   if (!rhs.contents.empty()) {
     contents.clear();
@@ -212,6 +214,10 @@ std::string Item::get_name_full()
       }
     } break;
 
+  }
+
+  if (powered) {
+    ret << " <c=yellow>[on]<c=/>";
   }
 
   return ret.str();
