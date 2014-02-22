@@ -3,7 +3,7 @@
 
 #include "glyph.h"
 #include "enum.h"
-#include "tool.h"
+//#include "tool.h"
 #include "dice.h"
 #include <vector>
 #include <map>
