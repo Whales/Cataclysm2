@@ -139,6 +139,7 @@ public:
   void  sheath_weapon();
   void  wear_item_uid  (int uid);
   void  apply_item_uid (int uid);
+  void  apply_item_action(Item* it, Tool_action* action);
   bool  eat_item_uid   (int uid);
   void  reload_prep    (int uid);
   virtual Item pick_ammo_for(Item *it);

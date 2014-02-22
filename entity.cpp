@@ -891,6 +891,7 @@ void Entity::wear_item_uid(int uid)
 
 void Entity::apply_item_uid(int uid)
 {
+// Find the item.
   Item* it;
   if (weapon.is_real() && weapon.get_uid() == uid) {
     it = &weapon;
@@ -904,12 +905,28 @@ void Entity::apply_item_uid(int uid)
   if (!it || it->get_item_class() != ITEM_CLASS_TOOL) {
     return;
   }
+
+// Get the tool information
   Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
   Tool_action* action  = &(tool->applied_action);
+  if (action->real) {
+    apply_item_action(it, action);
+  }
+}
+
+void Entity::apply_item_action(Item* it, Tool_action* action)
+{
+// Sanity check
+  if (!it || !action || it->get_item_class() != ITEM_CLASS_TOOL) {
+    return;
+  }
+  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
+// Verify that we have enough charges.
   if (tool->uses_charges() && it->charges < action->charge_cost) {
     return;
   }
 
+// Pick a target, if applicable.
   Tripoint tool_pos = pick_target_for(it);
   if (action->target != TOOL_TARGET_NULL && tool_pos.x == -1) {  // We canceled
     return;
@@ -917,7 +934,7 @@ void Entity::apply_item_uid(int uid)
 
   bool had_effect = false;
 
-// Apply the signal, if any.
+// Send the signal, if any.
 // Fetch the terrain's name BEFORE changing it.
   if (!action->signal.empty()) {
     std::string old_name = GAME.map->get_name(tool_pos);
@@ -932,7 +949,7 @@ void Entity::apply_item_uid(int uid)
 // TODO: Send signal to monsters and items
   }
 
-// Apply the field, if any
+// Generate the field, if any
   if (action->field.exists()) {
 // TODO: Directional dropping?  To ensure that the fields aren't dropped on us
     action->field.drop(tool_pos, get_name_to_player());
@@ -945,15 +962,20 @@ void Entity::apply_item_uid(int uid)
     }
   }
 
+/* The signal, the field, or the Tool_special should have set had_effect to
+ * true.  If not, thenwe return now - so as not to use AP or charges.
+ */
   if (!had_effect) {
     return;
   }
 
+// Use charges and AP.
   if (tool->uses_charges()) {
     it->charges -= action->charge_cost;
   }
-// TODO: Some items are destroyed when they run out of charges - do that
   use_ap(action->ap_cost);
+
+// TODO: Some items are destroyed when they run out of charges - do that
 }
 
 bool Entity::eat_item_uid(int uid)
