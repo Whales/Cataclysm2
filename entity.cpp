@@ -910,13 +910,21 @@ void Entity::apply_item_uid(int uid)
   Item_type_tool* tool   = static_cast<Item_type_tool*>(it->type);
   Tool_action* action    = &(tool->applied_action);
   Tool_action* powered   = &(tool->powered_action);
-  Tool_action* countdown = &(tool->countdown_action);
+  //Tool_action* countdown = &(tool->countdown_action);
 // Apply the base action, if any
   if (action->real) {
     apply_item_action(it, action);
   }
 // We have an effect that happens while we're powered on; so power us on!
   if (powered->real) {
+    if (it->charges == 0 && it->subcharges == 0) {
+      if (is_you()) {
+        GAME.add_msg("Your %s has no charges.", it->get_name().c_str());
+      }
+      return;
+    }
+    it->power_on();
+    use_ap(100);  // TODO: Don't hardcode this.
   }
 }
 
