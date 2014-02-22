@@ -247,6 +247,18 @@ weapon
   to_hit: 1
 done
 
+weapon
+  name: dumbbell
+  description:
+    An eight-pound weight.  Meant for working out.
+  done
+  glyph: / dkgray black
+  weight: 80
+  volume: 24
+  bash:   12
+  to_hit: -2
+done
+
 # END Weapons / vanilla
 
 # Clothing

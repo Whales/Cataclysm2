@@ -43,7 +43,7 @@ name: items_tools
 done
 
 name: items_misc_goods
-  items: w:10 broom / w:3 showerhead / w:3 wrench / w:2 screwdriver / w:8 batteries / w:8 lighter / w:2 cotton gloves / w:3 cotton hat
+  items: w:20 broom / w:4 showerhead / w:4 wrench / w:3 screwdriver / w:16 batteries / w:14 lighter / w:3 cotton gloves / w:6 cotton hat / w:3 dumbbell
 done
 
 name: items_behind_counter
