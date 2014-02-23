@@ -181,32 +181,6 @@ bool Tile::damage(Damage_type type, int dam)
   return false;
 }
 
-void Tile::open()
-{
-  if (!terrain || !terrain->can_open()) {
-    return;
-  }
-  Terrain* result = TERRAIN.lookup_name( terrain->open_result );
-  if (!result) {
-    debugmsg("Failed to find terrain '%s'", terrain->open_result.c_str());
-    return;
-  }
-  terrain = result;
-}
-
-void Tile::close()
-{
-  if (!terrain || !terrain->can_close()) {
-    return;
-  }
-  Terrain* result = TERRAIN.lookup_name( terrain->close_result );
-  if (!result) {
-    debugmsg("Failed to find terrain '%s'", terrain->close_result.c_str());
-    return;
-  }
-  terrain = result;
-}
-
 bool Tile::signal_applies(std::string signal)
 {
   signal = no_caps(signal);
@@ -1224,36 +1198,6 @@ void Map::damage(int x, int y, int z, Damage_set dam)
 void Map::damage(Tripoint pos, Damage_set dam)
 {
   damage(pos.x, pos.y, pos.z, dam);
-}
-
-bool Map::open(Tripoint pos)
-{
-  return open(pos.x, pos.y, pos.y);
-}
-
-bool Map::open(int x, int y, int z)
-{
-  Tile* target = get_tile(x, y, z);
-  if (target->terrain->can_open()) {
-    target->open();
-    return true;
-  }
-  return false;
-}
-
-bool Map::close(Tripoint pos)
-{
-  return close(pos.x, pos.y, pos.z);
-}
-
-bool Map::close(int x, int y, int z)
-{
-  Tile* target = get_tile(x, y, z);
-  if (target->terrain->can_close()) {
-    target->close();
-    return true;
-  }
-  return false;
 }
 
 bool Map::apply_signal(std::string signal, Tripoint pos, Entity* user)

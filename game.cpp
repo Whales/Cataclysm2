@@ -706,8 +706,7 @@ void Game::player_move(int xdif, int ydif)
     player->attack(ent);
   } else if (player->can_move_to(map, newx, newy)) {
     player->move_to(map, newx, newy);
-  } else if (map->open(newx, newy)) {
-    add_msg("You open the %s.", tername.c_str());
+  } else if (map->apply_signal("open", newx, newy, player->pos.z, player)) {
     player->use_ap(100);
   }
   std::vector<Item> *items = map->items_at(player->pos);

@@ -243,7 +243,6 @@ name: broken door
   movecost: 0
   hp: 15
   destroy: door frame
-  open: open broken door
 
   signal: open
     result: open broken door
@@ -273,7 +272,6 @@ name: open broken door
   movecost: 100
   hp: 15
   destroy: door frame
-  close: broken door
 
   signal: close
     result: broken door
@@ -289,7 +287,6 @@ name: closed door
   movecost: 0
   hp: 20
   destroy: broken door
-  open: open door
 
   signal: open
     result: open door
@@ -319,7 +316,6 @@ name: open door
   movecost: 100
   hp: 20
   destroy: open broken door
-  close: closed door
 
   signal: close
     result: closed door
@@ -334,7 +330,6 @@ name: closed glass door
   glyph: + ltcyan black
   movecost: 0
   hp: 2
-  open: open glass door
 
   signal: open
     result: open glass door
@@ -364,7 +359,6 @@ name: open glass door
   movecost: 100
   hp: 2
   destroy: door frame
-  close: closed glass door
 
   signal: close
     result: closed glass door

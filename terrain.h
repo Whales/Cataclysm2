@@ -74,15 +74,11 @@ struct Terrain
 
   Terrain_smash smash;
   bool smashable;
-  std::string open_result;
-  std::string close_result;
   std::string destroy_result;
 // A map of what happens when a tool' terrain_action is applied
   std::map<std::string,Terrain_signal_handler> signal_handlers;
 
   bool can_smash() { return smashable; }
-  bool can_open()  { return !open_result.empty();  }
-  bool can_close() { return !close_result.empty(); }
 
   Terrain();
   ~Terrain(){}

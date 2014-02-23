@@ -44,8 +44,6 @@ struct Tile
   std::string smash(Damage_set dam);  // Returns the sound
   bool damage(Damage_set dam);            // Returns true on destruction
   bool damage(Damage_type type, int dam); // Returns true on destruction
-  void open();
-  void close();
   bool signal_applies(std::string signal);
   bool apply_signal  (std::string signal, Entity* user = NULL);
 };
@@ -189,10 +187,6 @@ public:
   void damage(int x, int y, int z,  Damage_set dam);
   void damage(Tripoint pos,         Damage_set dam);
 
-  bool open (Tripoint pos);
-  bool open (int x, int y, int z = 999);
-  bool close(Tripoint pos);
-  bool close(int x, int y, int z = 999);
   bool apply_signal(std::string signal, Tripoint pos, Entity* user = NULL);
   bool apply_signal(std::string signal, int x, int y, int z,
                     Entity* user = NULL);
