@@ -98,6 +98,7 @@ struct Tool_action
   int ap_cost;            // Action Points used
   int charge_cost;        // Charges used
   int range;              // Range for TOOL_TARGET_RANGED, TOOL_TARGET_ALL, etc
+  bool destroy_if_chargeless; // Destroy the item if all charges used.
   bool real;              // If true, then this is in use
 
   bool load_data(std::istream& data, std::string owner_name = "Unknown");

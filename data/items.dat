@@ -874,6 +874,7 @@ tool
   max_charges: 3
 
   applied:
+    destroy
     ap_cost: 250
     special: heal
       min: 3
@@ -898,6 +899,7 @@ tool
   max_charges: 2
 
   applied:
+    destroy
     ap_cost: 400
     special: heal
       min: 5

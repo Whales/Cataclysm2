@@ -170,6 +170,7 @@ Tool_action::Tool_action()
   ap_cost = 100;
   charge_cost = 1;
   range = 0;
+  destroy_if_chargeless = false;
   real = false;
 }
 
@@ -252,6 +253,9 @@ bool Tool_action::load_data(std::istream& data, std::string owner_name)
     } else if (ident == "range:") {
       data >> range;
       std::getline(data, junk);
+
+    } else if (ident == "destroy" || ident == "destroy_if_chargeless") {
+      destroy_if_chargeless = true;
 
     } else if (ident != "done") {
       debugmsg("Unknown Tool_action property '%s' (%s)", ident.c_str(),

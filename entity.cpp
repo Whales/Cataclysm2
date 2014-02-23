@@ -914,6 +914,9 @@ void Entity::apply_item_uid(int uid)
 // Apply the base action, if any
   if (action->real) {
     apply_item_action(it, action);
+    if (action->destroy_if_chargeless && it->charges == 0) {
+      remove_item_uid(it->get_uid());
+    }
   }
 // We have an effect that happens while we're powered on; so power us on!
   if (powered->real) {
