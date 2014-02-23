@@ -23,6 +23,7 @@ Game::Game()
   last_target = -1;
   new_messages = 0;
   next_item_uid = 0;
+  temp_light_level = 0;
   game_over = false;
 }
 
@@ -88,7 +89,9 @@ bool Game::main_loop()
   if (game_over) {
     return false;
   }
-// Before anything else, process the active items.
+// Reset all temp values.
+  reset_temp_values();
+// Process active items; these may set temp values!
   process_active_items();
 /* TODO:  It's be nice to move all of this to Player::take_turn().  Then we
  *        won't have to special case it - it'd just be another entity taking
@@ -112,20 +115,20 @@ bool Game::main_loop()
 // Quick and dirty ad-hoc debug key.
 // TODO: Set up a debug menu.
       if (ch == '!') {
+        Item flash( ITEM_TYPES.lookup_name("flashlight") );
+        player->add_item(flash);
 /*
         Monster* mon = new Monster;
         mon->set_type("spitter zombie");
         mon->pos.x = player->pos.x - 3;
         mon->pos.y = player->pos.y - 3;
         entities.add_entity(mon);
-*/
         player->hunger += 20;
         player->thirst += 20;
+*/
   
       } else if (ch == '?') {
-        for (int i = 0; i < 5; i++) {
-          debugmsg( find_item_uid(i).str().c_str() );
-        }
+        debugmsg("%d / %d", temp_light_level, get_light_level());
 /*
         debugmsg("%d (%d / %d / %d)", get_light_level(), time.get_hour(), time.get_sunrise(), time.get_sunset() );
         debugmsg( player->get_all_status_text().c_str() );
@@ -152,6 +155,11 @@ bool Game::main_loop()
 // Advance the turn
   time.increment();
   return true;    // This keeps the game going
+}
+
+void Game::reset_temp_values()
+{
+  temp_light_level = 0;
 }
 
 void Game::do_action(Interface_action act)
@@ -800,6 +808,18 @@ bool Game::destroy_item(Item* it, int uid)
   return map->remove_item(it, uid);
 }
 
+bool Game::destroy_item_uid(int uid)
+{
+  return destroy_item(NULL, uid);
+}
+
+void Game::set_temp_light_level(int level)
+{
+  if (level > temp_light_level) {
+    temp_light_level = level;
+  }
+}
+
 void Game::draw_all()
 {
   update_hud();
@@ -1165,7 +1185,11 @@ bool Game::turn_timer(int turns)
 
 int Game::get_light_level()
 {
-  return (time.get_light_level());
+  int ret = time.get_light_level();
+  if (temp_light_level > ret) {
+    return temp_light_level;
+  }
+  return ret;
 }
 
 // UID defaults to -1

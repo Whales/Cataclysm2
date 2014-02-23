@@ -28,11 +28,12 @@ public:
   Game();
   ~Game();
 
-// Setup - Called only once
+/**** Setup - Called only once ****/
   bool setup();
 
-// Engine - Main loop functions
+/**** Engine - Main loop functions ****/
   bool main_loop();
+  void reset_temp_values();
   void do_action(Interface_action act);
   void move_entities();
   void clean_up_dead_entities();
@@ -40,7 +41,7 @@ public:
   void complete_player_activity();
   void process_active_items();
 
-// Engine - Called-as-needed
+/**** Engine - Called-as-needed ****/
   void shift_if_needed();  // Shift the map, if the player's not in the center
   void make_sound(std::string desc, Tripoint pos);
   void make_sound(std::string desc, Point pos);
@@ -67,13 +68,15 @@ public:
   void remove_active_item_uid(int uid);
   bool destroy_item(Item* it, int uid = -1);
   bool destroy_item_uid(int uid); // destroy_item(NULL, uid)
+// Temp value mutators
+  void set_temp_light_level(int level);
 
-// UI - Output functions
+/**** UI - Output functions ****/
   void draw_all();
   void update_hud();
   void print_messages();
 
-// UI - Special screens
+/**** UI - Special screens ****/
   void pickup_items(Tripoint pos);
   void pickup_items(Point    pos);
   void pickup_items(int posx, int posy);
@@ -85,7 +88,7 @@ public:
                                       int range  = -1,
                                       bool target_entities = false);
 
-// Data - Universal access functions
+/**** Data - Universal access functions ****/
   int get_item_uid();
   bool minute_timer(int minutes); // Returns true once every $minutes minutes
   bool turn_timer(int turns);     // Returns true once every $turns turns
@@ -98,13 +101,16 @@ public:
   Tripoint find_item(Item* it, int uid = -1);
   Tripoint find_item_uid(int uid);  // find_item(NULL, uid)
 
+/**** Contained data ****/
   Map*        map;
   Worldmap*   worldmap;
+// Note that player should always == &(entities[0])
   Player*     player;
   Entity_pool entities;
 
   Time time;
 
+// Not used; TODO: Remove this?
   Generic_map scent_map;
 
 private:
@@ -117,6 +123,9 @@ private:
   int new_messages;
   int next_item_uid;
   bool game_over;
+
+// Temp values; all reset in reset_temp_values()
+  int temp_light_level;
 };
 
 #endif
