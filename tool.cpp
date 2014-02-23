@@ -78,6 +78,12 @@ bool Tool_special_light::load_data(std::istream& data, std::string owner_name)
   return true;
 }
 
+bool Tool_special_light::effect(Entity* user)
+{
+  GAME.set_temp_light_level( light );
+  return true;
+}
+
 Tool_special_heal::Tool_special_heal()
 {
   min_amount = 0;
@@ -282,6 +288,7 @@ bool Tool_action::activate(Item* it, Entity* user)
   }
   Tripoint pos = GAME.find_item_uid(it->get_uid());
   if (pos.x == -1) {  // Couldn't find item!
+    debugmsg("Couldn't find item.");
     return false;
   }
   return activate(it, user, pos);

@@ -68,7 +68,7 @@ struct Tool_special_light : public Tool_special
   virtual Tool_special_type get_type() { return TOOL_SPECIAL_LIGHT; }
 
   virtual bool load_data(std::istream& data, std::string owner_name);
-  virtual bool effect(Entity* user) { return false; }  // TODO: This
+  virtual bool effect(Entity* user);  // TODO: This
 
   int light;
 };
