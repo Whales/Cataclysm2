@@ -72,6 +72,17 @@ std::string Tile::get_name()
   return (terrain->get_name());
 }
 
+std::string Tile::get_name_indefinite()
+{
+  if (!terrain) {
+    return "An unknown tile.";
+  }
+  std::stringstream ret;
+  ret << (terrain->has_flag(TF_PLURAL) ? "some" : "a") << " " <<
+         terrain->get_name();
+  return ret.str();
+}
+
 bool Tile::blocks_sense(Sense_type sense)
 {
   if (!terrain) {
@@ -1154,11 +1165,25 @@ std::string Map::get_name(Tripoint pos)
 
 std::string Map::get_name(int x, int y, int z)
 {
-  Terrain* ter = get_tile(x, y, z)->terrain;
-  if (!ter) {
-    return "Bug - Null terrain";
+  Tile* t = get_tile(x, y, z);
+  if (!t) {
+    return "Bug - NULL tile";
   }
-  return ter->get_name();
+  return t->get_name();
+}
+
+std::string Map::get_name_indefinite(Tripoint pos)
+{
+  return get_name_indefinite(pos.x, pos.y, pos.z);
+}
+
+std::string Map::get_name_indefinite(int x, int y, int z)
+{
+  Tile* t = get_tile(x, y, z);
+  if (!t) {
+    return "Bug - NULL tile";
+  }
+  return t->get_name_indefinite();
 }
 
 void Map::smash(int x, int y, Damage_set dam, bool make_sound)

@@ -36,6 +36,7 @@ struct Tile
   int move_cost();
   int get_height();
   std::string get_name();
+  std::string get_name_indefinite();  // With indefinite article
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
   bool has_flag(Terrain_flag flag);
   bool has_field();
@@ -178,6 +179,8 @@ public:
 
   std::string get_name(Tripoint pos);
   std::string get_name(int x, int y, int z = 999);
+  std::string get_name_indefinite(Tripoint pos);
+  std::string get_name_indefinite(int x, int y, int z = 999);
 
 // Map-altering
   void smash(int x, int y,          Damage_set dam, bool make_sound = true);

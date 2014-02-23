@@ -87,6 +87,7 @@ enum Terrain_flag
   TF_WATER,         // "water" - Swimmable.  Puts out fire.
   TF_FLAMMABLE,     // "flammable" - Consumed by fire.
   TF_CONTAINER,     // "container" - Can hold items despite move_cost of 0
+  TF_PLURAL,        // "plural" - Indefinite article is "some" (instead of "a")
   TF_MAX
 };
 
