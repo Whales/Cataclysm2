@@ -91,6 +91,7 @@ public:
   int armor_bash;
   int armor_cut;
   int armor_pierce;
+  int protection; // Protection from Status_effects that use this vector
   int encumbrance;
   bool covers[BODY_PART_MAX];
 
