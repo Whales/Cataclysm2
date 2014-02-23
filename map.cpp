@@ -286,7 +286,11 @@ bool Tile::apply_signal(std::string signal, Entity* user)
 
 // We've finalized our success rate; now roll against it
 
-  if (rng(1, 100) <= success) {
+  if (success <= 0) {
+    GAME.add_msg("<c=red>%s (0 percent success rate)<c=/>",
+                 handler.failure_message.c_str());
+    return true;  // True since we *tried*
+  } else if (rng(1, 100) <= success) {
 // Success!
     if (handler.success_message.empty()) {
       GAME.add_msg("<c=ltred>You %s the %s.<c=/>",

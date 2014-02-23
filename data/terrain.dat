@@ -575,8 +575,8 @@ name: safe
 
   signal: pry
     result: open safe
-    success_rate: 70
-    stat_bonus: strength * 2
+    success_rate: 0
+    stat_bonus: strength >= 16 5
     success_message: You pry the safe open.
     failure_message: The safe resists.
   done
