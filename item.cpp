@@ -593,6 +593,7 @@ bool Item::power_on()
   if (active) {
     return false;
   }
+  GAME.add_active_item(this);
   active = true;
   return true;
 }
