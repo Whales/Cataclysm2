@@ -584,7 +584,7 @@ bool Item_type_tool::handle_data(std::string ident, std::istream &data)
 
 bool Item_type_tool::uses_charges()
 {
-  return (max_charges > 0 && applied_action.charge_cost > 0);
+  return (max_charges > 0);
 }
 
 Item_type_container::Item_type_container()

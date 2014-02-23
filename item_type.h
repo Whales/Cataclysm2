@@ -66,6 +66,7 @@ public:
   virtual int  time_to_reload()  { return 0; }
   virtual int  time_to_fire()    { return 0; }
   virtual int  default_charges() { return 0; }
+  virtual bool uses_charges()       { return false; }
   virtual bool always_combines()    { return false; }
   virtual bool combine_by_charges() { return false; }
   bool has_flag(Item_flag flag);
@@ -109,6 +110,7 @@ public:
   virtual std::string get_property_description();
   virtual bool always_combines()    { return true;  }
   virtual bool combine_by_charges() { return true;  }
+  virtual bool uses_charges()       { return true;  }
 
   std::string ammo_type;  // Ammo type - links this to a launcher
   int damage;       // Base damage
@@ -131,6 +133,7 @@ public:
   virtual std::string get_property_description();
   virtual int time_to_reload() { return reload_ap; }
   virtual int time_to_fire()   { return fire_ap; }
+  virtual bool uses_charges()       { return true;  }
 
 // TODO: Add in gun class / skill used / however we do that
   std::string ammo_type;  // Ammo type - links this to a launcher
@@ -155,6 +158,7 @@ public:
   virtual Item_action default_action() { return IACT_EAT; }
   virtual std::string get_property_description();
   virtual int  default_charges() { return charges; }
+  virtual bool uses_charges()       { return (charges > 1); }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
@@ -180,7 +184,7 @@ public:
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
-  bool uses_charges();  // true if max_charges > 0 && charges_per_use > 0
+  virtual bool uses_charges(); // true if max_charges > 0 && charges_per_use > 0
 
   Tool_action applied_action;   // Action when applied
   Tool_action powered_action;   // Action every turn, while powered

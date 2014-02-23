@@ -1,6 +1,6 @@
 # Testing groups
 name: items_test
-  items: w:500 flashlight / w:30 crowbar / w:150 glock 19 / w:150 9mm / w:30 leather jacket / w:50 lighter / w:50 bandages
+  items: w:500 flashlight / w:30 crowbar / w:150 glock 19 / w:150 9mm / w:30 leather jacket / w:50 lighter / w:50 bandages / w:500 water
 done
 
 # Wilderness groups

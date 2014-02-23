@@ -198,24 +198,11 @@ std::string Item::get_name_full()
     ret << " of " << contents[0].get_name_full();
   }
 
-// Display the number of charges for certain items
-  switch (get_item_class()) {
-
-    case ITEM_CLASS_AMMO:
-    case ITEM_CLASS_LAUNCHER:
-      ret << " (" << charges << ")";
-      break;
-
-    case ITEM_CLASS_FOOD: {
-// For food, only display charges if it's not a single-use type
-      Item_type_food* food = static_cast<Item_type_food*>(type);
-      if (food->charges > 1) {
-        ret << " (" << charges << ")";
-      }
-    } break;
-
+// Display the number of charges for items that use them
+  if (type->uses_charges()) {
+    ret << " (" << charges << ")";
   }
-
+    
   if (powered) {
     ret << " <c=yellow>[on]<c=/>";
   }
