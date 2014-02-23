@@ -245,6 +245,11 @@ name: broken door
   destroy: door frame
   open: open broken door
 
+  signal: open
+    result: open broken door
+    success_message: You open the broken door.
+  done
+
   signal: pry
     result: open broken door
     success_rate: 70
@@ -269,6 +274,12 @@ name: open broken door
   hp: 15
   destroy: door frame
   close: broken door
+
+  signal: close
+    result: broken door
+    success_message: You close the broken door.
+  done
+
   flags: flammable
 done
 
@@ -279,6 +290,11 @@ name: closed door
   hp: 20
   destroy: broken door
   open: open door
+
+  signal: open
+    result: open door
+    success_message: You open the door.
+  done
 
   signal: pry
     result: open door
@@ -304,6 +320,12 @@ name: open door
   hp: 20
   destroy: open broken door
   close: closed door
+
+  signal: close
+    result: closed door
+    success_message: You close the door.
+  done
+
   flags: flammable
 done
 
@@ -313,6 +335,11 @@ name: closed glass door
   movecost: 0
   hp: 2
   open: open glass door
+
+  signal: open
+    result: open glass door
+    success_message: You open the glass door.
+  done
 
   signal: pry
     result: open glass door
@@ -338,6 +365,12 @@ name: open glass door
   hp: 2
   destroy: door frame
   close: closed glass door
+
+  signal: close
+    result: closed glass door
+    success_message: You close the glass dor.
+  done
+
 done
 
 name: window frame

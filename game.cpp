@@ -216,12 +216,8 @@ void Game::do_action(Interface_action act)
         add_msg("Invalid direction.");
       } else {
         Tripoint open = player->pos + dir;
-        std::string tername = map->get_name(open);
-        if (map->open(open)) {
-          add_msg("You open the %s.", tername.c_str());
+        if (map->apply_signal("open", open, player)) {
           player->use_ap(100);
-        } else {
-          add_msg("You cannot open a %s.", tername.c_str());
         }
       }
     } break;
@@ -234,12 +230,8 @@ void Game::do_action(Interface_action act)
         add_msg("Invalid direction.");
       } else {
         Tripoint close = player->pos + dir;
-        std::string tername = map->get_name(close);
-        if (map->close(close)) {
-          add_msg("You close the %s.", tername.c_str());
+        if (map->apply_signal("close", close, player)) {
           player->use_ap(100);
-        } else {
-          add_msg("You cannot close a %s.", tername.c_str());
         }
       }
     } break;
