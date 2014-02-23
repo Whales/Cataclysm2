@@ -75,6 +75,7 @@ enum Damage_type
 Damage_type lookup_damage_type(std::string name);
 std::string damage_type_name(Damage_type type);
 
+// Terrain_flag has its lookup and name functions in terrain.cpp
 enum Terrain_flag
 {
   TF_NULL,
@@ -89,6 +90,7 @@ enum Terrain_flag
   TF_MAX
 };
 
+// Item_action & Item_flag have their lookup and name functions defd in item.cpp
 enum Item_action
 {
   IACT_NULL = 0,
@@ -110,5 +112,36 @@ enum Item_flag
   ITEM_FLAG_CONSTANT,   // "constant_volume_weight" - doesn't use usual food v/w
   ITEM_FLAG_MAX
 };
+
+enum Stat_id
+{
+  STAT_NULL = 0,
+  STAT_STRENGTH,
+  STAT_DEXTERITY,
+  STAT_INTELLIGENCE,
+  STAT_PERCEPTION,
+  STAT_MAX
+};
+
+Stat_id lookup_stat_id(std::string name);
+std::string stat_id_name(Stat_id id);
+std::string stat_id_short_name(Stat_id id);
+
+// These are used, for now, in signal_handlers
+// TODO: Expand this?  It's simple right now...
+enum Math_operator
+{
+  MATH_NULL = 0,
+  MATH_MULTIPLY,
+  MATH_GREATER_THAN,
+  MATH_GREATER_THAN_OR_EQUAL_TO,
+  MATH_LESS_THAN,
+  MATH_LESS_THAN_OR_EQUAL_TO,
+  MATH_EQUAL_TO,
+  MATH_MAX
+};
+
+Math_operator lookup_math_operator(std::string name);
+std::string math_operator_name(Math_operator op);
 
 #endif

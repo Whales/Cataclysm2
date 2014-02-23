@@ -5,7 +5,10 @@
 #include "monster.h"
 #include "game.h"
 #include "attack.h"
+#include "entity.h"
+#include "enum.h"
 #include <fstream>
+#include <sstream>
 
 void Tile::set_terrain(Terrain* ter)
 {
@@ -204,34 +207,108 @@ void Tile::close()
   terrain = result;
 }
 
-bool Tile::tool_action_applies(std::string act)
+bool Tile::signal_applies(std::string signal)
 {
-  act = no_caps(act);
-  act = trim(act);
-  if (!terrain || terrain->tool_result.count(act) == 0) {
+  signal = no_caps(signal);
+  signal = trim(signal);
+  if (!terrain || terrain->signal_handlers.count(signal) == 0) {
     return false;
   }
   return true;
 }
 
-void Tile::apply_tool_action(std::string act)
+bool Tile::apply_signal(std::string signal, Entity* user)
 {
-  act = no_caps(act);
-  act = trim(act);
-  if (!terrain) {
-    return;
+  signal = no_caps(signal);
+  signal = trim(signal);
+  if (!terrain || !signal_applies(signal)) {
+    GAME.add_msg("You can't %s there.", signal.c_str());
+    return false;
   }
-  if (terrain->tool_result.count(act) == 0) {
-    return;
+
+  Terrain_signal_handler handler = terrain->signal_handlers[signal];
+
+  int success = handler.success_rate;
+// Apply stat bonuses, if the user exists
+  if (user) {
+    for (std::list<Stat_bonus>::iterator it = handler.bonuses.begin();
+         it != handler.bonuses.end();
+         it++) {
+      int stat = 0;
+      switch (it->stat) {
+        case STAT_STRENGTH:     stat = user->stats.strength;      break;
+        case STAT_DEXTERITY:    stat = user->stats.dexterity;     break;
+        case STAT_INTELLIGENCE: stat = user->stats.intelligence;  break;
+        case STAT_PERCEPTION:   stat = user->stats.perception;    break;
+      }
+// Apply stat in different ways, depending on the operator used..
+      switch (it->op) {
+
+        case MATH_MULTIPLY:
+          success += stat * it->amount;
+          break;
+
+        case MATH_GREATER_THAN:
+          if (stat > it->amount) {
+            success += it->amount_static;
+          }
+          break;
+
+        case MATH_GREATER_THAN_OR_EQUAL_TO:
+          if (stat >= it->amount) {
+            success += it->amount_static;
+          }
+          break;
+
+        case MATH_LESS_THAN:
+          if (stat < it->amount) {
+            success += it->amount_static;
+          }
+          break;
+
+        case MATH_LESS_THAN_OR_EQUAL_TO:
+          if (stat <= it->amount) {
+            success += it->amount_static;
+          }
+          break;
+
+        case MATH_EQUAL_TO:
+          if (stat == it->amount) {
+            success += it->amount_static;
+          }
+          break;
+
+        default:
+          debugmsg("Tile::apply_signal encountered unknown operator");
+          return false;
+      } // switch (it->symbol)
+    } // Iterator over handler.bonuses
+  } // if (user)
+
+// We've finalized our success rate; now roll against it
+
+  if (rng(1, 100) <= success) {
+// Success!
+    if (handler.success_message.empty()) {
+      GAME.add_msg("<c=ltred>You %s the %s.<c=/>",
+                   signal.c_str(), get_name().c_str());
+    } else {
+      std::stringstream mes;
+      mes << "<c=ltred>" << handler.success_message << "<c=/>";
+      GAME.add_msg(mes.str());
+    }
+    Terrain* result = TERRAIN.lookup_name(handler.result);
+    if (!result) {
+      debugmsg("Tile::apply_signal couldn't find terrain '%s'! (%s)",
+               handler.result.c_str(), get_name().c_str());
+      return false;
+    }
+    terrain = result;
+    return true;
   }
-  Terrain* result = TERRAIN.lookup_name( terrain->tool_result[act] );
-  if (!result) {
-    debugmsg("Applied '%s' to '%s', failed to find terrain '%s'",
-             act.c_str(), get_name().c_str(),
-             terrain->tool_result[act].c_str());
-    return;
-  }
-  terrain = result;
+// Failure.
+  GAME.add_msg( handler.failure_message );
+  return true;  // True cause we still *tried* to...
 }
 
 Submap::Submap()
@@ -1179,16 +1256,16 @@ bool Map::close(int x, int y, int z)
   return false;
 }
 
-bool Map::apply_tool_action(std::string act, Tripoint pos)
+bool Map::apply_signal(std::string signal, Tripoint pos, Entity* user)
 {
-  return apply_tool_action(act, pos.x, pos.y, pos.z);
+  return apply_signal(signal, pos.x, pos.y, pos.z, user);
 }
 
-bool Map::apply_tool_action(std::string act, int x, int y, int z)
+bool Map::apply_signal(std::string signal, int x, int y, int z, Entity* user)
 {
   Tile* target = get_tile(x, y, z);
-  if (target->tool_action_applies(act)) {
-    target->apply_tool_action(act);
+  if (target->signal_applies(signal)) {
+    target->apply_signal(signal, user);
     return true;
   }
   return false;

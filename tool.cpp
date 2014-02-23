@@ -316,12 +316,8 @@ bool Tool_action::activate(Item* it, Entity* user, Tripoint pos)
     }
 
     std::string old_name = GAME.map->get_name(pos);
-    if (GAME.map->apply_tool_action(signal, pos)) {
+    if (GAME.map->apply_signal(signal, pos, user)) {
       had_effect = true;
-      if (seen_by_player) {
-        GAME.add_msg("%s %s the %s.", user_name.c_str(), verb.c_str(),
-                     old_name.c_str());
-      }
     } else if (seen_by_player) {
       GAME.add_msg("%s can't %s there.", user_name.c_str(), signal.c_str());
     }

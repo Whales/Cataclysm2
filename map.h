@@ -18,6 +18,7 @@
 #include "field.h"
 
 class Entity_pool;
+class Entity;
 
 struct Tile
 {
@@ -45,8 +46,8 @@ struct Tile
   bool damage(Damage_type type, int dam); // Returns true on destruction
   void open();
   void close();
-  bool tool_action_applies(std::string act);
-  void apply_tool_action  (std::string act);
+  bool signal_applies(std::string signal);
+  bool apply_signal  (std::string signal, Entity* user = NULL);
 };
 
 struct Submap
@@ -192,8 +193,9 @@ public:
   bool open (int x, int y, int z = 999);
   bool close(Tripoint pos);
   bool close(int x, int y, int z = 999);
-  bool apply_tool_action(std::string act, Tripoint pos);
-  bool apply_tool_action(std::string act, int x, int y, int z = 999);
+  bool apply_signal(std::string signal, Tripoint pos, Entity* user = NULL);
+  bool apply_signal(std::string signal, int x, int y, int z,
+                    Entity* user = NULL);
 
 // Regularly-run functions
   void process_fields();

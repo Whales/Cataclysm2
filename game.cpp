@@ -115,7 +115,7 @@ bool Game::main_loop()
 // Quick and dirty ad-hoc debug key.
 // TODO: Set up a debug menu.
       if (ch == '!') {
-        Item flash( ITEM_TYPES.lookup_name("flashlight") );
+        Item flash( ITEM_TYPES.lookup_name("crowbar") );
         player->add_item(flash);
 /*
         Monster* mon = new Monster;

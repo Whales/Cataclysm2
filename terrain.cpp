@@ -55,6 +55,105 @@ bool Terrain_smash::load_data(std::istream &data, std::string name)
   return true;
 }
 
+Terrain_signal_handler::Terrain_signal_handler()
+{
+  success_rate = 100;
+}
+
+bool Stat_bonus::load_data(std::istream& data, std::string owner_name)
+{
+// Get stat name
+  if (!data.good()) {
+    debugmsg("Stat_bonus wasn't fed data (%s)", owner_name.c_str());
+    return false;
+  }
+  std::string stat_name;
+  data >> stat_name;
+  stat = lookup_stat_id(stat_name);
+  if (stat == STAT_NULL) {
+    debugmsg("Unknown Stat_id name '%s' (%s)",
+             stat_name.c_str(), owner_name.c_str());
+    return false;
+  }
+
+// Get math symbol; valid options are * > >= < <= =
+  if (!data.good()) {
+    debugmsg("Stat_bonus couldn't read operator (%s)", owner_name.c_str());
+    return false;
+  }
+  std::string operator_name;
+  data >> operator_name;
+  op = lookup_math_operator(operator_name);
+  if (op == MATH_NULL) {
+    debugmsg("Unknown Math_operator '%s' (%s)",
+             operator_name.c_str(), owner_name.c_str());
+    return false;
+  }
+// Get amount
+  if (!data.good()) {
+    debugmsg("Stat_bonus couldn't read amount (%s)", owner_name.c_str());
+    return false;
+  }
+  data >> amount;
+
+// If op is a comparison operator, we need the static amount
+  if (op != MATH_MULTIPLY) {  // TODO: fix this if there's more non-comp ops
+    if (!data.good()) {
+    debugmsg("Stat_bonus couldn't read static amount (%s)", owner_name.c_str());
+      return false;
+    }
+    data >> amount_static;
+  }
+// Success!
+  return true;
+}
+
+bool Terrain_signal_handler::load_data(std::istream& data,
+                                       std::string owner_name)
+{
+  std::string ident, junk;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      return false;
+    }
+    ident = no_caps(ident);
+
+    if (!ident.empty() && ident[0] == '#') {
+// It's a comment
+      std::getline(data, junk);
+
+    } else if (ident == "result:") {
+      std::getline(data, result);
+      result = trim(result);
+
+    } else if (ident == "success_rate:") {
+      data >> success_rate;
+      std::getline(data, junk);
+
+    } else if (ident == "success_message:") {
+      std::getline(data, success_message);
+      success_message = trim(success_message);
+
+    } else if (ident == "failure_message:") {
+      std::getline(data, failure_message);
+      failure_message = trim(failure_message);
+
+    } else if (ident == "bonus:") {
+      std::string bonus_text;
+      std::getline(data, bonus_text);
+      std::istringstream bonus_data(bonus_text);
+      Stat_bonus tmp;
+      if (!tmp.load_data(bonus_data, owner_name + " signal handler")) {
+        return false;
+      }
+
+    } else if (ident != "done") {
+      debugmsg("Unknown terrain property '%s' (%s)",
+               ident.c_str(), owner_name.c_str());
+    }
+  }
+  return true;
+}
 
 Terrain::Terrain()
 {
@@ -140,29 +239,21 @@ bool Terrain::load_data(std::istream &data)
       std::getline(data, destroy_result);
       destroy_result = trim(destroy_result);
 
-    } else if (ident == "receiver:") {
-      std::string tool_action, tmpstr, result;
-      while (tmpstr != "=") {
-        data >> tmpstr;
-        if (tmpstr != "=") {
-          if (!tool_action.empty()) {
-// Insert a space only if this isn't the first word
-            tool_action += " ";
-          }
-          tool_action += tmpstr;
-        }
-      }
-
-      tool_action = no_caps(tool_action);
-      tool_action = trim(tool_action);
-      if (tool_action.empty()) {
-        debugmsg("Empty tool_action (%s)", name.c_str());
+    } else if (ident == "signal:") {
+      std::string signal_name;
+      std::getline(data, signal_name);
+      signal_name = no_caps(signal_name);
+      signal_name = trim(signal_name);
+      if (signal_handlers.count(signal_name) > 0) {
+        debugmsg("Defined signal handler for '%s' twice (%s)",
+                 signal_name.c_str(), name.c_str());
         return false;
       }
-          
-      std::getline(data, result);
-      result = trim(result);
-      tool_result[tool_action] = result;
+      Terrain_signal_handler tmphandler;
+      if (!tmphandler.load_data(data, name + "::" + signal_name)) {
+        return false;
+      }
+      signal_handlers[signal_name] = tmphandler;
 
     } else if (ident == "flags:") {
       std::string flag_line;
