@@ -329,8 +329,7 @@ bool Tool_action::activate(Item* it, Entity* user, Tripoint pos)
 
 // Apply the special, if any
   if (special) {
-    special->effect(user);
-    had_effect = true;
+    had_effect = special->effect(user);
   }
 
   return had_effect;
