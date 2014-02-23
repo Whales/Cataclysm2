@@ -13,6 +13,7 @@ y7        = move_northwest
 o         = open
 C         = close
 s         = smash
+x         = examine
 i         = inventory
 d         = drop
 w         = wield

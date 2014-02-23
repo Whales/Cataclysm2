@@ -507,7 +507,7 @@ Tripoint Player::pick_target_for(Item* it)
       break;
 
     case TOOL_TARGET_ADJACENT: {
-      GAME.add_msg("<c=ltred>%s where? (Press direction key)<c=/>",
+      GAME.add_msg("<c=ltgreen>%s where? (Press direction key)<c=/>",
                    verb.c_str());
       GAME.draw_all();
       Point dir = input_direction(input());

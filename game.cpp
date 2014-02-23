@@ -209,7 +209,7 @@ void Game::do_action(Interface_action act)
       break;
 
     case IACTION_OPEN: {
-      add_msg("<c=ltred>Open where? (Press direction key)<c=/>");
+      add_msg("<c=ltgreen>Open where? (Press direction key)<c=/>");
       draw_all();
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
@@ -223,7 +223,7 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_CLOSE: {
-      add_msg("<c=ltred>Close where? (Press direction key)<c=/>");
+      add_msg("<c=ltgreen>Close where? (Press direction key)<c=/>");
       draw_all();
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
@@ -237,7 +237,7 @@ void Game::do_action(Interface_action act)
     } break;
 
     case IACTION_SMASH: {
-      add_msg("<c=ltred>Smash where? (Press direction key)<c=/>");
+      add_msg("<c=ltgreen>Smash where? (Press direction key)<c=/>");
       draw_all();
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
@@ -251,6 +251,21 @@ void Game::do_action(Interface_action act)
           map->smash(sm, player->std_attack().roll_damage());
           player->use_ap(100);
         }
+      }
+    } break;
+
+    case IACTION_EXAMINE: {
+      add_msg("<c=ltgreen>Examine where? (Press direction key)<c=/>");
+      draw_all();
+      Point dir = input_direction(input());
+      if (dir.x == -2) { // Error
+        add_msg("Invalid direction.");
+      } else {
+        Tripoint examine = player->pos + dir;
+        if (map->item_count(player->pos) > 0) {
+          pickup_items(examine);
+        }
+        add_msg("That is %s.", map->get_name_indefinite(examine).c_str());
       }
     } break;
 
