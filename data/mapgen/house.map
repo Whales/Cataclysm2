@@ -21,123 +21,6 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: std_house_whales
-subname: stone_whales
-type: house
-tile: # = stone wall
-tile: . = floor
-tile: o = dirt / grass
-tile: + = closed door
-tile: " = window
-tile: < = stairs up
-map:
-ooo##""##+#######""###ooo
-ooo#.................#ooo
-ooo#.................#ooo
-ooo#.................#ooo
-ooo#.................#ooo
-ooo############....###ooo
-ooo#.......#.........#ooo
-ooo#.......#........."ooo
-ooo".......+........."ooo
-ooo".......#....<....#ooo
-ooo#.......#.........#ooo
-ooo#.......#........."ooo
-ooo#.......#........."ooo
-ooo#.......#.........#ooo
-ooo".......#######+###ooo
-ooo".........#.......#ooo
-ooo#.........#.......#ooo
-ooo#.........#.......#ooo
-ooo#############"#####ooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-endmap
-done
-
-name: std_house_2_whales
-subname: stone_whales
-type: house
-level: 1
-tile: # = stone wall
-tile: . = floor
-tile: x = empty
-tile: + = closed door
-tile: " = window
-tile: > = stairs down
-tile: < = stairs up
-map:
-xxx##""##########""###xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx############....###xxx
-xxx#.......#.........#xxx
-xxx#.......#........."xxx
-xxx".......+........."xxx
-xxx".......#....>....#xxx
-xxx#.......#.........#xxx
-xxx#.......#........."xxx
-xxx#.......#........."xxx
-xxx#.......#.........#xxx
-xxx".......#######+###xxx
-xxx".........#.......#xxx
-xxx#.........#.<.....#xxx
-xxx#.........#.......#xxx
-xxx#############"#####xxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-endmap
-done
-
-name: std_house_roof_whales
-subname: stone_whales
-type: house
-level: 2
-tile_group: # = short stone wall
-tile: . = roof
-tile: x = empty
-tile: + = closed door
-tile: " = window
-tile: > = stairs down
-map:
-xxx###################xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#.................#xxx
-xxx#...........>.....#xxx
-xxx#.................#xxx
-xxx###################xxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-endmap
-done
-
 name: shed_house_whales_1
 subname: shed_house_whales
 type: house
@@ -157,7 +40,9 @@ tile: T = toilet
 tile: 1 = bed
 tile: D = dresser
 tile: < = stairs up
-tile: +A = closed door
+tile: + = closed door
+tile: A = w:3 closed locked door / w:1 closed door
+tile: ! = w:2 closed door / w:1 closed locked door
 tile: "aB = window
 shuffle: abcd
 shuffle: AB
@@ -184,10 +69,10 @@ oo#<#.....+..33..2#**oooo
 oo###.....####""###**oooo
 oo#.......#*ooooooo**oooo
 oo#.......#**oooooo**oooo
-oo#.......+**********oooo
+oo#.......@**********oooo
 oo###+#+###**ooo*oooooooo
 oo#K..#..V#*oooo*XXbbXXoo
-oo#...#..V#ooooo*+***{Xoo
+oo#...#..V#ooooo*!***{Xoo
 oo#T..#..V#ooooooa***{coo
 oo#########ooooooX{{{{Xoo
 oooooooooooooooooXXddXXoo

@@ -28,6 +28,7 @@ tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
+tile: @ = w:3 closed locked door / w:1 closed door
 tile: " = window
 tile: % = counter
 tile: T = toilet
@@ -50,7 +51,7 @@ ooooo3ooooooooooooo4ooooo
 ooooo3ooooooooooooo4ooooo
 ooooo3ooooooooooooo4ooooo
 ooooo3ooooooooooooo4ooooo
-oo#"#+####oo2oo##"#+#"#oo
+oo#"#@####oo2oo##"#@#"#oo
 oo#...#DB#oo2oo"......#oo
 oo"...#.B"oo2oo####..."oo
 oo#...#..#oo2oo#BD#.###oo

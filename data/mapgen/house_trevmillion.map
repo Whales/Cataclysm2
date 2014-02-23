@@ -29,6 +29,8 @@ tile: . = floor
 tile: * = pavement
 tile: o = dirt / grass
 tile: + = closed door
+tile: @ = w:2 closed locked door / w:1 closed door
+tile: ! = w:3 closed door / w:1 closed locked door
 tile: " = window
 tile: < = stairs up
 tile: % = counter
@@ -48,14 +50,14 @@ ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooo**************oo
-oo##"####""###""#+#****#o
+oo##"####""###""#@#****#o
 oo#...#...........#****#o
 oo#...#......#.#EE#****#o
 oo"...#......#<####****#o
 oo#...#..###.###.T"****#o
 oo#...+...#F...+..#*####o
 oo#EEE#........####*#GG#o
-oo#####...#S......+*+..#o
+oo#####...#S......@*!..#o
 oo****#...#%K%$$..#*#GG#o
 oo****#+"###"###"##*####o
 oo******************ooooo
@@ -163,6 +165,7 @@ tile: . = floor
 tile: * = pavement
 tile: o = dirt / grass
 tile: + = closed door
+tile: @ = w:1 closed locked door / w:1 closed door
 tile: & = closed glass door / stone wall
 tile: " = window
 tile: % = counter
@@ -181,13 +184,13 @@ ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-oo##""####+###"#####""#oo
+oo##""####@###"#####""#oo
 oo&....#E+.+.FK%%....."oo
 oo#....###.#....%....."oo
 oo#........#$$S......E#oo
 oo######..##########+##oo
 oo#....+..+.....#E....#oo
-oo"BB..#+##....B#E....+oo
+oo"BB..#+##....B#E....@oo
 oo#....#.T#....B#E....#oo
 oo##"###"####"#####"###oo
 ooooooooooooooooooooooooo
@@ -248,6 +251,8 @@ tile: . = floor
 tile: * = pavement
 tile: o = dirt / grass
 tile: + = closed door
+tile: @ = w:2 closed locked door / w:1 closed door
+tile: ! = w:6 closed door / w:1 closed locked door
 tile: " = window
 tile: < = stairs up
 tile: % = counter
@@ -265,7 +270,7 @@ subst: PQ = w:19 o / w:1 Z
 tile: Z = sand
 map:
 ooooooooooooooooooooooooo
-o##+####"""###"""####+##o
+o##@####"""###"""####@##o
 o#...<#.....#.....#<...#o
 o"..###.....#.....###.."o
 o#..........#..........#o
@@ -278,7 +283,7 @@ o#......#########......#o
 o#......%%S$#$S%%......#o
 o"..........#.........."o
 o#......%K.F#F.K%......#o
-o##"####"#+###+#"####"##o
+o##"####"#!###!#"####"##o
 oNooooooooooMooooooooooNo
 oNooooooooooMooooooooooNo
 oNooooooooooMooooooooooNo
@@ -378,6 +383,7 @@ tile_group: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
+tile: @ = w:2 closed locked door / w:1 closed door
 tile: " = window
 tile: < = stairs up
 tile: % = counter
@@ -395,7 +401,7 @@ item_group: 50 % = items_kitchen_counter
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-oooooooo#"#+##"#ooooooooo
+oooooooo#"#@##"#ooooooooo
 oooooooo"......"ooooooooo
 oooooooo#......#ooooooooo
 oo##"####......##"##ooooo
@@ -410,7 +416,7 @@ oo#E.....#.........#ooooo
 oo#.....B#.........#ooooo
 oo".....B#........."ooooo
 oo#......#.........#ooooo
-oo##"##"###+##"""###ooooo
+oo##"##"###@##"""###ooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo

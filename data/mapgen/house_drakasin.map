@@ -29,10 +29,11 @@ tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
+tile: @ = w:3 closed locked door / w:1 closed door
 tile: " = window
 tile: < = stairs up
 tile: F = stockade fence
-tile: % = counter
+tile: %& = counter
 tile: S = stove
 tile: s = sink
 tile: f = fridge
@@ -43,12 +44,12 @@ tile: E$ = shelves
 
 item_group: 30 $ = items_food_shelves
 item_group: 40 f = items_fridge
-item_group: 50 % = items_kitchen_counter
+item_group: 50 & = items_kitchen_counter
 
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-oo######"""######"#+#"#oo
+oo######"""######"#@#"#oo
 oo#.............#E...%#oo
 oo#.............+....%#oo
 oo#.............#....E#oo
@@ -57,9 +58,9 @@ oo#%.....%#<#.#E..#ss.#oo
 oo".......#...#E..+...#oo
 oo"...........#E..#.#T"oo
 oo#EEEEEEE....#E..#####oo
-oo#########...##+##S%s#oo
-oo#....#EE#...#..#%...#oo
-oo"....#..#...#..#%..."oo
+oo#########...##+##S&s#oo
+oo#....#EE#...#..#&...#oo
+oo"....#..#...#..#&..."oo
 oo"....##+#...#..#f..."oo
 oo#.......#...#......$#oo
 oo#.......+...+......$#oo
@@ -82,30 +83,35 @@ tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed door
+tile: @ = w:2 closed locked door / w:1 closed door
 tile: " = window
 tile: < = stairs up
 tile: F = stockade fence
-tile: % = counter
+tile: %& = counter
 tile: S = stove
 tile: s = sink
 tile: f = fridge
 tile: T = toilet
 tile: G = closed glass door
 tile: g = grass
-tile: E = shelves
-tile: D = sand
+tile: E$ = shelves
+tile_group: D = w:1 sand / w:3 grass
+
+item_group: 30 $ = items_food_shelves
+item_group: 40 f = items_fridge
+item_group: 50 & = items_kitchen_counter
 
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-oo#######"""########+"#oo
+oo#######"""########@"#oo
 oo#...............#%..#oo
 oo"...............#%..#oo
 oo"...............##..#oo
 oo#................+..#oo
 oo#..######<########EE#oo
-oo#..#SS%E####Es#sE####oo
-oo"......E#..+.....+.T"oo
+oo#..#SS&$####Es#sE####oo
+oo"......$#..+.....+.T"oo
 oo#......s######+######oo
 oo"......##........+.E#oo
 oo#.......#........#EE#oo
@@ -116,8 +122,8 @@ oo#...................#oo
 oo#...................#oo
 oo##""#####"G"#####""##oo
 ooFgggggggggggggggggggFoo
-ooFgSSggggggggggggggggFoo
-ooFgSSggggggggggggggggFoo
+ooFgDDDgggggggggggggggFoo
+ooFgDDDgggggggggggggggFoo
 ooFFFFFFFFFFFFFFFFFFFFFoo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
