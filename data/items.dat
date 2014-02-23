@@ -918,11 +918,16 @@ tool
   weight:  4
   volume: 14
 
-  powered:
-  done
   default_charges: 100
   max_charges: 100
   subcharges: 5
+
+  powered:
+    special: light
+      light: 8
+    done
+  done
+
 done
 
 # END Tools
