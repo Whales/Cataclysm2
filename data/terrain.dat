@@ -5,6 +5,7 @@ name: dirt
   signal: dig
     result: hole
   done
+  flags: plural
 done
 
 name: grass
@@ -14,6 +15,7 @@ name: grass
   signal: dig
     result: hole
   done
+  flags: plural
 done
 
 # TODO: redo hole as a trapish thing
@@ -47,7 +49,7 @@ name: underbrush
     armor: bash 1d20 + 20
     ignore_chance: 25
   done
-  flags: flammable
+  flags: flammable plural
 done
 
 name: small tree
@@ -70,6 +72,7 @@ name: sand
   signal: dig
     result: hole
   done
+  flags: plural
 done
 
 # Identical to sand, but when dug in, produces shallow salt water!
@@ -81,6 +84,7 @@ name: beach sand
   signal: dig
     result: shallow salt water
   done
+  flags: plural
 done
 
 name: mud
@@ -90,30 +94,31 @@ name: mud
   signal: dig
     result: shallow water
   done
+  flags: plural
 done
 
 name: shallow water
   glyph: ~ ltblue black
   movecost: 200
-  flags: water
+  flags: water plural
 done
 
 name: deep water
   glyph: ~ blue black
   movecost: 0
-  flags: water
+  flags: water plural
 done
 
 name: shallow salt water
   glyph: ~ ltcyan black
   movecost: 200
-  flags: water
+  flags: water plural
 done
 
 name: deep salt water
   glyph: ~ cyan black
   movecost: 0
-  flags: water
+  flags: water plural
 done
 
 name: fungal tree
@@ -129,11 +134,13 @@ name: fungal undergrowth
   movecost: 150
   destroy: dirt
   hp: 50
+  flags: plural
 done
 
 name: rubble
   glyph: % ltgray black
   movecost: 120
+  flags: plural
 done
 
 name: boulder
@@ -440,7 +447,7 @@ name: counter
 done
 
 name: stairs up
-  display_name: stairs
+  display_name: staircase
   glyph: < yellow black
   movecost: 100
   hp: 200
@@ -449,7 +456,7 @@ name: stairs up
 done
 
 name: stairs down
-  display_name: stairs
+  display_name: staircase
   glyph: > yellow black
   movecost: 100
   hp: 200
@@ -485,7 +492,7 @@ name: shelves
     success_sound: "wood splintering."
   done
 
-  flags: flammable opaque
+  flags: flammable opaque plural
 done
 
 name: dresser
