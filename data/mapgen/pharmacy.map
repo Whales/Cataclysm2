@@ -33,6 +33,8 @@ tile: " = window
 tile: 12345Hh{ = display rack
 tile: ST = display fridge
 tile: % = counter
+subst: s = w:3 $ / w:1 .
+tile: $ = safe
 
 item_group: 40 1 = items_behind_counter
 item_group: 30 2 = items_soft_drugs
@@ -41,6 +43,7 @@ item_group: 10 4 = items_food_shelves
 item_group: 45 5 = items_misc_goods
 item_group: 35 ST = items_fridge_snacks
 item_group: 10 hH = items_hard_drugs
+item_group: 85 $ = items_hard_drugs
 
 # Shuffle the various aisles, so stuff isn't always in the same place
 shuffle: 2345
@@ -65,7 +68,7 @@ ooo#.............5..S#ooo
 ooo#%%%%%%%%#....5..S#ooo
 ooo#H......H#....5..S#ooo
 ooo######..H#........#ooo
-ooo#hhhh#...+........#ooo
+ooo#hhhs#...+........#ooo
 ooo#h...##+###########ooo
 ooo#hhh.....#oooooooooooo
 ooo##########oooooooooooo
