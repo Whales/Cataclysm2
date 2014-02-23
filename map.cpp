@@ -214,10 +214,24 @@ bool Tile::apply_signal(std::string signal, Entity* user)
   Terrain_signal_handler handler = terrain->signal_handlers[signal];
 
   int success = handler.success_rate;
-// Apply stat bonuses, if the user exists
+// Apply bonuses, if the user exists
   if (user) {
-    for (std::list<Stat_bonus>::iterator it = handler.bonuses.begin();
-         it != handler.bonuses.end();
+// Terrain bonuses - check the flags for the terrain the user is on
+// Kind of weird to check GAME.map from a tile, but... eh
+    Tile* user_tile = GAME.map->get_tile(user->pos);
+    if (user_tile) {
+      for (std::list<Terrain_flag_bonus>::iterator it =
+              handler.terrain_flag_bonuses.begin();
+           it != handler.terrain_flag_bonuses.end();
+           it++) {
+        if (user_tile->has_flag( it->flag )) {
+          success += it->amount;
+        }
+      }
+    }
+// Stat bonuses
+    for (std::list<Stat_bonus>::iterator it = handler.stat_bonuses.begin();
+         it != handler.stat_bonuses.end();
          it++) {
       int stat = 0;
       switch (it->stat) {

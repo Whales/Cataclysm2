@@ -42,6 +42,18 @@ struct Stat_bonus
   int amount_static;  // Used if op is a comparison operator
 };
 
+struct Terrain_flag_bonus
+{
+  Terrain_flag_bonus(Terrain_flag _flag = TF_NULL, int _amount = 0) :
+    flag (_flag), amount (_amount) {}
+
+  bool load_data(std::istream& data, std::string owner_name);
+
+  Terrain_flag flag;
+  int amount;
+};
+
+
 struct Terrain_signal_handler
 {
   Terrain_signal_handler();
@@ -52,7 +64,8 @@ struct Terrain_signal_handler
   std::string result;   // The terrain we become
   int success_rate;     // Percentage rate of success
 
-  std::list<Stat_bonus> bonuses;  // Bonuses to success_rate based on stats
+  std::list<Stat_bonus> stat_bonuses;  // Bonuses to success_rate based on stats
+  std::list<Terrain_flag_bonus> terrain_flag_bonuses;  // based on terrain_flags
 
   std::string success_message;    // Message when we succeed
   std::string failure_message;    // Message when we fail
