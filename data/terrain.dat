@@ -565,3 +565,29 @@ name: fridge
   destroy: rubble
   flags: opaque
 done
+
+name: safe
+  glyph: { dkgray black
+  movecost: 150
+  height: 50
+  hp: 250
+  destroy: rubble
+
+  signal: pry
+    result: open safe
+    success_rate: 70
+    stat_bonus: strength * 2
+    success_message: You pry the safe open.
+    failure_message: The safe resists.
+  done
+
+  flags: sealed
+done
+
+name: open safe
+  glyph: { ltgray black
+  movecost: 150
+  height: 50
+  hp: 250
+  destroy: rubble
+done

@@ -25,7 +25,7 @@ glyph Tile::top_glyph()
   if (field.is_valid()) {
     return field.top_glyph();
   }
-  if (!items.empty()) {
+  if (!items.empty() && !has_flag(TF_SEALED)) {
     if (terrain && !terrain->has_flag(TF_FLOOR)) {
       return terrain->sym.hilite(c_blue);
     }

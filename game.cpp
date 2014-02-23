@@ -195,8 +195,14 @@ void Game::do_action(Interface_action act)
       break;
 
     case IACTION_PICK_UP:
-      if (map->item_count(player->pos) == 0) {
+// Make sure we're not sealed...
+      if (map->has_flag(TF_SEALED, player->pos)) {
+        add_msg("<c=dkgray>That %s is sealed; you cannot retrieve items \
+there.<c=/>", map->get_name(player->pos).c_str());
+
+      } else if (map->item_count(player->pos) == 0) {
         add_msg("No items here.");
+
       } else if (map->item_count(player->pos) == 1) {
 // Only one item - no need for the interface
         std::vector<Item> *items = map->items_at(player->pos);
@@ -262,9 +268,15 @@ void Game::do_action(Interface_action act)
         add_msg("Invalid direction.");
       } else {
         Tripoint examine = player->pos + dir;
-        if (map->item_count(player->pos) > 0) {
+// Can't pick up items if we're sealed
+        if (map->has_flag(TF_SEALED, examine)) {
+          add_msg("<c=dkgray>That %s is sealed; you cannot retrieve items \
+there.<c=/>", map->get_name(examine).c_str());
+
+        } else if (map->item_count(examine) > 0) {
           pickup_items(examine);
         }
+
         add_msg("That is %s.", map->get_name_indefinite(examine).c_str());
       }
     } break;
@@ -724,11 +736,17 @@ void Game::player_move(int xdif, int ydif)
   } else if (map->apply_signal("open", newx, newy, player->pos.z, player)) {
     player->use_ap(100);
   }
-  std::vector<Item> *items = map->items_at(player->pos);
+// List items here, unless it's sealed.
+  if (map->has_flag(TF_SEALED, player->pos)) {
+    add_msg("<c=dkgray>This %s is sealed; there may be items inside, but you \
+cannot see or access them.", map->get_name(player->pos).c_str());
+  } else {
+    std::vector<Item> *items = map->items_at(player->pos);
 // TODO: Ensure the player has the sense of sight
-  if (!items->empty()) {
-    std::string item_message = "You see here " + list_items(items);
-    add_msg( item_message );
+    if (!items->empty()) {
+      std::string item_message = "You see here " + list_items(items);
+      add_msg( item_message );
+    }
   }
 }
 
@@ -913,6 +931,11 @@ void Game::pickup_items(Point pos)
 
 void Game::pickup_items(int posx, int posy)
 {
+  if (map->has_flag(TF_SEALED, posx, posy)) {
+    add_msg("<c=ltred>That %s is sealed; you cannot retrieve items there.<c=/>",
+            map->get_name(posx, posy).c_str());
+    return;
+  }
   if (!w_hud) {
     debugmsg("pickup_items() - w_hud is NULL!");
     return;
