@@ -17,7 +17,7 @@ Item::Item(Item_type* T)
   charges = 0;
   subcharges = 0;
   hp = 100;   // TODO: Use Item_type durability instead
-  powered = false;
+  active = false;
   if (type) {
     uid = GAME.get_item_uid();
     charges = type->default_charges();
@@ -45,7 +45,7 @@ Item::Item(const Item &rhs)
   ammo        = rhs.ammo;
   charges     = rhs.charges;
   subcharges  = rhs.subcharges;
-  powered     = rhs.powered;
+  active     = rhs.active;
 
   if (!rhs.contents.empty()) {
     contents.clear();
@@ -203,7 +203,7 @@ std::string Item::get_name_full()
     ret << " (" << charges << ")";
   }
     
-  if (powered) {
+  if (active) {
     ret << " <c=yellow>[on]<c=/>";
   }
 
@@ -590,26 +590,27 @@ bool Item::power_on()
   if (charges == 0 && subcharges == 0) {
     return false;
   }
-  if (powered) {
+  if (active) {
     return false;
   }
-  powered = true;
+  active = true;
   return true;
 }
 
 bool Item::power_off()
 {
-  if (!is_real() || !powered) {
+  if (!is_real() || !active) {
     return false;
   }
-  powered = false;
+  active = false;
+  GAME.remove_active_item(this);
   return true;
 }
 
-bool Item::process_powered()
+bool Item::process_active()
 {
 // TODO: Can we power on other classes?
-  if (!is_real() || !powered || get_item_class() != ITEM_CLASS_TOOL) {
+  if (!is_real() || !active || get_item_class() != ITEM_CLASS_TOOL) {
     return false;
   }
   Item_type_tool* tool = static_cast<Item_type_tool*>(type);
@@ -619,6 +620,7 @@ bool Item::process_powered()
     if (charges >= 0) {
       subcharges += tool->subcharges;
     } else {
+      bool destroy = tool->powered_action.destroy_if_chargeless;
 // We're truly out of power!
       charges = 0;
       subcharges = 0;
@@ -626,13 +628,19 @@ bool Item::process_powered()
       bool did_countdown = false;
       if (tool->countdown_action.real) {
         tool->countdown_action.activate(this);
+        destroy |= tool->countdown_action.destroy_if_chargeless;
         did_countdown = true;
       }
-      power_off();
+      power_off();  // This removes us from Game::active_items
+// We have to destroy the item AFTER removing it from Game:active_items!
+      if (destroy) {
+        GAME.destroy_item(this);
+      }
       return did_countdown;
     }
   }
 
+// Finally, do what we're meant to do while active.
   if (tool->powered_action.real) {
     tool->powered_action.activate(this);
   }

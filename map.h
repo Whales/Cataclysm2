@@ -152,6 +152,9 @@ public:
   bool add_item(Item item, Tripoint pos);
   bool add_item(Item item, int x, int y, int z = 999);
 
+  bool remove_item(Item* it, int uid = -1);
+  bool remove_item_uid(int uid);  // remove_item(NULL, uid);
+
   bool add_field(Field_type* type, Tripoint pos, std::string creator = "");
   bool add_field(Field_type* type, int x, int y, int z = 999,
                  std::string creator = "");
@@ -216,7 +219,8 @@ public:
 // Other information
   Submap* get_center_submap(); // i.e. the one the player is in
   Point get_center_point();
-  Tripoint find_item_uid(int uid);
+  Tripoint find_item(Item* it, int uid = -1);
+  Tripoint find_item_uid(int uid); // find_item(NULL, uid)
 
   int posx, posy, posz;
 

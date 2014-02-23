@@ -88,6 +88,8 @@ bool Game::main_loop()
   if (game_over) {
     return false;
   }
+// Before anything else, process the active items.
+  process_active_items();
 /* TODO:  It's be nice to move all of this to Player::take_turn().  Then we
  *        won't have to special case it - it'd just be another entity taking
  *        their turn!
@@ -514,6 +516,15 @@ void Game::complete_player_activity()
   player->activity = Player_activity();
 }
 
+void Game::process_active_items()
+{
+  for (std::list<Item*>::iterator iter = active_items.begin();
+       iter != active_items.end();
+       iter++) {
+    (*iter)->process_active();
+  }
+}
+
 void Game::shift_if_needed()
 {
   int min = SUBMAP_SIZE * (MAP_SIZE / 2), max = min + SUBMAP_SIZE - 1;
@@ -735,6 +746,58 @@ void Game::add_msg(std::string msg, ...)
   }
   messages.push_back( Game_message(text, time.get_turn()) );
   new_messages++;
+}
+
+void Game::add_active_item(Item* it)
+{
+  if (!it) {
+    return;
+  }
+  active_items.push_back(it);
+}
+
+void Game::remove_active_item(Item* it)
+{
+  if (!it) {
+    return;
+  }
+  for (std::list<Item*>::iterator iter = active_items.begin();
+       iter != active_items.end();
+       iter++) {
+    if ( (*iter) == it) {
+      active_items.erase(iter);
+    }
+  }
+}
+
+void Game::remove_active_item_uid(int uid)
+{
+  for (std::list<Item*>::iterator iter = active_items.begin();
+       iter != active_items.end();
+       iter++) {
+    if ( (*iter)->get_uid() == uid) {
+      active_items.erase(iter);
+    }
+  }
+}
+
+// Bit of a duplication of code from find_item(), but what can ya do
+bool Game::destroy_item(Item* it, int uid)
+{
+// Sanity check
+  if (it == NULL && (uid < 0 || uid >= next_item_uid)) {
+    return false;
+  }
+// Check entities first - almost certainly faster than the map
+  for (std::list<Entity*>::iterator iter = entities.instances.begin();
+       iter != entities.instances.end();
+       iter++) {
+    Item check = (*iter)->remove_item(it, uid);
+    if (check.is_real()) {
+      return true;
+    }
+  }
+  return map->remove_item(it, uid);
 }
 
 void Game::draw_all()
@@ -1105,22 +1168,28 @@ int Game::get_light_level()
   return (time.get_light_level());
 }
 
-Tripoint Game::find_item_uid(int uid)
+// UID defaults to -1
+Tripoint Game::find_item(Item* it, int uid)
 {
 // Sanity check
-  if (uid < 0 || uid >= next_item_uid) {
+  if (it == NULL && (uid < 0 || uid >= next_item_uid)) {
     return Tripoint(-1, -1, -1);
   }
 // Check entities first - almost certainly faster than the map
-  for (std::list<Entity*>::iterator it = entities.instances.begin();
-       it != entities.instances.end();
-       it++) {
-    if ( (*it)->has_item_uid(uid) ) {
-      return (*it)->pos;
+  for (std::list<Entity*>::iterator iter = entities.instances.begin();
+       iter != entities.instances.end();
+       iter++) {
+    if ( (*iter)->has_item(it, uid)) {
+      return (*iter)->pos;
     }
   }
-  Tripoint ret = map->find_item_uid(uid);
+  Tripoint ret = map->find_item(it, uid);
   return ret;
+}
+
+Tripoint Game::find_item_uid(int uid)
+{
+  return find_item(NULL, uid);
 }
 
 std::vector<std::string>

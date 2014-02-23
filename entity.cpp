@@ -759,11 +759,15 @@ Item* Entity::ref_item_of_type(Item_type *type)
   return NULL;
 }
 
-Item Entity::remove_item_uid(int uid, int count)
+Item Entity::remove_item(Item* it, int uid, int count)
 {
   Item ret = Item();
+// Sanity check
+  if (it == NULL && uid < 0) {
+    return ret;
+  }
   int ret_count = count;
-  if (weapon.type && weapon.get_uid() == uid) {
+  if (weapon.is_real() && (&weapon == it || weapon.get_uid()) == uid) {
     if (count == 0) {
       ret_count = weapon.count;
     } else if (weapon.count < count) {
@@ -778,17 +782,17 @@ Item Entity::remove_item_uid(int uid, int count)
     return ret;
   }
   for (int i = 0; i < weapon.contents.size(); i++) {
-    Item* it = &(weapon.contents[i]);
-    if (it->type && it->get_uid() == uid) {
+    Item* content = &(weapon.contents[i]);
+    if (content->is_real() && (content == it || content->get_uid() == uid)) {
       if (count == 0) {
-        ret_count = it->count;
-      } else if (it->count < count) {
-        ret_count = it->count;
+        ret_count = content->count;
+      } else if (content->count < count) {
+        ret_count = content->count;
       }
-      it->count -= count;
-      ret = (*it);
+      content->count -= count;
+      ret = (*content);
       ret.count = ret_count;
-      if (it->count <= 0 || count == 0) {
+      if (content->count <= 0 || count == 0) {
         weapon.contents.erase( weapon.contents.begin() + i );
       }
       return ret;
@@ -796,7 +800,7 @@ Item Entity::remove_item_uid(int uid, int count)
   }
 // Items_worn should never have a count (or contents?).
   for (int i = 0; i < items_worn.size(); i++) {
-    if (items_worn[i].get_uid() == uid) {
+    if (&(items_worn[i]) == it || items_worn[i].get_uid() == uid) {
       ret = items_worn[i];
       ret.count = 1;
       items_worn.erase(items_worn.begin() + i);
@@ -805,7 +809,7 @@ Item Entity::remove_item_uid(int uid, int count)
   }
 // Check inventory
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].get_uid() == uid) {
+    if ( &(inventory[i]) == it || inventory[i].get_uid() == uid) {
       if (count == 0) {
         ret_count = inventory[i].count;
       } else if (inventory[i].count < count) {
@@ -821,22 +825,34 @@ Item Entity::remove_item_uid(int uid, int count)
     }
 // Check contents, too!
     for (int n = 0; n < inventory[i].contents.size(); n++) {
-      Item* it = &(inventory[i].contents[n]);
-      if (count == 0) {
-        ret_count = it->count;
-      } else if (it->count < count) {
-        ret_count = it->count;
-      }
-      ret = (*it);
-      ret.count = ret_count;
-      it->count--;
-      if (count == 0 || it->count <= 0) {
-        inventory[i].contents.erase( inventory[i].contents.begin() + n );
+      Item* content = &(inventory[i].contents[n]);
+      if (content->is_real() && (content == it || content->get_uid() == uid)) {
+        if (count == 0) {
+          ret_count = content->count;
+        } else if (content->count < count) {
+          ret_count = content->count;
+        }
+        ret = (*content);
+        ret.count = ret_count;
+        content->count--;
+        if (count == 0 || content->count <= 0) {
+          inventory[i].contents.erase( inventory[i].contents.begin() + n );
+        }
       }
       return ret;
     }
   }
   return ret;
+}
+
+Item Entity::remove_item_ref(Item* it, int count)
+{
+  return remove_item(it, -1, count);
+}
+
+Item Entity::remove_item_uid(int uid, int count)
+{
+  return remove_item(NULL, uid, count);
 }
 
 void Entity::wield_item_uid(int uid)
@@ -1027,13 +1043,30 @@ Tripoint Entity::pick_target_for(Item *it)
 
 bool Entity::is_wielding_item_uid(int uid)
 {
-  return weapon.is_real() && weapon.get_uid() == uid;
+  return is_wielding_item(NULL, uid);
+}
+
+bool Entity::is_wielding_item(Item* it, int uid)
+{
+  if (it == NULL && uid < 0) {
+    return false;
+  }
+  return (weapon.is_real() && (&weapon == it || weapon.get_uid() == uid));
 }
 
 bool Entity::is_wearing_item_uid(int uid)
 {
+  return is_wearing_item(NULL, uid);
+}
+
+bool Entity::is_wearing_item(Item* it, int uid)
+{
+  if (it == NULL && uid < 0) {
+    return false;
+  }
   for (int i = 0; i < items_worn.size(); i++) {
-    if (items_worn[i].is_real() && items_worn[i].get_uid() == uid) {
+    if (items_worn[i].is_real() && 
+        (&(items_worn[i]) == it || items_worn[i].get_uid() == uid)) {
       return true;
     }
   }
@@ -1042,8 +1075,17 @@ bool Entity::is_wearing_item_uid(int uid)
 
 bool Entity::is_carrying_item_uid(int uid)
 {
+  return is_carrying_item(NULL, uid);
+}
+
+bool Entity::is_carrying_item(Item* it, int uid)
+{
+  if (it == NULL && uid < 0) {
+    return false;
+  }
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].is_real() && inventory[i].get_uid() == uid) {
+    if (inventory[i].is_real() &&
+        (&(inventory[i]) == it || inventory[i].get_uid() == uid)) {
       return true;
     }
   }
@@ -1052,8 +1094,13 @@ bool Entity::is_carrying_item_uid(int uid)
 
 bool Entity::has_item_uid(int uid)
 {
-  return (is_wielding_item_uid(uid) || is_wearing_item_uid(uid) ||
-          is_carrying_item_uid(uid));
+  return has_item(NULL, uid);
+}
+
+bool Entity::has_item(Item* it, int uid)
+{
+  return (is_wielding_item(it, uid) || is_wearing_item(it, uid) ||
+          is_carrying_item(it, uid));
 }
 
 std::string Entity::drop_item_message(Item &it)

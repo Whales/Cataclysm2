@@ -922,7 +922,7 @@ tool
   done
   default_charges: 100
   max_charges: 100
-  subcharges: 50
+  subcharges: 5
 done
 
 # END Tools

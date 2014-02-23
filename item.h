@@ -69,7 +69,7 @@ public:
   bool absorb_damage(Damage_type damtype, int dam); // Returns true if destroyed
   bool power_on();
   bool power_off();
-  bool process_powered();
+  bool process_active();
 
 // Interfaces
   Item_action show_info(Entity* user = NULL);
@@ -78,7 +78,7 @@ public:
   std::vector<Item> contents; // Contents, attached mods, etc.
   int count;
   int charges, subcharges;
-  bool powered;
+  bool active;
   int hp;
 private:
   int uid;

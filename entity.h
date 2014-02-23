@@ -133,6 +133,8 @@ public:
   Item  get_item_of_type(Item_type *type);
   Item* ref_item_of_type(Item_type *type);
   Item* ref_item_uid   (int uid);
+  Item  remove_item(Item* it, int uid, int count = 1);
+  Item  remove_item_ref(Item* it, int count = 1);
   Item  remove_item_uid(int uid, int count = 1);
 // These functions just handle the meat - messages are handled in Message below
   void  wield_item_uid (int uid);
@@ -145,10 +147,14 @@ public:
   virtual Item pick_ammo_for(Item *it);
   virtual Tripoint pick_target_for(Item *it);
 
-  bool is_wielding_item_uid(int uid);
-  bool is_wearing_item_uid(int uid);
-  bool is_carrying_item_uid(int uid);
-  bool has_item_uid(int uid); // wielding, wearing or carrying
+  bool is_wielding_item_uid(int uid); // is_wielding_item(NULL, uid)
+  bool is_wielding_item(Item* it, int uid = -1);
+  bool is_wearing_item_uid (int uid); // is_wearing_item(NULL, uid)
+  bool is_wearing_item (Item* it, int uid = -1);
+  bool is_carrying_item_uid(int uid); // is_carrying_item(NULL, uid)
+  bool is_carrying_item(Item* it, int uid = -1);
+  bool has_item_uid(int uid);         // has_item(NULL, uid)
+  bool has_item(Item* it, int uid = -1); // wielding, wearing or carrying
 
 // Message functions
 /* TODO (?):  These are all only in entity.cpp, with the assumption that NPCs

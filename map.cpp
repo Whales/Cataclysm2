@@ -927,6 +927,45 @@ bool Map::add_item(Item item, int x, int y, int z)
   return submaps[sx][sy][z]->add_item(item, x, y);
 }
 
+bool Map::remove_item(Item* it, int uid)
+{
+// Sanity check
+  if (it == NULL && uid < 0) {
+    return false;
+  }
+// Code duplication from find_item(), but what can ya do
+  for (int x = 0; x < MAP_SIZE; x++) {
+    for (int y = 0; y < MAP_SIZE; y++) {
+      for (int z = 0; z < VERTICAL_MAP_SIZE * 2 + 1; z++) {
+        Submap* sm = submaps[x][y][z];
+        if (sm) {
+          for (int sx = 0; sx < SUBMAP_SIZE; sx++) {
+            for (int sy = 0; sy < SUBMAP_SIZE; sy++) {
+              std::vector<Item>* items = sm->items_at(sx, sy);
+              if (!items) {
+                debugmsg("NULL Items in Map::find_item_uid()");
+              }
+              for (int i = 0; i < items->size(); i++) {
+                if ( &( (*items)[i] ) == it || (*items)[i].get_uid() == uid ) {
+                  items->erase( items->begin() + i );
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+// If we never found it, return false
+  return false;
+}
+
+bool Map::remove_item_uid(int uid)
+{
+  return remove_item(NULL, uid);
+}
+
 bool Map::add_field(Field_type* type, Tripoint pos, std::string creator)
 {
   return add_field(type, pos.x, pos.y, pos.z);
@@ -1478,8 +1517,12 @@ Point Map::get_center_point()
 }
 
 // TODO: Clean this up?
-Tripoint Map::find_item_uid(int uid)
+Tripoint Map::find_item(Item* it, int uid)
 {
+// Sanity check
+  if (it == NULL && uid < 0) {
+    return Tripoint(-1, -1, -1);
+  }
   for (int x = 0; x < MAP_SIZE; x++) {
     for (int y = 0; y < MAP_SIZE; y++) {
       for (int z = 0; z < VERTICAL_MAP_SIZE * 2 + 1; z++) {
@@ -1495,7 +1538,7 @@ Tripoint Map::find_item_uid(int uid)
                 debugmsg("NULL Items in Map::find_item_uid()");
               }
               for (int i = 0; i < items->size(); i++) {
-                if ( (*items)[i].get_uid() == uid ) {
+                if ( &( (*items)[i] ) == it || (*items)[i].get_uid() == uid ) {
                   return Tripoint(rx, ry, rz);
                 }
               }
@@ -1507,4 +1550,9 @@ Tripoint Map::find_item_uid(int uid)
   }
 // If we never found it... return nothing point
   return Tripoint(-1, -1, -1);
+}
+
+Tripoint Map::find_item_uid(int uid)
+{
+  return find_item(NULL, uid);
 }
