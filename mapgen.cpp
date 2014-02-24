@@ -248,7 +248,7 @@ bool Item_group::load_data(std::istream &data)
           item_name = trim(item_name);
           Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
           if (!tmpitem) {
-            debugmsg("Unknown item '%s' (%s)", item_ident.c_str(),
+            debugmsg("Unknown item '%s' (%s)", item_name.c_str(),
                      name.c_str());
           }
           tmp_chance.item = tmpitem;
