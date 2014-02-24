@@ -178,7 +178,7 @@ name: small_hardware_store_whales_roof
 subname: small_hw_whales
 type: hardware store
 floor: 1
-tile: o = nothing
+tile: o = empty
 tile: . = roof
 map:
 ooooooooooooooooooooooooo
