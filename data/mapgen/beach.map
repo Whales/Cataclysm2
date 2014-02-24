@@ -26,7 +26,7 @@ type: beach
 weight: 99999
 base_terrain: beach sand
 item_group: 80 . = items_test
-tile: + = closed locked door
+tile: + = locked door
 tile: * = closed glass door
 tile: o = floor
 tile: S = safe
