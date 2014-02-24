@@ -36,6 +36,7 @@ tile: % = counter
 tile: F = stockade fence
 tile: c = concrete floor
 tile: d = dirt
+tile: E = shelves
 subst: 1 = w:15 d / w:10 c
 map:
 occccccccccccccccccccccco
@@ -44,9 +45,9 @@ o#{...................{#o
 o#{.{{{..{{..{..{..{..{#o
 o#{......{{..{..{..{..{#o
 o######...............{#o
-o#{{{{#%%%%%....{..{..{#o
-o#{ccc*....%....{..{..{#o
-o#{{{{#{{{.....{{{{{{.{#o
+o#EEEE#%%%%%....{..{..{#o
+o#Eccc*....%....{..{..{#o
+o#EEEE#{{{.....{{{{{{.{#o
 o###########*###########o
 o#111111111111111111111*o
 o#111111111111111111111#o
@@ -118,27 +119,31 @@ tile: T = toilet
 tile: s = sink
 tile: E = shelves
 tile: c = concrete floor
+tile: p = pavement
+subst: 1 = w:5 o / p
+subst: 2 = w:5 o / p
+subst: 3 = w:5 o / p
 map:
-ooooocccccccccccccccooooo
-ooooocccccccccccccccooooo
-ooooo####XX#+#XX####ooooo
-ooooo#{.X.......X.{#ooooo
-ooooo#{.X.......X.{#ooooo
-ooooo#{.X.......X.{#ooooo
-ooooo#{.X.......X.{#ooooo
-ooooo#{.#XXX%XXX#.{#ooooo
-ooooo#{...........{#ooooo
-ooooo#{{{{{{.{{{{{{#ooooo
-ooooo#######*#######ooooo
-oooooooo#EEEcEEE#sc#ooooo
-oooooooc*cccccccacc#ooooo
-oooooooo#EEEEEEE#cT#ooooo
-oooooooo############ooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
+11111ccccccccccccccc22222
+11111ccccccccccccccc22222
+11111####XX#+#XX####22222
+11111#{.X.......X.{#22222
+11111#{.X.......X.{#22222
+11111#{.X.......X.{#22222
+11111#{.X.......X.{#22222
+11111#{.#XXX%XXX#.{#22222
+11111#{...........{#22222
+11111#{{{{{{.{{{{{{#22222
+11111#######*#######22222
+11111111#EEEcEEE#sc#22222
+1111111c*cccccccacc#22222
+11111111#EEEEEEE#cT#22222
+11111111############22222
+3333333333333333333333333
+3333333333333333333333333
+3333333333333333333333333
+3333333333333333333333333
+3333333333333333333333333
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
