@@ -756,6 +756,152 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
+# 7
+name: medium2_house_aninimouse_gd
+subname: medium2_house_aninimouse
+type: house
+tile: # = stone wall
+tile: W = wood wall
+tile: . = floor
+tile: o = dirt / grass
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: % = counter
+tile: T = toilet
+tile: B = bed
+tile: E = shelves
+tile: s = sink
+tile: F = fridge
+tile: S = stove
+tile: D = dresser
+tile: p = pavement
+tile: P = stockade fence
+tile: l = short stone wall
+tile: < = stairs up
+tile: g = grass
+tile: c = concrete floor
+tile: h = underbrush
+subst: 1 = w:20 o / w:10 P / w:5 l
+subst: 2 = w:15 o / w:10 P / w:5 l
+subst: 3 = w:20 o / w:10 c
+subst: 4 = w:20 g / w:10 c
+subst: 5 = w:20 o / w:10 h
+subst: 6 = w:20 o / w:10 h
+item_group: 50 % = items_kitchen_counter
+item_group: 30 E = items_food_shelves
+item_group: 40 F = items_fridge
+
+map:
+ooooooo3ooooooooooooooooo
+ooooooo3ooooooooooooooooo
+oooo66636666666666666oooo
+o25g##"@"###""###""##g52o
+o25g#.....#.........#g52o
+o25g"..............."g52o
+o25g#.....#.........#g52o
+o25g#..##########..##g52o
+o25g#..#s.#EEEF%....#g52o
+o25g"..#..+........."g52o
+o25g#.<#T.#%%.%S%ss%#g52o
+o25g#######""+###""##g52o
+o25gggggggg44444gggggg52o
+o25gggggggg44444gggggg52o
+o25gggggggg44444gggggg52o
+o25ggggggggggggggggggg52o
+o25ggggggggggggggggggg52o
+o25ggggggggggggggggggg52o
+o25ggggggggggggggggggg52o
+o25ggggggggggggggggggg52o
+o25ggggggggggggggggggg52o
+o25ggggggggggggggggggg52o
+o25555555555555555555552o
+o11111111111111111111111o
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: medium2_house_aninimouse_2nd
+subname: medium2_house_aninimouse
+type: house
+level: 1
+tile: # = stone wall
+tile: . = floor
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: T = toilet
+tile: B = bed
+tile: s = sink
+tile: D = dresser
+tile: > = stairs down
+tile: x = empty
+tile: * = roof
+
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxx*****************xxxx
+xxxx##"#"###""###""##xxxx
+xxxx"..............."xxxx
+xxxx#..##+##+####+###xxxx
+xxxx#..#s.#D.D#.....#xxxx
+xxxx"..#T.#...#....."xxxx
+xxxx"..#..#B.B#.BB.D"xxxx
+xxxx#.>#..#B.B#.BB.D#xxxx
+xxxx#######"#"#"###"#xxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+name: medium2_house_aninimouse_rf
+subname: medium2_house_aninimouse
+type: house
+level: 2
+tile: x = empty
+tile: * = roof
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxx*****************xxxx
+xxxx*****************xxxx
+xxxx*****************xxxx
+xxxx*****************xxxx
+xxxx*****************xxxx
+xxxx*****************xxxx
+xxxx*****************xxxx
+xxxx*****************xxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".

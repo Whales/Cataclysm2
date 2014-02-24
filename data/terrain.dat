@@ -65,6 +65,20 @@ name: small tree
   flags: flammable
 done
 
+name: hedge
+  glyph: % green black
+  movecost: 0
+  hp: 20
+  destroy: underbrush
+  smash:
+    failure_sound: "crunch."
+    success_sound: "crunch."
+    armor: bash 1d20 + 10
+    ignore_chance: 10
+  done
+  flags: opaque flammable plural
+done
+
 name: sand
   glyph: . yellow black
   movecost: 100
