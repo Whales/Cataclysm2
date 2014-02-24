@@ -43,6 +43,7 @@ tile: p = pavement
 tile: P = stockade fence
 tile: l = short stone wall
 tile: h = underbrush
+# Bush/Hedge placeholder
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
 subst: 3 = w:20 o / w:10 p
@@ -495,6 +496,255 @@ xxxx**********xxxxxxxxxxx
 xxxx**********xxxxxxxxxxx
 xxxx**********xxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+# 5
+name: medium1_house_aninimouse_gd
+subname: medium1_house_aninimouse
+type: house
+tile: # = stone wall
+tile: W = wood wall
+tile: . = floor
+tile: o = dirt / grass
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: %G = counter
+tile: T = toilet
+tile: B = bed
+tile: EQ = shelves
+tile: s = sink
+tile: F = fridge
+tile: S = stove
+tile: D = dresser
+tile: p = pavement
+tile: P = stockade fence
+tile: l = short stone wall
+tile: < = stairs up
+tile: g = grass
+tile: c = concrete floor
+subst: 1 = w:20 o / w:10 P / w:5 l
+subst: 2 = w:15 o / w:10 P / w:5 l
+subst: 3 = w:20 o / w:10 c
+subst: 4 = w:20 g / w:10 c
+subst: 5 = w:20 o / w:10 h
+subst: 6 = w:20 o / w:10 h
+item_group: 50 % = items_kitchen_counter
+item_group: 30 E = items_food_shelves
+item_group: 40 F = items_fridge
+item_group: 10 G = items_garage
+item_group: 50 Q = items_garage
+
+map:
+o2pppppp3oooooooooooooooo
+o2pppppp3oooooooooooooooo
+o2pppppp3oooooooooooooooo
+o2pppppp3###+##""##""###o
+o2pppppp3"...#.........#o
+o2pppppp3#<#..........."o
+o2ppppppc###.#.........#o
+o2ppppppc#...######...##o
+o2ppppppc+....%s%#.....#o
+o2pppppp4#+#....S#....."o
+o2pppppp4#s#E.........."o
+o2pppppp4#T#E%..F#.....#o
+o2pppppp4#####+####"""##o
+o2pppppp44444ccc44444441o
+o2ppppppggggggggg4444441o
+o2ppppppggggggggg4444441o
+o#ccccccG#ggggggggggggg1o
+o#ccccccG#ggggggggggggg1o
+o#ccccccG#ggggggggggggg1o
+o#ccccccG#ggggggggWWWWo1o
+o#ccccccG#gggggggo+.QWo1o
+o#ccccccG#gggggggo+.QWo1o
+o#cQcQccG#ggggggggWWWWo1o
+o#########11111111111111o
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: medium1_house_aninimouse_2nd
+subname: medium1_house_aninimouse
+type: house
+level: 1
+tile: # = stone wall
+tile: . = floor
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: T = toilet
+tile: B = bed
+tile: s = sink
+tile: D = dresser
+tile: > = stairs down
+tile: x = empty
+tile: * = roof
+
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxx######""##""###x
+xxxxxxxxx#x#.....#.....#x
+xxxxxxxxx#>#D..BB#D..BB#x
+xxxxxxxxx#.#.....#.....#x
+xxxxxxxx*#.###+#####+###x
+xxxxxxxx*"............."x
+xxxxxxxx*##+####+####+##x
+xxxxxxxxx#...#B...#B...#x
+xxxxxxxxx#s.T#B..D#B..D#x
+xxxxxxxxx##"###""##""###x
+xxxxxxxxxxxxx***xxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+x*********xxxxxxxxxxxxxxx
+x*********xxxxxxxxxxxxxxx
+x*********xxxxxxxxxxxxxxx
+x*********xxxxxxxx****xxx
+x*********xxxxxxxx****xxx
+x*********xxxxxxxx****xxx
+x*********xxxxxxxx****xxx
+x*********xxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+name: medium1_house_aninimouse_rf
+subname: medium1_house_aninimouse
+type: house
+level: 2
+tile: x = empty
+tile: * = roof
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+# 6
+name: small2_house_aninimouse_gd
+subname: small2_house_aninimouse
+type: house
+tile: # = stone wall
+tile: W = wood wall
+tile: . = floor
+tile: o = dirt / grass
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: % = counter
+tile: T = toilet
+tile: B = bed
+tile: EQ = shelves
+tile: s = sink
+tile: F = fridge
+tile: S = stove
+tile: D = dresser
+tile: p = pavement
+tile: P = stockade fence
+tile: l = short stone wall
+tile: < = stairs up
+tile: g = grass
+tile: c = concrete floor
+tile: h = underbrush
+subst: 1 = w:20 o / w:10 P / w:5 l
+subst: 2 = w:15 o / w:10 P / w:5 l
+subst: 3 = w:20 g / w:10 p
+subst: 4 = w:20 g / w:10 c
+subst: 5 = w:20 g / w:10 h
+subst: 6 = w:20 o / w:10 h
+subst: 7 = w:20 . / w:10 Q
+item_group: 50 % = items_kitchen_counter
+item_group: 30 E = items_food_shelves
+item_group: 40 F = items_fridge
+item_group: 50 Q = items_garage
+
+map:
+o2pppppppoooooooocooooooo
+o2ppppppp66666666c666666o
+o2ppppppp##"#"###@#"#"##o
+o2ppppppp".....#.......#o
+o2ppppppp#BB...#......."o
+o2ppppppp#BB...+.......#o
+o2ppppppp".....#.......#o
+o2ppppppp#+#####......."o
+o2ppppppp#.s#T.+......."o
+o2ppppppp".T#s.##%#.####o
+o2ppppppp####"##S.%.#BB#o
+o2ppppppp444444"s...#.."o
+o2ppppppp444444"%EF.+.D#o
+o2ppppppp444444####@####o
+o2ppppppp444444"....777"o
+o2ppppppp444444"......."o
+o2ppppppp444444#"""+"""#o
+o2333333344444444444gg52o
+o23333333ggggggggggggg52o
+o23333333ggggggggggggg52o
+o23333333ggggggggggggg52o
+o23333333ggggggggggggg52o
+o25555555555555555555552o
+o22222222222222222222222o
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: small2_house_aninimouse_rf
+subname: small2_house_aninimouse
+type: house
+level: 1
+tile: x = empty
+tile: * = roof
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxx***************x
+xxxxxxxxxxxxxxx*********x
+xxxxxxxxxxxxxxx*********x
+xxxxxxxxxxxxxxx*********x
+xxxxxxxxxxxxxxx*********x
+xxxxxxxxxxxxxxx*********x
+xxxxxxxxxxxxxxx*********x
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
