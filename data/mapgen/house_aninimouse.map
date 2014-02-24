@@ -781,6 +781,7 @@ tile: l = short stone wall
 tile: < = stairs up
 tile: g = grass
 tile: c = concrete floor
+tile: h = underbrush
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l
 subst: 3 = w:20 o / w:10 c
