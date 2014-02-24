@@ -655,8 +655,8 @@ endmap
 done
 
 # 6
-name: small1_house_aninimouse_gd
-subname: small1_house_aninimouse
+name: small2_house_aninimouse_gd
+subname: small2_house_aninimouse
 type: house
 tile: # = stone wall
 tile: W = wood wall
@@ -720,8 +720,8 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: small1_house_aninimouse_rf
-subname: small1_house_aninimouse
+name: small2_house_aninimouse_rf
+subname: small2_house_aninimouse
 type: house
 level: 1
 tile: x = empty
