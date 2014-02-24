@@ -39,11 +39,11 @@ done
 
 # House and shop groups
 name: items_tools
-  items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax
+  items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax / w:5 nail gun
 done
 
 name: items_small_tools
-  items: w:20 hammer / w:40 screwdriver / w:28 wrench / w:10 crowbar / w:5 hatchet / w:8 flashlight
+  items: w:20 hammer / w:40 screwdriver / w:28 wrench / w:10 crowbar / w:5 hatchet / w:8 flashlight / w:5 nail gun
 done
 
 name: items_big_tools
@@ -88,7 +88,7 @@ name: items_soft_drugs
 done
 
 name: items_garage
-  items: w:40 work gloves / w:100 nails / w:10 baseball bat / w:10 golf club / w:1 machete / w:50 hammer / w:45 wrench / w:5 sledgehammer / w:8 steel pipe / w:60 screwdriver / w:30 crowbar / w:30 shovel / w:15 hatchet / w:12 wood ax
+  items: w:40 work gloves / w:50 nails / w:10 baseball bat / w:10 golf club / w:1 machete / w:50 hammer / w:45 wrench / w:5 sledgehammer / w:8 steel pipe / w:60 screwdriver / w:30 crowbar / w:30 shovel / w:15 hatchet / w:12 wood ax / w:12 nail gun
 done
 
 name: items_fridge

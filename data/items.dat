@@ -302,13 +302,28 @@ done
 # END Weapons / vanilla
 
 # Clothing
+# Glyph guidelines:
+#   Symbol should ALWAYS be [
+#   Color depends on what we cover:
+#
+#   Body part covered:    Color:
+#   Head                  magenta
+#   Eyes                  pink
+#   Mouth                 yellow
+#   Torso (and arms)      red
+#   Hands (and arms)      ltblue
+#   Legs                  brown
+#   Feet                  blue
+#   None/other            green
+#     Examples include backpack, holster, etc.
+#   Combo of several      ltred
 
 clothing
   name: leather jacket
   description:
     A tough leather jacket.  Provides decent protection for your arms and torso.
   done
-  glyph: [ brown black
+  glyph: [ red black
   weight:   30
   volume:   50
   carries:  15
@@ -438,6 +453,17 @@ clothing
   covers: feet
 done
 
+clothing
+  name: holster
+  description:
+    A belt-worn handgun holster.  It can be used to carry other stuff, too!
+  done
+  glyph: [ green black
+  weight:   4
+  volume:  14
+  carries: 14
+done
+
 # END Clothing
 
 # Ammo
@@ -485,13 +511,32 @@ ammo
   damage:   18
   pierce:    0
   range:    20
-  accuracy: 3d10
+  accuracy: 3d8
   count:   100
 done
 
 # END Ammo
 
 # Launchers
+
+gun
+  name: nail gun
+  description:
+    A tool used to drive nails into wood or metal.  It can also be used as a
+    rather weak firearm.
+  done
+  glyph: ) pink black
+  weight: 40
+  volume: 25
+  type: nails
+  bash: 8
+  to_hit: -1
+  damage: 0
+  accuracy: 3d30
+  durability: 95
+  capacity: 100
+  reload_ap: 500
+done
 
 gun
   name: Glock 19
