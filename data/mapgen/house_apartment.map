@@ -27,7 +27,7 @@ type: house
 tile: #wxyz = stone wall
 tile: " = window
 tile: +v = closed door
-tile: @ = w:3 closed locked door / w:1 closed door
+tile: @ = w:3 locked door / w:1 closed door
 tile: < = stairs up
 tile: . = floor
 tile: o = grass / dirt
@@ -83,7 +83,7 @@ floor: 1
 tile: #bdfgijkmp = stone wall
 tile: " = window
 tile: +rhln = closed door
-tile: @ace = w:3 closed locked door / w:1 closed door
+tile: @ace = w:3 locked door / w:1 closed door
 tile: > = stairs down
 tile: < = stairs up
 tile: . = floor
@@ -137,7 +137,7 @@ type: house
 floor: 2
 tile: # = stone wall
 tile: % = short stone wall
-tile: + = w:5 closed locked door / w:1 closed door
+tile: + = w:5 locked door / w:1 closed door
 tile: < = stairs down
 tile: . = floor
 tile: o = empty

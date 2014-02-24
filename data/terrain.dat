@@ -332,7 +332,7 @@ name: open door
   flags: flammable
 done
 
-name: closed locked door
+name: locked door
   display_name: door
   glyph: + brown black
   movecost: 0
@@ -589,5 +589,13 @@ name: open safe
   movecost: 150
   height: 50
   hp: 250
+  destroy: rubble
+done
+
+name: dumpster
+  glyph: { green black
+  movecost: 0
+  height: 75
+  hp: 200
   destroy: rubble
 done
