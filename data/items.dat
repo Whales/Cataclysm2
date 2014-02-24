@@ -478,6 +478,7 @@ ammo
   volume: 16
   type: nails
   damage: 1
+  pierce: 2
   range:  3
 # Accuracy is highly variable!
   accuracy: 3d30
@@ -498,6 +499,23 @@ ammo
 done
   
 ammo
+  name: .22 LR
+  description:
+    One of the smallest cartridges in active use, the .22 Long Rifle has
+    maintained popularity for nearly two centuries.  Its minimal recoil, low
+    cost and low noise are offset by its paltry damage.
+  done
+  weight:  6
+  volume: 12
+  type: .22
+  damage: 10
+  pierce:  5
+  range:  18
+  accuracy: 4d6
+  count: 100
+done
+
+ammo
   name: 9mm
   description:
     9mm parabellum is generally regarded as the most popular handgun cartridge,
@@ -509,10 +527,210 @@ ammo
   volume: 16
   type: 9mm
   damage:   18
-  pierce:    0
+  pierce:    8
   range:    20
   accuracy: 3d8
   count:   100
+done
+
+ammo
+  name: .45 ACP
+  description:
+    .45 ACP was one of the most popular and powerful handgun rounds of the 20th
+    century.  It features very good accuracy and stopping power, but suffers
+    from moderate recoil and poor armor penetration.
+  done
+  glyph: = blue black
+  weight: 26
+  volume: 20
+  type: .45
+  damage: 32
+  pierce:  6
+  range:  24
+  accuracy: 3d6
+  count: 50
+done
+
+ammo
+  name: .45 FMJ
+  description:
+    The full metal jacket variation of the popular .45 round are designed to
+    help overcome the poor armor penetration of the standard ACP round.
+    However, they are less likely to expand upon impact, resulting in less
+    damage overall.
+  done
+  glyph: = blue black
+  weight: 33
+  volume: 20
+  type: .45
+  damage: 24
+  pierce: 12
+  range:  24
+  accuracy: 3d6 - 2
+  count: 50
+done
+
+ammo
+  name: .45 JHP
+  description:
+    The jacketed hollow-point variation of the popular .45 round are designed
+    to expand into a mushroom shape upon impact, resulting in even greater
+    damage.  However, they suffer from even worse armor penetration than the
+    standard .45 ACP round.
+  done
+  glyph: = blue black
+  weight: 26
+  volume: 20
+  type: .45
+  damage: 40
+  pierce:  2
+  range:  24
+  accuracy: 3d6
+  count: 50
+done
+
+ammo
+  name: 5.7x28mm
+  description:
+    Developed by FN Herstal as a possible replacement for the 9mm parabellum
+    round, the 5.7x28mm round is designed for low recoil and high armor
+    penetration, at the cost of total damage.
+  done
+  glyph: = pink black
+  weight:  4
+  volume: 14
+  type: 5.7
+  damage:   14
+  pierce:   16
+  range:    22
+  accuracy: 3d6
+  count:   100
+done
+
+ammo
+  name: 00 shot
+  description:
+    A shotgun shell filled with iron pellets.  Extremely damaging, plus the
+    spread of the pellets makes hitting targets much easier than with bullets.
+    Shot shells suffer from short range and very poor armor penetration.
+  done
+  glyph: = red black
+  weight: 70
+  volume: 30
+  type: shotgun
+  damage: 50
+  pierce:  1
+  range:  10
+  accuracy: 6d2
+  count: 25
+done
+
+ammo
+  name: shotgun slug
+  description:
+    A shotgun shell with a single large slug, rather than the pellets used in
+    00 rounds.  This increases the shotgun's range to something closer to a
+    rifle's, but is very innaccurate.
+  done
+  type: shotgun
+  glyph: = red black
+  weight: 94
+  volume: 30
+  damage: 42
+  pierce:  8
+  range:  30
+  accuracy: 4d8
+  count: 25
+done
+
+ammo
+  name: 5.56 NATO
+  description:
+    The standard NATO rifle round.  5.56x45mm is very light and is designed to
+    shatter inside a target, dealing devastating damage.  Its armor-piercing
+    capabilities are fairly good.
+  done
+  type: 5.56
+  glyph: = cyan black
+  weight:  9
+  volume: 36
+  damage: 40
+  pierce: 15
+  range: 32
+  accuracy: 2d8
+  count: 50
+done
+
+ammo
+  name: 5.56 AP
+  description:
+    An armor-piercing variant of the 5.56x45mm NATO round.  It suffers from a
+    minor reduction in damage in exchange for considerable armor-piercing
+    capabilities.
+  done
+  type: 5.56
+  glyph: = cyan black
+  weight:  8
+  volume: 36
+  damage: 34
+  pierce: 30
+  range:  32
+  accuracy: 2d8
+  count: 50
+done
+
+ammo
+  name: 7.62 NATO
+  description:
+    A rifle round widely used by NATO militaries.  More commonly used in sniper
+    rifles and machine guns, it is heavier and less accurate than the competing
+    5.56 round, but penetrates armor better and does more damage.
+  done
+  type: 7.62
+  glyph: = ltcyan black
+  weight: 21
+  volume: 40
+  damage: 44
+  pierce: 18
+  range:  32
+  accuracy: 3d6
+  count: 50
+done
+
+ammo
+  name: 7.62 AP
+  description:
+    An armor-piercing variant of the 7.62 NATO round.  It does slightly less
+    damage, and is less accurate, but pierces armor extremely well.
+  done
+  type: 7.62
+  glyph: = ltcyan black
+  weight: 24
+  volume: 40
+  damage: 38
+  pierce: 40
+  range:  32
+  accuracy: 3d7
+  count: 50
+done
+
+ammo
+  name: .50 BMG
+  description:
+    Originally developed for the Browning machine gun in the early 20th
+    century, the .50 BMG round is now also used extensively in sniper rifles.
+    Extremely powerful, the .50 BMG slices through armor and is powerful
+    enough to disable engines with a single shot.
+  done
+  type: .50
+  glyph: = brown black
+  weight: 92
+  volume: 200
+  damage: 75
+  pierce: 80
+  range:  60
+  accuracy: 2d4
+  count: 10
 done
 
 # END Ammo
