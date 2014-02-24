@@ -21,8 +21,8 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: a1_gun_store_aninimouse_gd
-subname: a1_gun_store_aninimouse
+name: range_gun_store_aninimouse_gd
+subname: range_gun_store_aninimouse
 type: gun store
 tile: # = stone wall
 tile: . = floor
@@ -34,7 +34,6 @@ tile: " = window
 tile: { = display rack
 tile: % = counter
 tile: F = stockade fence
-tile: s = short stone wall
 tile: c = concrete floor
 tile: d = dirt
 subst: 1 = w:15 d / w:10 c
@@ -51,7 +50,7 @@ o#{{{{#{{{.....{{{{{{.{#o
 o###########*###########o
 o#111111111111111111111*o
 o#111111111111111111111#o
-o#*ss###ss##X##ss###ss##o
+o#*%%###%%##X##%%###%%##o
 oFdddddddddddddddddddddFo
 oFdddddddddddddddddddddFo
 oFdddddddddddddddddddddFo
@@ -67,8 +66,8 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: a1_gun_store_aninimouse_rf
-subname: a1_gun_store_aninimouse
+name: range_gun_store_aninimouse_rf
+subname: range_gun_store_aninimouse
 type: gun store
 level: 1
 tile: x = empty
