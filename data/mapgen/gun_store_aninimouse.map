@@ -115,9 +115,10 @@ tile: X = glass wall
 tile: " = window
 tile: { = display rack
 tile: % = counter
-tile: F = stockade fence
-tile: s = short stone wall
+tile: T = toilet
+tile: s = sink
 tile: E = shelves
+tile: c = concrete floor
 map:
 ooooocccccccccccccccooooo
 ooooocccccccccccccccooooo
