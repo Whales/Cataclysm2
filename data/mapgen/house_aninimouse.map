@@ -821,7 +821,7 @@ item_group: 50 T = items_cleaning
 item_group: 50 Q = items_garden_tools
 item_group: 50 q = items_home_hardware
 item_group: 50 R = items_small_tools
-item_group: 50 R = items_big_tools
+item_group: 50 r = items_big_tools
 
 map:
 ooooooo3ooooooooooooooooo
