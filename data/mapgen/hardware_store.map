@@ -22,6 +22,7 @@
 # specifications, item drop specifications, and adjacency maps.
 
 name: std_hardware_store_whales
+subname: std_hardware_store_whales
 type: hardware store
 tile: # = stone wall
 tile: . = floor
@@ -30,34 +31,274 @@ tile: + = closed glass door
 tile: * = closed door
 tile: X = glass wall
 tile: " = window
-tile: { = display rack
+tile: {1234567 = display rack
 tile: % = counter
+tile: T = toilet
+tile: K = sink
+
+item_group: 15 1 = items_hardware
+item_group: 35 2 = items_cleaning
+item_group: 16 3 = items_small_tools
+item_group: 12 4 = items_big_tools
+item_group: 15 5 = items_misc_construction
+item_group: 40 6 = items_garden_tools
+item_group: 45 7 = items_home_hardware
+
+# Shuffle the item groups, so that certain types aren't always in the same place
+shuffle: 12345
+
 map:
-ooo##XXXXXX+++XXXXXX##ooo
-ooo#.................#ooo
-ooo#{..{..%.........{#ooo
-ooo#{..{..%...{..{..{#ooo
-ooo#{..{......{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#.............{..{#ooo
-ooo##########....{..{#ooo
-ooo#........#....{..{#ooo
-ooo"........#.......{#ooo
-ooo#........*...{{{{{#ooo
-ooo#####"#############ooo
+ooo######XXXX+XXXXXX##ooo
+ooo#1111............2#ooo
+ooo#................2#ooo
+ooo#1..1#..%...%....2#ooo
+ooo#1..1#..%...%....2#ooo
+ooo#1..1#..%...%....2#ooo
+ooo#1..1#..%...%....2#ooo
+ooo#1..1#...........2#ooo
+ooo###+##..3333333..2#ooo
+ooo#T...#...........2#ooo
+ooo#K...#...........2#ooo
+ooo######..6666666..2#ooo
+ooo#44444...........2#ooo
+ooo#4...............2#ooo
+ooo#4......5555555..2#ooo
+ooo#4...............2#ooo
+ooo#4...............2#ooo
+ooo#44444..7777777..2#ooo
+ooo###################ooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_hardware_store_whales_roof
+subname: std_hardware_store_whales
+floor: 1
+type: hardware store
+tile: . = floor
+tile: o = empty
+map:
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: small_hardware_store_whales
+subname: small_hw_whales
+type: hardware store
+weight: 80
+tile: o = grass / dirt
+tile: * = pavement
+tile: ^ = yellow pavement
+tile: #bcd = stone wall
+tile: X = glass wall
+tile: " = window
+tile: . = floor
+tile: % = counter
+tile: T = toilet
+tile: K = sink
+tile: D = dumpster
+tile: + = closed door
+tile: a = w:3 locked door / w:1 closed door
+tile: {1234567 = display rack
+
+item_group: 25 { = items_behind_counter
+item_group: 65 D = items_trash
+item_group: 15 1 = items_hardware
+item_group: 35 2 = items_cleaning
+item_group: 16 3 = items_small_tools
+item_group: 12 4 = items_big_tools
+item_group: 15 5 = items_misc_construction
+item_group: 40 6 = items_garden_tools
+item_group: 45 7 = items_home_hardware
+
+# Shuffle the item racks so they're not always in the same place
+shuffle: 12345
+# Shuffle the placement of the back door
+shuffle: abcd
+
+map:
+*************************
+*************************
+****^***^*******^***^***^
+****^***^*******^***^***^
+****^***^*******^***^***^
+****^***^*******^***^***^
+****^***^*******^***^***^
+****##XXXX#+#XXXX########
+****#{....%......3333333#
+****#{....%............6#
+****#..%%%%............6#
+****#........11111111..6#
+****#.55555..22222222..6#
+****#..................6#
+****#.77777..44444444..6#
+****#+#####ab########cd##
+****#..T"******DDD*******
+****#..K#****************
+****#####****************
+*************************
+*************************
+*************************
+*************************
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: small_hardware_store_whales_roof
+subname: small_hw_whales
+type: hardware store
+floor: 1
+tile: o = nothing
+tile: . = roof
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooo.....................
+oooo.....................
+oooo.....................
+oooo.....................
+oooo.....................
+oooo.....................
+oooo.....................
+oooo.....................
+oooo.....................
+oooo.....oooooooooooooooo
+oooo.....oooooooooooooooo
+oooo.....oooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# Vaguely based on Foster Farrar in Northampton, MA
+name: foster_hardware_store_whales
+subname: foster_hw_whales
+type: hardware store
+weight: 40
+tile: * = pavement
+tile: # = stone wall
+tile: X = glass wall
+tile: % = counter
+tile: . = floor
+tile: + = closed glass door
+tile: T = toilet
+tile: K = sink
+tile: @ = w:3 locked door / w:1 closed door
+tile: {123456789 = display rack
+tile: D = dumpster
+
+item_group: 15 1 = items_hardware
+item_group: 35 2 = items_cleaning
+item_group: 16 3 = items_small_tools
+item_group: 12 4 = items_big_tools
+item_group: 15 5 = items_misc_construction
+item_group: 40 6 = items_garden_tools
+item_group: 45 7 = items_home_hardware
+item_group: 15 8 = items_snacks
+item_group: 30 9 = items_misc_goods
+item_group: 10 { = items_garage
+item_group: 80 D = items_trash
+
+shuffle: 1234567
+map:
+#XXXX####XXXX#***********
+#............#***********
+#2..23..34..4#***********
+#2..23..34..4#***********
+#2..23..34..4#***********
+#2..23..34..4#***********
+#2..23..34..4#***********
+#2..23..34..4#***********
+#2..23..34..4##XXXX+XXX##
+#......................1#
+#......................1#
+#5..56..69..8...%%%%%..1#
+#5..56..69..8.......%..1#
+#5..56..69..8.......%..1#
+#5..56..69..8.......%..1#
+#5..56..69..8...%%%%%..1#
+#3..56..69..8..........1#
+#......................1#
+#.............11111111.1#
+#7..7........#########@##
+#7..7....{{{{#****DDD****
+#7..7....#####D**********
+#7..7....#..K#D**********
+#........+..T#D**********
+##############***********
+endmap
+done
+
+name: foster_hardware_store_whales_roof
+subname: foster_hw_whales
+type: hardware store
+tile: * = empty
+tile: . = roof
+map:
+..............***********
+..............***********
+..............***********
+..............***********
+..............***********
+..............***********
+..............***********
+..............***********
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+..............***********
+..............***********
+..............***********
+..............***********
+..............***********
 endmap
 done
 

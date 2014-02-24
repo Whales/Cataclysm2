@@ -88,6 +88,8 @@ enum Terrain_flag
   TF_FLAMMABLE,     // "flammable" - Consumed by fire.
   TF_CONTAINER,     // "container" - Can hold items despite move_cost of 0
   TF_PLURAL,        // "plural" - Indefinite article is "some" (instead of "a")
+  TF_INDOORS,       // "indoors" - You can open locked doors from this tile.
+  TF_SEALED,        // "sealed" - You can't pick up or see items here.
   TF_MAX
 };
 

@@ -41,8 +41,8 @@ tile: 1 = bed
 tile: D = dresser
 tile: < = stairs up
 tile: + = closed door
-tile: A = w:3 closed locked door / w:1 closed door
-tile: ! = w:2 closed door / w:1 closed locked door
+tile: A@ = w:3 locked door / w:1 closed door
+tile: ! = w:2 closed door / w:1 locked door
 tile: "aB = window
 shuffle: abcd
 shuffle: AB

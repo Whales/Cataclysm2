@@ -194,7 +194,7 @@ name: floor
   glyph: . cyan black
   movecost: 100
   height: 1
-  flags: opaque
+  flags: opaque indoors
 done
 
 name: roof
@@ -259,7 +259,7 @@ name: broken door
   signal: pry
     result: open broken door
     success_rate: 70
-    bonus: strength * 2
+    stat_bonus: strength * 2
     success_message: You pry the broken door open.
     failure_message: The broken door resists.
   done
@@ -303,7 +303,7 @@ name: closed door
   signal: pry
     result: open door
     success_rate: 60
-    bonus: strength * 2
+    stat_bonus: strength * 2
     success_message: You pry the door open.
     failure_message: The door resists.
   done
@@ -332,26 +332,27 @@ name: open door
   flags: flammable
 done
 
-name: closed locked door
+name: locked door
   display_name: door
   glyph: + brown black
   movecost: 0
   hp: 20
 # No, not an error - once we bash a hole in it, presumably we can reach through
-# the hole and unlock the door.
+# the hole and unlock the door, so functionally the door is not locked.
   destroy: broken door
 
   signal: open
     result: open door
     success_rate: 0
-    success_message: You open the door.
+    terrain_flag_bonus: indoors 100
+    success_message: You unlock and open the door.
     failure_message: The door is locked.
   done
 
   signal: pry
     result: open door
     success_rate: 55
-    bonus: strength * 2
+    stat_bonus: strength * 2
     success_message: You pry the door open.
     failure_message: The door resists.
   done
@@ -379,7 +380,7 @@ name: closed glass door
   signal: pry
     result: open glass door
     success_rate: 65
-    bonus: strength * 2
+    stat_bonus: strength * 2
     success_message: You pry the glass door open.
     failure_message: The glass door resists.
   done
@@ -563,4 +564,38 @@ name: fridge
   hp: 100
   destroy: rubble
   flags: opaque
+done
+
+name: safe
+  glyph: { dkgray black
+  movecost: 150
+  height: 50
+  hp: 250
+  destroy: rubble
+
+  signal: pry
+    result: open safe
+    success_rate: 0
+    stat_bonus: strength >= 16 5
+    success_message: You pry the safe open.
+    failure_message: The safe resists.
+  done
+
+  flags: sealed
+done
+
+name: open safe
+  glyph: { ltgray black
+  movecost: 150
+  height: 50
+  hp: 250
+  destroy: rubble
+done
+
+name: dumpster
+  glyph: { green black
+  movecost: 0
+  height: 75
+  hp: 200
+  destroy: rubble
 done

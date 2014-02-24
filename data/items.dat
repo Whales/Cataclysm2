@@ -165,6 +165,46 @@ weapon
 done
 
 weapon
+  name: hoe
+  description:
+    A garden tool, consisting of a long wood handle with a dull, broad blade at
+    the end.  Used for turning and moving small amounts of soil.
+  done
+  glyph: / ltgreen black
+  weight: 55
+  volume: 60
+  bash:  6
+  cut:   8
+  to_hit: -1
+done
+
+weapon
+  name: rake
+  description:
+    A heavy-duty bow rake.  Several sharp metal teeth at the end of a long wood
+    handle.  A garden tool, used for turning up soil and rocks.
+  done
+  glyph: / green black
+  weight: 65
+  volume: 75
+  bash:    6
+  pierce: 14
+  to_hit: -1
+done
+
+weapon
+  name: spade
+  description:
+    A small hand shovel, used in gardens to dig small holes to plant seedlings.
+    Digging a hole with this would take far too long to even consider.
+  done
+  glyph: / ltgreen black
+  weight: 9
+  volume: 8
+  pierce: 8
+done
+
+weapon
   name: steel pipe
   description:
     A thin, but strong, metal pipe.  Useful in many crafting recipes.
@@ -321,6 +361,81 @@ clothing
   armor_bash:  1
   encumbrance: 1
   covers: head
+done
+
+clothing
+  name: hard hat
+  description:
+    A hard plastic hat. Provides excellent protection against damage of all
+    kinds.
+  done
+  glyph: [ magenta black
+  covers: head
+  weight: 4
+  volume: 100
+  armor_bash: 8
+  armor_cut: 16
+  armor_pierce: 18
+done
+
+clothing
+  name: rubber gloves
+  description:
+    A pair of thick rubber gloves, meant to be worn while cleaning.
+  done
+  glyph: [ ltblue black
+  weight: 1
+  volume: 10
+  armor_cut: 2
+  encumbrance: 2
+  covers: hands
+done
+
+clothing
+  name: dust mask
+  description:
+    A thick paper mask, worn over the mouth.  Provides minor protection from
+    air-borne particles.
+  done
+  glyph: [ yellow black
+  weight: 0
+  volume: 3
+  protection: 1
+  encumbrance: 1
+  covers: mouth
+done
+
+clothing
+  name: boots
+  description:
+    A pair of tough leather boots.  Not great for running in, but they do
+    provide good protection against damage.
+  done
+  glyph: [ blue black
+  weight: 8
+  volume: 110
+  armor_bash: 4
+  armor_cut:  8
+  armor_pierce: 6
+  encumbrance: 2
+  covers: feet
+done
+
+clothing
+  name: steel-toed boots
+  description:
+    A pair of touch leather boots, with a layer of steel covering the front.
+    Not great for running in, but they do provide great protection against
+    damage.
+  done
+  glyph: [ blue black
+  weight: 26
+  volume: 110
+  armor_bash: 7
+  armor_cut: 10
+  armor_pierce: 10
+  encumbrance: 3
+  covers: feet
 done
 
 # END Clothing
@@ -928,6 +1043,27 @@ tool
     done
   done
 
+done
+
+tool
+  name: pruning shears
+  description:
+    A strong, curved pair of scissors at the end of a pair of long wood handles.
+    The leverage and strength of the blades allows you to cut through thick
+    branches or even wires.
+  done
+  glyph: ; green black
+  weight: 48
+  volume: 55
+  bash:    4
+  cut:     4
+  pierce:  8
+
+  applied:
+    signal: cut
+    target: adjacent
+    ap_cost: 200
+  done
 done
 
 # END Tools

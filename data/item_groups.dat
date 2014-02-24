@@ -42,6 +42,35 @@ name: items_tools
   items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax
 done
 
+name: items_small_tools
+  items: w:20 hammer / w:40 screwdriver / w:28 wrench / w:10 crowbar / w:5 hatchet / w:8 flashlight
+done
+
+name: items_big_tools
+  items: w:10 shovel / w:3 machete / w:5 sledgehammer / w:8 wood ax
+done
+
+name: items_garden_tools
+  items: w:10 shovel / w:5 hoe / w:7 rake / w:3 pruning shears / w:15 spade / w:2 rope
+done
+
+name: items_home_hardware
+  items: w:15 showerhead / w:10 steel pipe / w:8 flashlight / w:18 wood plank / w:3 broom
+done
+
+name: items_misc_construction
+  items: w:8 work gloves / w:4 hard hat / w:3 boots / w:4 steel-toed boots / w:5 dust mask / w:1 broom
+done
+
+name: items_hardware
+  items: w:30 nails / w:15 steel pipe / w:10 wood plank / w:4 rope / w:1 showerhead
+done
+
+name: items_cleaning
+  items: w:10 dust mask / w:15 rubber gloves / w:15 rag / w:3 broom / w:1 showerhead / w:2 plastic bottle
+done
+
+# From the weird consumer items aisle at pharmacies!
 name: items_misc_goods
   items: w:20 broom / w:4 showerhead / w:4 wrench / w:3 screwdriver / w:16 batteries / w:14 lighter / w:3 cotton gloves / w:6 cotton hat / w:3 dumbbell
 done

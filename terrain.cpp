@@ -60,6 +60,7 @@ Terrain_signal_handler::Terrain_signal_handler()
   success_rate = 100;
 }
 
+// Stat_bonus loads from a single line, so it uses a different paradigm
 bool Stat_bonus::load_data(std::istream& data, std::string owner_name)
 {
 // Get stat name
@@ -108,6 +109,36 @@ bool Stat_bonus::load_data(std::istream& data, std::string owner_name)
   return true;
 }
 
+// Terrain_flag_bonus loads from a single line, so it uses a different paradigm
+bool Terrain_flag_bonus::load_data(std::istream& data, std::string owner_name)
+{
+// Get flag name
+  if (!data.good()) {
+    debugmsg("Terrain_flag_bonus wasn't fed data (%s)", owner_name.c_str());
+    return false;
+  }
+  std::string flag_name;
+  data >> flag_name;
+  flag = lookup_terrain_flag(flag_name);
+  
+  if (flag == TF_NULL) {
+    debugmsg("Unknown Terrain_flag name '%s' (%s)",
+             flag_name.c_str(), owner_name.c_str());
+    return false;
+  }
+
+// Get amount
+  if (!data.good()) {
+    debugmsg("Terrain_flag_bonus couldn't read amount (%s)",
+             owner_name.c_str());
+    return false;
+  }
+  data >> amount;
+
+// Success!
+  return true;
+}
+
 bool Terrain_signal_handler::load_data(std::istream& data,
                                        std::string owner_name)
 {
@@ -138,7 +169,7 @@ bool Terrain_signal_handler::load_data(std::istream& data,
       std::getline(data, failure_message);
       failure_message = trim(failure_message);
 
-    } else if (ident == "bonus:") {
+    } else if (ident == "stat_bonus:") {
       std::string bonus_text;
       std::getline(data, bonus_text);
       std::istringstream bonus_data(bonus_text);
@@ -146,6 +177,17 @@ bool Terrain_signal_handler::load_data(std::istream& data,
       if (!tmp.load_data(bonus_data, owner_name + " signal handler")) {
         return false;
       }
+      stat_bonuses.push_back(tmp);
+
+    } else if (ident == "terrain_flag_bonus:") {
+      std::string bonus_text;
+      std::getline(data, bonus_text);
+      std::istringstream bonus_data(bonus_text);
+      Terrain_flag_bonus tmp;
+      if (!tmp.load_data(bonus_data, owner_name + " signal handler")) {
+        return false;
+      }
+      terrain_flag_bonuses.push_back(tmp);
 
     } else if (ident != "done") {
       debugmsg("Unknown terrain property '%s' (%s)",
@@ -321,6 +363,8 @@ std::string terrain_flag_name(Terrain_flag flag)
     case TF_FLAMMABLE:    return "flammable";
     case TF_CONTAINER:    return "container";
     case TF_PLURAL:       return "plural";
+    case TF_INDOORS:      return "indoors";
+    case TF_SEALED:       return "sealed";
     default:              return "ERROR"; // All caps means it'll never be used
   }
   return "ERROR";

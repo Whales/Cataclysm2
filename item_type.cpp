@@ -33,6 +33,7 @@ Item_type_clothing::Item_type_clothing()
   armor_bash = 0;
   armor_cut = 0;
   armor_pierce = 0;
+  protection = 0;
   encumbrance = 0;
 }
 
@@ -367,6 +368,10 @@ bool Item_type_clothing::handle_data(std::string ident, std::istream &data)
 
   } else if (ident == "armor_pierce:") {
     data >> armor_pierce;
+    std::getline(data, junk);
+
+  } else if (ident == "protection:") {
+    data >> protection;
     std::getline(data, junk);
 
   } else if (ident == "encumbrance:") {

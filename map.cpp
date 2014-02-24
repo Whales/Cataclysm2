@@ -25,7 +25,7 @@ glyph Tile::top_glyph()
   if (field.is_valid()) {
     return field.top_glyph();
   }
-  if (!items.empty()) {
+  if (!items.empty() && !has_flag(TF_SEALED)) {
     if (terrain && !terrain->has_flag(TF_FLOOR)) {
       return terrain->sym.hilite(c_blue);
     }
@@ -214,10 +214,24 @@ bool Tile::apply_signal(std::string signal, Entity* user)
   Terrain_signal_handler handler = terrain->signal_handlers[signal];
 
   int success = handler.success_rate;
-// Apply stat bonuses, if the user exists
+// Apply bonuses, if the user exists
   if (user) {
-    for (std::list<Stat_bonus>::iterator it = handler.bonuses.begin();
-         it != handler.bonuses.end();
+// Terrain bonuses - check the flags for the terrain the user is on
+// Kind of weird to check GAME.map from a tile, but... eh
+    Tile* user_tile = GAME.map->get_tile(user->pos);
+    if (user_tile) {
+      for (std::list<Terrain_flag_bonus>::iterator it =
+              handler.terrain_flag_bonuses.begin();
+           it != handler.terrain_flag_bonuses.end();
+           it++) {
+        if (user_tile->has_flag( it->flag )) {
+          success += it->amount;
+        }
+      }
+    }
+// Stat bonuses
+    for (std::list<Stat_bonus>::iterator it = handler.stat_bonuses.begin();
+         it != handler.stat_bonuses.end();
          it++) {
       int stat = 0;
       switch (it->stat) {
@@ -272,7 +286,11 @@ bool Tile::apply_signal(std::string signal, Entity* user)
 
 // We've finalized our success rate; now roll against it
 
-  if (rng(1, 100) <= success) {
+  if (success <= 0) {
+    GAME.add_msg("<c=red>%s (0 percent success rate)<c=/>",
+                 handler.failure_message.c_str());
+    return true;  // True since we *tried*
+  } else if (rng(1, 100) <= success) {
 // Success!
     if (handler.success_message.empty()) {
       GAME.add_msg("<c=ltred>You %s the %s.<c=/>",
