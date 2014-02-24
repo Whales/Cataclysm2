@@ -446,7 +446,7 @@ name: display rack
     ignore_chance: 50
   done
 
-  flags: flammable
+  flags: flammable container
 done
 
 name: display fridge
@@ -462,6 +462,7 @@ name: display fridge
     armor: pierce 2
   done
 
+  flags: container
 done
 
 name: broken display fridge
@@ -469,6 +470,7 @@ name: broken display fridge
   movecost: 0
   hp: 100
   destroy: rubble
+  flags: container
 done
 
 name: counter
@@ -526,7 +528,7 @@ name: shelves
     success_sound: "wood splintering."
   done
 
-  flags: flammable opaque plural
+  flags: flammable opaque plural container
 done
 
 name: dresser
@@ -540,7 +542,7 @@ name: dresser
     success_sound: "wood splintering."
   done
 
-  flags: flammable
+  flags: flammable container
 done
 
 name: sink
@@ -581,7 +583,7 @@ name: safe
     failure_message: The safe resists.
   done
 
-  flags: sealed
+  flags: sealed container
 done
 
 name: open safe
@@ -598,4 +600,5 @@ name: dumpster
   height: 75
   hp: 200
   destroy: rubble
+  flags: container
 done
