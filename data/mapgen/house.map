@@ -53,9 +53,9 @@ item_group: 30 F = items_fridge
 item_group: 30 % = items_kitchen_counter
 
 map:
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
+oooo*****************oooo
+oooo*****************oooo
+oooo*****************oooo
 oo##"#A#"###"#B#"##**oooo
 oo#.......#$......#**oooo
 oo#.......#$.....F#**oooo
@@ -68,12 +68,12 @@ oo#.#.....#......2"**oooo
 oo#<#.....+..33..2#**oooo
 oo###.....####""###**oooo
 oo#.......#*ooooooo**oooo
-oo#.......#**oooooo**oooo
+oo#.......#**********oooo
 oo#.......@**********oooo
-oo###+#+###**ooo*oooooooo
-oo#K..#..V#*oooo*XXbbXXoo
-oo#...#..V#ooooo*!***{Xoo
-oo#T..#..V#ooooooa***{coo
+oo###+#+###**oo**oooooooo
+oo#K..#..V#*ooo**XXbbXXoo
+oo#...#..V#oooo**!***{Xoo
+oo#T..#..V#oooo**a***{coo
 oo#########ooooooX{{{{Xoo
 oooooooooooooooooXXddXXoo
 ooooooooooooooooooooooooo
