@@ -1557,7 +1557,24 @@ void Map::draw_tile(Window* w, Entity_pool *entities,
     }
   }
   if (!picked_glyph) {
-    debugmsg("Really could not find a glyph!");
+    int smx = tilex / SUBMAP_SIZE, smy = tiley / SUBMAP_SIZE;
+    if (smx < 0 || smx >= MAP_SIZE || smy < 0 || smy >= MAP_SIZE) {
+      debugmsg("Could not find a glyph - out of bounds!");
+    } else {
+// Find the submap the tile's in...
+      int smz = tilez - posz + VERTICAL_MAP_SIZE;
+      Submap* sm = submaps[smx][smy][smz];
+      while (!sm && smz > 0) {
+        smz--;
+        sm = submaps[smx][smy][smz];
+      }
+      if (sm) {
+        debugmsg("Really could not find a glyph! %s",
+                 sm->get_spec_name().c_str());
+      } else {
+        debugmsg("Really could not find a glyph - invalid submap!");
+      }
+    }
     return;
   }
   if (invert) {
