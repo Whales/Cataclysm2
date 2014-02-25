@@ -31,26 +31,34 @@ tile: + = closed glass door
 tile: * = locked door
 tile: X = glass wall
 tile: " = window
-tile: { = display rack
+tile: {A123456 = display rack
 tile: % = counter
 tile: F = stockade fence
 tile: c = concrete floor
 tile: d = dirt
 tile: E = shelves
-subst: 1 = w:15 d / w:10 c
+subst: x = w:15 d / w:10 c
+
+item_group: 5 A = items_ammo_civilian
+item_group: 8 1 = items_handguns
+item_group: 5 2 = items_shotguns
+item_group: 5 3 = items_smgs
+item_group: 7 4 = items_hunting_rifles
+item_group: 3 5 = items_assault_rifles
+item_group: 15 6 = items_gun_accessories
 map:
 occccccccccccccccccccccco
 o#XXXX#XXXX#+#XXXX#XXXX#o
-o#{...................{#o
-o#{.{{{..{{..{..{..{..{#o
-o#{......{{..{..{..{..{#o
-o######...............{#o
-o#EEEE#%%%%%....{..{..{#o
-o#Eccc*....%....{..{..{#o
-o#EEEE#{{{.....{{{{{{.{#o
+o#1...................2#o
+o#1.111..44..5..5..5..2#o
+o#1......44..5..5..5..2#o
+o######...............2#o
+o#EEEE#%%%%%....6..6..2#o
+o#Eccc*....%....6..6..2#o
+o#EEEE#AAA.....333333.2#o
 o###########*###########o
-o#111111111111111111111*o
-o#111111111111111111111#o
+o#xxxxxxxxxxxxxxxxxxxxx*o
+o#xxxxxxxxxxxxxxxxxxxxx#o
 o#*%%###%%##X##%%###%%##o
 oFdddddddddddddddddddddFo
 oFdddddddddddddddddddddFo
