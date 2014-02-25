@@ -61,6 +61,11 @@ name: fire
       output_field: smoke
       output_duration: 6d6 - 10
     done
+    fuel:
+      terrain_flag: explosive
+      fuel: 50
+      damage: 50
+    done
   done
   level:
     name: raging fire
@@ -78,6 +83,11 @@ name: fire
       damage: 3d10
       output_field: smoke
       output_duration: 6d6 - 10
+    done
+    fuel:
+      terrain_flag: explosive
+      fuel: 50
+      damage: 150
     done
   done
 done
