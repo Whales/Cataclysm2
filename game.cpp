@@ -117,6 +117,12 @@ bool Game::main_loop()
       if (ch == '!') {
         Item flash( ITEM_TYPES.lookup_name("crowbar") );
         player->add_item(flash);
+        Field_type* fire = FIELDS.lookup_name("fire");
+        if (!fire) {
+          debugmsg("No fire");
+        } else {
+          map->add_field(fire, player->pos.x - 1, player->pos.y - 1);
+        }
 /*
         Monster* mon = new Monster;
         mon->set_type("spitter zombie");
