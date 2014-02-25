@@ -22,39 +22,108 @@
 # specifications, item drop specifications, and adjacency maps.
 
 name: std_gun_store_whales
+subname: std_gun_whales
 type: gun store
 tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
-tile: + = closed glass door
+tile_group: x = dirt / floor
+tile: + = w:1 closed glass door / w:3 closed door / w:1 locked door
 tile: * = closed door
 tile: X = glass wall
+tile: t = toilet
+tile: k = sink
 tile: " = window
-tile: { = display rack
+tile: ' = w:4 stone wall / w:1 window
+tile: {12345A = display rack
 tile: % = counter
+# Lots of safe tiles, to match different possible contents
+tile: SQWERT = safe
+
+subst: Dd = o / D
+tile: D = dumpster
+item_group: 35 D = items_trash
+
+# Randomly pick where the door to the shooting range is
+tile: a = closed door
+tile: bc = stone wall
+shuffle: abc
+
+item_group: 5 A = items_ammo_civilian
+item_group: 8 1 = items_handguns
+item_group: 5 2 = items_shotguns
+item_group: 5 3 = items_smgs
+item_group: 7 4 = items_hunting_rifles
+item_group: 3 5 = items_assault_rifles
+
+item_group: 80 S = items_ammo_civilian
+item_group: 75 Q = items_handguns
+item_group: 70 W = items_shotguns
+item_group: 70 E = items_smgs
+item_group: 65 R = items_hunting_rifles
+item_group: 65 T = items_assault_rifles
+
+subst: S = SQWERT
+
+shuffle: 12345
 map:
 ooooooooooooooooooooooooo
+##'###"###+"####'########
+#..................+...t#
+'..................#...k#
+#1..12..23..34..4..######
+#1..12..23..34..4..%SSSA#
+#1..12..23..34..4..%...A#
+#1..12..23..34..4..%...A#
+#1..12..23..34..4..%...A#
+#1..12..23..34..4..%...A#
+#..................%%%.%#
+'.......................'
+#...5555555555..........#
+################a##b##c##
+#.......................#
+#%###%###%###%###%###%###
+#xxxxxxxxxxxxxxxxxxxxxxx#
+#xxxxxxxxxxxxxxxxxxxxxxx#
+#xxxxxxxxxxxxxxxxxxxxxxx#
+#xxxxxxxxxxxxxxxxxxxxxxx#
+#xxxxxxxxxxxxxxxxxxxxxxx#
+#########################
+oooDDDooooooooooooodddooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-ooo##XXXXXX+++XXXXXX##ooo
-ooo#.................#ooo
-ooo#{..{..%.........{#ooo
-ooo#{..{..%...{..{..{#ooo
-ooo#{..{......{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#{..{..{...{..{..{#ooo
-ooo#.............{..{#ooo
-ooo##########....{..{#ooo
-ooo#........#....{..{#ooo
-ooo"........#.......{#ooo
-ooo#........*...{{{{{#ooo
-ooo#####"#############ooo
+endmap
+done
+
+name: std_gun_store_whales_roof
+subname: std_gun_whales
+type: gun store
+floor: 1
+tile: . = roof
+tile: o = empty
+map:
+ooooooooooooooooooooooooo
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
