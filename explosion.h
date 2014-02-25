@@ -6,8 +6,6 @@
 #include <istream>
 #include <string>
 
-class Field_type;
-
 struct Explosion
 {
   Explosion();
