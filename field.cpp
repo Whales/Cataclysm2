@@ -44,6 +44,7 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
         return false;
       }
       terrain_flag = tf;
+//debugmsg("Field_fueld loaded terrain_flag '%s'", flagname.c_str());
 
     } else if (ident == "item_flag:") {
       std::string flagname;
@@ -56,28 +57,34 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
         return false;
       }
       item_flag = itf;
+//debugmsg("Field_fueld loaded item_flag '%s'", flagname.c_str());
 
     } else if (ident == "any_item") {
       any_item = true;
       std::getline(data, junk);
+//debugmsg("Field_fuel loaded any_item");
 
     } else if (ident == "fuel:") {
       data >> fuel;
       std::getline(data, junk);
+//debugmsg("Field_fuel loaded fuel %d", fuel);
 
     } else if (ident == "damage:") {
       if (!damage.load_data(data, owner_name + " fuel")) {
         return false;
       }
+//debugmsg("Field_fuel loaded damage %s", damage.str().c_str());
 
     } else if (ident == "output_field:") {
       std::getline(data, output_field);
       output_field = trim(output_field);
+//debugmsg("Field_fuel loaded output_fiel %s", output_field.c_str());
 
     } else if (ident == "output_duration:") {
       if (!output_duration.load_data(data, owner_name + " fuel")) {
         return false;
       }
+//debugmsg("Field_fuel loaded output_duration %s", output_duration.str().c_str());
 
     } else if (ident == "explosion:") {
       if (!explosion.load_data(data, owner_name + " fuel")) {
@@ -85,6 +92,7 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
         return false;
       }
       has_explosion = true;
+//debugmsg("Field_fuel loaded explosion");
 
     } else if (ident != "done") {
       debugmsg("Unknown Field_terrain_fuel property '%s' (%s)", ident.c_str(),
@@ -92,6 +100,7 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
       return false;
     }
   }
+//debugmsg("Field_fuel successfully loaded.");
   return true;
 }
   
@@ -116,6 +125,10 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
+      if (!name.empty()) {
+        debugmsg("Field data file terminated unexpectedly while loading level \
+for '%s'.", owner_name.c_str());
+      }
       return false;
     }
     ident = no_caps(ident);
@@ -125,20 +138,31 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
       std::getline(data, junk);
 
     } else if (ident == "name:") {
+      if (!name.empty()) {
+        std::string new_name;
+        std::getline(data, new_name);
+        new_name = trim(new_name);
+        debugmsg("Field_level '%s' loading name again? (%s)", name.c_str(),
+                 new_name.c_str());
+      }
       std::getline(data, name);
       name = trim(name);
+//debugmsg("Field_level loaded name '%s'", name.c_str());
 
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
       std::getline(data, junk);
+//debugmsg("Field_level loaded glyph %s", sym.text_formatted().c_str());
 
     } else if (ident == "duration:") {
       data >> duration;
       std::getline(data, junk);
+//debugmsg("Field_level loaded duration %d", duration);
 
     } else if (ident == "duration_lost_without_fuel:") {
       data >> duration_lost_without_fuel;
       std::getline(data, junk);
+//debugmsg("Field_level loaded duration_lost_without_fuel %d", duration_lost_without_fuel);
 
     } else if (ident == "fuel:") {
       Field_fuel tmpfuel;
@@ -148,14 +172,17 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
         debugmsg("Fuel failed to load (%s)", owner_name.c_str());
         return false;
       }
+//debugmsg("Field_level loaded fuel successfully.");
 
     } else if (ident == "danger:") {
       data >> danger;
       std::getline(data, junk);
+//debugmsg("Field_level loaded danger %d", danger);
 
     } else if (ident == "verb:") {
       std::getline(data, verb);
       verb = trim(verb);
+//debugmsg("Field_level loaded verb '%s'", verb.c_str());
 
     } else if (ident == "parts_hit:") {
       std::string body_part_line;
@@ -173,6 +200,7 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
           return false;
         }
       }
+//debugmsg("Field_level loaded parts_hit '%s'", body_part_line.c_str());
 
     } else if (ident == "flags:") {
 /* TODO:  Should terrain flags and field flags be loaded with different property
@@ -198,6 +226,7 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
           terrain_flags[tf] = true;
         }
       }
+//debugmsg("Field_level loaded flags '%s'", flag_line.c_str());
 
     } else if (ident != "done") {
 /* Check if it's a damage type; TODO: make this less ugly (duplicated in
@@ -218,10 +247,12 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
         int tmpdam;
         data >> tmpdam;
         damage.set_damage(type, tmpdam);
+//debugmsg("Field_level loaded damage '%s' %d", damage_name.c_str(), tmpdam);
       }
     }
 
   }
+//debugmsg("Field_level '%s' loaded successfully.", name.c_str());
   return true;
 }
 
@@ -331,7 +362,10 @@ bool Field_type::load_data(std::istream& data)
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
-      debugmsg("Field data file terminated unexpectedly.");
+      if (!name.empty()) {
+        debugmsg("Field data file terminated unexpectedly while loading '%s'.",
+                 name.c_str());
+      }
       return false;
     }
     ident = no_caps(ident);
@@ -341,12 +375,21 @@ bool Field_type::load_data(std::istream& data)
       std::getline(data, junk);
 
     } else if (ident == "name:") {
+      if (!name.empty()) {
+        std::string new_name;
+        std::getline(data, new_name);
+        new_name = trim(new_name);
+        debugmsg("Field_type '%s' loading name again? (%s)", name.c_str(),
+                 new_name.c_str());
+      }
       std::getline(data, name);
       name = trim(name);
+//debugmsg("Field_type loaded name '%s'", name.c_str());
 
     } else if (ident == "display_name:") {
       std::getline(data, display_name);
       display_name = trim(display_name);
+//debugmsg("Field_type loaded display_name '%s'", display_name.c_str());
 
     } else if (ident == "flags:") {
 /* TODO:  Should terrain flags and field flags be loaded with different property
@@ -372,7 +415,7 @@ bool Field_type::load_data(std::istream& data)
           terrain_flags[tf] = true;
         }
       }
-
+//debugmsg("Field_type loaded flags '%s'", flag_line.c_str());
 
     } else if (ident == "spread_chance:") {
       data >> spread_chance;
@@ -381,10 +424,12 @@ bool Field_type::load_data(std::istream& data)
         return false;
       }
       std::getline(data, junk);
+//debugmsg("Field_type loaded spread_chance %d", spread_chance);
 
     } else if (ident == "spread_cost:") {
       data >> spread_cost;
       std::getline(data, junk);
+//debugmsg("Field_type loaded spread_cost %d", spread_cost);
 
     } else if (ident == "output_chance:") {
       data >> output_chance;
@@ -393,6 +438,7 @@ bool Field_type::load_data(std::istream& data)
         return false;
       }
       std::getline(data, junk);
+//debugmsg("Field_type loaded output_chance %d", output_chance);
 
     } else if (ident == "output_cost:") {
       data >> output_cost;
@@ -401,10 +447,12 @@ bool Field_type::load_data(std::istream& data)
         return false;
       }
       std::getline(data, junk);
+//debugmsg("Field_type loaded output_cost %d", output_cost);
 
     } else if (ident == "output_type:") {
       std::getline(data, output_type);
       output_type = trim(output_type);
+//debugmsg("Field_type loaded output_type '%s'", output_type.c_str());
 
     } else if (ident == "fuel:") {
       Field_fuel tmpfuel;
@@ -414,6 +462,7 @@ bool Field_type::load_data(std::istream& data)
         debugmsg("Fuel failed to load (%s)", name.c_str());
         return false;
       }
+//debugmsg("Field_type successfully loaded fuel.");
 
     } else if (ident == "level:") {
       Field_level* tmp_level = new Field_level;
@@ -425,6 +474,7 @@ bool Field_type::load_data(std::istream& data)
         return false;
       }
       levels.push_back(tmp_level);
+//debugmsg("Field_type successfully loaded level.");
 
     } else if (ident != "done") {
       debugmsg("Unknown Field_type property: '%s' (%s)", ident.c_str(),
@@ -432,6 +482,7 @@ bool Field_type::load_data(std::istream& data)
       return false;
     }
   }
+//debugmsg("Field_type '%s' loaded successfully.", name.c_str());
   return true;
 }
 
