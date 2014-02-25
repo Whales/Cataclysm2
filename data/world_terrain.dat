@@ -110,3 +110,9 @@ Name: gun store
   Road_cost: 500
   Flags: shop face_road
 Done
+
+Name: gas station
+  Glyph: & ltred black
+  Road_cost: 500
+  Flags: shop face_road
+Done

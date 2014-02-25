@@ -2,14 +2,13 @@
 #define _FIELD_H_
 
 #include "enum.h"       // For Body_part
-//#include "attack.h"     // For Damage_set
 #include "damage_set.h"
 #include "enum.h"       // For Terrain_flag
-//#include "item_type.h"  // For Item_flag
 #include "enum.h"       // For Item_flag
 #include "glyph.h"
 #include "terrain.h"    // For Terrain*
 #include "geometry.h"   // For Tripoint
+#include "explosion.h"  // For fuel explosions
 #include <string>
 #include <vector>
 #include <list>
@@ -56,6 +55,7 @@ struct Field_fuel
   Dice damage;
 
   std::string output_field; // A field created as output, e.g. smoke
+  Explosion explosion;      // Explosion caused!
 
 // Duration of the output field; if a negative number is rolled, no output field
   Dice output_duration;

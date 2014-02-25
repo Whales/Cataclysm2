@@ -56,14 +56,23 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
       std::getline(data, junk);
 
     } else if (ident == "damage:") {
-      damage.load_data(data, owner_name + " fuel");
+      if (!damage.load_data(data, owner_name + " fuel")) {
+        return false;
+      }
 
     } else if (ident == "output_field:") {
       std::getline(data, output_field);
       output_field = trim(output_field);
 
     } else if (ident == "output_duration:") {
-      output_duration.load_data(data, owner_name);
+      if (!output_duration.load_data(data, owner_name + " fuel")) {
+        return false;
+      }
+
+    } else if (ident == "explosion:") {
+      if (!explosion.load_data(data, owner_name + " fuel")) {
+        return false;
+      }
 
     } else if (ident != "done") {
       debugmsg("Unknown Field_terrain_fuel property '%s' (%s)", ident.c_str(),
