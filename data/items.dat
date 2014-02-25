@@ -464,6 +464,31 @@ clothing
   carries: 14
 done
 
+clothing
+  name: cap
+  description:
+    A cap with a vistor.
+  done
+  glyph: [ magenta black
+  weight:  1
+  volume: 10
+  armor_cut: 1
+done
+
+clothing
+  name: safety glasses
+  description:
+    Durable plastic glasses, designed to protect against light damage to the
+    eyes.
+  done
+  glyph: [ pink black
+  weight: 1
+  volume: 3
+  armor_bash: 1
+  armor_cut:  6
+  armor_pierce: 2
+done
+
 # END Clothing
 
 # Ammo
