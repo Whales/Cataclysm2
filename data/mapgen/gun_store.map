@@ -35,7 +35,7 @@ tile: t = toilet
 tile: k = sink
 tile: " = window
 tile: ' = w:4 stone wall / w:1 window
-tile: {12345A = display rack
+tile: {123456A = display rack
 tile: % = counter
 # Lots of safe tiles, to match different possible contents
 tile: SQWERT = safe
@@ -55,6 +55,7 @@ item_group: 5 2 = items_shotguns
 item_group: 5 3 = items_smgs
 item_group: 7 4 = items_hunting_rifles
 item_group: 3 5 = items_assault_rifles
+item_group: 15 6 = items_gun_accessories
 
 item_group: 80 S = items_ammo_civilian
 item_group: 75 Q = items_handguns
@@ -79,7 +80,7 @@ ooooooooooooooooooooooooo
 #1..12..23..34..4..%...A#
 #..................%%%.%#
 '.......................'
-#...5555555555..........#
+#6666666.5555555........#
 ################a##b##c##
 #.......................#
 #%###%###%###%###%###%###
