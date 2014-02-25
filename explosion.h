@@ -23,6 +23,8 @@ struct Explosion
   int field_chance;     // Percentage chance of placing field in each tile
   Dice field_duration;  // Duration of field; if <= 0 no field is placed
 
+  std::string reason;   // What caused the explosion - for kill credit
+
   bool load_data(std::istream& data, std::string owner_name);
   void explode(Tripoint epicenter);
 };

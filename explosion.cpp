@@ -1,6 +1,12 @@
 #include "explosion.h"
 #include "window.h" // For debugmsg
 #include "stringfunc.h" // For no_caps() and trim()
+#include "entity.h"
+#include "game.h"
+#include "damage_set.h" // For damaging terrain
+#include "attack.h" // For shrapnel Ranged_attack
+#include "rng.h"
+#include <sstream>  // For setting the creator of any fields we create!
 
 Explosion::Explosion()
 {
@@ -82,7 +88,74 @@ bool Explosion::load_data(std::istream& data, std::string owner_name)
   return true;
 }
 
+// TODO: Z axis (or not?)
 void Explosion::explode(Tripoint epicenter)
 {
-}
+  int damage = force.roll();
+  if (damage <= 0) {
+    return; // No damage at all!
+  }
+  int rad = radius.roll();
+  if (rad < 0) {
+    return; // No radius!
+  }
 
+// Lookup the field type before anything else
+  Field_type* ftype = NULL;
+  if (!field_name.empty()) {
+    ftype = FIELDS.lookup_name(field_name);
+    if (ftype == NULL) {  // Failed to look it up!
+      debugmsg("Explosion tried to spawn field '%s' but it doesn't exist.",
+               field_name.c_str());
+// We could return here, but we don't. We can still do the rest of the explosion
+    }
+  }
+
+// First, do the basic concussive force and fields.
+  for (int x = epicenter.x - rad; x <= epicenter.x + rad; x++) {
+    for (int y = epicenter.y - rad; y <= epicenter.y + rad; y++) {
+      Tripoint pos(x, y, epicenter.z);
+      int distance = rl_dist(epicenter, pos);
+// Scale damage with distance.
+      int dam = (damage * (rad - distance + 1)) / (rad + 1);
+// Damage any entity there.
+      Entity* ent = GAME.entities.entity_at(pos);
+      Damage_set dam_set;
+      dam_set.set_damage(DAMAGE_BASH, dam);
+      if (ent) {
+        ent->take_damage_everywhere(DAMAGE_BASH, dam, reason);
+      }
+// Damage the terrain there.
+      GAME.map->damage(pos, dam_set);
+// Plant a field, perhaps?
+      if (ftype && rng(1, 100) <= field_chance) {
+        Field field_placed(ftype);
+        field_placed.set_duration( field_duration.roll() );
+        field_placed.adjust_level(); // Set level, based on duration
+        std::stringstream field_creator;
+        field_creator << "an explosion";
+        if (!reason.empty()) {
+          field_creator << ", created by " << reason;
+        }
+        field_placed.creator = field_creator.str();
+        GAME.map->add_field(field_placed, pos);
+      }
+    } // y-loop
+  } // x-loop
+
+// Next, do shrapnel.
+  int num_shrapnel = shrapnel_count.roll();
+  for (int i = 0; i < num_shrapnel; i++) {
+    Tripoint shrapnel_target;
+    shrapnel_target.x = rng(epicenter.x - rad, epicenter.x + rad);
+    shrapnel_target.y = rng(epicenter.y - rad, epicenter.y + rad);
+    shrapnel_target.z = epicenter.z;
+// Set up a Ranged_attack for the shrapnel
+    Ranged_attack shrapnel_attack;
+    shrapnel_attack.range = rad;
+    shrapnel_attack.variance = Dice(1, 6, 0); // Do we even need this?
+// TODO: Should shrapnel always pierce?  Maybe it should cut?
+    shrapnel_attack.damage[DAMAGE_PIERCE] = shrapnel_damage.roll();
+    GAME.launch_projectile(shrapnel_attack, epicenter, shrapnel_target);
+  }
+}
