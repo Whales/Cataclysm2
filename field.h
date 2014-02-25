@@ -38,8 +38,7 @@ std::string field_flag_name(Field_flag flag);
 struct Field_fuel
 {
   Field_fuel(Terrain_flag TF = TF_NULL, Item_flag IF = ITEM_FLAG_NULL,
-             int M = 0, int D = 0) :
-    terrain_flag (TF), item_flag(IF), fuel (M), damage (D) { }
+             int _fuel = 0, Dice damage = Dice());
   ~Field_fuel() { }
 
   Terrain_flag  terrain_flag;
@@ -55,10 +54,12 @@ struct Field_fuel
   Dice damage;
 
   std::string output_field; // A field created as output, e.g. smoke
-  Explosion explosion;      // Explosion caused!
-
 // Duration of the output field; if a negative number is rolled, no output field
   Dice output_duration;
+
+// Explosion data; has_explosion is false, set to true when explosion loads
+  bool has_explosion;
+  Explosion explosion;      // Explosion caused!
 
   bool load_data(std::istream& data, std::string owner_name = "Unknown");
 };

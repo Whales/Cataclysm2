@@ -9,6 +9,16 @@
 #include "game.h"
 #include <sstream>
 
+Field_fuel::Field_fuel(Terrain_flag TF, Item_flag IF, int _fuel, Dice _damage)
+{
+  terrain_flag = TF;
+  item_flag = IF;
+  fuel = _fuel;
+  damage = _damage;
+  any_item = false;
+  has_explosion = false;
+}
+
 bool Field_fuel::load_data(std::istream& data, std::string owner_name)
 {
   std::string ident, junk;
@@ -73,6 +83,7 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
       if (!explosion.load_data(data, owner_name + " fuel")) {
         return false;
       }
+      has_explosion = true;
 
     } else if (ident != "done") {
       debugmsg("Unknown Field_terrain_fuel property '%s' (%s)", ident.c_str(),
