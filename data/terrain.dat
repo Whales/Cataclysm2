@@ -199,9 +199,24 @@ name: stockade fence
   smash:
     failure_sound: "Thump!"
     success_sound: "Crunch!"
-    armor: bash 1d10
+    armor: bash 1d8
   done
   flags: opaque flammable
+done
+
+name: chain-link fence
+  glyph: { dkgray black
+  movecost: 0
+  height: 80
+  hp: 35
+  destroy: pavement
+  smash:
+    success_sound: "Crash!"
+    failure_sound: a chain fence rattling.
+    ignore_chance: 25
+    armor: bash 1d10
+    armor: cut 3d8
+  done
 done
 
 name: floor
@@ -626,6 +641,7 @@ name: gas pump
   flags: explosive
 done
 
+# Purely cosmetic (for now...)
 name: air pump
   glyph: { white black
   movecost: 0
