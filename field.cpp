@@ -119,6 +119,15 @@ bool Field_level::load_data(std::istream& data, std::string owner_name)
       data >> duration_lost_without_fuel;
       std::getline(data, junk);
 
+    } else if (ident == "fuel:") {
+      Field_fuel tmpfuel;
+      if (tmpfuel.load_data(data, name)) {
+        fuel.push_back(tmpfuel);
+      } else {
+        debugmsg("Fuel failed to load (%s)", owner_name.c_str());
+        return false;
+      }
+
     } else if (ident == "danger:") {
       data >> danger;
       std::getline(data, junk);
@@ -386,7 +395,9 @@ bool Field_type::load_data(std::istream& data)
 
     } else if (ident == "level:") {
       Field_level* tmp_level = new Field_level;
-      if (!tmp_level->load_data(data, name)) {
+      std::stringstream name_to_pass;
+      name_to_pass << name << " level " << levels.size();
+      if (!tmp_level->load_data(data, name_to_pass.str())) {
         delete tmp_level;
         debugmsg("Field level failed to load (%s)", name.c_str());
         return false;
@@ -757,67 +768,24 @@ bool Field::consume_fuel(Map* map, Tripoint pos)
     }
   }
 
-// Get info on the tile and our field data
-  Tile* tile_here = map->get_tile(pos);
-
   bool found_fuel = false;  // Our return value
   std::vector<Field>  output; // Fields we output (e.g. smoke)
-// Check for fuel/extinguishers
+
+// Check for fuel/extinguishers of the TYPE
   for (std::list<Field_fuel>::iterator it = type->fuel.begin();
        it != type->fuel.end();
        it++) {
     Field_fuel fuel = (*it);
-// Create a new field that we're going to output
-    Field_type* smoke_type = FIELDS.lookup_name(fuel.output_field);
-    if (!fuel.output_field.empty() && !smoke_type) {
-      debugmsg("Couldn't find field type '%s' (Field::consume_fuel() for '%s'",
-               fuel.output_field.c_str(), get_name().c_str());
-      return false;
-    }
-    Field tmp_field(smoke_type, 1, creator);
-    tmp_field.duration = 0;
-// Check for terrain flag
-    if (tile_here->has_flag(fuel.terrain_flag)) {
-      int fuel_gained = fuel.fuel;
-      int damage = fuel.damage.roll();
-      if (fuel_gained >= 0) {
-        found_fuel = true;
-      }
-      if (tile_here->hp < damage) {
-        double fuel_percent = tile_here->hp / damage;
-        fuel_gained = int( double(fuel.fuel) * fuel_percent );
-      }
-      duration += fuel_gained;
-      tmp_field.duration += fuel.output_duration.roll();
-// TODO: Assign a damage type to Field_terrain_fuel?
-      tile_here->damage(DAMAGE_NULL, damage);
-    }
-// Check items at this tile
-    for (int n = 0; n < tile_here->items.size(); n++) {
-      Item* it = &(tile_here->items[n]);
-      if (it->has_flag(fuel.item_flag)) {
-        int fuel_gained = fuel.fuel;
-        int damage = fuel.damage.roll();
-        if (fuel_gained >= 0) {
-          fuel_gained = true;
-        }
-        if (it->hp < damage) {
-          double fuel_percent = it->hp / damage;
-          fuel_gained = int( double(fuel.fuel) * fuel_percent );
-        }
-        duration += fuel_gained;
-        tmp_field.duration += fuel.output_duration.roll();
-        if (it->damage(damage)) { // Item was destroyed
-          tile_here->items.erase( tile_here->items.begin() + n );
-          n--;
-        }
-      }
-    }
-// Push our output to the vector of new fields
-// Ensure tmp_field.duration > 0 because sometimes it rolls < 0
-    if (tmp_field.type && tmp_field.duration > 0) {
-      tmp_field.adjust_level();
-      output.push_back(tmp_field);
+    found_fuel = (found_fuel || look_for_fuel(fuel, map, pos, output));
+  }
+// Check for fuel/extinguishers of the LEVEL
+  Field_level* lev = type->get_level(level);
+  if (lev) {
+    for (std::list<Field_fuel>::iterator it = lev->fuel.begin();
+         it != lev->fuel.end();
+         it++) {
+      Field_fuel fuel = (*it);
+      found_fuel = (found_fuel || look_for_fuel(fuel, map, pos, output));
     }
   }
 
@@ -843,6 +811,68 @@ bool Field::consume_fuel(Map* map, Tripoint pos)
   return found_fuel;
 }
 
+bool Field::look_for_fuel(Field_fuel fuel, Map* map, Tripoint pos,
+                          std::vector<Field>& output)
+{
+  bool found_fuel = false;  // Our return value
+// Get info on the tile and our field data
+  Tile* tile_here = map->get_tile(pos);
+
+// Create a new field that we're going to output
+  Field_type* smoke_type = FIELDS.lookup_name(fuel.output_field);
+  if (!fuel.output_field.empty() && !smoke_type) {
+    debugmsg("Couldn't find field type '%s' (Field::consume_fuel() for '%s'",
+             fuel.output_field.c_str(), get_name().c_str());
+    return false;
+  }
+  Field tmp_field(smoke_type, 1, creator);
+  tmp_field.duration = 0;
+
+// Check for terrain flag
+  if (tile_here->has_flag(fuel.terrain_flag)) {
+    int fuel_gained = fuel.fuel;
+    int damage = fuel.damage.roll();
+    if (fuel_gained >= 0) {
+      found_fuel = true;
+    }
+    if (tile_here->hp < damage) {
+      double fuel_percent = tile_here->hp / damage;
+      fuel_gained = int( double(fuel.fuel) * fuel_percent );
+    }
+    duration += fuel_gained;
+    tmp_field.duration += fuel.output_duration.roll();
+// TODO: Assign a damage type to Field_terrain_fuel?
+    tile_here->damage(DAMAGE_NULL, damage);
+  }
+// Check items at this tile
+  for (int n = 0; n < tile_here->items.size(); n++) {
+    Item* it = &(tile_here->items[n]);
+    if (it->has_flag(fuel.item_flag)) {
+      int fuel_gained = fuel.fuel;
+      int damage = fuel.damage.roll();
+      if (fuel_gained >= 0) {
+        fuel_gained = true;
+      }
+      if (it->hp < damage) {
+        double fuel_percent = it->hp / damage;
+        fuel_gained = int( double(fuel.fuel) * fuel_percent );
+      }
+      duration += fuel_gained;
+      tmp_field.duration += fuel.output_duration.roll();
+      if (it->damage(damage)) { // Item was destroyed
+        tile_here->items.erase( tile_here->items.begin() + n );
+        n--;
+      }
+    }
+  }
+// Push our output to the vector of new fields
+// Ensure tmp_field.duration > 0 because sometimes it rolls < 0
+  if (tmp_field.type && tmp_field.duration > 0) {
+    tmp_field.adjust_level();
+    output.push_back(tmp_field);
+  }
+  return found_fuel;
+}
 
 Field_flag lookup_field_flag(std::string name)
 {

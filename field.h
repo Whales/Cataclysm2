@@ -46,15 +46,19 @@ struct Field_fuel
   Terrain_flag  terrain_flag;
   Item_flag     item_flag;
   bool any_item;  // If true, then we consume any item!
-  int fuel;
-// Damage done to the terrain each turn
-// If 0, then the terrain is not damaged or destroyed at all!
+  int fuel; // Fuel gained; may be negative! (e.g. water puts fire out)
+
+/* Damage done to the terrain/item each turn
+ * If 0, then the terrain/item is not damaged or destroyed at all!  This is
+ * permitted, but note that if the value of fuel is > 0, this will result in the
+ * field basically being perpetual.
+ */
   Dice damage;
 
   std::string output_field; // A field created as output, e.g. smoke
-// Duration of the output; if a negative number is rolled, no output
+
+// Duration of the output field; if a negative number is rolled, no output field
   Dice output_duration;
-                            
 
   bool load_data(std::istream& data, std::string owner_name = "Unknown");
 };
@@ -70,6 +74,8 @@ public:
 
   int duration; // Our starting "hp," lose one per turn
   int duration_lost_without_fuel; // Extra duration lost if there's no fuel
+
+  std::list<Field_fuel> fuel; // Level-specific fuel.
 
 /* Danger defaults to 0.
  * If danger > 0, the player is warned before stepping in this field.
@@ -198,7 +204,14 @@ public:
   void lose_level();
   void adjust_level();  // Fixes level based on duration
 private:
-  bool consume_fuel(Map* map, Tripoint pos); // Returns true if we consume fuel
+// consume_fuel iterates over type/level's fuels and runs look_for_fuel on each
+// It returns true if we consumed fuel.
+  bool consume_fuel(Map* map, Tripoint pos);
+// look_for_fuel is the nuts & bolts of consuming a fuel/extinguisher
+// It returns true if we consumed fuel.
+// It modifies output - a list of "smoke" we put out.
+  bool look_for_fuel(Field_fuel fuel, Map* map, Tripoint pos,
+                     std::vector<Field>& output);
 };
 inline Field operator+(Field lhs, const Field& rhs)
 {
