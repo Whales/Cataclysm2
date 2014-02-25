@@ -56,7 +56,7 @@ struct Ranged_attack
   int range;        // Max range of the attack
   Dice variance;    // In 1/10ths of a degree
   int damage       [DAMAGE_MAX];
-  int armor_divisor[DAMAGE_MAX];
+  int armor_divisor[DAMAGE_MAX];  // Times 10; 20 = halve the armor, 5 = double it
 
 /* TODO: Add the following as they're implemented:
  *      Status_effect this causes (Blinding, stunning, etc)
