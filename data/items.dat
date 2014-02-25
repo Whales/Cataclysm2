@@ -505,6 +505,7 @@ ammo
     maintained popularity for nearly two centuries.  Its minimal recoil, low
     cost and low noise are offset by its paltry damage.
   done
+  glyph: = ltgray black
   weight:  6
   volume: 12
   type: .22
@@ -737,7 +738,8 @@ done
 
 # Launchers
 
-gun
+# Handguns
+launcher
   name: nail gun
   description:
     A tool used to drive nails into wood or metal.  It can also be used as a
@@ -746,34 +748,596 @@ gun
   glyph: ) pink black
   weight: 40
   volume: 25
-  type: nails
   bash: 8
   to_hit: -1
+
+  type: nails
   damage: 0
   accuracy: 3d30
   durability: 95
   capacity: 100
   reload_ap: 500
+  fire_ap:   100
 done
 
-gun
+launcher
+  name: SIG Mosquito
+  description:
+    A popular, very small .22 pistol.  "Ergonomically designed to give the best
+    shooting experience." -SIG Sauer official website.
+  done
+
+  glyph: ) ltgray black
+  weight: 15
+  volume: 10
+  bash:    6
+  to_hit: -2
+
+  type: .22
+  damage:  0
+  recoil:  2
+  accuracy: 5d24
+  durability: 90
+  capacity: 10
+  reload_ap: 250
+  fire_ap:   125
+done
+
+launcher
   name: Glock 19
   description:
     Possibly the most popular handgun in existence.  The Glock 19 is often
     derided for its plastic construction, but it is easy to shoot.
   done
+
   glyph: ) ltgray black
   weight: 14
-  volume:  6
-  type: 9mm
+  volume: 12
   bash:    7
   to_hit: -2
-  damage:  0
+
+  type: 9mm
+  damage:  2
   accuracy:  5d20
   recoil:      5
   durability: 80
   capacity:   15
+  reload_ap: 250
+  fire_ap:   100
+done
+
+launcher
+  name: USP 9mm
+  description:
+    A 9mm pistol, widely used by law enforcement.  Renowned for its durability
+    and accuracy.
+  done
+
+  glyph: ) ltgray black
+  weight: 17
+  volume: 14
+  bash:    7
+  to_hit: -2
+
+  type: 9mm
+  accuracy: 5d18
+  recoil:      8
+  durability: 95
+  capacity:   15
   reload_ap: 300
+  fire_ap:   125
+done
+
+launcher
+  name: M1911
+  description:
+    The M1911 was the standard-issue sidearm in the US military for most of the
+    20th century.  It remains one of the most popular .45 handguns today.
+  done
+  glyph: ) ltgray black
+  weight: 25
+  volume: 17
+  bash:    9
+  to_hit: -2
+
+  type: .45
+  accuracy: 5d16
+  damage:      6
+  recoil:      5
+  durability: 85
+  capacity:    7
+  reload_ap: 300
+  fire_ap:   150
+done
+
+launcher
+  name: USP .45
+  description:
+    A .45 pistol, widely used by law enforcement.  Renowned for its durability
+    and accuracy.
+  done
+  glyph: ) ltgray black
+  weight: 17
+  volume: 16
+  bash:    8
+  to_hit: -2
+
+  type: .45
+  accuracy: 5d18
+  recoil:      6
+  durability: 95
+  capacity:   12
+  reload_ap: 350
+  fire_ap:   125
+done
+
+launcher
+  name: FN Five-Seven
+  description:
+    A handgun designed to be used with FN's proprietary 5.7x28mm round.  The
+    Five-Seven features a very high magazine capacity.
+  done
+  glyph: ) ltgray black
+  weight: 13
+  volume: 13
+  bash:    7
+  to_hit: -2
+
+  type: 5.7
+  accuracy: 5d16
+  recoil:      4
+  durability: 90
+  capacity:   20
+  reload_ap: 300
+  fire_ap:   125
+done
+
+launcher
+  name: Desert Eagle .50
+  description:
+    One of the most recognizable handguns due to its popularity in moves, the
+    Desert Eagle, or "Deagle," is better known for its menacing appearance than
+    its performance, which suffers from poor accuracy.
+  done
+  glyph: ) ltgray black
+  weight: 44
+  volume: 18
+  bash:   13
+
+  type: .50
+  damage:      6
+  accuracy: 5d30
+  recoil:     -3
+  durability: 80
+  capacity:    7
+  reload_ap: 350
+  fire_ap:   150
+done
+
+# Shotguns
+launcher
+  name: 2-barreled shotgun
+  description:
+    A simple shotgun, possibly an antique.  Little more than a pair of barrels,
+    a trigger, and a hammer.  Its simplicity makes it easy to fire and light.
+  done
+  glyph: ) red black
+  weight: 60
+  volume: 35
+  bash:   10
+  to_hit:  0
+
+  type: shotgun
+  accuracy: 3d10
+  recoil:      1
+  damage:     -2
+  durability: 80
+  capacity:    2
+  reload_ap:  80
+  fire_ap:   100
+  modes: 1 2
+  flags: reload_single
+done
+  
+launcher
+  name: Remington 870
+  description:
+    One of the most popular shotguns ever made.  The Remington 870 is famed for
+    its high accuracy and muzzle velocity, and is very durable.
+  done
+
+  glyph: ) red black
+  weight: 75
+  volume: 45
+  bash:   12
+  to_hit:  0
+
+  type: shotgun
+  accuracy:  3d8
+  recoil:      0
+  damage:      8
+  durability: 90
+  capacity:    6
+  reload_ap: 100
+  fire_ap:   150
+  modes: 1 2
+  flags: reload_single
+done
+
+launcher
+  name: Saiga-12
+  description:
+    A shotgun designed on the same pattern as the famed Kalishnikov AK-47.  It
+    reloads with a magazine, rather than one shell at a time as most shotguns
+    do.
+  done
+  glyph: ) red black
+  weight: 79
+  volume: 70
+  bash:   12
+  to_hit: -1
+
+  type: shotgun
+  accuracy:  3d10
+  recoil:      -2
+  durability:  85
+  capacity:    10
+  reload_ap:  450
+  fire_ap:    150
+  modes: 1 2 4
+done
+
+# SMGs
+launcher
+  name: Uzi 9mm
+  description:
+    The Uzi 9mm has enjoyed immense popularity, selling more units than any
+    other submachine gun.  It is widely used as a self-defense weapon, or as a
+    primary weapon by elite frontline military forces.
+  done
+  glyph: ) cyan black
+  weight: 77
+  volume: 26
+  bash:    8
+  to_hit: -1
+
+  type: 9mm
+  accuracy: 4d22
+  recoil:      2
+  damage:      2
+  durability: 80
+  capacity:   32
+  reload_ap: 350
+  fire_ap:   125
+  modes: 1 8 16
+done
+
+launcher
+  name: H&K MP5
+  description:
+    One of the most wide-used submachine guns in the world, the H&K MP5 has
+    been adopted by special police forces and militaries alike.  Its high
+    degree of accuracy and low recoil are universally praised.
+  done
+  glyph: ) cyan black
+  weight: 56
+  volume: 42
+  bash:   10
+  to_hit: -2
+
+  type: 9mm
+  accuracy: 4d12
+  recoil:     -1
+  durability: 95
+  capacity:   30
+  reload_ap: 375
+  fire_ap:   150
+  modes: 1 3 12
+done
+
+launcher
+  name: MAC-10
+  description:
+    A popular machine pistol originally designed for military use.  For many
+    years it was the most inexpensive automatic weapon available in the
+    United States, leading to a long-lasting popularity among criminals.
+  done
+  glyph: ) cyan black
+  weight: 63
+  volume: 35
+  bash:   11
+  to_hit: -2
+
+  type: .45
+  accuracy: 4d22
+  damage:      6
+  recoil:      3
+  durability: 80
+  capacity:   30
+  reload_ap: 325
+  fire_ap:   125
+  modes: 1 6 15
+done
+
+launcher
+  name: H&K UMP45
+  description:
+    Developed as a successor to the H&K MP5, the UMP45 retains the earlier
+    model's supreme accuracy and relatively low recoil, but in the more powerful
+    .45 caliber.
+  done
+  glyph: ) cyan black
+  weight: 55
+  volume: 38
+  bash:   12
+  to_hit: -2
+
+  type: .45
+  accuracy: 4d14
+  damage:      2
+  recoil:     -1
+  durability: 90
+  capacity:   25
+  reload_ap: 350
+  fire_ap:   150
+  modes: 1 3 10
+done
+
+launcher
+  name: KRISS Vector
+  description:
+    The KRISS Vector (previously known as the TDI Vector) is a submachine gun
+    with a unique in-line design which makes recoil very manageable, even in the
+    powerful .45 caliber.
+  done
+  glyph: ) cyan black
+  weight: 60
+  volume: 42
+  bash:   11
+  to_hit: -1
+
+  type: .45
+  accuracy: 4d18
+  recoil:     -4
+  durability: 85
+  capacity:   25
+  reload_ap: 400
+  fire_ap:   175
+  modes: 1 3 5
+done
+
+launcher
+  name: FN P90
+  description:
+    The first in a new genre of guns, dubbed "personal defense weapons," the
+    FN P90 was designed by FN to use their proprietary 5.7x28mm ammunition.  It
+    is expressly designed for firing large bursts managably.
+  done
+  glyph: ) cyan black
+  weight: 57
+  volume: 32
+  bash:    8
+  to_hit: -2
+
+  type: 5.7
+  accuracy: 4d16
+  recoil:     -3
+  durability: 85
+  capacity:   50
+  reload_ap: 450
+  fire_ap:   125
+  modes: 1 5 25
+done
+
+# Hunting/Sniper Rifles
+launcher
+  name: Ruger 10/22
+  description:
+    A popular and highly accurate .22 rifle.  At the time of its introduction in
+    1964, it was the first modern .22 rifle designed for quality, and not as a
+    toy or training weapon.
+  done
+  glyph: ) ltblue black
+  weight: 50
+  volume: 40
+  bash:   10
+  to_hit: -1
+
+  type: .22
+  damage:      2
+  accuracy: 3d10
+  recoil:     -2
+  durability: 85
+  capacity:   10
+  reload_ap: 350
+  fire_ap:   150
+done
+
+launcher
+  name: Ruger Mini-14
+  description:
+    A small, lightweight 5.56 carbine designed for military use.  Its superb
+    accuracy and low recoil make it more suitable than full assault rifles for
+    some situations.
+  done
+  glyph: ) ltblue black
+  weight: 68
+  volume: 48
+  bash:   10
+  to_hit: -1
+
+  type: 5.56
+  damage:      6
+  accuracy: 3d10
+  recoil:     -3
+  durability: 85
+  capacity:   10
+  reload_ap: 350
+  fire_ap:   150
+done
+
+launcher
+  name: Savage 111F
+  description:
+    A very accurate rifle chambered for the powerful 7.62 NATO round.  Its very
+    low magazine capacity is offset by its supreme accuracy and near-complete
+    lack of recoil.
+  done
+  glyph: ) ltblue black
+  weight: 68
+  volume: 60
+  damage: 10
+  to_hit: -1
+
+  type: 7.62
+  damage:      6
+  accuracy:  3d6
+  recoil:     -4
+  durability: 90
+  capacity:    3
+  reload_ap: 150
+  fire_ap:   150
+  flags: reload_single
+done
+
+launcher
+  name: Barrett M95
+  description:
+    An improved version of the earlier M90 rifle, the Barrett M95 is a bolt
+    action sniper rifle with a bullpup designed, chambered for the powerful .50
+    BMG round.
+  done
+  glyph: ) ltblue black
+  weight: 235
+  volume:  60
+  damage:  12
+  to_hit:  -1
+
+  type: .50
+  damage:     10
+  accuracy: 3d10
+  recoil:      0
+  durability: 85
+  capacity:    5
+  reload_ap: 500
+  fire_ap:   200
+done
+
+launcher
+  name: Steyr HS .50
+  description:
+    A single-shot bolt-action sniper rifle, used internationally as an
+    anti-personel and anti-materiel weapon.
+  done
+  glyph: ) ltblue black
+  weight: 285
+  volume:  68
+  bash:    12
+  to_hit:  -2
+
+  type: .50
+  damage:     10
+  accuracy:  3d4
+  recoil:      0
+  durability: 90
+  capacity:    1
+  reload_ap: 200
+  fire_ap:   175
+done
+
+# Assault and battle rifles
+launcher
+  name: M4A1
+  description:
+    A popular assault carbine, long used by the US military.  Though accurate,
+    small, and lightweight, it is infamous for its fragility, particularly in
+    harsh environments.
+  done
+  glyph: ) blue black
+  weight: 64
+  volume: 46
+  bash:   12
+  to_hit: -1
+
+  type: 5.56
+  accuracy: 3d10
+  damage:      4
+  recoil:     -1
+  durability: 70
+  capacity:   30
+  reload_ap: 325
+  fire_ap:   150
+  modes: 1 3 9
+done
+
+launcher
+  name: Steyr AUG
+  description:
+    An Austrian assault rifle used in the armed forces and police forces of many
+    nations.  Its bullpup design contributes to its low recoil.
+  done
+  glyph: ) blue black
+  weight: 79
+  volume: 60
+  bash:   10
+  to_hit: -1
+
+  type: 5.56
+  accuracy:  3d9
+  damage:      0
+  recoil:     -3
+  durability: 85
+  capacity:   30
+  reload_ap: 325
+  fire_ap:   175
+  modes: 1 3
+done
+
+launcher
+  name: FN SCAR-H
+  description:
+    A modular assault rifle designed for use by US Special Ops units.  The 'H'
+    in its name stands for Heavy, referencing the powerful 7.62 round it uses.
+    It is fairly accurate and low on recoil.
+  done
+  glyph: ) blue black
+  weight: 79
+  volume: 70
+  bash:   11
+  to_hit: -2
+
+  type: 7.62
+  accuracy: 3d10
+  damage:      0
+  recoil:     -1
+  durability: 80
+  capacity:   20
+  reload_ap: 350
+  fire_ap:   125
+  modes: 1 3 5
+done
+
+launcher
+  name: FN FAL
+  description:
+    Though not particularly accurate, the Belgian-designed FN FAL's high fire
+    rate of powerful .308 ammunition, and light recoil, have made it one of the
+    most widely-used battle rifles in the world.
+  done
+  glyph: ) blue black
+  weight: 95
+  volume: 74
+  bash:   13
+  to_hit: -1
+
+  type: 7.62
+  accuracy: 3d20
+  damage:     10
+  recoil:     -1
+  durability: 85
+  capacity:   20
+  reload_ap: 450
+  fire_ap:   100
 done
 
 # END Launchers

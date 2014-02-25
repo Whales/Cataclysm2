@@ -124,3 +124,26 @@ name: items_ammo_civilian
   items: w:50 .22 LR / w:50 9mm / w:40 .45 ACP / w:20 .45 JHP / w:15 5.7x28mm / w:40 00 shot / w:20 shotgun slug / w:30 5.56 NATO / w:30 7.62 NATO / w:10 .50 BMG
 done
 
+name: items_handguns
+  items: w:7 SIG Mosquito / w:10 Glock 19 / w:8 USP 9mm / w:9 M1911 / w:7 USP .45 / w:4 FN Five-Seven / w:5 Desert Eagle .50
+done
+
+name: items_shotguns
+  items: w:7 2-barreled shotgun / w:10 Remington 870 / w:3 Saiga-12
+done
+
+name: items_smgs
+  items: w:8 Uzi 9mm / w:10 H&K MP5 / w:7 MAC-10 / w:9 H&K UMP45 / w:3 KRISS Vector / w:5 FN P90
+done
+
+name: items_hunting_rifles
+  items: w:10 Ruger 10/22 / w:8 Ruger Mini-14 / w:6 Savage 111F
+done
+
+name: items_sniper_rifles
+  items: w:10 Barrett M95 / w:8 Steyr HS .50
+done
+
+name: items_assault_rifles
+  items: w:10 M4A1 / w:8 Steyr AUG / w:7 FN SCAR-H / w:8 FN FAL
+done
