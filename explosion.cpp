@@ -73,6 +73,7 @@ bool Explosion::load_data(std::istream& data, std::string owner_name)
                  owner_name.c_str());
         field_chance = 100;
       }
+      std::getline(data, junk);
 
     } else if (ident == "field_duration:") {
       if (!field_duration.load_data(data, owner_name + " field duration")) {
