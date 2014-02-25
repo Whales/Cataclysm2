@@ -147,3 +147,7 @@ done
 name: items_assault_rifles
   items: w:10 M4A1 / w:8 Steyr AUG / w:7 FN SCAR-H / w:8 FN FAL
 done
+
+name: items_gun_accessories
+  items: w:10 holster / w:6 cap / w:15 safety glasses / w:2 work gloves
+done
