@@ -6,7 +6,6 @@ name: fire
   spread_cost:  100
   flags: solid
   fuel:
-    terrain_flag: flammable
     item_flag:    flammable
     fuel: 100
     damage: 3d10
@@ -38,6 +37,13 @@ name: fire
     verb: burns
     parts_hit: legs
     fire: 8
+    fuel:
+      terrain_flag:    flammable
+      fuel: 20
+      damage: 1d10
+      output_field: smoke
+      output_duration: 6d6 - 10
+    done
   done
   level:
     name: fire
@@ -48,6 +54,13 @@ name: fire
     verb: burns
     parts_hit: legs torso
     fire: 15
+    fuel:
+      terrain_flag:    flammable
+      fuel: 60
+      damage: 2d10
+      output_field: smoke
+      output_duration: 6d6 - 10
+    done
   done
   level:
     name: raging fire
@@ -59,6 +72,13 @@ name: fire
     verb: burns
     parts_hit: all
     fire: 30
+    fuel:
+      terrain_flag:    flammable
+      fuel: 100
+      damage: 3d10
+      output_field: smoke
+      output_duration: 6d6 - 10
+    done
   done
 done
 
