@@ -541,10 +541,41 @@ Tripoint Player::pick_target_for(Item* it)
 void Player::take_damage(Damage_type type, int damage, std::string reason,
                          Body_part part)
 {
+  if (damage <= 0) {
+    return;
+  }
   absorb_damage(type, damage, part);
-// TODO: Armor absorbs damage
   current_hp[ convert_to_HP(part) ] -= damage;
   pain += rng(0, damage);
+}
+
+void Player::take_damage_everywhere(Damage_set damage, std::string reason)
+{
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    Damage_type type = Damage_type(i);
+    int dam = damage.get_damage(type);
+    take_damage_everywhere(type, dam, reason);
+  }
+}
+
+void Player::take_damage_everywhere(Damage_type type, int damage,
+                                    std::string reason)
+{
+  take_damage(type, (damage * 3) / 6, reason, BODY_PART_HEAD);
+  take_damage(type, (damage * 1) / 6, reason, BODY_PART_EYES);
+  take_damage(type, (damage * 2) / 6, reason, BODY_PART_MOUTH);
+
+  take_damage(type, damage          , reason, BODY_PART_TORSO);
+
+  take_damage(type, (damage * 1) / 6, reason, BODY_PART_LEFT_HAND);
+  take_damage(type, (damage * 1) / 6, reason, BODY_PART_RIGHT_HAND);
+  take_damage(type, (damage * 2) / 6, reason, BODY_PART_LEFT_ARM);
+  take_damage(type, (damage * 2) / 6, reason, BODY_PART_RIGHT_ARM);
+
+  take_damage(type, (damage * 1) / 8, reason, BODY_PART_LEFT_FOOT);
+  take_damage(type, (damage * 1) / 8, reason, BODY_PART_RIGHT_FOOT);
+  take_damage(type, (damage * 3) / 8, reason, BODY_PART_LEFT_LEG);
+  take_damage(type, (damage * 3) / 8, reason, BODY_PART_RIGHT_LEG);
 }
 
 void Player::heal_damage(int damage, HP_part part)

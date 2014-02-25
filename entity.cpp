@@ -1450,6 +1450,19 @@ void Entity::take_damage(Damage_set damage, std::string reason, Body_part part)
   }
 }
 
+// Since most entities don't use body parts, this should be functionally
+// equivalent to take_damage()
+void Entity::take_damage_everywhere(Damage_set damage, std::string reason)
+{
+  take_damage(damage, reason, BODY_PART_NULL);
+}
+
+void Entity::take_damage_everywhere(Damage_type type, int damage,
+                                    std::string reason)
+{
+  take_damage(type, damage, reason, BODY_PART_NULL);
+}
+
 void Entity::absorb_damage(Damage_type type, int& damage, Body_part part)
 {
   for (int i = 0; damage > 0 && i < items_worn.size(); i++) {

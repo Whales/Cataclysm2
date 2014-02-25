@@ -188,6 +188,9 @@ public:
                            Body_part part = BODY_PART_NULL);
   virtual void take_damage(Damage_set damage, std::string reason,
                            Body_part part = BODY_PART_NULL);
+  virtual void take_damage_everywhere(Damage_set damage, std::string reason);
+  virtual void take_damage_everywhere(Damage_type type, int damage,
+                                      std::string reason);
   virtual void absorb_damage(Damage_type type, int &damage, Body_part part);
   virtual void heal_damage(int damage, HP_part part = HP_PART_NULL);
 
