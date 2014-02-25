@@ -87,8 +87,14 @@ name: items_soft_drugs
   items: w:20 aspirin / w:8 sleeping pills / w:5 bandages / w:2 first aid
 done
 
+# General garage junk
 name: items_garage
   items: w:40 work gloves / w:50 nails / w:10 baseball bat / w:10 golf club / w:1 machete / w:50 hammer / w:45 wrench / w:5 sledgehammer / w:8 steel pipe / w:60 screwdriver / w:30 crowbar / w:30 shovel / w:15 hatchet / w:12 wood ax / w:12 nail gun
+done
+
+# Items for a car mechanic's garage
+name: items_car_mechanic
+  items: w:30 work gloves / w:5 hammer / w:45 wrench / w:30 steel pipe / w:40 screwdriver / w:7 crowbar
 done
 
 name: items_fridge
