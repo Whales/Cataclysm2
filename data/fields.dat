@@ -163,6 +163,10 @@ name: acid
     verb: burns
     parts_hit: legs
     fire: 6
+    fuel:
+      terrain_flag: water
+      fuel: -5
+    done
   done
   level: 
     name: acid streak
@@ -172,6 +176,12 @@ name: acid
     verb: burns
     parts_hit: legs
     fire: 8
+    fuel:
+      terrain_flag: water
+      fuel: -8
+      output_field: corrosive gas
+      output_duration: 2d4
+    done
   done
   level:
     name: acid pool
@@ -181,5 +191,49 @@ name: acid
     verb: burns
     parts_hit: legs
     fire: 10
+    fuel:
+      terrain_flag: water
+      fuel: -15
+      explosion:
+        radius: 1d2
+        force:  2d2
+        field: corrosive gas
+        field_chance: 80
+        field_duration: 3d4
+      done
+    done
+  done
+done
+
+name: corrosive gas
+  spread_chance: 50
+  spread_cost: 5
+  flags: diffuse rise
+  level:
+    name: corrosive mist
+    glyph: 8 ltgreen black
+    duration: 5
+    danger: 100
+    verb: burns
+    parts_hit: all
+    fire: 1
+  done
+  level: 
+    name: corrosive fog
+    glyph: 8 green black
+    duration: 5
+    danger: 150
+    verb: burns
+    parts_hit: all
+    fire: 2
+  done
+  level:
+    name: corrosive cloud
+    glyph: 8 green black
+    duration: 10
+    danger: 200
+    verb: burns
+    parts_hit: all
+    fire: 3
   done
 done
