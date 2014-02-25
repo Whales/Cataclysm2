@@ -1234,7 +1234,24 @@ void Map::damage(int x, int y, int z, Damage_set dam)
 {
   Tile* hit = get_tile(x, y, z);
   if (hit) {
-    hit->damage(dam);
+    bool may_explode = has_flag(TF_EXPLOSIVE, x, y, z);
+    std::string old_name = get_name(x, y, z);
+    if (hit->damage(dam) && may_explode) {
+// If we were explosive, then destroying us sets off an explosion!
+// TODO: Shoudl explosion particulars be drawn from data?  Probably...
+      Explosion expl;
+      expl.radius = Dice(2, 2, 5);  // Average 8
+      expl.force  = Dice(4, 6, 16); // Average 30
+      expl.shrapnel_count  = Dice(2, 6, -2); // Average 5
+      expl.shrapnel_damage = Dice(3, 6,  4); // Average 14.5
+      expl.field_name = "fire";
+      expl.field_chance = 25;
+      expl.field_duration = Dice(50, 10, 200); // Average 475
+      std::stringstream expl_reason;
+      expl_reason << "an exploding " << old_name;
+      expl.reason = expl_reason.str();
+      expl.explode( Tripoint(x, y, z) );
+    }
   }
 }
 
