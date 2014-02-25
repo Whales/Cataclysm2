@@ -126,7 +126,8 @@ void Explosion::explode(Tripoint epicenter)
       if (ent) {
         ent->take_damage_everywhere(DAMAGE_BASH, dam, reason);
       }
-// Damage the terrain there.
+// TODO: Explosive items explode recursively?
+// Damage the terrain there.  This may cause an explosion!
       GAME.map->damage(pos, dam_set);
 // Plant a field, perhaps?
       if (ftype && rng(1, 100) <= field_chance) {
