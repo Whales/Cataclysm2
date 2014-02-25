@@ -18,7 +18,7 @@ name: grass
   flags: plural
 done
 
-# TODO: redo hole as a trapish thing
+# TODO: redo hole as a trapish thing.
 name: hole
   glyph: 0 brown black
   movecost: 300

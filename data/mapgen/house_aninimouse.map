@@ -42,8 +42,7 @@ tile: D = dresser
 tile: p = pavement
 tile: P = stockade fence
 tile: l = short stone wall
-tile: h = underbrush
-# Bush/Hedge placeholder
+tile: h = hedge
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
 subst: 3 = w:20 o / w:10 p
@@ -53,6 +52,8 @@ subst: 6 = w:20 o / w:10 h
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
+item_group: 50 s = items_soft_drugs
+item_group: 50 T = items_cleaning
 
 
 map:
@@ -140,7 +141,7 @@ tile: D = dresser
 tile: p = pavement
 tile: P = stockade fence
 tile: l = short stone wall
-tile: h = underbrush
+tile: h = hedge
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
 subst: 3 = w:20 o / w:10 p
@@ -150,6 +151,8 @@ subst: 6 = w:20 o / w:10 h
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
 
 map:
 o5555555555555555ppppppp6
@@ -236,7 +239,7 @@ tile: D = dresser
 tile: p = pavement
 tile: P = stockade fence
 tile: l = short stone wall
-tile: h = underbrush
+tile: h = hedge
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
 subst: 3 = w:20 o / w:10 p
@@ -246,6 +249,8 @@ subst: 6 = w:20 o / w:10 h
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
 
 
 map:
@@ -333,7 +338,7 @@ tile: D = dresser
 tile: p = pavement
 tile: P = stockade fence
 tile: l = short stone wall
-tile: h = underbrush
+tile: h = hedge
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
 subst: 3 = w:20 o / w:10 p
@@ -343,6 +348,8 @@ subst: 6 = w:20 o / w:10 h
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
 
 
 map:
@@ -431,7 +438,7 @@ tile: p = pavement
 tile: c = concrete floor
 tile: P = stockade fence
 tile: l = short stone wall
-tile: h = underbrush
+tile: h = hedge
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
 subst: 3 = w:20 o / w:10 c
@@ -441,6 +448,8 @@ subst: 6 = w:20 o / w:10 h
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
 
 
 map:
@@ -518,10 +527,10 @@ tile: o = dirt / grass
 tile: + = closed door
 tile: @ = w:3 locked door / w:1 closed door
 tile: " = window
-tile: %G = counter
+tile: %G0 = counter
 tile: T = toilet
 tile: B = bed
-tile: EQ = shelves
+tile: EQ789 = shelves
 tile: s = sink
 tile: F = fridge
 tile: S = stove
@@ -542,7 +551,14 @@ item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 40 F = items_fridge
 item_group: 10 G = items_garage
-item_group: 50 Q = items_garage
+item_group: 50 Q = items_garden_tools
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
+item_group: 50 7 = items_home_hardware
+item_group: 50 8 = items_small_tools
+item_group: 50 9 = items_big_tools
+item_group: 25 0 = items_small_tools
+
 
 map:
 o2pppppp3oooooooooooooooo
@@ -562,12 +578,12 @@ o2pppppp44444ccc44444441o
 o2ppppppggggggggg4444441o
 o2ppppppggggggggg4444441o
 o#ccccccG#ggggggggggggg1o
+o#cccccc0#ggggggggggggg1o
 o#ccccccG#ggggggggggggg1o
-o#ccccccG#ggggggggggggg1o
-o#ccccccG#ggggggggWWWWo1o
+o#cccccc0#ggggggggWWWWo1o
 o#ccccccG#gggggggo+.QWo1o
-o#ccccccG#gggggggo+.QWo1o
-o#cQcQccG#ggggggggWWWWo1o
+o#cccccc0#gggggggo+.9Wo1o
+o#c7c8ccG#ggggggggWWWWo1o
 o#########11111111111111o
 ooooooooooooooooooooooooo
 endmap
@@ -589,6 +605,8 @@ tile: D = dresser
 tile: > = stairs down
 tile: x = empty
 tile: * = roof
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
 
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -668,7 +686,7 @@ tile: " = window
 tile: % = counter
 tile: T = toilet
 tile: B = bed
-tile: EQ = shelves
+tile: EQqRr = shelves
 tile: s = sink
 tile: F = fridge
 tile: S = stove
@@ -679,18 +697,24 @@ tile: l = short stone wall
 tile: < = stairs up
 tile: g = grass
 tile: c = concrete floor
-tile: h = underbrush
+tile: h = hedge
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l
 subst: 3 = w:20 g / w:10 p
 subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 g / w:10 h
 subst: 6 = w:20 o / w:10 h
-subst: 7 = w:20 . / w:10 Q
+subst: 7 = w:20 . / w:10 Q / w:10 q / w:10 R / w:10 r
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 40 F = items_fridge
 item_group: 50 Q = items_garage
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
+item_group: 50 q = items_garden_tools
+item_group: 50 R = items_small_tools
+item_group: 50 r = items_home_hardware
+
 
 map:
 o2pppppppoooooooocooooooo
@@ -707,7 +731,7 @@ o2ppppppp####"##S.%.#BB#o
 o2ppppppp444444"s...#.."o
 o2ppppppp444444"%EF.+.D#o
 o2ppppppp444444####@####o
-o2ppppppp444444"....777"o
+o2ppppppp444444"777.777"o
 o2ppppppp444444"......."o
 o2ppppppp444444#"""+"""#o
 o2333333344444444444gg52o
@@ -770,7 +794,7 @@ tile: " = window
 tile: % = counter
 tile: T = toilet
 tile: B = bed
-tile: E = shelves
+tile: EQqRr = shelves
 tile: s = sink
 tile: F = fridge
 tile: S = stove
@@ -781,16 +805,23 @@ tile: l = short stone wall
 tile: < = stairs up
 tile: g = grass
 tile: c = concrete floor
-tile: h = underbrush
+tile: h = hedge
 subst: 1 = w:20 o / w:10 P / w:5 l
 subst: 2 = w:15 o / w:10 P / w:5 l
 subst: 3 = w:20 o / w:10 c
 subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: 7 = w:1 . / w:4 Q / w:3 R / w:3 r / w:2 q
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 40 F = items_fridge
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
+item_group: 50 Q = items_garden_tools
+item_group: 50 q = items_home_hardware
+item_group: 50 R = items_small_tools
+item_group: 50 r = items_big_tools
 
 map:
 ooooooo3ooooooooooooooooo
@@ -812,9 +843,9 @@ o25ggggggggggggggggggg52o
 o25ggggggggggggggggggg52o
 o25ggggggggggggggggggg52o
 o25ggggggggggggggggggg52o
-o25ggggggggggggggggggg52o
-o25ggggggggggggggggggg52o
-o25ggggggggggggggggggg52o
+o25gggggggggggggggW++W52o
+o25gggggggggggggggW77W52o
+o25gggggggggggggggWWWW52o
 o25555555555555555555552o
 o11111111111111111111111o
 ooooooooooooooooooooooooo
@@ -837,6 +868,8 @@ tile: D = dresser
 tile: > = stairs down
 tile: x = empty
 tile: * = roof
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
 
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -858,9 +891,9 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx****xxx
+xxxxxxxxxxxxxxxxxx****xxx
+xxxxxxxxxxxxxxxxxx****xxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
