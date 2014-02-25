@@ -2,94 +2,111 @@ Name: ocean
   Glyph: = blue black
   Flags: bridge no_river water salty
   Road_cost: 5000
-  Done
+Done
+
 Name: field
   Glyph: . green black
   Beach: beach
   Beach_range: 1
   Road_cost: 100
-  Done
+Done
+
 Name: beach
   Glyph: . yellow black
   Road_cost: 110
-  Done
+Done
+
 Name: forest
   Glyph: 7 green black
   Beach: mangrove
   Beach_range: 3
   Road_cost: 150
-  Done
+Done
+
 Name: mangrove
   Glyph: 7 cyan black
   Flags: no_river water salty
   Road_cost: 300
-  Done
+Done
+
 Name: swamp
   Glyph: " ltgreen black
   Beach: salt marsh
   beach_range: 3
   Flags: no_river water
   Road_cost: 200
-  Done
+Done
+
 Name: salt marsh
   Glyph: " cyan black
   Flags: no_river water salty
   Road_cost: 220
-  Done
+Done
+
 Name: mushroom forest
   Glyph: 7 ltgray black
   Beach: salt marsh
   Beach_range: 2
   Road_cost: 120
-  Done
+Done
+
 Name: rocky
   Glyph: # brown black
   Road_cost: 180
-  Done
+Done
+
 Name: fresh water
   Glyph: = ltblue black
   Flags: no_river water
   Road_cost: 4000
-  Done
+Done
+
 Name: river
   Glyph: ~ ltblue black
   Flags: no_river water bridge
   Road_cost: 500
-  Done
+Done
+
 Name: road
   Glyph: + ltgray black
   Flags: line_drawing relational road
   Connector: bridge
   Road_cost: 1
-  Done
+Done
+
 Name: bridge
   Glyph: + ltgray blue
   Flags: relational no_road line_drawing
   Connector: road
   Road_cost: 20
-  Done
+Done
+
 Name: town square
   Glyph: O ltgray black
   Flags: no_river
   Road_cost: 150
-  Done
+Done
+
 Name: house
   Glyph: o ltgreen black
   Road_cost: 500
   Flags: face_road
-  Done
+Done
+
 Name: hardware store
   Glyph: o ltblue black
   Road_cost: 500
   Flags: shop face_road
-  Done
+Done
+
 Name: pharmacy
   Glyph: o ltred black
   Road_cost: 500
   Flags: shop face_road
-  Done
+Done
+
 Name: gun store
   Glyph: o red black
   Road_cost: 500
   Flags: shop face_road
-  Done
+Done
