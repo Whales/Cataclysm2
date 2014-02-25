@@ -90,6 +90,7 @@ enum Terrain_flag
   TF_PLURAL,        // "plural" - Indefinite article is "some" (instead of "a")
   TF_INDOORS,       // "indoors" - You can open locked doors from this tile.
   TF_SEALED,        // "sealed" - You can't pick up or see items here.
+  TF_EXPLOSIVE,     // "explosive" - Explodes in fire.
   TF_MAX
 };
 
