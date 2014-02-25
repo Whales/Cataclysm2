@@ -616,3 +616,20 @@ name: dumpster
   destroy: rubble
   flags: container
 done
+
+name: gas pump
+  glyph: { red black
+  movecost: 0
+  height: 75
+  hp: 80
+  destroy: rubble
+  flags: explosive
+done
+
+name: air pump
+  glyph: { white black
+  movecost: 0
+  height: 75
+  hp: 80
+  destroy: rubble
+done
