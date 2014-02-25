@@ -81,6 +81,7 @@ bool Field_fuel::load_data(std::istream& data, std::string owner_name)
 
     } else if (ident == "explosion:") {
       if (!explosion.load_data(data, owner_name + " fuel")) {
+        debugmsg("Explosion failed to load.");
         return false;
       }
       has_explosion = true;
@@ -330,6 +331,7 @@ bool Field_type::load_data(std::istream& data)
   std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
+      debugmsg("Field data file terminated unexpectedly.");
       return false;
     }
     ident = no_caps(ident);
