@@ -41,3 +41,5 @@ The list:
   Antiques
   Army surplus
   Car Mechanic
+  Church
+  Offices
