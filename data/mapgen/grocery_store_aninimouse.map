@@ -21,72 +21,70 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: range_gun_store_aninimouse_gd
-subname: range_gun_store_aninimouse
-type: gun store
+name: a1_grocery_store_aninimouse_gd
+subname: a1_grocery_store_aninimouse
+type: grocery store
 tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed glass door
-tile: * = locked door
+tile: k = locked door
 tile: X = glass wall
 tile: " = window
 tile: % = counter
 tile: F = stockade fence
 tile: c = concrete floor
 tile: d = dirt
-subst: x = w:15 d / w:10 c
+subst: o = w:15 d / w:10 c
 
-tile: {A123456 = display rack
-tile: e7 = shelves
-item_group: 5 A7 = items_ammo_civilian
-item_group: 8 1 = items_handguns
-item_group: 5 2 = items_shotguns
-item_group: 5 3 = items_smgs
-item_group: 7 4 = items_hunting_rifles
-item_group: 3 5 = items_assault_rifles
-item_group: 15 6 = items_gun_accessories
+tile: {A123 = display rack
+item_group: 6 A = items_fridge
+item_group: 6 1 = items_snacks
+item_group: 6 2 = items_fridge_snacks
+item_group: 6 3 = items_kitchen_counter
+item_group: 6 4 = items_behind_counter
+item_group: 6 5 = items_cleaning
 
-tile: SQWERTY = safe
-item_group: 80 S = items_ammo_civilian
-item_group: 75 Q = items_handguns
-item_group: 70 W = items_shotguns
-item_group: 70 E = items_smgs
-item_group: 65 R = items_hunting_rifles
-item_group: 65 T = items_assault_rifles
-item_group: 80 Y = items_valuables_safe
+tile: SQWERTYUIOP} = safe
+item_group: 30 S = items_ammo_civilian
+item_group: 25 Q = items_handguns
+item_group: 20 W = items_shotguns
+item_group: 20 E = items_smgs
+item_group: 5 R = items_hunting_rifles
+item_group: 5 T = items_assault_rifles
+item_group: 80 YUIOP} = items_valuables_safe
 
-subst: S = SQWERTY
+subst: S = SQWERTYUIOP}
 
 subst: Dd = o / D
 tile: D = dumpster
 item_group: 35 D = items_trash
 
 map:
-occccccccccccccccccccccco
+ooooooooooooooooooooooooo
 o#XXXX#XXXX#+#XXXX#XXXX#o
-o#1...................2#o
-o#1.111..44..5..5..5..2#o
-o#1......44..5..5..5..2#o
-o######...............2#o
-o#Sc77#%%%%%....6..6..2#o
-o#Sccc*....%....6..6..2#o
-o#Sc77#AAA.....333333.2#o
-o###########*###########o
-o#xxxxxxxxxxxxxxxxxxxxx*o
-o#xxxxxxxxxxxxxxxxxxxxx#o
-o#*%%###%%##X##%%###%%##o
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-o#ddddddddddddddddddddd#o
-o#ddddddddddddddddddddd#o
-o#######################o
-ooDDDooooooooooooooodddoo
+o#1...................A#o
+o#1.AAA..35...53...2..A#o
+o#1......35...53...2..A#o
+o#1.1.1............2..A#o
+o#1.1.1.%%%%%%%%%..2..A#o
+o#1.1.1.%.......%..2..A#o
+o#1.1.1.%.S4444.k.....A#o
+o#################k#####o
+oodddoooooooooooooooDDDoo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 endmap
 done
@@ -113,115 +111,6 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-endmap
-done
-
-name: small_gun_store_aninimouse_gd
-subname: small_gun_store_aninimouse
-type: gun store
-tile: # = stone wall
-tile: . = floor
-tile: o = dirt / grass
-tile: + = closed glass door
-tile: * = locked door
-tile: a = closed door
-tile: X = glass wall
-tile: " = window
-tile: % = counter
-tile: t = toilet
-tile: s = sink
-tile: c = concrete floor
-tile: p = pavement
-subst: 1 = w:5 o / p
-subst: 2 = w:5 o / p
-subst: 3 = w:5 o / p
-
-tile: {A123456 = display rack
-tile: e7 = shelves
-item_group: 5 A7 = items_ammo_civilian
-item_group: 8 1 = items_handguns
-item_group: 5 2 = items_shotguns
-item_group: 5 3 = items_smgs
-item_group: 7 4 = items_hunting_rifles
-item_group: 3 5 = items_assault_rifles
-item_group: 15 6 = items_gun_accessories
-
-tile: SQWERTY = safe
-item_group: 80 S = items_ammo_civilian
-item_group: 75 Q = items_handguns
-item_group: 70 W = items_shotguns
-item_group: 70 E = items_smgs
-item_group: 65 R = items_hunting_rifles
-item_group: 65 T = items_assault_rifles
-item_group: 80 Y = items_valuables_safe
-
-subst: SY = SQWERT
-
-subst: Dd = o / D
-tile: D = dumpster
-item_group: 35 D = items_trash
-
-map:
-11111ccccccccccccccc22222
-11111ccccccccccccccc22222
-11111####XX#+#XX####22222
-11111#4.X.......X.4#22222
-11111#4.X.......X.4#22222
-11111#2.X.......X.2#22222
-11111#2.X.......X.2#22222
-11111#1.#XXX%XXX#.1#22222
-11111#1...........1#22222
-11111#AAA655.336AAA#22222
-11111#######*#######22222
-11111111#77ScS77#sS#22222
-1111111c*cccccccacc#22222
-11111111#7777777#ct#22222
-11111111############22222
-3333333333333333333333333
-3333333333333333333333333
-3333333333333333333333333
-3333333333333333333333333
-3333333333333333333333333
-oDDDooooooooooooooooodddo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-endmap
-done
-
-name: small_gun_store_aninimouse_rf
-subname: small_gun_store_aninimouse
-type: gun store
-level: 1
-tile: x = empty
-tile: * = roof
-map:
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxx***************xxxxx
-xxxxx***************xxxxx
-xxxxx***************xxxxx
-xxxxx***************xxxxx
-xxxxx***************xxxxx
-xxxxx***************xxxxx
-xxxxx***************xxxxx
-xxxxx***************xxxxx
-xxxxx***************xxxxx
-xxxxxxxx************xxxxx
-xxxxxxxx************xxxxx
-xxxxxxxx************xxxxx
-xxxxxxxx************xxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -270,7 +159,7 @@ done
 #
 # The "map:" tag should appear on its own line.  It is followed by 25 lines of
 # 25 characters each - you will be warned if there are missing characters or
-# extra characters.  It is a list of characters which refer back to the "tile:"
+# eotra characters.  It is a list of characters which refer back to the "tile:"
 # or "items:" lines.  If no matching "tile:" is found, the base_terrain is used;
 # if the base_terrain is not present, the first terrain in terrain.dat is used.
 #

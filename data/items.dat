@@ -299,6 +299,26 @@ weapon
   to_hit: -2
 done
 
+weapon
+  name: bundle of money
+  description:
+    A neat stack of paper banknotes that were once quite valuable.  Though, presumably, not so much anymore...
+  done
+  glyph: * ltgreen black
+  weight:  1
+  volume: 4
+done
+
+weapon
+  name: brick of money
+  description:
+    A very large amount of money, all neatly kept in a large bundle.  A shame it's probably worthless now...
+  done
+  glyph: * ltgreen black
+  weight:  1
+  volume: 40
+done
+
 # END Weapons / vanilla
 
 # Clothing

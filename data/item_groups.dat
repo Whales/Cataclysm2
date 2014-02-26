@@ -117,6 +117,10 @@ name: items_trash
   items: w:1 rock / w:3 stick / w:1 wood plank / w:3 steel pipe / w:20 rag / w:20 plastic bottle / w:12 glass bottle / w:8 can / w:25 soda can / w:30 plastic bag / w:8 paper box
 done
 
+name: items_valuables_safe
+  items: w:5 bundle of money / w:1 brick of money
+done  
+
 # Gun store items
 # "Civilian" ammo - omit armor-piercing variants.  This is a crazy gun-toting
 # future so other rounds that might be illegal can appear here.

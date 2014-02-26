@@ -122,3 +122,9 @@ Name: park
   Road_cost: 500
   Flags: shop face_road
 Done
+
+Name: grocery store
+  Glyph: o green black
+  Road_cost: 500
+  Flags: shop face_road
+Done
