@@ -33,13 +33,13 @@ tile: X = glass wall
 tile: % = counter
 
 tile: {A123456 = display rack
-item_group: 6 A = items_fridge
-item_group: 6 1 = items_snacks
-item_group: 6 2 = items_fridge_snacks
-item_group: 6 3 = items_kitchen_counter
-item_group: 6 4 = items_behind_counter
-item_group: 6 5 = items_cleaning
-item_group: 6 6 = items_food_shelves
+item_group: 15 A = items_fridge
+item_group: 15 1 = items_snacks
+item_group: 15 2 = items_fridge_snacks
+item_group: 15 3 = items_kitchen_counter
+item_group: 15 4 = items_behind_counter
+item_group: 15 5 = items_cleaning
+item_group: 15 6 = items_food_shelves
 
 tile: SQWERTYUIOP} = safe
 item_group: 30 S = items_ammo_civilian
@@ -132,13 +132,13 @@ tile: X = glass wall
 tile: % = counter
 
 tile: {A123456 = display rack
-item_group: 6 A = items_fridge
-item_group: 6 1 = items_snacks
-item_group: 6 2 = items_fridge_snacks
-item_group: 6 3 = items_kitchen_counter
-item_group: 6 4 = items_behind_counter
-item_group: 6 5 = items_cleaning
-item_group: 6 6 = items_food_shelves
+item_group: 12 A = items_fridge
+item_group: 12 1 = items_snacks
+item_group: 12 2 = items_fridge_snacks
+item_group: 12 3 = items_kitchen_counter
+item_group: 12 4 = items_behind_counter
+item_group: 12 5 = items_cleaning
+item_group: 12 6 = items_food_shelves
 
 tile: SQWERTYUIOP} = safe
 item_group: 30 S = items_ammo_civilian
