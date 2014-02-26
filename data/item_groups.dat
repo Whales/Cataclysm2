@@ -161,3 +161,32 @@ done
 name: items_gun_accessories
   items: w:10 holster / w:6 cap / w:15 safety glasses / w:2 work gloves
 done
+
+name: items_hats
+  items: w:10 cap / w:10 cotton hat / w:5 fedora
+done
+
+name: items_shirts
+  items: w:20 t shirt / w:18 dress shirt / w:15 tank top
+done
+
+name: items_jackets
+  items: w:20 wool sweater / w:5 leather jacket / w:7 jean jacket / w:12 puffy coat
+done
+
+name: items_gloves
+  items: w:12 cotton gloves / w:10 leather gloves
+done
+
+name: items_pants
+  items: w:20 jeans / w:10 cargo pants / w:3 leather pants / w:15 skirt
+done
+
+# Just shoes you'd find in a common clothing store - e.g. no steeltoed boots
+name: items_shoes
+  items: w:40 sneakers / w:30 oxfords / w:15 boots
+done
+
+name: items_misc_clothing
+  items: w:20 backpack / w:30 purse / w:10 scarf / w:20 bandana
+done
