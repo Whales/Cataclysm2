@@ -1,0 +1,42 @@
+Shops to add!
+
+Hey content designers - feel free to tackle this list!  First, edit
+data/world_terrain.dat.  At the end of the file, add an entry like this:
+
+Name: hardware store
+  Glyph: o ltblue black
+  Road_cost: 500
+  Flags: shop face_road
+Done
+
+The Name should match the name in this file.
+The Glyph should probably be an o, but others are fine too.  It needs two
+  colors, a foreground and a background, but the background should always be
+  black!
+The Road_cost should stay 500 for all shops.  It doesn't actually matter now,
+  but it might in the future.
+The Flag "shop" means it's a shop and will be placed in cities.  Use it!  The
+  Flag "face_road" means it'll be rotated so that the north edge of the map will
+  face a road.  If more than one road is available, it'll randomly pick one!
+
+
+The list:
+Parking lot (?)
+Park
+Grocery store
+Electronics store
+Sporting good store
+Liquor store
+Library
+Clothing store
+Restaurant (Fast food included!)
+Bank
+Bar (or Cafe, or Nightclub, or...)
+Pawn shop
+Small Museum
+Theater
+Toy store
+General Store (think Target, Walmart, etc, just smaller)
+Gym
+Antiques
+Army surplus
