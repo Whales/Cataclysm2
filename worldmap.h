@@ -56,7 +56,9 @@ private:
 
   Worldmap_tile tiles[WORLDMAP_SIZE][WORLDMAP_SIZE];
   Biome*       biomes[WORLDMAP_SIZE][WORLDMAP_SIZE];
+
   Worldmap_tile tile_oob;
+
   std::vector<World_terrain*> shops;
   std::map< int, std::vector<Point> > islands;
   std::map<World_terrain*,int> shop_count;
