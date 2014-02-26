@@ -31,21 +31,36 @@ tile: + = closed glass door
 tile: * = locked door
 tile: X = glass wall
 tile: " = window
-tile: {A123456 = display rack
 tile: % = counter
 tile: F = stockade fence
 tile: c = concrete floor
 tile: d = dirt
-tile: E = shelves
 subst: x = w:15 d / w:10 c
 
-item_group: 5 A = items_ammo_civilian
+tile: {A123456 = display rack
+tile: e7 = shelves
+item_group: 5 A7 = items_ammo_civilian
 item_group: 8 1 = items_handguns
 item_group: 5 2 = items_shotguns
 item_group: 5 3 = items_smgs
 item_group: 7 4 = items_hunting_rifles
 item_group: 3 5 = items_assault_rifles
 item_group: 15 6 = items_gun_accessories
+
+tile: SQWERT = safe
+item_group: 80 S = items_ammo_civilian
+item_group: 75 Q = items_handguns
+item_group: 70 W = items_shotguns
+item_group: 70 E = items_smgs
+item_group: 65 R = items_hunting_rifles
+item_group: 65 T = items_assault_rifles
+
+subst: S = SQWERT
+
+subst: Dd = o / D
+tile: D = dumpster
+item_group: 35 D = items_trash
+
 map:
 occccccccccccccccccccccco
 o#XXXX#XXXX#+#XXXX#XXXX#o
@@ -53,9 +68,9 @@ o#1...................2#o
 o#1.111..44..5..5..5..2#o
 o#1......44..5..5..5..2#o
 o######...............2#o
-o#EEEE#%%%%%....6..6..2#o
-o#Eccc*....%....6..6..2#o
-o#EEEE#AAA.....333333.2#o
+o#Sc77#%%%%%....6..6..2#o
+o#Sccc*....%....6..6..2#o
+o#Sc77#AAA.....333333.2#o
 o###########*###########o
 o#xxxxxxxxxxxxxxxxxxxxx*o
 o#xxxxxxxxxxxxxxxxxxxxx#o
@@ -67,10 +82,10 @@ oFdddddddddddddddddddddFo
 oFdddddddddddddddddddddFo
 oFdddddddddddddddddddddFo
 oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
 o#ddddddddddddddddddddd#o
 o#ddddddddddddddddddddd#o
 o#######################o
+ooDDDooooooooooooooodddoo
 ooooooooooooooooooooooooo
 endmap
 done
@@ -121,38 +136,61 @@ tile: * = locked door
 tile: a = closed door
 tile: X = glass wall
 tile: " = window
-tile: { = display rack
 tile: % = counter
 tile: T = toilet
 tile: s = sink
-tile: E = shelves
 tile: c = concrete floor
 tile: p = pavement
 subst: 1 = w:5 o / p
 subst: 2 = w:5 o / p
 subst: 3 = w:5 o / p
+
+tile: {A123456 = display rack
+tile: e7 = shelves
+item_group: 5 A7 = items_ammo_civilian
+item_group: 8 1 = items_handguns
+item_group: 5 2 = items_shotguns
+item_group: 5 3 = items_smgs
+item_group: 7 4 = items_hunting_rifles
+item_group: 3 5 = items_assault_rifles
+item_group: 15 6 = items_gun_accessories
+
+tile: SQWERT = safe
+item_group: 80 S = items_ammo_civilian
+item_group: 75 Q = items_handguns
+item_group: 70 W = items_shotguns
+item_group: 70 E = items_smgs
+item_group: 65 R = items_hunting_rifles
+item_group: 65 T = items_assault_rifles
+
+subst: S = SQWERT
+
+subst: Dd = o / D
+tile: D = dumpster
+item_group: 35 D = items_trash
+
 map:
 11111ccccccccccccccc22222
 11111ccccccccccccccc22222
 11111####XX#+#XX####22222
-11111#{.X.......X.{#22222
-11111#{.X.......X.{#22222
-11111#{.X.......X.{#22222
-11111#{.X.......X.{#22222
-11111#{.#XXX%XXX#.{#22222
-11111#{...........{#22222
-11111#{{{{{{.{{{{{{#22222
+11111#4.X.......X.4#22222
+11111#4.X.......X.4#22222
+11111#2.X.......X.2#22222
+11111#2.X.......X.2#22222
+11111#1.#XXX%XXX#.1#22222
+11111#1...........1#22222
+11111#AAA655.336AAA#22222
 11111#######*#######22222
-11111111#EEEcEEE#sc#22222
+11111111#77ScS77#sS#22222
 1111111c*cccccccacc#22222
-11111111#EEEEEEE#cT#22222
+11111111#7777777#cT#22222
 11111111############22222
 3333333333333333333333333
 3333333333333333333333333
 3333333333333333333333333
 3333333333333333333333333
 3333333333333333333333333
-ooooooooooooooooooooooooo
+oDDDooooooooooooooooodddo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
