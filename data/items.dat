@@ -1433,6 +1433,20 @@ food
 done
 
 food
+  name: SPAM
+  description:
+    Yuck, not very tasty. But it is quite filling.
+  done
+  glyph: $ brown black
+  weight:  8
+  volume: 20
+  food:   34
+  water:   -2
+  container: can
+  flags: plural
+done
+
+food
   name: tomatoes
   description:
     Diced and stewed tomatoes.  Decent on their own, but great when cooked with
