@@ -608,19 +608,30 @@ tile: * = roof
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 
+tile: SQWEROYUI = safe
+item_group: 50 S = items_ammo_civilian
+item_group: 45 Q = items_handguns
+item_group: 40 W = items_shotguns
+item_group: 40 E = items_smgs
+item_group: 25 R = items_hunting_rifles
+item_group: 25 O = items_assault_rifles
+item_group: 80 YUI = items_valuables_safe
+
+subst: S = w:40 . / w:1 SQWEROYUI
+
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxx######""##""###x
-xxxxxxxxx#x#.....#.....#x
+xxxxxxxxx#x#S....#S....#x
 xxxxxxxxx#>#D..BB#D..BB#x
 xxxxxxxxx#.#.....#.....#x
 xxxxxxxx*#.###+#####+###x
 xxxxxxxx*"............."x
 xxxxxxxx*##+####+####+##x
-xxxxxxxxx#...#B...#B...#x
-xxxxxxxxx#s.T#B..D#B..D#x
+xxxxxxxxx#...#B..S#B...#x
+xxxxxxxxx#s.T#B..D#B.SD#x
 xxxxxxxxx##"###""##""###x
 xxxxxxxxxxxxx***xxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -715,13 +726,24 @@ item_group: 50 q = items_garden_tools
 item_group: 50 R = items_small_tools
 item_group: 50 r = items_home_hardware
 
+tile: ,NMCVOYUI = safe
+item_group: 50 , = items_ammo_civilian
+item_group: 45 N = items_handguns
+item_group: 40 M = items_shotguns
+item_group: 40 C = items_smgs
+item_group: 25 V = items_hunting_rifles
+item_group: 25 O = items_assault_rifles
+item_group: 80 YUI = items_valuables_safe
+
+subst: S = w:10 . / w:1 ,NMCVOYUI
+
 
 map:
 o2pppppppoooooooocooooooo
 o2ppppppp66666666c666666o
 o2ppppppp##"#"###@#"#"##o
-o2ppppppp".....#.......#o
-o2ppppppp#BB...#......."o
+o2ppppppp"S...D#.......#o
+o2ppppppp#BB..D#......."o
 o2ppppppp#BB...+.......#o
 o2ppppppp".....#.......#o
 o2ppppppp#+#####......."o
@@ -871,6 +893,17 @@ tile: * = roof
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 
+tile: SQWEROYUI = safe
+item_group: 50 S = items_ammo_civilian
+item_group: 45 Q = items_handguns
+item_group: 40 W = items_shotguns
+item_group: 40 E = items_smgs
+item_group: 25 R = items_hunting_rifles
+item_group: 25 O = items_assault_rifles
+item_group: 80 YUI = items_valuables_safe
+
+subst: S = w:10 . / w:1 SQWEROYUI
+
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -879,7 +912,7 @@ xxxx*****************xxxx
 xxxx##"#"###""###""##xxxx
 xxxx"..............."xxxx
 xxxx#..##+##+####+###xxxx
-xxxx#..#s.#D.D#.....#xxxx
+xxxx#..#s.#D.D#....S#xxxx
 xxxx"..#T.#...#....."xxxx
 xxxx"..#..#B.B#.BB.D"xxxx
 xxxx#.>#..#B.B#.BB.D#xxxx

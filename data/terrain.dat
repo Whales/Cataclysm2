@@ -251,6 +251,11 @@ name: concrete floor
   movecost: 100
 done
 
+name: stone path
+  glyph: . ltgray black
+  movecost: 100
+done
+
 name: pavement
   glyph: . dkgray black
   movecost: 100
