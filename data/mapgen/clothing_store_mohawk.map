@@ -22,8 +22,8 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: cl_store_mohawk
-subname: store_clothing
+name: std_clothing_store_mohawk
+subname: std_cs_mohawk
 type: clothing store
 tile: # = stone wall
 tile: o = pavement
@@ -82,8 +82,8 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: cl_store_roof
-subname: store_roof
+name: std_clothing_store_mohawk_roof
+subname: std_cs_mohawk
 floor: 1
 type: clothing store
 tile: 0 = Empty
