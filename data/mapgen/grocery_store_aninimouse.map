@@ -37,7 +37,7 @@ tile: c = concrete floor
 tile: d = dirt
 subst: o = w:15 d / w:10 c
 
-tile: {A123 = display rack
+tile: {A12345 = display rack
 item_group: 6 A = items_fridge
 item_group: 6 1 = items_snacks
 item_group: 6 2 = items_fridge_snacks
