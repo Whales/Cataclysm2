@@ -189,7 +189,7 @@ subname: a3_park_aninimouse
 type: house
 level: 1
 tile: x = empty
-tile: x = roof
+tile: * = roof
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
