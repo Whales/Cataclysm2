@@ -118,13 +118,19 @@ Name: gas station
 Done
 
 Name: park
-  Glyph: o green black
+  Glyph: O green black
   Road_cost: 500
   Flags: shop face_road
 Done
 
 Name: grocery store
   Glyph: o green black
+  Road_cost: 500
+  Flags: shop face_road
+Done
+
+Name: clothing store
+  Glyph: o blue black
   Road_cost: 500
   Flags: shop face_road
 Done
