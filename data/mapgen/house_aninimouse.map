@@ -608,16 +608,16 @@ tile: * = roof
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 
-tile: SQWERTYUI = safe
+tile: SQWEROYUI = safe
 item_group: 50 S = items_ammo_civilian
 item_group: 45 Q = items_handguns
 item_group: 40 W = items_shotguns
 item_group: 40 E = items_smgs
 item_group: 25 R = items_hunting_rifles
-item_group: 25 T = items_assault_rifles
+item_group: 25 O = items_assault_rifles
 item_group: 80 YUI = items_valuables_safe
 
-subst: S = w:40 . / w:1 SQWERTYUI
+subst: S = w:40 . / w:1 SQWEROYUI
 
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -726,16 +726,16 @@ item_group: 50 q = items_garden_tools
 item_group: 50 R = items_small_tools
 item_group: 50 r = items_home_hardware
 
-tile: SQWERTYUI = safe
+tile: SQWEROYUI = safe
 item_group: 50 S = items_ammo_civilian
 item_group: 45 Q = items_handguns
 item_group: 40 W = items_shotguns
 item_group: 40 E = items_smgs
 item_group: 25 R = items_hunting_rifles
-item_group: 25 T = items_assault_rifles
+item_group: 25 O = items_assault_rifles
 item_group: 80 YUI = items_valuables_safe
 
-subst: S = w:10 . / w:1 SQWERTYUI
+subst: S = w:10 . / w:1 SQWEROYUI
 
 
 map:
@@ -893,16 +893,16 @@ tile: * = roof
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 
-tile: SQWERTYUI = safe
+tile: SQWEROYUI = safe
 item_group: 50 S = items_ammo_civilian
 item_group: 45 Q = items_handguns
 item_group: 40 W = items_shotguns
 item_group: 40 E = items_smgs
 item_group: 25 R = items_hunting_rifles
-item_group: 25 T = items_assault_rifles
+item_group: 25 O = items_assault_rifles
 item_group: 80 YUI = items_valuables_safe
 
-subst: S = w:10 . / w:1 SQWERTYUI
+subst: S = w:10 . / w:1 SQWEROYUI
 
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
