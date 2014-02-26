@@ -94,7 +94,7 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
         if (ch == '-') {
           negative_bonus = true;
         }
-      } else if (ch == '\n') {
+      } else if (ch == '\n' || ch == ';') {
         done = true;
       } else if (ch != ' ') {
         debugmsg("Extraneous character '%c' in dice spec (%s)", ch,
