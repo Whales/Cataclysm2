@@ -883,7 +883,9 @@ void Game::update_hud()
     worldmap->draw_minimap(minimap, cornerx, cornery);
   }
   if (player->weapon.is_real()) {
-    i_hud.set_data("text_weapon", player->weapon.get_name_full());
+    std::stringstream weapon_ss;
+    weapon_ss << "<c=white>" << player->weapon.get_name_full() << "<c=/>";
+    i_hud.set_data("text_weapon", weapon_ss.str());
   } else {
     i_hud.set_data("text_weapon", "None");
   }
