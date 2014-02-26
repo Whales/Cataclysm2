@@ -408,8 +408,8 @@ void Worldmap::generate()
             }
             city[expand.x][expand.y] = CITY_BUILDING;
 // TODO: Set the distance range based on the city's size?
-            if (rl_dist(expand.x, expand.y, city_seeds[i].x, city_seeds[i].y) <=
-                rng(3, 10)) {
+            if (rl_dist(expand, city_seeds[i]) <= rng(3, 10) ||
+                one_in(20)) {
               tiles[expand.x][expand.y].terrain = random_shop();
             } else {
               tiles[expand.x][expand.y].set_terrain("house");
