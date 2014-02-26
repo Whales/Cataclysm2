@@ -271,6 +271,7 @@ done
 name: foster_hardware_store_whales_roof
 subname: foster_hw_whales
 type: hardware store
+level: 1
 tile: * = empty
 tile: . = roof
 map:
