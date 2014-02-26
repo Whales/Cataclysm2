@@ -89,8 +89,8 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: range_gun_store_aninimouse_rf
-subname: range_gun_store_aninimouse
+name: a1_grocery_store_aninimouse_rf
+subname: a1_grocery_store_aninimouse
 type: gun store
 level: 1
 tile: x = empty
