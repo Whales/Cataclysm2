@@ -166,6 +166,7 @@ Item_type_food::Item_type_food()
   water = 0;
   charges = 1;
   verb = "eat";
+  effect_chance = 100;
 }
 
 std::string Item_type_food::get_property_description()
@@ -499,6 +500,19 @@ bool Item_type_food::handle_data(std::string ident, std::istream &data)
   } else if (ident == "water:") {
     data >> water;
     std::getline(data, junk);
+
+  } else if (ident == "effect_chance:") {
+    data >> effect_chance;
+    std::getline(data, junk);
+    if (effect_chance <= 0) {
+      debugmsg("Food effect_chance of %d corrected to 1 (%s)",
+               effect_chance, name.c_str());
+      effect_chance = 1;
+    } else if (effect_chance > 100) {
+      debugmsg("Food effect_chance of %d corrected to 100 (%s)",
+               effect_chance, name.c_str());
+      effect_chance = 100;
+    }
 
   } else if (ident == "effect:") {
     if (!effect.load_data(data, name)) {

@@ -165,6 +165,7 @@ public:
 
   int food;
   int water;
+  int effect_chance;    // Chance to inflict the effect below
   Status_effect effect; // Special effect inflicted; see status_effect.h
   int charges;  // So that you can partially consume a food item
   std::string container;  // Name of another item type!
