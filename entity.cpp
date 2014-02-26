@@ -115,6 +115,19 @@ void Entity_plan::clear()
   target_entity = NULL;
   attention = 0;
   goal_type = AIGOAL_NULL;
+  path.clear();
+}
+
+void Entity_plan::shift(int shiftx, int shifty)
+{
+  if (target_point.x > -1) {
+    target_point.x -= shiftx * SUBMAP_SIZE;
+    target_point.y -= shifty * SUBMAP_SIZE;
+  }
+  if (target_point.x < 0 || target_point.y < 0) {
+    clear();
+  }
+  path.shift(shiftx, shifty);
 }
 
 Entity::Entity()
@@ -274,6 +287,7 @@ int Entity::get_speed()
   ret -= get_hunger_speed_penalty();
   ret -= get_thirst_speed_penalty();
   ret -= get_fatigue_speed_penalty();
+  ret -= get_pain_speed_penalty();
   for (int i = 0; i < effects.size(); i++) {
     ret += effects[i].speed_mod();
   }
@@ -438,7 +452,7 @@ int Entity::get_net_pain()
 int Entity::get_pain_speed_penalty()
 {
   int p = get_net_pain();
-  p -= 16;
+  p -= 16;  // First 19 pain points don't incur a speed penalty
   int ret = p / 4;
   return (ret > 50 ? 50 : ret);
 }

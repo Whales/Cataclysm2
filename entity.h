@@ -43,6 +43,7 @@ struct Entity_plan
   Tripoint next_step();
   void erase_step();
   void clear();
+  void shift(int shiftx, int shifty);
 
   Tripoint target_point;
   Entity*  target_entity;

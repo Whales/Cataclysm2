@@ -1,6 +1,7 @@
 #include "pathfind.h"
 #include "rng.h"
 #include "window.h"
+#include "map.h"  // For SUBMAP_SIZE
 #include <math.h>
 #include <algorithm>
 
@@ -50,6 +51,11 @@ void Path::erase_step(int index)
   path.erase(path.begin() + index);
 }
 
+void Path::clear()
+{
+  path.clear();
+}
+
 void Path::reverse()
 {
   std::reverse(path.begin(), path.end());
@@ -62,6 +68,11 @@ void Path::offset(int x_offset, int y_offset, int z_offset)
     path[i].y += y_offset;
     path[i].z += z_offset;
   }
+}
+
+void Path::shift(int shiftx, int shifty)
+{
+  offset(shiftx * SUBMAP_SIZE, shifty * SUBMAP_SIZE, 0);
 }
 
 Generic_map::Generic_map(int x, int y, int z)

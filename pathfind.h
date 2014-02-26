@@ -31,6 +31,8 @@ public:
   void erase_step(int index);
   void reverse();
   void offset(int x_offset, int y_offset, int z_offset);
+  void clear();
+  void shift(int shiftx, int shifty);
 private:
   std::vector<Tripoint> path;
   int total_cost;
