@@ -137,7 +137,7 @@ tile: a = closed door
 tile: X = glass wall
 tile: " = window
 tile: % = counter
-tile: T = toilet
+tile: t = toilet
 tile: s = sink
 tile: c = concrete floor
 tile: p = pavement
@@ -183,7 +183,7 @@ map:
 11111#######*#######22222
 11111111#77ScS77#sS#22222
 1111111c*cccccccacc#22222
-11111111#7777777#cT#22222
+11111111#7777777#ct#22222
 11111111############22222
 3333333333333333333333333
 3333333333333333333333333
