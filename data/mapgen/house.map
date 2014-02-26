@@ -51,6 +51,7 @@ shuffle: 123
 item_group: 30 $ = items_food_shelves
 item_group: 30 F = items_fridge
 item_group: 30 % = items_kitchen_counter
+item_group: 50 D = items_all_clothes
 
 map:
 oooo*****************oooo
@@ -100,6 +101,8 @@ tile: +A = closed door
 tile: "aB = window
 shuffle: 123
 shuffle: 456
+
+item_group: 50 D = items_all_clothes
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -180,11 +183,13 @@ tile: F = fridge
 tile: V = stove
 tile: S$ = w:30 shelves / w:25 floor / w:1 rubble
 tile: B = bed
+tile: D = dresser
 tile: < = stairs up
 subst: & = #+
 item_group: 5 % = items_kitchen_counter
 item_group: 3 F = items_fridge
 item_group: 1 $ = items_food_shelves
+item_group: 5 D = items_all_clothes
 item_group: 85 . = items_trash
 shuffle: 123
 map:
@@ -205,7 +210,7 @@ ooo##"####&#####+#####ooo
 ooooooooooooo#S....BB#ooo
 ooooooooooooo#S....BB#ooo
 ooooooooooooo"......."ooo
-ooooooooooooo#.......#ooo
+ooooooooooooo#......D#ooo
 ooooooooooooo#####"###ooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -230,8 +235,10 @@ tile: K = w:20 sink / w:1 rubble
 tile: +13 = w:50 closed door / w:5 broken door / w:1 door frame
 tile: S = w:30 shelves / w:25 floor / w:1 rubble
 tile: B = bed
+tile: D = dresser
 tile: > = stairs down
 item_group: 70 . = items_trash
+item_group: 10 D = items_all_clothes
 shuffle: 12
 shuffle: 34
 map:
@@ -239,12 +246,12 @@ ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooo###"###"###########ooo
-ooo#.........#..#.K.T#ooo
+ooo#D........#..#.K.T#ooo
 ooo".........+..#...."ooo
 ooo#.........#..1....#ooo
 ooo#BB...SSSS#..#....#ooo
 ooo###########..###2##ooo
-ooo#....SSS#>........#ooo
+ooo#D...SSS#>........#ooo
 ooo".......###......."ooo
 ooo#BB.......+......."ooo
 ooo#BB.......#.......#ooo
@@ -252,7 +259,7 @@ ooo###"###"#####3#4###ooo
 ooooooooooooo#......B#ooo
 ooooooooooooo#......B#ooo
 ooooooooooooo"......."ooo
-ooooooooooooo#.....SS#ooo
+ooooooooooooo#D....SS#ooo
 ooooooooooooo####"####ooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo

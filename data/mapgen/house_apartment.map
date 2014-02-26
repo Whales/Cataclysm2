@@ -36,6 +36,7 @@ tile: K = sink
 tile: F = fridge
 tile: V = stove
 tile: T = toilet
+tile: D = dresser
 tile: % = counter
 tile: S$ = shelves
 tile: B = bed
@@ -45,6 +46,7 @@ tile_group: bc = w:2 floor / w:1 bed
 item_group: 50 % = items_kitchen_counter
 item_group: 40 F = items_fridge
 item_group: 30 $ = items_food_shelves
+item_group: 50 D = items_all_clothes
 # v is a closed door; wxyz are stone walls; shuffle them around
 shuffle: vwxyz
 map:
@@ -63,14 +65,14 @@ ooo#...#3....###+#...#ooo
 ooo#...#F...$#......."ooo
 ooo#...#%...$#1......#ooo
 ooo#.#.#%....#1....bB"ooo
-ooo#<#.#%%VK%#1....bB#ooo
+ooo#<#.#%%VK%#1.D..bB#ooo
 ooo###@###############ooo
 ooo#55............+.."ooo
 ooo".....#vwxyz#..#TK#ooo
 ooo#.....#.....#..####ooo
 ooo#....4#7....#...F%#ooo
 ooo"....4#7..cc#....%"ooo
-ooo#66..4#7..BB#$$KV%#ooo
+ooo#66..4#7.DBB#$$KV%#ooo
 ooo###"####""#####"###ooo
 ooooooooooooooooooooooooo
 endmap
@@ -95,6 +97,7 @@ tile: T = toilet
 tile: % = counter
 tile: S$ = shelves
 tile: B = bed
+tile: D = dresser
 # Randomly either place shelves or floor
 tile_group: 12345678 = w:2 floor / w:1 shelves
 # Randomly extend a bed to 2x2, or keep it 2x1
@@ -102,6 +105,7 @@ tile_group: xyz = w:2 floor / w:1 bed
 item_group: 50 % = items_kitchen_counter
 item_group: 40 F = items_fridge
 item_group: 30 $ = items_food_shelves
+item_group: 50 D = items_all_clothes
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -109,7 +113,7 @@ ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooo####"######"###""##ooo
-ooo#%F%VK%%..l.T#7.BB#ooo
+ooo#%F%VK%%..l.T#D.BB#ooo
 ooo#$........m.K#7.xx"ooo
 ooo#$........####7...#ooo
 ooo".........n......."ooo
@@ -123,9 +127,9 @@ ooo#..g..4444..#hij#.#ooo
 ooo#ab##########...k.#ooo
 ooo#..111..#.22#...#.#ooo
 ooo#.......+...#####+#ooo
-ooo###+#$.$#...#.....#ooo
+ooo###+#$.$#...#D....#ooo
 ooo#T..#F.K#.zz#By..."ooo
-ooo#K..#%V%#.BB#By.55#ooo
+ooo#K..#%V%#DBB#By.55#ooo
 ooo##"#######"###"####ooo
 ooooooooooooooooooooooooo
 endmap

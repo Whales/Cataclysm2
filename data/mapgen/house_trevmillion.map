@@ -39,7 +39,7 @@ tile: F = fridge
 tile: S = stove
 tile: K = sink
 tile: T = toilet
-item_group: 70 G = items_garage
+item_group: 60 G = items_garage
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 $ = items_food_shelves
@@ -87,7 +87,9 @@ tile: < = stairs up
 tile: E = shelves
 tile: T = toilet
 tile: B = bed
+tile: D = dresser
 tile: % = counter
+item_group: 50 D = items_all_clothes
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -96,14 +98,14 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xx****##""###"##********x
-xx****#.....+.E#********x
+xx****#D....+.E#********x
 xx****"B..#+####********x
 xx****#B..#..#>#""#*****x
 xx****#####..#.#.B#*****x
-xx****#...+....+.B#*****x
+xx****#D..+....+.B#*****x
 xx****"...##+###..#*****x
 xx****#B..E#.%#E..#*****x
-xxxxxx#B..E#.T#...#*****x
+xxxxxx#B..E#.T#..D#*****x
 xxxxxx##"###"###"##*****x
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -173,11 +175,13 @@ tile: E$ = shelves
 tile: F = fridge
 tile: S = stove
 tile: B = bed
+tile: D = dresser
 tile: K = sink
 tile: T = toilet
 item_group: 30 $ = items_food_shelves
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
+item_group: 50 D = items_all_clothes
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -191,7 +195,7 @@ oo#........#$$S......E#oo
 oo######..##########+##oo
 oo#....+..+.....#E....#oo
 oo"BB..#+##....B#E....@oo
-oo#....#.T#....B#E....#oo
+oo#...D#.T#D...B#E....#oo
 oo##"###"####"#####"###oo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -311,10 +315,12 @@ tile: < = stairs up
 tile: E = shelves
 tile: T = toilet
 tile: B = bed
+tile: D = dresser
+item_group: 50 D = items_all_clothes
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 x#######"#"###"#"#######x
-x#EE#>#.....#.....#>#EE#x
+x#EE#>#D....#....D#>#EE#x
 x"..#.#.....#.....#.#.."x
 x#....#.....#.....#....#x
 x#....#...BB#BB...#....#x
@@ -322,10 +328,10 @@ x#....#..#######..#....#x
 x"....##+#..#..#+##...."x
 x#.......+.T#T.+.......#x
 x####+##+#######+##+####x
-x#.....#....#....#...BB#x
-x".....#....#....#....."x
+x#.....#...D#....#...BB#x
+x".....#....#...D#....."x
 x#B....#...B#....#.....#x
-x#B....#...B#..BB#.....#x
+x#B...D#...B#..BB#D....#x
 x###"#####"###"#####"###x
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -393,10 +399,12 @@ tile: S = stove
 tile: K = sink
 tile: T = toilet
 tile: B = bed
+tile: D = dresser
 
 item_group: 30 $ = items_food_shelves
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
+item_group: 50 D = items_all_clothes
 
 map:
 ooooooooooooooooooooooooo
@@ -405,7 +413,7 @@ oooooooo#"#@##"#ooooooooo
 oooooooo"......"ooooooooo
 oooooooo#......#ooooooooo
 oo##"####......##"##ooooo
-oo#..B.E#......%F.S#ooooo
+oo#D.B.E#......%F.S#ooooo
 oo#..B.E####...%..K#ooooo
 oo".....#.T#...%..$#ooooo
 oo#.....#..#......$#ooooo
@@ -415,7 +423,7 @@ oo#####+##.....#####ooooo
 oo#E.....#.........#ooooo
 oo#.....B#.........#ooooo
 oo".....B#........."ooooo
-oo#......#.........#ooooo
+oo#D.....#.........#ooooo
 oo##"##"###@##"""###ooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -442,6 +450,10 @@ tile: < = stairs up
 tile: E = shelves
 tile: T = toilet
 tile: B = bed
+tile: D = dresser
+
+item_group: 50 D = items_all_clothes
+
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -456,7 +468,7 @@ xx".......#+##.....#xxxxx
 xx"..........#+#####xxxxx
 xx#...............>#xxxxx
 xx#####+#####+######xxxxx
-xx#B.....+.#.......#xxxxx
+xx#B.D...+.#......D#xxxxx
 xx"B.....#E#......."xxxxx
 xx#......####......#xxxxx
 xx#......#E.+....BB#xxxxx

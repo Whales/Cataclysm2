@@ -52,9 +52,9 @@ subst: 6 = w:20 o / w:10 h
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
-item_group: 50 s = items_soft_drugs
+item_group: 40 s = items_soft_drugs
 item_group: 50 T = items_cleaning
-
+item_group: 50 D = items_all_clothes
 
 map:
 ooooo3ooooooooooooo4ooooo
@@ -153,6 +153,7 @@ item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
+item_group: 50 D = items_all_clothes
 
 map:
 o5555555555555555ppppppp6
@@ -251,6 +252,7 @@ item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
+item_group: 50 D = items_all_clothes
 
 
 map:
@@ -350,6 +352,7 @@ item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
+item_group: 50 D = items_all_clothes
 
 
 map:
@@ -450,6 +453,7 @@ item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
+item_group: 50 D = items_all_clothes
 
 
 map:
@@ -558,6 +562,7 @@ item_group: 50 7 = items_home_hardware
 item_group: 50 8 = items_small_tools
 item_group: 50 9 = items_big_tools
 item_group: 25 0 = items_small_tools
+item_group: 50 D = items_all_clothes
 
 
 map:
@@ -616,6 +621,7 @@ item_group: 40 E = items_smgs
 item_group: 25 R = items_hunting_rifles
 item_group: 25 O = items_assault_rifles
 item_group: 80 YUI = items_valuables_safe
+item_group: 50 D = items_all_clothes
 
 subst: S = w:40 . / w:1 SQWEROYUI
 
@@ -723,8 +729,9 @@ item_group: 50 Q = items_garage
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 item_group: 50 q = items_garden_tools
-item_group: 50 R = items_small_tools
-item_group: 50 r = items_home_hardware
+item_group: 40 R = items_small_tools
+item_group: 40 r = items_home_hardware
+item_group: 50 D = items_all_clothes
 
 tile: ,NMCVOYUI = safe
 item_group: 50 , = items_ammo_civilian
@@ -842,8 +849,9 @@ item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 item_group: 50 Q = items_garden_tools
 item_group: 50 q = items_home_hardware
-item_group: 50 R = items_small_tools
-item_group: 50 r = items_big_tools
+item_group: 40 R = items_small_tools
+item_group: 40 r = items_big_tools
+item_group: 50 D = items_all_clothes
 
 map:
 ooooooo3ooooooooooooooooo
@@ -892,6 +900,7 @@ tile: x = empty
 tile: * = roof
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
+item_group: 50 D = items_all_clothes
 
 tile: SQWEROYUI = safe
 item_group: 50 S = items_ammo_civilian
