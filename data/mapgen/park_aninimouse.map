@@ -129,6 +129,7 @@ tile: d = dirt
 tile: o = grass
 subst: .D = w:20 s / w:10 d
 tile: , = dirt / grass
+subst: l = w:15 g / w:10 d
 tile: O = floor
 
 tile: f = stockade fence
