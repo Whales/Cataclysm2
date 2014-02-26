@@ -142,6 +142,8 @@ Entity::Entity()
   hunger = 0;
   thirst = 0;
   fatigue = 0;
+  stomach_food = 0;
+  stomach_water = 0;
   pain = 0;
   painkill = 0;
   special_timer = 0;
@@ -535,6 +537,11 @@ int Entity::get_thirst_minimum()
   return -40;
 }
 
+int Entity::get_stomach_maximum()
+{
+  return 60;
+}
+
 bool Entity::can_sense(Entity* entity)
 {
   return false;
@@ -650,6 +657,9 @@ void Entity::add_status_effect(Status_effect effect)
   if (effect.type == STATUS_NULL) {
     return;
   }
+  if (effect.duration <= 0) {
+    return;
+  }
   for (int i = 0; i < effects.size(); i++) {
     if (effects[i].type == effect.type) {
       effects[i].boost(effect);
@@ -685,6 +695,27 @@ void Entity::shift(int shiftx, int shifty)
 
 void Entity::start_turn()
 {
+// Move food/water from stomach to body
+  if (GAME.minute_timer(1)) {
+    if (stomach_food > 0) {
+      int move = (stomach_food + 1) / 2;
+      hunger -= move;
+      stomach_food -= move;
+      int min = get_hunger_minimum();
+      if (hunger < min) {
+        hunger = min;
+      }
+    }
+    if (stomach_water > 0) {
+      int move = (stomach_water + 1) / 2;
+      thirst -= move;
+      stomach_water -= move;
+      int min = get_thirst_minimum();
+      if (thirst < min) {
+        thirst = min;
+      }
+    }
+  }
 // Increment hunger and thirst when appropriate...
 // TODO: Don't hardcode these values?
   if (GAME.minute_timer(6)) {
@@ -998,14 +1029,23 @@ bool Entity::eat_item_uid(int uid)
   if (!it || it->get_item_class() != ITEM_CLASS_FOOD) {
     return false;
   }
+  bool can_add_message = is_you();
   Item_type_food* food = static_cast<Item_type_food*>(it->type);
-  hunger -= food->food;
-  if (hunger < get_hunger_minimum()) {
-    hunger = get_hunger_minimum();
+  stomach_food += food->food;
+  if (stomach_food > get_stomach_maximum()) {
+    stomach_food = get_stomach_maximum();
+    if (can_add_message) {
+      GAME.add_msg("You can't finish it all!");
+      can_add_message = false;
+    }
   }
-  thirst -= food->water;
-  if (thirst < get_thirst_minimum()) {
-    thirst = get_thirst_minimum();
+
+  stomach_water += food->water;
+  if (stomach_water > get_stomach_maximum()) {
+    stomach_water = get_stomach_maximum();
+    if (can_add_message) {
+      GAME.add_msg("You can't finish it all!");
+    }
   }
 
   if (food->effect.type != STATUS_NULL) {
@@ -1248,13 +1288,13 @@ std::string Entity::get_all_status_text()
 
 std::string Entity::get_hunger_text()
 {
-  if (hunger < get_hunger_minimum() / 2) {
-    return "<c=green>Overfull<c=/>";
-  }
-  if (hunger < 0) {
-    return "<c=ltgreen>Full<c=/>";
-  }
+// If hunger isn't high enough to be hungry, base it on stomach contents
   if (hunger < 60) {
+    if (stomach_food >= get_stomach_maximum() / 2) {
+      return "<c=green>Overfull<c=/>";
+    } else if (hunger < 0) {
+      return "<c=ltgreen>Full<c=/>";
+    }
     return "";
   }
   if (hunger < 120) {

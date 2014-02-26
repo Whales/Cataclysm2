@@ -102,6 +102,7 @@ public:
   virtual int get_genus_uid();
   virtual int get_hunger_minimum();
   virtual int get_thirst_minimum();
+  virtual int get_stomach_maximum();
 
 // World interaction
   virtual bool can_sense  (Entity* entity);
@@ -223,7 +224,7 @@ public:
   Stats stats;
 
 // Temporary attributes
-  int hunger, thirst, fatigue;
+  int hunger, thirst, fatigue, stomach_food, stomach_water;
   int pain, painkill;
   int special_timer;
 
