@@ -93,6 +93,25 @@ Terrain* Variable_terrain::pick(bool refresh_choice)
   return ter.back().terrain;
 }
 
+bool Variable_terrain::contains(std::string terrain_name)
+{
+  Terrain* t = TERRAIN.lookup_name(terrain_name);
+  if (!t) {
+    return false;
+  }
+  return contains(t);
+}
+
+bool Variable_terrain::contains(Terrain* terrain)
+{
+  for (int i = 0; i < ter.size(); i++) {
+    if (ter[i].terrain == terrain) {
+      return true;
+    }
+  }
+  return false;
+}
+
 Item_area::Item_area()
 {
   total_chance = 0;
@@ -814,9 +833,26 @@ bool Mapgen_spec::verify_map()
       }
     }
   }
-  if (errors.empty()) {
-    return true;
+// Check for "empty" in floor 0 maps
+  if (z_level == 0) {
+    if (base_terrain.contains("empty")) {
+      errors.push_back("base_terrain includes 'empty' on a 0-level map!");
+    }
+    for (std::map<char,Variable_terrain>::iterator it = terrain_defs.begin();
+         it != terrain_defs.end();
+         it++) {
+      if ( it->second.contains("empty") ) {
+        std::stringstream error_ss;
+        error_ss << it->first << " - may be 'empty' on a 0-level map!";
+        errors.push_back( error_ss.str() );
+      }
+    }
   }
+
+  if (errors.empty()) {
+    return true;  // Hooray!
+  }
+
   if (errors.size() == 1) {
     debugmsg("Error in %s:\n%s", get_name().c_str(), errors[0].c_str() );
   } else {

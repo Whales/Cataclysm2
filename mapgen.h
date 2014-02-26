@@ -48,6 +48,10 @@ public:
   void prepare(); // If it's a lock, then define Terrain* choice.
   Terrain* pick(bool refresh_choice = false);
 
+// Returns true if any of the options are the specified terrain
+  bool contains(std::string terrain_name);
+  bool contains(Terrain* terrain);
+
   bool lock;
   std::vector<Terrain_chance> ter;
 
@@ -183,12 +187,12 @@ struct Mapgen_spec
   std::string terrain_name; // World_terrain we belong to
 // The following two are used for building 2nd floors.
   std::string subname;  // Specific flavor of the terrain type
-  Direction rotation;
+  Direction rotation;   // Rotation of the floor below
 
-  bool is_adjacent; // True is this is instructions for building adjacent to
+  bool is_adjacent; // If true, this is instructions for building adjacent to
                     // terrain_name
   int  num_neighbors;
-  int  weight;
+  int  weight;      // The likelihood of using this spec
   int  z_level;
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
