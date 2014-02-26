@@ -32,13 +32,14 @@ tile: k = locked door
 tile: X = glass wall
 tile: % = counter
 
-tile: {A12345 = display rack
+tile: {A123456 = display rack
 item_group: 6 A = items_fridge
 item_group: 6 1 = items_snacks
 item_group: 6 2 = items_fridge_snacks
 item_group: 6 3 = items_kitchen_counter
 item_group: 6 4 = items_behind_counter
 item_group: 6 5 = items_cleaning
+item_group: 6 6 = items_food_shelves
 
 tile: SQWERTYUIOP} = safe
 item_group: 30 S = items_ammo_civilian
@@ -58,13 +59,13 @@ item_group: 35 D = items_trash
 map:
 ooooooooooooooooooooooooo
 o#XXXX#XXXX#+#XXXX#XXXX#o
-o#1...................A#o
-o#1.AAA..35...53...2..A#o
-o#1......35...53...2..A#o
-o#1.1.1............2..A#o
-o#1.1.1.%%%%%%%%%..2..A#o
-o#1.1.1.%.......%..2..A#o
-o#1.1.1.%.S4444.k.....A#o
+o#6...................A#o
+o#6.AAA..35...53...2..A#o
+o#6......35...53...2..A#o
+o#6.1.1............2..A#o
+o#6.1.1.%%%%%%%%%..2..A#o
+o#6.1.1.%.......%..2..A#o
+o#6.1.1.%.S4444.k.....A#o
 o#################k#####o
 oodddoooooooooooooooDDDoo
 ooooooooooooooooooooooooo
@@ -106,6 +107,107 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+name: a2_grocery_store_aninimouse_gd
+subname: a2_grocery_store_aninimouse
+type: grocery store
+tile: #K = stone wall
+tile: . = floor
+tile: o = dirt / grass
+tile: + = closed glass door
+tile: k = locked door
+tile: X = glass wall
+tile: % = counter
+
+tile: {A123456 = display rack
+item_group: 6 A = items_fridge
+item_group: 6 1 = items_snacks
+item_group: 6 2 = items_fridge_snacks
+item_group: 6 3 = items_kitchen_counter
+item_group: 6 4 = items_behind_counter
+item_group: 6 5 = items_cleaning
+item_group: 6 6 = items_food_shelves
+
+tile: SQWERTYUIOP} = safe
+item_group: 30 S = items_ammo_civilian
+item_group: 25 Q = items_handguns
+item_group: 20 W = items_shotguns
+item_group: 20 E = items_smgs
+item_group: 5 R = items_hunting_rifles
+item_group: 5 T = items_assault_rifles
+item_group: 80 YUIOP} = items_valuables_safe
+
+subst: S = SQWERTYUIOP}
+
+subst: Dd = o / D
+tile: D = dumpster
+item_group: 35 D = items_trash
+
+shuffle: kK
+
+map:
+ooooooooooooooooooooooooo
+o#XXXX#XXXX#+#XXXX#XXXX#o
+o#....................A#o
+o#.%%.................A#o
+o#..%..1..1..6..6..2..A#o
+o#4.%..1..1..6..6..2..A#o
+o#4.%..1..6..6..6..2..A#o
+o#4.%..1..6..6..6.....A#o
+o#S.%..1..6..6..6.....A#o
+o#%%%........6..6..A..A#o
+o#..............6..A..A#o
+o#5..5..3..3.......A..A#o
+o#5..5..3..3..........A#o
+o#5..5.3333332222.....A#o
+o#####K###########k#####o
+oodddoooooooooooooooDDDoo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: a2_grocery_store_aninimouse_rf
+subname: a2_grocery_store_aninimouse
+type: gun store
+level: 1
+tile: x = empty
+tile: * = roof
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
