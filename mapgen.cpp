@@ -240,10 +240,13 @@ bool Item_group::load_data(std::istream &data)
       std::getline(data, item_line);
       std::istringstream item_ss(item_line);
       Item_type_chance tmp_chance;
+
       while (item_ss >> item_ident) {
         item_ident = no_caps(item_ident);  // other stuff isn't case-sensitive
+
         if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
           tmp_chance.chance = atoi( item_ident.substr(2).c_str() );
+
         } else if (item_ident == "/") { // End of this option
           item_name = trim(item_name);
           Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
@@ -256,6 +259,7 @@ bool Item_group::load_data(std::istream &data)
           tmp_chance.chance = 10;
           tmp_chance.item   = NULL;
           item_name = "";
+
         } else { // Otherwise, it should be a item name
           item_name = item_name + " " + item_ident;
         }
@@ -290,6 +294,127 @@ void Item_group::add_item(Item_type_chance item_type)
   total_chance += item_type.chance;
 }
 
+Item_type* Item_group::pick_type()
+{
+  if (item_types.empty()) {
+    debugmsg("Using NULL item");
+    return NULL;
+  }
+  int index = rng(1, total_chance);
+  for (int i = 0; i < item_types.size(); i++) {
+    index -= item_types[i].chance;
+    if (index <= 0) {
+      return item_types[i].item;
+    }
+  }
+  return item_types.back().item;
+}
+
+Item_group_count::Item_group_count()
+{
+  total_chance = 0;
+}
+
+void Item_group_count::add_group(Dice amount, int chance, Item_group* group)
+{
+  Item_group_amount tmp;
+  tmp.amount = amount;
+  tmp.chance = chance;
+  tmp.group = group;
+  add_group(tmp);
+}
+
+void Item_group_count::add_group(Item_group_amount group)
+{
+  groups.push_back(group);
+  total_chance += group.chance;
+}
+
+void Item_group_count::clear_points()
+{
+  locations.clear();
+}
+
+void Item_group_count::add_point(int x, int y)
+{
+  Point tmp(x, y);
+  locations.push_back(tmp);
+}
+
+bool Item_group_count::load_data(std::istream& data, std::string name)
+{
+  std::string group_ident;
+  std::string group_name;
+  Item_group_amount tmp_chance;
+
+  while (data >> group_ident) {
+    group_ident = no_caps(group_ident);  // other stuff isn't case-sensitive
+
+    if (group_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
+      tmp_chance.chance = atoi( group_ident.substr(2).c_str() );
+
+    } else if (group_ident == "c:") { // It's a count
+      if (!tmp_chance.amount.load_data(data, name + " chance")) {
+        debugmsg("Item_group_count chance failed to load.");
+        return false;
+      }
+
+    } else if (group_ident == "/") { // End of this option
+      group_name = trim(group_name);
+      Item_group* tmpgroup = ITEM_GROUPS.lookup_name(group_name);
+      if (!tmpgroup) {
+        debugmsg("Unknown Item_group '%s' (%s)", group_name.c_str(),
+                 name.c_str());
+        return false;
+      }
+      tmp_chance.group = tmpgroup;
+      add_group(tmp_chance);
+      tmp_chance.chance = 10;
+      tmp_chance.group   = NULL;
+      tmp_chance.amount = Dice(0, 1, 1);
+      group_name = "";
+
+    } else { // Otherwise, it should be a group name
+      group_name = group_name + " " + group_ident;
+    }
+
+  }
+// Add the last group group to our list, if the group is valid
+  group_name = trim(group_name);
+  Item_group* tmpgroup = ITEM_GROUPS.lookup_name(group_name);
+  if (!tmpgroup) {
+    debugmsg("Unknown Item_group '%s' (%s)", group_name.c_str(),
+             name.c_str());
+  }
+  tmp_chance.group = tmpgroup;
+  add_group(tmp_chance);
+  return true;
+}
+
+Item_group_amount Item_group_count::pick_group()
+{
+  if (groups.empty()) {
+    return Item_group_amount();
+  }
+
+  int index = rng(1, total_chance);
+  for (int i = 0; i < groups.size(); i++) {
+    index -= groups[i].chance;
+    if (index <= 0) {
+      return groups[i];
+    }
+  }
+  return groups.back();
+}
+
+Point Item_group_count::pick_location()
+{
+  if (locations.empty()) {
+    return Point(-1, -1);
+  }
+  int index = rng(0, locations.size() - 1);
+  return locations[index];
+}
 
 Tile_substitution::Tile_substitution()
 {
@@ -546,6 +671,40 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       }
 
+    } else if (ident == "num_item_group:") {
+      Item_group_count tmp_area;
+
+      std::string item_line;
+      std::getline(data, item_line);
+      std::istringstream item_data(item_line);
+
+      std::string symbols;
+      std::string item_ident;
+      bool reading_symbols = true; // We start out reading symbols!
+
+      while (reading_symbols && item_data >> item_ident) {
+        if (item_ident == "=") {
+          reading_symbols = false;
+        } else {
+          symbols += item_ident;
+        }
+      }
+      if (!tmp_area.load_data(item_data, name)) {
+        debugmsg("Failed to load Item_group_count (%s)", name.c_str());
+        return false;
+      }
+// For every character in symbols, map that char to tmp_var
+      for (int i = 0; i < symbols.length(); i++) {
+        char ch = symbols[i];
+        if (item_defs.count(ch) != 0) {
+          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+        } else {
+          item_group_defs[ch] = tmp_area;
+        }
+      }
+// End if (ident == "num_item_group:") block
+      Item_group_amount test = tmp_area.pick_group();
+
     } else if (ident == "items:") {
       Item_area tmp_area;
 
@@ -585,6 +744,7 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       }
 // End if (ident == "items:") block
+
     } else if (ident == "map:") {
       std::string mapchars;
       std::getline(data, mapchars);
@@ -809,6 +969,9 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
       char ch = prepped_terrain[x][y];
       if (item_defs.count(ch) != 0) {
         item_defs[ch].add_point(x, y);
+      }
+      if (item_group_defs.count(ch) != 0) {
+        item_group_defs[ch].add_point(x, y);
       }
     }
   }

@@ -1,14 +1,15 @@
 #ifndef _MAPGEN_SPEC_H_
 #define _MAPGEN_SPEC_H_
 
+#include "terrain.h"
+#include "item_type.h"
+#include "geometry.h"
+#include "dice.h"
 #include <istream>
 #include <vector>
 #include <map>
 #include <list>
 #include <string>
-#include "terrain.h"
-#include "item_type.h"
-#include "geometry.h"
 
 // MAPGEN_SIZE must be a divisor of SUBMAP_SIZE (specified in map.h)!
 // Also, changing MAPGEN_SIZE will break all of the already-written mapgen specs
@@ -75,6 +76,8 @@ struct Item_group
 
   void add_item(int chance, Item_type* item_type);
   void add_item(Item_type_chance item_type);
+
+  Item_type* pick_type();
 };
 
 struct Item_area
@@ -102,6 +105,37 @@ private:
   std::vector<Point> locations;
   int total_chance;
 
+};
+
+struct Item_group_amount
+{
+  Item_group_amount(int C = 10, Item_group* G = NULL) :
+    chance (C), group (G) { amount = Dice(0, 1, 1); }
+  Dice amount;
+  int chance;
+  Item_group* group;
+};
+
+struct Item_group_count
+{
+public:
+  Item_group_count();
+  ~Item_group_count(){}
+
+  void add_group(Dice number, int chance, Item_group* group);
+  void add_group(Item_group_amount group);
+  void clear_points();
+  void add_point(int x, int y);
+  bool load_data(std::istream &data, std::string name = "unknown");
+
+// Functions used for item placement.
+  Item_group_amount pick_group();
+  Point pick_location();
+
+private:
+  std::vector<Item_group_amount> groups;
+  std::vector<Point> locations;
+  int total_chance;
 };
 
 struct Subst_chance
@@ -158,6 +192,7 @@ struct Mapgen_spec
   int  z_level;
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
+  std::map<char,Item_group_count> item_group_defs;
   std::map<char,Tile_substitution> substitutions;
   std::list<std::string> shuffles;
   Variable_terrain base_terrain; // Default terrain
