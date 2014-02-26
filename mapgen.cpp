@@ -294,7 +294,8 @@ bool Item_group::load_data(std::istream &data)
       add_item(tmp_chance);
 
     } else if (ident != "done") {
-      debugmsg("Unknown identifier '%s' (%s)", ident.c_str(), name.c_str());
+      debugmsg("Unknown Item_group identifier '%s' (%s)",
+               ident.c_str(), name.c_str());
       return false;
     }
   }
