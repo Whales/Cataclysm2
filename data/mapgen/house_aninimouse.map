@@ -613,17 +613,10 @@ tile: * = roof
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 
-tile: SQWEROYUI = safe
-item_group: 50 S = items_ammo_civilian
-item_group: 45 Q = items_handguns
-item_group: 40 W = items_shotguns
-item_group: 40 E = items_smgs
-item_group: 25 R = items_hunting_rifles
-item_group: 25 O = items_assault_rifles
-item_group: 80 YUI = items_valuables_safe
-item_group: 50 D = items_all_clothes
+tile: S = safe
+num_item_group: S = w:10 c: 1d3; items_valuables_safe / w:2 c: 1d3; items_ammo_civilian / w:8 c: 1; items_handguns / w:5 c: 1; items_shotguns / w:3 c: 1; items_smgs / w:1 c: 1; items_assault_rifles
 
-subst: S = w:40 . / w:1 SQWEROYUI
+subst: S = w:40 . / w:1 S
 
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -733,16 +726,10 @@ item_group: 40 R = items_small_tools
 item_group: 40 r = items_home_hardware
 item_group: 50 D = items_all_clothes
 
-tile: ,NMCVOYUI = safe
-item_group: 50 , = items_ammo_civilian
-item_group: 45 N = items_handguns
-item_group: 40 M = items_shotguns
-item_group: 40 C = items_smgs
-item_group: 25 V = items_hunting_rifles
-item_group: 25 O = items_assault_rifles
-item_group: 80 YUI = items_valuables_safe
+tile: , = safe
+num_item_group: , = w:10 c: 1d3; items_valuables_safe / w:2 c: 1d3; items_ammo_civilian / w:8 c: 1; items_handguns / w:5 c: 1; items_shotguns / w:3 c: 1; items_smgs / w:1 c: 1; items_assault_rifles
 
-subst: S = w:10 . / w:1 ,NMCVOYUI
+subst: , = w:10 . / w:1 ,
 
 
 map:
@@ -902,16 +889,10 @@ item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 item_group: 50 D = items_all_clothes
 
-tile: SQWEROYUI = safe
-item_group: 50 S = items_ammo_civilian
-item_group: 45 Q = items_handguns
-item_group: 40 W = items_shotguns
-item_group: 40 E = items_smgs
-item_group: 25 R = items_hunting_rifles
-item_group: 25 O = items_assault_rifles
-item_group: 80 YUI = items_valuables_safe
+tile: S = safe
+num_item_group: S = w:10 c: 1d3; items_valuables_safe / w:2 c: 1d3; items_ammo_civilian / w:8 c: 1; items_handguns / w:5 c: 1; items_shotguns / w:3 c: 1; items_smgs / w:1 c: 1; items_assault_rifles
 
-subst: S = w:10 . / w:1 SQWEROYUI
+subst: S = w:10 . / w:1 S
 
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
