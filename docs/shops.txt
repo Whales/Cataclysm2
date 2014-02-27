@@ -19,6 +19,7 @@ The Flag "shop" means it's a shop and will be placed in cities.  Use it!  The
   Flag "face_road" means it'll be rotated so that the north edge of the map will
   face a road.  If more than one road is available, it'll randomly pick one!
 
+If you implement one of these, please mark it with "!"
 
 The list:
   Parking lot (?)
