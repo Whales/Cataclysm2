@@ -159,7 +159,7 @@ std::string Item::get_name_indefinite()
   std::string article = (has_flag(ITEM_FLAG_PLURAL) ? "some" : "a");
   if (type) {
     std::stringstream ret;
-    switch (type->get_class()) {
+    switch (get_item_class()) {
       case ITEM_CLASS_AMMO:
         ret << "a box of " << type->name; // TODO: Not always box?
         break;
@@ -168,7 +168,19 @@ std::string Item::get_name_indefinite()
     }
 // Display FULL info on contained items
     if (!contents.empty()) {
-      ret << " of " << contents[0].get_name_full();
+      std::string preposition = "containing";
+      bool use_article = true;
+      if (get_item_class() == ITEM_CLASS_CONTAINER) {
+        Item_type_container* cont = static_cast<Item_type_container*>(type);
+        preposition = cont->preposition;
+        use_article = cont->use_article;
+      }
+      ret << " " << preposition << " ";
+      if (use_article) {
+        ret << contents[0].get_name_indefinite();
+      } else {
+        ret << contents[0].get_name_full();
+      }
     }
     return ret.str();
   }

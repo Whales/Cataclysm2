@@ -609,6 +609,8 @@ bool Item_type_tool::uses_charges()
 Item_type_container::Item_type_container()
 {
   capacity = 0;
+  preposition = "of";
+  use_article = false;
 }
 
 std::string Item_type_container::get_property_description()
@@ -624,6 +626,14 @@ bool Item_type_container::handle_data(std::string ident, std::istream &data)
   if (ident == "capacity:") {
     data >> capacity;
     std::getline(data, junk);
+
+  } else if (ident == "preposition:") {
+    std::getline(data, preposition);
+    preposition = no_caps(preposition);
+    preposition = trim(preposition);
+
+  } else if (ident == "use_article" || ident == "use_article:") {
+    use_article = true;
 
   } else if (ident != "done") {
     debugmsg("Unknown Container property '%s' (%s)",

@@ -213,6 +213,8 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   int capacity; // Volume capacity, that is
+  std::string preposition; // A plastic bottle <preposition> water, e.g. "of"
+  bool use_article; // If true: "A plastic bottle <preposition> SOME water
 };
 
 #endif
