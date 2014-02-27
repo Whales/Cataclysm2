@@ -513,6 +513,23 @@ void Submap::generate(Mapgen_spec* spec)
       add_item(item, p.x, p.y);
     }
   }
+// Item_amount_areas work the same as Item_group_counts, more or less
+  for (std::map<char,Item_amount_area>::iterator
+        it = spec->item_amount_defs.begin();
+       it != spec->item_amount_defs.end();
+       it++) {
+    Item_amount_area* area = &(it->second);
+    Item_amount item_amt = area->pick_item();
+    int amount = item_amt.amount.roll();
+    for (int i = 0; i < amount; i++) {
+      Point p = area->pick_location();
+      Item item( item_amt.item );
+      if (item.get_item_class() == ITEM_CLASS_FOOD) {
+        item.place_in_its_container();
+      }
+      add_item(item, p.x, p.y);
+    }
+  }
 }
 
 void Submap::generate_adjacent(Mapgen_spec* spec)

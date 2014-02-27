@@ -111,6 +111,37 @@ private:
 
 };
 
+struct Item_amount
+{
+  Item_amount(int C = 10, Item_type* I = NULL) :
+    chance (C), item (I) { amount = Dice(0, 1, 1); }
+  Dice amount;
+  int chance;
+  Item_type* item;
+};
+
+struct Item_amount_area
+{
+public:
+  Item_amount_area();
+  ~Item_amount_area(){}
+
+  void add_item(Dice number, int chance, Item_type* group);
+  void add_item(Item_amount group);
+  void clear_points();
+  void add_point(int x, int y);
+  bool load_data(std::istream &data, std::string name = "unknown");
+
+// Functions used for item placement.
+  Item_amount pick_item();
+  Point pick_location();
+
+private:
+  std::vector<Item_amount> items;
+  std::vector<Point> locations;
+  int total_chance;
+};
+
 struct Item_group_amount
 {
   Item_group_amount(int C = 10, Item_group* G = NULL) :
@@ -197,6 +228,7 @@ struct Mapgen_spec
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
   std::map<char,Item_group_count> item_group_defs;
+  std::map<char,Item_amount_area> item_amount_defs;
   std::map<char,Tile_substitution> substitutions;
   std::list<std::string> shuffles;
   Variable_terrain base_terrain; // Default terrain

@@ -330,6 +330,111 @@ Item_type* Item_group::pick_type()
   return item_types.back().item;
 }
 
+Item_amount_area::Item_amount_area()
+{
+  total_chance = 0;
+}
+
+void Item_amount_area::add_item(Dice amount, int chance, Item_type* item)
+{
+  Item_amount tmp;
+  tmp.amount = amount;
+  tmp.chance = chance;
+  tmp.item = item;
+  add_item(tmp);
+}
+
+void Item_amount_area::add_item(Item_amount item)
+{
+  items.push_back(item);
+  total_chance += item.chance;
+}
+
+void Item_amount_area::clear_points()
+{
+  locations.clear();
+}
+
+void Item_amount_area::add_point(int x, int y)
+{
+  locations.push_back( Point(x, y) );
+}
+
+bool Item_amount_area::load_data(std::istream& data, std::string name)
+{
+  std::string ident;
+  std::string item_name;
+  Item_amount tmp_chance;
+
+  while (data >> ident) {
+    ident = no_caps(ident);  // other stuff isn't case-sensitive
+
+    if (ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
+      tmp_chance.chance = atoi( ident.substr(2).c_str() );
+
+    } else if (ident == "c:") { // It's a count
+      if (!tmp_chance.amount.load_data(data, name + " chance")) {
+        debugmsg("Item_amount_area chance failed to load.");
+        return false;
+      }
+
+    } else if (ident == "/") { // End of this option
+      item_name = trim(item_name);
+      Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
+      if (!tmpitem) {
+        debugmsg("Unknown Item '%s' (%s)", item_name.c_str(),
+                 name.c_str());
+        return false;
+      }
+      tmp_chance.item = tmpitem;
+      add_item(tmp_chance);
+      tmp_chance.chance = 10;
+      tmp_chance.item  = NULL;
+      tmp_chance.amount = Dice(0, 1, 1);
+      item_name = "";
+
+    } else { // Otherwise, it should be a group name
+      item_name = item_name + " " + ident;
+    }
+
+  }
+// Add the last group group to our list, if the group is valid
+  item_name = trim(item_name);
+  Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
+  if (!tmpitem) {
+    debugmsg("Unknown Item '%s' (%s)", item_name.c_str(),
+             name.c_str());
+  }
+  tmp_chance.item = tmpitem;
+  add_item(tmp_chance);
+  return true;
+}
+
+Item_amount Item_amount_area::pick_item()
+{
+  if (items.empty()) {
+    return Item_amount();
+  }
+
+  int index = rng(1, total_chance);
+  for (int i = 0; i < items.size(); i++) {
+    index -= items[i].chance;
+    if (index <= 0) {
+      return items[i];
+    }
+  }
+  return items.back();
+}
+
+Point Item_amount_area::pick_location()
+{
+  if (locations.empty()) {
+    return Point(-1, -1);
+  }
+  int index = rng(0, locations.size() - 1);
+  return locations[index];
+}
+
 Item_group_count::Item_group_count()
 {
   total_chance = 0;
@@ -723,7 +828,39 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       }
 // End if (ident == "num_item_group:") block
-      Item_group_amount test = tmp_area.pick_group();
+
+    } else if (ident == "num_items:") {
+      Item_amount_area tmp_area;
+
+      std::string item_line;
+      std::getline(data, item_line);
+      std::istringstream item_data(item_line);
+
+      std::string symbols;
+      std::string item_ident;
+      bool reading_symbols = true; // We start out reading symbols!
+
+      while (reading_symbols && item_data >> item_ident) {
+        if (item_ident == "=") {
+          reading_symbols = false;
+        } else {
+          symbols += item_ident;
+        }
+      }
+      if (!tmp_area.load_data(item_data, name)) {
+        debugmsg("Failed to load Item_group_count (%s)", name.c_str());
+        return false;
+      }
+// For every character in symbols, map that char to tmp_var
+      for (int i = 0; i < symbols.length(); i++) {
+        char ch = symbols[i];
+        if (item_defs.count(ch) != 0) {
+          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+        } else {
+          item_amount_defs[ch] = tmp_area;
+        }
+      }
+// End if (ident == "num_items:") block
 
     } else if (ident == "items:") {
       Item_area tmp_area;
@@ -1009,6 +1146,9 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
       }
       if (item_group_defs.count(ch) != 0) {
         item_group_defs[ch].add_point(x, y);
+      }
+      if (item_amount_defs.count(ch) != 0) {
+        item_amount_defs[ch].add_point(x, y);
       }
     }
   }
