@@ -435,12 +435,12 @@ Point Item_amount_area::pick_location()
   return locations[index];
 }
 
-Item_group_count::Item_group_count()
+Item_group_amount_area::Item_group_amount_area()
 {
   total_chance = 0;
 }
 
-void Item_group_count::add_group(Dice amount, int chance, Item_group* group)
+void Item_group_amount_area::add_group(Dice amount, int chance, Item_group* group)
 {
   Item_group_amount tmp;
   tmp.amount = amount;
@@ -449,24 +449,24 @@ void Item_group_count::add_group(Dice amount, int chance, Item_group* group)
   add_group(tmp);
 }
 
-void Item_group_count::add_group(Item_group_amount group)
+void Item_group_amount_area::add_group(Item_group_amount group)
 {
   groups.push_back(group);
   total_chance += group.chance;
 }
 
-void Item_group_count::clear_points()
+void Item_group_amount_area::clear_points()
 {
   locations.clear();
 }
 
-void Item_group_count::add_point(int x, int y)
+void Item_group_amount_area::add_point(int x, int y)
 {
   Point tmp(x, y);
   locations.push_back(tmp);
 }
 
-bool Item_group_count::load_data(std::istream& data, std::string name)
+bool Item_group_amount_area::load_data(std::istream& data, std::string name)
 {
   std::string group_ident;
   std::string group_name;
@@ -480,7 +480,7 @@ bool Item_group_count::load_data(std::istream& data, std::string name)
 
     } else if (group_ident == "c:") { // It's a count
       if (!tmp_chance.amount.load_data(data, name + " chance")) {
-        debugmsg("Item_group_count chance failed to load.");
+        debugmsg("Item_group_amount_area chance failed to load.");
         return false;
       }
 
@@ -516,7 +516,7 @@ bool Item_group_count::load_data(std::istream& data, std::string name)
   return true;
 }
 
-Item_group_amount Item_group_count::pick_group()
+Item_group_amount Item_group_amount_area::pick_group()
 {
   if (groups.empty()) {
     return Item_group_amount();
@@ -532,7 +532,7 @@ Item_group_amount Item_group_count::pick_group()
   return groups.back();
 }
 
-Point Item_group_count::pick_location()
+Point Item_group_amount_area::pick_location()
 {
   if (locations.empty()) {
     return Point(-1, -1);
@@ -797,7 +797,7 @@ bool Mapgen_spec::load_data(std::istream &data)
       }
 
     } else if (ident == "num_item_group:") {
-      Item_group_count tmp_area;
+      Item_group_amount_area tmp_area;
 
       std::string item_line;
       std::getline(data, item_line);
@@ -815,7 +815,7 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       }
       if (!tmp_area.load_data(item_data, name)) {
-        debugmsg("Failed to load Item_group_count (%s)", name.c_str());
+        debugmsg("Failed to load Item_group_amount_area (%s)", name.c_str());
         return false;
       }
 // For every character in symbols, map that char to tmp_var
@@ -848,7 +848,7 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       }
       if (!tmp_area.load_data(item_data, name)) {
-        debugmsg("Failed to load Item_group_count (%s)", name.c_str());
+        debugmsg("Failed to load Item_group_amount_area (%s)", name.c_str());
         return false;
       }
 // For every character in symbols, map that char to tmp_var

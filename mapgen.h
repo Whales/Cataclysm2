@@ -151,11 +151,11 @@ struct Item_group_amount
   Item_group* group;
 };
 
-struct Item_group_count
+struct Item_group_amount_area
 {
 public:
-  Item_group_count();
-  ~Item_group_count(){}
+  Item_group_amount_area();
+  ~Item_group_amount_area(){}
 
   void add_group(Dice number, int chance, Item_group* group);
   void add_group(Item_group_amount group);
@@ -227,7 +227,7 @@ struct Mapgen_spec
   int  z_level;
   std::map<char,Variable_terrain> terrain_defs;
   std::map<char,Item_area> item_defs;
-  std::map<char,Item_group_count> item_group_defs;
+  std::map<char,Item_group_amount_area> item_group_defs;
   std::map<char,Item_amount_area> item_amount_defs;
   std::map<char,Tile_substitution> substitutions;
   std::list<std::string> shuffles;
