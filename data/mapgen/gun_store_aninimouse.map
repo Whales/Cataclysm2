@@ -47,16 +47,8 @@ item_group: 7 4 = items_hunting_rifles
 item_group: 3 5 = items_assault_rifles
 item_group: 15 6 = items_gun_accessories
 
-tile: SQWERTY = safe
-item_group: 80 S = items_ammo_civilian
-item_group: 75 Q = items_handguns
-item_group: 70 W = items_shotguns
-item_group: 70 E = items_smgs
-item_group: 65 R = items_hunting_rifles
-item_group: 65 T = items_assault_rifles
-item_group: 80 Y = items_valuables_safe
-
-subst: S = SQWERTY
+tile: S = safe
+num_item_group: S = w:10 c: 1d3; items_ammo_civilian / w:8 c: 1d2; items_handguns / w:5 c: 1; items_shotguns / w:6 c: 1; items_smgs / w:5 c: 1; items_hunting_rifles / w:3 c: 1; items_assault_rifles / w:2 c: 1; items_sniper_rifles / w:5 c: 1d3; items_valuables_safe
 
 subst: Dd = o / D
 tile: D = dumpster
@@ -156,16 +148,8 @@ item_group: 7 4 = items_hunting_rifles
 item_group: 3 5 = items_assault_rifles
 item_group: 15 6 = items_gun_accessories
 
-tile: SQWERTY = safe
-item_group: 80 S = items_ammo_civilian
-item_group: 75 Q = items_handguns
-item_group: 70 W = items_shotguns
-item_group: 70 E = items_smgs
-item_group: 65 R = items_hunting_rifles
-item_group: 65 T = items_assault_rifles
-item_group: 80 Y = items_valuables_safe
-
-subst: SY = SQWERT
+tile: S = safe
+num_item_group: S = w:10 c: 1d3; items_ammo_civilian / w:8 c: 1d2; items_handguns / w:5 c: 1; items_shotguns / w:6 c: 1; items_smgs / w:5 c: 1; items_hunting_rifles / w:3 c: 1; items_assault_rifles / w:2 c: 1; items_sniper_rifles / w:5 c: 1d3; items_valuables_safe
 
 subst: Dd = o / D
 tile: D = dumpster
