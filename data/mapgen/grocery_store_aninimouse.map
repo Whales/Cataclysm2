@@ -28,7 +28,7 @@ tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed glass door
-tile: k = locked door
+tile: k = w:10 locked door / w:1 closed door
 tile: X = glass wall
 tile: % = counter
 
@@ -120,7 +120,7 @@ tile: #K = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed glass door
-tile: k = locked door
+tile: k = w:10 locked door / w:1 closed door
 tile: X = glass wall
 tile: % = counter
 
@@ -214,7 +214,7 @@ tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
 tile: + = closed glass door
-tile: L = locked door
+tile: L = w:10 locked door / w:1 closed door
 tile: X = glass wall
 tile: % = counter
 tile: c = concrete floor
