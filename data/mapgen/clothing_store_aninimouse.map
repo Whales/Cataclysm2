@@ -1,4 +1,4 @@
-### FILENAME GOES HERE
+### clothing_store_aninimouse.map
 #
 # The following tags are used: (# marks a line or part of a line as a comment)
 #
@@ -40,9 +40,6 @@ tile: a = closed glass door
 tile: C = counter
 item_group: 20 C = items_all_clothes
 
-tile: F = fridge
-item_group:  5 F = items_fridge_snacks
-
 tile: 1234567 = display rack
 item_group: 20 1 = items_hats
 item_group: 15 2 = items_shirts
@@ -56,7 +53,7 @@ shuffle: 1467
 
 map:
 *************************
-#####XXXXaaXXXaaXXXX#####
+##"##XXXXaaXXXaaXXXX##"##
 #...%...............%...#
 #...%...............%...#
 #...%...............%...#
