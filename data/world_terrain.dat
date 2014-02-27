@@ -140,3 +140,9 @@ Name: liquor store
   Road_cost: 500
   Flags: shop face_road
 Done
+
+Name: bank
+  Glyph: o yellow black
+  Road_cost: 500
+  Flags: shop face_road
+Done

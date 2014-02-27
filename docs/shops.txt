@@ -26,12 +26,12 @@ The list:
 ! Park
 ! Grocery store
   Electronics store
-  Sporting good store
+  Sporting goods store
 ! Liquor store
   Library
 ! Clothing store
   Restaurant (Fast food included!)
-  Bank
+! Bank
   Bar (or Cafe, or Nightclub, or...)
   Pawn shop
   Small Museum
@@ -44,3 +44,4 @@ The list:
   Car Mechanic
   Church
   Offices
+  Garden Supply
