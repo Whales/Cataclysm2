@@ -205,6 +205,99 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
+name: a3_grocery_store_aninimouse_gd
+subname: a3_grocery_store_aninimouse
+type: grocery store
+tile: # = stone wall
+tile: . = floor
+tile: o = dirt / grass
+tile: + = closed glass door
+tile: L = locked door
+tile: X = glass wall
+tile: % = counter
+tile: c = concrete floor
+tile: p = pavement
+
+tile: {A123456 = display rack
+item_group: 20 A = items_fridge
+item_group: 20 1 = items_snacks
+item_group: 20 2 = items_fridge_snacks
+item_group: 20 3 = items_kitchen_counter
+item_group: 20 4 = items_behind_counter
+item_group: 20 5 = items_cleaning
+item_group: 20 6 = items_food_shelves
+
+tile: S = safe
+num_item_group: S = w:10 c: 1d3; items_valuables_safe / w:2 c: 1d3; items_ammo_civilian / w:8 c: 1; items_handguns / w:5 c: 1; items_shotguns / w:3 c: 1; items_smgs / w:1 c: 1; items_assault_rifles
+
+subst: Dd = o / D
+tile: D = dumpster
+item_group: 35 D = items_trash
+
+map:
+opppppppppppppppppppppppo
+opppppppppppppppppppppppo
+opppppppppppppppppppppppo
+opppppppppppppppppppppppo
+o#cccc#cccc#ccccccccccc#o
+occccccccccccccccccccccco
+o#XXXX#XXXX#XXXX#++#####o
+o#A.................%.S#o
+o#A.................%.4#o
+o#A..6..66..61..1...%.4#o
+o#A..6..66..61..1...%.4#o
+o#A..6..66..61..1...%.4#o
+o#A..6..66..61..1...%.4#o
+o#A..6..66..61..1...%..#o
+o#A..6..66..61..1...##L#o
+o#A....................#o
+o#A..2..11............5#o
+o#A..2..11..66..3..3..5#o
+o#A.........66..3..3..5#o
+o#A22222222666663..3555#o
+o################LL#####o
+oodddoooooooooooccccDDDoo
+ooooooooooooooooccccooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: a3_grocery_store_aninimouse_rf
+subname: a3_grocery_store_aninimouse
+type: gun store
+level: 1
+tile: x = empty
+tile: * = roof
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+x***********************x
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".
