@@ -209,3 +209,15 @@ done
 name: items_beer
   items: w:10 beer
 done
+
+name: items_canned_food
+  items: w:10 beans / w:2 SPAM / w:3 tomatoes / w:8 chicken soup
+done
+
+name: items_dry_food
+  items: w:12 dry pasta / w:10 dry rice
+done
+
+name: items_dry_drinks
+  items: w:4 dry coffee / w:3 dry tea
+done

@@ -1710,6 +1710,22 @@ food
 done
 
 food
+  name: chicken soup
+  description:
+    A robust chicken soup, with lots of noodles and vegetables.  Full of
+    preservatives.
+  done
+  glyph: $ yellow black
+  weight:  5
+  volume: 10
+  food:   25
+  water:  15
+  charges: 2
+  container: can
+  flags: plural
+done
+
+food
   name: potato chips
   description:
     Also known as "potato crisps."  Thinly sliced and fried potatoes.
