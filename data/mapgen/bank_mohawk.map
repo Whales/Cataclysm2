@@ -25,7 +25,7 @@ shuffle: 123
 subst: { = 123
 
 tile: p = floor
-num_items: p = c: 1d1; dead potted plant
+num_items: p = c: 1d1; dead plant
 
 map:
 ooooooooooooooooooooooooo
