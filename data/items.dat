@@ -193,6 +193,49 @@ weapon
 done
 
 weapon
+  name: pitchfork
+  description:
+    Basically a large fork used to move hay, a pitchfork is a long wooden handle
+    with four sharp tines at the end.
+  done
+  glyph: / ltgreen black
+  weight: 68
+  volume: 82
+  bash:    6
+  pierce: 20
+  to_hit:  1
+done
+
+weapon
+  name: pruner
+  description:
+    A large, curved, toothed blade at the end of a very long pole.  Used for
+    sawing dead branches off of trees.
+  done
+  glyph: / green black
+  weight:  65
+  volume: 170
+  bash:     6
+  cut:     14
+  pierce:  14
+  to_hit:  -2
+done
+
+weapon
+  name: pickaxe
+  description:
+    A wooden handle with a curved, spiked head on the end.  Used for breaking
+    through rock or other hard material.
+  done
+  glyph: / red black
+  weight: 72
+  volume: 50
+  bash:   15
+  pierce: 18
+  to_hit: -2
+done
+
+weapon
   name: spade
   description:
     A small hand shovel, used in gardens to dig small holes to plant seedlings.
@@ -302,21 +345,49 @@ done
 weapon
   name: bundle of money
   description:
-    A neat stack of paper banknotes that were once quite valuable.  Though, presumably, not so much anymore...
+    A neat stack of paper banknotes that were once quite valuable.  Though,
+    presumably, not so much anymore...
   done
   glyph: * ltgreen black
   weight:  1
   volume: 4
+  flags: flammable
 done
 
 weapon
   name: brick of money
   description:
-    A very large amount of money, all neatly kept in a large bundle.  A shame it's probably worthless now...
+    A very large amount of money, all neatly kept in a large bundle.  A shame
+    it's probably worthless now...
   done
   glyph: * ltgreen black
-  weight:  1
+  weight: 10
   volume: 40
+  flags: flammable
+done
+
+weapon
+  name: flower pot
+  description:
+    A large clay pot, used for growing and displaying flowers and other plants.
+  done
+  glyph: ( ltred black
+  weight: 30
+  volume: 50
+  bash:   10
+  to_hit: -2
+done
+
+weapon
+  name: dead potted plant
+  description:
+    A potted plant of some kind, long dead.
+  done
+  glyph: ( brown black
+  weight: 34
+  volume: 60
+  bash:   10
+  to_hit: -3
 done
 
 # END Weapons / vanilla
@@ -1989,6 +2060,7 @@ food
   volume: 5
   food:   5
   charges: 4
+  verb: choke down
   container: paper box
   flags: plural
 done
@@ -2004,6 +2076,7 @@ food
   volume: 3
   food:   3
   charges: 8
+  verb: choke down
   container: plastic bag
   flags: plural
 done
@@ -2025,6 +2098,7 @@ food
     duration: 30
   done
   charges: 15
+  verb: choke down
   container: paper box
   flags: plural
 done
@@ -2045,7 +2119,24 @@ food
     duration: 30
   done
   charges: 20
+  verb: choke down
   container: can
+  flags: plural
+done
+
+food
+  name: birdseed
+  description:
+    A mix of different seeds.  Designed for filling birdfeeders, but it's edible
+    for humans as well.
+  done
+  glyph: $ ltgray black
+  weight: 1
+  volume: 3
+  food:   5
+  water:  0
+  charges: 10
+  container: plastic bag
   flags: plural
 done
 
@@ -2272,7 +2363,7 @@ tool
     healing compound, which will repair moderate to severe injuries in a matter
     of seconds.  Its efficacy is highly skill-dependent.
   done
-  glyph: : white black
+  glyph: : ltred black
   weight: 2
   volume: 4
   def_charges: 2

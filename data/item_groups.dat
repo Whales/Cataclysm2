@@ -39,7 +39,7 @@ done
 
 # House and shop groups
 name: items_tools
-  items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax / w:5 nail gun
+  items: w:2 machete / w:20 hammer / w:20 screwdriver / w:20 wrench / w:3 sledgehammer / w:6 crowbar / w:8 hatchet / w:8 wood ax / w:5 nail gun / w:8 shovel / w:2 pitchfork / w:2 pickaxe
 done
 
 name: items_small_tools
@@ -47,11 +47,19 @@ name: items_small_tools
 done
 
 name: items_big_tools
-  items: w:10 shovel / w:3 machete / w:5 sledgehammer / w:8 wood ax
+  items: w:10 shovel / w:3 machete / w:5 sledgehammer / w:8 wood ax / w:2 pitchfork / w:1 pruner / w:2 pickaxe
 done
 
 name: items_garden_tools
-  items: w:10 shovel / w:5 hoe / w:7 rake / w:3 pruning shears / w:15 spade / w:2 rope
+  items: w:10 shovel / w:5 hoe / w:7 rake / w:3 pruning shears / w:15 spade / w:2 rope / w:1 pitchfork / w:2 pruner / w:1 pickaxe
+done
+
+name: items_garden_clothing
+  items: w:5 rubber gloves / w:10 work gloves / w:3 cap
+done
+
+name: items_garden_supplies
+  items: w:10 flower pot / w:3 wood plank / w:2 rope / w:4 birdseed
 done
 
 name: items_home_hardware
@@ -89,7 +97,7 @@ done
 
 # General garage junk
 name: items_garage
-  items: w:40 work gloves / w:50 nails / w:10 baseball bat / w:10 golf club / w:1 machete / w:50 hammer / w:45 wrench / w:5 sledgehammer / w:8 steel pipe / w:60 screwdriver / w:30 crowbar / w:30 shovel / w:15 hatchet / w:12 wood ax / w:12 nail gun
+  items: w:40 work gloves / w:50 nails / w:10 baseball bat / w:10 golf club / w:1 machete / w:50 hammer / w:45 wrench / w:5 sledgehammer / w:8 steel pipe / w:60 screwdriver / w:30 crowbar / w:30 shovel / w:15 hatchet / w:12 wood ax / w:12 nail gun / w:18 rake / w:2 pitchfork / w:5 pruner
 done
 
 # Items for a car mechanic's garage
