@@ -194,3 +194,18 @@ done
 name: items_all_clothes
   items: w:3 cap / w:3 cotton hat / w:1 fedora / w:20 t shirt / w:18 dress shirt / w:15 tank top / w:3 cotton gloves / w:2 leather gloves / w:20 wool sweater / w:5 leather jacket / w:7 jean jacket / w:12 puffy coat / w:20 jeans / w:10 cargo pants / w:3 leather pants / w:15 skirt / w:20 sneakers / w:15 oxfords / w:8 boots / w:4 backpack / w:6 purse / w:5 scarf / w:3 bandana
 done
+
+name: items_hard_liquor
+  items: w:12 vodka / w:10 whisky / w:10 rum / w:7 tequila
+done
+
+# items_wine and items_beer are single-item lists!  So why do they exist?
+# So that if, in the future, we add, say, white wine, we don't have to manually
+# edit every single map that has wine - just edit these lists.
+name: items_wine
+  items: w:10 wine
+done
+
+name: items_beer
+  items: w:10 beer
+done
