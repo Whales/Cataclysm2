@@ -134,3 +134,9 @@ Name: clothing store
   Road_cost: 500
   Flags: shop face_road
 Done
+
+Name: liquor store
+  Glyph: o magenta black
+  Road_cost: 500
+  Flags: shop face_road
+Done

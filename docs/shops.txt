@@ -26,7 +26,7 @@ The list:
 ! Grocery store
   Electronics store
   Sporting good store
-  Liquor store
+! Liquor store
   Library
 ! Clothing store
   Restaurant (Fast food included!)
