@@ -2020,6 +2020,10 @@ food
   volume: 1
   water: -2
   food:   0
+  effect:
+    type: caffeine
+    duration: 30
+  done
   charges: 15
   container: paper box
   flags: plural
@@ -2036,6 +2040,10 @@ food
   volume: 1
   water: -4
   food: 0
+  effect:
+    type: caffeine
+    duration: 30
+  done
   charges: 20
   container: can
   flags: plural
