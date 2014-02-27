@@ -19,6 +19,7 @@ enum Status_effect_type
   STATUS_PAINKILL_MED,  // "painkill_med"   - lift painkill to 50
   STATUS_PAINKILL_LONG, // "painkill_long"  - lift painkill to 40 & stay there
   STATUS_PAINKILL_HEAVY,// "painkill_heavy" - lift painkill to 100
+  STATUS_DRUNK,     // "drunk" - stat loss, mild painkiller
   STATUS_MAX
 };
 

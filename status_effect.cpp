@@ -147,6 +147,37 @@ Stats Status_effect::stats_mod()
       ret.intelligence += (level > 3 ? 3 : level);
       ret.perception += (level > 2 ? 2 : level);
       break;
+
+    case STATUS_PAINKILL_MED:
+      ret.strength--;
+      ret.dexterity--;
+      ret.perception--;
+      if (level > 2) {
+        ret.strength--;
+        ret.dexterity--;
+      }
+      break;
+
+    case STATUS_PAINKILL_HEAVY:
+      ret.strength--;
+      ret.dexterity--;
+      ret.perception--;
+      ret.strength   -= (level - 1) / 2;
+      ret.dexterity  -= (level + 1) / 3;
+      ret.perception -= level       / 4;
+      break;
+
+    case STATUS_DRUNK:
+      if (level == 1) {
+// Is this just silly?  I mean, in my experience it kinda makes sense...
+        ret.strength++;
+      } else {
+        ret.strength   -= level / 3;  // 0, 0, 1, 1, 1, 2, ...
+      }
+      ret.dexterity    -= level / 3 + 1;  // 1, 1, 2, 2, 2, 3, ...
+      ret.intelligence -= level;          // 1, 2, 3, 4, 5, 6, ...
+      ret.perception   -= level / 2 + 1;  // 1, 2, 2, 3, 3, 4, ...
+      break;
   }
 
   return ret;
@@ -179,6 +210,7 @@ std::string status_effect_name(Status_effect_type type)
     case STATUS_PAINKILL_MED:   return "painkill_med";
     case STATUS_PAINKILL_LONG:  return "painkill_long";
     case STATUS_PAINKILL_HEAVY: return "painkill_heavy";
+    case STATUS_DRUNK:          return "drunk";
     case STATUS_MAX:            return "BUG - STATUS_MAX";
     default:                    return "BUG - Unnamed Status_effect_type";
   }
