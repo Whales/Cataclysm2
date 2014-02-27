@@ -42,7 +42,7 @@ item_group: 20 5 = items_cleaning
 item_group: 20 6 = items_food_shelves
 
 tile: S = safe
-num_item_group: S = w:10 c: 1d3; items_valuables_safe / w:2 c: 1d3; items_ammo_civilian / w:8 c: 1; items_handguns / w:5 c: 1; items_shotguns / w:3 c: 1; items_smgs / w:1 c: 1; items_assault_rifles
+num_item_group: S = w:20 c: 1d3; items_valuables_safe / w:5 c: 1d3; items_ammo_civilian / w:6 c: 1; items_handguns / w:2 c: 1; items_shotguns
 
 subst: Dd = o / D
 tile: D = dumpster
@@ -133,7 +133,7 @@ item_group: 16 5 = items_cleaning
 item_group: 16 6 = items_food_shelves
 
 tile: S = safe
-num_item_group: S = w:10 c: 1d3; items_valuables_safe / w:2 c: 1d3; items_ammo_civilian / w:8 c: 1; items_handguns / w:5 c: 1; items_shotguns / w:3 c: 1; items_smgs / w:1 c: 1; items_assault_rifles
+num_item_group: S = w:20 c: 1d3; items_valuables_safe / w:5 c: 1d3; items_ammo_civilian / w:6 c: 1; items_handguns / w:2 c: 1; items_shotguns
 
 subst: Dd = o / D
 tile: D = dumpster
@@ -228,7 +228,7 @@ item_group: 20 5 = items_cleaning
 item_group: 20 6 = items_food_shelves
 
 tile: S = safe
-num_item_group: S = w:10 c: 1d3; items_valuables_safe / w:2 c: 1d3; items_ammo_civilian / w:8 c: 1; items_handguns / w:5 c: 1; items_shotguns / w:3 c: 1; items_smgs / w:1 c: 1; items_assault_rifles
+num_item_group: S = w:20 c: 1d3; items_valuables_safe / w:5 c: 1d3; items_ammo_civilian / w:6 c: 1; items_handguns / w:2 c: 1; items_shotguns
 
 subst: Dd = o / D
 tile: D = dumpster
