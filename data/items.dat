@@ -367,19 +367,7 @@ weapon
 done
 
 weapon
-  name: flower pot
-  description:
-    A large clay pot, used for growing and displaying flowers and other plants.
-  done
-  glyph: ( ltred black
-  weight: 30
-  volume: 50
-  bash:   10
-  to_hit: -2
-done
-
-weapon
-  name: dead potted plant
+  name: dead plant
   description:
     A potted plant of some kind, long dead.
   done
@@ -388,6 +376,7 @@ weapon
   volume: 60
   bash:   10
   to_hit: -3
+  container: flower pot
 done
 
 # END Weapons / vanilla
@@ -2493,6 +2482,25 @@ container
   weight: 0
   volume: 20
   capacity: 20
+  preposition: containing
+  use_article
 done
+
+container
+  name: flower pot
+  description:
+    A large clay pot, used for growing and displaying flowers and other plants.
+  done
+  glyph: ( ltred black
+  weight: 30
+  volume: 50
+  bash:   10
+  to_hit: -2
+  capacity: 45
+  preposition: containing
+  use_article
+  flags: open_end
+done
+
 
 # END Containers
