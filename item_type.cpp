@@ -302,6 +302,15 @@ bool Item_type::load_data(std::istream &data)
       data >> thrown_speed;
       std::getline(data, junk);
 
+  } else if (ident == "container:") {
+    std::getline(data, container);
+    container = no_caps(container);
+    container = trim(container);
+    if (container.empty()) {
+      debugmsg("Empty container (%s)", name.c_str());
+      return false;
+    }
+
     } else if (ident == "flags:") {
       std::string flag_line;
       std::getline(data, flag_line);
@@ -523,15 +532,6 @@ bool Item_type_food::handle_data(std::string ident, std::istream &data)
     data >> charges;
     std::getline(data, junk);
 
-  } else if (ident == "container:") {
-    std::getline(data, container);
-    container = no_caps(container);
-    container = trim(container);
-    if (container.empty()) {
-      debugmsg("Empty container (%s)", name.c_str());
-      return false;
-    }
-
   } else if (ident == "verb:") {
     std::getline(data, verb);
     verb = no_caps(verb);
@@ -699,6 +699,7 @@ std::string item_flag_name(Item_flag flag)
     case ITEM_FLAG_PLURAL:        return "plural";
     case ITEM_FLAG_CONSTANT:      return "constant_volume_weight";
     case ITEM_FLAG_RELOAD_SINGLE: return "reload_single";
+    case ITEM_FLAG_OPEN_END:      return "open_end";
     case ITEM_FLAG_MAX:           return "BUG - ITEM_FLAG_MAX";
     default:                      return "BUG - Unnamed Item_flag";
   }

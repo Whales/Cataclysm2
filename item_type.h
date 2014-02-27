@@ -54,6 +54,8 @@ public:
   int thrown_dmg_percent; // Percent of normal damage done when thrown
   int thrown_speed; // AP cost of throwing; if 0, it's calculated
 
+  std::string container;  // Name of another item type!
+
   void assign_uid(int id);
   std::string get_data_name();
   std::string get_name();
@@ -168,7 +170,6 @@ public:
   int effect_chance;    // Chance to inflict the effect below
   Status_effect effect; // Special effect inflicted; see status_effect.h
   int charges;  // So that you can partially consume a food item
-  std::string container;  // Name of another item type!
   std::string verb; // Verb for consuming this.  "You ____ your <name>"
 
 };

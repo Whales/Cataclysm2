@@ -62,6 +62,7 @@ public:
 // Changing
   bool combine_with(const Item& rhs);
   //Item in_its_container();
+  void prep_for_generation(); // Prepare to be placed by mapgen; e.g. container
   bool place_in_its_container();
   bool add_contents(Item it);
   bool reload(Entity* owner, int ammo_uid);

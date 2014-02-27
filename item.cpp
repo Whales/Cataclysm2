@@ -481,28 +481,35 @@ bool Item::combine_with(const Item& rhs)
   return true;
 }
 
+void Item::prep_for_generation()
+{
+  place_in_its_container();
+}
+
 bool Item::place_in_its_container()
 {
-  if (is_real() && get_item_class() == ITEM_CLASS_FOOD) {
-    Item_type_food* food = static_cast<Item_type_food*>(type);
-    if (food->container.empty()) {
+  if (type->container.empty()) {
+    return false;
+  }
+  Item_type* container_type = ITEM_TYPES.lookup_name( type->container );
+  if (container_type) {
+    Item tmp(container_type);
+    if (tmp.get_item_class() != ITEM_CLASS_CONTAINER) {
+      debugmsg("%s has non-container container (%s; %s)",
+               get_data_name().c_str(), type->container.c_str(),
+               item_class_name(tmp.get_item_class()).c_str());
       return false;
     }
-    Item_type* container_type = ITEM_TYPES.lookup_name( food->container );
-    if (container_type) {
-      Item tmp(container_type);
-      if (!tmp.add_contents(*this)) {
-        debugmsg("%s could not be placed in its container (%s)",
-                 get_data_name().c_str(), food->container.c_str());
-        return false;
-      }
-      *this = tmp;
-      return true;
-    } else {
-      debugmsg("%s has non-existant container '%s'", get_data_name().c_str(),
-               food->container.c_str());
+    if (!tmp.add_contents(*this)) {
+      debugmsg("%s could not be placed in its container (%s)",
+               get_data_name().c_str(), type->container.c_str());
+      return false;
     }
+    *this = tmp;
+    return true;
   }
+  debugmsg("%s has non-existant container '%s'", get_data_name().c_str(),
+           type->container.c_str());
   return false;
 }
 
@@ -513,7 +520,11 @@ bool Item::add_contents(Item it)
       !it.is_real()) {
     return false;
   }
-  if (get_volume_capacity_used() + it.get_volume() > get_volume_capacity()) {
+  int capacity = get_volume_capacity();
+  if (has_flag(ITEM_FLAG_OPEN_END)) {
+    capacity *= 5;
+  }
+  if (get_volume_capacity_used() + it.get_volume() > capacity) {
     return false;
   }
   contents.push_back(it);
