@@ -60,6 +60,11 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
     return false;
   }
 
+// Set all values to 0, in case they're not loaded here.
+  number = 0;
+  sides  = 0;
+  bonus  = 0;
+
   int current_number = 0;
   bool set_number = false, set_sides = false, negative_bonus = false;
   bool done = false;
