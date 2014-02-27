@@ -745,7 +745,7 @@ void Game::player_move(int xdif, int ydif)
 // List items here, unless it's sealed.
   if (map->has_flag(TF_SEALED, player->pos)) {
     add_msg("<c=dkgray>This %s is sealed; there may be items inside, but you \
-cannot see or access them.", map->get_name(player->pos).c_str());
+cannot see or access them.<c=/>", map->get_name(player->pos).c_str());
   } else {
     std::vector<Item> *items = map->items_at(player->pos);
 // TODO: Ensure the player has the sense of sight
