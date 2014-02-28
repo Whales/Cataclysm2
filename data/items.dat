@@ -21,30 +21,29 @@ weapon
 done
 
 weapon
-  name: wooden branch
+  name: stick
   description:
-    A heavy branch from a tree. Solid enough to hit things with and sort of pointy, 
+    A heavy branch from a tree. Solid enough to hit things with and sort of pointy,
     but unrefined and clumsy.
   done
   glyph: / brown black
   weight: 25
   volume: 20
   bash:    8
-  pierce: 1
   to_hit:  2
   flags: flammable
 done
 
 weapon
-  name: wooden plank
+  name: wood plank
   description:
-    A heavy wooden plank, square corners, about 6 inches wide. Clumsy but 
+    A heavy wooden plank, square corners, about 6 inches wide.  Clumsy but
     reasonably effective.
   done
-  glyph: / brown black
+  glyph: / ltred black
   weight:  20
   volume: 144
-  bash:    12
+  bash:    10
 # -1 to_hit because it's awkward to grip...
   to_hit:  -1
   flags: flammable
@@ -67,112 +66,98 @@ done
 weapon
   name: tire iron
   description:
-    A metal tool used to replace flat tires quickly by removing the tire from the 
-    wheel. Heavy and blunt and good at crushing, but awkward to hold.
-    (It's got four prongs, what're you supposed to do with that?)
+    A metal tool used to replace flat tires quickly by removing the tire from
+    the wheel.  Heavy and blunt and good at crushing, but awkward to hold.  It's
+    got four prongs, what're you supposed to do with that?
   done
   glyph: / dkgray black
   weight: 45
   volume: 32
   bash:   14
-  to_hit:  -1
+  to_hit:  -2
 done
 
 weapon
   name: pocket knife
   description:
-    A very small but easily transportable knife. Capable of various knife-related
-    tasks and tricks, but is the runt of the litter compared to it's bigger,
-    knifier cousins.
+    A very small but easily transportable knife. Capable of various
+    knife-related tasks and tricks, but is the runt of the litter compared to
+    it's bigger, knifier cousins.
   done
   glyph: / dkgray black
-  weight: 5
-  volume: 12
-  cut:    9
-  to_hit:  3
+  weight:  3
+  volume:  3
+  cut:     9
+  to_hit: -2
 done
 
 weapon
   name: hunting knife
   description:
-    A large, sharp blade used for hunting. very useful in every respect, but too 
-    small to block with.
+    A large, sharp blade used for hunting.  Very useful in every respect, but
+    too small to block with.
   done
   glyph: / dkgray black
-  weight: 15
-  volume: 22
+  weight: 14
+  volume:  7
   cut:    20
-  to_hit:  2
+  to_hit: -1
 done
 
 weapon
   name: combat knife
   description:
     A large, modern combat knife with one serrated edge and another razor-sharp
-    blade opposite that. Ingenious engineering renders the blade almost impossible 
-    to dull, even in the face of years of use.
+    blade opposite that.  Ingenious engineering renders the blade almost
+    impossible to dull, even in the face of years of use.
   done
   glyph: / dkgray black
   weight: 10
-  volume: 22
-  cut:    32
-  to_hit:  2
-done
-
-weapon
-  name: fake sword
-  description:
-    An imitation sword, probably a prop or decoration. The blade's dull and the 
-    construction's shoddy, but it's balanced well enough to use in a fight. It's
-    probably more accurate to call it a vaguely sword-like metal stick.
-  done
-  glyph: / dkgray black
-  weight: 20
-  volume: 42
-  cut:    19
-  pierce:  17
-  to_hit:  2
+  volume:  9
+  cut:    24
+  to_hit:  0
 done
 
 weapon
   name: antique sword
   description:
-    An ancient, probably centuries-old sword. You can see flakes of rust on the
-    metal and the edge is a bit dull, but it's incredibly capable despite it's age.
+    An ancient, probably centuries-old sword.  You can see flakes of rust on the
+    metal and the edge is a bit dull, but it's incredibly capable despite its
+    age.
   done
   glyph: / dkgray black
   weight: 30
   volume: 42
-  cut:    26
-  pierce:  22
+  cut:    22
+  pierce: 22
   to_hit:  3
 done
 
 weapon
   name: ice pick
   description:
-    A pick used to climb up glaciers and mountains. In context, however, it's a 
+    A pick used to climb up glaciers and mountains.  In context, however, it's a
     very useful warhammer-like weapon, swung in an arc to do higher damage.
   done
   glyph: / dkgray black
   weight: 20
   volume: 42
   bash:    4
-  pierce:  26
+  pierce: 20
   to_hit:  1
 done
 
 weapon
   name: baseball bat
   description:
-    A baseball bat. It's basically a large club; rather unwieldly but can deliver
-    smashing blows. It's cracked a bit on the end.
+    A wooden baseball bat.  It's basically a large club; rather unwieldly but
+    can deliver smashing blows.
   done
-  glyph: / dkgray black
-  weight: 20
-  volume: 42
-  bash:    38
-  to_hit:  2
+  glyph: / brown black
+  weight:  20
+  volume: 100
+  bash:    26
+  to_hit:   2
 done
 
 weapon
@@ -190,26 +175,9 @@ weapon
 done
 
 weapon
-  name: antique halberd
+  name: wood ax
   description:
-    A large axe blade placed on the end of a sheer metal pole, probably survived from
-    medieval times. It's big enough to be swung clear through targets, doing incredible
-    chopping damage.
-  done
-  glyph: / dkgray black
-  weight: 90
-  volume: 105
-  pierce:   14
-  cut:    42
-  to_hit:  2
-done
-
-weapon
-  name: flat-head axe
-  description:
-    A heavy, two-handed axe, more then capable of chopping trees for wood. That 
-    said, it's realistically going to get more mileage as the incredible cutting weapon
-    that it was born to be.
+    A heavy, long-handled ax.  Ideal for chopping all kinds of stuff!
   done
   glyph: / dkgray black
   weight: 80
@@ -220,50 +188,48 @@ weapon
 done
 
 weapon
+  name: antique halberd
+  description:
+    A large axe blade placed on the end of a sheer metal pole, probably
+    survived from medieval times.  It's big enough to be swung clear through
+    targets, doing incredible chopping damage.
+  done
+  glyph: / dkgray black
+  weight:  90
+  volume: 115
+  pierce:  14
+  cut:     30
+  to_hit:   2
+done
+
+weapon
   name: golf club
   description:
-    A 9-iron golf club, previously used to drive small balls long distances. Composed
-    of a heavy head on the end of a flexible shaft, it could feasibly serve the same 
-    purpose even now.
+    A golfing "iron" - a heavy, round head at the end of a long, flimsy shaft.
   done
   glyph: / cyan black
   weight: 26
   volume: 65
-  bash:   18
+  bash:   14
   to_hit:  3
 done
 
 weapon
   name: machete
   description:
-    Essentially a very large knife, fantastic for hacking and slashing your way 
-    through field and foe alike. Found new life in the post-apocalypse.
+    A heavy, long, single-bladed knife.  Ideal for hacking through undergrowth,
+    or your enemies.
   done
   glyph: / ltblue black
   weight: 32
   volume: 80
   bash:    8
-  cut:    34
+  cut:    24
   to_hit:  2
 done
 
 weapon
-  name: steel sword
-  description:
-    A modern reproduction of the tried-and-true shortsword, with a well-
-    honed edge and competant balance. One handed and lightweight, it can slice 
-    through bandits just as it's ancestors sliced through other, stupider bandits.
-  done
-  glyph: / ltblue black
-  weight: 42
-  volume: 90
-  cut:    38
-  pierce: 18
-  to_hit:  2
-done
-
-weapon
-  name: claw hammer
+  name: hammer
   description:
     A useful tool, both for constructing and fortifying defenses, and for
     smashing in heads.
@@ -283,21 +249,21 @@ weapon
   glyph: / cyan black
   weight: 14
   volume: 12
-  bash:   19
+  bash:   14
   to_hit:  1
 done
 
 weapon
   name: sledgehammer
   description:
-    An enormous hammer used to shatter even concrete. Hits with bone crushing 
-    force but is ill-balanced; Stronger characters would get better mileage, having 
-    the  strength to recover quickly
+    A demolition tool, the sledgehammer excels at knocking through doors, or
+    through foes.  Its extreme weight makes it difficult for weaker individuals
+    to use effectively.
   done
   glyph: / brown black
   weight: 200
   volume:  95
-  bash:    42
+  bash:    32
   to_hit:   1
 done
 
@@ -310,9 +276,9 @@ weapon
   glyph: / ltgreen black
   weight: 55
   volume: 60
-  bash:  16
+  bash:  6
   cut:   8
-  to_hit: 1
+  to_hit: -1
 done
 
 weapon
@@ -325,7 +291,7 @@ weapon
   weight: 65
   volume: 75
   bash:    6
-  pierce: 17
+  pierce: 14
   to_hit: -1
 done
 
@@ -386,18 +352,6 @@ weapon
 done
 
 weapon
-  name: shovel
-  description:
-    A large, two-handed digging shovel. The flat metal head is sharp enough to
-    leave gashes on enemies, and it's length allows it to lop through foes.
-  done
-  glyph: / ltgreen black
-  weight: 29
-  volume: 40
-  pierce: 8
-done
-
-weapon
   name: steel pipe
   description:
     A thin, but strong, metal pipe.  Useful in many crafting recipes.
@@ -423,7 +377,7 @@ weapon
 done
 
 weapon
-  name: kitchen knife
+  name: chef knife
   description:
     A foot-long knife.  Designed for chopping up meat and vegetables.
   done
@@ -431,8 +385,8 @@ weapon
   weight: 8
   volume: 14
   pierce: 8
-  cut:    16
-  to_hit: 1
+  cut:    12
+  to_hit: -1
 done
 
 weapon
@@ -443,7 +397,7 @@ weapon
   glyph: / dkgray black
   weight: 70
   volume: 60
-  bash:   25
+  bash:   22
 done
 
 weapon
@@ -707,7 +661,7 @@ clothing
   encumbrance:   1
   covers: torso arms
 done
-  
+ 
 clothing
   name: leather jacket
   description:
@@ -1000,7 +954,7 @@ ammo
   type: batteries
   count: 100
 done
-  
+ 
 ammo
   name: .22 LR
   description:
@@ -1441,7 +1395,7 @@ launcher
   modes: 1 2
   flags: reload_single
 done
-  
+ 
 launcher
   name: Remington 870
   description:
@@ -2412,8 +2366,8 @@ done
 tool
   name: crowbar
   description:
-    A solid metal bar, heavy and sort of sharp on both ends. 
-    Makes a capable melee weapon, although it's pretty unwieldly. 
+    A solid metal bar, heavy and sort of sharp on both ends.
+    Makes a capable melee weapon, although it's pretty unwieldly.
     Also can pry open doors and various other objects.
   done
   glyph: ; ltblue black
