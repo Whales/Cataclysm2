@@ -54,7 +54,7 @@ done
 
 Name: zombies
   Default:
-    hp: 4d5 + 40
+    hp: 5d4 + 40
     speed: 70
     senses: sight smell hearing
     AI:
