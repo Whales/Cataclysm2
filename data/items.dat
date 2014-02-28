@@ -64,7 +64,7 @@ done
 weapon
   name: hatchet
   description:
-    A short, one-handed ax.  Makes a good melee weapon, and servers as both a
+    A short, one-handed ax.  Makes a good melee weapon, and serves as both a
     hammer and a cutting tool.
   done
   glyph: / dkgray black
@@ -429,7 +429,7 @@ done
 clothing
   name: cap
   description:
-    A cap with a vistor.
+    A cap with a visor.
   done
   glyph: [ magenta black
   weight:  1
