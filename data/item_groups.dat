@@ -5,19 +5,19 @@ done
 
 # Wilderness groups
 name: items_beach
-  items: w:14 rock / w:1 stick
+  items: w:14 rock / w:1 tree branch
 done
 
 name: items_field
-  items: w:10 rock / w:1 stick
+  items: w:10 rock / w:1 tree branch
 done
 
 name: items_forest
-  items: w:10 stick / w:3 rock
+  items: w:10 tree branch / w:3 rock
 done
 
 name: items_mangrove
-  items: stick
+  items: tree branch
 done
 
 name: items_rocky
@@ -25,11 +25,11 @@ name: items_rocky
 done
 
 name: items_salt_marsh
-  items: stick
+  items: tree branch
 done
 
 name: items_swamp
-  items: stick
+  items: tree branch
 done
 
 # Shipwreck - the first items made available to the player
@@ -128,7 +128,7 @@ done
 
 # Misc junk
 name: items_trash
-  items: w:1 rock / w:3 stick / w:1 wood plank / w:3 steel pipe / w:20 rag / w:20 plastic bottle / w:12 glass bottle / w:8 can / w:25 soda can / w:30 plastic bag / w:8 paper box
+  items: w:1 rock / w:3 tree branch / w:1 wood plank / w:3 steel pipe / w:20 rag / w:20 plastic bottle / w:12 glass bottle / w:8 can / w:25 soda can / w:30 plastic bag / w:8 paper box
 done
 
 name: items_valuables_safe

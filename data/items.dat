@@ -21,10 +21,10 @@ weapon
 done
 
 weapon
-  name: stick
+  name: tree branch
   description:
-    A heavy branch from a tree. Solid enough to hit things with and sort of pointy,
-    but unrefined and clumsy.
+    A heavy branch from a tree. Solid enough to hit things with but unrefined
+    and clumsy.
   done
   glyph: / brown black
   weight: 25
