@@ -175,9 +175,9 @@ weapon
 done
 
 weapon
-  name: wood ax
+  name: large axe
   description:
-    A heavy, long-handled ax.  Ideal for chopping all kinds of stuff!
+    A heavy, long-handled axe.  Ideal for chopping all kinds of stuff!
   done
   glyph: / dkgray black
   weight: 80
@@ -442,7 +442,7 @@ weapon
   glyph: / dkgray black
   weight: 80
   volume: 24
-  bash:   18
+  bash:   24
   to_hit: -2
 done
 
