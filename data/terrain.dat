@@ -5,7 +5,7 @@ name: dirt
   signal: dig
     result: hole
   done
-  flags: plural
+  flags: plural floor
 done
 
 name: grass
@@ -15,7 +15,7 @@ name: grass
   signal: dig
     result: hole
   done
-  flags: plural
+  flags: plural floor
 done
 
 # TODO: redo hole as a trapish thing.
@@ -86,7 +86,7 @@ name: sand
   signal: dig
     result: hole
   done
-  flags: plural
+  flags: plural floor
 done
 
 # Identical to sand, but when dug in, produces shallow salt water!
@@ -98,7 +98,7 @@ name: beach sand
   signal: dig
     result: shallow salt water
   done
-  flags: plural
+  flags: plural floor
 done
 
 name: mud
@@ -223,14 +223,14 @@ name: floor
   glyph: . cyan black
   movecost: 100
   height: 1
-  flags: opaque indoors
+  flags: opaque indoors floor
 done
 
 name: roof
   glyph: . brown black
   movecost: 120
   height: 1
-  flags: opaque
+  flags: opaque floor
 done
 
 name: glass wall
@@ -249,26 +249,31 @@ done
 name: concrete floor
   glyph: . ltgray black
   movecost: 100
+  flags: floor
 done
 
 name: stone path
   glyph: . ltgray black
   movecost: 100
+  flags: floor
 done
 
 name: pavement
   glyph: . dkgray black
   movecost: 100
+  flags: floor
 done
 
 name: yellow pavement
   glyph: . yellow black
   movecost: 100
+  flags: floor
 done
 
 name: white pavement
   glyph: . white black
   movecost: 100
+  flags: floor
 done
 
 name: door frame
@@ -276,7 +281,7 @@ name: door frame
   movecost: 100
   hp: 150
   destroy: floor
-  flags: flammable
+  flags: flammable floor
 done
 
 name: broken door
