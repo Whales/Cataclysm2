@@ -123,6 +123,7 @@ subname: small_gun_store_aninimouse
 type: gun store
 tile: # = stone wall
 tile: . = floor
+tile: , = floor_lock
 tile: o = dirt / grass
 tile: + = closed glass door
 tile: * = locked door
@@ -165,7 +166,7 @@ map:
 11111#2.X.......X.2#22222
 11111#1.#XXX%XXX#.1#22222
 11111#1...........1#22222
-11111#AAA655.886AAA#22222
+11111#AAA655,886AAA#22222
 11111#######*#######22222
 11111111#77ScS77#sS#22222
 1111111c*cccccccacc#22222
@@ -270,9 +271,9 @@ kpppppppppppppppppppppppk
 kpppppppppppppppppppppppk
 kpppppppppppppppppppppppk
 #######XXXX#+#XXXX#######
-#..s.#.............#...S#
-#t...a.............*...S#
-#....#.............#...S#
+#..s.#............,#...S#
+#t...a............,*...S#
+#....#............,#...S#
 #######XXX##%##XXX###aa##
 #6.....................A#
 #6.6A.5.5.4.3.2.2.1.AA.A#

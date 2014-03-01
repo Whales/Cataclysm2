@@ -227,6 +227,16 @@ name: floor
   flags: opaque indoors floor
 done
 
+# By placing this next to a locked door instead of normal floor, you make the
+# player unable to open the locked door from this tile
+name: floor_lock
+  display_name: floor
+  glyph: . cyan black
+  movecost: 100
+  height: 1
+  flags: opaque floor
+done
+
 name: roof
   glyph: . brown black
   movecost: 120

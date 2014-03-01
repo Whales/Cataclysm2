@@ -26,6 +26,7 @@ subname: a1_grocery_store_aninimouse
 type: grocery store
 tile: # = stone wall
 tile: . = floor
+tile: , = floor_lock
 tile: o = dirt / grass
 tile: + = closed glass door
 tile: k = w:10 locked door / w:1 closed door
@@ -57,8 +58,8 @@ o#6.AAA..35...53...2..7#o
 o#6......35...53...2..7#o
 o#6.1.1............2..7#o
 o#6.1.1.%%%%%%%%%..2..7#o
-o#6.1.1.%.......%..2..7#o
-o#6.1.1.%.S4444.k.....7#o
+o#6.1.1.%.......%,.2..7#o
+o#6.1.1.%.S4444.k,....7#o
 o#################k#####o
 oodddoooooooooooooooDDDoo
 ooooooooooooooooooooooooo
