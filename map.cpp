@@ -587,6 +587,15 @@ void Submap::generate_above(World_terrain* type, Submap* below)
   generate(spec);
 }
 
+void Submap::clear_items()
+{
+  for (int x = 0; x < SUBMAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE; y++) {
+      tiles[x][y].items.clear();
+    }
+  }
+}
+
 bool Submap::add_item(Item item, int x, int y)
 {
   if (x < 0 || y < 0 || x >= SUBMAP_SIZE || y >= SUBMAP_SIZE) {

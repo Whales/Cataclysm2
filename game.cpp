@@ -932,6 +932,7 @@ void Game::debug_command()
         Submap* sm = map->get_testing_submap();
         if (sm) {
           spec->prepare();
+          sm->clear_items();
           sm->generate(spec);
         } else {
           add_msg("Map::get_testing_submap() return NULL???");

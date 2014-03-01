@@ -78,6 +78,7 @@ struct Submap
   void generate_adjacent(Mapgen_spec* spec);
   void generate_above(World_terrain* type, Submap* below);
 
+  void clear_items();
   bool add_item(Item item, int x, int y);
   int  item_count(int x, int y);
   std::vector<Item>* items_at(int x, int y);
