@@ -34,8 +34,8 @@ tile: " = window
 tile: % = counter
 tile: F = stockade fence
 tile: c = concrete floor
-tile: d = dirt
-subst: x = w:15 d / w:10 c
+tile: , = dirt
+subst: x = w:15 , / w:10 c
 
 tile: {A123456 = display rack
 tile: e7 = shelves
@@ -68,15 +68,15 @@ o###########*###########o
 o#xxxxxxxxxxxxxxxxxxxxx*o
 o#xxxxxxxxxxxxxxxxxxxxx#o
 o#*%%###%%##X##%%###%%##o
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-oFdddddddddddddddddddddFo
-o#ddddddddddddddddddddd#o
-o#ddddddddddddddddddddd#o
+oF,,,,,,,,,,,,,,,,,,,,,Fo
+oF,,,,,,,,,,,,,,,,,,,,,Fo
+oF,,,,,,,,,,,,,,,,,,,,,Fo
+oF,,,,,,,,,,,,,,,,,,,,,Fo
+oF,,,,,,,,,,,,,,,,,,,,,Fo
+oF,,,,,,,,,,,,,,,,,,,,,Fo
+oF,,,,,,,,,,,,,,,,,,,,,Fo
+o#,,,,,,,,,,,,,,,,,,,,,#o
+o#,,,,,,,,,,,,,,,,,,,,,#o
 o#######################o
 ooDDDooooooooooooooodddoo
 ooooooooooooooooooooooooo
