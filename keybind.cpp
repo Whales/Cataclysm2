@@ -19,6 +19,20 @@ Interface_action Keybinding_pool::bound_to_key(long key)
   return bindings[key];
 }
 
+bool Keybinding_pool::bind_debug_key(long key, Debug_action action)
+{
+  debug_bindings[key] = action;
+  return true;
+}
+
+Debug_action Keybinding_pool::bound_to_debug_key(long key)
+{
+  if (debug_bindings.count(key) == 0) {
+    return DEBUG_ACTION_NULL;
+  }
+  return debug_bindings[key];
+}
+
 bool Keybinding_pool::load_from(std::string filename)
 {
   std::ifstream fin;
@@ -38,9 +52,27 @@ bool Keybinding_pool::load_from(std::string filename)
       action_name = trim(action_name);
       Interface_action act = lookup_interface_action(action_name);
       if (act == IACTION_NULL) {
-        debugmsg("Unknown action in '%s': '%s'", filename.c_str(),
-                 action_name.c_str());
-      } else {
+
+        Debug_action debug_act = lookup_debug_action(action_name);
+
+        if (debug_act == DEBUG_ACTION_NULL) {
+          debugmsg("Unknown action in '%s': '%s'", filename.c_str(),
+                   action_name.c_str());
+
+        } else {
+          for (int i = 0; i < keys.size(); i++) {
+            Debug_action already_bound = bound_to_debug_key( keys[i] );
+            if (already_bound != DEBUG_ACTION_NULL) {
+              debugmsg("Key %c bound to %s; reassigned to %s. (%s)", keys[i],
+                       debug_action_name(already_bound).c_str(),
+                       debug_action_name(debug_act).c_str(),
+                       filename.c_str());
+            }
+            bind_debug_key( keys[i], debug_act );
+          }
+        }
+
+      } else {  // if (act == IACTION_NULL)
         for (int i = 0; i < keys.size(); i++) {
           Interface_action already_bound = bound_to_key( keys[i] );
           if (already_bound != IACTION_NULL) {
@@ -52,7 +84,9 @@ bool Keybinding_pool::load_from(std::string filename)
           bind_key( keys[i], act );
         }
       }
+
       keys.clear();
+
     } else {
       for (int i = 0; i < keystr.size(); i++) {
         keys.push_back( keystr[i] );
@@ -65,6 +99,7 @@ bool Keybinding_pool::load_from(std::string filename)
 Interface_action lookup_interface_action(std::string name)
 {
   name = no_caps(name);
+  name = trim(name);
   for (int i = 0; i < IACTION_MAX; i++) {
     Interface_action ret = Interface_action(i);
     if ( no_caps( interface_action_name(ret) ) == name ) {
@@ -114,7 +149,31 @@ std::string interface_action_name(Interface_action action)
     case IACTION_MAX:                     return "BUG - IACTION_MAX";
     default:                              return "BUG - Unnamed action";
   }
-  return "BUG - Escaped switch";
+  return "BUG - Escaped interface_action_name() switch";
+}
+
+Debug_action lookup_debug_action(std::string name)
+{
+  name = no_caps(name);
+  name = trim(name);
+  for (int i = 0; i < IACTION_MAX; i++) {
+    Debug_action ret = Debug_action(i);
+    if ( no_caps( debug_action_name(ret) ) == name ) {
+      return ret;
+    }
+  }
+  return DEBUG_ACTION_NULL;
+}
+
+std::string debug_action_name(Debug_action action)
+{
+  switch (action) {
+    case DEBUG_ACTION_NULL:           return "NULL";
+    case DEBUG_ACTION_CREATE_ITEM:     return "create_item";
+    case DEBUG_ACTION_MAX:            return "BUG - DEBUG_ACTION_MAX";
+    default:                          return "BUG - Unnamed Debug_action";
+  }
+  return "BUG - Escaped debug_action_name() switch";
 }
 
 long lookup_key(std::string name)

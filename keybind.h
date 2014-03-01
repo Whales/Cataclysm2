@@ -53,6 +53,16 @@ enum Interface_action
 Interface_action lookup_interface_action(std::string name);
 std::string interface_action_name(Interface_action action);
 
+enum Debug_action
+{
+  DEBUG_ACTION_NULL = 0,
+  DEBUG_ACTION_CREATE_ITEM,
+  DEBUG_ACTION_MAX
+};
+
+Debug_action lookup_debug_action(std::string name);
+std::string debug_action_name(Debug_action action);
+
 long lookup_key(std::string name);
 
 struct Keybinding_pool
@@ -61,9 +71,13 @@ public:
   bool bind_key(long key, Interface_action action);
   Interface_action bound_to_key(long key);
 
+  bool bind_debug_key(long key, Debug_action action);
+  Debug_action bound_to_debug_key(long key);
+
   bool load_from(std::string filename);
 private:
   std::map<long,Interface_action> bindings;
+  std::map<long,Debug_action>     debug_bindings;
 };
   
 Point input_direction(long ch); // Returns "one step in direction bound to ch"
