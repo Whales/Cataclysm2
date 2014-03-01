@@ -1077,7 +1077,8 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
 // Rotate as required.
 // TODO: Allow for a "norotate" flag?
 // If we're a relational map, rotate based on neighbors...
-  if (!is_adjacent && world_ter[0] && world_ter[0]->has_flag(WTF_RELATIONAL)) {
+  if (!is_adjacent && world_ter && world_ter[0] &&
+      world_ter[0]->has_flag(WTF_RELATIONAL)) {
     std::vector<bool> neighbor;
     neighbor.push_back(false);
     for (int i = 1; i < 5; i++) {
@@ -1114,7 +1115,7 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
                terrain_name.c_str());
     }
 // If we're a road-facing map, face the road...
-  } else if (!is_adjacent && world_ter[0] &&
+  } else if (!is_adjacent && world_ter && world_ter[0] &&
              world_ter[0]->has_flag(WTF_FACE_ROAD)) {
     std::vector<Direction> valid_rotate;
     for (int i = 1; i < 5; i++) {
