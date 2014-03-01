@@ -46,6 +46,7 @@ enum Interface_action
 // Other
   IACTION_QUIT,
   IACTION_SAVE,
+  IACTION_DEBUG,
   IACTION_MAX
 };
 

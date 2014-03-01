@@ -38,10 +38,17 @@ bool Keybinding_pool::load_from(std::string filename)
       action_name = trim(action_name);
       Interface_action act = lookup_interface_action(action_name);
       if (act == IACTION_NULL) {
-        debugmsg("Bad action in '%s': '%s'", filename.c_str(),
+        debugmsg("Unknown action in '%s': '%s'", filename.c_str(),
                  action_name.c_str());
       } else {
         for (int i = 0; i < keys.size(); i++) {
+          Interface_action already_bound = bound_to_key( keys[i] );
+          if (already_bound != IACTION_NULL) {
+            debugmsg("Key %c bound to %s; reassigned to %s. (%s)", keys[i],
+                     interface_action_name(already_bound).c_str(),
+                     interface_action_name(act).c_str(),
+                     filename.c_str());
+          }
           bind_key( keys[i], act );
         }
       }
@@ -103,6 +110,7 @@ std::string interface_action_name(Interface_action action)
     case IACTION_VIEW_WORLDMAP:           return "view_worldmap";
     case IACTION_QUIT:                    return "quit";
     case IACTION_SAVE:                    return "save";
+    case IACTION_DEBUG:                   return "debug";
     case IACTION_MAX:                     return "BUG - IACTION_MAX";
     default:                              return "BUG - Unnamed action";
   }

@@ -29,3 +29,4 @@ e         = eat
 :M        = view_worldmap
 Q         = quit
 S         = save
+Z         = debug
