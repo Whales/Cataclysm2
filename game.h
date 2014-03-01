@@ -76,7 +76,8 @@ public:
   void update_hud();
   void print_messages();
 
-/**** UI - Special screens ****/
+/**** UI - Special screens and inputs ****/
+  void debug_command();
   void pickup_items(Tripoint pos);
   void pickup_items(Point    pos);
   void pickup_items(int posx, int posy);

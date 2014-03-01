@@ -442,6 +442,10 @@ there.<c=/>", map->get_name(examine).c_str());
       map->generate(worldmap, got.x, got.y);
     }  break;
 
+    case IACTION_DEBUG:
+      debug_command();
+      break;
+
     case IACTION_QUIT:
       if (query_yn("Commit suicide?")) {
         game_over = true;
@@ -925,6 +929,14 @@ void Game::print_messages()
     //debugmsg("Adding %s", text.str().c_str());
     i_hud.add_data("text_messages", text.str());
   }
+}
+
+void Game::debug_command()
+{
+  add_msg("<c=yellow>Press debug key.<c=/>");
+  draw_all();
+  long ch = input();
+  Debug_action act = KEYBINDINGS.bound_to_debug_key(ch);
 }
 
 void Game::pickup_items(Tripoint pos)
