@@ -21,7 +21,8 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-# 1 0
+######################################## 1 ########################################
+# Ground Floor
 name: doublesmall1_house_aninimouse_gd
 subname: doublesmall1_house_aninimouse
 type: house
@@ -35,16 +36,17 @@ tile: % = counter
 tile: T = toilet
 tile: B = bed
 tile: E = shelves
-tile: s = sink
+tile: sk = sink
 tile: F = fridge
 tile: S = stove
 tile: D = dresser
-tile: p = pavement
+tile: p = stone path
 tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
-subst: 1 = w:20 o / w:10 P / w:5 l
-subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
+tile: K = chain-link fence
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 p
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
@@ -55,6 +57,7 @@ item_group: 30 E = items_food_shelves
 item_group: 40 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 item_group: 50 D = items_all_clothes
+item_group: 50 k = items_cleaning
 
 map:
 ooooo3ooooooooooooo4ooooo
@@ -66,9 +69,9 @@ oo#...#DB#oo2oo"......#oo
 oo"...#.B"oo2oo####..."oo
 oo#...#..#oo2oo#BD#.###oo
 oo#%%.#+##oo2oo"B.+.#T#oo
-oo"s.....@oo2oo####.+s#oo
+oo"k.....@oo2oo####.+s#oo
 oo#S.%#+##oo2oo#F...###oo
-oo#F.E#sT#oo2oo#%Ss..E#oo
+oo#F.E#sT#oo2oo#%Sk..E#oo
 oo##"#####oo2oo###""@##oo
 oo1ooooooooo2ooooooooo1oo
 oo1ooooooooo2ooooooooo1oo
@@ -84,6 +87,8 @@ oo111111111111111111111oo
 ooooooooooooooooooooooooo
 endmap
 done
+
+# Roof
 
 name: doublesmall1_house_aninimouse_rf
 subname: doublesmall1_house_aninimouse
@@ -120,7 +125,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-# 2 0
+######################################## 2 ########################################
+# Ground Floor
 name: doublesmall2_house_aninimouse_gd
 subname: doublesmall2_house_aninimouse
 type: house
@@ -134,7 +140,7 @@ tile: % = counter
 tile: T = toilet
 tile: B = bed
 tile: E = shelves
-tile: s = sink
+tile: sk = sink
 tile: F = fridge
 tile: S = stove
 tile: D = dresser
@@ -142,10 +148,12 @@ tile: p = pavement
 tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
-subst: 1 = w:20 o / w:10 P / w:5 l
-subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
-subst: 3 = w:20 o / w:10 p
-subst: 4 = w:20 o / w:10 p
+tile: K = chain-link fence
+tile: c = stone path
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
+subst: 3 = w:20 o / w:10 c
+subst: 4 = w:20 o / w:10 c
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
 item_group: 40 F = items_fridge
@@ -154,6 +162,7 @@ item_group: 30 E = items_food_shelves
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 item_group: 50 D = items_all_clothes
+item_group: 50 k = items_cleaning
 
 map:
 o5555555555555555ppppppp6
@@ -162,19 +171,19 @@ o"DBB#BD"ooooooo2ppppppp6
 o#...#B.#3oooooo2ppppppp6
 o##+###+#3oooooo2ppppppp6
 o#......"3oooooo2ppppppp6
-o"......@poooooo2ppppppp6
-o#....%%#poooooo2ppppppp6
-o####..S"poooooo2ppppppp6
-o#..+..s"poooooo2ppppppp6
-o#Ts#.F%#poooooo2ppppppp6
-o####@###poooooo2ppppppp6
-ooooooooopo222222ppppppp6
-o####@###poppppppppppppp6
-o#Ts#.F%#poppppppppppppp6
-o#..+..s"poppppppppppppp6
-o####..S"poppppppppppppp6
-o#....%%#poppppppppppppp6
-o"......@ppppppppppppppp6
+o"......@coooooo2ppppppp6
+o#....%%#coooooo2ppppppp6
+o####..S"coooooo2ppppppp6
+o#..+..k"coooooo2ppppppp6
+o#Ts#.F%#coooooo2ppppppp6
+o####@###coooooo2ppppppp6
+oooooooooco222222ppppppp6
+o####@###coppppppppppppp6
+o#Ts#.F%#coppppppppppppp6
+o#..+..k"coppppppppppppp6
+o####..S"coppppppppppppp6
+o#....%%#coppppppppppppp6
+o"......@ccppppppppppppp6
 o#......"4oppppppppppppp6
 o##+###+#4oppppppppppppp6
 o#...#B.#4oppppppppppppp6
@@ -183,6 +192,8 @@ o########1111111111111116
 ooooooooooooooooooooooooo
 endmap
 done
+
+# Roof
 
 name: doublesmall2_house_aninimouse_rf
 subname: doublesmall2_house_aninimouse
@@ -219,7 +230,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-# 3
+######################################## 3 ########################################
+# Ground Floor
 name: doublesmall3_house_aninimouse_gd
 subname: doublesmall3_house_aninimouse
 type: house
@@ -233,16 +245,17 @@ tile: % = counter
 tile: T = toilet
 tile: B = bed
 tile: E = shelves
-tile: s = sink
+tile: sk = sink
 tile: F = fridge
 tile: S = stove
 tile: D = dresser
-tile: p = pavement
+tile: p = stone path
 tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
-subst: 1 = w:20 o / w:10 P / w:5 l
-subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
+tile: K = chain-link fence
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 p
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
@@ -253,7 +266,7 @@ item_group: 30 E = items_food_shelves
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 item_group: 50 D = items_all_clothes
-
+item_group: 50 k = items_cleaning
 
 map:
 ooooo3ooooooooooooo4ooooo
@@ -270,7 +283,7 @@ oo#...####oo2oo####...#oo
 oo#...#sT#oo2oo#Ts#...#oo
 oo"...#+##oo2oo##+#..."oo
 oo#E....."oo2oo".....E#oo
-oo#F.sS%%#oo2oo#%%Ss.F#oo
+oo#F.kS%%#oo2oo#%%Sk.F#oo
 oo##@"""##oo2oo##"""@##oo
 oo1ooooooooo2ooooooooo1oo
 oo1ooooooooo2ooooooooo1oo
@@ -283,6 +296,8 @@ oo111111111111111111111oo
 ooooooooooooooooooooooooo
 endmap
 done
+
+# Roof
 
 name: doublesmall3_house_aninimouse_rf
 subname: doublesmall3_house_aninimouse
@@ -319,7 +334,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-# 4
+######################################## 4 ########################################
+# Ground Floor
 name: doublesmall4_house_aninimouse_gd
 subname: doublesmall4_house_aninimouse
 type: house
@@ -333,16 +349,17 @@ tile: % = counter
 tile: T = toilet
 tile: B = bed
 tile: E = shelves
-tile: s = sink
+tile: sk = sink
 tile: F = fridge
 tile: S = stove
 tile: D = dresser
-tile: p = pavement
+tile: p = stone path
 tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
-subst: 1 = w:20 o / w:10 P / w:5 l
-subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
+tile: K = chain-link fence
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 p
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
@@ -353,6 +370,7 @@ item_group: 30 E = items_food_shelves
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 item_group: 50 D = items_all_clothes
+item_group: 50 k = items_cleaning
 
 
 map:
@@ -373,7 +391,7 @@ oo"....#T#oo2oo#T#...."oo
 oo#E...+s"oo2oo"s+...E#oo
 oo#F..####oo2oo####..F#oo
 oo#S..#BB#oo2oo#BB#..S#oo
-oo#%s.+.D#oo2oo#D.+.s%#oo
+oo#%k.+.D#oo2oo#D.+.k%#oo
 oo#""@#""#oo2oo#""#@""#oo
 oo1ooooooooo2ooooooooo1oo
 oo1ooooooooo2ooooooooo1oo
@@ -383,6 +401,8 @@ oo111111111111111111111oo
 ooooooooooooooooooooooooo
 endmap
 done
+
+# Roof
 
 name: doublesmall4_house_aninimouse_rf
 subname: doublesmall4_house_aninimouse
@@ -419,7 +439,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-# 5
+######################################## 5 ########################################
+# Ground Floor
 name: small1_house_aninimouse_gd
 subname: small1_house_aninimouse
 type: house
@@ -433,17 +454,18 @@ tile: % = counter
 tile: T = toilet
 tile: B = bed
 tile: E = shelves
-tile: s = sink
+tile: sk = sink
 tile: F = fridge
 tile: S = stove
 tile: D = dresser
 tile: p = pavement
-tile: c = concrete floor
+tile: c = stone path
 tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
-subst: 1 = w:20 o / w:10 P / w:5 l
-subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h
+tile: K = chain-link fence
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 c
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
@@ -454,6 +476,7 @@ item_group: 30 E = items_food_shelves
 item_group: 30 s = items_soft_drugs
 item_group: 50 T = items_cleaning
 item_group: 50 D = items_all_clothes
+item_group: 50 k = items_cleaning
 
 
 map:
@@ -471,7 +494,7 @@ o2oo"B..+...."3544444442o
 o2oo#B.D#....#3o44444442o
 o2oo#####...%#3544444442o
 o2oo"..+....%"3344444442o
-o2oo#Ts#.sS%E#3344444442o
+o2oo#Ts#.kS%E#3344444442o
 o2oo####@"""##3344444442o
 o2oo333333333333ooooooo2o
 o2oo33333333333oooooooo2o
@@ -484,6 +507,8 @@ o21111111111111111111112o
 ooooooooooooooooooooooooo
 endmap
 done
+
+# Roof
 
 name: small1_house_aninimouse_rf
 subname: small1_house_aninimouse
@@ -520,7 +545,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-# 5
+######################################## 6 ########################################
+# Ground Floor
 name: medium1_house_aninimouse_gd
 subname: medium1_house_aninimouse
 type: house
@@ -535,18 +561,19 @@ tile: %G0 = counter
 tile: T = toilet
 tile: B = bed
 tile: EQ789 = shelves
-tile: s = sink
+tile: sk = sink
 tile: F = fridge
 tile: S = stove
 tile: D = dresser
 tile: p = pavement
 tile: P = stockade fence
 tile: l = short stone wall
+tile: K = chain-link fence
 tile: < = stairs up
 tile: g = grass
-tile: c = concrete floor
-subst: 1 = w:20 o / w:10 P / w:5 l
-subst: 2 = w:15 o / w:10 P / w:5 l
+tile: c = stone path
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:5 K
 subst: 3 = w:20 o / w:10 c
 subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 o / w:10 h
@@ -563,6 +590,7 @@ item_group: 50 8 = items_small_tools
 item_group: 50 9 = items_big_tools
 item_group: 25 0 = items_small_tools
 item_group: 50 D = items_all_clothes
+item_group: 50 k = items_cleaning
 
 
 map:
@@ -574,7 +602,7 @@ o2pppppp3"...#.........#o
 o2pppppp3#<#..........."o
 o2ppppppc###.#.........#o
 o2ppppppc#...######...##o
-o2ppppppc+....%s%#.....#o
+o2ppppppc+....%k%#.....#o
 o2pppppp4#+#....S#....."o
 o2pppppp4#s#E.........."o
 o2pppppp4#T#E%..F#.....#o
@@ -593,6 +621,8 @@ o#########11111111111111o
 ooooooooooooooooooooooooo
 endmap
 done
+
+# 2nd Floor
 
 name: medium1_house_aninimouse_2nd
 subname: medium1_house_aninimouse
@@ -647,6 +677,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
+# Roof
+
 name: medium1_house_aninimouse_rf
 subname: medium1_house_aninimouse
 type: house
@@ -682,7 +714,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-# 6
+######################################## 7 ########################################
+# Ground Floor
 name: small2_house_aninimouse_gd
 subname: small2_house_aninimouse
 type: house
@@ -697,7 +730,7 @@ tile: % = counter
 tile: T = toilet
 tile: B = bed
 tile: EQqRr = shelves
-tile: s = sink
+tile: sk = sink
 tile: F = fridge
 tile: S = stove
 tile: D = dresser
@@ -706,10 +739,11 @@ tile: P = stockade fence
 tile: l = short stone wall
 tile: < = stairs up
 tile: g = grass
-tile: c = concrete floor
+tile: c = stone path
 tile: h = hedge
-subst: 1 = w:20 o / w:10 P / w:5 l
-subst: 2 = w:15 o / w:10 P / w:5 l
+tile: K = chain-link fence
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:5 K
 subst: 3 = w:20 g / w:10 p
 subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 g / w:10 h
@@ -725,12 +759,12 @@ item_group: 50 q = items_garden_tools
 item_group: 40 R = items_small_tools
 item_group: 40 r = items_home_hardware
 item_group: 50 D = items_all_clothes
+item_group: 50 k = items_cleaning
 
 tile: , = safe
 num_item_group: , = w:10 c: 1d3; items_valuables_safe / w:2 c: 1d3; items_ammo_civilian / w:8 c: 1; items_handguns / w:5 c: 1; items_shotguns / w:3 c: 1; items_smgs / w:1 c: 1; items_assault_rifles
 
 subst: , = w:10 . / w:1 ,
-
 
 map:
 o2pppppppoooooooocooooooo
@@ -744,7 +778,7 @@ o2ppppppp#+#####......."o
 o2ppppppp#.s#T.+......."o
 o2ppppppp".T#s.##%#.####o
 o2ppppppp####"##S.%.#BB#o
-o2ppppppp444444"s...#.."o
+o2ppppppp444444"k...#.."o
 o2ppppppp444444"%EF.+.D#o
 o2ppppppp444444####@####o
 o2ppppppp444444"777.777"o
@@ -760,6 +794,8 @@ o22222222222222222222222o
 ooooooooooooooooooooooooo
 endmap
 done
+
+# Roof
 
 name: small2_house_aninimouse_rf
 subname: small2_house_aninimouse
@@ -796,7 +832,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-# 7
+######################################## 8 ########################################
+# Ground Floor
 name: medium2_house_aninimouse_gd
 subname: medium2_house_aninimouse
 type: house
@@ -811,7 +848,7 @@ tile: % = counter
 tile: T = toilet
 tile: B = bed
 tile: EQqRr = shelves
-tile: s = sink
+tile: sk = sink
 tile: F = fridge
 tile: S = stove
 tile: D = dresser
@@ -820,10 +857,11 @@ tile: P = stockade fence
 tile: l = short stone wall
 tile: < = stairs up
 tile: g = grass
-tile: c = concrete floor
+tile: c = stone path
 tile: h = hedge
-subst: 1 = w:20 o / w:10 P / w:5 l
-subst: 2 = w:15 o / w:10 P / w:5 l
+tile: K = chain-link fence
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:5 K
 subst: 3 = w:20 o / w:10 c
 subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 o / w:10 h
@@ -839,6 +877,7 @@ item_group: 50 q = items_home_hardware
 item_group: 40 R = items_small_tools
 item_group: 40 r = items_big_tools
 item_group: 50 D = items_all_clothes
+item_group: 50 k = items_cleaning
 
 map:
 ooooooo3ooooooooooooooooo
@@ -851,7 +890,7 @@ o25g#.....#.........#g52o
 o25g#..##########..##g52o
 o25g#..#s.#EEEF%....#g52o
 o25g"..#..+........."g52o
-o25g#.<#T.#%%.%S%ss%#g52o
+o25g#.<#T.#%%.%S%kk%#g52o
 o25g#######""+###""##g52o
 o25gggggggg44444gggggg52o
 o25gggggggg44444gggggg52o
@@ -868,6 +907,8 @@ o11111111111111111111111o
 ooooooooooooooooooooooooo
 endmap
 done
+
+# 2nd Floor
 
 name: medium2_house_aninimouse_2nd
 subname: medium2_house_aninimouse
@@ -902,9 +943,9 @@ xxxx*****************xxxx
 xxxx##"#"###""###""##xxxx
 xxxx"..............."xxxx
 xxxx#..##+##+####+###xxxx
-xxxx#..#s.#D.D#....S#xxxx
-xxxx"..#T.#...#....."xxxx
-xxxx"..#..#B.B#.BB.D"xxxx
+xxxx#..#..#D.D#....S#xxxx
+xxxx"..#s.#...#....."xxxx
+xxxx"..#T.#B.B#.BB.D"xxxx
 xxxx#.>#..#B.B#.BB.D#xxxx
 xxxx#######"#"#"###"#xxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -922,6 +963,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
+
+# Roof
 
 name: medium2_house_aninimouse_rf
 subname: medium2_house_aninimouse
@@ -949,6 +992,316 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+######################################## 9 ########################################
+# Ground Floor
+name: doublesmall5_house_aninimouse_gd
+subname: doublesmall5_house_aninimouse
+type: house
+tile: # = stone wall
+tile: . = floor
+tile: o = dirt / grass
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: % = counter
+tile: T = toilet
+tile: E = shelves
+tile: sk = sink
+tile: F = fridge
+tile: S = stove
+tile: p = stone path
+tile: P = stockade fence
+tile: l = short stone wall
+tile: h = hedge
+tile: K = chain-link fence
+tile: < = stairs up
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
+subst: 3 = w:20 o / w:10 p
+subst: 4 = w:20 o / w:10 p
+subst: 5 = w:20 o / w:10 h
+subst: 6 = w:20 o / w:10 h
+item_group: 40 F = items_fridge
+item_group: 50 % = items_kitchen_counter
+item_group: 30 E = items_food_shelves
+item_group: 30 s = items_soft_drugs
+item_group: 50 T = items_cleaning
+item_group: 50 k = items_cleaning
+
+map:
+ooooo3ooooooooooooo4ooooo
+ooooo3ooooooooooooo4ooooo
+ooooo3ooooooooooooo4ooooo
+ooooo3ooooooooooooo4ooooo
+ooooo3ooooooooooooo4ooooo
+ooooo3ooooooooooooo4ooooo
+ooooo3ooooooooooooo4ooooo
+ooooo3ooooooooooooo4ooooo
+ooooo3ooooooooooooo4ooooo
+oo66636666ooooo55554555oo
+oo##"@#"##oo2oo##"#@"##oo
+oo#.....<#oo2oo#<.....#oo
+oo"....###oo2oo###...."oo
+oo"....#T#oo2oo#T#...."oo
+oo#....+s"oo2oo"s+....#oo
+oo#E...###oo2oo###...E#oo
+oo#E....%#oo2oo#%....E#oo
+oo#%k.FS%#oo2oo#%SF.k%#oo
+oo#""@#""#oo2oo#""#@""#oo
+oo1ooooooooo2ooooooooo1oo
+oo1ooooooooo2ooooooooo1oo
+oo1ooooooooo2ooooooooo1oo
+oo1ooooooooo2ooooooooo1oo
+oo111111111111111111111oo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# 2nd Floor
+
+name: doublesmall5_house_aninimouse_2nd
+subname: doublesmall5_house_aninimouse
+type: house
+level: 1
+tile: # = stone wall
+tile: .13 = floor
+tile: o = empty
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: B24 = bed
+tile: E = shelves
+tile: s = sink
+tile: D = dresser
+tile: > = stairs down
+item_group: 50 D = items_all_clothes
+
+shuffle: 12
+shuffle: 34
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo##"##"##ooooo##"##"##oo
+oo#.....>#ooooo#>.....#oo
+oo"..#####ooooo#####.."oo
+oo"..+.BB#ooooo#BB.+.."oo
+oo#..#..D"ooooo"D..#..#oo
+oo#+######ooooo######+#oo
+oo#....3B#ooooo#B1....#oo
+oo#DD443B#ooooo#B122DD#oo
+oo#""##""#ooooo#""##""#oo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# Roof
+
+name: doublesmall5_house_aninimouse_rf
+subname: doublesmall5_house_aninimouse
+type: house
+level: 2
+tile: x = empty
+tile: * = roof
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+endmap
+done
+
+######################################## 10 ########################################
+# Ground Floor
+name: doublesmall6_house_aninimouse_gd
+subname: doublesmall6_house_aninimouse
+type: house
+tile: # = stone wall
+tile: . = floor
+tile: o = dirt / grass
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: % = counter
+tile: T = toilet
+tile: E = shelves
+tile: s = sink
+tile: F = fridge
+tile: S = stove
+tile: c = stone path
+tile: P = stockade fence
+tile: l = short stone wall
+tile: h = hedge
+tile: K = chain-link fence
+tile: < = stairs up
+tile: B = bed
+tile: D = dresser
+subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
+subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
+subst: 3 = w:20 o / w:10 c
+subst: 4 = w:20 o / w:10 c
+subst: 5 = w:20 o / w:10 h
+subst: 6 = w:20 o / w:10 h
+item_group: 40 F = items_fridge
+item_group: 50 % = items_kitchen_counter
+item_group: 30 E = items_food_shelves
+item_group: 50 D = items_all_clothes
+item_group: 50 s = items_cleaning
+
+map:
+oooooo3ooooooooooo4oooooo
+oooooo3ooooooooooo4oooooo
+oooooo3ooooooooooo4oooooo
+oooooo3ooooooooooo4oooooo
+oooooo3ooooooooooo4oooooo
+oooooo3ooooooooooo4oooooo
+oooooo3ooooooooooo4oooooo
+oooooo3ooooooooooo4oooooo
+o6666636666ooo5555455555o
+o6cccccccc6ooo5cccccccc5o
+o6#"##@""#6o2o5#""@##"#5o
+oo#D.#...#oo2oo#...#.D#oo
+oo#..+...#oo2oo#...+..#oo
+oo#BB#..<#oo2oo#<..#BB#oo
+oo####...#oo2oo#...####oo
+oo#BB#..F#oo2oo#F..#BB#oo
+oo"..+..S#oo2oo#S..+.."oo
+oo#D.#%.s#oo2oo#s.%#.D#oo
+oo#""##@"#oo2oo#"@##""#oo
+oo1ooooooooo2ooooooooo1oo
+oo1ooooooooo2ooooooooo1oo
+oo1ooooooooo2ooooooooo1oo
+oo1ooooooooo2ooooooooo1oo
+oo111111111111111111111oo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# 2nd Floor
+
+name: doublesmall6_house_aninimouse_2nd
+subname: doublesmall6_house_aninimouse
+type: house
+level: 1
+tile: # = stone wall
+tile: . = floor
+tile: o = empty
+tile: + = closed door
+tile: @ = w:3 locked door / w:1 closed door
+tile: " = window
+tile: B = bed
+tile: E = shelves
+tile: s = sink
+tile: T = toilet
+tile: D = dresser
+tile: > = stairs down
+tile: * = roof
+tile: E = shelves
+item_group: 50 D = items_all_clothes
+item_group: 50 T = items_cleaning
+item_group: 50 E = items_cleaning
+item_group: 30 s = items_soft_drugs
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo********ooooo********oo
+oo#"###""#ooooo#""###"#oo
+oo#...+..#ooooo#..+...#oo
+oo#TsE#..#ooooo#..#EsT#oo
+oo#####.>#ooooo#>.#####oo
+oo#..B#..#ooooo#..#..B#oo
+oo#..B#..#ooooo#..#..B#oo
+oo"...+..#ooooo#..+..."oo
+oo#DD.#..#ooooo#..#.DD#oo
+oo#""##""#ooooo#""##""#oo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# Roof
+
+name: doublesmall6_house_aninimouse_rf
+subname: doublesmall6_house_aninimouse
+type: house
+level: 2
+tile: x = empty
+tile: * = roof
+map:
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
+xx********xxxxx********xx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
