@@ -225,6 +225,7 @@ subname: secure_gun_store_aninimouse
 type: gun store
 tile: #9 = stone wall
 tile: . = floor
+tile: , = floor_lock
 tile: o = dirt / grass
 tile: + = closed glass door
 tile: *8 = locked door
