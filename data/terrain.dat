@@ -600,7 +600,7 @@ name: shelves
 done
 
 name: dresser
-  glyph: { brown black
+  glyph: { ltred black
   movecost: 0
   hp: 25
   destroy: floor
