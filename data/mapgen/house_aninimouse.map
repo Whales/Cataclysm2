@@ -1239,7 +1239,6 @@ tile: T = toilet
 tile: D = dresser
 tile: > = stairs down
 tile: * = roof
-tile: E = shelves
 item_group: 50 D = items_all_clothes
 item_group: 50 T = items_cleaning
 item_group: 50 E = items_cleaning
