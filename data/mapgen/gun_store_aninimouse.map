@@ -138,12 +138,12 @@ subst: 1 = w:5 o / p
 subst: 2 = w:5 o / p
 subst: 3 = w:5 o / p
 
-tile: {A123456 = display rack
+tile: {A128456 = display rack
 tile: e7 = shelves
 item_group: 5 A7 = items_ammo_civilian
 item_group: 8 1 = items_handguns
 item_group: 5 2 = items_shotguns
-item_group: 5 3 = items_smgs
+item_group: 5 8 = items_smgs
 item_group: 7 4 = items_hunting_rifles
 item_group: 3 5 = items_assault_rifles
 item_group: 15 6 = items_gun_accessories
@@ -165,7 +165,7 @@ map:
 11111#2.X.......X.2#22222
 11111#1.#XXX%XXX#.1#22222
 11111#1...........1#22222
-11111#AAA655.336AAA#22222
+11111#AAA655.886AAA#22222
 11111#######*#######22222
 11111111#77ScS77#sS#22222
 1111111c*cccccccacc#22222
