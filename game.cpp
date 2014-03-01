@@ -937,6 +937,27 @@ void Game::debug_command()
   draw_all();
   long ch = input();
   Debug_action act = KEYBINDINGS.bound_to_debug_key(ch);
+
+  switch (act) {
+    case DEBUG_ACTION_NULL:
+      add_msg("<c=dkgray>Never mind.<c=/>");
+      break;
+
+    case DEBUG_ACTION_CREATE_ITEM: {
+      std::string name = string_input_popup("Item name (partial names OK):");
+      Item_type* type = ITEM_TYPES.lookup_partial_name(name);
+      if (!type) {
+        add_msg("<c=dkgray>No such item.<c=/>");
+      } else {
+        Item spawned(type);
+        map->add_item(spawned, player->pos);
+        add_msg("Spawned %s.", spawned.get_name_indefinite().c_str());
+      }
+    } break;
+
+    default:
+      add_msg("Nothing coded for %s yet.", debug_action_name(act).c_str());
+  }
 }
 
 void Game::pickup_items(Tripoint pos)

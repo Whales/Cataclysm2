@@ -30,3 +30,5 @@ e         = eat
 Q         = quit
 S         = save
 Z         = debug
+
+iI        = create_item

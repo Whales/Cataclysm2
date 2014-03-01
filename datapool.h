@@ -100,6 +100,20 @@ public:
     return name_map[name];
   }
 
+// Return the first result that partially matches name
+  T* lookup_partial_name(std::string name)
+  {
+    name = no_caps(name);
+    for (typename std::list<T*>::iterator it = instances.begin();
+         it != instances.end();
+         it++) {
+      if ((*it)->get_name().find(name) != std::string::npos) {
+        return *it;
+      }
+    }
+    return NULL;
+  }
+
   int size()
   {
     return instances.size();
