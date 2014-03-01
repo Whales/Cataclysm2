@@ -32,3 +32,4 @@ S         = save
 Z         = debug
 
 iI        = create_item
+mM        = build_map
