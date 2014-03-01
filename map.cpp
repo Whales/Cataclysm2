@@ -1637,6 +1637,12 @@ Submap* Map::get_center_submap()
   return submaps[MAP_SIZE / 2][MAP_SIZE / 2][VERTICAL_MAP_SIZE];
 }
 
+Submap* Map::get_testing_submap()
+{
+  return submaps[MAP_SIZE / 2][MAP_SIZE / 2 - 1][VERTICAL_MAP_SIZE];
+}
+
+
 Point Map::get_center_point()
 {
   return Point(posx + MAP_SIZE / 2, posy + MAP_SIZE / 2);

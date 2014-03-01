@@ -217,6 +217,7 @@ public:
 
 // Other information
   Submap* get_center_submap(); // i.e. the one the player is in
+  Submap* get_testing_submap(); // Just north of us
   Point get_center_point();
   Tripoint find_item(Item* it, int uid = -1);
   Tripoint find_item_uid(int uid); // find_item(NULL, uid)
