@@ -537,7 +537,7 @@ void Submap::generate_adjacent(Mapgen_spec* spec)
       Terrain* tmpter = spec->pick_terrain(x, y);
 // TODO: Only overwrite terrain with the "ground" tag
       if (tmpter &&
-          (!tiles[x][y].terrain || tiles[x][y].terrain->has_flag(TF_FLOOR))) {
+          (!tiles[x][y].terrain || tiles[x][y].terrain->has_flag(TF_MUTABLE))) {
         tiles[x][y].set_terrain(tmpter);
       }
     }

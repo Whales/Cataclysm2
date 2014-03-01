@@ -5,7 +5,7 @@ name: dirt
   signal: dig
     result: hole
   done
-  flags: plural floor
+  flags: plural floor mutable
 done
 
 name: grass
@@ -15,13 +15,14 @@ name: grass
   signal: dig
     result: hole
   done
-  flags: plural floor
+  flags: plural floor mutable
 done
 
 # TODO: redo hole as a trapish thing.
 name: hole
   glyph: 0 brown black
   movecost: 300
+  flags: mutable
 done
 
 name: empty
@@ -49,7 +50,7 @@ name: underbrush
     armor: bash 1d20 + 20
     ignore_chance: 25
   done
-  flags: flammable plural
+  flags: flammable plural mutable
 done
 
 name: small tree
@@ -86,7 +87,7 @@ name: sand
   signal: dig
     result: hole
   done
-  flags: plural floor
+  flags: plural floor mutable
 done
 
 # Identical to sand, but when dug in, produces shallow salt water!
@@ -98,7 +99,7 @@ name: beach sand
   signal: dig
     result: shallow salt water
   done
-  flags: plural floor
+  flags: plural floor mutable
 done
 
 name: mud
@@ -108,7 +109,7 @@ name: mud
   signal: dig
     result: shallow water
   done
-  flags: plural
+  flags: plural mutable
 done
 
 name: shallow water
@@ -148,7 +149,7 @@ name: fungal undergrowth
   movecost: 150
   destroy: dirt
   hp: 50
-  flags: plural
+  flags: plural mutable
 done
 
 name: rubble

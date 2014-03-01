@@ -80,7 +80,8 @@ enum Terrain_flag
 {
   TF_NULL,
   TF_OPAQUE,        // "opaque" - Blocks sight
-  TF_FLOOR,         // "floor" - May be changed by adjacent terrain
+  TF_FLOOR,         // "floor" - Displays items on top of it
+  TF_MUTABLE,       // "mutable" - May be changed by adjacency maps
   TF_STAIRS_UP,     // "stairs_up" - Can be climbed to gain a Z-level
   TF_STAIRS_DOWN,   // "stairs_down" - Can be climbed to lose a Z-level
   TF_OPEN_SPACE,    // "open_space" - Air.  Shows Z-level below.
