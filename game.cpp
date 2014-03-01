@@ -955,6 +955,22 @@ void Game::debug_command()
       }
     } break;
 
+    case DEBUG_ACTION_BUILD_MAP: {
+      std::string name = string_input_popup("Map layout name:");
+      Mapgen_spec* spec = MAPGEN_SPECS.lookup_name(name);
+      if (spec) {
+        Submap* sm = map->get_testing_submap();
+        if (sm) {
+          spec->prepare();
+          sm->generate(spec);
+        } else {
+          add_msg("Map::get_testing_submap() return NULL???");
+        }
+      } else {
+        add_msg("<c=dkgray>Layout '%s' does not exist.", name.c_str());
+      }
+    } break;
+
     default:
       add_msg("Nothing coded for %s yet.", debug_action_name(act).c_str());
   }
