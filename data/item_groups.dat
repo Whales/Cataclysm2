@@ -92,7 +92,7 @@ name: items_hard_drugs
 done
 
 name: items_soft_drugs
-  items: w:20 aspirin / w:8 sleeping pills / w:5 bandages / w:2 first aid
+  items: w:20 aspirin / w:8 sleeping pills / w:5 bandages / w:2 first aid kit
 done
 
 # General garage junk

@@ -2450,7 +2450,7 @@ tool
 done
 
 tool
-  name: first aid
+  name: first aid kit
   description:
     A complete first aid kit.  Its central component is a fast-acting nanotech
     healing compound, which will repair moderate to severe injuries in a matter

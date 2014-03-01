@@ -34,7 +34,7 @@ item_group: 80 S = items_hard_drugs
 
 num_item_group: abc = w:30 c: 1d4; items_ammo_civilian / w:10 c: 1d2; items_shotguns
 
-num_items: 123 = w:10 c: 1d6; first aid / w:2 c: 2d2 - 1; bandages
+num_items: 123 = w:10 c: 1d6; first aid kit / w:2 c: 2d2 - 1; bandages
 num_items: p = c: 1d1; dead plant
 
 map:
