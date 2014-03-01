@@ -112,36 +112,6 @@ bool Game::main_loop()
 // The player doesn't get to give input if they have an active activity.
     if (!player->activity.is_active()) {
       long ch = input();
-// Quick and dirty ad-hoc debug key.
-// TODO: Set up a debug menu.
-      if (ch == '!') {
-        Item flash( ITEM_TYPES.lookup_name("crowbar") );
-        player->add_item(flash);
-        Field_type* fire = FIELDS.lookup_name("fire");
-        if (!fire) {
-          debugmsg("No fire");
-        } else {
-          map->add_field(fire, player->pos.x - 1, player->pos.y - 1);
-        }
-/*
-        Monster* mon = new Monster;
-        mon->set_type("spitter zombie");
-        mon->pos.x = player->pos.x - 3;
-        mon->pos.y = player->pos.y - 3;
-        entities.add_entity(mon);
-        player->hunger += 20;
-        player->thirst += 20;
-*/
-  
-      } else if (ch == '?') {
-        debugmsg("%d / %d", temp_light_level, get_light_level());
-/*
-        debugmsg("%d (%d / %d / %d)", get_light_level(), time.get_hour(), time.get_sunrise(), time.get_sunset() );
-        debugmsg( player->get_all_status_text().c_str() );
-        debugmsg( player->get_thirst_text().c_str() );
-*/
-        //debugmsg( map->get_center_submap()->get_spec_name().c_str() );
-      }
 // Fetch the action bound to whatever key we pressed...
       Interface_action act = KEYBINDINGS.bound_to_key(ch);
 // ... and do that action.
