@@ -169,7 +169,8 @@ std::string debug_action_name(Debug_action action)
 {
   switch (action) {
     case DEBUG_ACTION_NULL:           return "NULL";
-    case DEBUG_ACTION_CREATE_ITEM:     return "create_item";
+    case DEBUG_ACTION_CREATE_ITEM:    return "create_item";
+    case DEBUG_ACTION_BUILD_MAP:      return "build_map";
     case DEBUG_ACTION_MAX:            return "BUG - DEBUG_ACTION_MAX";
     default:                          return "BUG - Unnamed Debug_action";
   }
