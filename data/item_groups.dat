@@ -12,7 +12,12 @@ done
 
 # Shipwreck - the first items made available to the player
 name: items_shipwreck
-  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water / w:3 hatchet
+  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water / w:1 hatchet
+done
+
+# Static shipwreck - Items guaranteed to the player!
+name: items_static_shipwreck
+  items: c:1 hatchet / c:2 MRE (meat)
 done
 
 ### Wilderness groups ###
