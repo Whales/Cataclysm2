@@ -16,21 +16,23 @@ Data_pool<Monster_genus>  MONSTER_GENERA;
 Data_pool<Monster_type>   MONSTER_TYPES;
 Data_pool<Biome>          BIOMES;
 Data_pool<Field_type>     FIELDS;
+Data_pool<Furniture_type> FURNITURE_TYPES;
 Submap_pool               SUBMAP_POOL;
 Mapgen_spec_pool          MAPGEN_SPECS;
 Keybinding_pool           KEYBINDINGS;
 
 void load_global_data()
 {
-  TERRAIN.load_from       (DATA_DIR + "/terrain.dat"       );
-  WORLD_TERRAIN.load_from (DATA_DIR + "/world_terrain.dat" );
-  FIELDS.load_from        (DATA_DIR + "/fields.dat"        );
-  ITEM_TYPES.load_from    (DATA_DIR + "/items.dat"         );
-  ITEM_GROUPS.load_from   (DATA_DIR + "/item_groups.dat"   );
-  MONSTER_GENERA.load_from(DATA_DIR + "/monster_genera.dat");
-  MONSTER_TYPES.load_from (DATA_DIR + "/monsters.dat"      );
-  BIOMES.load_from        (DATA_DIR + "/biomes.dat"        );
-  KEYBINDINGS.load_from   (DATA_DIR + "/keybindings.txt"   );
+  TERRAIN.load_from         (DATA_DIR + "/terrain.dat"        );
+  WORLD_TERRAIN.load_from   (DATA_DIR + "/world_terrain.dat"  );
+  FIELDS.load_from          (DATA_DIR + "/fields.dat"         );
+  ITEM_TYPES.load_from      (DATA_DIR + "/items.dat"          );
+  ITEM_GROUPS.load_from     (DATA_DIR + "/item_groups.dat"    );
+  FURNITURE_TYPES.load_from (DATA_DIR + "/furniture.dat"      );
+  MONSTER_GENERA.load_from  (DATA_DIR + "/monster_genera.dat" );
+  MONSTER_TYPES.load_from   (DATA_DIR + "/monsters.dat"       );
+  BIOMES.load_from          (DATA_DIR + "/biomes.dat"         );
+  KEYBINDINGS.load_from     (DATA_DIR + "/keybindings.txt"    );
 
   load_mapgen_specs();
 }
