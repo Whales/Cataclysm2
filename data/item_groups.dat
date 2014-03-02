@@ -1,9 +1,21 @@
-# Testing groups
+### Testing groups ###
 name: items_test
   items: w:500 flashlight / w:30 crowbar / w:150 glock 19 / w:150 9mm / w:30 leather jacket / w:50 lighter / w:50 bandages / w:500 water
 done
 
-# Wilderness groups
+### Special groups ###
+
+# Starting clothes - the clothes the player wears at the start of the game
+name: items_starting_clothes
+  items: jeans / sneakers / t shirt
+done
+
+# Shipwreck - the first items made available to the player
+name: items_shipwreck
+  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water / w:3 hatchet
+done
+
+### Wilderness groups ###
 name: items_beach
   items: w:14 rock / w:1 tree branch
 done
@@ -30,11 +42,6 @@ done
 
 name: items_swamp
   items: tree branch
-done
-
-# Shipwreck - the first items made available to the player
-name: items_shipwreck
-  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water / w:3 hatchet
 done
 
 # House and shop groups
