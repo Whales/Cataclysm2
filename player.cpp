@@ -55,6 +55,16 @@ int Player::get_genus_uid()
   return -3;
 }
 
+void Player::prep_new_character()
+{
+  Item_group* clothes_group = ITEM_GROUPS.lookup_name("items_starting_clothes");
+  std::vector<Item_type*> clothes = clothes_group->get_all_item_types();
+  for (int i = 0; i < clothes.size(); i++) {
+    Item tmp( clothes[i] );
+    items_worn.push_back(tmp);
+  }
+}
+
 bool Player::has_sense(Sense_type sense)
 {
 // TODO: Turn off senses if we're blinded, deafened, etc.

@@ -23,6 +23,9 @@ public:
   virtual bool is_player()  { return true; }
   virtual bool is_you()     { return true; } // TODO: No?
 
+// Game start function
+  void prep_new_character();
+
 // Movement functions
   virtual bool has_sense(Sense_type sense);
   //virtual bool can_move_to(Map* map, int x, int y);
