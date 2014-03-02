@@ -70,6 +70,7 @@ bool Game::setup()
   map->generate(worldmap, start.x, start.y, 0);
 
   player = new Player;
+  player->prep_new_character();
   entities.add_entity(player);
 
   time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
