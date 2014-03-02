@@ -33,3 +33,4 @@ Z         = debug
 
 iI        = create_item
 mM        = build_map
+?         = map_info

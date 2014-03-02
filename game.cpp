@@ -698,6 +698,11 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
 
         if (hit) {
           Damage_set dam = attack.roll_damage(hit_type);
+          if (dam.get_damage(DAMAGE_PIERCE) == 0 && TESTING_MODE) {
+            debugmsg("0 ranged damage!");
+            debugmsg("Attack damage: %d %d %d", attack.damage[DAMAGE_BASH],
+                     attack.damage[DAMAGE_CUT], attack.damage[DAMAGE_PIERCE]);
+          }
           if (hit_type == RANGED_HIT_HEADSHOT) {
             shooter_name = capitalize(shooter_name);
             add_msg("<c=ltred>Headshot!  %s %s %s for %d damage!<c=/>",
@@ -992,6 +997,10 @@ void Game::debug_command()
         add_msg("<c=dkgray>Layout '%s' does not exist.", name.c_str());
       }
     } break;
+
+    case DEBUG_ACTION_MAP_INFO:
+      add_msg(map->get_center_submap()->get_spec_name().c_str());
+      break;
 
     default:
       add_msg("Nothing coded for %s yet.", debug_action_name(act).c_str());
