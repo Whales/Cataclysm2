@@ -83,6 +83,7 @@ bool Player::add_item(Item item)
                    item.get_name().c_str())) {
         inventory.push_back(item);
         wear_item_uid(item.get_uid());
+        return true;
       } else {
         return false;
       }
@@ -112,6 +113,7 @@ bool Player::add_item(Item item)
         inventory.push_back(item);
         GAME.add_msg( wield_item_message(item) );
         wield_item_uid( item.get_uid() );
+        return true;
       } else {
         return false;
       }
@@ -159,7 +161,7 @@ int Player::current_volume()
 
 int Player::maximum_volume()
 {
-  int ret = 100;
+  int ret = 0;
   for (int i = 0; i < items_worn.size(); i++) {
     ret += items_worn[i].get_volume_capacity();
   }
