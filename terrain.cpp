@@ -357,6 +357,7 @@ Furniture_type::Furniture_type()
 
 Furniture_type::~Furniture_type()
 {
+  delete components;
 }
 
 std::string Furniture_type::get_data_name()
