@@ -1643,7 +1643,7 @@ launcher
   glyph: ) ltblue black
   weight: 68
   volume: 150
-  damage: 10
+  bash: 10
   to_hit: -1
 
   type: 7.62
@@ -1667,7 +1667,7 @@ launcher
   glyph: ) ltblue black
   weight: 235
   volume: 140
-  damage:  12
+  bash:  12
   to_hit:  -1
 
   type: .50
