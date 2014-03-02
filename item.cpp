@@ -68,8 +68,8 @@ Item& Item::operator=(const Item& rhs)
   subcharges = rhs.subcharges;
   uid        = rhs.uid;    // Will this cause bugs?
 
+  contents.clear();
   if (!rhs.contents.empty()) {
-    contents.clear();
     for (int i = 0; i < rhs.contents.size(); i++) {
       contents.push_back( rhs.contents[i] );
     }
