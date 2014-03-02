@@ -516,6 +516,34 @@ name: counter
   flags: flammable opaque
 done
 
+name: table
+  glyph: % brown black
+  movecost: 220
+  hp: 30
+  destroy: floor
+  
+  smash:
+    failure_sound: "whack."
+    success_sound: "wood splintering."
+  done
+  
+  flags: flammable
+done
+
+name: chair
+  glyph: % ltred black
+  movecost: 200
+  hp: 20
+  destroy: floor
+  
+  smash:
+    failure_sound: "whack."
+    success_sound: "wood splintering."
+  done
+  
+  flags: flammable
+done
+
 name: stairs up
   display_name: staircase
   glyph: < yellow black
