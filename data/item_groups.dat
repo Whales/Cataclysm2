@@ -7,7 +7,7 @@ done
 
 # Starting clothes - the clothes the player wears at the start of the game
 name: items_starting_clothes
-  items: jeans / sneakers / t shirt
+  items: jeans / sneakers / t shirt / backpack
 done
 
 # Shipwreck - the first items made available to the player
