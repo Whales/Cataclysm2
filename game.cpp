@@ -413,7 +413,12 @@ there.<c=/>", map->get_name(examine).c_str());
     }  break;
 
     case IACTION_DEBUG:
-      debug_command();
+      if (!TESTING_MODE) {
+        add_msg("<c=red>To access debug commands, run the program with the \
+--test flag.");
+      } else {
+        debug_command();
+      }
       break;
 
     case IACTION_QUIT:
@@ -604,11 +609,13 @@ void Game::launch_projectile(Entity* shooter, Ranged_attack attack,
 void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
                              Tripoint origin, Tripoint target)
 {
-  std::string shooter_name, verb = "shoot", miss_verb = "miss";
+  std::string shooter_name, verb = "shoot", miss_verb = "miss",
+              graze_verb = "graze";
   if (shooter) {
     shooter_name = shooter->get_name_to_player();
     verb = shooter->conjugate(verb);
     miss_verb = shooter->conjugate(miss_verb);
+    graze_verb = shooter->conjugate(graze_verb);
   } else {
 /* If there's no shooter, that implies that natural forces launched the
  * projectile, e.g. rubble from an explosion.  In that case, we want our hit
@@ -619,6 +626,7 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
     }
     verb = "hits";
     miss_verb = "misses";
+    graze_verb = "grazes";
   }
   int range = rl_dist(origin, target);
   int angle_missed_by = attack.roll_variance();
@@ -660,16 +668,59 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
       Entity* entity_hit = entities.entity_at(path[i].x, path[i].y);
       if (entity_hit) {
         bool hit;
+        Ranged_hit_type hit_type;
         if (i == path.size() - 1) {
           hit = rng(0, 100) >= fine_distance;
+          if (fine_distance <= 10) {
+            hit_type = RANGED_HIT_HEADSHOT;
+          } else if (fine_distance <= 35) {
+            hit_type = RANGED_HIT_CRITICAL;
+          } else if (fine_distance <= 75) {
+            hit_type = RANGED_HIT_NORMAL;
+          } else {
+            hit_type = RANGED_HIT_GRAZE;
+          }
         } else {
           hit = one_in(3);// TODO: Incorporate the size of the monster
+          if (hit) {
+            int hit_roll = rng(1, 100);
+            if (hit_roll <= 10) {
+              hit_type = RANGED_HIT_HEADSHOT;
+            } else if (hit_roll <= 35) {
+              hit_type = RANGED_HIT_CRITICAL;
+            } else if (hit_roll <= 75) {
+              hit_type = RANGED_HIT_NORMAL;
+            } else {
+              hit_type = RANGED_HIT_GRAZE;
+            }
+          }
         }
 
         if (hit) {
-          add_msg("<c=ltred>%s %s %s!<c=/>", shooter_name.c_str(), verb.c_str(),
-                  entity_hit->get_name_to_player().c_str());
-          Damage_set dam = attack.roll_damage();
+          Damage_set dam = attack.roll_damage(hit_type);
+          if (hit_type == RANGED_HIT_HEADSHOT) {
+            shooter_name = capitalize(shooter_name);
+            add_msg("<c=ltred>Headshot!  %s %s %s for %d damage!<c=/>",
+                    shooter_name.c_str(), verb.c_str(),
+                    entity_hit->get_name_to_player().c_str(),
+                    dam.get_damage(DAMAGE_PIERCE));
+          } else if (hit_type == RANGED_HIT_CRITICAL) {
+            shooter_name = capitalize(shooter_name);
+            add_msg("<c=ltred>Critical!  %s %s %s for %d damage!<c=/>",
+                    shooter_name.c_str(), verb.c_str(),
+                    entity_hit->get_name_to_player().c_str(),
+                    dam.get_damage(DAMAGE_PIERCE));
+          } else if (hit_type == RANGED_HIT_GRAZE) {
+            add_msg("<c=ltred>%s %s %s for %d damage!<c=/>",
+                    shooter_name.c_str(), graze_verb.c_str(),
+                    entity_hit->get_name_to_player().c_str(),
+                    dam.get_damage(DAMAGE_PIERCE));
+          } else {
+            add_msg("<c=ltred>%s %s %s for %d damage!<c=/>",
+                    shooter_name.c_str(), verb.c_str(),
+                    entity_hit->get_name_to_player().c_str(),
+                    dam.get_damage(DAMAGE_PIERCE));
+          }
           entity_hit->take_damage(DAMAGE_PIERCE, dam.get_damage(DAMAGE_PIERCE),
                                   "you");
           stopped = true;

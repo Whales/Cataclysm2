@@ -43,6 +43,16 @@ struct Attack
   Damage_set roll_damage();
 };
 
+enum Ranged_hit_type
+{
+  RANGED_HIT_NULL = 0,
+  RANGED_HIT_GRAZE,     // Damage is between 0 and full
+  RANGED_HIT_NORMAL,    // Damage is between 80% and 100%
+  RANGED_HIT_CRITICAL,  // Damage is between 100% and 150%
+  RANGED_HIT_HEADSHOT,  // Damage is between 300% and 500%
+  RANGED_HIT_MAX
+};
+
 struct Ranged_attack
 {
   Ranged_attack();
@@ -71,7 +81,7 @@ struct Ranged_attack
   bool load_data(std::istream &data, std::string owner_name = "unknown");
 
   int roll_variance();
-  Damage_set roll_damage();
+  Damage_set roll_damage(Ranged_hit_type hit = RANGED_HIT_NORMAL);
 };
 
 #endif

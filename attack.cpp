@@ -224,11 +224,35 @@ int Ranged_attack::roll_variance()
   return variance.roll();
 }
 
-Damage_set Ranged_attack::roll_damage()
+Damage_set Ranged_attack::roll_damage(Ranged_hit_type hit)
 {
+  double min, max;
+  switch (hit) {
+    case RANGED_HIT_NULL: // Shouldn't ever happen
+      min = 1.0;
+      max = 1.0;
+      break;
+    case RANGED_HIT_GRAZE:
+      min = 0.0;
+      max = 1.0;
+      break;
+    case RANGED_HIT_NORMAL: // Default
+      min = 0.8;
+      max = 1.0;
+      break;
+    case RANGED_HIT_CRITICAL:
+      min = 1.0;
+      max = 1.5;
+      break;
+    case RANGED_HIT_HEADSHOT:
+      min = 3.0;
+      max = 5.0;
+      break;
+  }
+      
   Damage_set ret;
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    ret.set_damage( Damage_type(i), rng(0, damage[i]) );
+    ret.set_damage( Damage_type(i), rng(damage[i] * min, damage[i] * max) );
   }
   return ret;
 }
