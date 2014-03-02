@@ -26,6 +26,7 @@ struct Terrain_smash
   bool load_data(std::istream &data, std::string name = "unknown");
 };
 
+// For signal handling.
 // TODO: Generalize this for entities & items, too?
 struct Stat_bonus
 {
@@ -42,6 +43,7 @@ struct Stat_bonus
   int amount_static;  // Used if op is a comparison operator
 };
 
+// For signal handling.
 struct Terrain_flag_bonus
 {
   Terrain_flag_bonus(Terrain_flag _flag = TF_NULL, int _amount = 0) :
@@ -88,7 +90,7 @@ struct Terrain
   Terrain_smash smash;
   bool smashable;
   std::string destroy_result;
-// A map of what happens when a tool' terrain_action is applied
+// A map of what happens when a tool's signal is applied
   std::map<std::string,Terrain_signal_handler> signal_handlers;
 
   bool can_smash() { return smashable; }
@@ -103,6 +105,40 @@ struct Terrain
   bool load_data(std::istream &data);
 
   bool has_flag(Terrain_flag flag);
+
+private:
+  std::vector<bool> flags;
+};
+
+struct Item_group;
+
+struct Furniture_type
+{
+  int uid;
+  std::string name;
+  std::string display_name;
+  glyph sym;
+
+  unsigned int move_cost;
+  unsigned int height;
+  unsigned int weight;
+  unsigned int hp;
+
+  Terrain_smash smash;
+  bool smashable;
+// Items dropped when we destroy it
+  Item_group* components;
+
+  Furniture_type();
+  ~Furniture_type();
+
+  std::string get_data_name();
+  std::string get_name();
+  void assign_uid(int id);
+
+  bool has_flag(Terrain_flag flag);
+
+  bool load_data(std::istream& data);
 
 private:
   std::vector<bool> flags;
