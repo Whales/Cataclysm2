@@ -45,12 +45,15 @@ tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
 tile: K = chain-link fence
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 p
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: zxvb = w:4 C / w:5 .
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
@@ -65,9 +68,9 @@ ooooo3ooooooooooooo4ooooo
 ooooo3ooooooooooooo4ooooo
 oo66636666ooooo55554555oo
 oo#"#@####oo2oo##"#@#"#oo
-oo#...#DB#oo2oo"......#oo
-oo"...#.B"oo2oo####..."oo
-oo#...#..#oo2oo#BD#.###oo
+oo#z..#DB#oo2oo"....vt#oo
+oo"t..#.B"oo2oo####..b"oo
+oo#x..#..#oo2oo#BD#.###oo
 oo#%%.#+##oo2oo"B.+.#T#oo
 oo"k.....@oo2oo####.+s#oo
 oo#S.%#+##oo2oo#F...###oo
@@ -150,12 +153,15 @@ tile: l = short stone wall
 tile: h = hedge
 tile: K = chain-link fence
 tile: c = stone path
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 c
 subst: 4 = w:20 o / w:10 c
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: zxvb = w:4 C / w:5 .
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
@@ -172,7 +178,7 @@ o#...#B.#3oooooo2ppppppp6
 o##+###+#3oooooo2ppppppp6
 o#......"3oooooo2ppppppp6
 o"......@coooooo2ppppppp6
-o#....%%#coooooo2ppppppp6
+o#ztx.%%#coooooo2ppppppp6
 o####..S"coooooo2ppppppp6
 o#..+..k"coooooo2ppppppp6
 o#Ts#.F%#coooooo2ppppppp6
@@ -182,7 +188,7 @@ o####@###coppppppppppppp6
 o#Ts#.F%#coppppppppppppp6
 o#..+..k"coppppppppppppp6
 o####..S"coppppppppppppp6
-o#....%%#coppppppppppppp6
+o#vtb.%%#coppppppppppppp6
 o"......@ccppppppppppppp6
 o#......"4oppppppppppppp6
 o##+###+#4oppppppppppppp6
@@ -254,12 +260,15 @@ tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
 tile: K = chain-link fence
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 p
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: zxvb = w:4 C / w:5 .
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
@@ -279,9 +288,9 @@ oo66636666ooooo55554555oo
 oo##"@#"##oo2oo##"#@"##oo
 oo#...#DB#oo2oo#BD#...#oo
 oo"...+.B"oo2oo"B.+..."oo
-oo#...####oo2oo####...#oo
-oo#...#sT#oo2oo#Ts#...#oo
-oo"...#+##oo2oo##+#..."oo
+oo#..z####oo2oo####b..#oo
+oo#..t#sT#oo2oo#Ts#t..#oo
+oo"..x#+##oo2oo##+#v.."oo
 oo#E....."oo2oo".....E#oo
 oo#F.kS%%#oo2oo#%%Sk.F#oo
 oo##@"""##oo2oo##"""@##oo
@@ -358,12 +367,15 @@ tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
 tile: K = chain-link fence
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 p
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: zxvb = w:4 C / w:5 .
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
@@ -386,8 +398,8 @@ ooooo3ooooooooooooo4ooooo
 oo66636666ooooo55554555oo
 oo##"@#"##oo2oo##"#@"##oo
 oo#......"oo2oo"......#oo
-oo"....###oo2oo###...."oo
-oo"....#T#oo2oo#T#...."oo
+oo"z...###oo2oo###...b"oo
+oo"tx..#T#oo2oo#T#..vt"oo
 oo#E...+s"oo2oo"s+...E#oo
 oo#F..####oo2oo####..F#oo
 oo#S..#BB#oo2oo#BB#..S#oo
@@ -464,12 +476,15 @@ tile: P = stockade fence
 tile: l = short stone wall
 tile: h = hedge
 tile: K = chain-link fence
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 c
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: zxvbn = w:4 C / w:5 .
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
@@ -487,11 +502,11 @@ o2oo#"#"#@"#"#3o44444442o
 o2oo#........#3544444442o
 o2oo"........"3o44444442o
 o2oo######..##3544444442o
-o2oo#B.D#....#3o44444442o
-o2oo"B..+...."3544444442o
-o2oo#####....#3o44444442o
-o2oo"B..+...."3544444442o
-o2oo#B.D#....#3o44444442o
+o2oo#B.D#...z#3o44444442o
+o2oo"B..+..xt"3544444442o
+o2oo#####..vt#3o44444442o
+o2oo"B..+..bt"3544444442o
+o2oo#B.D#...n#3o44444442o
 o2oo#####...%#3544444442o
 o2oo"..+....%"3344444442o
 o2oo#Ts#.kS%E#3344444442o
@@ -572,12 +587,15 @@ tile: K = chain-link fence
 tile: < = stairs up
 tile: g = grass
 tile: c = stone path
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:5 K
 subst: 3 = w:20 o / w:10 c
 subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: zxvbnm = w:4 C / w:5 .
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 40 F = items_fridge
@@ -602,10 +620,10 @@ o2pppppp3"...#.........#o
 o2pppppp3#<#..........."o
 o2ppppppc###.#.........#o
 o2ppppppc#...######...##o
-o2ppppppc+....%k%#.....#o
-o2pppppp4#+#....S#....."o
-o2pppppp4#s#E.........."o
-o2pppppp4#T#E%..F#.....#o
+o2ppppppc+....%k%#..z..#o
+o2pppppp4#+#....S#.xtm."o
+o2pppppp4#s#E......vtn."o
+o2pppppp4#T#E%..F#..b..#o
 o2pppppp4#####+####"""##o
 o2pppppp44444ccc44444441o
 o2ppppppggggggggg4444441o
@@ -742,6 +760,8 @@ tile: g = grass
 tile: c = stone path
 tile: h = hedge
 tile: K = chain-link fence
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:5 K
 subst: 3 = w:20 g / w:10 p
@@ -749,6 +769,7 @@ subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 g / w:10 h
 subst: 6 = w:20 o / w:10 h
 subst: 7 = w:20 . / w:10 Q / w:10 q / w:10 R / w:10 r
+subst: zxvbnmZX = w:4 C / w:5 .
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 40 F = items_fridge
@@ -771,10 +792,10 @@ o2pppppppoooooooocooooooo
 o2ppppppp66666666c666666o
 o2ppppppp##"#"###@#"#"##o
 o2ppppppp"S...D#.......#o
-o2ppppppp#BB..D#......."o
-o2ppppppp#BB...+.......#o
-o2ppppppp".....#.......#o
-o2ppppppp#+#####......."o
+o2ppppppp#BB..D#....bv."o
+o2ppppppp#BB...+...nttx#o
+o2ppppppp".....#...mttz#o
+o2ppppppp#+#####....ZX."o
 o2ppppppp#.s#T.+......."o
 o2ppppppp".T#s.##%#.####o
 o2ppppppp####"##S.%.#BB#o
@@ -860,6 +881,8 @@ tile: g = grass
 tile: c = stone path
 tile: h = hedge
 tile: K = chain-link fence
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:5 K
 subst: 3 = w:20 o / w:10 c
@@ -867,6 +890,7 @@ subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
 subst: 7 = w:1 . / w:4 Q / w:3 R / w:3 r / w:2 q
+subst: zxvbnmZX = w:4 C / w:5 .
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 40 F = items_fridge
@@ -884,9 +908,9 @@ ooooooo3ooooooooooooooooo
 ooooooo3ooooooooooooooooo
 oooo66636666666666666oooo
 o25g##"@"###""###""##g52o
-o25g#.....#.........#g52o
-o25g"..............."g52o
-o25g#.....#.........#g52o
+o25g#.....#...Zmn...#g52o
+o25g"........Xtttb.."g52o
+o25g#.....#...zxv...#g52o
 o25g#..##########..##g52o
 o25g#..#s.#EEEF%....#g52o
 o25g"..#..+........."g52o
@@ -1024,12 +1048,15 @@ tile: l = short stone wall
 tile: h = hedge
 tile: K = chain-link fence
 tile: < = stairs up
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 p
 subst: 4 = w:20 o / w:10 p
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: zxvbnmZX = w:4 C / w:5 .
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
@@ -1049,10 +1076,10 @@ ooooo3ooooooooooooo4ooooo
 ooooo3ooooooooooooo4ooooo
 oo66636666ooooo55554555oo
 oo##"@#"##oo2oo##"#@"##oo
-oo#.....<#oo2oo#<.....#oo
-oo"....###oo2oo###...."oo
-oo"....#T#oo2oo#T#...."oo
-oo#....+s"oo2oo"s+....#oo
+oo#X....<#oo2oo#<....n#oo
+oo"tz..###oo2oo###..bt"oo
+oo"tx..#T#oo2oo#T#..vt"oo
+oo#Z...+s"oo2oo"s+...m#oo
 oo#E...###oo2oo###...E#oo
 oo#E....%#oo2oo#%....E#oo
 oo#%k.FS%#oo2oo#%SF.k%#oo
@@ -1179,12 +1206,15 @@ tile: K = chain-link fence
 tile: < = stairs up
 tile: B = bed
 tile: D = dresser
+tile: C = chair
+tile: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:10 h / w:5 K
 subst: 3 = w:20 o / w:10 c
 subst: 4 = w:20 o / w:10 c
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
+subst: zxvb = w:4 C / w:5 .
 item_group: 40 F = items_fridge
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
@@ -1205,9 +1235,9 @@ o6cccccccc6ooo5cccccccc5o
 o6#"##@""#6o2o5#""@##"#5o
 oo#D.#...#oo2oo#...#.D#oo
 oo#..+...#oo2oo#...+..#oo
-oo#BB#..<#oo2oo#<..#BB#oo
-oo####...#oo2oo#...####oo
-oo#BB#..F#oo2oo#F..#BB#oo
+oo#BB#v.<#oo2oo#<.x#BB#oo
+oo####t..#oo2oo#..t####oo
+oo#BB#b.F#oo2oo#F.z#BB#oo
 oo"..+..S#oo2oo#S..+.."oo
 oo#D.#%.s#oo2oo#s.%#.D#oo
 oo#""##@"#oo2oo#"@##""#oo
