@@ -50,6 +50,19 @@ weapon
 done
 
 weapon
+  name: table leg
+  description:
+    A table leg, made of very heavy wood.
+  done
+  glyph: / ltred black
+  weight: 75
+  volume: 60
+  bash:   16
+  to_hit:  1
+  flags: flammable
+done
+
+weapon
   name: rope
   description:
     10 feet of inch-thick rope.  Mainly useful for crafting or construction.

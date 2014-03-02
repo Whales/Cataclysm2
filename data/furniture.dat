@@ -1,0 +1,42 @@
+# Furniture types
+# See terrain.cpp, Furniture_type::load_data()
+# Properties include: (none are case-sensitive)
+#   Name: the proper name, must be unique
+#   Display_name: the name displayed to the player; if blank, name is used
+#   Glyph: character, foreground color, background color (bg should be black)
+#   Move_cost:  move cost, defaults to 100
+#   Height: Height, range is 0 to 100, 50+ blocks vision if opaque
+#   Weight: Weight in 1/10ths of a pound
+#   HP: Damage required to destroy it
+#   Smash: Info on smashing
+#   Components: List of items, with weight & count, produced when destroyed
+#   Preset_components: Name of a list in item_groups.dat
+#   Flags: List of terrain flags to apply (seperated by spaces)
+
+name: table
+  glyph: } ltred black
+  move_cost:  150
+  height:      40
+  weight:     800
+  HP:          50
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+  done
+  Components: c:4 wood plank / c:4 table leg
+  Flags: flammable
+done
+
+name: wood chair
+  glyph: } ltblue black
+  move_cost:  150
+  height:      35
+  weight:     250
+  HP:          30
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+  done
+  Components: c:2 wood plank
+  Flags: flammable
+done
