@@ -67,6 +67,9 @@ bool Game::setup()
   map = new Map;
 // The second argument of 0 means "on the main island"
   Point start = worldmap->random_tile_with_terrain("beach", 0);
+// Set the starting point to a shipwreck beach!
+  worldmap->set_terrain(start.x, start.y, "beach_shipwreck");
+// And then generate our map.
   map->generate(worldmap, start.x, start.y, 0);
 
   player = new Player;
