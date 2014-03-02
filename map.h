@@ -20,6 +20,30 @@
 class Entity_pool;
 class Entity;
 
+struct Furniture
+{
+  Furniture();
+  ~Furniture();
+
+  void set_type(Furniture_type* t);
+
+// Data access
+  glyph get_glyph();
+  int move_cost();
+  int get_height();
+  std::string get_name();
+
+// Modifiers
+  bool is_smashable();
+  std::string smash(Damage_set dam);  // Returns the sound
+// These return true if the furniture is destroyed.
+  bool damage(Damage_set dam);
+  bool damage(Damage_type damtype, int dam);
+
+  Furniture_type *type;
+  int hp;
+};
+
 struct Tile
 {
   Terrain *terrain;

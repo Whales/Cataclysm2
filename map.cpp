@@ -10,6 +10,108 @@
 #include <fstream>
 #include <sstream>
 
+Furniture::Furniture()
+{
+  type = NULL;
+}
+
+Furniture::~Furniture()
+{
+}
+
+void Furniture::set_type(Furniture_type* t)
+{
+  type = t;
+}
+
+glyph Furniture::get_glyph()
+{
+  if (!type) {
+    return glyph();
+  }
+  return type->sym;
+}
+
+int Furniture::move_cost()
+{
+  if (!type) {
+    return 100;
+  }
+  return type->move_cost;
+}
+
+int Furniture::get_height()
+{
+  if (!type) {
+    return 0;
+  }
+  return type->height;
+}
+
+std::string Furniture::get_name()
+{
+  if (!type) {
+    return "";
+  }
+  return type->get_name();
+}
+
+bool Furniture::is_smashable()
+{
+  return (type && type->smashable);
+}
+
+std::string Furniture::smash(Damage_set dam)
+{
+  if (!is_smashable()) {  // This verifies that terrain != NULL
+    return "";
+  }
+  Terrain_smash smash = type->smash;
+  if (rng(1, 100) <= smash.ignore_chance) {
+    return smash.failure_sound; // Make our "saving throw"
+  }
+  if (damage(dam)) {
+    return smash.success_sound;
+  }
+  return smash.failure_sound;
+}
+
+bool Furniture::damage(Damage_set dam)
+{
+  if (!type || type->hp == 0) {
+    return false;
+  }
+  bool destroyed = false;
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    Damage_type type = Damage_type(i);
+    int dmg = dam.get_damage(type);
+    if (damage(type, dmg)) {
+      return true;
+    }
+  }
+  return destroyed;
+}
+
+bool Furniture::damage(Damage_type damtype, int dam)
+{
+  if (dam <= 0) {
+    return false;
+  }
+  if (!type || type->hp == 0) {
+    return false;
+  }
+  Dice armor = type->smash.armor[damtype];
+  dam -= armor.roll();
+  if (dam <= 0) {
+    return false;
+  }
+  hp -= dam;
+  if (hp <= 0) {
+    return true;
+  }
+  return false;
+}
+
 void Tile::set_terrain(Terrain* ter)
 {
   if (!ter) {
@@ -176,7 +278,7 @@ bool Tile::damage(Damage_type type, int dam)
     return false;
   }
   hp -= dam;
-  if (hp < 0) {
+  if (hp <= 0) {
 // If HP is negative, then we run damage *again* with the extra damage
     int extra = 0 - hp;
     Terrain* result = TERRAIN.lookup_name( terrain->destroy_result );
