@@ -1140,9 +1140,10 @@ void Game::pickup_items(int posx, int posy)
   for (int i = 0; i < available->size(); i++) {
     if (pick_up[i]) {
       items_gotten.push_back( (*available)[i] );
-      player->add_item( (*available)[i] );
-      available->erase(available->begin() + i);
-      pick_up.erase(pick_up.begin() + i);
+      if (player->add_item( (*available)[i] )) {
+        available->erase(available->begin() + i);
+        pick_up.erase(pick_up.begin() + i);
+      }
     }
   }
 
