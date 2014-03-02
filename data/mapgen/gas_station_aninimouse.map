@@ -30,6 +30,7 @@ tile: & = gas pump
 tile: # = stone wall
 tile: X = glass wall
 tile: . = floor
+tile: , = floor_lock
 tile: + = closed glass door
 tile: a = closed door
 tile: kK = w:10 locked door / w:1 closed door
@@ -76,8 +77,8 @@ oo#s.a.............%.C#Do
 oo####.2222233333..%.C#Do
 oo#T.#.............%..#oo
 oo#s.a.4444411111..##a#do
-oo####.............#S.#do
-oo#....fffffffffff.K..#do
+oo####............,#S.#do
+oo#....fffffffffff,K..#do
 oo#k###################oo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -128,6 +129,7 @@ tile: & = gas pump
 tile: # = stone wall
 tile: X = glass wall
 tile: . = floor
+tile: , = floor_lock
 tile: + = closed glass door
 tile: a = closed door
 tile: kK = w:10 locked door / w:1 closed door
@@ -173,8 +175,8 @@ oo#GcccccccG#..43..%.C#Do
 oo#GcccccccG#..43..%.C#Do
 oo#GcccccccG#..12..%..#oo
 oo#GcccccccG#..12..##a#do
-oo#Gcccccccca......#S.#do
-oo#GGGcGGGGG#.ffff.K..#do
+oo#Gcccccccca.....,#S.#do
+oo#GGGcGGGGG#.ffff,K..#do
 oo####k################oo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
