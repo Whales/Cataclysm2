@@ -115,11 +115,20 @@ bool Variable_terrain::contains(Terrain* terrain)
 Item_area::Item_area()
 {
   total_chance = 0;
+  use_all_items = false;
+  all_index = 0;
+  all_count = 0;
 }
 
 void Item_area::add_item(int chance, Item_type* item_type)
 {
-  Item_type_chance tmp(chance, item_type);
+  Item_type_chance tmp(chance, 1, item_type);
+  add_item(tmp);
+}
+
+void Item_area::add_item(int chance, int number, Item_type* item_type)
+{
+  Item_type_chance tmp(chance, number, item_type);
   add_item(tmp);
 }
 
@@ -157,6 +166,8 @@ void Item_area::load_data(std::istream &data, std::string name)
     item_ident = no_caps(item_ident);  // other stuff isn't case-sensitive
     if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
       tmp_chance.chance = atoi( item_ident.substr(2).c_str() );
+    } else if(item_ident.substr(0, 2) == "c:") { // It's a count - for all_items
+      tmp_chance.number = atoi( item_ident.substr(2).c_str() );
     } else if (item_ident == "/") { // End of this option
       item_name = trim(item_name);
       Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
@@ -184,8 +195,18 @@ void Item_area::load_data(std::istream &data, std::string name)
   add_item(tmp_chance);
 }
 
+void Item_area::reset()
+{
+  all_index = 0;
+  all_count = 0;
+}
+
 bool Item_area::place_item()
 {
+// If use_all_items is true, we just check if the index is in bounds
+  if (use_all_items) {
+    return (all_index < item_types.size());
+  }
   if (overall_chance >= 100 || overall_chance <= 0) {
     return false;
   }
@@ -194,6 +215,20 @@ bool Item_area::place_item()
 
 Item_type* Item_area::pick_type()
 {
+// If use_all_items is true, we just scroll through the list
+  if (use_all_items) {
+    if (all_index >= item_types.size()) {
+      return NULL;
+    }
+    Item_type* ret = item_types[all_index].item;
+    all_count++;
+    if (all_count >= item_types[all_index].number) {
+      all_count = 0;
+      all_index++;
+    }
+    return ret;
+  }
+
   if (item_types.empty()) {
     debugmsg("Using NULL item");
     return NULL;
@@ -266,6 +301,9 @@ bool Item_group::load_data(std::istream &data)
         if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
           tmp_chance.chance = atoi( item_ident.substr(2).c_str() );
 
+        } else if (item_ident.substr(0, 2) == "c:") { // For all_items groups
+          tmp_chance.number = atoi( item_ident.substr(2).c_str() );
+
         } else if (item_ident == "/") { // End of this option
           item_name = trim(item_name);
           Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
@@ -304,7 +342,13 @@ bool Item_group::load_data(std::istream &data)
 
 void Item_group::add_item(int chance, Item_type* item_type)
 {
-  Item_type_chance tmp(chance, item_type);
+  Item_type_chance tmp(chance, 1, item_type);
+  add_item(tmp);
+}
+
+void Item_group::add_item(int chance, int number, Item_type* item_type)
+{
+  Item_type_chance tmp(chance, number, item_type);
   add_item(tmp);
 }
 
@@ -760,10 +804,14 @@ bool Mapgen_spec::load_data(std::istream &data)
       shuffles.push_back(symbols);
 
 // End of (ident == "subst:" || ident == "substitution:") block
-    } else if (ident == "item_group:") {
+    } else if (ident == "item_group:" || ident == "all_item_group:") {
       Item_area tmp_area;
+      if (ident == "all_item_group:") {
+        tmp_area.use_all_items = true;
+      } else {
+        data >> tmp_area.overall_chance;
+      }
 
-      data >> tmp_area.overall_chance;
       if (tmp_area.overall_chance < 1) {
         debugmsg("Item chance of '%d' corrected to 1 (%s)",
                  tmp_area.overall_chance, name.c_str());
@@ -871,10 +919,14 @@ bool Mapgen_spec::load_data(std::istream &data)
       }
 // End if (ident == "num_items:") block
 
-    } else if (ident == "items:") {
+    } else if (ident == "items:" || ident == "all_items:") {
       Item_area tmp_area;
 
-      data >> tmp_area.overall_chance;
+      if (ident == "all_items:") {
+        tmp_area.use_all_items = true;
+      } else {
+        data >> tmp_area.overall_chance;
+      }
 
       if (tmp_area.overall_chance < 1) {
         debugmsg("Item chance of '%d' corrected to 1 (%s)",

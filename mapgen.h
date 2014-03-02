@@ -27,10 +27,13 @@ struct Terrain_chance
   Terrain* terrain;
 };
 
+// number is used in Item_list_area, but not in Item_area
 struct Item_type_chance
 {
-  Item_type_chance(int C = 10, Item_type* I = NULL) : chance(C), item(I) {}
+  Item_type_chance(int C = 10, int N = 1, Item_type* I = NULL) :
+    chance(C), number(N), item(I) {}
   int chance;
+  int number;
   Item_type* item;
 };
 
@@ -79,6 +82,7 @@ struct Item_group
   bool load_data(std::istream &data);
 
   void add_item(int chance, Item_type* item_type);
+  void add_item(int chance, int number, Item_type* item_type);
   void add_item(Item_type_chance item_type);
 
   std::vector<Item_type*> get_all_item_types();
@@ -93,6 +97,7 @@ public:
   ~Item_area(){}
 
   void add_item(int chance, Item_type* item_type);
+  void add_item(int chance, int number, Item_type* item_type);
   void add_item(Item_type_chance item_type);
   void set_group(Item_group *group);
   void clear_points();
@@ -100,17 +105,30 @@ public:
   void load_data(std::istream &data, std::string name = "unknown");
 
 // Functions used for item placement.
+  void reset(); // Resets counters used when use_all_items is true.
   bool place_item();
   Item_type* pick_type();
   Point pick_location();
 
+/* The chance the number of items placed to be increased:
+ * We start with placing 0 items.  With an overall_chance% chance, we increase
+ * the number by one.  Repeat until we fail the chance.
+ */
   int overall_chance;
+
+/* If true, then ALL items listed must be placed.  This is where the "number"
+ * property of Item_type_chance comes into play.
+ */
+  bool use_all_items;
 
 private:
   std::vector<Item_type_chance> item_types;
   std::vector<Point> locations;
   int total_chance;
 
+// Used for tracking use_all_items
+  int all_index;
+  int all_count;
 };
 
 struct Item_amount
