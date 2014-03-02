@@ -71,6 +71,7 @@ bool Game::setup()
   worldmap->set_terrain(start.x, start.y, "beach_shipwreck");
 // And then generate our map.
   map->generate(worldmap, start.x, start.y, 0);
+  worldmap->set_terrain(start.x, start.y, "beach");
 
   player = new Player;
   player->prep_new_character();
