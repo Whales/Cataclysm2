@@ -33,7 +33,8 @@ tile: k = w:10 locked door / w:1 closed door
 tile: X = glass wall
 tile: % = counter
 
-tile: {A1234567 = display rack
+tile: {1234567 = display rack
+tile: A = display fridge
 item_group: 15 A = items_fridge_snacks
 item_group: 15 1 = items_snacks
 item_group: 20 2 = items_dry_drinks
@@ -44,7 +45,7 @@ item_group: 15 6 = items_dry_food
 item_group: 15 7 = items_canned_food
 
 tile: S = safe
-num_item_group: S = w:20 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
+num_item_group: S = w:30 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
 
 subst: Dd = o / D
 tile: D = dumpster
@@ -125,7 +126,8 @@ tile: k = w:10 locked door / w:1 closed door
 tile: X = glass wall
 tile: % = counter
 
-tile: {A1234567 = display rack
+tile: {1234567 = display rack
+tile: A = display fridge
 item_group: 15 A = items_fridge_snacks
 item_group: 16 1 = items_snacks
 item_group: 15 2 = items_dry_drinks
@@ -136,7 +138,7 @@ item_group: 12 6 = items_dry_food
 item_group: 12 7 = items_canned_food
 
 tile: S = safe
-num_item_group: S = w:20 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
+num_item_group: S = w:30 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
 
 subst: Dd = o / D
 tile: D = dumpster
@@ -221,7 +223,8 @@ tile: % = counter
 tile: c = concrete floor
 tile: p = pavement
 
-tile: {A1234567 = display rack
+tile: {1234567 = display rack
+tile: A = display fridge
 item_group: 15 A = items_fridge_snacks
 item_group: 15 1 = items_snacks
 item_group: 20 2 = items_dry_drinks
@@ -232,7 +235,7 @@ item_group: 15 6 = items_dry_food
 item_group: 15 7 = items_canned_food
 
 tile: S = safe
-num_item_group: S = w:20 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
+num_item_group: S = w:30 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
 
 subst: Dd = o / D
 tile: D = dumpster
