@@ -80,6 +80,8 @@ struct Item_group
   std::string get_data_name();
 // TODO: Do we need a get_name()?
   bool load_data(std::istream &data);
+// This JUST loads the items line; used e.g. in furniture
+  bool load_item_data(std::istream &data, std::string owner_name = "Unknown");
 
   void add_item(int chance, Item_type* item_type);
   void add_item(int chance, int number, Item_type* item_type);

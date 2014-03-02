@@ -288,48 +288,9 @@ bool Item_group::load_data(std::istream &data)
       name = trim(name);
 
     } else if (ident == "items:") {
-      std::string item_ident;
-      std::string item_name;
-      std::string item_line;
-      std::getline(data, item_line);
-      std::istringstream item_ss(item_line);
-      Item_type_chance tmp_chance;
-
-      while (item_ss >> item_ident) {
-        item_ident = no_caps(item_ident);  // other stuff isn't case-sensitive
-
-        if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
-          tmp_chance.chance = atoi( item_ident.substr(2).c_str() );
-
-        } else if (item_ident.substr(0, 2) == "c:") { // For all_items groups
-          tmp_chance.number = atoi( item_ident.substr(2).c_str() );
-
-        } else if (item_ident == "/") { // End of this option
-          item_name = trim(item_name);
-          Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
-          if (!tmpitem) {
-            debugmsg("Unknown item '%s' (%s)", item_name.c_str(),
-                     name.c_str());
-          }
-          tmp_chance.item = tmpitem;
-          add_item(tmp_chance);
-          tmp_chance.chance = 10;
-          tmp_chance.item   = NULL;
-          item_name = "";
-
-        } else { // Otherwise, it should be a item name
-          item_name = item_name + " " + item_ident;
-        }
+      if (!load_item_data(data, name)) {
+        return false;
       }
-    // Add the last item def to our list, if the item is valid
-      item_name = trim(item_name);
-      Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
-      if (!tmpitem) {
-        debugmsg("Unknown item '%s' (%s)", item_name.c_str(),
-                 name.c_str());
-      }
-      tmp_chance.item = tmpitem;
-      add_item(tmp_chance);
 
     } else if (ident != "done") {
       debugmsg("Unknown Item_group identifier '%s' (%s)",
@@ -339,6 +300,55 @@ bool Item_group::load_data(std::istream &data)
   }
   return true;
 }
+
+bool Item_group::load_item_data(std::istream& data, std::string owner_name)
+{
+  std::string item_ident;
+  std::string item_name;
+  std::string item_line;
+  std::getline(data, item_line);
+  std::istringstream item_ss(item_line);
+  Item_type_chance tmp_chance;
+
+  while (item_ss >> item_ident) {
+    item_ident = no_caps(item_ident);  // Nothing is case-sensitive
+
+    if (item_ident.substr(0, 2) == "w:") { // It's a weight, e.g. a chance
+      tmp_chance.chance = atoi( item_ident.substr(2).c_str() );
+
+    } else if (item_ident.substr(0, 2) == "c:") { // For all_items groups
+      tmp_chance.number = atoi( item_ident.substr(2).c_str() );
+
+    } else if (item_ident == "/") { // End of this option
+      item_name = trim(item_name);
+      Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
+      if (!tmpitem) {
+        debugmsg("Unknown item '%s' (%s)", item_name.c_str(),
+                 owner_name.c_str());
+        return false;
+      }
+      tmp_chance.item = tmpitem;
+      add_item(tmp_chance);
+      tmp_chance.chance = 10;
+      tmp_chance.item   = NULL;
+      item_name = "";
+
+    } else { // Otherwise, it should be a item name
+      item_name = item_name + " " + item_ident;
+    }
+  }
+// Add the last item def to our list, if the item is valid
+  item_name = trim(item_name);
+  Item_type* tmpitem = ITEM_TYPES.lookup_name(item_name);
+  if (!tmpitem) {
+    debugmsg("Unknown item '%s' (%s)", item_name.c_str(),
+             owner_name.c_str());
+  }
+  tmp_chance.item = tmpitem;
+  add_item(tmp_chance);
+  return true;
+}
+
 
 void Item_group::add_item(int chance, Item_type* item_type)
 {
