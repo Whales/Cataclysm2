@@ -314,6 +314,15 @@ void Item_group::add_item(Item_type_chance item_type)
   total_chance += item_type.chance;
 }
 
+std::vector<Item_type*> Item_group::get_all_item_types()
+{
+  std::vector<Item_type*> ret;
+  for (int i = 0; i < item_types.size(); i++) {
+    ret.push_back(item_types[i].item);
+  }
+  return ret;
+}
+
 Item_type* Item_group::pick_type()
 {
   if (item_types.empty()) {

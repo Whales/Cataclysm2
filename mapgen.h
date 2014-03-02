@@ -81,6 +81,8 @@ struct Item_group
   void add_item(int chance, Item_type* item_type);
   void add_item(Item_type_chance item_type);
 
+  std::vector<Item_type*> get_all_item_types();
+
   Item_type* pick_type();
 };
 
