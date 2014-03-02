@@ -1469,7 +1469,7 @@ void Entity::attack(Entity* target)
     }
     if (damage.total_damage() == 0) {
       damage_ss << " but " << (is_you() ? "do" : "does") << " no damage.";
-    } else if (target->is_you()) {
+    } else if (target->is_you() || TESTING_MODE) {
       damage_ss << " for " << damage.total_damage() << " damage!";
     } else {
       damage_ss << ".";

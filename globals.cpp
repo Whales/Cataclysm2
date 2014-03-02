@@ -5,6 +5,8 @@
 #include "game.h"
 #include "map.h"
 
+int TESTING_MODE;
+
 Game                      GAME;
 Data_pool<Terrain>        TERRAIN;
 Data_pool<World_terrain>  WORLD_TERRAIN;

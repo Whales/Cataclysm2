@@ -12,6 +12,7 @@ bool parse_options(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
+  TESTING_MODE = 0;
   if (!parse_options(argc, argv)) {
     return 1;
   }
@@ -40,6 +41,10 @@ bool parse_options(int argc, char* argv[])
 // TODO: Move these long options (and this function?) to a different file
   static option long_options[] =
   {
+// These options set a flag
+    { "test",     no_argument,       &TESTING_MODE, 1},
+    { "debug",    no_argument,       &TESTING_MODE, 1},
+// These options do not set a flag.
     { "data-dir", required_argument, 0, 'd' },
     { "cuss-dir", required_argument, 0, 'c' },
     { 0, 0, 0, 0 }
@@ -49,6 +54,10 @@ bool parse_options(int argc, char* argv[])
   while ( (c = getopt_long(argc, argv, "", long_options, &opt_index)) != -1) {
 
     switch (c) {
+
+      case 0:
+// If the option set a flag, don't do anything else.
+        break;
 
       case 'd':
         if (!set_dir(DATA_DIR, optarg)) {
