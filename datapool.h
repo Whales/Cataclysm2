@@ -107,7 +107,8 @@ public:
     for (typename std::list<T*>::iterator it = instances.begin();
          it != instances.end();
          it++) {
-      if ((*it)->get_name().find(name) != std::string::npos) {
+      std::string item_name = no_caps( (*it)->get_name() );
+      if (item_name.find(name) != std::string::npos) {
         return *it;
       }
     }
