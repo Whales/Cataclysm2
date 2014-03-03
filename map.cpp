@@ -38,7 +38,18 @@ glyph Furniture::get_glyph()
   if (!type) {
     return glyph();
   }
-  return type->sym;
+  glyph ret = type->sym;
+  if (is_smashable() && hp > 0 && hp < type->hp) {
+    int percent = (100 * hp) / type->hp;
+    if (percent >= 80) {
+      ret = ret.hilite(c_green);
+    } else if (percent >= 40) {
+      ret = ret.hilite(c_brown);
+    } else {
+      ret = ret.hilite(c_red);
+    }
+  }
+  return ret;
 }
 
 int Furniture::move_cost()
@@ -284,6 +295,9 @@ bool Tile::has_furniture()
 
 bool Tile::is_smashable()
 {
+  if (furniture.is_real() && furniture.is_smashable()) {
+    return true;
+  }
   return (terrain && terrain->can_smash());
 }
 
