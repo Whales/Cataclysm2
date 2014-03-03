@@ -34,6 +34,7 @@ struct Furniture
   int get_height();
   int get_weight();
   std::string get_name();
+  bool has_flag(Terrain_flag flag);
 
 // Modifiers
   bool is_smashable();

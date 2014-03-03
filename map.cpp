@@ -73,6 +73,11 @@ std::string Furniture::get_name()
   return type->get_name();
 }
 
+bool Furniture::has_flag(Terrain_flag flag)
+{
+  return (type && type->has_flag(flag));
+}
+
 bool Furniture::is_smashable()
 {
   return (type && type->smashable);
@@ -218,12 +223,17 @@ std::string Tile::get_name()
 
 std::string Tile::get_name_indefinite()
 {
-  if (!terrain) {
-    return "An unknown tile.";
-  }
   std::stringstream ret;
-  ret << (terrain->has_flag(TF_PLURAL) ? "some" : "a") << " " <<
-         terrain->get_name();
+  if (furniture.is_real()) {
+    ret << (furniture.has_flag(TF_PLURAL) ? "some" : "a") << " " <<
+           furniture.get_name() << " on ";
+  }
+  if (terrain) {
+    ret << (terrain->has_flag(TF_PLURAL) ? "some" : "a") << " " <<
+           terrain->get_name();
+  } else { 
+    ret << "<c=red>BUG - Unknown<c=/>";
+  }
   return ret.str();
 }
 
