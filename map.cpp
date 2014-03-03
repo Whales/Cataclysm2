@@ -641,6 +641,17 @@ void Submap::generate(Mapgen_spec* spec)
       tiles[x][y].set_terrain(ter);
     }
   }
+
+// Next, add any furniture that needs adding.
+  for (int x = 0; x < SUBMAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE; y++) {
+      Furniture_type* furniture = spec->pick_furniture(x, y);
+      if (furniture) {
+        tiles[x][y].add_furniture(furniture);
+      }
+    }
+  }
+  
 // Next, add items.
   for (std::map<char,Item_area>::iterator it = spec->item_defs.begin();
        it != spec->item_defs.end();
@@ -654,6 +665,7 @@ void Submap::generate(Mapgen_spec* spec)
       add_item(item, p.x, p.y);
     }
   }
+
 // Item_group_amount_areas work similarly!
   for (std::map<char,Item_group_amount_area>::iterator
         it = spec->item_group_defs.begin();
@@ -669,6 +681,7 @@ void Submap::generate(Mapgen_spec* spec)
       add_item(item, p.x, p.y);
     }
   }
+
 // Item_amount_areas work the same as Item_group_amount_areas, more or less
   for (std::map<char,Item_amount_area>::iterator
         it = spec->item_amount_defs.begin();

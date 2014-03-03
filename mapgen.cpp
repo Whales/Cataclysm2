@@ -1130,6 +1130,18 @@ Terrain* Mapgen_spec::pick_terrain(int x, int y)
   return terrain_defs[key].pick();
 }
 
+Furniture_type* Mapgen_spec::pick_furniture(int x, int y)
+{
+  if (x < 0 || x >= MAPGEN_SIZE || y < 0 || y >= MAPGEN_SIZE) {
+    return NULL;
+  }
+  char key = prepped_terrain[x][y];
+  if (furniture.count(key) == 0) {
+    return NULL;
+  }
+  return furniture[key];
+}
+
 void Mapgen_spec::prepare(World_terrain* world_ter[5])
 {
 // Prep terrain_defs; if they're grouped, this picks and "locks in" the terrain

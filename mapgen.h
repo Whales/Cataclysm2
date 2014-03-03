@@ -231,6 +231,7 @@ struct Mapgen_spec
   void random_rotate();
   void rotate(Direction dir);
   Terrain* pick_terrain(int x, int y);
+  Furniture_type* pick_furniture(int x, int y);
 
   std::string get_name();
   void debug_output();
