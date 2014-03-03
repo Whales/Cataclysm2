@@ -12,7 +12,6 @@
 
 Furniture::Furniture()
 {
-  real = false;
   type = NULL;
 }
 
@@ -23,6 +22,15 @@ Furniture::~Furniture()
 void Furniture::set_type(Furniture_type* t)
 {
   type = t;
+  hp = type->hp;
+}
+
+bool Furniture::is_real()
+{
+  if (type == NULL) {
+    return false;
+  }
+  return true;
 }
 
 glyph Furniture::get_glyph()
@@ -47,6 +55,14 @@ int Furniture::get_height()
     return 0;
   }
   return type->height;
+}
+
+int Furniture::get_weight()
+{
+  if (!type) {
+    return 0;
+  }
+  return type->weight;
 }
 
 std::string Furniture::get_name()
@@ -113,6 +129,11 @@ bool Furniture::damage(Damage_type damtype, int dam)
   return false;
 }
 
+void Furniture::destroy()
+{
+  type = NULL;
+}
+
 void Tile::set_terrain(Terrain* ter)
 {
   if (!ter) {
@@ -121,6 +142,16 @@ void Tile::set_terrain(Terrain* ter)
   }
   terrain = ter;
   hp = ter->hp;
+}
+
+void Tile::add_furniture(Furniture_type* type)
+{
+  if (!type) {
+    debugmsg("Tile::add_furniture(NULL)!");
+    return;
+  }
+
+  furniture.set_type(type);
 }
 
 glyph Tile::top_glyph()
@@ -226,6 +257,11 @@ bool Tile::has_field()
   return field.is_valid();
 }
 
+bool Tile::has_furniture()
+{
+  return furniture.is_real();
+}
+
 bool Tile::is_smashable()
 {
   return (terrain && terrain->can_smash());
@@ -233,7 +269,27 @@ bool Tile::is_smashable()
 
 std::string Tile::smash(Damage_set dam)
 {
-  if (!is_smashable()) {  // This verifies that terrain != NULL
+// First check furniture
+  if (furniture.is_real()) {
+    std::string sound = furniture.smash(dam);
+    if (furniture.hp <= 0) { // We destroyed the furniture!
+// First, add all items in the furniture's type list
+      Item_group* furn_items = furniture.type->components;
+      if (furn_items) {
+        for (int i = 0; i < furn_items->item_types.size(); i++) {
+          Item it(furn_items->item_types[i].item);
+          for (int n = 0; n < furn_items->item_types[i].number; n++) {
+            items.push_back(it);
+          }
+        }
+      }
+// Next, destroy the furniture
+      furniture.destroy();
+    }
+    return sound; // We smashed furniture, we don't get to smash terrain too!
+  }
+      
+  if (!is_smashable()) {  // This also verifies that terrain != NULL
     return "";
   }
   Terrain_smash smash = terrain->smash;

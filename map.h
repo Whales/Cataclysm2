@@ -28,9 +28,11 @@ struct Furniture
   void set_type(Furniture_type* t);
 
 // Data access
+  bool is_real();
   glyph get_glyph();
   int move_cost();
   int get_height();
+  int get_weight();
   std::string get_name();
 
 // Modifiers
@@ -39,8 +41,8 @@ struct Furniture
 // These return true if the furniture is destroyed.
   bool damage(Damage_set dam);
   bool damage(Damage_type damtype, int dam);
+  void destroy(); // Reset type to NULL
 
-  bool real;
   Furniture_type *type;
   int hp;
 };
@@ -57,7 +59,9 @@ struct Tile
   ~Tile() { }
 
   void set_terrain(Terrain* ter);
+  void add_furniture(Furniture_type* type);
 
+// Basic data fetching - typically draws from Terrain, but might use Furniture
   glyph top_glyph();
   int move_cost();
   int get_height();
@@ -65,7 +69,9 @@ struct Tile
   std::string get_name_indefinite();  // With indefinite article
   bool blocks_sense(Sense_type sense = SENSE_SIGHT);
   bool has_flag(Terrain_flag flag);
+
   bool has_field();
+  bool has_furniture();
 
   bool is_smashable();
   std::string smash(Damage_set dam);  // Returns the sound
