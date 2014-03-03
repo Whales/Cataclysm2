@@ -159,6 +159,9 @@ glyph Tile::top_glyph()
   if (field.is_valid()) {
     return field.top_glyph();
   }
+  if (furniture.is_real()) {
+    return furniture.get_glyph();
+  }
   if (!items.empty() && !has_flag(TF_SEALED)) {
     if (terrain && !terrain->has_flag(TF_FLOOR)) {
       return terrain->sym.hilite(c_blue);
@@ -184,6 +187,9 @@ glyph Tile::top_glyph()
 
 int Tile::move_cost()
 {
+  if (furniture.is_real()) {
+    return furniture.move_cost();
+  }
   if (!terrain) {
     return 0;
   }
@@ -192,18 +198,22 @@ int Tile::move_cost()
 
 int Tile::get_height()
 {
-  if (!terrain) {
-    return 0;
+  int ret = (terrain ? terrain->height : 0);
+  if (furniture.is_real()) {
+    ret += furniture.get_height();
   }
-  return terrain->height;
+  return ret;
 }
 
 std::string Tile::get_name()
 {
-  if (!terrain) {
-    return "Unknown";
+  std::stringstream ret;
+  if (furniture.is_real()) {
+    ret << furniture.get_name() << " on ";
   }
-  return (terrain->get_name());
+  ret << (terrain ? terrain->get_name() : "<c=red>BUG - Unknown<c=/>");
+
+  return ret.str();
 }
 
 std::string Tile::get_name_indefinite()
