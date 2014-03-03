@@ -3,7 +3,7 @@
 #include "files.h"
 #include "window.h"
 #include "globals.h"
-#include "mapgen.h" // For Item_group (Furniture::components)
+#include "mapgen.h" // For Item_group (Furniture_type::components)
 #include <sstream>
 
 Terrain_smash::Terrain_smash()
@@ -350,6 +350,7 @@ Furniture_type::Furniture_type()
   hp        =   0;
   smashable = false;
   components = new Item_group;
+  owns_components = true;
   for (int i = 0; i < TF_MAX; i++) {
     flags.push_back(false);
   }
@@ -357,7 +358,9 @@ Furniture_type::Furniture_type()
 
 Furniture_type::~Furniture_type()
 {
-  delete components;
+  if (owns_components) {
+    delete components;
+  }
 }
 
 std::string Furniture_type::get_data_name()
@@ -437,7 +440,11 @@ bool Furniture_type::load_data(std::istream& data)
       }
 
     } else if (ident == "components:") {
-      if (!components->load_item_data(data, name)) {
+      if (!owns_components) {
+        debugmsg("Furniture_type tried to load bespoke components after \
+loading preset components!");
+        return false;
+      } else if (!components->load_item_data(data, name)) {
         return false;
       }
 
@@ -453,6 +460,8 @@ bool Furniture_type::load_data(std::istream& data)
       }
 // Copy the items
       components = tmpgroup;
+// Set owns_components to false, so we won't delete components in our destructor
+      owns_components = false;
 
     } else if (ident == "flags:") {
       std::string flag_line;

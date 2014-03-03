@@ -142,6 +142,15 @@ struct Furniture_type
 
 private:
   std::vector<bool> flags;
+/* If owns_components is true, then components was created by us, and should be
+ * deleted in our destructor.
+ * If it's false, then components is a pointer to something in ITEM_GROUPS and
+ * should NOT be deleted in our destructor.
+ * It defaults to true, since "components = new Item_group" is in our
+ * constructor.  If we have a "preset_components:" line in our data file, then
+ * we reference an Item_group in ITEM_GROUPS and set owns_components to false.
+ */
+  bool owns_components;
 };
 
 #endif
