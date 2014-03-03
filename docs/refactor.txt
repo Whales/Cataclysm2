@@ -10,6 +10,13 @@ Map drawing:
   Tell Map to handle drawing of the PC's glyph.
   Add sight distance limit.
 
+Mapgen / Mapgen specs (layouts):
+  We repeat the code for loading symbols (which are then bound to a terrain,
+  item group, etc) many times (once for each thing it could be bound to!).  We
+  should write a "std::string load_symbols(std::istream& data)" function, which
+  just loads a list of symbols until we reach =.  There are some special cases
+  which don't work (I think?) but those can just be exceptions.
+
 Worldmap generation:
   It's a big, messy function.  Would be nice to clean it up a bunch.
 
