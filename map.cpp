@@ -12,6 +12,7 @@
 
 Furniture::Furniture()
 {
+  real = false;
   type = NULL;
 }
 

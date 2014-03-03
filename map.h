@@ -40,6 +40,7 @@ struct Furniture
   bool damage(Damage_set dam);
   bool damage(Damage_type damtype, int dam);
 
+  bool real;
   Furniture_type *type;
   int hp;
 };
@@ -49,6 +50,7 @@ struct Tile
   Terrain *terrain;
   std::vector<Item> items;
   Field field;
+  Furniture furniture;
   int hp;
 
    Tile() { hp = 0; }
