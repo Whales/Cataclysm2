@@ -252,6 +252,7 @@ struct Mapgen_spec
   std::map<char,Item_group_amount_area> item_group_defs;
   std::map<char,Item_amount_area> item_amount_defs;
   std::map<char,Tile_substitution> substitutions;
+  std::map<char,Furniture_type*> furniture;
   std::list<std::string> shuffles;
   Variable_terrain base_terrain; // Default terrain
 

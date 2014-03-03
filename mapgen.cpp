@@ -761,7 +761,8 @@ bool Mapgen_spec::load_data(std::istream &data)
       for (int i = 0; i < symbols.length(); i++) {
         char ch = symbols[i];
         if (terrain_defs.count(ch) != 0) {
-          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+          debugmsg("Tried to map tile %c - already in use (%s)", ch,
+                   name.c_str());
         } else {
           terrain_defs[ch] = tmp_var;
         }
@@ -857,11 +858,13 @@ bool Mapgen_spec::load_data(std::istream &data)
       for (int i = 0; i < symbols.length(); i++) {
         char ch = symbols[i];
         if (item_defs.count(ch) != 0) {
-          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+          debugmsg("Tried to map item_group %c - already in use (%s)", ch,
+                   name.c_str());
         } else {
           item_defs[ch] = tmp_area;
         }
       }
+// End of item_group section
 
     } else if (ident == "num_item_group:") {
       Item_group_amount_area tmp_area;
@@ -889,7 +892,8 @@ bool Mapgen_spec::load_data(std::istream &data)
       for (int i = 0; i < symbols.length(); i++) {
         char ch = symbols[i];
         if (item_defs.count(ch) != 0) {
-          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+          debugmsg("Tried to map num_item_group %c - already in use (%s)", ch,
+                   name.c_str());
         } else {
           item_group_defs[ch] = tmp_area;
         }
@@ -922,7 +926,8 @@ bool Mapgen_spec::load_data(std::istream &data)
       for (int i = 0; i < symbols.length(); i++) {
         char ch = symbols[i];
         if (item_defs.count(ch) != 0) {
-          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+          debugmsg("Tried to map num_items %c - already in use (%s)", ch,
+                   name.c_str());
         } else {
           item_amount_defs[ch] = tmp_area;
         }
@@ -966,12 +971,47 @@ bool Mapgen_spec::load_data(std::istream &data)
       for (int i = 0; i < symbols.length(); i++) {
         char ch = symbols[i];
         if (item_defs.count(ch) != 0) {
-          debugmsg("Tried to map %c - already in use (%s)", ch, name.c_str());
+          debugmsg("Tried to map item %c - already in use (%s)", ch,
+                   name.c_str());
         } else {
           item_defs[ch] = tmp_area;
         }
       }
 // End if (ident == "items:") block
+
+    } else if (ident == "furniture:") {
+      std::string symbols;
+      std::string item_ident;
+      bool reading_symbols = true; // We start out reading symbols!
+
+      while (reading_symbols && data >> item_ident) {
+        if (item_ident == "=") {
+          reading_symbols = false;
+        } else {
+          symbols += item_ident;
+        }
+      }
+
+      std::string furniture_name;
+      std::getline(data, furniture_name);
+      furniture_name = trim(furniture_name);
+
+      Furniture_type* tmptype = FURNITURE_TYPES.lookup_name(furniture_name);
+      if (!tmptype) {
+        debugmsg("Unknown Furniture_type '%s' (%s)", furniture_name.c_str(),
+                 name.c_str());
+        return false;
+      }
+// For every character in symbols, map that char to tmptype
+      for (int i = 0; i < symbols.length(); i++) {
+        char ch = symbols[i];
+        if (furniture.count(ch) != 0) {
+          debugmsg("Tried to map furniture %c - already in use (%s)", ch,
+                   name.c_str());
+        } else {
+          furniture[ch] = tmptype;
+        }
+      }
 
     } else if (ident == "map:") {
       std::string mapchars;
