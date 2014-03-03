@@ -17,7 +17,7 @@ name: table
   glyph: } ltred black
   move_cost:  150
   height:      40
-  weight:     800
+  weight:     250
   HP:          50
   Smash:
     failure_sound: "whack."
@@ -31,12 +31,26 @@ name: wood chair
   glyph: } ltblue black
   move_cost:  150
   height:      35
-  weight:     250
+  weight:     120
   HP:          30
   Smash:
     failure_sound: "whack."
     success_sound: wood splintering.
   done
   Components: c:2 wood plank
+  Flags: flammable
+done
+
+name: desk
+  glyph: } blue black
+  move_cost:  150
+  height:      40
+  weight:     350
+  HP:          80
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+  done
+  Components: c:6 wood plank
   Flags: flammable
 done
