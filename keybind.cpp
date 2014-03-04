@@ -1,13 +1,18 @@
 #include "keybind.h"
 #include "stringfunc.h"
-#include "window.h"
+#include "window.h" // For debugmsg() and key_name()
 #include "globals.h"
 #include <fstream>
 #include <vector>
+#include <sstream>
 
 bool Keybinding_pool::bind_key(long key, Interface_action action)
 {
   bindings[key] = action;
+  if (reverse_bindings.count(action) == 0) {
+    reverse_bindings[action] = std::vector<long>();
+  }
+  reverse_bindings[action].push_back(key);
   return true;
 }
 
@@ -17,6 +22,34 @@ Interface_action Keybinding_pool::bound_to_key(long key)
     return IACTION_NULL;
   }
   return bindings[key];
+}
+
+std::vector<long> Keybinding_pool::keys_bound_to(Interface_action action)
+{
+  if (reverse_bindings.count(action) == 0) {
+    return std::vector<long>();
+  }
+  return reverse_bindings[action];
+}
+
+std::string Keybinding_pool::describe_bindings_for(Interface_action action)
+{
+  std::vector<long> bindings = keys_bound_to(action);
+  if (bindings.empty()) {
+    return "nothing assigned";
+  }
+
+  std::stringstream ret;
+  for (int i = 0; i < bindings.size(); i++) {
+    ret << key_name(bindings[i]);
+    if (i + 2 < bindings.size()) {
+      ret << ", ";
+    } else if (i + 1 < bindings.size()) {
+      ret << " or ";
+    }
+  }
+
+  return ret.str();
 }
 
 bool Keybinding_pool::bind_debug_key(long key, Debug_action action)

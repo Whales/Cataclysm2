@@ -73,6 +73,8 @@ struct Keybinding_pool
 public:
   bool bind_key(long key, Interface_action action);
   Interface_action bound_to_key(long key);
+  std::vector<long> keys_bound_to(Interface_action action);
+  std::string describe_bindings_for(Interface_action action);
 
   bool bind_debug_key(long key, Debug_action action);
   Debug_action bound_to_debug_key(long key);
@@ -80,6 +82,8 @@ public:
   bool load_from(std::string filename);
 private:
   std::map<long,Interface_action> bindings;
+  std::map<Interface_action,std::vector<long> > reverse_bindings;
+
   std::map<long,Debug_action>     debug_bindings;
 };
   
