@@ -170,6 +170,11 @@ void Tile::add_furniture(Furniture_type* type)
   furniture.set_type(type);
 }
 
+void Tile::remove_furniture()
+{
+  furniture.set_type(NULL);
+}
+
 glyph Tile::top_glyph()
 {
   if (field.is_valid()) {
@@ -1448,6 +1453,19 @@ std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
     delete checked;
   }
   return ret;
+}
+
+void Map::clear_furniture(Tripoint pos)
+{
+  clear_furniture(pos.x, pos.y, pos.z);
+}
+
+void Map::clear_furniture(int x, int y, int z)
+{
+  Tile* tile = get_tile(x, y, z);
+  if (tile) {
+    tile->remove_furniture();
+  }
 }
 
 bool Map::contains_field(Tripoint pos)

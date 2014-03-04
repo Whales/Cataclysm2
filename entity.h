@@ -110,14 +110,16 @@ public:
   virtual bool can_see    (Map* map, Tripoint target);
   virtual bool can_see    (Map* map, int x, int y, int z = 999);
 
-  virtual bool can_move_to(Map* map, Tripoint move);
-  virtual bool can_move_to(Map* map, int x, int y, int z = 999);
-  virtual bool can_smash  (Map* map, Tripoint move);
-  virtual bool can_smash  (Map* map, int x, int y, int z = 999);
-  virtual void move_to    (Map* map, Tripoint move);
-  virtual void move_to    (Map* map, int x, int y, int z = 999);
-  virtual void smash      (Map* map, Tripoint sm);
-  virtual void smash      (Map* map, int x, int y, int z = 999);
+  virtual bool can_move_to          (Map* map, Tripoint move);
+  virtual bool can_move_to          (Map* map, int x, int y, int z = 999);
+  virtual bool can_drag_furniture_to(Map* map, Tripoint move);
+  virtual bool can_drag_furniture_to(Map* map, int x, int y, int z = 999);
+  virtual bool can_smash            (Map* map, Tripoint move);
+  virtual bool can_smash            (Map* map, int x, int y, int z = 999);
+  virtual void move_to              (Map* map, Tripoint move);
+  virtual void move_to              (Map* map, int x, int y, int z = 999);
+  virtual void smash                (Map* map, Tripoint sm);
+  virtual void smash                (Map* map, int x, int y, int z = 999);
   virtual void pause();
 
 // Misc action functions
@@ -172,6 +174,7 @@ public:
   virtual std::string apply_item_message(Item &it);
   virtual std::string eat_item_message  (Item &it);
   virtual std::string sheath_weapon_message();
+  std::string get_dragged_name();
 
 // Routine message functions - not tied to any particular action like the above
   std::string get_all_status_text();  // Returns all of the following

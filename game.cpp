@@ -272,16 +272,24 @@ there.<c=/>", map->get_name(examine).c_str());
     } break;
 
     case IACTION_GRAB: {
-      add_msg("<c=ltgreen>Grab where? (Press direction key)<c=/>");
-      draw_all();
-      Point dir = input_direction(input());
-      if (dir.x == -2) { // Error
-        add_msg("Invalid direction.");
-      } else {
-        Tripoint target = player->pos + dir;
-        std::vector<Furniture_pos> furn;
-        furn = map->grab_furniture(player->pos, target);
-        add_msg("Furntiure size: %d", furn.size());
+      if (player->dragged.empty()) {
+        add_msg("<c=ltgreen>Grab where? (Press direction key)<c=/>");
+        draw_all();
+        Point dir = input_direction(input());
+        if (dir.x == -2) { // Error
+          add_msg("Invalid direction.");
+        } else {
+          Tripoint target = player->pos + dir;
+          player->dragged = map->grab_furniture(player->pos, target);
+          if (player->dragged.empty()) {
+            add_msg("Nothing to grab there.");
+          } else {
+            add_msg("You grab the %s.", player->get_dragged_name().c_str());
+          }
+        }
+      } else {  // We're already dragging something; so let go!
+        add_msg("You let go of the %s.", player->get_dragged_name().c_str());
+        player->dragged.clear();
       }
     } break;
 
@@ -796,6 +804,13 @@ void Game::player_move(int xdif, int ydif)
   if (ent) {
     player->attack(ent);
   } else if (player->can_move_to(map, newx, newy)) {
+    if (!player->can_drag_furniture_to(map, newx, newy)) {
+      add_msg("The %s you're dragging prevents you from moving there.",
+              player->get_dragged_name().c_str());
+      add_msg("Press (<c=yellow>%s<c=/>) to drop it.",
+              KEYBINDINGS.describe_bindings_for(IACTION_GRAB).c_str());
+      return;
+    }
     player->move_to(map, newx, newy);
   } else if (map->apply_signal("open", newx, newy, player->pos.z, player)) {
     player->use_ap(100);

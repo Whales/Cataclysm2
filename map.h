@@ -68,6 +68,7 @@ struct Tile
 
   void set_terrain(Terrain* ter);
   void add_furniture(Furniture_type* type);
+  void remove_furniture();
 
 // Basic data fetching - typically draws from Terrain, but might use Furniture
   glyph top_glyph();
@@ -213,6 +214,8 @@ public:
   std::vector<Furniture_pos> grab_furniture(Tripoint origin, Tripoint target,
                                             Furniture_type* type = NULL,
                                          std::vector<Tripoint>* checked = NULL);
+  void clear_furniture(Tripoint pos);
+  void clear_furniture(int x, int y, int z = 999);
 
   bool contains_field(Tripoint pos);
   bool contains_field(int x, int y, int z = 999);

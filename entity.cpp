@@ -579,8 +579,40 @@ bool Entity::can_move_to(Map* map, int x, int y, int z)
   if (map->move_cost(x, y, z) == 0) {
     return false;
   }
-  if (GAME.entities.entity_at(x, y, z) !=NULL) {
+  if (GAME.entities.entity_at(x, y, z) != NULL) {
     return false;
+  }
+// Ensure that the furniture can be dragged thataway!
+// can_drag_furniture() checks if (dragged) is empty, so we don't have to
+  if (!can_drag_furniture_to(map, x, y, z)) {
+    return false;
+  }
+  return true;
+}
+
+bool Entity::can_drag_furniture_to(Map* map, Tripoint move)
+{
+  return can_drag_furniture_to(map, move.x, move.y, move.z);
+}
+
+// This is NOT responsible for checking if we can move there (e.g. ensuring the
+// destination isn't a solid wall)
+bool Entity::can_drag_furniture_to(Map* map, int x, int y, int z)
+{
+  if (!map) {
+    return false;
+  }
+  if (dragged.empty()) {
+    return true;
+  }
+  for (int i = 0; i < dragged.size(); i++) {
+    Tripoint test = Tripoint(x + dragged[i].pos.x, x + dragged[i].pos.y, z);
+    if (map->move_cost(test) == 0) {
+      return false;
+    }
+    if (GAME.entities.entity_at(test) != NULL) {
+      return false;
+    }
   }
   return true;
 }
@@ -613,6 +645,7 @@ void Entity::move_to(Map* map, int x, int y, int z)
   if (map) {
     action_points -= map->move_cost(x, y, z);
   }
+// Handle any furniture we're dragging
 }
 
 void Entity::smash(Map* map, Tripoint sm)
@@ -1253,6 +1286,14 @@ std::string Entity::sheath_weapon_message()
   ret << get_name_to_player() << " " << conjugate("put") << " away " <<
          get_possessive() << " " << weapon.get_name() << ".";
   return ret.str();
+}
+
+std::string Entity::get_dragged_name()
+{
+  if (dragged.empty()) {
+    return "";  // TODO: return "nothing"; ???
+  }
+  return dragged[0].furniture.get_name();
 }
 
 std::string Entity::get_all_status_text()
