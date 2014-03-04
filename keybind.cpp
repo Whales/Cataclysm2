@@ -130,6 +130,7 @@ std::string interface_action_name(Interface_action action)
     case IACTION_CLOSE:                   return "close";
     case IACTION_SMASH:                   return "smash";
     case IACTION_EXAMINE:                 return "examine";
+    case IACTION_GRAB:                    return "grab";
     case IACTION_INVENTORY:               return "inventory";
     case IACTION_DROP:                    return "drop";
     case IACTION_WIELD:                   return "wield";
