@@ -262,6 +262,20 @@ there.<c=/>", map->get_name(examine).c_str());
       }
     } break;
 
+    case IACTION_GRAB: {
+      add_msg("<c=ltgreen>Examine where? (Press direction key)<c=/>");
+      draw_all();
+      Point dir = input_direction(input());
+      if (dir.x == -2) { // Error
+        add_msg("Invalid direction.");
+      } else {
+        Tripoint target = player->pos + dir;
+        std::vector<Furniture_pos> furn;
+        furn = map->grab_furniture(player->pos, target);
+        add_msg("Furntiure size: %d", furn.size());
+      }
+    } break;
+
     case IACTION_INVENTORY: {
       Item it = player->inventory_single();
       Item_action act = it.show_info();
