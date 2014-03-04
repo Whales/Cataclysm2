@@ -67,6 +67,13 @@ struct Point
     y += rhs.y;
     return *this;
   }
+
+  Point& operator -=(const Point &rhs)
+  {
+    x -= rhs.x;
+    y -= rhs.y;
+    return *this;
+  }
 };
 
 inline Point operator+(Point lhs, const Point& rhs)
@@ -113,6 +120,23 @@ struct Tripoint
     return *this;
   }
 
+  Tripoint& operator -=(const Tripoint &rhs)
+  {
+    x -= rhs.x;
+    y -= rhs.y;
+    z -= rhs.z;
+
+    return *this;
+  }
+
+  Tripoint& operator -=(const Point &rhs)
+  {
+    x -= rhs.x;
+    y -= rhs.y;
+
+    return *this;
+  }
+
   operator Point()
   {
     Point ret;
@@ -131,6 +155,18 @@ inline Tripoint operator+(Tripoint lhs, const Tripoint& rhs)
 inline Tripoint operator+(Tripoint lhs, const Point& rhs)
 {
   lhs += rhs;
+  return lhs;
+}
+
+inline Tripoint operator-(Tripoint lhs, const Tripoint& rhs)
+{
+  lhs -= rhs;
+  return lhs;
+}
+
+inline Tripoint operator-(Tripoint lhs, const Point& rhs)
+{
+  lhs -= rhs;
   return lhs;
 }
 
