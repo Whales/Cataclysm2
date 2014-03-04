@@ -1468,10 +1468,10 @@ std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
   for (int i = 1; i <= 4; i++) {
     Tripoint next = target;
     switch (i) {
-      case 1: next.x++;
-      case 2: next.x--;
-      case 3: next.y++;
-      case 4: next.y--;
+      case 1: next.x++; break;
+      case 2: next.x--; break;
+      case 3: next.y++; break;
+      case 4: next.y--; break;
     }
     bool next_okay = (checked != NULL); // If checked is somehow NULL, skip this
     for (int n = 0; next_okay && n < checked->size(); n++) {
