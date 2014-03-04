@@ -1361,6 +1361,64 @@ std::vector<Item>* Map::items_at(int x, int y, int z)
   return submaps[sx][sy][z]->items_at(x, y);
 }
 
+Furniture* Map::furniture_at(Tripoint pos)
+{
+  return furniture_at(pos.x, pos.y, pos.z);
+}
+
+Furniture* Map::furniture_at(int x, int y, int z)
+{
+  Tile* tile = get_tile(x, y, z);
+  if (!tile) {
+    return NULL;
+  }
+  if (!tile->furniture.is_real()) {
+    return NULL;
+  }
+  return &(tile->furniture);
+}
+
+/* grab_furniture() returns a list of the furniture at (target), along with any
+ * furniture connected to it.  Furniture is considered connected if it touches
+ * in an orthogonal direction, and has the same type.
+ * To achieve this, grab_furniture() recurses into orthogonal tiles, and stops
+ * if there's no furniture there, or if the furniture is of a different type.
+ * (type) defaults to null, but is set when recursing.
+ */
+std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
+                                               Furniture_type* type)
+{
+  std::vector<Furniture_pos> ret;
+  Furniture* grabbed = furniture_at(target);
+  if (!grabbed) {
+    return ret;
+  }
+  if (type && grabbed->type != type) {
+    return ret;
+  }
+  Furniture_pos at_grab;
+  at_grab.furniture = *grabbed;
+  at_grab.pos = Point(target.x - origin.x, target.y - origin.y);
+  ret.push_back(at_grab);
+
+// Now recurse...
+  Furniture_type* type_used = grabbed->type;
+  for (int i = 1; i <= 4; i++) {
+    Tripoint next = target;
+    switch (i) {
+      case 1: next.x++;
+      case 2: next.x--;
+      case 3: next.y++;
+      case 4: next.y--;
+    }
+    std::vector<Furniture_pos> adj = grab_furniture(origin, next, type_used);
+    for (int n = 0; n < adj.size(); n++) {
+      ret.push_back(adj[n]);
+    }
+  }
+  return ret;
+}
+
 bool Map::contains_field(Tripoint pos)
 {
   return contains_field(pos.x, pos.y, pos.z);

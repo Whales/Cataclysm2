@@ -48,6 +48,13 @@ struct Furniture
   int hp;
 };
 
+// This is a Furniture, along with its RELATIONAL position - e.g. when dragged
+struct Furniture_pos
+{
+  Furniture furniture;
+  Point pos;
+};
+
 struct Tile
 {
   Terrain *terrain;
@@ -200,6 +207,11 @@ public:
 
   std::vector<Item>* items_at(Tripoint pos);
   std::vector<Item>* items_at(int x, int y, int z = 999);
+
+  Furniture* furniture_at(Tripoint pos);
+  Furniture* furniture_at(int x, int y, int z = 999);
+  std::vector<Furniture_pos> grab_furniture(Tripoint origin, Tripoint target,
+                                            Furniture_type* type = NULL);
 
   bool contains_field(Tripoint pos);
   bool contains_field(int x, int y, int z = 999);
