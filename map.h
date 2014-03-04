@@ -211,7 +211,8 @@ public:
   Furniture* furniture_at(Tripoint pos);
   Furniture* furniture_at(int x, int y, int z = 999);
   std::vector<Furniture_pos> grab_furniture(Tripoint origin, Tripoint target,
-                                            Furniture_type* type = NULL);
+                                            Furniture_type* type = NULL,
+                                         std::vector<Tripoint>* checked = NULL);
 
   bool contains_field(Tripoint pos);
   bool contains_field(int x, int y, int z = 999);

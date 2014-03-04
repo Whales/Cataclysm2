@@ -1384,24 +1384,43 @@ Furniture* Map::furniture_at(int x, int y, int z)
  * To achieve this, grab_furniture() recurses into orthogonal tiles, and stops
  * if there's no furniture there, or if the furniture is of a different type.
  * (type) defaults to null, but is set when recursing.
+ * Checked is a vector of points already checked, so that we don't get stuck in
+ * an infinite loop, cycling between two tiles.  If it's NULL, we'll set it and
+ * delete it before we exit.
  */
 std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
-                                               Furniture_type* type)
+                                               Furniture_type* type,
+                                               std::vector<Tripoint>* checked)
 {
+  bool created_checked = false;
+  if (checked == NULL) {
+    created_checked = true;
+    checked = new std::vector<Tripoint>;
+  }
   std::vector<Furniture_pos> ret;
   Furniture* grabbed = furniture_at(target);
+// Return an empty vector if no furniture there
   if (!grabbed) {
+    if (created_checked) {
+      delete checked;
+    }
     return ret;
   }
+// Return an empty vector if furniture is a different type
   if (type && grabbed->type != type) {
+    if (created_checked) {
+      delete checked;
+    }
     return ret;
   }
+// Success!  Push back the furniture at the target tile.
   Furniture_pos at_grab;
   at_grab.furniture = *grabbed;
   at_grab.pos = Point(target.x - origin.x, target.y - origin.y);
   ret.push_back(at_grab);
 
 // Now recurse...
+  checked->push_back(target); // Ensure we won't try this target again.
   Furniture_type* type_used = grabbed->type;
   for (int i = 1; i <= 4; i++) {
     Tripoint next = target;
@@ -1411,10 +1430,22 @@ std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
       case 3: next.y++;
       case 4: next.y--;
     }
-    std::vector<Furniture_pos> adj = grab_furniture(origin, next, type_used);
-    for (int n = 0; n < adj.size(); n++) {
-      ret.push_back(adj[n]);
+    bool next_okay = (checked != NULL); // If checked is somehow NULL, skip this
+    for (int n = 0; next_okay && n < checked->size(); n++) {
+      if ( (*checked)[n] == next ) {
+        next_okay = false;
+      }
     }
+    if (next_okay) {
+      std::vector<Furniture_pos> adj = grab_furniture(origin, next, type_used,
+                                                      checked);
+      for (int n = 0; n < adj.size(); n++) {
+        ret.push_back(adj[n]);
+      }
+    }
+  }
+  if (created_checked) {
+    delete checked;
   }
   return ret;
 }
