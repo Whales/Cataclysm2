@@ -353,6 +353,7 @@ void end_display()
 
 long input()
 {
+ flushinp();
  return getch();
 }
 
