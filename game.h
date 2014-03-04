@@ -90,7 +90,8 @@ public:
                                       bool target_entities = false);
 
 /**** Data - Universal access functions ****/
-  int get_item_uid();
+  int get_item_uid();     // Get the next available UID (and increment)
+  int get_furniture_uid();// Get the next available UID (and increment)
   bool minute_timer(int minutes); // Returns true once every $minutes minutes
   bool turn_timer(int turns);     // Returns true once every $turns turns
   int get_light_level();          // Current light distance, based on the time
@@ -123,6 +124,7 @@ private:
   int last_target;
   int new_messages;
   int next_item_uid;
+  int next_furniture_uid;
   bool game_over;
 
 // Temp values; all reset in reset_temp_values()

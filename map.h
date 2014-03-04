@@ -26,9 +26,11 @@ struct Furniture
   ~Furniture();
 
   void set_type(Furniture_type* t);
+  void set_uid(int id);
 
 // Data access
   bool is_real();
+  int get_uid();
   glyph get_glyph();
   int move_cost();
   int get_height();
@@ -46,6 +48,7 @@ struct Furniture
 
   Furniture_type *type;
   int hp;
+  int uid;
 };
 
 // This is a Furniture, along with its RELATIONAL position - e.g. when dragged
@@ -67,7 +70,8 @@ struct Tile
   ~Tile() { }
 
   void set_terrain(Terrain* ter);
-  void add_furniture(Furniture_type* type);
+  void add_furniture(Furniture_type* type, int UID = -1);
+  void add_furniture(Furniture furn);
   void remove_furniture();
 
 // Basic data fetching - typically draws from Terrain, but might use Furniture
@@ -211,8 +215,10 @@ public:
 
   Furniture* furniture_at(Tripoint pos);
   Furniture* furniture_at(int x, int y, int z = 999);
+  void add_furniture(Furniture furn, Tripoint pos);
+  void add_furniture(Furniture furn, int x, int y, int z = 999);
   std::vector<Furniture_pos> grab_furniture(Tripoint origin, Tripoint target,
-                                            Furniture_type* type = NULL,
+                                            int id = -1,
                                          std::vector<Tripoint>* checked = NULL);
   void clear_furniture(Tripoint pos);
   void clear_furniture(int x, int y, int z = 999);

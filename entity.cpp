@@ -599,17 +599,27 @@ bool Entity::can_drag_furniture_to(Map* map, Tripoint move)
 // destination isn't a solid wall)
 bool Entity::can_drag_furniture_to(Map* map, int x, int y, int z)
 {
+// Make sure there's a map...
   if (!map) {
     return false;
   }
+// If we're dragged nothing, it's always okay!
   if (dragged.empty()) {
     return true;
   }
+// Check every tile of the furniture
   for (int i = 0; i < dragged.size(); i++) {
     Tripoint test = Tripoint(x + dragged[i].pos.x, x + dragged[i].pos.y, z);
     if (map->move_cost(test) == 0) {
       return false;
     }
+// No displacing furniture; if the furniture there is of the same UID as the
+// furniture we're dragging, then it IS the furniture we're dragging.
+    Furniture* blocker = map->furniture_at(test);
+    if (blocker && blocker->get_uid() != dragged[i].furniture.get_uid()) {
+      return false;
+    }
+// No displacing entities
     if (GAME.entities.entity_at(test) != NULL) {
       return false;
     }
@@ -637,6 +647,14 @@ void Entity::move_to(Map* map, Tripoint move)
 
 void Entity::move_to(Map* map, int x, int y, int z)
 {
+  if (!map) {
+    debugmsg("Entity::move_to() called with NULL map!");
+    return;
+  }
+// First, removing the furniture we're dragged from its old position
+  for (int i = 0; i < dragged.size(); i++) {
+    map->clear_furniture(pos + dragged[i].pos);
+  }
   pos.x = x;
   pos.y = y;
   if (z != 999) { // z defaults to 999
@@ -645,7 +663,10 @@ void Entity::move_to(Map* map, int x, int y, int z)
   if (map) {
     action_points -= map->move_cost(x, y, z);
   }
-// Handle any furniture we're dragging
+// Now add the furniture we're dragged to its new location
+  for (int i = 0; i < dragged.size(); i++) {
+    map->add_furniture(dragged[i].furniture, pos + dragged[i].pos);
+  }
 }
 
 void Entity::smash(Map* map, Tripoint sm)

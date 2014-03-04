@@ -1142,6 +1142,20 @@ Furniture_type* Mapgen_spec::pick_furniture(int x, int y)
   return furniture[key];
 }
 
+int Mapgen_spec::pick_furniture_uid(int x, int y)
+{
+// Is there a better way to do this?  Does this way actually WORK all the time?
+  std::map<char,Furniture_type*>::iterator it;
+  int ret = 0;
+  for (it = furniture.begin(); it != furniture.end(); it++) {
+    if (it->first == prepped_terrain[x][y]) {
+      return ret;
+    }
+    ret++;
+  }
+  return -1;
+}
+
 void Mapgen_spec::prepare(World_terrain* world_ter[5])
 {
 // Prep terrain_defs; if they're grouped, this picks and "locks in" the terrain

@@ -23,6 +23,7 @@ Game::Game()
   last_target = -1;
   new_messages = 0;
   next_item_uid = 0;
+  next_furniture_uid = 0;
   temp_light_level = 0;
   game_over = false;
 }
@@ -81,6 +82,7 @@ bool Game::setup()
   last_target = -1;
   new_messages = 0;
   next_item_uid = 0;
+  next_furniture_uid = 0;
   game_over = false;
   return true;
 }
@@ -265,6 +267,10 @@ there.<c=/>", map->get_name(examine).c_str());
                          "command (<c=yellow>" <<
                          KEYBINDINGS.describe_bindings_for(IACTION_GRAB) <<
                          "<c=/>).";
+          if (TESTING_MODE) {
+            add_msg("<c=pink>Furniture uid %d.<c=/>",
+                    map->furniture_at(examine)->get_uid());
+          }
         }
 
         add_msg(description.str());
@@ -1325,6 +1331,11 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
 int Game::get_item_uid()
 {
   return next_item_uid++;
+}
+
+int Game::get_furniture_uid()
+{
+  return next_furniture_uid++;
 }
 
 bool Game::minute_timer(int minutes)

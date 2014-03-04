@@ -13,6 +13,7 @@
 Furniture::Furniture()
 {
   type = NULL;
+  uid  = -1;
 }
 
 Furniture::~Furniture()
@@ -22,7 +23,14 @@ Furniture::~Furniture()
 void Furniture::set_type(Furniture_type* t)
 {
   type = t;
-  hp = type->hp;
+  if (type) {
+    hp = type->hp;
+  }
+}
+
+void Furniture::set_uid(int id)
+{
+  uid = id;
 }
 
 bool Furniture::is_real()
@@ -31,6 +39,11 @@ bool Furniture::is_real()
     return false;
   }
   return true;
+}
+
+int Furniture::get_uid()
+{
+  return uid;
 }
 
 glyph Furniture::get_glyph()
@@ -148,6 +161,7 @@ bool Furniture::damage(Damage_type damtype, int dam)
 void Furniture::destroy()
 {
   type = NULL;
+  uid  = -1;
 }
 
 void Tile::set_terrain(Terrain* ter)
@@ -160,7 +174,7 @@ void Tile::set_terrain(Terrain* ter)
   hp = ter->hp;
 }
 
-void Tile::add_furniture(Furniture_type* type)
+void Tile::add_furniture(Furniture_type* type, int uid)
 {
   if (!type) {
     debugmsg("Tile::add_furniture(NULL)!");
@@ -168,6 +182,12 @@ void Tile::add_furniture(Furniture_type* type)
   }
 
   furniture.set_type(type);
+  furniture.set_uid(uid);
+}
+
+void Tile::add_furniture(Furniture furn)
+{
+  furniture = furn;
 }
 
 void Tile::remove_furniture()
@@ -648,13 +668,6 @@ void Submap::generate(World_terrain* terrain[5], int posz)
   }
 }
 
-/*
-void Submap::generate(std::string terrain_name)
-{
-  generate( MAPGEN_SPECS.random_for_terrain( terrain_name ) );
-}
-*/
-
 void Submap::generate(Mapgen_spec* spec)
 {
   if (!spec) {
@@ -682,11 +695,18 @@ void Submap::generate(Mapgen_spec* spec)
   }
 
 // Next, add any furniture that needs adding.
+// The Game keeps track of furniture UIDs, but so do Mapgen_specs.
+// So store a std::map of what each Mapgen UID should be translated to.
+  std::map<int,int> map_uid_to_game_uid;
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
       Furniture_type* furniture = spec->pick_furniture(x, y);
       if (furniture) {
-        tiles[x][y].add_furniture(furniture);
+        int map_uid = spec->pick_furniture_uid(x, y);
+        if (map_uid_to_game_uid.count(map_uid) == 0) {
+          map_uid_to_game_uid[map_uid] = GAME.get_furniture_uid();
+        }
+        tiles[x][y].add_furniture(furniture, map_uid_to_game_uid[map_uid]);
       }
     }
   }
@@ -1383,20 +1403,38 @@ Furniture* Map::furniture_at(int x, int y, int z)
   return &(tile->furniture);
 }
 
+void Map::add_furniture(Furniture furn, Tripoint pos)
+{
+  add_furniture(furn, pos.x, pos.y, pos.z);
+}
+
+void Map::add_furniture(Furniture furn, int x, int y, int z)
+{
+  Tile* tile = get_tile(x, y, z);
+  if (!tile) {
+    return;
+  }
+  tile->add_furniture(furn);
+}
+
 /* grab_furniture() returns a list of the furniture at (target), along with any
  * furniture connected to it.  Furniture is considered connected if it touches
- * in an orthogonal direction, and has the same type.
+ * in an orthogonal direction, and has the same UID from the mapgen file.
  * To achieve this, grab_furniture() recurses into orthogonal tiles, and stops
- * if there's no furniture there, or if the furniture is of a different type.
- * (type) defaults to null, but is set when recursing.
+ * if there's no furniture there, or if the furniture is of a different UID.
+ * (id) defaults to -1, but is set when we recurse.
  * Checked is a vector of points already checked, so that we don't get stuck in
  * an infinite loop, cycling between two tiles.  If it's NULL, we'll set it and
  * delete it before we exit.
  */
 std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
-                                               Furniture_type* type,
+                                               int id,
                                                std::vector<Tripoint>* checked)
 {
+/* We have to create (checked) if it doesn't exist.  But we also have to
+ * *remember* that we created it, and delete it before returning, to avoid
+ * memory leaks.
+ */
   bool created_checked = false;
   if (checked == NULL) {
     created_checked = true;
@@ -1411,8 +1449,8 @@ std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
     }
     return ret;
   }
-// Return an empty vector if furniture is a different type
-  if (type && grabbed->type != type) {
+// Return an empty vector if furniture is a different UID
+  if (id >= 0 && grabbed->uid != id) {
     if (created_checked) {
       delete checked;
     }
@@ -1426,7 +1464,7 @@ std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
 
 // Now recurse...
   checked->push_back(target); // Ensure we won't try this target again.
-  Furniture_type* type_used = grabbed->type;
+  int id_used = grabbed->uid;
   for (int i = 1; i <= 4; i++) {
     Tripoint next = target;
     switch (i) {
@@ -1442,7 +1480,7 @@ std::vector<Furniture_pos> Map::grab_furniture(Tripoint origin, Tripoint target,
       }
     }
     if (next_okay) {
-      std::vector<Furniture_pos> adj = grab_furniture(origin, next, type_used,
+      std::vector<Furniture_pos> adj = grab_furniture(origin, next, id_used,
                                                       checked);
       for (int n = 0; n < adj.size(); n++) {
         ret.push_back(adj[n]);
