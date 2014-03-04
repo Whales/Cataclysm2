@@ -258,12 +258,21 @@ there.<c=/>", map->get_name(examine).c_str());
           pickup_items(examine);
         }
 
-        add_msg("That is %s.", map->get_name_indefinite(examine).c_str());
+        std::stringstream description;
+        description << "That is " << map->get_name_indefinite(examine) << ".";
+        if (map->furniture_at(examine)) {
+          description << "  You can drag it using the <c=yellow>grab<c=/> " <<
+                         "command (<c=yellow>" <<
+                         KEYBINDINGS.describe_bindings_for(IACTION_GRAB) <<
+                         "<c=/>).";
+        }
+
+        add_msg(description.str());
       }
     } break;
 
     case IACTION_GRAB: {
-      add_msg("<c=ltgreen>Examine where? (Press direction key)<c=/>");
+      add_msg("<c=ltgreen>Grab where? (Press direction key)<c=/>");
       draw_all();
       Point dir = input_direction(input());
       if (dir.x == -2) { // Error
