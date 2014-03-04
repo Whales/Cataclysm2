@@ -10,6 +10,7 @@
 #include "attack.h"
 #include "entity_ai.h"
 #include "status_effect.h"
+#include "map.h"
 #include <string>
 #include <map>
 #include <list>
@@ -233,6 +234,8 @@ public:
   Item weapon;
   std::vector<Item> inventory;
   std::vector<Item> items_worn;
+// Furniture dragged
+  std::vector<Furniture_pos> dragged;
 };
 
 /* For now, Entity_pool does NOT include a map which uses location as a key.
