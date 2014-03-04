@@ -609,18 +609,20 @@ bool Entity::can_drag_furniture_to(Map* map, int x, int y, int z)
   }
 // Check every tile of the furniture
   for (int i = 0; i < dragged.size(); i++) {
-    Tripoint test = Tripoint(x + dragged[i].pos.x, x + dragged[i].pos.y, z);
+    Tripoint test = Tripoint(x + dragged[i].pos.x, y + dragged[i].pos.y, z);
     if (map->move_cost(test) == 0) {
       return false;
     }
 // No displacing furniture; if the furniture there is of the same UID as the
 // furniture we're dragging, then it IS the furniture we're dragging.
+    //debugmsg("player %s; drag %s; test %s", pos.str().c_str(), dragged[i].pos.str().c_str(), test.str().c_str());
     Furniture* blocker = map->furniture_at(test);
     if (blocker && blocker->get_uid() != dragged[i].furniture.get_uid()) {
       return false;
     }
-// No displacing entities
-    if (GAME.entities.entity_at(test) != NULL) {
+// No displacing entities (except us!)
+    Entity* blocker_ent = GAME.entities.entity_at(test);
+    if (blocker_ent != NULL && blocker_ent != this) {
       return false;
     }
   }
