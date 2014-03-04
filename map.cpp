@@ -207,7 +207,11 @@ glyph Tile::top_glyph()
     if (terrain && !terrain->has_flag(TF_FLOOR)) {
       return terrain->sym.hilite(c_blue);
     }
-    return items.back().top_glyph();
+    glyph ret = items.back().top_glyph();
+    if (items.size() > 1) {
+      ret = ret.invert();
+    }
+    return ret;
   }
   if (!terrain) {
     return glyph();
