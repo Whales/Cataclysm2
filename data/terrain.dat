@@ -70,6 +70,7 @@ name: hedge
   glyph: % green black
   movecost: 0
   hp: 20
+  height: 40
   destroy: underbrush
   smash:
     failure_sound: "crunch."
