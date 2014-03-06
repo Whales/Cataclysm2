@@ -126,6 +126,7 @@ done
 name: fast_restaurant_whales_1
 subname: fast_rest_whales
 type: restaurant
+weight: 20
 tile: o = grass / dirt
 tile: * = pavement
 tile: . = floor
@@ -183,9 +184,11 @@ done
 name: fast_restaurant_whales_2
 subname: fast_rest_whales
 type: restaurant
+weight: 20
 tile: o = grass / dirt
 tile: * = pavement
 tile: . = floor
+tile: p = w:4 concrete floor / w:1 stone path
 tile: # = stone wall
 tile: X = glass wall
 tile: + = closed glass door
@@ -213,8 +216,8 @@ item_group: 70 D = items_trash
 map:
 !*****ooooooooooooo*****!
 !*****ooooooooooooo*****!
-!*****ooooooooooooo*****!
-!*****#XXXXX#XXXXX#*****!
+!*****ooooooooppppp*****!
+!*****#XXXXXXX+XXX#*****!
 !*****XCC..c....CCX*****!
 !*****XTT.cTc...TTX*****!
 !*****XCC..c....CCX*****!
