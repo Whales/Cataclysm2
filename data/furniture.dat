@@ -49,6 +49,20 @@ name: plastic chair
   HP:          50
 done
 
+name: stool
+  glyph: } brown black
+  move_cost:  350
+  height:      40
+  weight:      80
+  HP:          18
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+  done
+  Components: c:4 wood dowel / c:1 wood plank
+  Flags: flammable
+done
+
 name: desk
   glyph: } blue black
   move_cost:  350

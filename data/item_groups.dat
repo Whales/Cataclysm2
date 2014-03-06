@@ -245,3 +245,11 @@ done
 name: items_dry_drinks
   items: w:4 dry coffee / w:3 dry tea
 done
+
+# TODO!
+name: items_magazines
+done
+
+name: items_diner_food
+  items: w:3 beans / w:10 SPAM / w:3 tomatoes / w:15 beef patty / w:10 pressed potato / w:5 water / w:10 beer / w:1 wine / w:15 cola / w:5 V8 / w:5 dry pasta / w:5 dry tea / w:20 dry coffee
+done

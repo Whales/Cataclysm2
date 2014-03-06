@@ -63,6 +63,19 @@ weapon
 done
 
 weapon
+  name: wood dowel
+  description:
+    A solid cylindrical rod made of rood.  Not very hard or heavy.
+  done
+  glyph: / ltred black
+  weight: 15
+  volume: 36
+  bash:    8
+  to_hit:  2
+  flags: flammable
+done
+
+weapon
   name: rope
   description:
     10 feet of inch-thick rope.  Mainly useful for crafting or construction.
@@ -2429,7 +2442,7 @@ tool
     Also can pry open doors and various other objects.
   done
   glyph: ; ltblue black
-  weight: 26
+  weight: 75
   volume: 14
   bash:   14
   pierce:  4

@@ -277,6 +277,102 @@ ooooooooooooooooooooooooo
 endmap
 done
 
+name: diner_restaurant_whales
+subname: diner_rest_whales
+type: restaurant
+weight: 35
+tile: * = pavement
+tile: ^ = white pavement
+tile: . = floor
+tile: , = floor_lock
+tile: # = stone wall
+tile: X = glass wall
+tile_group: Y = glass wall / stone wall
+tile: + = closed glass door
+tile: & = locked door
+tile: ' = w:3 closed door / w:1 open door
+tile: L = toilet
+tile: K = sink
+tile: V = stove
+tile: B = affixed bench
+tile: T = affixed table
+
+tile: ctsS = floor
+furniture: c = plastic chair
+furniture: t = table
+furniture: sS = stool
+
+tile: % = counter
+item_group: 35 % = items_kitchen_counter
+
+tile: 1$ = display rack
+item_group: 35 1 = items_magazines
+item_group: 30 $ = items_diner_food
+
+map:
+^^^^^***************^^^^^
+*************************
+*************************
+*************************
+^^^^^***************^^^^^
+*************************
+*************************
+*************************
+^^^^^***************^^^^^
+*************************
+*************************
+*************************
+^^^^^***************^^^^^
+*************************
+*********#YYYYYY*********
+*********#1....+*********
+###XXXXXX##+####XXXX#####
+#%..%s..c....BTBBT..'..L#
+#%..%S.ctc...BTBBT..#..K#
+#V..%s..c...........#####
+#V..%S..............#$$$#
+#%..%s..............#$.$#
+#K..%S..TBBTBBTBBT.,#$.$#
+#K......TBBTBBTBBT.,&..$#
+#########################
+endmap
+done
+
+name: diner_restaurant_whales_roof
+subname: diner_rest_whales
+type: restaurant
+level: 1
+tile: * = empty
+tile: . = roof
+map:
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*************************
+*********.......*********
+*********.......*********
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+endmap
+done
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".
