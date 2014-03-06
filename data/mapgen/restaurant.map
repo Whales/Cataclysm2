@@ -78,7 +78,7 @@ ooooooooooo***ooooooooooo
 ####''###################
 #TK#..#%%%VVVV%%K%%#LMN$#
 #..'..'............#...$#
-#..#..'............+...$#
+#..#..'............'...$#
 #..#..#%%KKK%%%%$$$#$$$$#
 #####@###################
 111pppp222pppppp333pppppp
@@ -123,7 +123,7 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: fast_restaurant_whales
+name: fast_restaurant_whales_1
 subname: fast_rest_whales
 type: restaurant
 tile: o = grass / dirt
@@ -156,9 +156,9 @@ map:
 ******ooooooooooooo******
 ******ooooooccccccc******
 ******#XXXX#+#XXXX#******
-******#CC.......CC#******
-******#TT.......TT#******
-******#CC.CC.CC.CC#******
+******XCC.......CCX******
+******XTT.......TTX******
+******XCC.CC.CC.CCX******
 ******#XX.TT.TT..%#******
 ******+.X.CC.CC..%#******
 ******#.X.%%%%%..%#******
@@ -174,9 +174,68 @@ map:
 *************************
 *************************
 *************************
-********************|*|||
+********************|**||
 ********************|DDD|
 !!!!!!!!!!!!!!!!!!!!|||||
+endmap
+done
+
+name: fast_restaurant_whales_2
+subname: fast_rest_whales
+type: restaurant
+tile: o = grass / dirt
+tile: * = pavement
+tile: . = floor
+tile: # = stone wall
+tile: X = glass wall
+tile: + = closed glass door
+tile: ' = closed door
+tile: @ = w:4 locked door / w:1 closed door
+tile: " = window
+tile: C = affixed bench
+tile: T = affixed table
+tile: % = counter
+tile: t = toilet
+tile: K = sink
+tile: V = stove
+tile_group: ! = w:4 chain-link fence / w:1 pavement
+tile: | = stockade fence
+
+tile: c = floor
+furniture: c = plastic chair
+
+tile: $ = display rack
+item_group: 35 $ = items_fast_food
+
+tile: D = dumpster
+item_group: 70 D = items_trash
+
+map:
+!*****ooooooooooooo*****!
+!*****ooooooooooooo*****!
+!*****ooooooooooooo*****!
+!*****#XXXXX#XXXXX#*****!
+!*****XCC..c....CCX*****!
+!*****XTT.cTc...TTX*****!
+!*****XCC..c....CCX*****!
+!*****XCC....c..CCX*****!
+!*****XTT...cTc.TTX*****!
+!*****XCC....c..CCX*****!
+!*****+...........+*****!
+!*****#.%%%%%%%%###*****!
+!*****#..........."*****!
+!*****#.######.%#.#*****!
+!*****+.#$..'..%#.#*****!
+!*****#'##$.#%.V#.#*****!
+!*****#.t#$.#%.##.#*****!
+!*****#.K#$$#K.#%."*****!
+!*****########@####*****!
+!***********************!
+!***********************!
+!***********************!
+!*******************|**|!
+!*******************|DDD!
+!*!!!!!!!!!!!!!!!!!!||||!
 endmap
 done
 

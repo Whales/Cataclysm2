@@ -41,6 +41,14 @@ name: wood chair
   Flags: flammable
 done
 
+name: plastic chair
+  glyph: } pink black
+  move_cost:  300
+  height:      35
+  weight:     120
+  HP:          50
+done
+
 name: desk
   glyph: } blue black
   move_cost:  350
