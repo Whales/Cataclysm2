@@ -699,3 +699,20 @@ name: air pump
   hp: 80
   destroy: rubble
 done
+
+name: affixed bench
+  glyph: % ltblue black
+  movecost: 175
+  height: 30
+  hp:     50
+  destroy: rubble
+done
+
+name: affixed table
+  glyph: % ltred black
+  movecost: 175
+  height: 50
+  hp:     60
+  destroy: rubble
+done
+  

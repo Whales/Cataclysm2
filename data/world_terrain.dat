@@ -154,8 +154,8 @@ Name: bank
   Flags: shop face_road
 Done
 
-#Name: restaurant
-  #Glyph: o cyan black
-  #Road_cost: 500
-  #Flags: shop face_road
-#Done
+Name: restaurant
+  Glyph: o cyan black
+  Road_cost: 500
+  Flags: shop face_road
+Done

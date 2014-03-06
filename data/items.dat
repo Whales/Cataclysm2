@@ -1958,6 +1958,51 @@ food
 done
 
 food
+  name: beef patty
+  description:
+    A patty of a beef-like substance.  It contains so many preservatives that
+    its shelf life is essentially indefinite.  Neat!
+  done
+  glyph: $ brown black
+  weight: 1
+  volume: 3
+  food: 20
+  charges: 1
+done
+
+food
+  name: pressed potato
+  description:
+    Preserved potato sticks.  When deep-fried, these become delicious fries with
+    a mild meaty after-taste!
+  done
+  glyph: $ yellow black
+  weight:  1
+  volume:  5
+  food:    5
+  charges: 4
+  flags: plural
+done
+
+food
+  name: chocolate shake
+  description:
+    "Ingredients: Xanthan gum, Anti-coagulant, Proprietary Sweetening Agent #12,
+    Imitation Chocolate Flavor.  Do not consume if pregnant."
+  done
+  glyph: $ brown black
+  weight:  6
+  volume: 10
+  water:  10
+  food:    8
+  charges: 2
+  verb: drink
+  container: plastic bottle
+  flags: liquid plural
+done
+  
+
+food
   name: water
   description:
     Water, the stuff of life, the best thirst-quencher available.
