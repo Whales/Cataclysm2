@@ -662,7 +662,7 @@ void Submap::generate(World_terrain* terrain[5], int posz)
 // Now do adjacency maps
   for (int i = 1; i < 5; i++) {
     if (terrain[i] && terrain[i] != terrain[0]) {
-      Mapgen_spec* adj = MAPGEN_SPECS.random_adjacent_to(terrain[i]);
+      Mapgen_spec* adj = MAPGEN_SPECS.random_adjacent_to(terrain[i],terrain[0]);
       if (adj) {
         adj->prepare(terrain);
         adj->rotate( Direction(i) );

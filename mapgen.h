@@ -240,6 +240,7 @@ struct Mapgen_spec
   int uid;
   std::string name;
   std::string terrain_name; // World_terrain we belong to
+  std::string adj_terrain_name; // For adjacency maps; only place here
 // The following two are used for building 2nd floors.
   std::string subname;  // Specific flavor of the terrain type
   Direction rotation;   // Rotation of the floor below
@@ -293,10 +294,11 @@ public:
   Mapgen_spec* random_with_subname(std::string subname, int z_level = 0);
 
   std::vector<Mapgen_spec*> lookup_adjacent_name(std::string name);
-  Mapgen_spec* random_adjacent_to(std::string name);
+  Mapgen_spec* random_adjacent_to(std::string name, std::string here);
 
   std::vector<Mapgen_spec*> lookup_adjacent_ptr(World_terrain* ptr);
-  Mapgen_spec* random_adjacent_to(World_terrain* ptr);
+  Mapgen_spec* random_adjacent_to(World_terrain* ptr,
+                                  World_terrain* ptr_here = NULL);
 
   int size();
 

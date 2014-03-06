@@ -714,6 +714,15 @@ bool Mapgen_spec::load_data(std::istream &data)
       is_adjacent = true;
       std::getline(data, junk);
 
+    } else if (ident == "adj_on:" || ident == "adjacent_on:") {
+      if (!is_adjacent) {
+        debugmsg("%s line for a non-adjacency map! (%s)", ident.c_str(),
+                 name.c_str());
+        return false;
+      }
+      std::getline(data, adj_terrain_name);
+      adj_terrain_name = trim(adj_terrain_name);
+
     } else if (ident == "neighbors:") {
       data >> num_neighbors;
       std::getline(data, junk);
@@ -1668,20 +1677,50 @@ Mapgen_spec_pool::lookup_adjacent_name(std::string name)
   return adjacent_name_map[name];
 }
 
-Mapgen_spec* Mapgen_spec_pool::random_adjacent_to(std::string name)
+Mapgen_spec* Mapgen_spec_pool::random_adjacent_to(std::string name,
+                                                  std::string here)
 {
+  here = no_caps(here);
+  here = trim(here);
   if (adjacent_name_map.count(name) == 0) {
     return NULL;
   }
-  int index = rng(1, adjacent_name_total_chance[name]);
+
+  std::vector<Mapgen_spec*> valid;
   std::vector<Mapgen_spec*> *vec = &(adjacent_name_map[name]);
-  for (int i = 0; i < vec->size(); i++) {
-    index -= (*vec)[i]->weight;
-    if (index <= 0) {
-      return (*vec)[i];
+  int total_chance = 0;
+
+  if (here == "") { // Works anywhere!
+    for (int i = 0; i < vec->size(); i++) {
+      valid.push_back( (*vec)[i] );
+    }
+    total_chance = adjacent_name_total_chance[name];
+
+  } else {
+/* We need to only include adjacency maps that either don't specify where they
+ * can be placed, or can be placed on maps of type "here"
+ */
+    for (int i = 0; i < vec->size(); i++) {
+      std::string adj_name = no_caps( (*vec)[i]->adj_terrain_name );
+      if (adj_name.empty() || adj_name == here) {
+        valid.push_back( (*vec)[i] );
+        total_chance += (*vec)[i]->weight;
+      }
     }
   }
-  return vec->back();
+
+  if (valid.empty()) {
+    return NULL;
+  }
+
+  int index = rng(1, total_chance);
+  for (int i = 0; i < valid.size(); i++) {
+    index -= valid[i]->weight;
+    if (index <= 0) {
+      return valid[i];
+    }
+  }
+  return valid.back();
 }
 
 std::vector<Mapgen_spec*>
@@ -1694,20 +1733,49 @@ Mapgen_spec_pool::lookup_adjacent_ptr(World_terrain* ptr)
   return adjacent_ptr_map[ptr];
 }
 
-Mapgen_spec* Mapgen_spec_pool::random_adjacent_to(World_terrain *ptr)
+Mapgen_spec* Mapgen_spec_pool::random_adjacent_to(World_terrain *ptr,
+                                                  World_terrain *ptr_here)
 {
   if (!ptr || adjacent_ptr_map.count(ptr) == 0) {
     return NULL;
   }
-  int index = rng(1, adjacent_ptr_total_chance[ptr]);
+
+  std::vector<Mapgen_spec*> valid;
   std::vector<Mapgen_spec*> *vec = &(adjacent_ptr_map[ptr]);
-  for (int i = 0; i < vec->size(); i++) {
-    index -= (*vec)[i]->weight;
+  int total_chance = 0;
+
+  if (ptr_here) {
+/* We need to only include adjacency maps that either don't specify where they
+ * can be placed, or can be placed on maps of type "here"
+ */
+    std::string here_name = no_caps( ptr_here->get_data_name() );
+    for (int i = 0; i < vec->size(); i++) {
+      std::string adj_name = no_caps( (*vec)[i]->adj_terrain_name );
+      if (adj_name.empty() || adj_name == here_name) {
+        valid.push_back( (*vec)[i] );
+        total_chance += (*vec)[i]->weight;
+      }
+    }
+
+  } else {  // All are valid!
+    for (int i = 0; i < vec->size(); i++) {
+      valid.push_back( (*vec)[i] );
+    }
+    total_chance = adjacent_ptr_total_chance[ptr];
+  }
+
+  if (valid.empty()) {
+    return NULL;
+  }
+
+  int index = rng(1, total_chance);
+  for (int i = 0; i < valid.size(); i++) {
+    index -= valid[i]->weight;
     if (index <= 0) {
-      return (*vec)[i];
+      return valid[i];
     }
   }
-  return vec->back();
+  return valid.back();
 }
 
 int Mapgen_spec_pool::size()

@@ -63,7 +63,7 @@ name: small tree
     success_sound: "crunch!"
     armor: bash 1d10 + 5
   done
-  flags: flammable
+  flags: flammable mutable
 done
 
 name: hedge
