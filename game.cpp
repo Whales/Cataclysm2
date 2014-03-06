@@ -219,7 +219,15 @@ there.<c=/>", map->get_name(player->pos).c_str());
         add_msg("Invalid direction.");
       } else {
         Tripoint close = player->pos + dir;
-        if (map->apply_signal("close", close, player)) {
+// TODO: Should this stuff be in map.cpp?  Probably not, huh?
+        Entity* ent = entities.entity_at(close);
+        if (ent == player) {
+          add_msg("Maybe you should move out of the doorway first.");
+        } else if (ent) {
+          add_msg("There's a %s in the way.", ent->get_name().c_str());
+        } else if (map->furniture_at(close)) {
+          add_msg("There's some furniture in the way.");
+        } else if (map->apply_signal("close", close, player)) {
           player->use_ap(100);
         }
       }
@@ -456,7 +464,9 @@ there.<c=/>", map->get_name(examine).c_str());
 // Adjust to match the upper-left corner
       got.x -= MAP_SIZE / 2;
       got.y -= MAP_SIZE / 2;
-      map->generate(worldmap, got.x, got.y);
+      if (TESTING_MODE) {
+        map->generate(worldmap, got.x, got.y);
+      }
     }  break;
 
     case IACTION_DEBUG:
