@@ -263,7 +263,10 @@ struct Mapgen_spec
 
 private:
   bool verify_map();
+  void assign_furniture_uids();
+  void mark_furniture_uid(int x, int y, int uid);  // Recurses into neighbors
 
+  int furniture_uid[MAPGEN_SIZE][MAPGEN_SIZE];
 };
 
 class Mapgen_spec_pool

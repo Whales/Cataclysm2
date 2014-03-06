@@ -1144,16 +1144,10 @@ Furniture_type* Mapgen_spec::pick_furniture(int x, int y)
 
 int Mapgen_spec::pick_furniture_uid(int x, int y)
 {
-// Is there a better way to do this?  Does this way actually WORK all the time?
-  std::map<char,Furniture_type*>::iterator it;
-  int ret = 0;
-  for (it = furniture.begin(); it != furniture.end(); it++) {
-    if (it->first == prepped_terrain[x][y]) {
-      return ret;
-    }
-    ret++;
+  if (x < 0 || x >= MAPGEN_SIZE || y < 0 || y >= MAPGEN_SIZE) {
+    return -1;
   }
-  return -1;
+  return furniture_uid[x][y];
 }
 
 void Mapgen_spec::prepare(World_terrain* world_ter[5])
@@ -1288,6 +1282,63 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
       if (item_amount_defs.count(ch) != 0) {
         item_amount_defs[ch].add_point(x, y);
       }
+    }
+  }
+// Finally, assign furniture uids
+  assign_furniture_uids();
+}
+
+void Mapgen_spec::assign_furniture_uids()
+{
+// First, set everything in our array to -1
+  for (int x = 0; x < MAPGEN_SIZE; x++) {
+    for (int y = 0; y < MAPGEN_SIZE; y++) {
+      furniture_uid[x][y] = -1;
+    }
+  }
+// Now set the UIDs
+  int next_uid = 0;
+  for (int x = 0; x < MAPGEN_SIZE; x++) {
+    for (int y = 0; y < MAPGEN_SIZE; y++) {
+      char terch = prepped_terrain[x][y];
+      if (furniture_uid[x][y] == -1 && furniture.count(terch) != 0) {
+        mark_furniture_uid(x, y, next_uid);
+        next_uid++;
+      }
+    }
+  }
+}
+
+void Mapgen_spec::mark_furniture_uid(int x, int y, int uid)
+{
+  if (x < 0 || x >= MAPGEN_SIZE || y < 0 || y >= MAPGEN_SIZE) {
+    return; // Out-of-bounds, so stop.
+  }
+  char terch = prepped_terrain[x][y];
+  if (furniture.count(terch) == 0) {
+    return; // No furniture here, so stop.
+  }
+  if (furniture_uid[x][y] != -1) {
+    return; // Already assigned a furniture uid, so stop.
+  }
+
+  furniture_uid[x][y] = uid;
+// Now mark all adjacent tiles with the same furniture binding
+  for (int i = 1; i <= 4; i++) {
+    int xrec = x, yrec = y;
+    switch (i) {
+      case 1: xrec--; break;
+      case 2: xrec++; break;
+      case 3: yrec--; break;
+      case 4: yrec++; break;
+    }
+/* Only recurse if the neighboring tile is inbounds and has the same prepped
+ * character code as us.  As seen above, we don't have to worry about checking
+ * furniture_uid.
+ */
+    if (xrec >= 0 && xrec < MAPGEN_SIZE && yrec >= 0 && yrec < MAPGEN_SIZE &&
+        prepped_terrain[xrec][yrec] == terch) {
+      mark_furniture_uid(xrec, yrec, uid);
     }
   }
 }
