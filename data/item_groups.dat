@@ -122,7 +122,7 @@ name: items_fridge
 done
 
 name: items_food_shelves
-  items: w:20 beans / w:12 tomatoes / w:10 potato chips / w:24 dry pasta / w:3 dry tea / w:5 dry coffee / w:12 dry rice
+  items: w:20 beans / w:12 tomatoes / w:10 potato chips / w:24 dry pasta / w:3 dry tea / w:5 dry coffee / w:12 dry rice / w:10 flour
 done
 
 name: items_snacks

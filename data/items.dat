@@ -2279,6 +2279,22 @@ food
 done
 
 food
+  name: flour
+  description:
+    Dry, finely ground wheat.  You could eat this as it is if you're desperate,
+    but it'd be much better if used to bake some bread or something.
+  done
+  glyph: $ white black
+  weight:  5
+  volume:  3
+  food:    2
+  charges: 8
+  verb: choke down
+  container: plastic bag
+  flags: plural
+done
+
+food
   name: dry tea
   description:
     A number of tea bags, containing some caffeinated black tea leaves.  You
