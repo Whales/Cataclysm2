@@ -1425,6 +1425,6 @@ std::string pickup_string(Item *item, char letter, bool picking_up)
   }
   std::stringstream ss;
   ss << "<c=" << (picking_up ? "green" : "ltgray") << ">" << letter <<
-        (picking_up ? " +" : " -") << " " << item->get_name();
+        (picking_up ? " +" : " -") << " " << item->get_name_full();
   return ss.str();
 }

@@ -206,8 +206,21 @@ std::string Item::get_name_full()
   }
   std::stringstream ret;
   ret << get_name();
+// Display FULL info on contained items
   if (!contents.empty()) {
-    ret << " of " << contents[0].get_name_full();
+    std::string preposition = "containing";
+    bool use_article = true;
+    if (get_item_class() == ITEM_CLASS_CONTAINER) {
+      Item_type_container* cont = static_cast<Item_type_container*>(type);
+      preposition = cont->preposition;
+      use_article = cont->use_article;
+    }
+    ret << " " << preposition << " ";
+    if (use_article) {
+      ret << contents[0].get_name_indefinite();
+    } else {
+      ret << contents[0].get_name_full();
+    }
   }
 
 // Display the number of charges for items that use them
