@@ -444,7 +444,7 @@ name: joes_restaurant_whales_roof
 subname: joes_rest_whales
 type: restaurant
 floor: 1
-tile: o = nothing
+tile: o = empty
 tile: . = roof
 map:
 ooooooooooooooooooooooooo

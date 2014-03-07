@@ -170,7 +170,7 @@ name: fsb_2_bank_whales_1
 subname: fsb_2_bank_whales
 type: bank
 floor: 1
-tile: o = nothing
+tile: o = empty
 tile: . = floor
 tile: , = floor_lock
 tile: # = stone wall
@@ -227,7 +227,7 @@ name: fsb_2_bank_whales_roof
 subname: fsb_2_bank_whales
 type: bank
 floor: 2
-tile: o = nothing
+tile: o = empty
 tile: . = roof
 map:
 ooooooooooooooooooooooooo
