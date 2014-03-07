@@ -151,6 +151,14 @@ name: items_valuables_safe
   items: w:5 bundle of money / w:1 brick of money
 done  
 
+name: items_valuables
+  items: w:5 bundle of money / w:1 brick of money / w:5 gold ring / w:5 diamond / w:5 diamond necklace
+done
+
+name: items_cash
+  items: w:5 brick of money / w:1 bundle of money
+done
+
 # Gun store items
 # "Civilian" ammo - omit armor-piercing variants.  This is a crazy gun-toting
 # future so other rounds that might be illegal can appear here.

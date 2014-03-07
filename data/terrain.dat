@@ -618,7 +618,7 @@ name: dresser
 
   smash:
     failure_sound: "whack."
-    success_sound: "wood splintering."
+    success_sound: wood splintering.
   done
 
   flags: flammable container
@@ -715,4 +715,16 @@ name: affixed table
   hp:     60
   destroy: rubble
 done
-  
+
+name: server rack
+  glyph: { pink black
+  movecost: 0
+  hp: 50
+  smash:
+    failure_sound: "thunk."
+    success_sound: electronics smashing.
+  done
+  destroy: rubble
+  flags: flammable
+done
+

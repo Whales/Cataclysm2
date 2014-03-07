@@ -497,6 +497,17 @@ weapon
 done
 
 weapon
+  name: diamond
+  description:
+    A fairly large, pure white diamond.  Worth a huge sum of money at one time,
+    this may still be valuable to some.
+  done
+  glyph: * white black
+  weight: 0
+  volume: 0
+done
+
+weapon
   name: dead plant
   description:
     A potted plant of some kind, long dead.
@@ -945,6 +956,28 @@ clothing
   weight: 14
   volume: 30
   carries: 300
+done
+
+clothing
+  name: gold ring
+  description:
+    A simple gold ring.  Perhaps someone's wedding band at some point in the
+    distant past?
+  done
+  glyph: [ green black
+  weight: 0
+  volume: 0
+done
+
+clothing
+  name: diamond necklace
+  description:
+    A beautiful diamond necklace.  Its value was once immense, but even today it
+    may carry some worth.
+  done
+  glyph: [ green black
+  weight: 0
+  volume: 1
 done
 
 # END Clothing
