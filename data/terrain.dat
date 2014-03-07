@@ -1,7 +1,6 @@
 name: dirt
   glyph: . brown black
   movecost: 100
-  flags: floor
   signal: dig
     result: hole
   done
@@ -11,12 +10,31 @@ done
 name: grass
   glyph: . green black
   movecost: 100
-  flags: floor
   signal: dig
     result: hole
   done
   flags: plural floor mutable
 done
+
+name: tall grass
+  glyph: " ltgreen black
+  movecost: 150
+  flags: floor opaque
+  height: 85
+  signal: dig
+    result: hole
+  done
+  hp: 15
+  smash:
+    failure_sound: "swish."
+    success_sound: "swish."
+    armor: bash   100
+    armor: pierce 100
+    ignore_chance: 10
+  done
+  destroy: grass
+done
+  
 
 # TODO: redo hole as a trapish thing.
 name: hole
