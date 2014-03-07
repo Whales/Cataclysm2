@@ -326,10 +326,10 @@ map:
 *************************
 *********#YYYYYY*********
 *********#1....+*********
-###XXXXXX##+####XXXX#####
-#%..%s..c....BTBBT..'..L#
-#%..%S.ctc...BTBBT..#..K#
-#V..%s..c...........#####
+###XXXXXX#X+X###XXXX#####
+#%..%s.BTB...BTBBT..'..L#
+#%..%S.BTB...BTBBT..#..K#
+#V..%s..............#####
 #V..%S..............#$$$#
 #%..%s..............#$.$#
 #K..%S..TBBTBBTBBT.,#$.$#
@@ -370,6 +370,73 @@ map:
 .........................
 .........................
 .........................
+endmap
+done
+
+# Roughly based off Joe's Pizza in Northampton, MA
+name: joes_restaurant_whales
+subname: joes_rest_whales
+type: restaurant
+tile: o = concrete floor
+tile: * = pavement
+tile: . = floor
+tile: " = window
+tile_group: ' = w:3 wood wall / w:1 window
+tile: # = wood wall
+tile: + = closed door
+tile: @ = w:40 locked door / w:10 closed door / w:1 wood wall
+tile: B = affixed bench
+tile: T = affixed table
+tile: % = counter
+tile: V = stove
+tile: O = toilet
+tile: K = sink
+
+tile: sSct = floor
+furniture: sS = stool
+furniture: c  = wood chair
+furniture: t  = table
+
+tile: $ = counter
+item_group: 50 $ = items_kitchen_counter
+
+tile: 123 = display rack
+item_group: 40 1 = items_hard_liquor
+item_group: 45 2 = items_wine
+item_group: 35 3 = items_food_shelves
+
+tile: f = display fridge
+item_group: 35 f = items_beer
+
+tile: D = dumpster
+item_group: 55 D = items_trash
+
+map:
+*******oooooooooooooooooo
+*******oooooooooooooooooo
+*******##"#+#"###"##+#"##
+*******#BB...BB#f.%s..BB#
+*******"TT...TT#f.%S..TT#
+*******#BB...BB#f.%s..BB#
+*******#BB...BB#1.%S..BB#
+*******"TT...TT#1.%s..TT#
+*******#BB...BB#1.%S..BB#
+*******#BB.....%..%s..TT#
+*******"TT.....#..%S..BB#
+*******#BB...........####
+*******#.......#.....+.O#
+*******######..#..####.K#
+*******#ctc.........c####
+*******'............t#.3#
+*******"BTT.TTB#BB..c#.3#
+*******'BTT.TTB#TT...#.3#
+*******#BBBBBBB#BB...#.3#
+*******############++#+##
+**********#2222#%%%....K#
+**********@....+.......K#
+*********D#2..2#$......$#
+*********D#2222#$$VVV$$$#
+*********D###############
 endmap
 done
 
