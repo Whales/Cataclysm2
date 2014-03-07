@@ -54,7 +54,7 @@ item_group: 15 4 = items_snacks
 shuffle: 1234
 
 tile: S = safe
-num_item_group: S = w:30 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
+num_item_group: S = w:30 c: 1d3; items_valuables / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
 
 map:
 ppppppppppppppppppppppppp
@@ -152,7 +152,7 @@ item_group: 15 4 = items_snacks
 shuffle: 1234
 
 tile: S = safe
-num_item_group: S = w:30 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
+num_item_group: S = w:30 c: 1d3; items_valuables / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
 
 map:
 ppppppppppppppppppppppppp
@@ -242,7 +242,7 @@ tile: D = dumpster
 item_group: 50 D = items_trash
 
 tile: S = safe
-num_item_group: S = w:30 c: 1d3; items_valuables_safe / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
+num_item_group: S = w:30 c: 1d3; items_valuables / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
 
 map:
 ppppppppppppppppppppppppp
