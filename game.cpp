@@ -1067,7 +1067,7 @@ void Game::debug_command()
 
     case DEBUG_ACTION_PLACE_FIELD: {
       std::string name = string_input_popup("Field type:");
-      Field_type* type = FIELDS.lookup_name(name);
+      Field_type* type = FIELDS.lookup_partial_name(name);
       if (!type) {
         add_msg("No such field as '%s'.", name.c_str());
       } else {
