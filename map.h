@@ -283,5 +283,6 @@ public:
 private:
   Submap* submaps[MAP_SIZE][MAP_SIZE][VERTICAL_MAP_SIZE * 2 + 1];
   Tile tile_oob;
+  std::vector<Tripoint> field_points;
 };
 #endif

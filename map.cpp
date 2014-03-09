@@ -1345,12 +1345,14 @@ bool Map::add_field(Field field, int x, int y, int z)
   if (tile->has_field()) {
 // We can combine fields of the same type
     tile->field += field;
+    field_points.push_back( Tripoint(x, y, (z == 999 ? posz : z)) );
     return true;
   }
   if (tile->move_cost() == 0 && !field.has_flag(FIELD_FLAG_SOLID)) {
     return false;
   }
   tile->field = field;
+  field_points.push_back( Tripoint(x, y, (z == 999 ? posz : z)) );
   return true;
 }
 
@@ -1681,6 +1683,7 @@ void Map::process_fields()
  *        fields, the copy that output map back to this after processing is
  *        done.
  */
+/*
   for (int x = 0; x < SUBMAP_SIZE * MAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE * MAP_SIZE; y++) {
       for (int z = 0; z <= posz; z++) {
@@ -1689,13 +1692,23 @@ void Map::process_fields()
           debugmsg("Somehow encountered NULL field at [%d:%d:%d]", x, y, z);
           return;
         }
-        if (field->is_valid()) {
-          Entity* ent = GAME.entities.entity_at(x, y, z);
-          if (ent) {
-            field->hit_entity(ent);
-          }
-          field->process(this, Tripoint(x, y, z));
-        }
+*/
+  for (int i = 0; i < field_points.size(); i++) {
+    Tripoint pos = field_points[i];
+    Field* field = field_at(pos);
+    if (!field) {
+      debugmsg("Somehow encountered NULL field at %s!", pos.str().c_str());
+      return;
+    }
+    if (field->is_valid()) {
+      Entity* ent = GAME.entities.entity_at(pos);
+      if (ent) {
+        field->hit_entity(ent);
+      }
+      field->process(this, pos);
+      if (!field->is_valid()) { // It was destroyed/extinguished!
+        field_points.erase( field_points.begin() + i);
+        i--;
       }
     }
   }
