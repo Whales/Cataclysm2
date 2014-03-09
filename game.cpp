@@ -1065,6 +1065,17 @@ void Game::debug_command()
       add_msg(map->get_center_submap()->get_spec_name().c_str());
       break;
 
+    case DEBUG_ACTION_PLACE_FIELD: {
+      std::string name = string_input_popup("Field type:");
+      Field_type* type = FIELDS.lookup_name(name);
+      if (!type) {
+        add_msg("No such field as '%s'.", name.c_str());
+      } else {
+        Tripoint pos = target_selector();
+        map->add_field(type, pos, "Magic");
+      }
+    } break;
+
     default:
       add_msg("Nothing coded for %s yet.", debug_action_name(act).c_str());
   }
