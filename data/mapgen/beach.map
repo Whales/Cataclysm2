@@ -24,7 +24,7 @@
 name: test_beach_whales
 type: beach_shipwreck
 # weight = 0; don't spawn this map!
-weight: 999
+weight: 0
 base_terrain: beach sand
 item_group: 80 . = items_test
 tile: + = locked door
