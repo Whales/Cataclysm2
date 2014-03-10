@@ -120,7 +120,7 @@ private:
   Window *w_hud;
   cuss::interface i_hud;
   std::vector<Game_message> messages;
-  std::list<Item*> active_items;
+  std::vector<Item*> active_items;
   int last_target;
   int new_messages;
   int next_item_uid;

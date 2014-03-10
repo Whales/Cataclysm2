@@ -587,11 +587,8 @@ void Game::complete_player_activity()
 
 void Game::process_active_items()
 {
-  debugmsg("Active_items.size() %d", active_items.size());
-  for (std::list<Item*>::iterator iter = active_items.begin();
-       iter != active_items.end();
-       iter++) {
-    (*iter)->process_active();
+  for (int i = 0; i < active_items.size(); i++) {
+    active_items[i]->process_active();
   }
 }
 
@@ -893,15 +890,9 @@ void Game::remove_active_item(Item* it)
   if (!it) {
     return;
   }
-  debugmsg("active_items.size() %d", active_items.size());
-  for (std::list<Item*>::iterator iter = active_items.begin();
-       iter != active_items.end();
-       iter++) {
-    debugmsg("iter %d, it %d", *iter, it);
-    if ( (*iter) == it) {
-      debugmsg("Removing");
-      active_items.erase(iter);
-      debugmsg("active_items.size() %d", active_items.size());
+  for (int i = 0; i < active_items.size(); i++) {
+    if (active_items[i] == it) {
+      active_items.erase( active_items.begin() + i );
       return;
     }
   }
@@ -909,11 +900,10 @@ void Game::remove_active_item(Item* it)
 
 void Game::remove_active_item_uid(int uid)
 {
-  for (std::list<Item*>::iterator iter = active_items.begin();
-       iter != active_items.end();
-       iter++) {
-    if ( (*iter)->get_uid() == uid) {
-      active_items.erase(iter);
+  for (int i = 0; i < active_items.size(); i++) {
+    if (active_items[i]->get_uid() == uid) {
+      active_items.erase( active_items.begin() + i );
+      return;
     }
   }
 }

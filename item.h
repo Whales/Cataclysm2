@@ -86,7 +86,7 @@ public:
   bool start_countdown();
   bool finish_countdown();  // Handles action, removing from active list
   bool is_active(); // True if ITEM_ACTIVE_POWERED or ITEM_ACTIVE_TIMER
-// Process_active() returns true if we did something, false otherwise
+// Process_active() returns true if we are not longer active, false otherwise
   bool process_active();
 
 // Interfaces

@@ -674,13 +674,11 @@ bool Item::finish_countdown()
   tool->countdown_action.activate(this);
   GAME.remove_active_item(this);
   active = ITEM_ACTIVE_OFF;
-/*
   if (tool->countdown_action.destroy_if_chargeless) {
     if (!GAME.destroy_item_uid(get_uid())) {
       debugmsg("Couldn't destroy item!");
     }
   }
-*/
   return true;
 }
   
@@ -722,8 +720,9 @@ bool Item::process_active()
 // We have to destroy the item AFTER removing it from Game:active_items!
         if (tool->powered_action.destroy_if_chargeless) {
           GAME.destroy_item(this);
+          return true;
         }
-        return true;
+        return false;
       }
     }
 // Finally, do what we're meant to do while active.
@@ -732,9 +731,8 @@ bool Item::process_active()
     } else {
       debugmsg("%s is ITEM_ACTIVE_POWERED but its powered_action isn't real!",
                get_name_full().c_str());
-      return false;
     }
-    return true;
+    return false;
 
   } else if (active == ITEM_ACTIVE_TIMER) {
     if (!tool->countdown_action.real) {
