@@ -176,6 +176,178 @@ ooooooooooooooooooooooooo
 endmap
 done
 
+name: multi_apartment_house_whales
+subname: multiapt_house_whales
+type: house
+tile: o = grass / dirt
+tile: # = stone wall
+tile: " = window
+tile: + = w:10 closed door / w:1 open door
+tile: @ = w:4 locked door / w:1 closed door
+tile: . = floor
+tile: , = floor_lock
+tile: < = stairs up
+tile: V = stove
+tile: T = toilet
+tile: K = sink
+tile: B = bed
+tile_group: wxyz = bed / floor
+tile_group: 123456 = shelves / floor
+
+tile: % = counter
+item_group: 70 % = items_kitchen_counter
+
+tile: $ = shelves
+item_group: 60 $ = items_food_shelves
+
+tile: F = fridge
+item_group: 60 F = items_fridge
+
+tile: D = dresser
+item_group: 80 D = items_all_clothes
+
+tile: tcCd = floor
+furniture: cC = wood chair
+furniture: t = table
+furniture: d = desk
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo##"#"####@#@####"#"##oo
+oo#.....@,..#..,@.....#oo
+oo".....#,.<#<.,#....."oo
+oo#.tt..#########..tt.#oo
+oo".....+..T#T..+....."oo
+oo#.....#..K#K..#.....#oo
+oo####..#########..####oo
+oo#%F....Ctc#ctC....F%#oo
+oo"%.....ctC#Ctc.....%"oo
+oo#V........#........V#oo
+oo"%........#........%"oo
+oo#%K%$$$...#...$$$%K%#oo
+oo########..#..########oo
+oo#2222.D#..#..#D..111#oo
+oo"......#..#..#......"oo
+oo"ww....+..#..+...xx."oo
+oo#BB....#..#..#...BB.#oo
+oo########+###+########oo
+oo#D..444..3#5....BB.D#oo
+oo"........3#5....zz.."oo
+oo"yy......d#dd......."oo
+oo#BB.....cd#c...66666#oo
+oo#####################oo
+endmap
+done
+
+name: multi_apartment_house_whales_2nd
+subname: multiapt_house_whales
+type: house
+floor: 1
+tile: o = empty
+tile: # = stone wall
+tile: " = window
+tile: + = w:10 closed door / w:1 open door
+tile: @ = w:4 locked door / w:1 closed door
+tile: . = floor
+tile: , = floor_lock
+tile: < = stairs up
+tile: > = stairs down
+tile: V = stove
+tile: T = toilet
+tile: K = sink
+tile: B = bed
+tile_group: wxyz = bed / floor
+tile_group: 123456 = shelves / floor
+
+tile: % = counter
+item_group: 70 % = items_kitchen_counter
+
+tile: $ = shelves
+item_group: 60 $ = items_food_shelves
+
+tile: F = fridge
+item_group: 60 F = items_fridge
+
+tile: D = dresser
+item_group: 80 D = items_all_clothes
+
+tile: tcCd = floor
+furniture: cC = wood chair
+furniture: t = table
+furniture: d = desk
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo##"#"####"#"####"#"##oo
+oo#.....@,.<#<.,@.....#oo
+oo".....#,.>#>.,#....."oo
+oo#.tt..#########..tt.#oo
+oo".....+..T#T..+....."oo
+oo#.....#..K#K..#.....#oo
+oo####..#########..####oo
+oo#%F....Ctc#ctC....F%#oo
+oo"%.....ctC#Ctc.....%"oo
+oo#V........#........V#oo
+oo"%........#........%"oo
+oo#%K%$$$...#...$$$%K%#oo
+oo########..#..########oo
+oo#2222.D#..#..#D..111#oo
+oo"......#..#..#......"oo
+oo"ww....+..#..+...xx."oo
+oo#BB....#..#..#...BB.#oo
+oo########+###+########oo
+oo#D..444..3#5....BB.D#oo
+oo"........3#5....zz.."oo
+oo"yy......d#dd......."oo
+oo#BB.....cd#c...66666#oo
+oo#####################oo
+endmap
+done
+
+name: multi_apartment_house_whales_roof
+subname: multiapt_house_whales
+type: house
+floor: 2
+tile: o = empty
+tile: # = stone wall
+tile: " = window
+tile: + = locked door / closed door
+tile: % = short stone wall
+tile: . = roof
+tile: , = floor_lock
+tile: * = floor
+tile: > = stairs down
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo%%%%%%%%##"##%%%%%%%%oo
+oo%.......#>*>#.......%oo
+oo%.......#,,,#.......%oo
+oo%.......##+##.......%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%%%%%%%%%%%%%%%%%%%%%oo
+endmap
+done
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".
