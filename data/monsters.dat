@@ -231,3 +231,36 @@ Name: wolf
   done
 done
 
+name: giant crab
+  name_plural: giant crabs
+  genus: crabs
+  glyph: c ltred black
+  hp: 2d6 + 20
+  armor:
+    bash   5
+    cut   20
+    pierce 8
+  done
+  speed: 100
+  senses: sight sound smell
+  attack:
+    verb: pinch / pinches
+    weight: 10
+    speed: 125
+    to_hit: -1
+    cut: 6
+  done
+  attack:
+    verb: claw-slap / claw-slaps
+    weight: 5
+    speed: 100
+    bash: 5
+  done
+  attack:
+    verb: claw-stab / claw-stabs
+    weight: 2
+    speed: 80
+    pierce: 3
+    bash:   2
+  done
+done

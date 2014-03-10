@@ -52,6 +52,9 @@ Name: mutant rabbits
   done
 done
 
+Name: crabs
+done
+
 Name: zombies
   Default:
     hp: 5d4 + 40
