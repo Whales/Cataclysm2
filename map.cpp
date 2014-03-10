@@ -428,8 +428,14 @@ bool Tile::apply_signal(std::string signal, Entity* user)
 {
   signal = no_caps(signal);
   signal = trim(signal);
+  std::string user_name = "";
+  if (user) {
+    user_name = user->get_name_to_player();
+  }
   if (!terrain || !signal_applies(signal)) {
-    GAME.add_msg("You can't %s there.", signal.c_str());
+    if (user) {
+      GAME.add_msg("%s can't %s there.", user_name.c_str(), signal.c_str());
+    }
     return false;
   }
 
@@ -509,15 +515,19 @@ bool Tile::apply_signal(std::string signal, Entity* user)
 // We've finalized our success rate; now roll against it
 
   if (success <= 0) {
-    GAME.add_msg("<c=red>%s (0 percent success rate)<c=/>",
-                 handler.failure_message.c_str());
+    if (user) {
+      GAME.add_msg("<c=red>%s (0 percent success rate)<c=/>",
+                   handler.failure_message.c_str());
+    }
     return true;  // True since we *tried*
   } else if (rng(1, 100) <= success) {
 // Success!
     if (handler.success_message.empty()) {
-      GAME.add_msg("<c=ltred>You %s the %s.<c=/>",
-                   signal.c_str(), get_name().c_str());
-    } else {
+      if (user) {
+        GAME.add_msg("<c=ltred>%s %s the %s.<c=/>",
+                     user_name.c_str(), signal.c_str(), get_name().c_str());
+      }
+    } else if (user) {
       std::stringstream mes;
       mes << "<c=ltred>" << handler.success_message << "<c=/>";
       GAME.add_msg(mes.str());
@@ -532,7 +542,9 @@ bool Tile::apply_signal(std::string signal, Entity* user)
     return true;
   }
 // Failure.
-  GAME.add_msg( handler.failure_message );
+  if (user) {
+    GAME.add_msg( handler.failure_message );
+  }
   return true;  // True cause we still *tried* to...
 }
 
