@@ -207,6 +207,7 @@ std::string debug_action_name(Debug_action action)
     case DEBUG_ACTION_BUILD_MAP:      return "build_map";
     case DEBUG_ACTION_MAP_INFO:       return "map_info";
     case DEBUG_ACTION_PLACE_FIELD:    return "place_field";
+    case DEBUG_ACTION_CLEAR_ITEMS:    return "clear_items";
     case DEBUG_ACTION_MAX:            return "BUG - DEBUG_ACTION_MAX";
     default:                          return "BUG - Unnamed Debug_action";
   }

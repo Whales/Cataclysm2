@@ -839,6 +839,9 @@ bool Submap::add_item(Item item, int x, int y)
   }
   if (tiles[x][y].move_cost() > 0 || tiles[x][y].has_flag(TF_CONTAINER)) {
     tiles[x][y].items.push_back(item);
+    if (trim(item.get_name()) == "digger") {
+      debugmsg("%d / %d", item.get_uid(), tiles[x][y].items.back().get_uid());
+    }
   } else {
 // Pick a random adjacent space with move_cost != 0
     std::vector<Point> valid_points;
@@ -1280,12 +1283,22 @@ bool Map::add_item(Item item, int x, int y, int z)
   return submaps[sx][sy][z]->add_item(item, x, y);
 }
 
+void Map::clear_items()
+{
+  for (int x = 0; x < MAP_SIZE; x++) {
+    for (int y = 0; y < MAP_SIZE; y++) {
+      submaps[x][y][VERTICAL_MAP_SIZE]->clear_items();
+    }
+  }
+}
+
 bool Map::remove_item(Item* it, int uid)
 {
 // Sanity check
   if (it == NULL && uid < 0) {
     return false;
   }
+  debugmsg("Map::remove_item(%d, %d)", it, uid);
 // Code duplication from find_item(), but what can ya do
   for (int x = 0; x < MAP_SIZE; x++) {
     for (int y = 0; y < MAP_SIZE; y++) {
@@ -1299,6 +1312,9 @@ bool Map::remove_item(Item* it, int uid)
                 debugmsg("NULL Items in Map::find_item_uid()");
               }
               for (int i = 0; i < items->size(); i++) {
+                debugmsg("Checking %s %d/%d (it %d/%d)",
+                         (*items)[i].get_name().c_str(), &( (*items)[i] ), it,
+                         (*items)[i].get_uid(), uid);
                 if ( &( (*items)[i] ) == it || (*items)[i].get_uid() == uid ) {
                   items->erase( items->begin() + i );
                   return true;

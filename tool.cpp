@@ -302,10 +302,27 @@ bool Tool_action::activate(Item* it, Entity* user, Tripoint pos)
   }
   bool had_effect = false;  // return value; true if we did anything
 
+// Some items have an effect on a list of pos (i.e. all/ranged)
+  std::vector<Tripoint> pos_list;
+  pos_list.push_back(pos);
+  if (target == TOOL_TARGET_ALL && range > 0) {
+// Add all points within range!
+    for (int x = pos.x - range; x <= pos.x + range; x++) {
+      for (int y = pos.y - range; y <= pos.y + range; y++) {
+        if (x == pos.x && y == pos.y) {
+          y++;
+        }
+        pos_list.push_back( Tripoint(x, y, pos.z) );
+      }
+    }
+  }
+
 // Pick a name for whoever's activating us
   std::string user_name = "Something";  // TODO: "Someone"?
   if (user) {
     user_name = user->get_name_to_player();
+  } else if (it) {
+    user_name = it->get_name_definite();
   }
 
   if (!signal.empty()) {
@@ -316,17 +333,23 @@ bool Tool_action::activate(Item* it, Entity* user, Tripoint pos)
     }
 
     std::string old_name = GAME.map->get_name(pos);
-    if (GAME.map->apply_signal(signal, pos, user)) {
-      had_effect = true;
-    } else if (seen_by_player) {
-      GAME.add_msg("%s can't %s there.", user_name.c_str(), signal.c_str());
+    for (int i = 0; i < pos_list.size(); i++) {
+      Tripoint cur_pos = pos_list[i];
+      if (GAME.map->apply_signal(signal, cur_pos, user)) {
+        had_effect = true;
+      } else if (seen_by_player) {
+        GAME.add_msg("%s can't %s there.", user_name.c_str(), signal.c_str());
+      }
     }
 // TODO: Send signal to monsters and items.
   }
 
 // Generate the field, if any
   if (field.exists()) {
-    field.drop(pos, user_name);
+    for (int i = 0; i < pos_list.size(); i++) {
+      Tripoint cur_pos = pos_list[i];
+      field.drop(cur_pos, user_name);
+    }
     had_effect = true;
   }
 

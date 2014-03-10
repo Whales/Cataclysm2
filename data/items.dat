@@ -2615,6 +2615,25 @@ tool
 done
 
 tool
+  name: digger
+  description:
+    A quick test item.
+  done
+  glyph: * yellow black
+  weight: 1
+  volume: 1
+
+  countdown_timer: 5
+
+  countdown:
+    signal: dig
+    target: all
+    range: 2
+    destroy
+  done
+done
+
+tool
   name: pruning shears
   description:
     A strong, curved pair of scissors at the end of a pair of long wood handles.

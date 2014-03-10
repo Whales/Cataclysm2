@@ -10,6 +10,14 @@ class Stats;
 class Entity;
 struct Ranged_attack;
 
+enum Item_active_type
+{
+  ITEM_ACTIVE_OFF = 0,  // Not active
+  ITEM_ACTIVE_POWERED,  // Powered on, like a flashlight
+  ITEM_ACTIVE_TIMER,    // Counting down, like a grenade
+  ITEM_ACTIVE_MAX
+};
+
 class Item
 {
 public:
@@ -68,8 +76,17 @@ public:
   bool reload(Entity* owner, int ammo_uid);
   bool damage(int dam); // Returns true if the item is destroyed
   bool absorb_damage(Damage_type damtype, int dam); // Returns true if destroyed
+/* power_{on,off} toggles ITEM_ACTIVE_POWERED and handles placement in
+ * Game::active_items.
+ * start_countdown() toggles ITEM_ACTIVE_TIMER and handles placement in
+ * Game::active_items.  Not sure if we need/want a stop_countdown().
+ */
   bool power_on();
   bool power_off();
+  bool start_countdown();
+  bool finish_countdown();  // Handles action, removing from active list
+  bool is_active(); // True if ITEM_ACTIVE_POWERED or ITEM_ACTIVE_TIMER
+// Process_active() returns true if we did something, false otherwise
   bool process_active();
 
 // Interfaces
@@ -79,10 +96,11 @@ public:
   std::vector<Item> contents; // Contents, attached mods, etc.
   int count;
   int charges, subcharges;
-  bool active;
   int hp;
 private:
   int uid;
+  //bool active;
+  Item_active_type active;
 };
 
 std::string list_items(std::vector<Item> *items);

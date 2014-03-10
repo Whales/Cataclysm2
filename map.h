@@ -198,6 +198,7 @@ public:
   bool add_item(Item item, Tripoint pos);
   bool add_item(Item item, int x, int y, int z = 999);
 
+  void clear_items(); // Clears ALL items!
   bool remove_item(Item* it, int uid = -1);
   bool remove_item_uid(int uid);  // remove_item(NULL, uid);
 

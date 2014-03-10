@@ -1027,6 +1027,7 @@ void Entity::apply_item_uid(int uid)
   Item_type_tool* tool   = static_cast<Item_type_tool*>(it->type);
   Tool_action* action    = &(tool->applied_action);
   Tool_action* powered   = &(tool->powered_action);
+  Tool_action* countdown = &(tool->countdown_action);
   //Tool_action* countdown = &(tool->countdown_action);
 // Apply the base action, if any
   if (action->real) {
@@ -1035,6 +1036,7 @@ void Entity::apply_item_uid(int uid)
       remove_item_uid(it->get_uid());
     }
   }
+
 // We have an effect that happens while we're powered on; so power us on!
   if (powered->real) {
     if (it->charges == 0 && it->subcharges == 0) {
@@ -1043,8 +1045,18 @@ void Entity::apply_item_uid(int uid)
       }
       return;
     }
-    it->power_on();
-    use_ap(100);  // TODO: Don't hardcode this.
+    if (it->is_active() && it->power_off()) {
+      use_ap(100);  // TODO: Don't hardcode this value.
+    } else if (it->power_on()) {
+      use_ap(100);  // TODO: Don't hardcode this value.
+    }
+  }
+
+// We have an effect that triggers after a countdown; so start the countdown!
+  if (countdown->real && !it->is_active()) {
+    if (it->start_countdown()) {
+      use_ap(100);  // TODO: Don't hardcode this value.
+    }
   }
 }
 

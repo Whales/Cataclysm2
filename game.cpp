@@ -587,6 +587,7 @@ void Game::complete_player_activity()
 
 void Game::process_active_items()
 {
+  debugmsg("Active_items.size() %d", active_items.size());
   for (std::list<Item*>::iterator iter = active_items.begin();
        iter != active_items.end();
        iter++) {
@@ -892,11 +893,16 @@ void Game::remove_active_item(Item* it)
   if (!it) {
     return;
   }
+  debugmsg("active_items.size() %d", active_items.size());
   for (std::list<Item*>::iterator iter = active_items.begin();
        iter != active_items.end();
        iter++) {
+    debugmsg("iter %d, it %d", *iter, it);
     if ( (*iter) == it) {
+      debugmsg("Removing");
       active_items.erase(iter);
+      debugmsg("active_items.size() %d", active_items.size());
+      return;
     }
   }
 }
@@ -1075,6 +1081,12 @@ void Game::debug_command()
         map->add_field(type, pos, "Magic");
       }
     } break;
+
+    case DEBUG_ACTION_CLEAR_ITEMS:
+      map->clear_items();
+      add_msg("Items cleared.  Note; this may cause a crash if there were \
+active items!");
+      break;
 
     default:
       add_msg("Nothing coded for %s yet.", debug_action_name(act).c_str());
