@@ -17,22 +17,22 @@ struct Monster_type
   Monster_type();
   ~Monster_type();
 
-  Monster_genus *genus;
-  std::string name;
-  std::string display_name;
-  std::string display_name_plural;
-  int uid;
-  glyph sym;
+  Monster_genus *genus; // See below
+  std::string name;     // UNIQUE Data name
+  std::string display_name; // Name as the player sees it; if blank, use (name)
+  std::string display_name_plural;  // Plural name
+  int uid;  // Unique UID for this type
+  glyph sym;  // See glyph.h
 
-  Dice hp_dice;
-  bool hp_set;
-  int speed;
-  int chance;
-  std::vector<Attack> attacks;
-  std::vector<Ranged_attack> ranged_attacks;
-  int total_attack_weight;
-  int total_ranged_attack_weight;
-  Entity_AI AI;
+  Dice hp_dice; // Dice to roll to determine HP; may be static!
+  bool hp_set;  // Temp variable used to copy from genus
+  int speed;    // 100 = player's base speed
+  int chance;   // How frequently this appears
+  std::vector<Attack> attacks;  // Melee attacks - see attack.h
+  std::vector<Ranged_attack> ranged_attacks;  // See attack.h
+  int total_attack_weight;  // Variable for choosing an attack
+  int total_ranged_attack_weight; // Variable for choosing a ranged attack
+  Entity_AI AI; // AI set
 
   void set_genus(Monster_genus *mg);
   void assign_uid(int id);
@@ -44,6 +44,7 @@ struct Monster_type
   bool has_sense(Sense_type type);
 
 private:
+// These bools determine whether we've copied data from our genus
   bool attacks_copied_from_genus;
   bool ranged_attacks_copied_from_genus;
   bool senses_copied_from_genus;
