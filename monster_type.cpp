@@ -22,6 +22,10 @@ Monster_type::Monster_type()
   for (int i = 0; i < SENSE_MAX; i++) {
     senses.push_back(false);
   }
+
+  for (int i = 0; i < DAMAGE_MAX; i++) {
+    armor.push_back(0);
+  }
 }
 
 Monster_type::~Monster_type()
@@ -44,6 +48,7 @@ void Monster_type::set_genus(Monster_genus *mg)
     }
     total_attack_weight = mg->default_values.total_attack_weight;
   }
+
   if (ranged_attacks.empty()) {
     ranged_attacks = mg->default_values.ranged_attacks;
     if (!ranged_attacks.empty()) {
@@ -51,14 +56,18 @@ void Monster_type::set_genus(Monster_genus *mg)
     }
     total_ranged_attack_weight = mg->default_values.total_ranged_attack_weight;
   }
-  if (!hp_set) {
+
+  if (!hp_set) {  // hp_set is true if monsters.dat includes HP for this monster
     hp_dice = mg->default_values.hp_dice;
   }
+
   if (speed == 0) {
     speed = mg->default_values.speed;
   }
+
   AI = mg->default_values.AI;
 
+// Only copy senses if we haven't set any already
   bool any_senses_set = false;
   for (int i = 0; !any_senses_set && i < senses.size(); i++) {
     any_senses_set = senses[i];
@@ -66,6 +75,18 @@ void Monster_type::set_genus(Monster_genus *mg)
   if (!any_senses_set) {
     senses_copied_from_genus = true;
     senses = mg->default_values.senses;
+  }
+
+// Only copy armor if we haven't set any already
+  bool any_armor_set = false;
+  for (int i = 0; !any_armor_set && i < armor.size(); i++) {
+    if (armor[i] > 0) {
+      any_armor_set = true;
+    }
+  }
+  if (!any_armor_set) {
+    armor_copied_from_genus = true;
+    armor = mg->default_values.armor;
   }
     
 }
@@ -142,6 +163,33 @@ bool Monster_type::load_data(std::istream &data)
     } else if (ident == "hp:") {
       hp_dice.load_data(data, name);
       hp_set = true;
+
+    } else if (ident == "armor:") {
+// Reset all armor to 0, if they were copied from our genus
+// (Because we want to completely override the defaults)
+      if (armor_copied_from_genus) {
+        armor_copied_from_genus = false;
+        for (int i = 0; i < armor.size(); i++) {
+          armor[i] = 0;
+        }
+      }
+      std::getline(data, junk);
+      std::string armor_ident;
+      do {
+        data >> armor_ident;
+        armor_ident = trim( no_caps( armor_ident ) );
+        if (armor_ident != "done") { 
+          Damage_type dam = lookup_damage_type(armor_ident);
+          if (dam == DAMAGE_NULL) {
+            debugmsg("Unknown armor type '%s' (%s)", armor_ident.c_str(),
+                     name.c_str());
+            return false;
+          }
+          data >> armor[dam];
+        }
+      } while (armor_ident != "done");
+      std::getline(data, junk);
+// End of "armor:" block
 
     } else if (ident == "speed:") {
       data >> speed;

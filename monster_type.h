@@ -25,7 +25,7 @@ struct Monster_type
   glyph sym;  // See glyph.h
 
   Dice hp_dice; // Dice to roll to determine HP; may be static!
-  bool hp_set;  // Temp variable used to copy from genus
+  std::vector<int> armor;
   int speed;    // 100 = player's base speed
   int chance;   // How frequently this appears
   std::vector<Attack> attacks;  // Melee attacks - see attack.h
@@ -48,6 +48,8 @@ private:
   bool attacks_copied_from_genus;
   bool ranged_attacks_copied_from_genus;
   bool senses_copied_from_genus;
+  bool armor_copied_from_genus;
+  bool hp_set;  // Temp variable used to copy from genus
   std::vector<bool> senses;
 
 };
