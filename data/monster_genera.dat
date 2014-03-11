@@ -53,6 +53,17 @@ Name: mutant rabbits
 done
 
 Name: crabs
+  Default:
+    AI:
+      awareness: 2
+      attention: 25
+      recognizes: fields
+      goals:
+        attack_enemies
+        flee
+      done
+    done
+  done
 done
 
 Name: zombies
