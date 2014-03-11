@@ -3,7 +3,8 @@ Name: canis
   Default:
 	  hp: 2d4 + 20
 	  speed: 150
-    dodge: 8
+    accuracy: 12
+    dodge: 6
 	  senses: sight smell hearing
 	  AI:
 	    awareness: 1
@@ -34,6 +35,7 @@ Name: mutant rabbits
   Default:
     hp: 2d4 + 4
     speed: 120
+    accuracy: 8
     dodge: 15
     senses: sight smell hearing
     AI:
@@ -56,6 +58,7 @@ done
 
 Name: crabs
   Default:
+    accuracy: 8
     dodge: 3
     AI:
       awareness: 2
@@ -73,6 +76,7 @@ Name: zombies
   Default:
     hp: 5d4 + 40
     speed: 70
+    accuracy: 6
     dodge: 1
     senses: sight smell hearing
     AI:

@@ -14,6 +14,8 @@ name: fast zombie
   chance: 10
   hp: 4d5 + 30
   speed: 130
+  accuracy: 8
+  dodge:    6
   AI:
     awareness:  2
     attention: 15
@@ -45,6 +47,7 @@ name: zombie brute
   chance: 5
   hp: 4d6 + 40
   speed: 65
+  dodge:  0
   AI:
     awareness: 0
     attention: 8
@@ -67,7 +70,7 @@ name: spitter zombie
   genus: zombies
   glyph: Z yellow black
   chance: 7
-# Use default HP/speed
+# Use default HP/speed/accuracy/dodge
   AI:
     awareness: 1
     attention: 15
@@ -99,6 +102,8 @@ Name: zombie dog
   chance: 1
   hp: 3d5 + 25
   speed: 130
+  accuracy: 8
+  dodge:    4
   senses: sight smell hearing
   attack:
     verb: bite / bites
@@ -155,7 +160,8 @@ name: red mutant rabbit
     pierce: 4
     cut: 2
   done
-#Todo: potentially add mutant rabbits following red mutant rabbits, for rabbit swarms.
+# TODO: potentially add mutant rabbits following red mutant rabbits, for rabbit
+#       swarms
 done
 
 ##### Canis #####
@@ -166,6 +172,8 @@ name: demented dog
   glyph: d ltgray black
   hp: 3d5 + 20
   speed: 160
+  accuracy:  8
+  dodge:     4
   chance: 10
   senses: sight smell hearing
   attack:
@@ -205,6 +213,8 @@ Name: wolf
   glyph: W gray black
   hp: 3d5 + 30
   speed: 160
+  accuracy: 14
+  dodge: 7
   senses: sight smell hearing
   attack:
     verb: bite / bites
@@ -276,6 +286,7 @@ name: gargantuan crab
     pierce 12
   done
   speed:  85
+  dodge: 0
   senses: sight sound smell
   attack:
     verb: pinch / pinches
@@ -309,7 +320,9 @@ name: hermit crab
     cut    40
     pierce 18
   done
-  speed:  80
+  speed:    80
+  accuracy: 10
+  dodge:     0
   senses: sight sound smell
   attack:
     verb: pinch / pinches

@@ -98,11 +98,17 @@ void Attack::use_weapon(Item weapon, Stats stats)
   }
 }
 
-Damage_set Attack::roll_damage()
+Damage_set Attack::roll_damage(Melee_hit_type hit_type)
 {
   Damage_set ret;
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    ret.set_damage( Damage_type(i), rng(0, damage[i]) );
+    if (hit_type == MELEE_HIT_GRAZE) {
+      ret.set_damage( Damage_type(i), rng(0, damage[i] * .5) );
+    } else if (hit_type == MELEE_HIT_CRITICAL) {
+      ret.set_damage( Damage_type(i), rng(damage[i], damage[i] * 2) );
+    } else {
+      ret.set_damage( Damage_type(i), rng(damage[i] * .5, damage[i]) );
+    }
   }
   return ret;
 }

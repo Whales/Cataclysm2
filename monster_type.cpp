@@ -13,6 +13,7 @@ Monster_type::Monster_type()
   sym = glyph();
   total_attack_weight = 0;
   speed = 0;
+  accuracy = 0;
 /* Since 0 is a valid value for dodge, we default it to -1; -1 means "hasn't
  * been set," and may be copied from a default.
  */
@@ -67,6 +68,10 @@ void Monster_type::set_genus(Monster_genus *mg)
 
   if (speed == 0) {
     speed = mg->default_values.speed;
+  }
+
+  if (accuracy == 0) {
+    accuracy = mg->default_values.accuracy;
   }
 
   if (dodge == -1) {
@@ -201,6 +206,10 @@ bool Monster_type::load_data(std::istream &data)
 
     } else if (ident == "speed:") {
       data >> speed;
+      std::getline(data, junk);
+
+    } else if (ident == "accuracy:") {
+      data >> accuracy;
       std::getline(data, junk);
 
     } else if (ident == "dodge:") {

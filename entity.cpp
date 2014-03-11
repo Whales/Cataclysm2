@@ -1509,7 +1509,9 @@ void Entity::attack(Entity* target)
 
   std::string miss_verb = conjugate("miss");
 
-  if (hit_roll(att.to_hit) < target->dodge_roll()) {
+  int hit_sum = hit_roll(att.to_hit) - target->dodge_roll();
+
+  if (hit_sum < 0) {
 // If player can see it, construct a message regarding missing
     if (you_see) {
       std::stringstream msg;
@@ -1521,11 +1523,18 @@ void Entity::attack(Entity* target)
     return;
   }
 
+  Melee_hit_type hit_type = MELEE_HIT_NORMAL;
+  if (hit_sum < rng(1, 6)) {
+    hit_type = MELEE_HIT_GRAZE;
+  } else if (hit_sum >= 15 || hit_sum > rng(1, 100)) { // TODO: Don't hardcode
+    hit_type = MELEE_HIT_CRITICAL;
+  }
+
   Body_part bp_hit = (target->is_player() ? random_body_part_to_hit() :
                                             BODY_PART_NULL);
 
 // TODO: Should total_damage be reduced by damage absorbed by armor?
-  Damage_set damage = att.roll_damage();
+  Damage_set damage = att.roll_damage(hit_type);
   for (int i = 0; i < DAMAGE_MAX; i++) {
     int dam = damage.get_damage(i);
     target->take_damage(Damage_type(i), dam, get_name_to_player(), bp_hit);
@@ -1534,12 +1543,31 @@ void Entity::attack(Entity* target)
 // Construct a message about the attack, if the player can see it.
   if (you_see) {
     std::stringstream damage_ss;
+    bool capitalize_name = false;
+// Special text if it's critical/grazing.
+    switch (hit_type) {
+      case MELEE_HIT_CRITICAL:
+        damage_ss << "<c=yellow>Critical! ";
+        capitalize_name = true;
+        break;
+      case MELEE_HIT_GRAZE:
+        damage_ss << "<c=blue>Grazing hit. ";
+        capitalize_name = true;
+        break;
+    }
+// Color the rest of the message.
     if (damage.total_damage() == 0) {
       damage_ss << "<c=dkgray>";
     } else {
       damage_ss << "<c=ltred>";
     }
-    damage_ss << get_name_to_player() << " ";
+// Message looks like "(You) (Hit) (The Zombie)['s head] for (damage) damage!"
+    if (capitalize_name) {
+      damage_ss << capitalize( get_name_to_player() );
+    } else {
+      damage_ss << get_name_to_player();
+    }
+    damage_ss << " ";
     if (attacker_is_you) {
       damage_ss << att.verb_second;
     } else {
@@ -1558,6 +1586,7 @@ void Entity::attack(Entity* target)
     } else {
       damage_ss << ".";
     }
+// Close coloration.
     damage_ss << "<c=/>";
     GAME.add_msg( damage_ss.str() );
   }

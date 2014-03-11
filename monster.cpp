@@ -350,6 +350,15 @@ Attack Monster::base_attack()
   return type->attacks.back();
 }
 
+int Monster::hit_roll(int bonus)
+{
+  int max = (type ? type->accuracy : 0);
+  if (max <= 0) {
+    return 0;
+  }
+  return rng(0, max) + bonus;
+}
+
 int Monster::dodge_roll()
 {
   int max = (type ? type->dodge : 0);

@@ -25,6 +25,16 @@ class Field_pool;
  *        piercing could "skewer" them, reducing speed but also possibly yanking
  *        the attacker's weapon out of their hands.
  */
+
+enum Melee_hit_type
+{
+  MELEE_HIT_NULL = 0,
+  MELEE_HIT_GRAZE,
+  MELEE_HIT_NORMAL,
+  MELEE_HIT_CRITICAL,
+  MELEE_HIT_MAX
+};
+
 struct Attack
 {
   std::string verb_second;
@@ -40,7 +50,7 @@ struct Attack
   bool load_data(std::istream &data, std::string owner_name = "unknown");
   void use_weapon(Item weapon, Stats stats);
 
-  Damage_set roll_damage();
+  Damage_set roll_damage(Melee_hit_type hit_type = MELEE_HIT_NORMAL);
 };
 
 enum Ranged_hit_type

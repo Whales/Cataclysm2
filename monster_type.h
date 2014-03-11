@@ -27,6 +27,7 @@ struct Monster_type
   Dice hp_dice; // Dice to roll to determine HP; may be static!
   std::vector<int> armor;
   int speed;    // 100 = player's base speed
+  int accuracy; // Our melee accuracy; compared against target's dodge
   int dodge;    // Rolled against attacker's hit roll
   int chance;   // How frequently this appears
   std::vector<Attack> attacks;  // Melee attacks - see attack.h
