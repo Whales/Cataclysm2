@@ -44,6 +44,7 @@ public:
 
   virtual bool can_sense(Entity* entity);
   virtual Attack base_attack();
+  virtual int dodge_roll();
   virtual void take_damage(Damage_type damtype, int damage, std::string reason,
                            Body_part part = BODY_PART_NULL);
   virtual void heal_damage(int damage, HP_part part = HP_PART_NULL);

@@ -1510,6 +1510,7 @@ void Entity::attack(Entity* target)
   std::string miss_verb = conjugate("miss");
 
   if (hit_roll(att.to_hit) < target->dodge_roll()) {
+// If player can see it, construct a message regarding missing
     if (you_see) {
       std::stringstream msg;
       msg << "<c=dkgray>" << get_name_to_player() << " " << miss_verb << " " <<
@@ -1530,6 +1531,7 @@ void Entity::attack(Entity* target)
     target->take_damage(Damage_type(i), dam, get_name_to_player(), bp_hit);
   }
 
+// Construct a message about the attack, if the player can see it.
   if (you_see) {
     std::stringstream damage_ss;
     if (damage.total_damage() == 0) {

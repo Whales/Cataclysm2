@@ -3,6 +3,7 @@ Name: canis
   Default:
 	  hp: 2d4 + 20
 	  speed: 150
+    dodge: 8
 	  senses: sight smell hearing
 	  AI:
 	    awareness: 1
@@ -33,6 +34,7 @@ Name: mutant rabbits
   Default:
     hp: 2d4 + 4
     speed: 120
+    dodge: 15
     senses: sight smell hearing
     AI:
       awareness:  0
@@ -54,6 +56,7 @@ done
 
 Name: crabs
   Default:
+    dodge: 3
     AI:
       awareness: 2
       attention: 25
@@ -70,6 +73,7 @@ Name: zombies
   Default:
     hp: 5d4 + 40
     speed: 70
+    dodge: 1
     senses: sight smell hearing
     AI:
       awareness:  0

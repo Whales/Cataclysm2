@@ -350,6 +350,15 @@ Attack Monster::base_attack()
   return type->attacks.back();
 }
 
+int Monster::dodge_roll()
+{
+  int max = (type ? type->dodge : 0);
+  if (max <= 0) {
+    return 0;
+  }
+  return rng(0, max);
+}
+
 void Monster::take_damage(Damage_type damtype, int damage, std::string reason,
                           Body_part part)
 {

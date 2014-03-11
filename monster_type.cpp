@@ -13,6 +13,10 @@ Monster_type::Monster_type()
   sym = glyph();
   total_attack_weight = 0;
   speed = 0;
+/* Since 0 is a valid value for dodge, we default it to -1; -1 means "hasn't
+ * been set," and may be copied from a default.
+ */
+  dodge = -1;
   chance = 100;
   hp_set = false;
   attacks_copied_from_genus = false;
@@ -63,6 +67,10 @@ void Monster_type::set_genus(Monster_genus *mg)
 
   if (speed == 0) {
     speed = mg->default_values.speed;
+  }
+
+  if (dodge == -1) {
+    dodge = mg->default_values.dodge;
   }
 
   AI = mg->default_values.AI;
@@ -195,6 +203,10 @@ bool Monster_type::load_data(std::istream &data)
       data >> speed;
       std::getline(data, junk);
 
+    } else if (ident == "dodge:") {
+      data >> dodge;
+      std::getline(data, junk);
+
     } else if (ident == "chance:") {
       data >> chance;
       std::getline(data, junk);
@@ -262,6 +274,12 @@ bool Monster_type::load_data(std::istream &data)
 // Don't add ourselfs to the genus until *after* we've loaded our values!
   if (genus) {
     genus->add_member(this);
+  }
+/* If dodge is still -1, it wasn't set by the genus OR this specific monster;
+ * so set it to 0.
+ */
+  if (dodge < 0) {
+    dodge = 0;
   }
   return true;
 }
