@@ -1032,7 +1032,7 @@ void Game::debug_command()
       std::string name = string_input_popup("Item name (partial names OK):");
       Item_type* type = ITEM_TYPES.lookup_partial_name(name);
       if (!type) {
-        add_msg("<c=dkgray>No such item.<c=/>");
+        add_msg("<c=dkgray>'%s' did not match any items.<c=/>", name.c_str());
       } else {
         Item spawned(type);
         map->add_item(spawned, player->pos);
@@ -1062,10 +1062,10 @@ void Game::debug_command()
       break;
 
     case DEBUG_ACTION_PLACE_FIELD: {
-      std::string name = string_input_popup("Field type:");
+      std::string name = string_input_popup("Field type (partial name OK):");
       Field_type* type = FIELDS.lookup_partial_name(name);
       if (!type) {
-        add_msg("No such field as '%s'.", name.c_str());
+        add_msg("<c=dkgray>'%s' did not match any fields.<c=/>", name.c_str());
       } else {
         Tripoint pos = target_selector();
         map->add_field(type, pos, "Magic");
@@ -1077,6 +1077,19 @@ void Game::debug_command()
       add_msg("Items cleared.  Note; this may cause a crash if there were \
 active items!");
       break;
+
+    case DEBUG_ACTION_SPAWN_MONSTER: {
+      std::string name = string_input_popup("Monster name (partial names OK):");
+      Monster_type* type = MONSTER_TYPES.lookup_partial_name(name);
+      if (!type) {
+        add_msg("<c=dkgray>'%s' did not match any monsters.<c=/>",
+                name.c_str());
+      } else {
+        Monster* mon = new Monster(type);
+        mon->pos = target_selector();
+        entities.add_entity(mon);
+      }
+    } break;
 
     default:
       add_msg("Nothing coded for %s yet.", debug_action_name(act).c_str());

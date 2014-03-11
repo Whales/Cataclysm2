@@ -33,7 +33,8 @@ S         = save
 Z         = debug
 
 iI        = create_item
-mM        = build_map
+M         = build_map
 ?         = map_info
 fF        = place_field
 -         = clear_items
+m         = spawn_monster
