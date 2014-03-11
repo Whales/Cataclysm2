@@ -264,3 +264,70 @@ name: giant crab
     bash:   2
   done
 done
+
+name: gargantuan crab
+  name_plural: gargantuan crabs
+  genus: crabs
+  glyph: C ltred black
+  hp: 3d6 + 30
+  armor:
+    bash    6
+    cut    30
+    pierce 12
+  done
+  speed:  85
+  senses: sight sound smell
+  attack:
+    verb: pinch / pinches
+    weight: 10
+    speed: 150
+    to_hit: -1
+    cut: 14
+  done
+  attack:
+    verb: claw-slap / claw-slaps
+    weight: 5
+    speed: 115
+    bash: 10
+  done
+  attack:
+    verb: claw-stab / claw-stabs
+    weight:  2
+    speed: 100
+    pierce:  6
+    bash:    4
+  done
+done
+
+name: hermit crab
+  name_plural: hermit crabs
+  genus: crabs
+  glyph: c ltgray black
+  hp: 2d6 + 20
+  armor:
+    bash   16
+    cut    40
+    pierce 18
+  done
+  speed:  80
+  senses: sight sound smell
+  attack:
+    verb: pinch / pinches
+    weight: 10
+    speed: 100
+    to_hit: -1
+    cut: 6
+  done
+  attack:
+    verb: claw-slap / claw-slaps
+    weight: 5
+    speed: 110
+    bash: 4
+  done
+  attack:
+    verb: claw-stab / claw-stabs
+    weight:  2
+    speed:  90
+    pierce:  5
+  done
+done
