@@ -458,6 +458,9 @@ int Entity::get_pain_speed_penalty()
 {
   int p = get_net_pain();
   p -= 16;  // First 19 pain points don't incur a speed penalty
+  if (p <= 0) {
+    return 0;
+  }
   int ret = p / 4;
   return (ret > 50 ? 50 : ret);
 }
