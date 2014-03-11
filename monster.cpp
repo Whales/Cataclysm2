@@ -15,8 +15,37 @@ Monster::Monster()
   special_timer = 0;
 }
 
+Monster::Monster(std::string name)
+{
+  dead = false;
+  killed_by_player = false;
+  current_hp = 0;
+  max_hp = 0;
+  type = NULL;
+  action_points = 0;
+  special_timer = 0;
+  set_type(name);
+}
+
+Monster::Monster(Monster_type* newtype)
+{
+  dead = false;
+  killed_by_player = false;
+  current_hp = 0;
+  max_hp = 0;
+  type = NULL;
+  action_points = 0;
+  special_timer = 0;
+  set_type(newtype);
+}
+
 void Monster::set_type(std::string name)
 {
+  Monster_type* newtype = MONSTER_TYPES.lookup_name(name);
+  if (!newtype) {
+    debugmsg("Monster::set_type(%s) - no such monster", name.c_str());
+    return;
+  }
   set_type(MONSTER_TYPES.lookup_name(name));
 }
 
@@ -321,9 +350,12 @@ Attack Monster::base_attack()
   return type->attacks.back();
 }
 
-void Monster::take_damage(Damage_type type, int damage, std::string reason,
+void Monster::take_damage(Damage_type damtype, int damage, std::string reason,
                           Body_part part)
 {
+  if (type) {
+    damage -= rng(0, type->armor[damtype]);
+  }
   current_hp -= damage;
   if (current_hp <= 0) {
     dead = true;
