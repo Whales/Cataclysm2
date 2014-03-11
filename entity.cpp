@@ -271,8 +271,11 @@ nc_color Entity::get_speed_color()
   if (speed <= 70) {
     return c_red;
   }
-  if (speed < 100) {
+  if (speed <= 85) {
     return c_ltred;
+  }
+  if (speed < 100) {
+    return c_yellow;
   }
   if (speed == 100) {
     return c_white;
