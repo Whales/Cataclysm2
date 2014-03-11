@@ -550,13 +550,13 @@ Tripoint Player::pick_target_for(Item* it)
   return ret;
 }
 
-void Player::take_damage(Damage_type type, int damage, std::string reason,
+void Player::take_damage(Damage_type damtype, int damage, std::string reason,
                          Body_part part)
 {
   if (damage <= 0) {
     return;
   }
-  absorb_damage(type, damage, part);
+  absorb_damage(damtype, damage, part);
   current_hp[ convert_to_HP(part) ] -= damage;
   pain += rng(0, damage);
 }

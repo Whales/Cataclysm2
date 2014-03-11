@@ -1566,7 +1566,7 @@ int Entity::dodge_roll()
 }
 
 // This one gets overloaded fully.
-void Entity::take_damage(Damage_type type, int damage, std::string reason,
+void Entity::take_damage(Damage_type damtype, int damage, std::string reason,
                          Body_part part)
 {
 }
@@ -1593,11 +1593,11 @@ void Entity::take_damage_everywhere(Damage_type type, int damage,
   take_damage(type, damage, reason, BODY_PART_NULL);
 }
 
-void Entity::absorb_damage(Damage_type type, int& damage, Body_part part)
+void Entity::absorb_damage(Damage_type damtype, int& damage, Body_part part)
 {
   for (int i = 0; damage > 0 && i < items_worn.size(); i++) {
     if (items_worn[i].covers(part)) {
-      items_worn[i].absorb_damage(type, damage);
+      items_worn[i].absorb_damage(damtype, damage);
     }
   }
 }
