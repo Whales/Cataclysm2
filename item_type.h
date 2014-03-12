@@ -22,6 +22,7 @@ enum Item_class
   ITEM_CLASS_FOOD,
   ITEM_CLASS_TOOL,
   ITEM_CLASS_CONTAINER,
+  ITEM_CLASS_CORPSE,
   ITEM_CLASS_MAX
 };
 
@@ -216,6 +217,17 @@ public:
   int capacity; // Volume capacity, that is
   std::string preposition; // A plastic bottle <preposition> water, e.g. "of"
   bool use_article; // If true: "A plastic bottle <preposition> SOME water
+};
+
+class Item_type_corpse : public Item_type
+{
+public:
+  Item_type_corpse();
+  ~Item_type_corpse(){}
+
+  virtual Item_class get_class() { return ITEM_CLASS_CORPSE; }
+
+  virtual bool handle_data(std::string ident, std::istream &data);
 };
 
 #endif

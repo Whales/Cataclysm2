@@ -643,6 +643,20 @@ bool Item_type_container::handle_data(std::string ident, std::istream &data)
   return true;
 }
 
+// Item_type_corpse doesn't have any properties, so this section is boring.
+Item_type_corpse::Item_type_corpse()
+{
+}
+
+bool Item_type_corpse::handle_data(std::string ident, std::istream& data)
+{
+  if (ident != "done") {
+    debugmsg("Data in corpse definition - corpse doesn't have data!");
+    return false;
+  }
+  return true;
+}
+
 Item_class lookup_item_class(std::string name)
 {
   name = no_caps(name);
@@ -667,10 +681,11 @@ std::string item_class_name(Item_class iclass, bool plural)
     case ITEM_CLASS_MISC:       return "Misc";
     case ITEM_CLASS_CLOTHING:   return "Clothing";
     case ITEM_CLASS_AMMO:       return "Ammo";
-    case ITEM_CLASS_LAUNCHER:   return (plural ? "Launchers"  : "Launcher");
+    case ITEM_CLASS_LAUNCHER:   return (plural ? "Launchers"  : "Launcher"  );
     case ITEM_CLASS_FOOD:       return "Food";
-    case ITEM_CLASS_TOOL:       return (plural ? "Tools"      : "Tool");
-    case ITEM_CLASS_CONTAINER:  return (plural ? "Containers" : "Container");
+    case ITEM_CLASS_TOOL:       return (plural ? "Tools"      : "Tool"      );
+    case ITEM_CLASS_CONTAINER:  return (plural ? "Containers" : "Container" );
+    case ITEM_CLASS_CORPSE:     return (plural ? "Corpses"    : "Corpse"    );
 
     case ITEM_CLASS_MAX:        return "BUG - ITEM_CLASS_MAX";
     default:                    return "BUG - Unnamed Item_class";

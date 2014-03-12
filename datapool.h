@@ -175,6 +175,9 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
   } else if (item_category == "container") {
     tmp = new Item_type_container;
 
+  } else if (item_category == "corpse") {
+    tmp = new Item_type_corpse;
+
   } else if (item_category == "#") {  // It's a commented line - skip it
     std::string junk;
     std::getline(data, junk);
