@@ -818,8 +818,8 @@ void Game::player_move(int xdif, int ydif)
   }
 
   int newx = player->pos.x + xdif, newy = player->pos.y + ydif;
-  Entity* ent = entities.entity_at(newx, newy);
-  std::string tername = map->get_name(newx, newy);
+  Entity* ent = entities.entity_at(newx, newy, player->pos.z);
+  std::string tername = map->get_name(newx, newy, player->pos.z);
   if (ent) {
     player->attack(ent);
   } else if (!player->can_drag_furniture_to(map, newx, newy)) {
