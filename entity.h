@@ -262,6 +262,7 @@ public:
   void clear();
   std::list<Entity*>::iterator erase(std::list<Entity*>::iterator it);
 
+  bool empty();
   Entity* lookup_uid(int uid);
   Entity* entity_at(int posx, int posy);
   Entity* entity_at(Tripoint pos);

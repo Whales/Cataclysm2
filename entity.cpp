@@ -1791,6 +1791,11 @@ std::list<Entity*>::iterator Entity_pool::erase(std::list<Entity*>::iterator it)
   return instances.erase(it);
 }
 
+bool Entity_pool::empty()
+{
+  return instances.empty();
+}
+
 Entity* Entity_pool::lookup_uid(int uid)
 {
   if (uid_map.count(uid) == 0) {

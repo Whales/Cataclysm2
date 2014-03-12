@@ -209,6 +209,7 @@ std::string debug_action_name(Debug_action action)
     case DEBUG_ACTION_PLACE_FIELD:    return "place_field";
     case DEBUG_ACTION_CLEAR_ITEMS:    return "clear_items";
     case DEBUG_ACTION_SPAWN_MONSTER:  return "spawn_monster";
+    case DEBUG_ACTION_MONSTER_PATH:   return "monster_path";
     case DEBUG_ACTION_MAX:            return "BUG - DEBUG_ACTION_MAX";
     default:                          return "BUG - Unnamed Debug_action";
   }

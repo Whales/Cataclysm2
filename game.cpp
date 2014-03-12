@@ -1091,6 +1091,23 @@ active items!");
       }
     } break;
 
+    case DEBUG_ACTION_MONSTER_PATH:
+      if (!entities.empty()) {
+        Entity* ent = *(entities.instances.begin());
+        Monster* mon = static_cast<Monster*>(ent);
+        mon->make_plans();
+        std::stringstream path_info;
+        path_info << "Monster: " << mon->pos.str() << std::endl;
+        path_info << "You: " << player->pos.str() << std::endl;
+        std::vector<Tripoint> path = mon->plan.path.get_points();
+        path_info << "Path: (" << path.size() << ") " << std::endl;
+        for (int i = 0; i < path.size(); i++) {
+          path_info << path[i].str() << " => ";
+        }
+        popup(path_info.str().c_str());
+      }
+      break;
+
     default:
       add_msg("Nothing coded for %s yet.", debug_action_name(act).c_str());
   }

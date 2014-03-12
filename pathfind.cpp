@@ -565,6 +565,7 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
           int g = current_g + map.get_cost(x, y, z);
 // If it's unexamined, make it open and set its values
           if (status[x][y][z] == ASTAR_NONE) {
+debugmsg("A*'d over Z-level");
             status[x][y][z] = ASTAR_OPEN;
             gscore[x][y][z] = g;
             if (allow_diag) {
