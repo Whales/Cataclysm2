@@ -34,5 +34,6 @@ struct Skill_set
 
 private:
   int level[SKILL_MAX];
+};
 
 #endif

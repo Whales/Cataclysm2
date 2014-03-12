@@ -1,4 +1,7 @@
 #include "skill.h"
+#include "stringfunc.h"
+
+#include <string>
 
 Skill_set::Skill_set()
 {
@@ -30,7 +33,7 @@ Skill_type lookup_skill_type(std::string name)
       return ret;
     }
   }
-  return SKILL_TYPE_NULL;
+  return SKILL_NULL;
 }
 
 std::string skill_type_name(Skill_type type)
