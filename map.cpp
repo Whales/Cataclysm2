@@ -1131,10 +1131,8 @@ Generic_map Map::get_movement_map(Entity_AI AI,
 // Expand the bounds of the map by our area awareness bonus.
   min_x -= AI.area_awareness;
   min_y -= AI.area_awareness;
-  min_z -= AI.area_awareness;
   max_x += AI.area_awareness;
   max_y += AI.area_awareness;
-  max_z += AI.area_awareness;
 
   int x_size = 1 + max_x - min_x;
   int y_size = 1 + max_y - min_y;
@@ -1151,12 +1149,18 @@ Generic_map Map::get_movement_map(Entity_AI AI,
         int map_x = x - min_x;
         int map_y = y - min_y;
         int map_z = z - min_z;
-        int cost = move_cost(x, y);
+        int cost = move_cost(x, y, z);
 // TODO: If there's a field here, increase cost accordingly
-        if (cost == 0 && is_smashable(x, y)) {
+        if (cost == 0 && is_smashable(x, y, z)) {
           cost = 500; // TODO: Estimate costs more intelligently
         }
         ret.set_cost(map_x, map_y, map_z, cost);
+        if (has_flag(TF_STAIRS_UP, x, y, z)) {
+          ret.set_goes_up( Tripoint(map_x, map_y, map_z) );
+        }
+        if (has_flag(TF_STAIRS_DOWN, x, y, z)) {
+          ret.set_goes_down( Tripoint(map_x, map_y, map_z) );
+        }
       }
     }
   }
@@ -1242,10 +1246,7 @@ bool Map::is_smashable(Tripoint pos)
 bool Map::is_smashable(int x, int y, int z)
 {
   Tile *t = get_tile(x, y, z);
-  if (!t) {
-    return false;
-  }
-  return t->is_smashable();
+  return (t && t->is_smashable());
 }
 
 bool Map::has_flag(Terrain_flag flag, Tripoint pos)
@@ -1256,7 +1257,7 @@ bool Map::has_flag(Terrain_flag flag, Tripoint pos)
 bool Map::has_flag(Terrain_flag flag, int x, int y, int z)
 {
   Tile *t = get_tile(x, y, z);
-  return t->has_flag(flag);
+  return (t && t->has_flag(flag));
 }
 
 bool Map::blocks_sense(Sense_type sense, Tripoint pos)
@@ -1267,7 +1268,7 @@ bool Map::blocks_sense(Sense_type sense, Tripoint pos)
 bool Map::blocks_sense(Sense_type sense, int x, int y, int z)
 {
   Tile *t = get_tile(x, y, z);
-  return t->blocks_sense(sense);
+  return (t && t->blocks_sense(sense));
 }
 
 bool Map::add_item(Item item, Tripoint pos)
@@ -1589,6 +1590,9 @@ Tile* Map::get_tile(int x, int y, int z)
   }
 
   int sx = x / SUBMAP_SIZE, sy = y / SUBMAP_SIZE;
+  if (submaps[sx][sy][z] == NULL) {
+    return NULL;
+  }
   return &(submaps[sx][sy][z]->tiles[x % SUBMAP_SIZE][y % SUBMAP_SIZE]);
 }
 

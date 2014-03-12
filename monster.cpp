@@ -157,9 +157,6 @@ void Monster::make_plans()
   if (plan.is_active() && plan.goal_type == AIGOAL_FLEE) {
     return;
   }
-// TODO: Support different senses
-// TODO: Don't hard-code for player; instead select a target from Game.entities
-// Iterate through our AI's goals until we find one we can try for
   Entity_AI AI = get_AI();
   bool found_goal = false;
   for (int i = 0; !found_goal && i < AI.goals.size(); i++) {
@@ -275,6 +272,9 @@ void Monster::take_turn()
   }
 // TODO: Move make_plans() outside of this function?
   make_plans();
+/*
+*/
+
   if (!plan.is_active()) {
     wander();
     return;
@@ -283,20 +283,41 @@ void Monster::take_turn()
   if (special_timer > 0) {
     special_timer--;
   }
+
   if (plan.target_entity && can_attack(plan.target_entity)) {
     attack(plan.target_entity);
+
   } else if (special_timer <= 0 && plan.target_entity &&
              can_attack_ranged(plan.target_entity)) {
+
     attack_ranged(plan.target_entity, pick_ranged_attack(plan.target_entity));
+
   } else if (can_move_to(GAME.map, plan.next_step())) {
+
+        std::stringstream path_info;
+        path_info << "Monster: " << pos.str() << std::endl;
+        path_info << "You: " << GAME.player->pos.str() << std::endl;
+        std::vector<Tripoint> path = plan.path.get_points();
+        path_info << "Path: (" << path.size() << ") " << std::endl;
+        for (int i = 0; i < path.size(); i++) {
+          path_info << path[i].str() << " => ";
+        }
+        popup_fullscreen(path_info.str().c_str());
+
     if (rl_dist(pos, plan.next_step()) > 1) {
+
       debugmsg("Monster %s jumping %d steps", get_name().c_str(),
                rl_dist(pos, plan.next_step()));
+
     }
+
     move_to(GAME.map, plan.next_step());
     plan.erase_step();
+
   } else if (can_smash(GAME.map, plan.next_step())) {
+
     smash(GAME.map, plan.next_step());
+
   } else {
 /*
     Most likely, an entity is in our way

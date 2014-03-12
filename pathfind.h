@@ -50,6 +50,9 @@ public:
   void set_cost(int x, int y, int z, int c);
   void set_cost(Tripoint p, int c);
 
+  void set_goes_up  (Tripoint p);
+  void set_goes_down(Tripoint p);
+
   int  get_size_x();
   int  get_size_y();
   int  get_size_z();
@@ -62,9 +65,14 @@ public:
   bool blocked(Point p);
   bool blocked(Tripoint p);
 
+  bool allow_z_up  (Tripoint p);
+  bool allow_z_down(Tripoint p);
+
   int x_offset, y_offset, z_offset;
+
 private:
   std::vector<std::vector<std::vector<int> > > cost;
+  std::vector<Tripoint> goes_up, goes_down;
 };
 
 class Pathfinder

@@ -80,7 +80,7 @@ Name: zombies
     dodge: 1
     senses: sight smell hearing
     AI:
-      awareness:  0
+      awareness:  1
       attention: 10
       goals:
         attack_enemies

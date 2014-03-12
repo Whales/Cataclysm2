@@ -125,6 +125,16 @@ void Generic_map::set_cost(Tripoint p, int c)
   set_cost(p.x, p.y, p.z, c);
 }
 
+void Generic_map::set_goes_up(Tripoint p)
+{
+  goes_up.push_back(p);
+}
+
+void Generic_map::set_goes_down(Tripoint p)
+{
+  goes_down.push_back(p);
+}
+
 int Generic_map::get_size_x()
 {
   return cost.size();
@@ -181,6 +191,26 @@ bool Generic_map::blocked(Point p)
 bool Generic_map::blocked(Tripoint p)
 {
   return blocked(p.x, p.y, p.z);
+}
+
+bool Generic_map::allow_z_up(Tripoint p)
+{
+  for (int i = 0; i < goes_up.size(); i++) {
+    if (goes_up[i] == p) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Generic_map::allow_z_down(Tripoint p)
+{
+  for (int i = 0; i < goes_down.size(); i++) {
+    if (goes_down[i] == p) {
+      return true;
+    }
+  }
+  return false;
 }
 
 Pathfinder::Pathfinder()
@@ -503,7 +533,7 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
 
 
   while (!done && !open_points.empty()) {
-// 1) Find the lowest cost in open_points:
+// 1) Find the lowest cost in open_points, and set (current) to that point
     int lowest_cost = -1, point_index = -1;
     Tripoint current;
     int current_g = 0;
@@ -517,11 +547,11 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
         point_index = i;
       }
     }
-// 2) Check if that's the endpoint
+// 2) Check if (current) is the endpoint
     if (current == end) {
       done = true;
     } else {
-// 3) Set that point to be closed
+// 3) Set (current) to be closed
       open_points.erase(open_points.begin() + point_index);
       status[current.x][current.y][current.z] = ASTAR_CLOSED;
 // 4) Examine all adjacent points on the same z-level
@@ -531,7 +561,7 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
             y++; // Skip the current tile
           }
           int z = current.z;
-// If it's no-diagonal or diagonals are allowed...
+// If it's not diagonal, or diagonals are allowed...
 // ...and if it's in-bounds and not blocked...
           if ((allow_diag || x == current.x || y == current.y) &&
               (in_bounds(x, y, z) && !map.blocked(x, y, z))) {
@@ -549,7 +579,7 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
               }
               parent[x][y][z] = current;
               open_points.push_back( Tripoint(x, y, z) );
-// If it's open and we're a better parent, make us the parent
+// Otherwise, if it's open and we're a better parent, make us the parent
             } else if (status[x][y][z] == ASTAR_OPEN && g < gscore[x][y][z]) {
               gscore[x][y][z] = g;
               parent[x][y][z] = current;
@@ -558,8 +588,36 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
         }
       }
 // 5.  Examine adjacent points on adjacent Z-levels
-// TODO: Allow diagonal movement across Z-levels?
-      for (int z = current.z - 1; z <= current.z + 1; z++) {
+// TODO: Allow diagonal movement across Z-levels? For flying monsters?
+// Examine above
+      if (map.allow_z_up(current)) {
+        int z = current.z + 1;
+        int x = current.x, y = current.y;
+        if ((in_bounds(x, y, z) && !map.blocked(x, y, z))) {
+          int g = current_g + map.get_cost(x, y, z);
+// If it's unexamined, make it open and set its values
+          if (status[x][y][z] == ASTAR_NONE) {
+            status[x][y][z] = ASTAR_OPEN;
+            gscore[x][y][z] = g;
+            if (allow_diag) {
+              hscore[x][y][z] = map.get_cost(x, y, z) *
+                                rl_dist(x, y, z, end.x, end.y, end.z);
+            } else {
+              hscore[x][y][z] = map.get_cost(x, y, z) *
+                                manhattan_dist(x, y, z, end.x, end.y, end.z);
+            }
+            parent[x][y][z] = current;
+            open_points.push_back( Tripoint(x, y, z) );
+// If it's open and we're a better parent, make us the parent
+          } else if (status[x][y][z] == ASTAR_OPEN && g < gscore[x][y][z]) {
+            gscore[x][y][z] = g;
+            parent[x][y][z] = current;
+          }
+        }
+      }
+// Examine below (code duplication, sorry mom)
+      if (map.allow_z_down(current)) {
+        int z = current.z - 1;
         int x = current.x, y = current.y;
         if ((in_bounds(x, y, z) && !map.blocked(x, y, z))) {
           int g = current_g + map.get_cost(x, y, z);
