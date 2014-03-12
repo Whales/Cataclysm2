@@ -1,6 +1,8 @@
 #ifndef _SKILL_H_
 #define _SKILL_H_
 
+#include <string>
+
 enum Skill_type
 {
   SKILL_NULL = 0,
@@ -19,6 +21,18 @@ enum Skill_type
   SKILL_MAX
 };
 
+Skill_type lookup_skill_type(std::string name);
+std::string skill_type_name(Skill_type type);
 
+struct Skill_set
+{
+  Skill_set();
+  ~Skill_set();
+
+  int get_level(Skill_type type);
+  void set_level(Skill_type type, int lev);
+
+private:
+  int level[SKILL_MAX];
 
 #endif
