@@ -57,6 +57,13 @@ Items:
     -Make hitting someone with an item knock off some HP (like, 1)
     -Make an item break if HP reaches 0
 
+  -Item types from C1 that aren't in C2 yet:
+    -Gun modifications
+    -Books
+    -CBMs
+    -Software??
+    -Artifacts????
+
 AI and Pathing:
   -Add a Pathing_feature, "cover" - prefer to path through tiles which are
    opaque!
