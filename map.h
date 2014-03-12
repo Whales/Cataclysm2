@@ -52,6 +52,7 @@ struct Furniture
 };
 
 // This is a Furniture, along with its RELATIONAL position - e.g. when dragged
+// So if (pos) is [1, 1] then the piece of furniture is one tile south-east
 struct Furniture_pos
 {
   Furniture furniture;

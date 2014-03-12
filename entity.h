@@ -80,12 +80,16 @@ public:
   virtual void gain_action_points();
   nc_color     get_speed_color();
   virtual int  get_speed();
+/* The cost of moving onto a 100-cost tile.  For other tiles, the cost is
+ * (tile_cost * get_movement_cost()) / 100
+ */
+  virtual int  get_movement_cost();
 
-  int get_hunger_speed_penalty();
+  int   get_hunger_speed_penalty();
   Stats get_hunger_stats_penalty();
-  int get_thirst_speed_penalty();
+  int   get_thirst_speed_penalty();
   Stats get_thirst_stats_penalty();
-  int get_fatigue_speed_penalty();
+  int   get_fatigue_speed_penalty();
   Stats get_fatigue_stats_penalty();
 
   int get_net_pain();

@@ -299,6 +299,11 @@ int Entity::get_speed()
   return ret;
 }
 
+int Entity::get_movement_cost()
+{
+  return 100;
+}
+
 int Entity::get_hunger_speed_penalty()
 {
   if (hunger >= 960) {
@@ -668,8 +673,13 @@ void Entity::move_to(Map* map, int x, int y, int z)
   if (z != 999) { // z defaults to 999
     pos.z = z;
   }
+
   if (map) {
-    action_points -= map->move_cost(x, y, z);
+/* If get_movement_cost() is 100, we just use the "normal" movement cost;
+ * if it's 200, movement takes twice as long, etc.
+ */
+    int ap_cost = (map->move_cost(x, y, z) * get_movement_cost()) / 100;
+    use_ap(ap_cost);
   }
 // Now add the furniture we're dragged to its new location
   for (int i = 0; i < dragged.size(); i++) {

@@ -78,6 +78,36 @@ bool Player::has_sense(Sense_type sense)
   return false;
 }
 
+int Player::get_movement_cost()
+{
+// TODO: If we have the "Fleet-Footed" perk, then start ret at 90
+  int ret = 100;
+
+// Add delay if we're over our weight limit
+  int wgt = current_weight(), wgt_max = maximum_weight();
+  if (wgt > wgt_max) {
+    int diff = wgt - wgt_max;
+    ret += (diff * 2) / stats.strength;
+  }
+
+// Add delay for dragging furniture
+  int furniture_weight = 0;
+  for (int i = 0; i < dragged.size(); i++) {
+    furniture_weight += dragged[i].furniture.get_weight();
+  }
+
+// We can drag 2 pounds per unit of strength, without penalty
+  int min_drag = stats.strength * 20;
+  if (furniture_weight > min_drag) {
+// Every (strength^2 / 100) pounds above that results in an extra point of delay
+    furniture_weight -= min_drag;
+    ret += (10 * furniture_weight) / (stats.strength * stats.strength);
+  }
+
+// TODO: Other stuff that slows down our run speed?
+  return ret;
+}
+
 // This function handles messages and yes/no prompts, too!
 bool Player::add_item(Item item)
 {
@@ -157,7 +187,6 @@ int Player::maximum_weight()
 {
 // 25 pounds, plus 10 per point of strength; 10 strength = 125 lbs
   return 250 + 100 * stats.strength;
-  return 1000;
 }
 
 int Player::current_volume()
