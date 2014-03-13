@@ -51,6 +51,8 @@ struct Attack
   void use_weapon(Item weapon, Stats stats);
 
   Damage_set roll_damage(Melee_hit_type hit_type = MELEE_HIT_NORMAL);
+  int roll_damage_type(Damage_type type,
+                       Melee_hit_type hit_type = MELEE_HIT_NORMAL);
 };
 
 enum Ranged_hit_type

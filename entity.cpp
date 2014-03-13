@@ -1543,12 +1543,35 @@ void Entity::attack(Entity* target)
   Body_part bp_hit = (target->is_player() ? random_body_part_to_hit() :
                                             BODY_PART_NULL);
 
-// TODO: Should total_damage be reduced by damage absorbed by armor?
-  Damage_set damage = att.roll_damage(hit_type);
+// Pick a damage type to use, based on its max damage - target's armor
+
+  std::vector<Damage_type> damtype_ties;
+  int dam_to_beat = -999;
+
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    int dam = damage.get_damage(i);
-    target->take_damage(Damage_type(i), dam, get_name_to_player(), bp_hit);
+    Damage_type dtype = Damage_type(i);
+    int damage_check = att.damage[dtype];
+    damage_check -= target->get_armor(dtype, bp_hit);
+// best_damtypes is a list of ties; so if we beat it outright, clear the list
+    if (damage_check > dam_to_beat) {
+      damtype_ties.clear();
+      dam_to_beat = damage_check;
+    }
+    if (damage_check >= dam_to_beat) {
+      damtype_ties.push_back(dtype);
+    }
   }
+
+  Damage_type best_damtype = damtype_ties[ rng(0, damtype_ties.size() - 1) ];
+
+  int dam = att.roll_damage_type(best_damtype, hit_type);
+/* We absorb damage (via armor) here, then use take_damage_no_armor(), because
+ * we want the damage that's displayed (below) to be the actual, post-armor
+ * damage.  That's much better feedback for telling the player that their uber-
+ * sword isn't working so great against metal-armored creature.
+ */
+  target->absorb_damage(best_damtype, dam, bp_hit);
+  target->take_damage_no_armor(best_damtype, dam, get_name_to_player(), bp_hit);
 
 // Construct a message about the attack, if the player can see it.
   if (you_see) {
@@ -1566,7 +1589,7 @@ void Entity::attack(Entity* target)
         break;
     }
 // Color the rest of the message.
-    if (damage.total_damage() == 0) {
+    if (dam == 0) {
       damage_ss << "<c=dkgray>";
     } else {
       damage_ss << "<c=ltred>";
@@ -1589,10 +1612,10 @@ void Entity::attack(Entity* target)
     } else {
       damage_ss << target->get_possessive() << " " << body_part_name(bp_hit);
     }
-    if (damage.total_damage() == 0) {
+    if (dam == 0) {
       damage_ss << " but " << (is_you() ? "do" : "does") << " no damage.";
     } else if (target->is_you() || TESTING_MODE) {
-      damage_ss << " for " << damage.total_damage() << " damage!";
+      damage_ss << " for " << dam << " damage!";
     } else {
       damage_ss << ".";
     }
@@ -1615,6 +1638,12 @@ int Entity::dodge_roll()
 // This one gets overloaded fully.
 void Entity::take_damage(Damage_type damtype, int damage, std::string reason,
                          Body_part part)
+{
+}
+
+// This one gets overloaded fully.
+void Entity::take_damage_no_armor(Damage_type damtype, int damage,
+                                  std::string reason, Body_part part)
 {
 }
 
@@ -1652,6 +1681,12 @@ void Entity::absorb_damage(Damage_type damtype, int& damage, Body_part part)
 // Overridden in monster.cpp and player.cpp
 void Entity::heal_damage(int damage, HP_part part)
 {
+}
+
+// Overridden in monster.cpp and player.cpp
+int Entity::get_armor(Damage_type damtype, Body_part part)
+{
+  return 0;
 }
 
 Ranged_attack Entity::throw_item(Item it)

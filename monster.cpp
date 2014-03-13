@@ -391,19 +391,32 @@ int Monster::dodge_roll()
 void Monster::take_damage(Damage_type damtype, int damage, std::string reason,
                           Body_part part)
 {
-  if (type) {
-    damage -= rng(0, type->armor[damtype]);
-  }
+  damage -= rng(0, get_armor(damtype));
+  take_damage_no_armor(damtype, damage, reason, part);
+}
+
+void Monster::take_damage_no_armor(Damage_type damtype, int damage,
+                                   std::string reason, Body_part part)
+{
   current_hp -= damage;
   if (current_hp <= 0) {
     dead = true;
 /* TODO:  This is inefficient.  Maybe make a wrapper struct for damage reasons,
  *        which has a flag "is_the_player"?
+ *        (Then again, this inefficiency doesn't actually matter).
  */
     if (reason.find("you") != std::string::npos) {
       killed_by_player = true;
     }
   }
+}
+
+void Monster::absorb_damage(Damage_type damtype, int& damage, Body_part part)
+{
+// Entity::absorb_damage() runs it through any clothing we're wearing.
+  Entity::absorb_damage(damtype, damage, part);
+// Monsters also get innate armor!
+  damage -= get_armor(damtype);
 }
 
 void Monster::heal_damage(int damage, HP_part part)
@@ -412,6 +425,14 @@ void Monster::heal_damage(int damage, HP_part part)
   if (current_hp > max_hp) {
     current_hp = max_hp;
   }
+}
+
+int Monster::get_armor(Damage_type damtype, Body_part part)
+{
+  if (!type) {
+    return 0;
+  }
+  return type->armor[damtype];
 }
 
 // TODO: Rewrite this function.

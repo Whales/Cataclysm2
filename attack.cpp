@@ -113,6 +113,12 @@ Damage_set Attack::roll_damage(Melee_hit_type hit_type)
   return ret;
 }
 
+int Attack::roll_damage_type(Damage_type type, Melee_hit_type hit_type)
+{
+  Damage_set ret = roll_damage(hit_type);
+  return ret.get_damage(type);
+}
+
 Ranged_attack::Ranged_attack()
 {
   verb_second = "shoot";

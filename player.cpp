@@ -586,8 +586,15 @@ void Player::take_damage(Damage_type damtype, int damage, std::string reason,
     return;
   }
   absorb_damage(damtype, damage, part);
+  take_damage_no_armor(damtype, damage, reason, part);
+}
+
+
+void Player::take_damage_no_armor(Damage_type damtype, int damage,
+                                  std::string reason, Body_part part)
+{
   current_hp[ convert_to_HP(part) ] -= damage;
-  pain += rng(0, damage);
+  pain += rng(damage / 2, damage);
 }
 
 void Player::take_damage_everywhere(Damage_set damage, std::string reason)
@@ -625,6 +632,29 @@ void Player::heal_damage(int damage, HP_part part)
   if (current_hp[part] > max_hp[part]) {
     current_hp[part] = max_hp[part];
   }
+}
+
+int Player::get_armor(Damage_type damtype, Body_part part)
+{
+  int ret = 0;
+  for (int i = 0; i < items_worn.size(); i++) {
+    if (items_worn[i].covers(part)) {
+      Item_type* type = items_worn[i].type;
+      Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
+      switch (damtype) {
+        case DAMAGE_BASH:
+          ret += clothing->armor_bash;
+          break;
+        case DAMAGE_CUT:
+          ret += clothing->armor_cut;
+          break;
+        case DAMAGE_PIERCE:
+          ret += clothing->armor_pierce;
+          break;
+      }
+    }
+  }
+  return ret;
 }
 
 std::string Player::hp_text(Body_part part)
