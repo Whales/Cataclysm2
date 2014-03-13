@@ -551,34 +551,6 @@ name: counter
   flags: flammable opaque
 done
 
-name: table
-  glyph: % brown black
-  movecost: 220
-  hp: 30
-  destroy: floor
-  
-  smash:
-    failure_sound: "whack."
-    success_sound: wood splintering.
-  done
-  
-  flags: flammable
-done
-
-name: chair
-  glyph: % ltred black
-  movecost: 200
-  hp: 20
-  destroy: floor
-  
-  smash:
-    failure_sound: "whack."
-    success_sound: wood splintering.
-  done
-  
-  flags: flammable
-done
-
 name: stairs up
   display_name: staircase
   glyph: < yellow black
@@ -601,7 +573,7 @@ name: stove
   glyph: { dkgray black
   movecost: 0
   height: 30
-  flags: opaque
+  flags: opaque container
 done
   
 name: bed
@@ -662,7 +634,7 @@ name: fridge
   height: 80
   hp: 100
   destroy: rubble
-  flags: opaque
+  flags: opaque container
 done
 
 name: safe
@@ -743,6 +715,6 @@ name: server rack
     success_sound: electronics smashing.
   done
   destroy: rubble
-  flags: flammable
+  flags: flammable container
 done
 
