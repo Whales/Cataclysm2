@@ -62,7 +62,12 @@ public:
 
   void player_move(int xdif, int ydif); // Handles all aspects of moving player
   void player_move_vertical(int zdif);
+
   void add_msg(std::string msg, ...);
+// msg_query_yn adds a message, refreshes the HUD, and accepts Y/N input
+  bool msg_query_yn(std::string msg, ...);
+
+
   void add_active_item(Item* it);
   void remove_active_item(Item* it);
   void remove_active_item_uid(int uid);
@@ -129,6 +134,10 @@ private:
 
 // Temp values; all reset in reset_temp_values()
   int temp_light_level;
+
+// Just adds the message, after it's been formatted and everything.
+// Used by add_msg(), msg_query_yn(), and any other similar functions.
+  void add_msg_static(std::string message);
 };
 
 #endif

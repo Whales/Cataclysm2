@@ -125,6 +125,7 @@ public:
   virtual void smash                (Map* map, Tripoint sm);
   virtual void smash                (Map* map, int x, int y, int z = 999);
   virtual void pause();
+  virtual void fall(int levels);  // Doesn't actually move us; handles damage
 
 // Misc action functions
   void set_activity(Player_activity_type type, int duration,

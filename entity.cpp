@@ -708,7 +708,43 @@ void Entity::smash(Map* map, int x, int y, int z)
 
 void Entity::pause()
 {
-  action_points -= 100;
+  use_ap(100);
+}
+
+void Entity::fall(int levels)
+{
+// TODO: Overload this for the monster (maybe they can fly!)
+// TODO: Overload this for the player (mutations & bionics might help!)
+  if (levels <= 0) {
+    return;
+  }
+
+  int num   =  6;
+  int sides = (levels + 1) * (levels + 1);
+
+// TODO: Use dodge skill somehow?
+  if (stats.dexterity >= 20) {
+    num = 3;
+  } else if (stats.dexterity >= 15) {
+    num = 4;
+  } else if (stats.dexterity >= 10) {
+    num = 5;
+  }
+
+  if (levels == 1) {
+    num -= 3;
+  } else if (levels == 2) {
+    num--;
+  }
+
+  int dam = dice(num, sides);
+  std::stringstream reason;
+  reason << "falling " << levels << " floors";
+  take_damage_everywhere(DAMAGE_BASH, dam, reason.str());
+  if (is_you()) {
+// TODO: Messages about wings, etc. (Though not if we're overloaded for Player)
+    GAME.add_msg("You take %d damage!", dam);
+  }
 }
 
 void Entity::set_activity(Player_activity_type type, int duration,

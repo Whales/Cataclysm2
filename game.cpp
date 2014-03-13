@@ -820,18 +820,46 @@ void Game::player_move(int xdif, int ydif)
   int newx = player->pos.x + xdif, newy = player->pos.y + ydif;
   Entity* ent = entities.entity_at(newx, newy, player->pos.z);
   std::string tername = map->get_name(newx, newy, player->pos.z);
+
+// If we bump an entity, attack it.
+// TODO: If that entity is a friendly NPC, talk instead!
   if (ent) {
     player->attack(ent);
+
+// Check that we can drag our furniture (if any)
   } else if (!player->can_drag_furniture_to(map, newx, newy)) {
     add_msg("The %s you're dragging prevents you from moving there.",
             player->get_dragged_name().c_str());
     add_msg("Press (<c=yellow>%s<c=/>) to drop it.",
             KEYBINDINGS.describe_bindings_for(IACTION_GRAB).c_str());
     return;
+
+// If it's open space, we'll fall!
+  } else if (map->has_flag(TF_OPEN_SPACE, newx, newy)) {
+    int levels_to_fall = 0;
+    int fall_z = player->pos.z;
+    while (map->has_flag(TF_OPEN_SPACE, newx, newy, fall_z)) {
+      levels_to_fall++;
+      fall_z--;
+    }
+    if (!msg_query_yn("Step out into open space and fall %d floors?",
+                      levels_to_fall)) {
+      return;
+    }
+    debugmsg("Fall");
+    player->move_to(map, newx, newy);
+    player_move_vertical(0 - levels_to_fall);
+    player->fall(levels_to_fall); // This handles damage, etc.
+    player->use_ap(80 + levels_to_fall * 20);
+    
+// If we can move there... move there!
   } else if (player->can_move_to(map, newx, newy)) {
     player->move_to(map, newx, newy);
+
+// Otherwise, try to open it?
   } else if (map->apply_signal("open", newx, newy, player->pos.z, player)) {
     player->use_ap(100);
+    return; // Don't list items
   }
 // List items here, unless it's sealed.
   if (map->has_flag(TF_SEALED, player->pos)) {
@@ -875,6 +903,43 @@ void Game::add_msg(std::string msg, ...)
   }
   messages.push_back( Game_message(text, time.get_turn()) );
   new_messages++;
+}
+
+bool Game::msg_query_yn(std::string msg, ...)
+{
+// This duplicates all the code of add_msg(), but there's no other option!
+  if (msg.empty()) {
+    return true;
+  }
+  char buff[2048];
+  va_list ap;
+  va_start(ap, msg);
+  vsprintf(buff, msg.c_str(), ap);
+  va_end(ap);
+  std::string text(buff);
+  text = capitalize(text);
+// Add the color highlighting that lets the player know it's a prompt
+  std::stringstream colorized;
+  colorized << "<c=ltgreen>" << text << "<c=/>";
+  text = colorized.str();
+  if (!messages.empty() && messages.back().text == text &&
+      time.get_turn() - messages.back().turn <= MESSAGE_GAP) {
+    messages.back().count++;
+    messages.back().turn = time.get_turn();
+  } else {
+    messages.push_back( Game_message(text, time.get_turn()) );
+    new_messages++;
+  }
+  draw_all();
+  long ch = input();
+  if (ch != 'Y' && ch != 'N') {
+    add_msg("<c=ltred>Y<c=ltgreen> or <c=ltred>N<c=ltgreen> only, please. \
+Case-sensitive.");
+  }
+  while (ch != 'Y' && ch != 'N') {
+    ch = input();
+  }
+  return (ch == 'Y');
 }
 
 void Game::add_active_item(Item* it)
