@@ -559,7 +559,7 @@ name: table
   
   smash:
     failure_sound: "whack."
-    success_sound: "wood splintering."
+    success_sound: wood splintering.
   done
   
   flags: flammable
@@ -573,7 +573,7 @@ name: chair
   
   smash:
     failure_sound: "whack."
-    success_sound: "wood splintering."
+    success_sound: wood splintering.
   done
   
   flags: flammable
@@ -622,7 +622,7 @@ name: shelves
 
   smash:
     failure_sound: "whack."
-    success_sound: "wood splintering."
+    success_sound: wood splintering.
   done
 
   flags: flammable opaque plural container
