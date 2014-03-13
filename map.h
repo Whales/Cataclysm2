@@ -91,6 +91,7 @@ struct Tile
   std::string smash(Damage_set dam);  // Returns the sound
   bool damage(Damage_set dam);            // Returns true on destruction
   bool damage(Damage_type type, int dam); // Returns true on destruction
+  void destroy(); // Happens if hp <= 0
   bool signal_applies(std::string signal);
   bool apply_signal  (std::string signal, Entity* user = NULL);
 };

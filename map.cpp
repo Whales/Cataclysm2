@@ -122,20 +122,27 @@ std::string Furniture::smash(Damage_set dam)
   return smash.failure_sound;
 }
 
+// Roll all damage types, but only apply whichever is the best.
 bool Furniture::damage(Damage_set dam)
 {
   if (!type || type->hp == 0) {
     return false;
   }
-  bool destroyed = false;
+
+  int best_dmg = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    Damage_type type = Damage_type(i);
-    int dmg = dam.get_damage(type);
-    if (damage(type, dmg)) {
-      return true;
+    Damage_type damtype = Damage_type(i);
+    int dmg = dam.get_damage(damtype) - type->smash.armor[damtype].roll();
+    if (dmg > best_dmg) {
+      best_dmg = dmg;
     }
   }
-  return destroyed;
+
+  hp -= best_dmg;
+  if (hp <= 0) {
+    return true;
+  }
+  return false;
 }
 
 bool Furniture::damage(Damage_type damtype, int dam)
@@ -355,33 +362,42 @@ std::string Tile::smash(Damage_set dam)
   if (!is_smashable()) {  // This also verifies that terrain != NULL
     return "";
   }
+
   Terrain_smash smash = terrain->smash;
+
   if (rng(1, 100) <= smash.ignore_chance) {
     return smash.failure_sound; // Make our "saving throw"
   }
+
   if (damage(dam)) {
     return smash.success_sound;
   }
+
   return smash.failure_sound;
 }
 
+// Roll all damage types; but only actually use the very best one.
 bool Tile::damage(Damage_set dam)
 {
   if (!terrain || terrain->hp == 0) {
     return false;
   }
-  bool destroyed = false;
+
+  int best_dmg = 0;
   for (int i = 0; i < DAMAGE_MAX; i++) {
-    Damage_type type = Damage_type(i);
-    int dmg = dam.get_damage(type);
-/* We don't return immediately upon getting true back from damage(type, dmg)
- * because we need to apply the rest of the damage types to the result.
- */
-    if (damage(type, dmg)) {
-      destroyed = true;
+    Damage_type damtype = Damage_type(i);
+    int dmg = dam.get_damage(damtype) - terrain->smash.armor[damtype].roll();
+    if (dmg > best_dmg) {
+      best_dmg = dmg;
     }
   }
-  return destroyed;
+
+  hp -= best_dmg;
+  if (hp <= 0) {
+    destroy();
+    return true;
+  }
+  return false;
 }
 
 bool Tile::damage(Damage_type type, int dam)
@@ -399,19 +415,24 @@ bool Tile::damage(Damage_type type, int dam)
   }
   hp -= dam;
   if (hp <= 0) {
-// If HP is negative, then we run damage *again* with the extra damage
-    int extra = 0 - hp;
-    Terrain* result = TERRAIN.lookup_name( terrain->destroy_result );
-    if (!result) {
-      debugmsg("Tried to destroy '%s' but couldn't look up result '%s'.",
-               get_name().c_str(), terrain->destroy_result.c_str());
-    } else {
-      set_terrain(result);
-      damage(type, extra);  // See above
-    }
+    destroy();
     return true;
   }
   return false;
+}
+
+void Tile::destroy()
+{
+// If HP is negative, then we run damage *again* with the extra damage
+  int extra = 0 - hp;
+  Terrain* result = TERRAIN.lookup_name( terrain->destroy_result );
+  if (!result) {
+    debugmsg("Tried to destroy '%s' but couldn't look up result '%s'.",
+             get_name().c_str(), terrain->destroy_result.c_str());
+  } else {
+    set_terrain(result);
+    damage(DAMAGE_NULL, extra);  // See above
+  }
 }
 
 bool Tile::signal_applies(std::string signal)
