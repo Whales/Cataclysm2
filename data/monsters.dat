@@ -45,6 +45,7 @@ name: zombie brute
   genus: zombies
   glyph: Z red black
   chance: 5
+  size: large
   hp: 4d6 + 40
   speed: 65
   dodge:  0
@@ -100,6 +101,7 @@ Name: zombie dog
   genus: zombies
   glyph: d ltgreen black
   chance: 1
+  size: small
   hp: 3d5 + 25
   speed: 130
   accuracy: 8
@@ -245,6 +247,7 @@ name: giant crab
   name_plural: giant crabs
   genus: crabs
   glyph: c ltred black
+  size: large
   hp: 2d6 + 20
   armor:
     bash   5
@@ -279,6 +282,7 @@ name: gargantuan crab
   name_plural: gargantuan crabs
   genus: crabs
   glyph: C ltred black
+  size: huge
   hp: 3d6 + 30
   armor:
     bash    6
@@ -314,6 +318,7 @@ name: hermit crab
   name_plural: hermit crabs
   genus: crabs
   glyph: c ltgray black
+  size: medium
   hp: 2d6 + 20
   armor:
     bash   16

@@ -11,6 +11,7 @@ Monster_type::Monster_type()
   name = "Unknown";
   uid = -1;
   sym = glyph();
+  size = MON_SIZE_NULL;
   total_attack_weight = 0;
   speed = 0;
   accuracy = 0;
@@ -46,6 +47,10 @@ void Monster_type::set_genus(Monster_genus *mg)
 
   genus = mg;
 // Copy any unset values from the genus
+  if (size == MON_SIZE_NULL) {
+    size = mg->default_values.size;
+  }
+
   if (attacks.empty()) {
     attacks = mg->default_values.attacks;
     if (!attacks.empty()) {
@@ -173,6 +178,17 @@ bool Monster_type::load_data(std::istream &data)
       sym.load_data_text(data);
       std::getline(data, junk);
 
+    } else if (ident == "size:") {
+      std::string size_text;
+      std::getline(data, size_text);
+      size_text = no_caps( trim( size_text ) );
+      size = lookup_monster_size(size_text);
+      if (size == MON_SIZE_NULL) {
+        debugmsg("Unknown monster size '%s' (%s)", size_text.c_str(),
+                 name.c_str());
+        return false;
+      }
+
     } else if (ident == "hp:") {
       hp_dice.load_data(data, name);
       hp_set = true;
@@ -290,12 +306,42 @@ bool Monster_type::load_data(std::istream &data)
   if (dodge < 0) {
     dodge = 0;
   }
+// Likewise, if we never set size, then set it to medium (a good default)
+  if (size == MON_SIZE_NULL) {
+    size = MON_SIZE_MEDIUM;
+  }
   return true;
 }
 
 bool Monster_type::has_sense(Sense_type sense)
 {
   return senses[sense];
+}
+
+int Monster_type::get_weight()
+{
+  switch (size) {
+    case MON_SIZE_NULL:   return     0;
+    case MON_SIZE_TINY:   return    40;
+    case MON_SIZE_SMALL:  return   400;
+    case MON_SIZE_MEDIUM: return  1500;
+    case MON_SIZE_LARGE:  return  5000;
+    case MON_SIZE_HUGE:   return 20000;
+  }
+  return 0;
+}
+
+int Monster_type::get_volume()
+{
+  switch (size) {
+    case MON_SIZE_NULL:   return     0;
+    case MON_SIZE_TINY:   return    50;
+    case MON_SIZE_SMALL:  return  1200;
+    case MON_SIZE_MEDIUM: return  3000;
+    case MON_SIZE_LARGE:  return 12000;
+    case MON_SIZE_HUGE:   return 50000;
+  }
+  return 0;
 }
 
 Monster_genus::Monster_genus()
@@ -386,4 +432,31 @@ bool Monster_genus::load_data(std::istream &data)
     }
   }
   return true;
+}
+
+Monster_size lookup_monster_size(std::string name)
+{
+  name = no_caps( trim( name ) );
+  for (int i = 0; i < MON_SIZE_MAX; i++) {
+    Monster_size ret = Monster_size(i);
+    if (no_caps( monster_size_name(ret) ) == name) {
+      return ret;
+    }
+  }
+  return MON_SIZE_NULL;
+}
+
+std::string monster_size_name(Monster_size size)
+{
+  switch (size) {
+    case MON_SIZE_NULL:   return "NULL";
+    case MON_SIZE_TINY:   return "tiny";
+    case MON_SIZE_SMALL:  return "small";
+    case MON_SIZE_MEDIUM: return "medium";
+    case MON_SIZE_LARGE:  return "large";
+    case MON_SIZE_HUGE:   return "huge";
+    case MON_SIZE_MAX:    return "BUG - MON_SIZE_MAX";
+    default:              return "BUG - Unnamed Monster_size";
+  }
+  return "BUG - Escaped monster_size_name switch";
 }

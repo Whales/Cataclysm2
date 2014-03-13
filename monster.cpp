@@ -119,6 +119,17 @@ std::string Monster::get_name_definite()
   return ret.str();
 }
 
+void Monster::die()
+{
+  Entity::die();
+// Drop a corpse.
+  if (type) {
+    Item corpse( ITEM_TYPES.lookup_name("corpse") );
+    corpse.set_corpse(type);
+    GAME.map->add_item( corpse, pos.x, pos.y, pos.z );
+  }
+}
+
 bool Monster::has_sense(Sense_type sense)
 {
   if (!sense) {
@@ -294,21 +305,9 @@ void Monster::take_turn()
 
   } else if (can_move_to(GAME.map, plan.next_step())) {
 
-        std::stringstream path_info;
-        path_info << "Monster: " << pos.str() << std::endl;
-        path_info << "You: " << GAME.player->pos.str() << std::endl;
-        std::vector<Tripoint> path = plan.path.get_points();
-        path_info << "Path: (" << path.size() << ") " << std::endl;
-        for (int i = 0; i < path.size(); i++) {
-          path_info << path[i].str() << " => ";
-        }
-        popup_fullscreen(path_info.str().c_str());
-
     if (rl_dist(pos, plan.next_step()) > 1) {
-
       debugmsg("Monster %s jumping %d steps", get_name().c_str(),
                rl_dist(pos, plan.next_step()));
-
     }
 
     move_to(GAME.map, plan.next_step());

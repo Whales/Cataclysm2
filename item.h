@@ -3,6 +3,7 @@
 
 #include "item_type.h"
 #include "enum.h"
+#include "monster_type.h"
 #include <string>
 #include <vector>
 
@@ -28,6 +29,9 @@ public:
   Item& operator=(const Item &rhs);
 
   Item_type* type;
+
+  void set_corpse(Monster_type* type) { corpse = type; }
+
   Item_class get_item_class();
   Item_action default_action();
   bool is_real();
@@ -101,6 +105,8 @@ private:
   int uid;
   //bool active;
   Item_active_type active;
+
+  Monster_type* corpse;
 };
 
 std::string list_items(std::vector<Item> *items);

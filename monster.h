@@ -30,6 +30,8 @@ public:
   std::string get_name_definite();
   virtual bool is_monster() { return true; }
 
+  virtual void die();
+
   virtual bool has_sense(Sense_type sense);
   virtual Entity_AI   get_AI();
   virtual int get_genus_uid();

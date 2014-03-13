@@ -1,6 +1,7 @@
 Name: canis
   display_name: canines
   Default:
+    size: small
 	  hp: 2d4 + 20
 	  speed: 150
     accuracy: 12
@@ -33,6 +34,7 @@ done
 
 Name: mutant rabbits
   Default:
+    size: tiny
     hp: 2d4 + 4
     speed: 120
     accuracy: 8
@@ -74,6 +76,7 @@ done
 
 Name: zombies
   Default:
+    size: medium
     hp: 5d4 + 40
     speed: 70
     accuracy: 6

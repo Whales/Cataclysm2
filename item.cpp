@@ -17,6 +17,7 @@ Item::Item(Item_type* T)
   charges = 0;
   subcharges = 0;
   hp = 100;   // TODO: Use Item_type durability instead
+  corpse = NULL;
   active = ITEM_ACTIVE_OFF;
   if (type) {
     uid = GAME.get_item_uid();
@@ -46,6 +47,8 @@ Item::Item(const Item &rhs)
   charges     = rhs.charges;
   subcharges  = rhs.subcharges;
   active      = rhs.active;
+  corpse      = rhs.corpse;
+// Note lack of UID copy - is this correct?
 
   if (!rhs.contents.empty()) {
     contents.clear();
@@ -61,12 +64,13 @@ Item::~Item()
 
 Item& Item::operator=(const Item& rhs)
 {
-  type       = rhs.type;
-  ammo       = rhs.ammo;
-  count      = rhs.count;
-  charges    = rhs.charges;
-  subcharges = rhs.subcharges;
-  uid        = rhs.uid;    // Will this cause bugs?
+  type        = rhs.type;
+  ammo        = rhs.ammo;
+  count       = rhs.count;
+  charges     = rhs.charges;
+  subcharges  = rhs.subcharges;
+  uid         = rhs.uid;    // Will this cause bugs?
+  corpse      = rhs.corpse;
 
   contents.clear();
   if (!rhs.contents.empty()) {
@@ -132,7 +136,11 @@ int Item::get_uid()
 glyph Item::top_glyph()
 {
   if (type) {
-    return type->sym;
+    glyph ret = type->sym;
+    if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
+      ret.fg = corpse->sym.fg;
+    }
+    return ret;
   }
   return glyph();
 }
@@ -148,6 +156,9 @@ std::string Item::get_data_name()
 std::string Item::get_name()
 {
   if (type) {
+    if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
+      return corpse->get_name() + " " + type->get_name();
+    }
     return type->get_name();
   }
   return "Typeless item";
@@ -161,10 +172,10 @@ std::string Item::get_name_indefinite()
     std::stringstream ret;
     switch (get_item_class()) {
       case ITEM_CLASS_AMMO:
-        ret << "a box of " << type->name; // TODO: Not always box?
+        ret << "a box of " << get_name(); // TODO: Not always box?
         break;
       default:
-        ret << article << " " << type->name;
+        ret << article << " " << get_name();
     }
 // Display FULL info on contained items
     if (!contents.empty()) {
@@ -193,7 +204,7 @@ std::string Item::get_name_definite()
 // TODO: Unique items?
   if (type) {
     std::stringstream ret;
-    ret << "the " << type->name;
+    ret << "the " << get_name();
     return ret.str();
   }
   return "the typeless item";
@@ -252,6 +263,12 @@ std::string Item::get_description_full()
   ret << type->description << std::endl << std::endl <<
          type->get_property_description();
 
+// If we're a corpse, then we need a special description based on the monster
+  if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
+    ret << "Type: " << corpse->get_name() << std::endl;
+// TODO: Put in a list of relevant monster flags, like "poison to eat"
+  }
+
   return ret.str();
 }
 
@@ -260,13 +277,23 @@ int Item::get_weight()
   if (!type) {
     return 0;
   }
+
   if (get_item_class() == ITEM_CLASS_AMMO) {
     return (charges * type->weight) / 100;
   }
+
   if (has_flag(ITEM_FLAG_LIQUID) ||
       (get_item_class() == ITEM_CLASS_FOOD && !has_flag(ITEM_FLAG_CONSTANT))) {
     return (charges * type->weight);
   }
+
+  if (get_item_class() == ITEM_CLASS_CORPSE) {
+    if (corpse) {
+      return corpse->get_weight();
+    }
+    return 0;
+  }
+
   return type->weight * count;
 }
 
@@ -279,6 +306,7 @@ int Item::get_volume()
     Item_type_ammo* ammo = static_cast<Item_type_ammo*>(type);
     return (charges * type->volume) / ammo->count;
   }
+
   if (has_flag(ITEM_FLAG_LIQUID) ||
       (get_item_class() == ITEM_CLASS_FOOD && !has_flag(ITEM_FLAG_CONSTANT))) {
     return (charges * type->volume);
@@ -295,6 +323,13 @@ int Item::get_volume()
       return own_volume;
     }
     return contents_volume;
+  }
+
+  if (get_item_class() == ITEM_CLASS_CORPSE) {
+    if (corpse) {
+      return corpse->get_volume();
+    }
+    return 0;
   }
 
 // Everything else just returns its type's volume.

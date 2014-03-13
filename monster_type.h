@@ -10,6 +10,20 @@
 #include <istream>
 #include <vector>
 
+enum Monster_size
+{
+  MON_SIZE_NULL = 0,
+  MON_SIZE_TINY,      // Up to cat size
+  MON_SIZE_SMALL,     // Up to wolf size
+  MON_SIZE_MEDIUM,    // Human-size
+  MON_SIZE_LARGE,     // Cow-size
+  MON_SIZE_HUGE,      // Elephant-size
+  MON_SIZE_MAX
+};
+
+Monster_size lookup_monster_size(std::string name);
+std::string monster_size_name(Monster_size size);
+
 struct Monster_genus;
 
 struct Monster_type
@@ -24,6 +38,7 @@ struct Monster_type
   int uid;  // Unique UID for this type
   glyph sym;  // See glyph.h
 
+  Monster_size size;
   Dice hp_dice; // Dice to roll to determine HP; may be static!
   std::vector<int> armor;
   int speed;    // 100 = player's base speed
@@ -44,6 +59,8 @@ struct Monster_type
   bool load_data(std::istream &data);
 
   bool has_sense(Sense_type type);
+  int get_weight();
+  int get_volume();
 
 private:
 // These bools determine whether we've copied data from our genus

@@ -2745,5 +2745,17 @@ container
   flags: open_end
 done
 
-
 # END Containers
+
+# Corpses
+# There should really only be ONE corpse item (I guess?).  Their specific stats,
+# like weight, volume, etc., are derived from the Monster_type that the Item
+# points to.
+
+corpse
+  name: corpse
+  description:
+    A dead body.  It can be butchered into smaller pieces.
+  done
+  glyph: & dkgray black
+done
