@@ -308,7 +308,6 @@ int Item::get_volume()
     return 0;
   }
   if (get_item_class() == ITEM_CLASS_AMMO) {
-    Item_type_ammo* ammo = static_cast<Item_type_ammo*>(type);
     return (charges * type->volume) / 100;
   }
 
