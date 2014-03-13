@@ -294,7 +294,12 @@ int Item::get_weight()
     return 0;
   }
 
-  return type->weight * count;
+  int ret = type->weight;
+  for (int i = 0; i < contents.size(); i++) {
+    ret += contents[i].get_weight();
+  }
+
+  return ret * count;
 }
 
 int Item::get_volume()
