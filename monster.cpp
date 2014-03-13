@@ -458,3 +458,11 @@ void Monster::pause()
   action_points = 0;
 }
 
+/*
+void Monster::shift(int shiftx, int shifty)
+{
+  Entity::shift(shiftx, shifty);
+  plan.shift(shiftx, shifty);
+}
+*/
+

@@ -799,6 +799,7 @@ void Entity::shift(int shiftx, int shifty)
 {
   pos.x -= shiftx * SUBMAP_SIZE;
   pos.y -= shifty * SUBMAP_SIZE;
+  plan.shift(shiftx, shifty);
 }
 
 void Entity::start_turn()

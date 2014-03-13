@@ -66,6 +66,8 @@ public:
   void wander();
   void pause();
 
+  //void shift(int shiftx, int shifty); // For map shifting
+
   Monster_type *type;
   int current_hp, max_hp;
 

@@ -72,7 +72,7 @@ void Path::offset(int x_offset, int y_offset, int z_offset)
 
 void Path::shift(int shiftx, int shifty)
 {
-  offset(shiftx * SUBMAP_SIZE, shifty * SUBMAP_SIZE, 0);
+  offset((0 - shiftx) * SUBMAP_SIZE, (0 - shifty) * SUBMAP_SIZE, 0);
 }
 
 Generic_map::Generic_map(int x, int y, int z)
