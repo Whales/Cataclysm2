@@ -1738,7 +1738,6 @@ Ranged_attack Entity::throw_item(Item it)
 
 Ranged_attack Entity::fire_weapon()
 {
-// TODO: Base on skill
 // TODO: Use >1 round if we've selected a burst/auto shot
   if (!weapon.is_real() || weapon.get_item_class() != ITEM_CLASS_LAUNCHER ||
       !weapon.ammo || weapon.charges == 0) {
@@ -1746,6 +1745,12 @@ Ranged_attack Entity::fire_weapon()
   }
   weapon.charges--;
   action_points -= weapon.time_to_fire();
+  Ranged_attack ret = weapon.get_fired_attack();
+// Apply stat/skill bonuses
+  ret.variance -= (stats.perception - 10);
+// TODO: Firearms need to be tagged with the skill used
+  ret.variance -= skills.get_level(SKILL_LAUNCHERS) / 3;
+  
   return weapon.get_fired_attack();
 }
 

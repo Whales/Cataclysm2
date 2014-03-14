@@ -42,6 +42,12 @@ Dice& Dice::operator+=(const Dice& rhs)
   return *this;
 }
 
+Dice& Dice::operator-=(const int& rhs)
+{
+  bonus += rhs;
+  return *this;
+}
+
 std::string Dice::str()
 {
   std::stringstream ret;

@@ -20,15 +20,23 @@ struct Dice
   Dice base() const;  // Strip off all others
   Dice& operator= (const Dice& rhs);
   Dice& operator+=(const Dice& rhs);
+  Dice& operator-=(const int& rhs);
 
   std::string str();
 
   bool load_data(std::istream &data, std::string owner_name = "Unknown");
 
 };
+
 inline Dice operator+(Dice lhs, const Dice& rhs)
 {
   lhs += rhs;
+  return lhs;
+}
+
+inline Dice operator-(Dice lhs, const int& rhs)
+{
+  lhs -= rhs;
   return lhs;
 }
 
