@@ -1746,10 +1746,26 @@ Ranged_attack Entity::fire_weapon()
   weapon.charges--;
   action_points -= weapon.time_to_fire();
   Ranged_attack ret = weapon.get_fired_attack();
-// Apply stat/skill bonuses
-  ret.variance -= (stats.perception - 10);
-// TODO: Firearms need to be tagged with the skill used
-  ret.variance -= skills.get_level(SKILL_LAUNCHERS) / 3;
+// Perception applies a flat bonus/penalty to accuracy
+  ret.variance -= 3 * (stats.perception - 10);
+// If we've got skill in the weapon's skill type, then reduce its variance
+  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(weapon.type);
+  Skill_type sk_used = launcher->skill_used;
+  int my_skill = (skills.get_level(SKILL_LAUNCHERS) +
+                  skills.get_level(sk_used) * 3      ) / 4;
+  ret.variance.number -= my_skill / 3;
+  if (rng(1, 3) <= my_skill % 3) {
+    ret.variance.number--;
+  }
+  if (ret.variance.number < 0) {
+    ret.variance.number = 1;
+    ret.variance.sides /= 2;
+  }
+// Also, add some variance based on LOW skill
+  Dice extra_variance;
+  extra_variance.number = 3;
+  extra_variance.sides  = (20 - my_skill);
+  ret.variance += extra_variance;
   
   return weapon.get_fired_attack();
 }

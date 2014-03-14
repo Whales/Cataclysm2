@@ -1028,7 +1028,7 @@ ammo
   damage: 10
   pierce:  5
   range:  18
-  accuracy: 4d6
+  accuracy: 2d5
   count: 100
 done
 
@@ -1046,7 +1046,7 @@ ammo
   damage:   18
   pierce:    8
   range:    20
-  accuracy: 3d8
+  accuracy: 2d6
   count:   100
 done
 
@@ -1064,7 +1064,7 @@ ammo
   damage: 32
   pierce:  6
   range:  24
-  accuracy: 3d6
+  accuracy: 2d4
   count: 50
 done
 
@@ -1083,7 +1083,7 @@ ammo
   damage: 24
   pierce: 12
   range:  24
-  accuracy: 3d6 - 2
+  accuracy: 2d5
   count: 50
 done
 
@@ -1102,7 +1102,7 @@ ammo
   damage: 40
   pierce:  2
   range:  24
-  accuracy: 3d6
+  accuracy: 2d4
   count: 50
 done
 
@@ -1120,7 +1120,7 @@ ammo
   damage:   14
   pierce:   16
   range:    22
-  accuracy: 3d6
+  accuracy: 2d7
   count:   100
 done
 
@@ -1138,7 +1138,7 @@ ammo
   damage: 50
   pierce:  1
   range:  6
-  accuracy: 6d2
+  accuracy: 5d16
   count: 25
 done
 
@@ -1156,7 +1156,7 @@ ammo
   damage: 42
   pierce:  8
   range:  30
-  accuracy: 4d8
+  accuracy: 3d8
   count: 25
 done
 
@@ -1174,7 +1174,7 @@ ammo
   damage: 40
   pierce: 15
   range: 32
-  accuracy: 2d8
+  accuracy: 2d4
   count: 50
 done
 
@@ -1192,7 +1192,7 @@ ammo
   damage: 34
   pierce: 30
   range:  32
-  accuracy: 2d8
+  accuracy: 2d4
   count: 50
 done
 
@@ -1210,7 +1210,7 @@ ammo
   damage: 44
   pierce: 18
   range:  32
-  accuracy: 3d6
+  accuracy: 1d4
   count: 50
 done
 
@@ -1227,7 +1227,7 @@ ammo
   damage: 38
   pierce: 40
   range:  32
-  accuracy: 3d7
+  accuracy: 1d6
   count: 50
 done
 
@@ -1246,7 +1246,7 @@ ammo
   damage: 75
   pierce: 80
   range:  60
-  accuracy: 2d4
+  accuracy: 1d2 - 1
   count: 10
 done
 
@@ -1268,8 +1268,9 @@ launcher
   to_hit: -1
 
   type: nails
+  skill: handguns
   damage: 0
-  accuracy: 3d30
+  accuracy: 6d12
   durability: 95
   capacity: 100
   reload_ap: 500
@@ -1290,9 +1291,10 @@ launcher
   to_hit: -2
 
   type: .22
+  skill: handguns
   damage:  0
   recoil:  2
-  accuracy: 5d24
+  accuracy: 6d20
   durability: 90
   capacity: 10
   reload_ap: 250
@@ -1313,8 +1315,9 @@ launcher
   to_hit: -2
 
   type: 9mm
+  skill: handguns
   damage:  2
-  accuracy:  5d20
+  accuracy:  6d16
   recoil:      5
   durability: 80
   capacity:   15
@@ -1336,7 +1339,8 @@ launcher
   to_hit: -2
 
   type: 9mm
-  accuracy: 5d18
+  skill: handguns
+  accuracy: 6d13
   recoil:      8
   durability: 95
   capacity:   15
@@ -1357,7 +1361,8 @@ launcher
   to_hit: -2
 
   type: .45
-  accuracy: 5d16
+  skill: handguns
+  accuracy: 6d11
   damage:      6
   recoil:      5
   durability: 85
@@ -1379,7 +1384,8 @@ launcher
   to_hit: -2
 
   type: .45
-  accuracy: 5d18
+  skill: handguns
+  accuracy: 6d15
   recoil:      6
   durability: 95
   capacity:   12
@@ -1400,7 +1406,8 @@ launcher
   to_hit: -2
 
   type: 5.7
-  accuracy: 5d16
+  skill: handguns
+  accuracy: 6d10
   recoil:      4
   durability: 90
   capacity:   20
@@ -1421,8 +1428,9 @@ launcher
   bash:   13
 
   type: .50
+  skill: handguns
   damage:      6
-  accuracy: 5d30
+  accuracy: 6d22
   recoil:     -3
   durability: 80
   capacity:    7
@@ -1444,7 +1452,8 @@ launcher
   to_hit:  0
 
   type: shotgun
-  accuracy: 3d10
+  skill: shotguns
+  accuracy: 5d6
   recoil:      1
   damage:     -2
   durability: 80
@@ -1469,7 +1478,8 @@ launcher
   to_hit:  0
 
   type: shotgun
-  accuracy:  3d8
+  skill: shotguns
+  accuracy:  5d5
   recoil:      0
   damage:      8
   durability: 90
@@ -1494,7 +1504,8 @@ launcher
   to_hit: -1
 
   type: shotgun
-  accuracy:  3d10
+  skill: shotguns
+  accuracy:  5d7
   recoil:      -2
   durability:  85
   capacity:    10
@@ -1518,7 +1529,8 @@ launcher
   to_hit: -1
 
   type: 9mm
-  accuracy: 4d22
+  skill: SMGs
+  accuracy: 5d18
   recoil:      2
   damage:      2
   durability: 80
@@ -1542,7 +1554,8 @@ launcher
   to_hit: -2
 
   type: 9mm
-  accuracy: 4d12
+  skill: SMGs
+  accuracy: 5d10
   recoil:     -1
   durability: 95
   capacity:   30
@@ -1565,7 +1578,8 @@ launcher
   to_hit: -2
 
   type: .45
-  accuracy: 4d22
+  skill: SMGs
+  accuracy: 5d17
   damage:      6
   recoil:      3
   durability: 80
@@ -1589,7 +1603,8 @@ launcher
   to_hit: -2
 
   type: .45
-  accuracy: 4d14
+  skill: SMGs
+  accuracy: 5d11
   damage:      2
   recoil:     -1
   durability: 90
@@ -1613,7 +1628,8 @@ launcher
   to_hit: -1
 
   type: .45
-  accuracy: 4d18
+  skill: SMGs
+  accuracy: 5d14
   recoil:     -4
   durability: 85
   capacity:   25
@@ -1636,7 +1652,8 @@ launcher
   to_hit: -2
 
   type: 5.7
-  accuracy: 4d16
+  skill: SMGs
+  accuracy: 5d12
   recoil:     -3
   durability: 85
   capacity:   50
@@ -1660,8 +1677,9 @@ launcher
   to_hit: -1
 
   type: .22
+  skill: rifles
   damage:      2
-  accuracy: 3d10
+  accuracy: 5d6
   recoil:     -2
   durability: 85
   capacity:   10
@@ -1683,8 +1701,9 @@ launcher
   to_hit: -1
 
   type: 5.56
+  skill: rifles
   damage:      6
-  accuracy: 3d10
+  accuracy: 5d6
   recoil:     -3
   durability: 85
   capacity:   10
@@ -1706,8 +1725,9 @@ launcher
   to_hit: -1
 
   type: 7.62
+  skill: rifles
   damage:      6
-  accuracy:  3d6
+  accuracy:  5d4
   recoil:     -4
   durability: 90
   capacity:    3
@@ -1730,8 +1750,9 @@ launcher
   to_hit:  -1
 
   type: .50
+  skill: rifles
   damage:     10
-  accuracy: 3d10
+  accuracy: 5d6
   recoil:      0
   durability: 85
   capacity:    5
@@ -1752,8 +1773,9 @@ launcher
   to_hit:  -2
 
   type: .50
+  skill: rifles
   damage:     10
-  accuracy:  3d4
+  accuracy:  5d2
   recoil:      0
   durability: 90
   capacity:    1
@@ -1776,7 +1798,8 @@ launcher
   to_hit: -1
 
   type: 5.56
-  accuracy: 3d10
+  skill: rifles
+  accuracy: 5d6
   damage:      4
   recoil:     -1
   durability: 70
@@ -1799,7 +1822,8 @@ launcher
   to_hit: -1
 
   type: 5.56
-  accuracy:  3d9
+  skill: rifles
+  accuracy:  5d5
   damage:      0
   recoil:     -3
   durability: 85
@@ -1823,7 +1847,8 @@ launcher
   to_hit: -2
 
   type: 7.62
-  accuracy: 3d10
+  skill: rifles
+  accuracy: 5d7
   damage:      0
   recoil:     -1
   durability: 80
@@ -1847,7 +1872,8 @@ launcher
   to_hit: -1
 
   type: 7.62
-  accuracy: 3d20
+  skill: rifles
+  accuracy: 5d12
   damage:     10
   recoil:     -1
   durability: 85

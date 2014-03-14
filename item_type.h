@@ -6,6 +6,7 @@
 #include "dice.h"
 #include "tool.h"
 #include "status_effect.h"
+#include "skill.h"  // For launcher skill (handgun, rifle, etc)
 #include <string>
 #include <istream>
 #include <vector>
@@ -148,6 +149,7 @@ public:
   int capacity;   // Shots per reload
   int reload_ap;  // action_points per reload
   int fire_ap;    // action_points per shot fired
+  Skill_type skill_used;  // Handguns, shotguns, SMGs, or rifles
   std::vector<int> modes; // Each element is a number of shots
 
 };

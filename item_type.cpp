@@ -453,6 +453,15 @@ bool Item_type_launcher::handle_data(std::string ident, std::istream &data)
   if (ident == "type:" || ident == "ammo_type:") {
     std::getline(data, ammo_type);
 
+  } else if (ident == "skill:") {
+    std::string skill_name;
+    std::getline(data, skill_name);
+    skill_used = lookup_skill_type(skill_name);
+    if (skill_used == SKILL_NULL) {
+      debugmsg("No such skill as '%s' (%s)", skill_name.c_str(), name.c_str());
+      return false;
+    }
+
   } else if (ident == "damage:") {
     data >> damage;
     std::getline(data, junk);
