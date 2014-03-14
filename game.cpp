@@ -850,7 +850,15 @@ void Game::player_move(int xdif, int ydif)
     player->move_to(map, newx, newy);
     player_move_vertical(0 - levels_to_fall);
     player->fall(levels_to_fall); // This handles damage, etc.
-    player->use_ap(80 + levels_to_fall * 20);
+
+// When we fall hit land hard; getting ready for our next turn takes time
+    int move_penalty = (120 - 2 * player->stats.dexterity);
+// Low dexterity means we're really bad at recovering from a fall
+    if (player->stats.dexterity < 10) {
+      move_penalty += 5 * (10 - player->stats.dexterity);
+    }
+    move_penalty -= 3 * player->skills.get_level(SKILL_DODGE);
+    player->use_ap(100 + levels_to_fall * move_penalty);
     
 // If we can move there... move there!
   } else if (player->can_move_to(map, newx, newy)) {
