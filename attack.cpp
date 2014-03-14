@@ -105,11 +105,16 @@ void Attack::use_weapon(Item weapon, Stats stats)
 
 void Attack::adjust_with_stats(Stats stats)
 {
-// Strength improves bashing, Dexterity improves piercing, both improve cutting
-  int mix = (stats.strength + stats.dexterity) / 2;
-  int bash_adjust   = (damage[DAMAGE_BASH]   * stats.strength ) / 10;
-  int cut_adjust    = (damage[DAMAGE_CUT]    * mix            ) / 10;
-  int pierce_adjust = (damage[DAMAGE_PIERCE] * stats.dexterity) / 10;
+// Strength is improved with bashing skill
+// Dexterity, and a bit of perception, improve piercing skill
+// All three improve cutting skill
+  int stat_bash = stats.strength;
+  int stat_cut  = (stats.strength + stats.dexterity * 2 + stats.perception) / 4;
+  int stat_pierce = (stats.dexterity * 3 + stats.perception) / 4;
+
+  int bash_adjust   = ( damage[DAMAGE_BASH]   * stat_bash   ) / 10;
+  int cut_adjust    = ( damage[DAMAGE_CUT]    * stat_cut    ) / 10;
+  int pierce_adjust = ( damage[DAMAGE_PIERCE] * stat_pierce ) / 10;
 
   damage[DAMAGE_BASH]   = rng(damage[DAMAGE_BASH],   bash_adjust  );
   damage[DAMAGE_CUT]    = rng(damage[DAMAGE_CUT],    cut_adjust   );
