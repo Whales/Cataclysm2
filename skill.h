@@ -29,7 +29,7 @@ struct Skill_set
   Skill_set();
   ~Skill_set();
 
-  int get_level(Skill_type type);
+  int  get_level(Skill_type type);
   void set_level(Skill_type type, int lev);
 
 private:

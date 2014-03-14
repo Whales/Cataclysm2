@@ -238,8 +238,9 @@ public:
   Player_activity activity;
   Entity_plan plan;
 
-// Permanent (more or less) attributes
+// Innate attributes
   Stats stats;
+  Skill_set skills;
 
 // Temporary attributes
   int hunger, thirst, fatigue, stomach_food, stomach_water;

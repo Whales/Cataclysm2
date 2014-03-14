@@ -6,6 +6,7 @@
 #include "geometry.h" // For Tripoint
 #include "damage_set.h"
 #include "field.h"
+#include "skill.h"
 #include <string>
 #include <vector>
 #include <istream>
@@ -43,12 +44,16 @@ struct Attack
   int speed;
   int to_hit;
   int damage[DAMAGE_MAX];
+  bool using_weapon;
 
   Attack();
   ~Attack();
 
   bool load_data(std::istream &data, std::string owner_name = "unknown");
-  void use_weapon(Item weapon, Stats stats);
+
+  void use_weapon(Item weapon, Stats stats);  // Stats is only used for speed
+  void adjust_with_stats(Stats stats);        // Adjusts damage
+  void adjust_with_skills(Skill_set skills);  // Adjusts damage, speed, to_hit
 
   Damage_set roll_damage(Melee_hit_type hit_type = MELEE_HIT_NORMAL);
   int roll_damage_type(Damage_type type,

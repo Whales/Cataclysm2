@@ -1549,6 +1549,9 @@ void Entity::attack(Entity* target)
 
   Attack att = std_attack();
 
+  att.adjust_with_stats(stats);
+  att.adjust_with_skills(skills);
+
   action_points -= att.speed;
 
   bool you_see = GAME.player->can_sense(GAME.map, pos.x, pos.y);

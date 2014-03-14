@@ -19,6 +19,7 @@ Attack::Attack()
   weight =  10;
   speed  = 100;
   to_hit =   0;
+  using_weapon = false;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     damage[i] = 0;
   }
@@ -91,10 +92,98 @@ bool Attack::load_data(std::istream &data, std::string owner_name)
 
 void Attack::use_weapon(Item weapon, Stats stats)
 {
+  if (!weapon.is_real()) {
+    return;
+  }
+  using_weapon = true;
   speed  += weapon.get_base_attack_speed(stats);
   to_hit += weapon.get_to_hit();
   for (int i = 0; i < DAMAGE_MAX; i++) {
     damage[i] += weapon.get_damage( Damage_type(i) );
+  }
+}
+
+void Attack::adjust_with_stats(Stats stats)
+{
+// Strength improves bashing, Dexterity improves piercing, both improve cutting
+  int mix = (stats.strength + stats.dexterity) / 2;
+  int bash_adjust   = (damage[DAMAGE_BASH]   * stats.strength ) / 10;
+  int cut_adjust    = (damage[DAMAGE_CUT]    * mix            ) / 10;
+  int pierce_adjust = (damage[DAMAGE_PIERCE] * stats.dexterity) / 10;
+
+  damage[DAMAGE_BASH]   = rng(damage[DAMAGE_BASH],   bash_adjust  );
+  damage[DAMAGE_CUT]    = rng(damage[DAMAGE_CUT],    cut_adjust   );
+  damage[DAMAGE_PIERCE] = rng(damage[DAMAGE_PIERCE], pierce_adjust);
+}
+
+void Attack::adjust_with_skills(Skill_set skills)
+{
+// Weapon or not, Melee skill makes the attack faster & more accurate.
+// 1 points of melee skill = 2 points speed improvement
+  int melee = skills.get_level(SKILL_MELEE);
+  speed -= (speed * melee) / 50;
+// 4 points of melee skill = 1 point speed improvement, capped at +5
+  to_hit += (melee > 20 ? 5 : melee / 4);
+// Melee skill between multiples of 5 MAY provide a +1 boost
+  if (melee < 20 && rng(1, 5) <= (melee % 5)) {
+    to_hit++;
+  }
+
+  if (!using_weapon) { // Unarmed attack.
+    int unarmed = skills.get_level(SKILL_UNARMED);
+    damage[DAMAGE_BASH] += (unarmed > 3 ? 3 : unarmed);
+    int bash_adjust = damage[DAMAGE_BASH];
+    if (unarmed > 2) {
+      bash_adjust = (damage[DAMAGE_BASH] * unarmed) / 2.5;
+// If bash_adjust isn't a whole number, round it randomly
+      int bonus = (damage[DAMAGE_BASH] * unarmed * 10) / 2.5;
+      bonus = bonus % 10;
+      if (rng(1, 10) <= bonus) {
+        bash_adjust++;
+      }
+    }
+    damage[DAMAGE_BASH] = rng(damage[DAMAGE_BASH], bash_adjust);
+
+    to_hit += (unarmed > 10 ? 5 : unarmed / 2);
+    if (unarmed % 2 == 1 && one_in(2)) {
+      to_hit++; // Odd numbers impact speed too!
+    }
+
+    speed -= (unarmed > 15 ? 30 : unarmed * 2);
+    return;
+  }
+
+// Below here, we're using a weapon.
+  int sk_bash   = skills.get_level(SKILL_BASH),
+      sk_cut    = skills.get_level(SKILL_CUT),
+      sk_pierce = skills.get_level(SKILL_PIERCE);
+
+// We can up to double our damage!
+  int bash_adj   = (damage[DAMAGE_BASH]   * (sk_bash   + 1)) / 4;
+  int cut_adj    = (damage[DAMAGE_CUT]    * (sk_cut    + 1)) / 4;
+  int pierce_adj = (damage[DAMAGE_PIERCE] * (sk_pierce + 1)) / 4;
+
+  int final_bash   = rng(damage[DAMAGE_BASH],   bash_adj   ),
+      final_cut    = rng(damage[DAMAGE_CUT],    cut_adj    ),
+      final_pierce = rng(damage[DAMAGE_PIERCE], pierce_adj );
+
+// Don't do more than double our damage.  Skills higher than 7 still matter;
+// they give a better chance of that doubling!
+
+  if (final_bash > damage[DAMAGE_BASH] * 2) {
+    damage[DAMAGE_BASH] *= 2;
+  } else {
+    damage[DAMAGE_BASH] = final_bash;
+  }
+  if (final_cut > damage[DAMAGE_CUT] * 2) {
+    damage[DAMAGE_CUT] *= 2;
+  } else {
+    damage[DAMAGE_CUT] = final_cut;
+  }
+  if (final_pierce > damage[DAMAGE_PIERCE] * 2) {
+    damage[DAMAGE_PIERCE] *= 2;
+  } else {
+    damage[DAMAGE_PIERCE] = final_pierce;
   }
 }
 
