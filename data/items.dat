@@ -997,7 +997,7 @@ ammo
   pierce: 2
   range:  3
 # Accuracy is highly variable!
-  accuracy: 3d30
+  accuracy: 3d30 - 3
   count: 100
 done
 
@@ -1028,7 +1028,7 @@ ammo
   damage: 10
   pierce:  5
   range:  18
-  accuracy: 2d5
+  accuracy: 2d6 - 2
   count: 100
 done
 
@@ -1046,7 +1046,7 @@ ammo
   damage:   18
   pierce:    8
   range:    20
-  accuracy: 2d6
+  accuracy: 2d7 - 2
   count:   100
 done
 
@@ -1064,7 +1064,7 @@ ammo
   damage: 32
   pierce:  6
   range:  24
-  accuracy: 2d4
+  accuracy: 2d5 - 2
   count: 50
 done
 
@@ -1083,7 +1083,7 @@ ammo
   damage: 24
   pierce: 12
   range:  24
-  accuracy: 2d5
+  accuracy: 2d6 - 2
   count: 50
 done
 
@@ -1102,7 +1102,7 @@ ammo
   damage: 40
   pierce:  2
   range:  24
-  accuracy: 2d4
+  accuracy: 2d5 - 2
   count: 50
 done
 
@@ -1120,7 +1120,7 @@ ammo
   damage:   14
   pierce:   16
   range:    22
-  accuracy: 2d7
+  accuracy: 2d5 - 2
   count:   100
 done
 
@@ -1138,7 +1138,7 @@ ammo
   damage: 50
   pierce:  1
   range:  6
-  accuracy: 5d16
+  accuracy: 5d17 - 5
   count: 25
 done
 
@@ -1156,7 +1156,7 @@ ammo
   damage: 42
   pierce:  8
   range:  30
-  accuracy: 3d8
+  accuracy: 3d10 - 3
   count: 25
 done
 
@@ -1174,7 +1174,7 @@ ammo
   damage: 40
   pierce: 15
   range: 32
-  accuracy: 2d4
+  accuracy: 1d5 - 1
   count: 50
 done
 
@@ -1192,7 +1192,7 @@ ammo
   damage: 34
   pierce: 30
   range:  32
-  accuracy: 2d4
+  accuracy: 1d5 - 1
   count: 50
 done
 
@@ -1210,7 +1210,7 @@ ammo
   damage: 44
   pierce: 18
   range:  32
-  accuracy: 1d4
+  accuracy: 1d8 - 1
   count: 50
 done
 
@@ -1227,7 +1227,7 @@ ammo
   damage: 38
   pierce: 40
   range:  32
-  accuracy: 1d6
+  accuracy: 1d10 - 1
   count: 50
 done
 
@@ -1270,7 +1270,7 @@ launcher
   type: nails
   skill: handguns
   damage: 0
-  accuracy: 6d12
+  accuracy: 6d14 - 6
   durability: 95
   capacity: 100
   reload_ap: 500
@@ -1294,7 +1294,7 @@ launcher
   skill: handguns
   damage:  0
   recoil:  2
-  accuracy: 6d20
+  accuracy: 6d22 - 6
   durability: 90
   capacity: 10
   reload_ap: 250
@@ -1317,7 +1317,7 @@ launcher
   type: 9mm
   skill: handguns
   damage:  2
-  accuracy:  6d16
+  accuracy:  6d18 - 6
   recoil:      5
   durability: 80
   capacity:   15
@@ -1340,7 +1340,7 @@ launcher
 
   type: 9mm
   skill: handguns
-  accuracy: 6d13
+  accuracy: 6d14 - 6
   recoil:      8
   durability: 95
   capacity:   15
@@ -1362,7 +1362,7 @@ launcher
 
   type: .45
   skill: handguns
-  accuracy: 6d11
+  accuracy: 6d14 - 6
   damage:      6
   recoil:      5
   durability: 85
@@ -1385,7 +1385,7 @@ launcher
 
   type: .45
   skill: handguns
-  accuracy: 6d15
+  accuracy: 6d12 - 6
   recoil:      6
   durability: 95
   capacity:   12
@@ -1407,7 +1407,7 @@ launcher
 
   type: 5.7
   skill: handguns
-  accuracy: 6d10
+  accuracy: 6d10 - 6
   recoil:      4
   durability: 90
   capacity:   20
@@ -1430,7 +1430,7 @@ launcher
   type: .50
   skill: handguns
   damage:      6
-  accuracy: 6d22
+  accuracy: 6d22 - 6
   recoil:     -3
   durability: 80
   capacity:    7
@@ -1453,7 +1453,7 @@ launcher
 
   type: shotgun
   skill: shotguns
-  accuracy: 5d6
+  accuracy: 5d7 - 5
   recoil:      1
   damage:     -2
   durability: 80
@@ -1479,7 +1479,7 @@ launcher
 
   type: shotgun
   skill: shotguns
-  accuracy:  5d5
+  accuracy:  5d5 - 5
   recoil:      0
   damage:      8
   durability: 90
@@ -1505,7 +1505,7 @@ launcher
 
   type: shotgun
   skill: shotguns
-  accuracy:  5d7
+  accuracy:  5d8 - 5
   recoil:      -2
   durability:  85
   capacity:    10
@@ -1530,7 +1530,7 @@ launcher
 
   type: 9mm
   skill: SMGs
-  accuracy: 5d18
+  accuracy: 5d18 - 5
   recoil:      2
   damage:      2
   durability: 80
@@ -1555,7 +1555,7 @@ launcher
 
   type: 9mm
   skill: SMGs
-  accuracy: 5d10
+  accuracy: 5d10 - 5
   recoil:     -1
   durability: 95
   capacity:   30
@@ -1579,7 +1579,7 @@ launcher
 
   type: .45
   skill: SMGs
-  accuracy: 5d17
+  accuracy: 5d18 - 5
   damage:      6
   recoil:      3
   durability: 80
@@ -1604,7 +1604,7 @@ launcher
 
   type: .45
   skill: SMGs
-  accuracy: 5d11
+  accuracy: 5d12 - 5
   damage:      2
   recoil:     -1
   durability: 90
@@ -1629,7 +1629,7 @@ launcher
 
   type: .45
   skill: SMGs
-  accuracy: 5d14
+  accuracy: 5d15 - 5
   recoil:     -4
   durability: 85
   capacity:   25
@@ -1653,7 +1653,7 @@ launcher
 
   type: 5.7
   skill: SMGs
-  accuracy: 5d12
+  accuracy: 5d12 - 5
   recoil:     -3
   durability: 85
   capacity:   50
@@ -1679,7 +1679,7 @@ launcher
   type: .22
   skill: rifles
   damage:      2
-  accuracy: 5d6
+  accuracy: 5d7 - 5
   recoil:     -2
   durability: 85
   capacity:   10
@@ -1703,7 +1703,7 @@ launcher
   type: 5.56
   skill: rifles
   damage:      6
-  accuracy: 5d6
+  accuracy: 5d7 - 5
   recoil:     -3
   durability: 85
   capacity:   10
@@ -1727,7 +1727,7 @@ launcher
   type: 7.62
   skill: rifles
   damage:      6
-  accuracy:  5d4
+  accuracy:  5d5 - 5
   recoil:     -4
   durability: 90
   capacity:    3
@@ -1752,7 +1752,7 @@ launcher
   type: .50
   skill: rifles
   damage:     10
-  accuracy: 5d6
+  accuracy: 5d6 - 5
   recoil:      0
   durability: 85
   capacity:    5
@@ -1775,7 +1775,7 @@ launcher
   type: .50
   skill: rifles
   damage:     10
-  accuracy:  5d2
+  accuracy:  5d3 - 5
   recoil:      0
   durability: 90
   capacity:    1
@@ -1799,7 +1799,7 @@ launcher
 
   type: 5.56
   skill: rifles
-  accuracy: 5d6
+  accuracy: 5d7 - 5
   damage:      4
   recoil:     -1
   durability: 70
@@ -1823,7 +1823,7 @@ launcher
 
   type: 5.56
   skill: rifles
-  accuracy:  5d5
+  accuracy:  5d6 - 5
   damage:      0
   recoil:     -3
   durability: 85
@@ -1848,7 +1848,7 @@ launcher
 
   type: 7.62
   skill: rifles
-  accuracy: 5d7
+  accuracy: 5d7 - 5
   damage:      0
   recoil:     -1
   durability: 80
@@ -1873,7 +1873,7 @@ launcher
 
   type: 7.62
   skill: rifles
-  accuracy: 5d12
+  accuracy: 5d12 - 5
   damage:     10
   recoil:     -1
   durability: 85

@@ -1765,6 +1765,7 @@ Ranged_attack Entity::fire_weapon()
   Dice extra_variance;
   extra_variance.number = 3;
   extra_variance.sides  = (20 - my_skill);
+  extra_variance.bonus  = -3;
   ret.variance += extra_variance;
   
   return weapon.get_fired_attack();
