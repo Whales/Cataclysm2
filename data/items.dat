@@ -1135,10 +1135,11 @@ ammo
   weight: 70
   volume: 30
   type: shotgun
-  damage: 50
-  pierce:  1
-  range:  6
-  accuracy: 5d17 - 5
+  damage: 4
+  pellets: 20
+  pierce:   5
+  range:   6
+  accuracy: 5d30 - 5
   count: 25
 done
 

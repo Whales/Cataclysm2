@@ -99,9 +99,12 @@ std::string Item_type_clothing::get_property_description()
 Item_type_ammo::Item_type_ammo()
 {
   damage = 0;
+// When we hit a target, their effective armor is (armor * 10) / armor_pierce
+// Thus, armor_pierce of 10 means "don't affect their armor at all"
   armor_pierce = 10;
   range = 0;
   count = 100;
+  pellets = 1;
 }
 
 std::string Item_type_ammo::get_property_description()
@@ -109,6 +112,9 @@ std::string Item_type_ammo::get_property_description()
   std::stringstream ret;
   ret << "<c=white>Type:<c=/> " << ammo_type << std::endl;
   ret << "<c=cyan>Accuracy:<c=/> " << accuracy.str() << std::endl;
+  if (pellets > 1) {
+    ret << "<c=ltred>Pellets:<c=/> " << pellets << std::endl;
+  }
   ret << "<c=red>Damage:<c=white> " << damage << "\n<c=ltblue>Armor Piercing: ";
   if (armor_pierce == 10) {
     ret << "<c=dkgray>None";
@@ -439,6 +445,10 @@ bool Item_type_ammo::handle_data(std::string ident, std::istream &data)
 
   } else if (ident == "count:") {
     data >> count;
+    std::getline(data, junk);
+
+  } else if (ident == "pellets:") {
+    data >> pellets;
     std::getline(data, junk);
 
   } else if (ident != "done") {

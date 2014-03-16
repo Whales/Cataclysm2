@@ -121,8 +121,9 @@ public:
   int damage;       // Base damage
   int armor_pierce; // Armor ignored
   int range;
-  Dice accuracy;     // Low is good!  In 1/10ths of a degree
+  Dice accuracy;    // Low is good!  In 1/10ths of a degree
   int count;        // How many to a box
+  int pellets;      // How many projectiles in a single shot?  Only for 00 shot.
 };
 
 class Item_type_launcher : public Item_type

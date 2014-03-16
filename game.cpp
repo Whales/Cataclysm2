@@ -664,6 +664,7 @@ void Game::launch_projectile(Entity* shooter, Ranged_attack attack,
 void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
                              Tripoint origin, Tripoint target)
 {
+// Set up some nouns and verbs for messages (far below)
   std::string shooter_name, verb = "shoot", miss_verb = "miss",
               graze_verb = "graze";
   if (shooter) {
@@ -683,130 +684,140 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
     miss_verb = "misses";
     graze_verb = "grazes";
   }
-  int range = rl_dist(origin, target);
-  int angle_missed_by = attack.roll_variance();
-  //debugmsg(attack.variance.str().c_str());
-// Use 1800 since attack.variance is measured in 10ths of a degree
-  double distance_missed_by = range * tan(angle_missed_by * PI / 1800);
-  int tiles_off = int(distance_missed_by);
-  if (tiles_off >= 1) {
-    target.x += rng(0 - tiles_off, tiles_off);
-    target.y += rng(0 - tiles_off, tiles_off);
-  }
-// fine_distance is used later to see if we hit the target or "barely missed"
-  int fine_distance = 100 * (distance_missed_by - tiles_off);
 
-  std::vector<Tripoint> path = map->line_of_sight(origin, target);
-  if (path.empty()) { // Lost line of sight at some point
-    path = line_to(origin, target);
-  }
+// Figure out the range to the target
+  int range = rl_dist(origin, target);
+
+// We calculate angle individually for every pellet...
+  for (int pellet = 0; pellet < attack.pellets; pellet++) {
+    int angle_missed_by = attack.roll_variance();
+/*
+    if (TESTING_MODE) {
+      debugmsg("angle %d (%s)", angle_missed_by, attack.variance.str().c_str());
+    }
+*/
+// Use 1800 since attack.variance is measured in 10ths of a degree
+    double distance_missed_by = range * tan(angle_missed_by * PI / 1800);
+    int tiles_off = int(distance_missed_by);
+    if (tiles_off >= 1) {
+      target.x += rng(0 - tiles_off, tiles_off);
+      target.y += rng(0 - tiles_off, tiles_off);
+    }
+// fine_distance is used later to see if we hit the target or "barely missed"
+    int fine_distance = 100 * (distance_missed_by - tiles_off);
+
+    std::vector<Tripoint> path = map->line_of_sight(origin, target);
+    if (path.empty()) { // Lost line of sight at some point
+      path = line_to(origin, target);
+    }
 
 // We track i outside of the function, because we need it to know where the
 // projectile stopped.
-  int i = 0;
-  bool stopped = false;
-  while (!stopped && i < path.size()) {
-    if (map->move_cost(path[i].x, path[i].y) == 0) {
-// It's a solid tile, so let's try to smash through it!
-      map->smash(path[i].x, path[i].y, attack.roll_damage(), false);
+    int i = 0;
+    bool stopped = false;
+    while (!stopped && i < path.size()) {
       if (map->move_cost(path[i].x, path[i].y) == 0) {
-        stopped = true; // Couldn't get through the terrain!
-        i--; // Stop at the terrain before the solid one
-      }
-    } else {
+// It's a solid tile, so let's try to smash through it!
+        map->smash(path[i].x, path[i].y, attack.roll_damage(), false);
+        if (map->move_cost(path[i].x, path[i].y) == 0) {
+          stopped = true; // Couldn't get through the terrain!
+          i--; // Stop at the terrain before the solid one
+        }
+      } else {
 // Drop a field in our wake?
-      if (attack.wake_field.exists()) {
-        attack.wake_field.drop(Tripoint(path[i].x, path[i].y, path[i].z),
-                               shooter_name);
-      }
+        if (attack.wake_field.exists()) {
+          attack.wake_field.drop(Tripoint(path[i].x, path[i].y, path[i].z),
+                                 shooter_name);
+        }
 // Did we hit an entity?
-      Entity* entity_hit = entities.entity_at(path[i].x, path[i].y);
-      if (entity_hit) {
-        bool hit;
-        Ranged_hit_type hit_type;
-        if (i == path.size() - 1) {
-          hit = rng(0, 100) >= fine_distance;
-          if (fine_distance <= 10) {
-            hit_type = RANGED_HIT_HEADSHOT;
-          } else if (fine_distance <= 35) {
-            hit_type = RANGED_HIT_CRITICAL;
-          } else if (fine_distance <= 75) {
-            hit_type = RANGED_HIT_NORMAL;
-          } else {
-            hit_type = RANGED_HIT_GRAZE;
-          }
-        } else {
-          hit = one_in(3);// TODO: Incorporate the size of the monster
-          if (hit) {
-            int hit_roll = rng(1, 100);
-            if (hit_roll <= 10) {
+        Entity* entity_hit = entities.entity_at(path[i].x, path[i].y);
+        if (entity_hit) {
+          bool hit;
+          Ranged_hit_type hit_type;
+          if (i == path.size() - 1) {
+            hit = rng(0, 100) >= fine_distance;
+            if (fine_distance <= 10) {
               hit_type = RANGED_HIT_HEADSHOT;
-            } else if (hit_roll <= 35) {
+            } else if (fine_distance <= 35) {
               hit_type = RANGED_HIT_CRITICAL;
-            } else if (hit_roll <= 75) {
+            } else if (fine_distance <= 75) {
               hit_type = RANGED_HIT_NORMAL;
             } else {
               hit_type = RANGED_HIT_GRAZE;
             }
-          }
-        }
-
-        if (hit) {
-          Damage_set dam = attack.roll_damage(hit_type);
-          if (dam.get_damage(DAMAGE_PIERCE) == 0 && TESTING_MODE) {
-            debugmsg("0 ranged damage!");
-            debugmsg("Attack damage: %d %d %d", attack.damage[DAMAGE_BASH],
-                     attack.damage[DAMAGE_CUT], attack.damage[DAMAGE_PIERCE]);
-          }
-          if (hit_type == RANGED_HIT_HEADSHOT) {
-            shooter_name = capitalize(shooter_name);
-            add_msg("<c=ltred>Headshot!  %s %s %s for %d damage!<c=/>",
-                    shooter_name.c_str(), verb.c_str(),
-                    entity_hit->get_name_to_player().c_str(),
-                    dam.get_damage(DAMAGE_PIERCE));
-          } else if (hit_type == RANGED_HIT_CRITICAL) {
-            shooter_name = capitalize(shooter_name);
-            add_msg("<c=ltred>Critical!  %s %s %s for %d damage!<c=/>",
-                    shooter_name.c_str(), verb.c_str(),
-                    entity_hit->get_name_to_player().c_str(),
-                    dam.get_damage(DAMAGE_PIERCE));
-          } else if (hit_type == RANGED_HIT_GRAZE) {
-            add_msg("<c=ltred>%s %s %s for %d damage!<c=/>",
-                    shooter_name.c_str(), graze_verb.c_str(),
-                    entity_hit->get_name_to_player().c_str(),
-                    dam.get_damage(DAMAGE_PIERCE));
           } else {
-            add_msg("<c=ltred>%s %s %s for %d damage!<c=/>",
-                    shooter_name.c_str(), verb.c_str(),
-                    entity_hit->get_name_to_player().c_str(),
-                    dam.get_damage(DAMAGE_PIERCE));
+            hit = one_in(3);// TODO: Incorporate the size of the monster
+            if (hit) {
+              int hit_roll = rng(1, 100);
+              if (hit_roll <= 10) {
+                hit_type = RANGED_HIT_HEADSHOT;
+              } else if (hit_roll <= 35) {
+                hit_type = RANGED_HIT_CRITICAL;
+              } else if (hit_roll <= 75) {
+                hit_type = RANGED_HIT_NORMAL;
+              } else {
+                hit_type = RANGED_HIT_GRAZE;
+              }
+            }
           }
-          entity_hit->take_damage(DAMAGE_PIERCE, dam.get_damage(DAMAGE_PIERCE),
-                                  "you");
-          stopped = true;
-        } else if (i == path.size() - 1 && shooter == player) {
-          add_msg("<c=dkgray>%s barely %s %s.<c=/>", shooter_name.c_str(),
-                  miss_verb.c_str(), entity_hit->get_name_to_player().c_str());
-        }
-      } // if (entity hit)
-    } // End of <Didn't hit solid terrain>
-    i++;  // Increment which tile in the trajectory we're examining
-  } // while (!stopped && i < path.size())
 
-  Tripoint end_point;
-  if (i == path.size()) {
-    end_point = Tripoint(path.back().x, path.back().y, 0);
-  } else {
-    end_point = Tripoint(path[i].x, path[i].y, 0);
-  }
+          if (hit) {
+            Damage_set dam = attack.roll_damage(hit_type);
+            if (dam.get_damage(DAMAGE_PIERCE) == 0 && TESTING_MODE) {
+              debugmsg("0 ranged damage!");
+              debugmsg("Attack damage: %d %d %d", attack.damage[DAMAGE_BASH],
+                       attack.damage[DAMAGE_CUT], attack.damage[DAMAGE_PIERCE]);
+            }
+            if (hit_type == RANGED_HIT_HEADSHOT) {
+              shooter_name = capitalize(shooter_name);
+              add_msg("<c=ltred>Headshot!  %s %s %s for %d damage!<c=/>",
+                      shooter_name.c_str(), verb.c_str(),
+                      entity_hit->get_name_to_player().c_str(),
+                      dam.get_damage(DAMAGE_PIERCE));
+            } else if (hit_type == RANGED_HIT_CRITICAL) {
+              shooter_name = capitalize(shooter_name);
+              add_msg("<c=ltred>Critical!  %s %s %s for %d damage!<c=/>",
+                      shooter_name.c_str(), verb.c_str(),
+                      entity_hit->get_name_to_player().c_str(),
+                      dam.get_damage(DAMAGE_PIERCE));
+            } else if (hit_type == RANGED_HIT_GRAZE) {
+              add_msg("<c=ltred>%s %s %s for %d damage!<c=/>",
+                      shooter_name.c_str(), graze_verb.c_str(),
+                      entity_hit->get_name_to_player().c_str(),
+                      dam.get_damage(DAMAGE_PIERCE));
+            } else {
+              add_msg("<c=ltred>%s %s %s for %d damage!<c=/>",
+                      shooter_name.c_str(), verb.c_str(),
+                      entity_hit->get_name_to_player().c_str(),
+                      dam.get_damage(DAMAGE_PIERCE));
+            }
+            entity_hit->take_damage(DAMAGE_PIERCE,dam.get_damage(DAMAGE_PIERCE),
+                                    "you");
+            stopped = true;
+          } else if (i == path.size() - 1 && shooter == player) {
+            add_msg("<c=dkgray>%s barely %s %s.<c=/>", shooter_name.c_str(),
+                   miss_verb.c_str(), entity_hit->get_name_to_player().c_str());
+          }
+        } // if (entity hit)
+      } // End of <Didn't hit solid terrain>
+      i++;  // Increment which tile in the trajectory we're examining
+    } // while (!stopped && i < path.size())
+
+    Tripoint end_point;
+    if (i == path.size()) {
+      end_point = Tripoint(path.back().x, path.back().y, 0);
+    } else {
+      end_point = Tripoint(path[i].x, path[i].y, 0);
+    }
 // Drop the projectile we threw, if it's "real"
-  if (it.is_real()) {
-    map->add_item(it, end_point);
-  }
+    if (it.is_real()) {
+      map->add_item(it, end_point);
+    }
 // Create the target_field from our attack, if it's "real"
-  if (attack.target_field.exists()) {
-    attack.target_field.drop(end_point, shooter_name);
-  }
+    if (attack.target_field.exists()) {
+      attack.target_field.drop(end_point, shooter_name);
+    }
+  } // for (int pellet = 0; pellet < attack.pellets; pellet++)
 }
 
 void Game::player_move(int xdif, int ydif)

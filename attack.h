@@ -81,6 +81,7 @@ struct Ranged_attack
   int speed;        // AP used
   int charge_time;  // Also for monsters - how frequently can we use this?
   int range;        // Max range of the attack
+  int pellets;      // How many pellets included?  Mainly for shotgun shot.
   Dice variance;    // In 1/10ths of a degree
   int damage       [DAMAGE_MAX];
   int armor_divisor[DAMAGE_MAX];// Times 10; 20 = halve the armor, 5 = double it

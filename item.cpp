@@ -506,9 +506,10 @@ Ranged_attack Item::get_fired_attack()
   Item_type_ammo*     itammo   = static_cast<Item_type_ammo*>    (ammo);
 
   Ranged_attack ret;
-  ret.speed = launcher->fire_ap;
-  ret.range = itammo->range;
+  ret.speed    = launcher->fire_ap;
+  ret.range    = itammo->range;
   ret.variance = launcher->accuracy + itammo->accuracy;
+  ret.pellets  = itammo->pellets;
 // TODO: Can fired items ever be non-pierce?
   ret.damage       [DAMAGE_PIERCE] = itammo->damage + launcher->damage;
   ret.armor_divisor[DAMAGE_PIERCE] = itammo->armor_pierce;
