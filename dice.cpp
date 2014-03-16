@@ -8,7 +8,11 @@ int Dice::roll()
   if (number == 0 || sides == 0) {
     return 0;
   }
-  return dice(number, sides) + bonus;
+  int ret = dice(number, sides) + bonus;
+  for (int i = 0; i < others.size(); i++) {
+    ret += others[i].roll();
+  }
+  return ret;
 }
 
 Dice Dice::base() const
@@ -56,6 +60,9 @@ std::string Dice::str()
     ret << " - " << int(0 - bonus);
   } else {
     ret << " + " << bonus;
+  }
+  for (int i = 0; i < others.size(); i++) {
+    ret << " + " << others[i].str();
   }
   return ret.str();
 }
