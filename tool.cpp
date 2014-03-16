@@ -88,6 +88,9 @@ Tool_special_heal::Tool_special_heal()
 {
   min_amount = 0;
   max_amount = 0;
+  skill = SKILL_NULL;
+  skill_min = 0;
+  skill_max = 0;
 }
 
 bool Tool_special_heal::load_data(std::istream& data, std::string owner_name)
@@ -116,6 +119,25 @@ bool Tool_special_heal::load_data(std::istream& data, std::string owner_name)
       data >> max_amount;
       std::getline(data, junk);
 
+    } else if (ident == "skill:") {
+      std::string skill_name;
+      std::getline(data, skill_name);
+      skill_name = trim( no_caps( skill_name ) );
+      skill = lookup_skill_type(skill_name);
+      if (skill == SKILL_NULL) {
+        debugmsg("Unknown skill '%s' (%s)", skill_name.c_str(),
+                 owner_name.c_str());
+        return false;
+      }
+
+    } else if (ident == "skill_min:") {
+      data >> skill_min;
+      std::getline(data, junk);
+
+    } else if (ident == "skill_max:") {
+      data >> skill_max;
+      std::getline(data, junk);
+
     } else if (ident != "done") {
       debugmsg("Unknown Tool_special_heal flag '%s' (%s)",
                ident.c_str(), owner_name.c_str());
@@ -134,8 +156,28 @@ bool Tool_special_heal::effect(Entity* user)
     return false;
   }
 
-// TODO: Increase amount as our First Aid skill increases.
+  int skill_lvl = 0;
+  if (skill != SKILL_NULL) {
+    skill_lvl = user->skills.get_level(skill);
+  }
+
+  if (skill_lvl < skill_min) {
+    GAME.add_msg("%s %s the necessary %s skill (%d required).",
+                 user->get_name_to_player().c_str(),
+                 user->conjugate("lack").c_str(),
+                 skill_type_name(skill).c_str(),
+                 skill_min);
+    return false;
+  }
+
   int amount_healed = min_amount;
+  if (skill_lvl >= skill_max) {
+    amount_healed = max_amount;
+  } else {
+    int range = skill_max - skill_min;
+    skill_lvl -= skill_min;
+    amount_healed += (skill_lvl * (max_amount - min_amount)) / range;
+  }
 // TODO: If user is an NPC, auto-choose
 // TODO: Allow us to target things (monsters/NPCs) other than ourselves
   Player* player = NULL;

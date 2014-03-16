@@ -3,6 +3,7 @@
 
 #include "dice.h"
 #include "field.h"
+#include "skill.h"  // Some actions are affected by skill
 #include <string>
 #include <istream>
 
@@ -84,6 +85,10 @@ struct Tool_special_heal : public Tool_special
   virtual bool effect(Entity* user);
 
   int min_amount, max_amount;
+// min_skill is the minimum requirement; max_skill is what's required to reach
+// max_amount.
+  Skill_type skill;
+  int skill_min, skill_max;
 };
 
 struct Tool_action

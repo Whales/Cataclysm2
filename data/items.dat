@@ -2590,6 +2590,9 @@ tool
     special: heal
       min: 3
       max: 15
+      skill: first_aid
+      skill_min:  0
+      skill_max: 10
     done
   done
 
@@ -2613,8 +2616,11 @@ tool
     destroy
     ap_cost: 400
     special: heal
-      min: 5
+      min: 2
       max: 40
+      skill: first_aid
+      skill_min:  0
+      skill_max: 12
     done
   done
 done
