@@ -123,6 +123,7 @@ bool Player::add_item(Item item)
                    item.get_name().c_str())) {
         inventory.push_back(item);
         wear_item_uid(item.get_uid());
+        GAME.add_msg( wear_item_message(item) );
         return true;
       } else {
         return false;
