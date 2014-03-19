@@ -147,6 +147,11 @@ Entity::Entity()
   pain = 0;
   painkill = 0;
   special_timer = 0;
+
+// Initialize trait vector
+  for (int i = 0; i < TRAIT_MAX; i++) {
+    traits.push_back(false);
+  }
 }
 
 Entity::~Entity()
@@ -531,6 +536,16 @@ Entity_AI Entity::get_AI()
 bool Entity::has_sense(Sense_type sense)
 {
   return false;
+}
+
+bool Entity::has_trait(Trait_id trait)
+{
+  if (trait >= traits.size()) {
+    debugmsg("Entity '%s' has traits.size() %d (should be %d)!",
+             get_name().c_str(), traits.size(), TRAIT_MAX);
+    return false;
+  }
+  return traits[trait];
 }
 
 int Entity::get_genus_uid()

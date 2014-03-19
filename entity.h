@@ -11,6 +11,7 @@
 #include "entity_ai.h"
 #include "status_effect.h"
 #include "map.h"
+#include "trait.h"
 #include <string>
 #include <map>
 #include <list>
@@ -102,12 +103,13 @@ public:
   virtual bool pick_flee_target();
 
 // Type data
-  virtual Entity_AI   get_AI();
+  virtual Entity_AI get_AI();
   virtual bool has_sense(Sense_type sense);
-  virtual int get_genus_uid();
-  virtual int get_hunger_minimum();
-  virtual int get_thirst_minimum();
-  virtual int get_stomach_maximum();
+  virtual bool has_trait(Trait_id trait);
+  virtual int  get_genus_uid();
+  virtual int  get_hunger_minimum();
+  virtual int  get_thirst_minimum();
+  virtual int  get_stomach_maximum();
 
 // World interaction
   virtual bool can_sense  (Entity* entity);
@@ -241,6 +243,7 @@ public:
 // Innate attributes
   Stats stats;
   Skill_set skills;
+  std::vector<bool> traits;
 
 // Temporary attributes
   int hunger, thirst, fatigue, stomach_food, stomach_water;
