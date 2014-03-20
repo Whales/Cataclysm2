@@ -39,3 +39,4 @@ fF        = place_field
 -         = clear_items
 m         = spawn_monster
 p         = monster_path
+!         = memory_info

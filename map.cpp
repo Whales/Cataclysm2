@@ -984,7 +984,13 @@ Submap* Submap_pool::at_location(Tripoint p)
   }
   sub->generate(GAME.worldmap, p.x, p.y, p.z);
   point_map[p] = sub;
+  instances.push_back(sub);
   return sub;
+}
+
+int Submap_pool::size()
+{
+  return instances.size();
 }
 
 Map::Map()

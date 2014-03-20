@@ -1184,12 +1184,18 @@ active items!");
         path_info << "Monster: " << mon->pos.str() << std::endl;
         path_info << "You: " << player->pos.str() << std::endl;
         std::vector<Tripoint> path = mon->plan.path.get_points();
-        path_info << "Path: (" << mon->plan.path.get_points().size() << ") " << std::endl;
+        path_info << "Path: (" << mon->plan.path.get_points().size() << ") " <<
+                     std::endl;
         for (int i = 0; i < path.size(); i++) {
           path_info << path[i].str() << " => ";
         }
         popup(path_info.str().c_str());
       }
+      break;
+
+    case DEBUG_ACTION_MEMORY_INFO:
+      popup("Submaps: %d\nSizeof(Submap): %d", SUBMAP_POOL.size(),
+            sizeof(Submap));
       break;
 
     default:

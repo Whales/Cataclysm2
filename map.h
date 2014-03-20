@@ -144,6 +144,8 @@ public:
   Submap* at_location(Point p);
   Submap* at_location(Tripoint p);
 
+  int size();
+
   std::list<Submap*> instances;
 private:
   std::map<Tripoint,Submap*,Tripointcomp> point_map;
