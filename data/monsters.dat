@@ -96,6 +96,40 @@ name: spitter zombie
   done
 done
 
+name: smoke zombie
+  name_plural: smoke zombies
+  genus: zombies
+  glyph: Z dkgray black
+  chance: 5
+# Use default HP/speed/accuracy/dodge
+  AI:
+    awareness: 1
+    attention: 15
+    goals:
+      attack_enemies
+      attack_neutrals
+    done
+  done
+# Use default melee attacks
+  ranged_attack:
+    verb: breathe smoke / breathes smoke
+    speed: 180
+    charge: 5
+    range: 15
+    variance: 20d20
+    wake_field:
+      type: smoke
+      duration: 5d30 - 10
+      tiles: 1d3
+    done
+    target_field:
+      type: smoke
+      duration: 5d30 - 10
+      tiles: 2d6
+    done
+  done
+done
+
 Name: zombie dog
   name_plural: zombie dogs
   genus: zombies
