@@ -284,26 +284,41 @@ std::string Tile::get_name_indefinite()
   return ret.str();
 }
 
-bool Tile::blocks_sense(Sense_type sense)
+bool Tile::blocks_sense(Sense_type sense, int z_value)
 {
   if (!terrain) {
     return false;
   }
+
   switch (sense) {
+
     case SENSE_NULL:
       return true;
+
     case SENSE_SIGHT:
       return (has_flag(TF_OPAQUE));
+      if (field.is_valid() && field.has_flag(TF_OPAQUE)) {
+        return true;
+      } else if (has_flag(TF_OPAQUE) && z_value <= get_height()) {
+        return true;
+      }
+      return false;
+
     case SENSE_SOUND:
       return false;
+
     case SENSE_ECHOLOCATION:
       return (move_cost() == 0);
+
     case SENSE_SMELL:
       return (move_cost() == 0);
+
     case SENSE_OMNISCIENT:
       return false;
+
     case SENSE_MAX:
       return false;
+
   }
   return false;
 }
@@ -1287,9 +1302,10 @@ bool Map::has_flag(Terrain_flag flag, int x, int y, int z)
   return (t && t->has_flag(flag));
 }
 
-bool Map::blocks_sense(Sense_type sense, Tripoint pos)
+bool Map::blocks_sense(Sense_type sense, Tripoint pos, int z_value)
 {
-  return blocks_sense(sense, pos.x, pos.y, pos.z);
+  Tile *t = get_tile(pos);
+  return (t && t->blocks_sense(sense, z_value));
 }
 
 bool Map::blocks_sense(Sense_type sense, int x, int y, int z)
@@ -1879,8 +1895,7 @@ std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
       if (lines[i].x == x1 && lines[i].y == y1) {
         return return_values[i];
       }
-      if ((blocks_sense(SENSE_SIGHT, lines[i]) &&
-           z_value <= get_height(lines[i])) ||
+      if (blocks_sense(SENSE_SIGHT, lines[i], z_value) ||
           (z_stepped &&
            blocks_sense(SENSE_SIGHT, lines[i].x, lines[i].y, old_z))) {
         lines.erase(lines.begin() + i);

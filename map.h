@@ -81,7 +81,7 @@ struct Tile
   int get_height();
   std::string get_name();
   std::string get_name_indefinite();  // With indefinite article
-  bool blocks_sense(Sense_type sense = SENSE_SIGHT);
+  bool blocks_sense(Sense_type sense = SENSE_SIGHT, int z_value = 50);
   bool has_flag(Terrain_flag flag);
 
   bool has_field();
@@ -196,7 +196,7 @@ public:
   bool has_flag(Terrain_flag flag, Tripoint pos);
   bool has_flag(Terrain_flag flag, int x, int y, int z = 999);
 
-  bool blocks_sense(Sense_type sense, Tripoint pos);
+  bool blocks_sense(Sense_type sense, Tripoint pos, int z_value = 50);
   bool blocks_sense(Sense_type sense, int x, int y, int z = 999);
 
   bool add_item(Item item, Tripoint pos);
