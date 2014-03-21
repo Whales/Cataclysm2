@@ -804,6 +804,7 @@ clothing
   armor_cut: 2
   encumbrance: 2
   covers: hands
+  flags: plural
 done
 
 clothing
@@ -818,6 +819,7 @@ clothing
   armor_cut:    3
   armor_pierce: 1
   covers: legs
+  flags: plural
 done
 
 clothing
@@ -833,13 +835,14 @@ clothing
   armor_cut:    1
   encumbrance:  1
   covers: legs
+  flags: plural
 done
 
 clothing
   name: leather pants
   description:
     A pair of black leather pants.  Not very comfortable or easy to move in, but
-    they're sexy...?
+    they're sexy...?  They also provide decent protection against cuts.
   done
   glyph: [ brown black
   weight:   7
@@ -849,6 +852,7 @@ clothing
   armor_pierce: 2
   encumbrance:  3
   covers: legs
+  flags: plural
 done
 
 clothing
@@ -874,6 +878,7 @@ clothing
   armor_cut:  1
   encumbrance: -1
   covers: feet
+  flags: plural
 done
 
 clothing
@@ -889,6 +894,7 @@ clothing
   armor_pierce: 4
   encumbrance: 1
   covers: feet
+  flags: plural
 done
 
 clothing
@@ -905,6 +911,7 @@ clothing
   armor_pierce: 6
   encumbrance: 2
   covers: feet
+  flags: plural
 done
 
 clothing
@@ -922,6 +929,7 @@ clothing
   armor_pierce: 10
   encumbrance: 3
   covers: feet
+  flags: plural
 done
 
 clothing
