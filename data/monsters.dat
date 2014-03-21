@@ -114,7 +114,7 @@ name: smoke zombie
   ranged_attack:
     verb: breathe smoke / breathes smoke
     speed: 180
-    charge: 5
+    charge: 8
     range: 15
     variance: 20d20
     wake_field:
