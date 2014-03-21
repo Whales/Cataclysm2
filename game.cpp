@@ -689,7 +689,11 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
   int range = rl_dist(origin, target);
 
 // We calculate angle individually for every pellet...
-  for (int pellet = 0; pellet < attack.pellets; pellet++) {
+  int num_pellets = attack.pellets;
+  if (num_pellets < 1) {
+    num_pellets = 1;
+  }
+  for (int pellet = 0; pellet < num_pellets; pellet++) {
     int angle_missed_by = attack.roll_variance();
 /*
     if (TESTING_MODE) {
