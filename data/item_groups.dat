@@ -257,3 +257,13 @@ done
 name: items_diner_food
   items: w:3 beans / w:10 SPAM / w:3 tomatoes / w:15 beef patty / w:10 pressed potato / w:5 water / w:10 beer / w:1 wine / w:15 cola / w:5 V8 / w:5 dry pasta / w:5 dry tea / w:20 dry coffee
 done
+
+name: items_pawn_shop
+  items: w:5 hunting knife / w:3 combat knife / w:1 antique sword / w:7 baseball bat / w:1 large axe / w:1 antique halberd / w:3 diamond / w:3 fedora / w:3 leather jacket / w:3 steel-toed boots / w:1 holster / w:2 purse / w:4 gold ring / w:3 diamond necklace / w:1 USP 9mm / w:1 M1911 / w:1 2-barreled shotgun / w:3 crowbar / w:3 shovel / w:3 lighter / w:3 flashlight / w:2 can 
+done
+
+
+name: items_museum
+#Maybe TODO: divide group to some theme groups, for thematic rooms in museum. And add some "antique" guns.
+  items: w:1 antique sword / w:1 large axe / w:1 antique halberd / w:4 diamond / w:4 gold ring / w:4 diamond necklace / w:7 rock / w:7 wood dowel / w:7 hoe / w:7 rake / w:8 rag / w:3 bundle of money / w:3 dead plant / w:1 leather gloves / w:1 leather pants
+done
