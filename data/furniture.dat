@@ -90,3 +90,47 @@ name: billiard table
   Components: c:8 wood plank
   Flags: flammable
 done
+
+#Useless museum stuff
+name: fake beast skeleton
+  glyph: } white black
+  move_cost:  800
+  height:      80
+  weight:     700
+  HP:          60
+  Smash:
+    failure_sound: "whack."
+    success_sound: fake bones cracking.
+  done
+  #TODO: this is plastic skeleton, so it may leave a plastic scraps
+  Components: c:8 wood plank
+  Flags: flammable
+done
+
+name: medieval cannon
+  glyph: } grey black
+  move_cost:  600
+  height:      50
+  weight:    1100
+  HP:        1500
+  Smash:
+    failure_sound: "dang."
+    success_sound: metal breaks.
+  done
+  #TODO: it is made from iron or bronze, so it may leave a metal scraps
+  Components: c:8 wood plank
+done
+
+name: antique sculpture
+  glyph: } yellow black
+  move_cost:  600
+  height:      85
+  weight:     400
+  HP:          60
+  Smash:
+    failure_sound: "crack."
+    success_sound: fragile clay cracks.
+  done
+  #TODO: it is made from a clay, so it may leave a... some clay, if it will implemented
+  Components: c:8 wood plank
+done
