@@ -159,3 +159,9 @@ Name: restaurant
   Road_cost: 500
   Flags: shop face_road
 Done
+
+Name: bar
+  Glyph: o pink black
+  Road_cost: 500
+  Flags: shop face_road
+Done
