@@ -76,3 +76,17 @@ name: desk
   Components: c:6 wood plank
   Flags: flammable
 done
+
+name: billiard table
+  glyph: } green black
+  move_cost:  350
+  height:      40
+  weight:     400
+  HP:         100
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+  done
+  Components: c:8 wood plank
+  Flags: flammable
+done
