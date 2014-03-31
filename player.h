@@ -25,6 +25,7 @@ public:
 
 // Game start function
   void prep_new_character();
+  bool create_new_character();
 
 // Movement functions
   virtual bool has_sense(Sense_type sense);
