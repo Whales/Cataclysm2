@@ -33,5 +33,6 @@ enum Trait_id
 
 Trait_id lookup_trait_id(std::string name);
 std::string trait_id_name(Trait_id trait);
+std::string trait_description(Trait_id trait);
 
 #endif
