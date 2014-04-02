@@ -1,6 +1,8 @@
 #ifndef _TRAIT_H_
 #define _TRAIT_H_
 
+#include <string>
+
 enum Trait_id
 {
   TRAIT_NULL = 0,
@@ -28,5 +30,8 @@ enum Trait_id
 
   TRAIT_MAX           // ALWAYS last in this list
 };
+
+Trait_id lookup_trait_id(std::string name);
+std::string trait_id_name(Trait_id trait);
 
 #endif
