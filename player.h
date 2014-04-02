@@ -5,6 +5,7 @@
 #include "map.h"
 #include "enum.h"
 #include "player_activity.h"
+#include "profession.h"
 #include <string>
 
 class Player : public Entity
@@ -26,6 +27,8 @@ public:
 // Game start function
   void prep_new_character();
   bool create_new_character();
+  void set_profession(Profession* prof);
+  Profession* get_profession();
 
 // Movement functions
   virtual bool has_sense(Sense_type sense);
@@ -71,6 +74,7 @@ public:
 private:
   std::string name;
   bool male;
+  Profession* profession;
 };
 
 #endif

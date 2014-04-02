@@ -11,13 +11,16 @@ enum Trait_id
   TRAIT_LIGHT_EATER,  // Hunger increases more slowly
   TRAIT_CAMEL,        // Thirst increases more slowly
   TRAIT_NIGHT_VISION, // Sight radius is better at night
-  TRAIT_DURABLE,      // +??% HP, overall constitution boost (eg disease resist)
+  TRAIT_DURABLE,      // +15% HP
+  TRAIT_STURDY_CONSTITUTION,  // Increased resistance to disease
   TRAIT_PACKMULE,     // +20% increase to volume capacity
-  TRAIT_ROBUST,       // Mutations are more likely to be good
+  TRAIT_ROBUST_GENETICS, // Mutations are more likely to be good
+  TRAIT_PAIN_RESISTANT, // Pain is reduced
 
   TRAIT_MAX_GOOD,     // Splits good traits from neutral traits
 
   TRAIT_LIGHTWEIGHT,  // Increased duration of drug effects, both good & bad
+  TRAIT_CHEMICAL_IMBALANCE, // Occasional random effects
 
   TRAIT_MAX_NEUTRAL,  // Splits neutral traits from bad traits
 
@@ -32,7 +35,11 @@ enum Trait_id
 };
 
 Trait_id lookup_trait_id(std::string name);
+// An alias for the cool kids - just returns trait_id_name()
+std::string trait_name(Trait_id trait);
 std::string trait_id_name(Trait_id trait);
+
 std::string trait_description(Trait_id trait);
+int trait_cost(Trait_id trait);
 
 #endif

@@ -2,6 +2,8 @@
 #include "player.h"
 #include "cuss.h"
 #include "trait.h"
+#include "files.h"  // For CUSS_DIR
+#include "window.h"
 #include <string>
 #include <sstream>
 
@@ -26,8 +28,6 @@ enum Stat_selected
 std::string                 get_stat_description(Stat_selected stat);
 
 std::vector< std::string >  get_trait_list(Player* pl);
-std::string                 get_trait_description(Trait_id trait);
-int                         get_trait_cost(Trait_id trait);
 
 std::vector< std::string >  get_profession_list(Player* pl);
 
@@ -44,7 +44,7 @@ bool Player::create_new_character()
   Stat_selected cur_stat = STATSEL_STR;
   int* stat_value = &(stats.strength);
 
-  std::vector<std::string> trait_list = get_trait_list(this);
+  std::vector<std::string> traits_list = get_trait_list(this);
   std::vector<std::string> profession_list = get_profession_list(this);
 
   name = "";
@@ -68,8 +68,8 @@ bool Player::create_new_character()
       case NCS_TRAITS: {
         i_newch.set_data("list_traits", traits_list);
         Trait_id cur_trait = Trait_id( i_newch.get_int("list_traits") );
-        i_newch.set_data("text_description", get_trait_description(cur_trait));
-        i_newch.set_data("num_cost", get_trait_cost(cur_trait));
+        i_newch.set_data("text_description", trait_description(cur_trait));
+        i_newch.set_data("num_cost", trait_cost(cur_trait));
       } break;
 
       case NCS_PROFESSION: {
@@ -95,7 +95,7 @@ bool Player::create_new_character()
         break;
     } // switch (cur_screen)
 
-    i_newch.draw(&w_newch)
+    i_newch.draw(&w_newch);
     w_newch.refresh();
 
     long ch = getch();
@@ -104,7 +104,7 @@ bool Player::create_new_character()
     if (ch == '<') {
       cur_screen = New_char_screen( cur_screen - 1 );
       if (cur_screen == NCS_CANCEL) {
-        if (popup_yn("Cancel character creation?")) {
+        if (query_yn("Cancel character creation?")) {
           return false;
         }
         cur_screen = NCS_STATS;
@@ -115,7 +115,7 @@ bool Player::create_new_character()
       cur_screen = New_char_screen( cur_screen + 1 );
       if (cur_screen == NCS_DONE) {
 // TODO: Insert tests for completed reqs (all points spent, name entered, etc)
-        if (popup_yn("Complete character and start the game?")) {
+        if (query_yn("Complete character and start the game?")) {
           return true;
         }
         cur_screen = NCS_DESCRIPTION;
@@ -155,8 +155,8 @@ bool Player::create_new_character()
             case '4':
             case 'h':
             case KEY_LEFT:
-              if (stat_value > 4) {
-                if (stat_value > 16) {
+              if (*stat_value > 4) {
+                if (*stat_value > 16) {
                   points++; // Stats above 16 cost 2 points, so get extra back
                 }
                 points++;
@@ -167,7 +167,7 @@ bool Player::create_new_character()
             case '6':
             case 'l':
             case KEY_RIGHT: {
-              int point_req = (stat_value >= 16 ? 2 : 1);
+              int point_req = (*stat_value >= 16 ? 2 : 1);
               if (points >= point_req) {
                 points -= point_req;
                 stat_value++;
@@ -177,10 +177,10 @@ bool Player::create_new_character()
 
           if (changed_stat) { // Update stat_value
             switch (cur_stat) {
-              case STATSEL_STR: cur_stat = &(stats.strength);     break;
-              case STATSEL_DEX: cur_stat = &(stats.dexterity);    break;
-              case STATSEL_PER: cur_stat = &(stats.perception);   break;
-              case STATSEL_INT: cur_stat = &(stats.intelligence); break;
+              case STATSEL_STR: stat_value = &(stats.strength);     break;
+              case STATSEL_DEX: stat_value = &(stats.dexterity);    break;
+              case STATSEL_PER: stat_value = &(stats.perception);   break;
+              case STATSEL_INT: stat_value = &(stats.intelligence); break;
             }
           }
         } break;
@@ -205,11 +205,11 @@ bool Player::create_new_character()
               Trait_id cur_trait = Trait_id( i_newch.get_int("list_traits") );
               if (has_trait(cur_trait)) {
                 traits[cur_trait] = false;
-                points += get_trait_cost(cur_trait);
+                points += trait_cost(cur_trait);
                 num_traits--;
-              } else if (points >= get_trait_cost(cur_trait) && num_traits < 5){
+              } else if (points >= trait_cost(cur_trait) && num_traits < 5){
                 traits[cur_trait] = true;
-                points -= get_trait_cost(cur_trait);
+                points -= trait_cost(cur_trait);
                 num_traits++;
               }
             } break;
@@ -234,6 +234,7 @@ bool Player::create_new_character()
             case '\n':
             case ' ':
             {
+              std::string prof_name = i_newch.get_str("list_professions");
               Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
               if (!cur_prof) {
                 debugmsg("No such profession as '%s'!", prof_name.c_str());
@@ -333,13 +334,25 @@ std::vector<std::string> get_trait_list(Player* pl)
       name << "<c=red>";
     }
     name << trait_id_name( Trait_id(i) ) << "<c=/>";
-    ret.push_back(name);
+    ret.push_back(name.str());
   }
   return ret;
 }
 
-std::string                 get_trait_description(Trait_id trait);
-int                         get_trait_cost(Trait_id trait);
-
-std::vector< std::string >  get_profession_list(Player* pl);
-
+std::vector< std::string >  get_profession_list(Player* pl)
+{
+  std::vector< std::string > ret;
+  for (std::list<Profession*>::iterator it = PROFESSIONS.instances.begin();
+       it != PROFESSIONS.instances.end();
+       it++) {
+    std::stringstream text;
+    if ( (*it) == pl->get_profession()) {
+      text << "<c=white>";
+    } else {
+      text << "<c=ltblue>";
+    }
+    text << (*it)->name << "<c=/>";
+    ret.push_back( text.str() );
+  }
+  return ret;
+}

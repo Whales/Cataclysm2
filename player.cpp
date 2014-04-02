@@ -20,6 +20,7 @@ Player::Player()
   action_points = 100;
   name = "Whales";
   male = true;
+  profession = NULL;
   for (int i = 0; i < HP_PART_MAX; i++) {
     current_hp[i] = 100;
     max_hp[i] = 100;
@@ -64,6 +65,16 @@ void Player::prep_new_character()
     Item tmp( clothes[i] );
     items_worn.push_back(tmp);
   }
+}
+
+void Player::set_profession(Profession* prof)
+{
+  profession = prof;
+}
+
+Profession* Player::get_profession()
+{
+  return profession;
 }
 
 bool Player::has_sense(Sense_type sense)

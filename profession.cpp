@@ -1,4 +1,6 @@
 #include "profession.h"
+#include "stringfunc.h"
+#include "window.h" // For debugmsg()
 #include <string>
 #include <istream>
 
@@ -82,4 +84,5 @@ bool Profession::load_data(std::istream& data)
                ident.c_str(), name.c_str());
     }
   }
+  return true;
 }

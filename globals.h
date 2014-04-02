@@ -9,6 +9,7 @@
 #include "monster_type.h"
 #include "keybind.h"
 #include "biome.h"
+#include "profession.h"
 
 class Game;
 class Submap_pool;
