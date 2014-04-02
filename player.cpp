@@ -19,6 +19,7 @@ Player::Player()
   pos.y = 15;
   action_points = 100;
   name = "Whales";
+  male = true;
   for (int i = 0; i < HP_PART_MAX; i++) {
     current_hp[i] = 100;
     max_hp[i] = 100;

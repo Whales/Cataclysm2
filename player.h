@@ -70,6 +70,7 @@ public:
 
 private:
   std::string name;
+  bool male;
 };
 
 #endif
