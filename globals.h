@@ -26,6 +26,7 @@ extern Data_pool<Monster_type>    MONSTER_TYPES;
 extern Data_pool<Biome>           BIOMES;
 extern Data_pool<Field_type>      FIELDS;
 extern Data_pool<Furniture_type>  FURNITURE_TYPES;
+extern Data_pool<Profession>      PROFESSIONS;
 extern Submap_pool                SUBMAP_POOL;
 extern Mapgen_spec_pool           MAPGEN_SPECS;
 extern Keybinding_pool            KEYBINDINGS;
