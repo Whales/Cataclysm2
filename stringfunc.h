@@ -18,11 +18,11 @@ std::string load_to_character(std::istream &datastream, std::string chars,
 
 std::string slurp_file(const std::string &filename);
 
-std::string trim(const std::string &orig);
-
-std::string all_caps(const std::string &orig);
-std::string no_caps (const std::string &orig);
-std::string capitalize(const std::string &orig);
+std::string trim             (const std::string &orig);
+std::string all_caps         (const std::string &orig);
+std::string no_caps          (const std::string &orig);
+std::string capitalize       (const std::string &orig);
+std::string remove_color_tags(const std::string &orig);
 
 std::string itos(int num);
 

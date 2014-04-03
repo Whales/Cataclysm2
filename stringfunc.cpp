@@ -208,6 +208,26 @@ std::string capitalize(const std::string &orig)
   return ret; // All blank spaces??
 }
 
+std::string remove_color_tags(const std::string &orig)
+{
+  std::string ret;
+  bool in_tag = false;
+  for (int i = 0; i < orig.size(); i++) {
+    if (in_tag) {
+      if (orig[i] == '>') {
+        in_tag = false;
+      }
+    } else {
+      if (orig[i] == '<') {
+        in_tag = true;
+      } else {
+        ret += orig[i];
+      }
+    }
+  }
+  return ret;
+}
+
 std::string itos(int num)
 {
   std::stringstream ret;
