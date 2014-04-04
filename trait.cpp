@@ -140,7 +140,7 @@ effect on you.";
     case TRAIT_PACKMULE:
       return "\
 You're good at making do with limited storage space.  Your volume limit is \
-increased by 20%.";
+increased by 20 percent.";
 
     case TRAIT_ROBUST_GENETICS:
       return "\

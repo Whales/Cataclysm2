@@ -42,7 +42,17 @@ bool Player::create_new_character()
   Stat_selected cur_stat = STATSEL_STR;
   int* stat_value = &(stats.strength);
 
-  std::vector<std::string> traits_list = get_trait_list(this);
+/* We need to set up a list of traits which does NOT include the placeholder / 
+ * marker "traits" like TRAIT_MAX_GOOD and TRAIT_MAX_NEUTRAL etc.
+ */
+  std::vector<Trait_id> selectable_traits;
+  for (int i = 1; i < TRAIT_MAX_BAD; i++) {
+    if (i != TRAIT_MAX_GOOD && i != TRAIT_MAX_NEUTRAL) {
+      selectable_traits.push_back( Trait_id(i) );
+    }
+  }
+
+  std::vector<std::string> traits_list     = get_trait_list     (this);
   std::vector<std::string> profession_list = get_profession_list(this);
 
   name = "";
@@ -50,51 +60,21 @@ bool Player::create_new_character()
   int points = 4;
   int num_traits = 0;
 
+  i_newch.ref_data("num_points", &points);
+
+  i_newch.ref_data("num_strength",     &stats.strength);
+  i_newch.ref_data("num_dexterity",    &stats.dexterity);
+  i_newch.ref_data("num_perception",   &stats.perception);
+  i_newch.ref_data("num_intelligence", &stats.intelligence);
+  i_newch.set_data("text_description", get_stat_description(cur_stat));
+
+  i_newch.set_data("text_strength",     "<c=ltblue>Strength<c=/>");
+  i_newch.set_data("text_dexterity",    "<c=ltgray>Dexterity<c=/>");
+  i_newch.set_data("text_perception",   "<c=ltgray>Perception<c=/>");
+  i_newch.set_data("text_intelligence", "<c=ltgray>Intelligence<c=/>");
+
   while (true) {  // We'll exit this function via keypresses, always
 // Always set num_points!
-    i_newch.set_data("num_points", points);
-    switch (cur_screen) {
-
-      case NCS_STATS:
-        i_newch.set_data("num_strength",     stats.strength);
-        i_newch.set_data("num_dexterity",    stats.dexterity);
-        i_newch.set_data("num_perception",   stats.perception);
-        i_newch.set_data("num_intelligence", stats.intelligence);
-        i_newch.set_data("text_description", get_stat_description(cur_stat));
-        break;
-
-      case NCS_TRAITS: {
-        i_newch.select("list_traits");
-        i_newch.set_data("list_traits", traits_list);
-        Trait_id cur_trait = Trait_id( i_newch.get_int("list_traits") );
-        i_newch.set_data("text_description", trait_description(cur_trait));
-        i_newch.set_data("num_cost", trait_cost(cur_trait));
-      } break;
-
-      case NCS_PROFESSION: {
-        i_newch.select("list_professions");
-        i_newch.set_data("list_professions", profession_list);
-        std::string prof_name = i_newch.get_str("list_professions");
-        prof_name = remove_color_tags(prof_name);
-        Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
-        if (!cur_prof) {
-          debugmsg("No such profession as '%s'!", prof_name.c_str());
-          return false;
-        }
-        i_newch.set_data("text_description", cur_prof->description);
-      } break;
-
-      case NCS_DESCRIPTION:
-        i_newch.ref_data("entry_name", &name);
-        if (male) {
-          i_newch.set_data("text_male",   "<c=yellow>Male<c=/>");
-          i_newch.set_data("text_female", "<c=dkgray>Female<c=/>");
-        } else {
-          i_newch.set_data("text_male",   "<c=dkgray>Male<c=/>");
-          i_newch.set_data("text_female", "<c=yellow>Female<c=/>");
-        }
-        break;
-    } // switch (cur_screen)
 
     i_newch.draw(&w_newch);
     w_newch.refresh();
@@ -161,7 +141,7 @@ bool Player::create_new_character()
                   points++; // Stats above 16 cost 2 points, so get extra back
                 }
                 points++;
-                stat_value--;
+                (*stat_value)--;
               }
               break;
 
@@ -171,17 +151,40 @@ bool Player::create_new_character()
               int point_req = (*stat_value >= 16 ? 2 : 1);
               if (points >= point_req) {
                 points -= point_req;
-                stat_value++;
+                (*stat_value)++;
               }
             } break;
           } // switch (ch)
 
           if (changed_stat) { // Update stat_value
+            i_newch.set_data("text_strength",    "<c=ltgray>Strength<c=/>");
+            i_newch.set_data("text_dexterity",   "<c=ltgray>Dexterity<c=/>");
+            i_newch.set_data("text_perception",  "<c=ltgray>Perception<c=/>");
+            i_newch.set_data("text_intelligence","<c=ltgray>Intelligence<c=/>");
+
+            i_newch.set_data("text_description",
+                             get_stat_description(cur_stat));
             switch (cur_stat) {
-              case STATSEL_STR: stat_value = &(stats.strength);     break;
-              case STATSEL_DEX: stat_value = &(stats.dexterity);    break;
-              case STATSEL_PER: stat_value = &(stats.perception);   break;
-              case STATSEL_INT: stat_value = &(stats.intelligence); break;
+              case STATSEL_STR:
+                stat_value = &(stats.strength);
+                i_newch.set_data("text_strength",
+                                 "<c=ltblue>Strength<c=/>");
+                break;
+              case STATSEL_DEX:
+                stat_value = &(stats.dexterity);
+                i_newch.set_data("text_dexterity",
+                                 "<c=ltblue>Dexterity<c=/>");
+                break;
+              case STATSEL_PER:
+                stat_value = &(stats.perception);
+                i_newch.set_data("text_perception",
+                                 "<c=ltblue>Perception<c=/>");
+                break;
+              case STATSEL_INT:
+                stat_value = &(stats.intelligence);
+                i_newch.set_data("text_intelligence",
+                                 "<c=ltblue>Intelligence<c=/>");
+                break;
             }
           }
         } break;
@@ -191,27 +194,46 @@ bool Player::create_new_character()
             case '2':
             case 'j':
             case KEY_DOWN:
+            {
               i_newch.add_data("list_traits", 1);
-              break;
+              int sel = i_newch.get_int("list_traits");
+              Trait_id cur_trait = selectable_traits[sel];
+              i_newch.set_data("num_cost", trait_cost(cur_trait));
+              i_newch.set_data("text_description",
+                               trait_description(cur_trait));
+            } break;
 
             case '8':
             case 'k':
             case KEY_UP:
+            {
               i_newch.add_data("list_traits", -1);
-              break;
+              int sel = i_newch.get_int("list_traits");
+              Trait_id cur_trait = selectable_traits[sel];
+              i_newch.set_data("num_cost", trait_cost(cur_trait));
+              i_newch.set_data("text_description",
+                               trait_description(cur_trait));
+            } break;
 
             case '\n':
             case ' ':
             {
-              Trait_id cur_trait = Trait_id( i_newch.get_int("list_traits") );
+              int sel = i_newch.get_int("list_traits");
+              Trait_id cur_trait = selectable_traits[sel];
               if (has_trait(cur_trait)) {
                 traits[cur_trait] = false;
                 points += trait_cost(cur_trait);
                 num_traits--;
+                traits_list = get_trait_list(this);
               } else if (points >= trait_cost(cur_trait) && num_traits < 5){
                 traits[cur_trait] = true;
                 points -= trait_cost(cur_trait);
                 num_traits++;
+                traits_list = get_trait_list(this);
+              }
+              i_newch.set_data("num_traits_left", 5 - num_traits);
+              if (num_traits >= 5) {
+                i_newch.set_data("num_traits_left", c_red);
               }
             } break;
 
@@ -223,14 +245,32 @@ bool Player::create_new_character()
             case '2':
             case 'j':
             case KEY_DOWN:
+            {
               i_newch.add_data("list_professions", 1);
-              break;
+              std::string prof_name = i_newch.get_str("list_professions");
+              prof_name = remove_color_tags(prof_name);
+              Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
+              if (!cur_prof) {
+                debugmsg("No such profession as '%s'!", prof_name.c_str());
+                return false;
+              }
+              i_newch.set_data("text_description", cur_prof->description);
+            } break;
 
             case '8':
             case 'k':
             case KEY_UP:
+            {
               i_newch.add_data("list_professions", -1);
-              break;
+              std::string prof_name = i_newch.get_str("list_professions");
+              prof_name = remove_color_tags(prof_name);
+              Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
+              if (!cur_prof) {
+                debugmsg("No such profession as '%s'!", prof_name.c_str());
+                return false;
+              }
+              i_newch.set_data("text_description", cur_prof->description);
+            } break;
 
             case '\n':
             case ' ':
@@ -243,21 +283,29 @@ bool Player::create_new_character()
                 return false;
               }
               set_profession(cur_prof);
+              profession_list = get_profession_list(this);
             } break;
 
           } // switch (ch)
         } break;
 
         case NCS_DESCRIPTION: {
-          i_newch.select("entry_name"); // Always make sure this is selected
           if (ch == '/') {
             male = !male;
+            if (male) {
+              i_newch.set_data("text_male",   "<c=yellow>Male<c=/>");
+              i_newch.set_data("text_female", "<c=dkgray>Female<c=/>");
+            } else {
+              i_newch.set_data("text_male",   "<c=dkgray>Male<c=/>");
+              i_newch.set_data("text_female", "<c=yellow>Female<c=/>");
+            }
           } else {
 /* Let the interface handle name entry; this includes cursor movement,
  * backspace, etc.  The only downside is that this allows entry of "invalid"
  * name characters like "'&^%$#@ etc.  Bad?
  */
-            i_newch.handle_keypress(ch);
+            cuss::element* entry = i_newch.find_by_name("entry_name");
+            entry->handle_keypress(ch);
           }
             
         } break;
@@ -276,6 +324,61 @@ bool Player::create_new_character()
       if (!i_newch.load_from_file(filename)) {
         return false;
       }
+
+    i_newch.ref_data("num_points", &points);
+
+    switch (cur_screen) {
+
+      case NCS_STATS:
+        cur_stat = STATSEL_STR;
+        i_newch.set_data("text_strength",     "<c=ltblue>Strength<c=/>");
+        i_newch.set_data("text_dexterity",    "<c=ltgray>Dexterity<c=/>");
+        i_newch.set_data("text_perception",   "<c=ltgray>Perception<c=/>");
+        i_newch.set_data("text_intelligence", "<c=ltgray>Intelligence<c=/>");
+        i_newch.ref_data("num_strength",     &stats.strength);
+        i_newch.ref_data("num_dexterity",    &stats.dexterity);
+        i_newch.ref_data("num_perception",   &stats.perception);
+        i_newch.ref_data("num_intelligence", &stats.intelligence);
+        i_newch.set_data("text_description", get_stat_description(cur_stat));
+        break;
+
+      case NCS_TRAITS: {
+        i_newch.select("list_traits");
+        i_newch.ref_data("list_traits", &traits_list);
+        int sel = i_newch.get_int("list_traits");
+        Trait_id cur_trait = selectable_traits[sel];
+        i_newch.set_data("text_description", trait_description(cur_trait));
+        i_newch.set_data("num_cost", trait_cost(cur_trait));
+        i_newch.set_data("num_traits_left", 5 - num_traits);
+        if (num_traits >= 5) {
+          i_newch.set_data("num_traits_left", c_red);
+        }
+      } break;
+
+      case NCS_PROFESSION: {
+        i_newch.select("list_professions");
+        i_newch.ref_data("list_professions", &profession_list);
+        std::string prof_name = i_newch.get_str("list_professions");
+        prof_name = remove_color_tags(prof_name);
+        Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
+        if (!cur_prof) {
+          debugmsg("No such profession as '%s'!", prof_name.c_str());
+          return false;
+        }
+        i_newch.set_data("text_description", cur_prof->description);
+      } break;
+
+      case NCS_DESCRIPTION:
+        i_newch.ref_data("entry_name", &name);
+        if (male) {
+          i_newch.set_data("text_male",   "<c=yellow>Male<c=/>");
+          i_newch.set_data("text_female", "<c=dkgray>Female<c=/>");
+        } else {
+          i_newch.set_data("text_male",   "<c=dkgray>Male<c=/>");
+          i_newch.set_data("text_female", "<c=yellow>Female<c=/>");
+        }
+        break;
+    } // switch (cur_screen)
     }
   }
 
@@ -329,9 +432,9 @@ std::vector<std::string> get_trait_list(Player* pl)
     if (pl->has_trait( Trait_id(i) )) {
       name << "<c=white>";
     } else if (i < TRAIT_MAX_GOOD) {
-      name << "<c=ltgreen>";
+      name << "<c=green>";
     } else if (i < TRAIT_MAX_NEUTRAL) {
-      name << "<c=yellow>";
+      name << "<c=brown>";
     } else {
       name << "<c=red>";
     }
