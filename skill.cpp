@@ -52,6 +52,8 @@ std::string skill_type_name(Skill_type type)
     case SKILL_SMGS:      return "SMGs";
     case SKILL_RIFLES:    return "rifles";
     case SKILL_FIRST_AID: return "first_aid";
+    case SKILL_BOTANY:    return "botany";
+    case SKILL_DRIVING:   return "driving";
     case SKILL_MAX:       return "ERROR - SKILL_MAX";
     default:              return "ERROR - Unnamed skill";
   }

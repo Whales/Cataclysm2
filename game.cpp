@@ -76,6 +76,7 @@ bool Game::setup()
 
   player = new Player;
   player->prep_new_character();
+  player->create_new_character();
   entities.add_entity(player);
 
   time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);

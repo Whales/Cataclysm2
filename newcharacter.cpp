@@ -26,9 +26,7 @@ enum Stat_selected
 };
 
 std::string                 get_stat_description(Stat_selected stat);
-
 std::vector< std::string >  get_trait_list(Player* pl);
-
 std::vector< std::string >  get_profession_list(Player* pl);
 
 bool Player::create_new_character()
@@ -66,6 +64,7 @@ bool Player::create_new_character()
         break;
 
       case NCS_TRAITS: {
+        i_newch.select("list_traits");
         i_newch.set_data("list_traits", traits_list);
         Trait_id cur_trait = Trait_id( i_newch.get_int("list_traits") );
         i_newch.set_data("text_description", trait_description(cur_trait));
@@ -73,8 +72,10 @@ bool Player::create_new_character()
       } break;
 
       case NCS_PROFESSION: {
+        i_newch.select("list_professions");
         i_newch.set_data("list_professions", profession_list);
         std::string prof_name = i_newch.get_str("list_professions");
+        prof_name = remove_color_tags(prof_name);
         Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
         if (!cur_prof) {
           debugmsg("No such profession as '%s'!", prof_name.c_str());
@@ -235,6 +236,7 @@ bool Player::create_new_character()
             case ' ':
             {
               std::string prof_name = i_newch.get_str("list_professions");
+              prof_name = remove_color_tags(prof_name);
               Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
               if (!cur_prof) {
                 debugmsg("No such profession as '%s'!", prof_name.c_str());

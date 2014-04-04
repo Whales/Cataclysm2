@@ -1,0 +1,50 @@
+name: police officer
+  description:
+    As a police officer, you start with some small arms training, along with
+    a little bit of training in unarmed combat.  You also start equipped with a
+    USP 9mm handgun, some ammo for it, and a holster.
+  done
+  items: c:1 USP 9mm / c:1 9mm / c:1 holster
+  skills:
+    handguns  2
+    unarmed   1
+  done
+done
+
+name: farmer
+  description:
+    You've worked the fields most of your life, giving you a degree of skill
+    with cutting weapons.  You're also familiar with plants, giving you a basic
+    understanding of botany.  You start the game with a machete.
+  done
+  items: c:1 machete
+  skills:
+    cutting_weapons 2
+    botany          2
+  done
+done
+
+name: doctor
+  description:
+    Doctors start the game with a high degree of first aid skill, but aren't
+    trained in any other fields.  You also start with a first aid kit and some
+    medication (codeine and amphetamine).
+  done
+  items: c:1 first aid kit / c:1 codeine / c:1 amphetamine
+  skills:
+    first_aid 4
+  done
+done
+
+name: EMT
+  description:
+    EMTs are basically field medics.  While they possess less training in first
+    aid than a doctor might, they are also skilled drivers.  They start the game
+    with a first aid kit and 5 bandages.
+  done
+  items: c:1 first aid kit / c:5 bandages
+  skills:
+    first_aid 2
+    driving   2
+  done
+done
