@@ -199,6 +199,11 @@ bool Player::create_new_character()
               int sel = i_newch.get_int("list_traits");
               Trait_id cur_trait = selectable_traits[sel];
               i_newch.set_data("num_cost", trait_cost(cur_trait));
+              if (trait_cost(cur_trait) > points) {
+                i_newch.set_data("num_cost", c_red);
+              } else {
+                i_newch.set_data("num_cost", c_white);
+              }
               i_newch.set_data("text_description",
                                trait_description(cur_trait));
             } break;
@@ -211,6 +216,11 @@ bool Player::create_new_character()
               int sel = i_newch.get_int("list_traits");
               Trait_id cur_trait = selectable_traits[sel];
               i_newch.set_data("num_cost", trait_cost(cur_trait));
+              if (trait_cost(cur_trait) > points) {
+                i_newch.set_data("num_cost", c_red);
+              } else {
+                i_newch.set_data("num_cost", c_white);
+              }
               i_newch.set_data("text_description",
                                trait_description(cur_trait));
             } break;
@@ -349,6 +359,11 @@ bool Player::create_new_character()
         Trait_id cur_trait = selectable_traits[sel];
         i_newch.set_data("text_description", trait_description(cur_trait));
         i_newch.set_data("num_cost", trait_cost(cur_trait));
+        if (trait_cost(cur_trait) > points) {
+          i_newch.set_data("num_cost", c_red);
+        } else {
+          i_newch.set_data("num_cost", c_white);
+        }
         i_newch.set_data("num_traits_left", 5 - num_traits);
         if (num_traits >= 5) {
           i_newch.set_data("num_traits_left", c_red);

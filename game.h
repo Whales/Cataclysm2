@@ -30,6 +30,7 @@ public:
 
 /**** Setup - Called only once ****/
   bool setup();
+  bool starting_menu(); // Choose from create character, load character, etc.
 
 /**** Engine - Main loop functions ****/
   bool main_loop();

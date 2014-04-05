@@ -5,6 +5,7 @@
 #include "rng.h"
 #include "pathfind.h"
 #include "files.h"      // For CUSS_DIR
+#include "help.h"
 #include <stdarg.h>
 #include <math.h>
 #include <sstream>
@@ -76,7 +77,7 @@ bool Game::setup()
 
   player = new Player;
   player->prep_new_character();
-  player->create_new_character();
+  //player->create_new_character();
   entities.add_entity(player);
 
   time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
@@ -86,6 +87,39 @@ bool Game::setup()
   next_furniture_uid = 0;
   game_over = false;
   return true;
+}
+
+bool Game::starting_menu()
+{
+  cuss::interface i_menu;
+  Window w_menu;
+  if (!i_menu.load_from_file(CUSS_DIR + "/i_starting_menu.cuss")) {
+    return false;
+  }
+
+  std::string motd = slurp_file(DATA_DIR + "/motd.txt");
+
+  i_menu.set_data("text_motd", motd);
+  i_menu.draw(&w_menu);
+  w_menu.refresh();
+
+  while (true) {
+    long ch = input();
+    if (ch == 'n' || ch == 'N') {
+      player->create_new_character();
+      return true;
+    } else if (ch == 'l' || ch == 'L') {
+// TODO: Load character here
+      return true;
+    } else if (ch == 'w' || ch == 'W') {
+// TODO: World management screen
+    } else if (ch == 'h' || ch == 'H') {
+      help_screen();
+    } else if (ch == 'q' || ch == 'Q') {
+      return false;
+    }
+  }
+  return false; // Should never be reached
 }
 
 bool Game::main_loop()
