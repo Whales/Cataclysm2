@@ -49,7 +49,9 @@ struct Skill_set
   Skill_set();
   ~Skill_set();
 
-  int  get_level(Skill_type type);
+  Skill_set& operator=(const Skill_set& rhs);
+
+  int  get_level(Skill_type type) const;
   void set_level(Skill_type type, int lev);
 
 private:

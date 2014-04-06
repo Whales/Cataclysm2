@@ -14,7 +14,20 @@ Skill_set::~Skill_set()
 {
 }
 
-int Skill_set::get_level(Skill_type type)
+Skill_set& Skill_set::operator=(const Skill_set& rhs)
+{
+  if (this == &rhs) {
+    return (*this);
+  }
+
+  for (int i = 0; i < SKILL_MAX; i++) {
+    level[i] = rhs.get_level( Skill_type(i) );
+  }
+
+  return (*this);
+}
+
+int Skill_set::get_level(Skill_type type) const
 {
   return level[type];
 }

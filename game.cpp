@@ -108,8 +108,9 @@ bool Game::starting_menu()
   while (true) {
     long ch = input();
     if (ch == 'n' || ch == 'N') {
-      player->create_new_character();
-      return true;
+      if (player->create_new_character()) {
+        return true;
+      }
     } else if (ch == 'l' || ch == 'L') {
 // TODO: Load character here
       return true;

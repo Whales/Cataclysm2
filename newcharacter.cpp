@@ -73,7 +73,9 @@ bool Player::create_new_character()
   i_newch.set_data("text_perception",   "<c=ltgray>Perception<c=/>");
   i_newch.set_data("text_intelligence", "<c=ltgray>Intelligence<c=/>");
 
-  while (true) {  // We'll exit this function via keypresses, always
+  bool done = false;
+
+  while (!done) {  // We'll exit this function via keypresses, always
 // Always set num_points!
 
     i_newch.draw(&w_newch);
@@ -97,7 +99,7 @@ bool Player::create_new_character()
       if (cur_screen == NCS_DONE) {
 // TODO: Insert tests for completed reqs (all points spent, name entered, etc)
         if (query_yn("Complete character and start the game?")) {
-          return true;
+          done = true;
         }
         cur_screen = NCS_DESCRIPTION;
       } else {
@@ -335,70 +337,91 @@ bool Player::create_new_character()
         return false;
       }
 
-    i_newch.ref_data("num_points", &points);
+      i_newch.ref_data("num_points", &points);
 
-    switch (cur_screen) {
+      switch (cur_screen) {
 
-      case NCS_STATS:
-        cur_stat = STATSEL_STR;
-        i_newch.set_data("text_strength",     "<c=ltblue>Strength<c=/>");
-        i_newch.set_data("text_dexterity",    "<c=ltgray>Dexterity<c=/>");
-        i_newch.set_data("text_perception",   "<c=ltgray>Perception<c=/>");
-        i_newch.set_data("text_intelligence", "<c=ltgray>Intelligence<c=/>");
-        i_newch.ref_data("num_strength",     &stats.strength);
-        i_newch.ref_data("num_dexterity",    &stats.dexterity);
-        i_newch.ref_data("num_perception",   &stats.perception);
-        i_newch.ref_data("num_intelligence", &stats.intelligence);
-        i_newch.set_data("text_description", get_stat_description(cur_stat));
-        break;
+        case NCS_STATS:
+          cur_stat = STATSEL_STR;
+          i_newch.set_data("text_strength",     "<c=ltblue>Strength<c=/>");
+          i_newch.set_data("text_dexterity",    "<c=ltgray>Dexterity<c=/>");
+          i_newch.set_data("text_perception",   "<c=ltgray>Perception<c=/>");
+          i_newch.set_data("text_intelligence", "<c=ltgray>Intelligence<c=/>");
+          i_newch.ref_data("num_strength",     &stats.strength);
+          i_newch.ref_data("num_dexterity",    &stats.dexterity);
+          i_newch.ref_data("num_perception",   &stats.perception);
+          i_newch.ref_data("num_intelligence", &stats.intelligence);
+          i_newch.set_data("text_description", get_stat_description(cur_stat));
+          break;
 
-      case NCS_TRAITS: {
-        i_newch.select("list_traits");
-        i_newch.ref_data("list_traits", &traits_list);
-        int sel = i_newch.get_int("list_traits");
-        Trait_id cur_trait = selectable_traits[sel];
-        i_newch.set_data("text_description", trait_description(cur_trait));
-        i_newch.set_data("num_cost", trait_cost(cur_trait));
-        if (trait_cost(cur_trait) > points) {
-          i_newch.set_data("num_cost", c_red);
-        } else {
-          i_newch.set_data("num_cost", c_white);
-        }
-        i_newch.set_data("num_traits_left", 5 - num_traits);
-        if (num_traits >= 5) {
-          i_newch.set_data("num_traits_left", c_red);
-        }
-      } break;
+        case NCS_TRAITS: {
+          i_newch.select("list_traits");
+          i_newch.ref_data("list_traits", &traits_list);
+          int sel = i_newch.get_int("list_traits");
+          Trait_id cur_trait = selectable_traits[sel];
+          i_newch.set_data("text_description", trait_description(cur_trait));
+          i_newch.set_data("num_cost", trait_cost(cur_trait));
+          if (trait_cost(cur_trait) > points) {
+            i_newch.set_data("num_cost", c_red);
+          } else {
+            i_newch.set_data("num_cost", c_white);
+          }
+          i_newch.set_data("num_traits_left", 5 - num_traits);
+          if (num_traits >= 5) {
+            i_newch.set_data("num_traits_left", c_red);
+          }
+        } break;
 
-      case NCS_PROFESSION: {
-        i_newch.select("list_professions");
-        i_newch.ref_data("list_professions", &profession_list);
-        std::string prof_name = i_newch.get_str("list_professions");
-        prof_name = remove_color_tags(prof_name);
-        Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
-        if (!cur_prof) {
-          debugmsg("No such profession as '%s'!", prof_name.c_str());
-          return false;
-        }
-        i_newch.set_data("text_description", cur_prof->description);
-      } break;
+        case NCS_PROFESSION: {
+          i_newch.select("list_professions");
+          i_newch.ref_data("list_professions", &profession_list);
+          std::string prof_name = i_newch.get_str("list_professions");
+          prof_name = remove_color_tags(prof_name);
+          Profession* cur_prof = PROFESSIONS.lookup_name(prof_name);
+          if (!cur_prof) {
+            debugmsg("No such profession as '%s'!", prof_name.c_str());
+            return false;
+          }
+          i_newch.set_data("text_description", cur_prof->description);
+        } break;
 
-      case NCS_DESCRIPTION:
-        i_newch.ref_data("entry_name", &name);
-        if (male) {
-          i_newch.set_data("text_male",   "<c=yellow>Male<c=/>");
-          i_newch.set_data("text_female", "<c=dkgray>Female<c=/>");
-        } else {
-          i_newch.set_data("text_male",   "<c=dkgray>Male<c=/>");
-          i_newch.set_data("text_female", "<c=yellow>Female<c=/>");
-        }
-        break;
-    } // switch (cur_screen)
+        case NCS_DESCRIPTION:
+          i_newch.ref_data("entry_name", &name);
+          if (male) {
+            i_newch.set_data("text_male",   "<c=yellow>Male<c=/>");
+            i_newch.set_data("text_female", "<c=dkgray>Female<c=/>");
+          } else {
+            i_newch.set_data("text_male",   "<c=dkgray>Male<c=/>");
+            i_newch.set_data("text_female", "<c=yellow>Female<c=/>");
+          }
+          break;
+      } // switch (cur_screen)
+    } // if (changed_screen)
+  }
+
+// Now set up our skills and equipment based on our profession
+// We always get a backpack...
+  items_worn.push_back( Item( ITEM_TYPES.lookup_name("backpack") ) );
+  if (!profession) {
+    debugmsg("Character creation finished without a profession!");
+    return false;
+  }
+  std::vector<Item_type_chance> prof_items = profession->items.item_types;
+  for (int i = 0; i < prof_items.size(); i++) {
+    int count = prof_items[i].number;
+    Item tmp_it(prof_items[i].item);
+    for (int i = 0; i < count; i++) {
+      if (tmp_it.get_item_class() == ITEM_CLASS_CLOTHING) {
+        items_worn.push_back(tmp_it);
+      } else {
+        inventory.push_back(tmp_it);
+      }
     }
   }
 
-  debugmsg("Player::create_new_character() escaped loop somehow!");
-  return false;
+  skills = profession->skills;
+
+  return true;
 }
 
 std::string get_stat_description(Stat_selected stat)

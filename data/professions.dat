@@ -1,4 +1,4 @@
-name: survivalist
+name: Survivalist
   description:
     You specialize in wilderness survival.  This includes a smattering of
     various skills, particularly the Survival skill, which helps you hunt and
@@ -13,7 +13,7 @@ name: survivalist
   done
 done
 
-name: medic
+name: Medic
   description:
     Medical training - and practical application - has honed your skills in
     first aid.  You're not much of a fighter, but the experience of performing
@@ -28,7 +28,7 @@ name: medic
   done
 done
 
-name: farmer
+name: Farmer
   description:
     You've been working the harsh post-cataclysm land for a long time.  You've
     developed a good understanding of botany, and are fairly good at swinging a
@@ -41,7 +41,7 @@ name: farmer
   done
 done
 
-name: body guard
+name: Body Guard
   description:
     Before leaving for the seas, you were employed as a personal body guard for
     a wealthy trader.  With resources scarce, you had to make do with a variety
@@ -57,7 +57,7 @@ name: body guard
   done
 done
 
-name: hunter
+name: Hunter
   description:
     You've been hunting game for as long as you can remember, and are a skilled
     sharpshooter.  You're also decent at skinning and butchering your catches,
@@ -71,7 +71,7 @@ name: hunter
   done
 done
 
-name: trader
+name: Trader
   description:
     Since inheriting a small fortune - and a list of contacts - from your
     parents, you've been working as a trader, traveling from settlement to
@@ -87,7 +87,7 @@ name: trader
   done
 done
 
-name: mechanic
+name: Mechanic
   description:
     Though vehicles are few and far between these days, you work on one every
     chance you get.  You can fix most cars easily, and are decent at driving
@@ -102,7 +102,7 @@ name: mechanic
   done
 done
 
-name: carpenter
+name: Carpenter
   description:
     You made yourself useful to your old community as a builder, constructing
     new homes and fortifications.  You've brought your skills across the sea,
