@@ -7,6 +7,7 @@
 
 extern std::string DATA_DIR;
 extern std::string CUSS_DIR;
+extern std::string SAVE_DIR;
 // TODO: extern std::string PROFILE_DIR;
 
 bool directory_exists(std::string name);

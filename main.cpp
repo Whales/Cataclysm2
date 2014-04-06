@@ -56,6 +56,7 @@ bool parse_options(int argc, char* argv[])
 // These options do not set a flag.
     { "data-dir", required_argument,  0, 'd' },
     { "cuss-dir", required_argument,  0, 'c' },
+    { "save-dir", required_argument,  0, 's' },
     { "help",     no_argument,        0, 'h' },
     { "version",  no_argument,        0, 'v' },
     { 0, 0, 0, 0 }
@@ -77,9 +78,16 @@ bool parse_options(int argc, char* argv[])
         }
         break;
 
-      case 'c': // --data-dir <directory>
+      case 'c': // --cuss-dir <directory>
         if (!set_dir(CUSS_DIR, optarg)) {
           printf("'%s' is not a valid cuss directory.\n", optarg);
+          return false;
+        }
+        break;
+
+      case 's': // --save-dir <directory>
+        if (!set_dir(SAVE_DIR, optarg)) {
+          printf("'%s' is not a valid save directory.\n", optarg);
           return false;
         }
         break;

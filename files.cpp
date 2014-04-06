@@ -6,6 +6,7 @@
 
 std::string DATA_DIR;
 std::string CUSS_DIR;
+std::string SAVE_DIR;
 
 bool directory_exists(std::string name)
 {
@@ -106,6 +107,9 @@ void set_default_dirs()
   }
   if (CUSS_DIR.empty()) {
     CUSS_DIR = "./cuss";
+  }
+  if (SAVE_DIR.empty()) {
+    SAVE_DIR = "./save";
   }
 }
 
