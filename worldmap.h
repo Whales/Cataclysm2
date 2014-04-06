@@ -9,6 +9,7 @@
 #include "pathfind.h"
 #include "monster_spawn.h"
 #include <string>
+#include <istream>
 
 #define WORLDMAP_SIZE 150
 
@@ -28,6 +29,9 @@ class Worldmap
 public:
   Worldmap();
   ~Worldmap();
+
+  std::string get_name();
+  void set_name(std::string N);
 
   void generate();
   void place_monsters();
@@ -49,6 +53,11 @@ public:
   Point random_tile_with_terrain(std::string name,       int island = -1);
   Point random_tile_with_terrain(World_terrain* terrain, int island = -1);
 
+  bool save_to_name();
+  std::string save_data();
+  bool load_from_file(std::string filename);
+  bool load_data(std::istream& data);
+
 private:
   void draw_island(std::vector<std::vector<int> > &altitude,
                    Point center, int height, int edge_dist, int id);
@@ -62,6 +71,8 @@ private:
   std::vector<World_terrain*> shops;
   std::map< int, std::vector<Point> > islands;
   std::map<World_terrain*,int> shop_count;
+
+  std::string name;
 };
 
 #endif

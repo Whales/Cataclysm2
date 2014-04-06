@@ -1,6 +1,9 @@
 #include "worldmap.h"
 #include "rng.h"
 #include "map.h"
+#include "files.h"  // for SAVE_DIR
+#include <fstream>
+#include <sstream>
 
 glyph Worldmap_tile::top_glyph()
 {
@@ -51,6 +54,16 @@ Worldmap::Worldmap()
 
 Worldmap::~Worldmap()
 {
+}
+
+std::string Worldmap::get_name()
+{
+  return name;
+}
+
+void Worldmap::set_name(std::string N)
+{
+  name = N;
 }
 
 void Worldmap::set_terrain(int x, int y, std::string terrain_name)
@@ -275,4 +288,28 @@ Point Worldmap::random_tile_with_terrain(World_terrain* terrain, int island)
   }
 
   return ret[rng(0, ret.size() - 1)];
+}
+
+bool Worldmap::save_to_name()
+{
+  if (name.empty()) {
+    debugmsg("Worldmap::save_to_name() called on a nameless Worldmap!");
+    return false;
+  }
+  std::string filename = SAVE_DIR + name + ".map";
+  std::ofstream fout;
+  fout.open(filename.c_str());
+  if (!fout.is_open()) {
+    debugmsg("Couldn't open %s for saving Worldmap.", filename.c_str());
+    return false;
+  }
+  fout << save_data();
+  fout.close();
+  return true;
+}
+
+std::string Worldmap::save_data()
+{
+  std::stringstream ret;
+  return ret.str();
 }
