@@ -50,11 +50,13 @@ bool Game::setup()
   int xdim, ydim;
   get_screen_dims(xdim, ydim);
   int win_size = ydim;
+/* Commenting this out for now - the extra empty space caused issues
   if (win_size % 2 == 0) {
     win_size--; // Only odd numbers allowed!
   }
+*/
   w_map = new Window(0, 0, win_size, win_size);
-  w_hud = new Window(win_size, 0, 55, ydim);
+  w_hud = new Window(win_size, 0, xdim - win_size, ydim);
 // Attempt to resize the messages box to be as tall as the window allows
   cuss::element* messages = i_hud.select("text_messages");
   if (!messages) {
