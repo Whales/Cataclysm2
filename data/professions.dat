@@ -1,50 +1,118 @@
-name: police officer
+name: survivalist
   description:
-    As a police officer, you start with some small arms training, along with
-    a little bit of training in unarmed combat.  You also start equipped with a
-    USP 9mm handgun, some ammo for it, and a holster.
+    You specialize in wilderness survival.  This includes a smattering of
+    various skills, particularly the Survival skill, which helps you hunt and
+    forage, and craft basic necessities.  You start with a hunting knife,
+    hatchet, and flashlight.
   done
-  items: c:1 USP 9mm / c:1 9mm / c:1 holster
+  items: c:1 hunting knife / c:1 hatchet / c:1 flashlight
   skills:
-    handguns  2
-    unarmed   1
+    survival  3
+    cooking   1
+    botany    1
+  done
+done
+
+name: medic
+  description:
+    Medical training - and practical application - has honed your skills in
+    first aid.  You're not much of a fighter, but the experience of performing
+    medical aid in the midst of a fight has honed your dodging skill.  You're
+    well-stocked, too: you start the game with a first aid kit, several packs of
+    bandages, and some codeine painkillers.
+  done
+  items: c:1 first aid kit / c:4 bandages / c:1 codeine
+  skills:
+    first_aid 4
+    dodge     2
   done
 done
 
 name: farmer
   description:
-    You've worked the fields most of your life, giving you a degree of skill
-    with cutting weapons.  You're also familiar with plants, giving you a basic
-    understanding of botany.  You start the game with a machete.
+    You've been working the harsh post-cataclysm land for a long time.  You've
+    developed a good understanding of botany, and are fairly good at swinging a
+    cutting tool.  You start with a shovel, pitchfork, and work gloves.
   done
-  items: c:1 machete
+  items: c:1 shovel / c:1 pitchfork / c:1 work gloves
   skills:
+    botany          3
     cutting_weapons 2
-    botany          2
   done
 done
 
-name: doctor
+name: body guard
   description:
-    Doctors start the game with a high degree of first aid skill, but aren't
-    trained in any other fields.  You also start with a first aid kit and some
-    medication (codeine and amphetamine).
+    Before leaving for the seas, you were employed as a personal body guard for
+    a wealthy trader.  With resources scarce, you had to make do with a variety
+    of combat techniques, and are trained in unarmed combat, throwing weapons,
+    and firearms in general.  You start with a Glock handgun and its ammunition,
+    and a leather jacket.
   done
-  items: c:1 first aid kit / c:1 codeine / c:1 amphetamine
+  items: c:1 Glock 19 / c:1 9mm / c:1 leather jacket
   skills:
-    first_aid 4
+    unarmed   2
+    throwing  1
+    launchers 2
   done
 done
 
-name: EMT
+name: hunter
   description:
-    EMTs are basically field medics.  While they possess less training in first
-    aid than a doctor might, they are also skilled drivers.  They start the game
-    with a first aid kit and 5 bandages.
+    You've been hunting game for as long as you can remember, and are a skilled
+    sharpshooter.  You're also decent at skinning and butchering your catches,
+    along with other survival skills.  You start with a hunting knife, a .22
+    rifle, and some .22 LR ammunition.
   done
-  items: c:1 first aid kit / c:5 bandages
+  items: c:1 hunting knife / c:1 Ruger 10/22 / c:1 .22 LR
   skills:
-    first_aid 2
-    driving   2
+    rifles    3
+    survival  2
+  done
+done
+
+name: trader
+  description:
+    Since inheriting a small fortune - and a list of contacts - from your
+    parents, you've been working as a trader, traveling from settlement to
+    settlement.  You mostly rely on hired help for protection, but are highly
+    skilled in talking to others, and getting the best price out of them.  You
+    start with cargo pants and a variety of high-priced goods, including some
+    .22 LR, a lightweight ammunition that serves as currency in many places.
+  done
+  items: c:1 cargo pants / c:2 bundle of money / c:1 diamond / c:1 gold ring / c:1 diamond necklace / c:1 .22 LR
+  skills:
+    speech  3
+    barter  4
+  done
+done
+
+name: mechanic
+  description:
+    Though vehicles are few and far between these days, you work on one every
+    chance you get.  You can fix most cars easily, and are decent at driving
+    them.  You're also almost at good swinging a wrench in combat as out of it.
+    You start with a wrench, screwdriver, and work gloves.
+  done
+  items: c:1 wrench / c:1 screwdriver / c:1 work gloves
+  skills:
+    bashing_weapons 2
+    mechanics       3
+    driving         1
+  done
+done
+
+name: carpenter
+  description:
+    You made yourself useful to your old community as a builder, constructing
+    new homes and fortifications.  You've brought your skills across the sea,
+    and will have an easy time fortifying wherever you find yourself.  You're
+    also decent swinging a hammer at enemies.  You start with a hammer, some
+    nails, safety glasses, a dust mask, work gloves, and some steel-toed boots.
+  done
+  items: c:1 hammer / c:1 nails / c:1 safety glasses / c:1 dust mask / c:1 work gloves / c:1 steel-toed boots
+  skills:
+    bashing_weapons 1
+    construction    4
   done
 done
