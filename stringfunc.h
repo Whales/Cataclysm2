@@ -24,9 +24,12 @@ std::string no_caps          (const std::string &orig);
 std::string capitalize       (const std::string &orig);
 std::string remove_color_tags(const std::string &orig);
 
+// Convert an int to a string
 std::string itos(int num);
 
 std::string color_gradient(int value, std::vector<int> breakpoints,
                            std::vector<nc_color> colors);
+
+bool is_vowel(char ch);
 
 #endif

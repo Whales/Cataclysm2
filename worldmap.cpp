@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "map.h"
 #include "files.h"  // for SAVE_DIR
+#include "stringfunc.h" // For name randomization
 #include <fstream>
 #include <sstream>
 
@@ -28,6 +29,53 @@ void Worldmap_tile::set_terrain(std::string name)
     debugmsg("Couldn't find world terrain named '%s'", name.c_str());
   } else {
     terrain = ter;
+  }
+}
+
+std::string Worldmap_tile::save_data()
+{
+  std::stringstream ret;
+  if (terrain) {
+    ret << terrain->uid;
+  } else {
+    ret << -1;
+  }
+  ret << " " << monsters.size() << " ";
+  for (int i = 0; i < monsters.size(); i++) {
+    if (monsters[i].genus) {
+      ret << monsters[i].genus->uid;
+    } else {
+      ret << -1;
+    }
+    ret << " " << monsters[i].population << " ";
+  }
+  return ret.str();
+}
+
+void Worldmap_tile::load_data(std::istream& data)
+{
+  int tmpter;
+  data >> tmpter;
+  if (tmpter == -1) {
+    terrain = NULL;
+  } else {
+    terrain = WORLD_TERRAIN.lookup_uid(tmpter);
+  }
+  int monster_size;
+  data >> monster_size;
+  for (int i = 0; i < monster_size; i++) {
+    Monster_spawn tmpspawn;
+    int tmpgenus;
+    data >> tmpgenus;
+    if (tmpgenus == -1) {
+      tmpspawn.genus = NULL;
+    } else {
+      tmpspawn.genus = MONSTER_GENERA.lookup_uid(tmpgenus);
+    }
+    data >> tmpspawn.population;
+    if (tmpspawn.genus) {
+      monsters.push_back(tmpspawn);
+    }
   }
 }
 
@@ -64,6 +112,117 @@ std::string Worldmap::get_name()
 void Worldmap::set_name(std::string N)
 {
   name = N;
+}
+
+// TODO:  At some point we should create a Random_name class or file.
+//        At that point, this should be rewritten to use that code.
+void Worldmap::randomize_name()
+{
+  std::string sub_a, sub_b, sub_c;
+  name = "";
+  switch (rng(1, 25)) {
+    case  1:  sub_a = "An";   break;
+    case  2:  sub_a = "Ber";  break;
+    case  3:  sub_a = "Can";  break;
+    case  4:  sub_a = "Dar";  break;
+    case  5:  sub_a = "Ein";  break;
+    case  6:  sub_a = "Far";  break;
+    case  7:  sub_a = "Gor";  break;
+    case  8:  sub_a = "Her";  break;
+    case  9:  sub_a = "In";   break;
+    case 10:  sub_a = "Jin";  break;
+    case 11:  sub_a = "Kin";  break;
+    case 12:  sub_a = "Ler";  break;
+    case 13:  sub_a = "Mon";  break;
+    case 14:  sub_a = "Nar";  break;
+    case 15:  sub_a = "Os";   break;
+    case 16:  sub_a = "Per";  break;
+    case 17:  sub_a = "Qua";  break;
+    case 18:  sub_a = "Rus";  break;
+    case 19:  sub_a = "Sun";  break;
+    case 20:  sub_a = "Tor";  break;
+    case 21:  sub_a = "Un";   break;
+    case 22:  sub_a = "Vor";  break;
+    case 23:  sub_a = "Win";  break;
+    case 24:  sub_a = "Yu";   break;
+    case 25:  sub_a = "Zin";  break;
+  }
+
+  switch (rng(1, 40)) {
+    case  1:  sub_b = "ad";   break;
+    case  2:  sub_b = "ang";  break;
+    case  3:  sub_b = "bal";  break;
+    case  4:  sub_b = "bon";  break;
+    case  5:  sub_b = "cal";  break;
+    case  6:  sub_b = "cad";  break;
+    case  7:  sub_b = "dov";  break;
+    case  8:  sub_b = "der";  break;
+    case  9:  sub_b = "ev";   break;
+    case 10:  sub_b = "fer";  break;
+    case 11:  sub_b = "gan";  break;
+    case 12:  sub_b = "gol";  break;
+    case 13:  sub_b = "iv";   break;
+    case 14:  sub_b = "il";   break;
+    case 15:  sub_b = "kol";  break;
+    case 16:  sub_b = "kan";  break;
+    case 17:  sub_b = "lin";  break;
+    case 18:  sub_b = "ov";   break;
+    case 19:  sub_b = "ol";   break;
+    case 20:  sub_b = "op";   break;
+    case 21:  sub_b = "os";   break;
+    case 22:  sub_b = "per";  break;
+    case 23:  sub_b = "ser";  break;
+    case 24:  sub_b = "san";  break;
+    case 25:  sub_b = "tan";  break;
+    case 26:  sub_b = "tor";  break;
+    case 27:  sub_b = "til";  break;
+    case 28:  sub_b = "uv";   break;
+    case 29:  sub_b = "urn";  break;
+    case 30:  sub_b = "vuv";  break;
+    case 31:  sub_b = "vil";  break;
+    case 32:  sub_b = "x";    break;
+    case 33:  sub_b = "zan";  break;
+    case 34:  sub_b = "zil";  break;
+    case 35:
+    case 36:
+    case 37:
+    case 38:
+    case 39:
+    case 40:
+      if (is_vowel(sub_a[sub_a.size() - 1])) {
+        sub_b = "";
+      } else {
+        sub_b = sub_a[sub_a.size() - 1];
+      }
+      break;
+  }
+
+  switch (rng(1, 15)) {
+    case  1:
+    case  2:
+    case  3:  sub_c = "ia";   break;
+    case  4:  sub_c = "a";    break;
+    case  5:  sub_c = "land"; break;
+    case  6:  sub_c = "iers"; break;
+    case  7:  sub_c = "e";    break;
+    case  8:  sub_c = "oa";   break;
+    case  9:  sub_c = "ary";  break;
+    case 10:  sub_c = "en";   break;
+    case 11:  sub_c = "ium";  break;
+    case 12:  sub_c = "us";   break;
+    case 13:  sub_c = "any";  break;
+    case 14:  sub_c = "ein";  break;
+    case 15:  sub_c = "al";   break;
+  }
+
+  if (is_vowel(sub_a[sub_a.size() - 1]) && is_vowel(sub_b[0])) {
+    sub_a += "'";
+  }
+  if (is_vowel(sub_b[sub_b.size() - 1]) && is_vowel(sub_c[0])) {
+    sub_b += "'";
+  }
+
+  name = sub_a + sub_b + sub_c;
 }
 
 void Worldmap::set_terrain(int x, int y, std::string terrain_name)
@@ -315,11 +474,12 @@ std::string Worldmap::save_data()
   ret << name << std::endl;
 // Next, islands
   std::map< int, std::vector<Point> >::iterator it;
+  ret << islands.size() << " ";
   for (it = islands.begin(); it != islands.end(); it++) {
     ret << it->first << " ";
-    ret << it->second.size();
+    ret << it->second.size() << " ";
     for (int i = 0; i < it->second.size(); i++) {
-      ret << it->second[i].x << " " << it->second[i].y;
+      ret << it->second[i].x << " " << it->second[i].y << " ";
     }
     ret << std::endl;
   }
@@ -330,7 +490,7 @@ std::string Worldmap::save_data()
  */
   for (int y = 0; y < WORLDMAP_SIZE; y++) {
     for (int x = 0; x < WORLDMAP_SIZE; x++) {
-      //ret << tiles[x][y].save_data() << " ";
+      ret << tiles[x][y].save_data() << " ";
     }
     ret << std::endl;
   }
@@ -363,6 +523,43 @@ bool Worldmap::load_from_file(std::string filename)
 
 bool Worldmap::load_data(std::istream& data)
 {
+// Name's the first line
   std::getline(data, name);
+
+// Then islands...
+  int num_islands;
+  data >> num_islands;
+  for (int i = 0; i < num_islands; i++) {
+    int island_key, num_points;
+    data >> island_key >> num_points;
+    std::vector<Point> island_points;
+    for (int n = 0; n < num_points; n++) {
+      Point tmppoint;
+      data >> tmppoint.x >> tmppoint.y;
+      island_points.push_back(tmppoint);
+    }
+    islands[island_key] = island_points;
+  }
+
+// Then all the tiles...
+  for (int y = 0; y < WORLDMAP_SIZE; y++) {
+    for (int x = 0; x < WORLDMAP_SIZE; x++) {
+      tiles[x][y].load_data(data);
+    }
+  }
+
+// And the biomes.
+  for (int y = 0; y < WORLDMAP_SIZE; y++) {
+    for (int x = 0; x < WORLDMAP_SIZE; x++) {
+      int biome_uid;
+      data >> biome_uid;
+      if (biome_uid == -1) {
+        biomes[x][y] = NULL;
+      } else {
+        biomes[x][y] = BIOMES.lookup_uid(biome_uid);
+      }
+    }
+  }
+
   return false;
 }

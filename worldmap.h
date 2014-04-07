@@ -35,6 +35,7 @@ public:
 
   std::string get_name();
   void set_name(std::string N);
+  void randomize_name();
 
   void generate();
   void place_monsters();

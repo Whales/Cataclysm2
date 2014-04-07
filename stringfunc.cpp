@@ -260,3 +260,9 @@ std::string color_gradient(int value, std::vector<int> breakpoints,
   ret << "<c=" << color_tag(col) << ">";
   return ret.str();
 }
+
+bool is_vowel(char ch)
+{
+  return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' ||
+          ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U');
+}
