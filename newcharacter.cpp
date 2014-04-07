@@ -400,8 +400,6 @@ bool Player::create_new_character()
   }
 
 // Now set up our skills and equipment based on our profession
-// We always get a backpack...
-  items_worn.push_back( Item( ITEM_TYPES.lookup_name("backpack") ) );
   if (!profession) {
     debugmsg("Character creation finished without a profession!");
     return false;

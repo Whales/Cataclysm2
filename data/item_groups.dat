@@ -7,17 +7,17 @@ done
 
 # Starting clothes - the clothes the player wears at the start of the game
 name: items_starting_clothes
-  items: jeans / sneakers / t shirt
+  items: jeans / sneakers / t shirt / backpack
 done
 
 # Shipwreck - the first items made available to the player
 name: items_shipwreck
-  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water / w:1 hatchet
+  items: w:20 wood plank / w:4 rope / w:3 MRE (meat) / w:3 MRE (vegetable) / w:6 water
 done
 
 # Static shipwreck - Items guaranteed to the player!
 name: items_static_shipwreck
-  items: c:5 wood plank / c:1 rope / c:1 hunting knife / c:1 hatchet / c:4 rag / c:1 backpack / c:2 MRE (meat) / c:2 MRE (vegetable) / c:2 beef jerky / c:4 water / c:1 rum / c:2 dry rice / c:1 lighter / c:3 bandages / c:1 flashlight
+  items: c:5 wood plank / c:1 rope / c:4 rag / c:2 MRE (meat) / c:2 MRE (vegetable) / c:2 beef jerky / c:4 water / c:1 rum / c:2 dry rice / c:1 lighter / c:1 bandages
 done
 
 ### Wilderness groups ###
