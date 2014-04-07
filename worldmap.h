@@ -22,6 +22,9 @@ struct Worldmap_tile
   std::string get_name();
 
   void set_terrain(std::string name);
+
+  std::string save_data();
+  void load_data(std::istream& data);
 };
 
 class Worldmap
@@ -68,8 +71,9 @@ private:
 
   Worldmap_tile tile_oob;
 
-  std::vector<World_terrain*> shops;
   std::map< int, std::vector<Point> > islands;
+// shops and shop_count are ONLY used in generation
+  std::vector<World_terrain*> shops;
   std::map<World_terrain*,int> shop_count;
 
   std::string name;

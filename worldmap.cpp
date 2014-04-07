@@ -311,10 +311,58 @@ bool Worldmap::save_to_name()
 std::string Worldmap::save_data()
 {
   std::stringstream ret;
+// First, save name
+  ret << name << std::endl;
+// Next, islands
+  std::map< int, std::vector<Point> >::iterator it;
+  for (it = islands.begin(); it != islands.end(); it++) {
+    ret << it->first << " ";
+    ret << it->second.size();
+    for (int i = 0; i < it->second.size(); i++) {
+      ret << it->second[i].x << " " << it->second[i].y;
+    }
+    ret << std::endl;
+  }
+
+/* Now, the terrain.  We don't need to save a "key" for this - the contents of
+ * WORLDMAP_TERRAIN will be placed in the save folder along with this, and that
+ * will serve as a key!
+ */
+  for (int y = 0; y < WORLDMAP_SIZE; y++) {
+    for (int x = 0; x < WORLDMAP_SIZE; x++) {
+      //ret << tiles[x][y].save_data() << " ";
+    }
+    ret << std::endl;
+  }
+
+// And the biomes.  Ditto for the "key."
+  for (int y = 0; y < WORLDMAP_SIZE; y++) {
+    for (int x = 0; x < WORLDMAP_SIZE; x++) {
+      if (biomes[x][y]) { // Sanity check
+        ret << biomes[x][y]->uid;
+      } else {
+        ret << -1;
+      }
+    }
+  }
+
+// And we're done!  Relatively painless...
   return ret.str();
 }
 
 bool Worldmap::load_from_file(std::string filename)
 {
+  std::ifstream fin;
+  fin.open(filename.c_str());
+  if (!fin.is_open()) {
+    debugmsg("Couldn't open '%s' for reading.", filename.c_str());
+    return false;
+  }
+  return load_data(fin);
+}
+
+bool Worldmap::load_data(std::istream& data)
+{
+  std::getline(data, name);
   return false;
 }
