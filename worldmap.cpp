@@ -313,3 +313,8 @@ std::string Worldmap::save_data()
   std::stringstream ret;
   return ret.str();
 }
+
+bool Worldmap::load_from_file(std::string filename)
+{
+  return false;
+}

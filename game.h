@@ -29,8 +29,15 @@ public:
   ~Game();
 
 /**** Setup - Called only once ****/
-  bool setup();
+  bool setup_ui();
   bool starting_menu(); // Choose from create character, load character, etc.
+/* setup_new_game() creates the Worldmap, Map, and Player objects.
+ * If a world_index is passed to it, it'll attempt to load that Worldmap - the
+ * index refers to an element in worldmap_names.  Otherwise, it'll create a new
+ * Worldmap.
+ */
+  bool setup_new_game(int world_index = -1);
+  int world_screen(); // Returns a new world_index
 
 /**** Engine - Main loop functions ****/
   bool main_loop();
@@ -127,6 +134,7 @@ private:
   cuss::interface i_hud;
   std::vector<Game_message> messages;
   std::vector<Item*> active_items;
+  std::vector<std::string> worldmap_names;
   int last_target;
   int new_messages;
   int next_item_uid;

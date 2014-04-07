@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
   load_global_data(); // See globals.cpp
 
 // See game.cpp for setup() and starting_menu()
-  if (!GAME.setup() || !GAME.starting_menu()) {
+  if (!GAME.setup_ui() || !GAME.starting_menu()) {
     endwin();
     return 0;
   }

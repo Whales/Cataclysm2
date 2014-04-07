@@ -42,7 +42,7 @@ Game::~Game()
   }
 }
   
-bool Game::setup()
+bool Game::setup_ui()
 {
   if (!i_hud.load_from_file(CUSS_DIR + "/i_hud.cuss")) {
     return false;
@@ -65,8 +65,23 @@ bool Game::setup()
   }
   messages->sizey = ydim - messages->posy;
 
+// Populate Worldmap_names with all the Worldmaps in SAVE_DIR/worlds
+  worldmap_names = files_in(SAVE_DIR + "/worlds", ".map");
+  return true;
+}
+
+bool Game::setup_new_game(int world_index)
+{
   worldmap = new Worldmap;
-  worldmap->generate();
+  if (world_index >= 0 && world_index < worldmap_names.size()) {
+    std::string world_file = SAVE_DIR + "/worlds" + worldmap_names[world_index];
+    if (!worldmap->load_from_file(world_file)) {
+      debugmsg("Couldn't load worldmap from '%s'.", world_file.c_str());
+      return false;
+    }
+  } else {
+    worldmap->generate();
+  }
 
   map = new Map;
 // The second argument of 0 means "on the main island"
@@ -79,7 +94,11 @@ bool Game::setup()
 
   player = new Player;
   player->prep_new_character();
-  //player->create_new_character();
+// Player::create_new_character() returns false if the user cancels the process.
+  if (!player->create_new_character()) {
+    return false;
+  }
+// entities[0] should always be the player!
   entities.add_entity(player);
 
   time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
@@ -102,27 +121,62 @@ bool Game::starting_menu()
   std::string motd = slurp_file(DATA_DIR + "/motd.txt");
 
   i_menu.set_data("text_motd", motd);
-  i_menu.draw(&w_menu);
-  w_menu.refresh();
+
+  int current_world = -1;
 
   while (true) {
+    i_menu.draw(&w_menu);
+    w_menu.refresh();
     long ch = input();
+
     if (ch == 'n' || ch == 'N') {
-      if (player->create_new_character()) {
+      if (setup_new_game(current_world)) {
         return true;
       }
+
     } else if (ch == 'l' || ch == 'L') {
 // TODO: Load character here
       return true;
+
     } else if (ch == 'w' || ch == 'W') {
-// TODO: World management screen
+      current_world = world_screen();
+
     } else if (ch == 'h' || ch == 'H') {
       help_screen();
+
     } else if (ch == 'q' || ch == 'Q') {
       return false;
     }
+
   }
   return false; // Should never be reached
+}
+
+int Game::world_screen()
+{
+  cuss::interface i_worlds;
+  Window w_worlds(0, 0, 80, 24);
+  if (!i_worlds.load_from_file(CUSS_DIR + "/i_worlds.cuss")) {
+    return -1;
+  }
+  i_worlds.set_data("list_worlds", worldmap_names);
+
+  while (true) {  // We'll exit when the player hits enter
+    i_worlds.draw(&w_worlds);
+    w_worlds.refresh();
+    long ch = input();
+
+    if (ch == 'c' || ch == 'C') {
+      //create_world();
+
+    } else if (ch == '\n') {
+      return i_worlds.get_int("list_worlds");
+
+    } else {
+      i_worlds.handle_action(ch); // Handles any scrolling
+    }
+  }
+  return -1;
 }
 
 bool Game::main_loop()
