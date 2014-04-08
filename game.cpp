@@ -167,7 +167,9 @@ int Game::world_screen()
     long ch = input();
 
     if (ch == 'c' || ch == 'C') {
-      //create_world();
+      create_world();
+// Repopulate list_worlds with (hopefully) a new world name.
+      i_worlds.set_data("list_worlds", worldmap_names);
 
     } else if (ch == '\n') {
       return i_worlds.get_int("list_worlds");
@@ -178,6 +180,55 @@ int Game::world_screen()
   }
   return -1;
 }
+
+void Game::create_world()
+{
+  cuss::interface i_editor;
+  Window w_editor(0, 0, 80, 24);
+  if (!i_editor.load_from_file(CUSS_DIR + "/i_world_editor.cuss")) {
+    return;
+  }
+
+  Worldmap tmp_world;
+  std::string world_name;
+  i_editor.ref_data("entry_name", &world_name);
+  i_editor.select("entry_name");
+
+// TODO: Enable climate selection, and generate the world based on the climate.
+  while (true) {  // We'll exit this loop via player input.
+    i_editor.draw(&w_editor);
+    w_editor.refresh();
+
+    long ch = input();
+
+    if (ch == '!') {
+      tmp_world.randomize_name();
+      world_name = tmp_world.get_name();
+
+    } else if (ch == '\n') {
+      if (tmp_world.get_name().empty()) {
+        popup("<c=ltred>Error:<c=/> Name is empty!");
+      } else {
+        popup_nowait("Generating world, please wait...");
+        tmp_world.generate();
+        if (tmp_world.save_to_name()) {
+          worldmap_names.push_back(tmp_world.get_name());
+        }
+      }
+      return;
+
+    } else if (ch == KEY_ESC) {
+      return;
+
+    } else if (ch == '@') {
+// TODO: Unlock advanced options.
+
+    } else {
+      i_editor.handle_keypress(ch);
+    }
+  }
+}
+
 
 bool Game::main_loop()
 {

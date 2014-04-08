@@ -56,9 +56,10 @@ bool        query_yn          (const char *mes, ...);
 int  menu_vec(const char *mes, std::vector<std::string> options);
 int  menu    (const char *mes, ...);
 
-void popup           (const char *mes, ...);
-void popup_fullscreen(const char *mes, ...);
-void popup_scrollable(const char *mes, ...);
+void popup            (const char *mes, ...);
+void popup_nowait     (const char *mes, ...);
+void popup_fullscreen (const char *mes, ...);
+void popup_scrollable (const char *mes, ...);
 
 class Window
 {

@@ -37,7 +37,8 @@ public:
  * Worldmap.
  */
   bool setup_new_game(int world_index = -1);
-  int world_screen(); // Returns a new world_index
+  int  world_screen(); // Returns a new world_index
+  void create_world();
 
 /**** Engine - Main loop functions ****/
   bool main_loop();
