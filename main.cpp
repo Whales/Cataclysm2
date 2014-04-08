@@ -15,6 +15,8 @@ bool parse_options(int argc, char* argv[]);
 void print_cli_help(std::string program_name);
 void print_version();
 
+bool prep_folders();
+
 int main(int argc, char* argv[])
 {
   TESTING_MODE = 0;
@@ -27,12 +29,17 @@ int main(int argc, char* argv[])
 
   set_default_dirs(); // See files.cpp
 
+  if (!prep_directories()) { // See globals.cpp - creates save dir & subdirs
+    printf("Errors creating save directory structure.");
+    return 1;
+  }
+
   load_global_data(); // See globals.cpp
 
 // See game.cpp for setup() and starting_menu()
   if (!GAME.setup_ui() || !GAME.starting_menu()) {
     endwin();
-    return 0;
+    return 1;
   }
 
   do {} while (GAME.main_loop()); // See game.cpp

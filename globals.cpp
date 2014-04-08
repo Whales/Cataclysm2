@@ -58,3 +58,20 @@ void load_mapgen_specs()
     }
   }
 }
+
+bool prep_directories()
+{
+  std::vector<std::string> requirements;
+// Add any required directories here.
+  requirements.push_back( SAVE_DIR );
+  requirements.push_back( SAVE_DIR + "/worlds" );
+
+  for (int i = 0; i < requirements.size(); i++) {
+    if (!directory_exists( requirements[i] )) {
+      if (!create_directory( requirements[i] )) {
+        return false;
+      }
+    }
+  }
+  return true;
+}

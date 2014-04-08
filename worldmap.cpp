@@ -455,11 +455,11 @@ bool Worldmap::save_to_name()
     debugmsg("Worldmap::save_to_name() called on a nameless Worldmap!");
     return false;
   }
-  std::string filename = SAVE_DIR + name + ".map";
+  std::string filename = SAVE_DIR + "/worlds/" + name + ".map";
   std::ofstream fout;
   fout.open(filename.c_str());
   if (!fout.is_open()) {
-    debugmsg("Couldn't open %s for saving Worldmap.", filename.c_str());
+    debugmsg("Couldn't open '%s' for saving Worldmap.", filename.c_str());
     return false;
   }
   fout << save_data();
@@ -561,5 +561,5 @@ bool Worldmap::load_data(std::istream& data)
     }
   }
 
-  return false;
+  return true;
 }

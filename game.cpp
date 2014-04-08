@@ -67,6 +67,13 @@ bool Game::setup_ui()
 
 // Populate Worldmap_names with all the Worldmaps in SAVE_DIR/worlds
   worldmap_names = files_in(SAVE_DIR + "/worlds", ".map");
+// Strip the ".map" from each Worldmap name
+  for (int i = 0; i < worldmap_names.size(); i++) {
+    size_t suffix = worldmap_names[i].find(".map");
+    if (suffix != std::string::npos) {
+      worldmap_names[i] = worldmap_names[i].substr(0, suffix);
+    }
+  }
   return true;
 }
 
@@ -74,7 +81,8 @@ bool Game::setup_new_game(int world_index)
 {
   worldmap = new Worldmap;
   if (world_index >= 0 && world_index < worldmap_names.size()) {
-    std::string world_file = SAVE_DIR + "/worlds" + worldmap_names[world_index];
+    std::string world_file = SAVE_DIR + "/worlds/" +
+                             worldmap_names[world_index] + ".map";
     if (!worldmap->load_from_file(world_file)) {
       debugmsg("Couldn't load worldmap from '%s'.", world_file.c_str());
       return false;
@@ -160,6 +168,7 @@ int Game::world_screen()
     return -1;
   }
   i_worlds.set_data("list_worlds", worldmap_names);
+  i_worlds.select("list_worlds");
 
   while (true) {  // We'll exit when the player hits enter
     i_worlds.draw(&w_worlds);
@@ -170,6 +179,7 @@ int Game::world_screen()
       create_world();
 // Repopulate list_worlds with (hopefully) a new world name.
       i_worlds.set_data("list_worlds", worldmap_names);
+      i_worlds.select("list_worlds");
 
     } else if (ch == '\n') {
       return i_worlds.get_int("list_worlds");

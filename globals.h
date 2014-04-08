@@ -36,4 +36,13 @@ void load_global_data();
 void load_mapgen_specs();
 void init_default_keybindings();
 
+/* For now, prep_directories() just handles SAVE_DIR & its subfolders; CUSS_DIR
+ * and DATA_DIR actually need their contents to be there before the game starts,
+ * so it doesn't make sense to set up their folder structure, since unless the
+ * files are where they need to be, the game will fail to start.
+ * SAVE_DIR, on the other hand, is not required when the game launches, so we'll
+ * need to make sure that it, and its contents, exist.
+ */
+bool prep_directories();
+
 #endif

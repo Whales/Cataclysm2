@@ -19,6 +19,22 @@ bool directory_exists(std::string name)
   return false;
 }
 
+bool create_directory(std::string name)
+{
+  if (directory_exists(name)) {
+    return false; // Couldn't create it because it exists...
+  }
+#if (defined _WIN32 || defined __WIN32__)
+  mkdir("save");
+#else
+  mkdir("save", 0777);
+#endif
+  if (!directory_exists(name)) {  // Check to make sure we succeeded
+    return false;
+  }
+  return true;
+}
+
 bool file_exists(std::string name)
 {
   std::ifstream fin;
