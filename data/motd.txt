@@ -1,0 +1,3 @@
+<c=ltred>Oops!<c=/>  I forgot to commit my MOTD.txt file from home.  Maybe this is because my <c=ltblue>.gitignore<c=/> file is set to ignore all .txt files?  Anyway, I'll use this one for the next <c=magenta>8 hours<c=/> or so, and then I'll upload the original.
+
+      - The Management
