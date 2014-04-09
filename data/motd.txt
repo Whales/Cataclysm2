@@ -1,3 +1,7 @@
-<c=ltred>Oops!<c=/>  I forgot to commit my MOTD.txt file from home.  Maybe this is because my <c=ltblue>.gitignore<c=/> file is set to ignore all .txt files?  Anyway, I'll use this one for the next <c=magenta>8 hours<c=/> or so, and then I'll upload the original.
+Welcome to <c=ltgreen>Cataclysm II<c=/>!  This is an early alpha build - not intended for general release.  However, if you'd like to play, I would greatly appreciate bug reports and feature requests.  Reach me at:
 
-      - The Management
+      <c=magenta>Email:  <c=ltcyan>fivedozenwhales@gmail.com<c=/>
+      <c=magenta>GitHub: <c=cyan>https://github.com/Whales/Cataclysm2/<c=/>
+      <c=magenta>IRC:    <c=ltred>#cataclsm2<c=/> on <c=ltred>irc.freenode.net<c=/>
+
+<c=dkgray>Cataclysm II is licensed under the <c=ltblue>GPLv3<c=dkgray> license, and is free to copy, distribute, and modify.  Any changes must be made public for free.  See the full text of the GPLv3 at <c=cyan>https://gnu.org/licenses/gpl.html<c=dkgray>.<c=/>
