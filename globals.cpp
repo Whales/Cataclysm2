@@ -69,6 +69,7 @@ bool prep_directories()
   for (int i = 0; i < requirements.size(); i++) {
     if (!directory_exists( requirements[i] )) {
       if (!create_directory( requirements[i] )) {
+        debugmsg("Couldn't create %s.", requirements[i].c_str());
         return false;
       }
     }

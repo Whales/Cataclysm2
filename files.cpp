@@ -25,9 +25,9 @@ bool create_directory(std::string name)
     return false; // Couldn't create it because it exists...
   }
 #if (defined _WIN32 || defined __WIN32__)
-  mkdir("save");
+  mkdir(name.c_str());
 #else
-  mkdir("save", 0777);
+  mkdir(name.c_str(), 0777);
 #endif
   if (!directory_exists(name)) {  // Check to make sure we succeeded
     return false;
