@@ -6,6 +6,7 @@
 #include "window.h"
 #include <string>
 #include <sstream>
+#include <stdlib.h> // For abs()
 
 enum New_char_screen
 {
@@ -212,7 +213,12 @@ bool Player::create_new_character()
               i_newch.add_data("list_traits", 1);
               int sel = i_newch.get_int("list_traits");
               Trait_id cur_trait = selectable_traits[sel];
-              i_newch.set_data("num_cost", trait_cost(cur_trait));
+              i_newch.set_data("num_cost", abs(trait_cost(cur_trait)));
+              if (trait_cost(cur_trait) >= 0) {
+                i_newch.set_data("text_cost", "<c=yellow>Cost:<c=/>");
+              } else {
+                i_newch.set_data("text_cost", "<c=yellow>Earns:<c=/>");
+              }
               if (trait_cost(cur_trait) > points) {
                 i_newch.set_data("num_cost", c_red);
               } else {
@@ -229,7 +235,12 @@ bool Player::create_new_character()
               i_newch.add_data("list_traits", -1);
               int sel = i_newch.get_int("list_traits");
               Trait_id cur_trait = selectable_traits[sel];
-              i_newch.set_data("num_cost", trait_cost(cur_trait));
+              i_newch.set_data("num_cost", abs(trait_cost(cur_trait)));
+              if (trait_cost(cur_trait) >= 0) {
+                i_newch.set_data("text_cost", "<c=yellow>Cost:<c=/>");
+              } else {
+                i_newch.set_data("text_cost", "<c=yellow>Earns:<c=/>");
+              }
               if (trait_cost(cur_trait) > points) {
                 i_newch.set_data("num_cost", c_red);
               } else {
@@ -372,7 +383,12 @@ bool Player::create_new_character()
           int sel = i_newch.get_int("list_traits");
           Trait_id cur_trait = selectable_traits[sel];
           i_newch.set_data("text_description", trait_description(cur_trait));
-          i_newch.set_data("num_cost", trait_cost(cur_trait));
+          i_newch.set_data("num_cost", abs(trait_cost(cur_trait)));
+          if (trait_cost(cur_trait) >= 0) {
+            i_newch.set_data("text_cost", "<c=yellow>Cost:<c=/>");
+          } else {
+            i_newch.set_data("text_cost", "<c=yellow>Earns:<c=/>");
+          }
           if (trait_cost(cur_trait) > points) {
             i_newch.set_data("num_cost", c_red);
           } else {
