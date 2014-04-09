@@ -97,8 +97,20 @@ bool Player::create_new_character()
     } else if (ch == '>') {
       cur_screen = New_char_screen( cur_screen + 1 );
       if (cur_screen == NCS_DONE) {
-// TODO: Insert tests for completed reqs (all points spent, name entered, etc)
-        if (query_yn("Complete character and start the game?")) {
+        std::string reason_for_fail;
+        if (points > 0) {
+          reason_for_fail += "\nYou have unspent points!";
+        }
+        if (profession == NULL) {
+          reason_for_fail += "\nYou didn't choose a profession!";
+        }
+        if (name.empty()) {
+          reason_for_fail += "\nYour name is blank!";
+        }
+        if (!reason_for_fail.empty()) {
+          popup("Wait, you can't start the game yet!%s",
+                reason_for_fail.c_str());
+        } else if (query_yn("Complete character and start the game?")) {
           done = true;
         }
         cur_screen = NCS_DESCRIPTION;
