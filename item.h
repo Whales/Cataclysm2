@@ -65,6 +65,7 @@ public:
   int get_to_hit();
   int get_base_attack_speed();
   int get_base_attack_speed(Stats stats);
+  int get_shots_fired();
 
   int  get_max_charges();
   bool combines();
@@ -79,6 +80,7 @@ public:
   void prep_for_generation(); // Prepare to be placed by mapgen; e.g. container
   bool place_in_its_container();
   bool add_contents(Item it);
+  bool advance_fire_mode(); // For lunachers; change to type's next fire mode
   bool reload(Entity* owner, int ammo_uid);
   bool damage(int dam); // Returns true if the item is destroyed
   bool absorb_damage(Damage_type damtype, int dam); // Returns true if destroyed
@@ -103,6 +105,8 @@ public:
   int count;
   int charges, subcharges;
   int hp;
+  int fire_mode;  // Only applies to launchers (for now?) - it's an index for
+                  // the type's std::vector<int> modes
 private:
   int uid;
   //bool active;

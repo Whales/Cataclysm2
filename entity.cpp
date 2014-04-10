@@ -1397,6 +1397,36 @@ std::string Entity::eat_item_message(Item &it)
   return ret.str();
 }
 
+std::string Entity::advance_fire_mode_message()
+{
+  if (!weapon.is_real()) {
+    return "You're not wielding anything.";
+  }
+  if (weapon.get_item_class() != ITEM_CLASS_LAUNCHER) {
+    std::stringstream ret;
+    ret << "That " << weapon.get_name() << " is not a firearm.";
+    return ret.str();
+  }
+/* This is an unfortunate requirement, but when this function is called, it must
+ * be *AFTER* we actually advance the weapon's firing mode, so that the correct
+ * number of shots will be cited here.
+ */
+  std::stringstream ret;
+  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(weapon.type);
+  int num_shots = weapon.get_shots_fired();
+  if (launcher->modes.size() <= 1) {
+    ret << "Your " << weapon.get_name() << " can only fire ";
+  } else {
+    ret << "Your " << weapon.get_name() << " now fires ";
+  }
+  if (num_shots <= 1) {
+    ret << "single rounds.";
+  } else {
+    ret << num_shots << "-round bursts.";
+  }
+  return ret.str();
+}
+
 std::string Entity::sheath_weapon_message()
 {
   if (!weapon.is_real()) {

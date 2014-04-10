@@ -173,6 +173,7 @@ std::string interface_action_name(Interface_action action)
     case IACTION_RELOAD:                  return "reload";
     case IACTION_THROW:                   return "throw";
     case IACTION_FIRE:                    return "fire";
+    case IACTION_ADVANCE_FIRE_MODE:       return "advance_fire_mode";
     case IACTION_EAT:                     return "eat";
     case IACTION_MESSAGES_SCROLL_BACK:    return "messages_scroll_back";
     case IACTION_MESSAGES_SCROLL_FORWARD: return "messages_scroll_forward";

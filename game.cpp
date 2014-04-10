@@ -616,6 +616,11 @@ there.<c=/>", map->get_name(examine).c_str());
       }
       break;
 
+    case IACTION_ADVANCE_FIRE_MODE:
+      player->weapon.advance_fire_mode();
+      add_msg( player->advance_fire_mode_message() );
+      break;
+
     case IACTION_EAT: {
       Item it = player->inventory_single();
       add_msg( player->eat_item_message(it) );

@@ -24,6 +24,7 @@ r         = reload_equipped
 R         = reload
 t         = throw
 f         = fire
+F         = advance_fire_mode
 e         = eat
 -         = messages_scroll_back
 +         = messages_scroll_forward

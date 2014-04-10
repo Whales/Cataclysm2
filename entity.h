@@ -180,6 +180,7 @@ public:
   virtual std::string wield_item_message(Item &it);
   virtual std::string apply_item_message(Item &it);
   virtual std::string eat_item_message  (Item &it);
+  virtual std::string advance_fire_mode_message();  // Only applies to weapon
   virtual std::string sheath_weapon_message();
   std::string get_dragged_name();
 

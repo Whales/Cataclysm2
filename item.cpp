@@ -16,6 +16,7 @@ Item::Item(Item_type* T)
   ammo = NULL;
   charges = 0;
   subcharges = 0;
+  fire_mode = 0;
   hp = 100;   // TODO: Use Item_type durability instead
   corpse = NULL;
   active = ITEM_ACTIVE_OFF;
@@ -46,6 +47,7 @@ Item::Item(const Item &rhs)
   ammo        = rhs.ammo;
   charges     = rhs.charges;
   subcharges  = rhs.subcharges;
+  fire_mode   = rhs.fire_mode;
   active      = rhs.active;
   corpse      = rhs.corpse;
 // Note lack of UID copy - is this correct?
@@ -69,6 +71,7 @@ Item& Item::operator=(const Item& rhs)
   count       = rhs.count;
   charges     = rhs.charges;
   subcharges  = rhs.subcharges;
+  fire_mode   = rhs.fire_mode;
   uid         = rhs.uid;    // Will this cause bugs?
   corpse      = rhs.corpse;
 
@@ -496,6 +499,23 @@ int Item::get_base_attack_speed(Stats stats)
   return ret;
 }
 
+int Item::get_shots_fired()
+{
+  if (get_item_class() != ITEM_CLASS_LAUNCHER) {
+    return 0;
+  }
+  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(type);
+// Sanity check
+  if (fire_mode < 0 || fire_mode >= launcher->modes.size()) {
+    fire_mode = 0;
+  }
+  if (launcher->modes.empty()) {
+    return 1;
+  }
+  return launcher->modes[fire_mode];
+}
+  
+
 int Item::get_max_charges()
 {
   if (get_item_class() == ITEM_CLASS_LAUNCHER) {
@@ -636,6 +656,22 @@ bool Item::add_contents(Item it)
     return false;
   }
   contents.push_back(it);
+  return true;
+}
+
+bool Item::advance_fire_mode()
+{
+  if (get_item_class() != ITEM_CLASS_LAUNCHER) {
+    return false;
+  }
+  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(type);
+  if (launcher->modes.size() <= 1) {
+    return false; // It only has one mode, so we can't change it!
+  }
+  fire_mode++;
+  if (fire_mode >= launcher->modes.size()) {
+    fire_mode = 0;
+  }
   return true;
 }
 
