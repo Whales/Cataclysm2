@@ -221,6 +221,8 @@ Ranged_attack::Ranged_attack()
   speed = 100;
   charge_time = 0;
   range = 0;
+  rounds = 1;
+  pellets = 1;
   for (int i = 0; i < DAMAGE_MAX; i++) {
     damage[i] = 0;
     armor_divisor[i] = 10;
@@ -272,6 +274,14 @@ bool Ranged_attack::load_data(std::istream &data, std::string owner_name)
 
     } else if (ident == "range:") {
       data >> range;
+      std::getline(data, junk);
+
+    } else if (ident == "rounds:") {
+      data >> rounds;
+      std::getline(data, junk);
+
+    } else if (ident == "pellets:") {
+      data >> pellets;
       std::getline(data, junk);
 
     } else if (ident == "variance:") {

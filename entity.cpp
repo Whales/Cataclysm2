@@ -1805,7 +1805,7 @@ Ranged_attack Entity::fire_weapon()
       !weapon.ammo || weapon.charges == 0) {
     return Ranged_attack();
   }
-  weapon.charges--;
+  weapon.charges -= weapon.get_shots_fired();
   action_points -= weapon.time_to_fire();
   Ranged_attack ret = weapon.get_fired_attack();
 // Perception applies a flat bonus/penalty to accuracy

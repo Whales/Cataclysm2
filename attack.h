@@ -79,9 +79,10 @@ struct Ranged_attack
   std::string verb_third;
   int weight;       // Monster attacks - how likely this attack is to be used
   int speed;        // AP used
-  int charge_time;  // Also for monsters - how frequently can we use this?
+  int charge_time;  // Monster attacks - how frequently can we use this?
   int range;        // Max range of the attack
-  int pellets;      // How many pellets included?  Mainly for shotgun shot.
+  int rounds;       // How many rounds are fired?
+  int pellets;      // How many pellets included per round?  Mainly for shot.
   Dice variance;    // In 1/10ths of a degree
   int damage       [DAMAGE_MAX];
   int armor_divisor[DAMAGE_MAX];// Times 10; 20 = halve the armor, 5 = double it

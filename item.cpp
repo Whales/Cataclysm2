@@ -509,10 +509,14 @@ int Item::get_shots_fired()
   if (fire_mode < 0 || fire_mode >= launcher->modes.size()) {
     fire_mode = 0;
   }
-  if (launcher->modes.empty()) {
-    return 1;
+  int ret = 1;
+  if (!launcher->modes.empty()) {  // Should always happen but let's be safe
+    ret = launcher->modes[fire_mode];
   }
-  return launcher->modes[fire_mode];
+  if (ret > charges) {
+    ret = charges;
+  }
+  return ret;
 }
   
 
@@ -585,6 +589,8 @@ Ranged_attack Item::get_fired_attack()
   ret.range    = itammo->range;
   ret.variance = launcher->accuracy + itammo->accuracy;
   ret.pellets  = itammo->pellets;
+  ret.rounds   = get_shots_fired();
+    
 // TODO: Can fired items ever be non-pierce?
   ret.damage       [DAMAGE_PIERCE] = itammo->damage + launcher->damage;
   ret.armor_divisor[DAMAGE_PIERCE] = itammo->armor_pierce;
