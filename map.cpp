@@ -296,7 +296,6 @@ bool Tile::blocks_sense(Sense_type sense, int z_value)
       return true;
 
     case SENSE_SIGHT:
-      return (has_flag(TF_OPAQUE));
       if (field.is_valid() && field.has_flag(TF_OPAQUE)) {
         return true;
       } else if (has_flag(TF_OPAQUE) && z_value <= get_height()) {
