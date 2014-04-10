@@ -130,33 +130,6 @@ name: smoke zombie
   done
 done
 
-Name: zombie dog
-  name_plural: zombie dogs
-  genus: zombies
-  glyph: d ltgreen black
-  chance: 1
-  size: small
-  hp: 3d5 + 25
-  speed: 130
-  accuracy: 8
-  dodge:    4
-  senses: sight smell hearing
-  attack:
-    verb: bite / bites
-    speed: 150
-    to_hit: -1
-    pierce: 8
-  done
-  AI:
-    awareness: 1
-    attention: 25
-    goals:
-      attack_enemies
-      attack_neutrals
-    done
-  done
-done
-
 ##### Mutant rabbits (remove?) #####
 
 name: mutant rabbit
