@@ -17,7 +17,7 @@ done
 
 # Static shipwreck - Items guaranteed to the player!
 name: items_static_shipwreck
-  items: c:5 wood plank / c:1 rope / c:4 rag / c:2 MRE (meat) / c:2 MRE (vegetable) / c:2 beef jerky / c:4 water / c:1 rum / c:2 dry rice / c:1 lighter / c:1 bandages
+  items: c:5 wood plank / c:1 rope / c:4 rag / c:1 MRE (meat) / c:1 MRE (vegetable) / c:2 beef jerky / c:2 water / c:1 rum / c:2 dry rice / c:1 lighter / c:1 bandages
 done
 
 ### Wilderness groups ###
