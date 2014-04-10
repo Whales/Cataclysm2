@@ -1162,8 +1162,18 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
 bool Entity::eat_item_uid(int uid)
 {
   Item* it = ref_item_uid(uid);
-  if (!it || it->get_item_class() != ITEM_CLASS_FOOD) {
+  if (!it) {
     return false;
+  }
+  if (it->get_item_class() != ITEM_CLASS_FOOD) {
+// Try the contents, too!
+    bool ate_something = false;
+    for (int i = 0; !ate_something && i < it->contents.size(); i++) {
+      if (eat_item_uid( it->contents[i].get_uid() )) {
+        ate_something = true;
+      }
+    }
+    return ate_something;
   }
   bool can_add_message = is_you();
   Item_type_food* food = static_cast<Item_type_food*>(it->type);
@@ -1370,6 +1380,13 @@ std::string Entity::eat_item_message(Item &it)
   if (!it.is_real() || !ref_item_uid(uid)) {
     ret << get_name_to_player() << " don't have that item.";
   } else if (it.get_item_class() != ITEM_CLASS_FOOD) {
+// Check the contents!
+    for (int i = 0; i < it.contents.size(); i++) {
+      if (it.contents[i].get_item_class() == ITEM_CLASS_FOOD) {
+        return eat_item_message(it.contents[i]);
+      }
+    }
+// Couldn't find anything to eat :(
     ret << get_name_to_player() << " cannot eat that.";
   } else {
     Item_type_food* food = static_cast<Item_type_food*>(it.type);

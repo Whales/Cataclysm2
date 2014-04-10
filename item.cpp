@@ -269,7 +269,62 @@ std::string Item::get_description_full()
 // TODO: Put in a list of relevant monster flags, like "poison to eat"
   }
 
+// If we are a container, include info on our contents!
+  if (get_item_class() == ITEM_CLASS_CONTAINER && !contents.empty()) {
+    ret << std::endl << "<c=yellow>Contents:<c=/>" << std::endl <<
+           contents[0].get_description_full();
+  }
+
   return ret.str();
+}
+
+std::vector<Item_action> Item::get_applicable_actions()
+{
+  std::vector<Item_action> ret;
+// We can always(?) drop and wield items.
+  ret.push_back(IACT_WIELD);
+  ret.push_back(IACT_DROP);
+  switch (get_item_class()) {
+    case ITEM_CLASS_CLOTHING:
+      ret.push_back(IACT_WEAR);
+      break;
+    case ITEM_CLASS_AMMO:
+      break;  // Can't do anything with ammo by itself!
+    case ITEM_CLASS_LAUNCHER:
+      ret.push_back(IACT_RELOAD);
+      ret.push_back(IACT_UNLOAD);
+      break;
+    case ITEM_CLASS_FOOD:
+      ret.push_back(IACT_EAT);
+      break;
+    case ITEM_CLASS_TOOL:
+      ret.push_back(IACT_APPLY);
+      break;
+    case ITEM_CLASS_CONTAINER:
+      ret.push_back(IACT_UNLOAD);
+      break;
+    case ITEM_CLASS_CORPSE:
+      ret.push_back(IACT_BUTCHER);
+      break;
+  }
+// Now, check the contents.
+  for (int i = 0; i < contents.size(); i++) {
+    std::vector<Item_action> cont_acts = contents[i].get_applicable_actions();
+// Gotta make sure we don't have duplicates...
+    for (int n = 0; n < cont_acts.size(); n++) {
+      bool found = false;
+      for (int m = 0; !found && m < ret.size(); m++) {
+        if (cont_acts[n] == ret[m]) {
+          found = true;
+        }
+      }
+      if (!found) {
+        ret.push_back( cont_acts[n] );
+      }
+    }
+  }
+
+  return ret;
 }
 
 int Item::get_weight()
@@ -802,7 +857,7 @@ Item_action Item::show_info(Entity* user)
     return IACT_NULL;
   }
 
-  i_info.set_data("item_name",  get_name());
+  i_info.set_data("item_name",  get_name_full());
   i_info.set_data("num_weight", get_weight());
   i_info.set_data("num_volume", get_volume());
   i_info.set_data("num_bash",   get_damage(DAMAGE_BASH));
@@ -814,17 +869,72 @@ Item_action Item::show_info(Entity* user)
   } else {
     i_info.set_data("num_speed",  get_base_attack_speed());
   }
+
+  std::stringstream actions;
+  std::vector<Item_action> app_actions = get_applicable_actions();
+  for (int i = 0; i < app_actions.size(); i++) {
+    switch (app_actions[i]) {
+      case IACT_WIELD:
+        actions << "<c=magenta>w<c=/>ield" << std::endl;
+        break;
+      case IACT_WEAR:
+        actions << "<c=magenta>W<c=/>ear" << std::endl;
+        break;
+      case IACT_DROP:
+        actions << "<c=magenta>d<c=/>rop" << std::endl;
+        break;
+      case IACT_EAT:
+        actions << "<c=magenta>e<c=/>at" << std::endl;
+        break;
+      case IACT_APPLY:
+        actions << "<c=magenta>a<c=/>pply" << std::endl;
+        break;
+      case IACT_UNLOAD:
+        actions << "<c=magenta>U<c=/>nload" << std::endl;
+        break;
+      case IACT_RELOAD:
+        actions << "<c=magenta>R<c=/>eload" << std::endl;
+        break;
+      case IACT_BUTCHER:
+        actions << "<c=magenta>B<c=/>utcher" << std::endl;
+        break;
+    }
+  }
+  actions << std::endl << "<c=magenta>Esc<c=/> or <c=magenta>q<c=/>: " <<
+             "Cancel / Do nothing";
+  i_info.set_data("text_actions", actions.str());
 // get_desciption_full() includes type-specific info, e.g. nutrition for food
   i_info.set_data("description", get_description_full());
+  
   i_info.draw(&w_info);
   while (true) {
     long ch = input();
-    if (ch == 'd' || ch == 'D') {
-      return IACT_DROP;
-    } else if (ch == 'w') {
-      return IACT_WIELD;
-    } else if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
-      return IACT_NULL;
+    Item_action ret = IACT_NULL;
+    switch (ch) {
+      case 'd':
+      case 'D': ret = IACT_DROP;    break;
+      case 'w': ret = IACT_WIELD;   break;
+      case 'W': ret = IACT_WEAR;    break;
+      case 'e': ret = IACT_EAT;     break;
+      case 'a': ret = IACT_APPLY;   break;
+      case 'U': ret = IACT_UNLOAD;  break;
+      case 'R': ret = IACT_RELOAD;  break;
+      case 'B': ret = IACT_BUTCHER; break;
+
+      case KEY_ESC:
+      case 'q':
+      case 'Q':
+        return IACT_NULL;
+    }
+
+    if (ret != IACT_NULL) { // We chose an action.
+// Check the list of applicable actions to see if the action the player chose is
+// actually available.
+      for (int i = 0; i < app_actions.size(); i++) {
+        if (app_actions[i] == ret) {
+          return ret;
+        }
+      }
     }
   }
   return IACT_NULL;

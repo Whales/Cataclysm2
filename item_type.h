@@ -212,7 +212,7 @@ public:
   ~Item_type_container(){}
 
   virtual Item_class get_class() { return ITEM_CLASS_CONTAINER; }
-  virtual Item_action default_action() { return IACT_EMPTY; }
+  virtual Item_action default_action() { return IACT_UNLOAD; }
   virtual std::string get_property_description();
 
   virtual bool handle_data(std::string ident, std::istream &data);

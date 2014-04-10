@@ -1,5 +1,10 @@
 Items to refactor:
 
+Keypress & action handling:
+  IACTION_APPLY and IACTION_INVENTORY both have a chance to handle Item_action.
+  They both do it the same way, just about, but have their own code to handle
+  it!  Unify this code.
+
 Attacks / damage:
   Lots of classes hold "int damage[DAMAGE_MAX]" or "int armor[DAMAGE_MAX]"
   We have a class called "Damage_set," this should replace all of those arrays.

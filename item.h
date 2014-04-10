@@ -36,8 +36,8 @@ public:
   Item_action default_action();
   bool is_real();
   bool can_reload();
-  int time_to_reload();
-  int time_to_fire();
+  int  time_to_reload();
+  int  time_to_fire();
 
 // Info fetching
   int get_uid();
@@ -50,6 +50,8 @@ public:
   std::string get_name_full();  // Includes charges, mode, etc.
   std::string get_description();
   std::string get_description_full();  // Includes type-specific values
+
+  std::vector<Item_action> get_applicable_actions();
 
   int get_weight();
   int get_volume();
@@ -64,7 +66,7 @@ public:
   int get_base_attack_speed();
   int get_base_attack_speed(Stats stats);
 
-  int get_max_charges();
+  int  get_max_charges();
   bool combines();
   bool combine_by_charges();
 

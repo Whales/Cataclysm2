@@ -468,17 +468,49 @@ there.<c=/>", map->get_name(examine).c_str());
     case IACTION_INVENTORY: {
       Item it = player->inventory_single();
       Item_action act = it.show_info();
-      if (act == IACT_DROP) {
-        add_msg( player->drop_item_message(it) );
-        player->remove_item_uid(it.get_uid());
-        map->add_item(it, player->pos);
-      } else if (act == IACT_WIELD) {
-        add_msg( player->wield_item_message(it) );
-        player->wield_item_uid(it.get_uid());
-      } else if (act == IACT_WEAR) {
-        add_msg( player->wear_item_message(it) );
-        player->wear_item_uid(it.get_uid());
-      }
+
+      switch (act) {
+
+        case IACT_WIELD:
+          add_msg( player->wield_item_message(it) );
+          player->wield_item_uid(it.get_uid());
+          break;
+
+        case IACT_WEAR:
+          add_msg( player->wear_item_message(it) );
+          player->wear_item_uid(it.get_uid());
+          break;
+
+        case IACT_DROP:
+          add_msg( player->drop_item_message(it) );
+          player->remove_item_uid(it.get_uid());
+// TODO: Dropping may fail sometimes(?), so don't automatically add the item
+          map->add_item(it, player->pos);
+          break;
+
+        case IACT_EAT:
+          add_msg( player->eat_item_message(it) );
+          player->eat_item_uid(it.get_uid());
+          break;
+
+        case IACT_APPLY:
+          add_msg( player->apply_item_message(it) );
+          player->apply_item_uid(it.get_uid());
+          break;
+
+        case IACT_UNLOAD:
+// TODO: Put unload code here
+          break;
+
+        case IACT_RELOAD:
+          player->reload_prep(it.get_uid());
+          break;
+
+        case IACT_BUTCHER:
+// TODO: Put butcher code here
+          break;
+      } // switch (act)
+
     } break;
 
     case IACTION_DROP: {
@@ -521,7 +553,8 @@ there.<c=/>", map->get_name(examine).c_str());
           player->wear_item_uid(it.get_uid());
           break;
         case IACT_EAT:
-// TODO: Eating code
+          add_msg( player->eat_item_message(it) );
+          player->eat_item_uid(it.get_uid());
         case IACT_APPLY:
 // Need to redraw the map
 // TODO:  Replace this with draw_all()?
@@ -585,22 +618,8 @@ there.<c=/>", map->get_name(examine).c_str());
 
     case IACTION_EAT: {
       Item it = player->inventory_single();
-      std::string mess = player->eat_item_message(it);
-      if (player->eat_item_uid(it.get_uid())) {
-        add_msg(mess);
-      } else {  // Try the contents, too
-        bool done = false;
-        for (int i = 0; !done && i < it.contents.size(); i++) {
-          mess = player->eat_item_message(it.contents[i]);
-          if (player->eat_item_uid( it.contents[i].get_uid() )) {
-            add_msg(mess);
-            done = true;
-          }
-        }
-        if (!done) {  // Well, at least print the failure message.
-          add_msg(mess);
-        }
-      }
+      add_msg( player->eat_item_message(it) );
+      player->eat_item_uid(it.get_uid());
     } break;
 
     case IACTION_MESSAGES_SCROLL_BACK:

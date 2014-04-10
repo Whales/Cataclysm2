@@ -99,12 +99,14 @@ enum Terrain_flag
 enum Item_action
 {
   IACT_NULL = 0,
-  IACT_WIELD, // Wield as a wearpon
-  IACT_WEAR,  // Wear - only applies for clothing
-  IACT_DROP,  // Drop on the ground
-  IACT_EAT,   // Eat - only applies for food
-  IACT_APPLY, // Apply as in a tool
-  IACT_EMPTY, // As in emptying a container - only applies for containers
+  IACT_WIELD,   // Wield as a wearpon
+  IACT_WEAR,    // Wear - only applies for clothing
+  IACT_DROP,    // Drop on the ground
+  IACT_EAT,     // Eat - only applies for food
+  IACT_APPLY,   // Apply as in a tool
+  IACT_UNLOAD,  // Applies for launchers and containers
+  IACT_RELOAD,  // Only applies for launchers
+  IACT_BUTCHER, // Cut into pieces of meat - only applies for corpses
   IACT_MAX
 };
 
