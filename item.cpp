@@ -203,7 +203,6 @@ std::string Item::get_name_indefinite()
 
 std::string Item::get_name_definite()
 {
-// TODO: Check Item_type for "plural" flag
 // TODO: Unique items?
   if (type) {
     std::stringstream ret;
@@ -545,8 +544,7 @@ bool Item::combine_by_charges()
   return type->combine_by_charges();
 }
 
-// TODO: Use stats & skills.
-Ranged_attack Item::get_thrown_attack()
+Ranged_attack Item::get_thrown_attack(Entity* ent)
 {
   Ranged_attack ret;
   if (!type) {
@@ -561,19 +559,59 @@ Ranged_attack Item::get_thrown_attack()
   }
 // Copy variance from type
   ret.variance = type->thrown_variance;
-// Add variance for heavy items
+// Add variance for heavy/bulky items
   Dice extra_variance;
-  extra_variance.number = 1 + type->weight / 20;
-  extra_variance.sides  = type->volume / 5;
-  ret.variance += extra_variance;
+  int weight_divisor = 20, volume_divisor = 5;
+  if (ent) {
+    weight_divisor = 10 + ent->stats.strength;
+    volume_divisor = random_round(ent->stats.dexterity, 3) +
+                     random_round(ent->skills.get_level(SKILL_THROWING), 2);
+  }
+    
+  extra_variance.number = 1 + type->weight / weight_divisor;
+  extra_variance.sides  =     type->volume / volume_divisor;
+  if (extra_variance.sides > 0) {
+    ret.variance += extra_variance;
+  }
+
+  ret.range = 20 - (type->weight / (weight_divisor * 2));
+  ret.range -= type->volume / (volume_divisor * 5);
 // Copy damage; note that thrown_dmg_percent defaults to 50
   for (int i = 0; i < DAMAGE_MAX; i++) {
     ret.damage[i] = (type->damage[i] * type->thrown_dmg_percent) / 100;
   }
+// Now apply ent's stats / skills
+  if (ent) {
+    int skill = ent->skills.get_level(SKILL_THROWING);
+    ret.variance.sides -= skill;
+    if (ent->stats.dexterity > 10) {
+      ret.variance.sides -= random_round(ent->stats.dexterity - 10, 4);
+    }
+    if (ret.variance.sides < 3) {
+      ret.variance.sides = 3;
+    }
+    int extra_dice = 0;
+    while (rng(1, 10) > ent->stats.dexterity) {
+      extra_dice++;
+    }
+    while (rng(1, 10) > ent->stats.perception && !one_in(3)) {
+      extra_dice++;
+    }
+    ret.variance.dice += extra_dice;
+
+    ret.speed = (100 * ret.speed) / (100 + skill * 4); // TODO: Don't hardcode 4
+
+    ret.range += skill / 4; // No random rounding here
+
+    int damage_percent = 100 + (ent->stats.strength - 10) * 2 + skill * 4;
+    for (int i = 0; i < DAMAGE_MAX; i++) {
+      ret.damage[i] = (damage_percent * ret.damage[i]) / 100;
+    }
+  }
+
   return ret;
 }
 
-// TODO: Use stats & skills.
 Ranged_attack Item::get_fired_attack()
 {
   if (!type || get_item_class() != ITEM_CLASS_LAUNCHER || charges <= 0 ||

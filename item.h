@@ -71,7 +71,7 @@ public:
   bool combines();
   bool combine_by_charges();
 
-  Ranged_attack get_thrown_attack();
+  Ranged_attack get_thrown_attack(Entity* ent = NULL);
   Ranged_attack get_fired_attack();
 
 // Changing
