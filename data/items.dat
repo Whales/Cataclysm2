@@ -2646,6 +2646,7 @@ tool
   default_charges: 100
   max_charges: 100
   subcharges: 5
+  fuel: batteries
 
   powered:
     special: light
