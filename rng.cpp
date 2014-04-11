@@ -19,3 +19,12 @@ int dice(int number, int sides)
   ret += rng(1, sides);
  return ret;
 }
+
+int random_round(int numerator, int divisor)
+{
+  int ret = numerator / divisor;
+  if (divisor > 1 && rng(1, divisor) > numerator % divisor) {
+    ret++;
+  }
+  return ret;
+}
