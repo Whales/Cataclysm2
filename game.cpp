@@ -311,7 +311,6 @@ void Game::do_action(Interface_action act)
     case IACTION_MOVE_SE: player_move( 1,  1);  break;
     case IACTION_PAUSE:   player->pause();      break;
 
-// TODO: Allow player_move() to handle vertical movement?
     case IACTION_MOVE_UP:
       if (!map->has_flag(TF_STAIRS_UP, player->pos)) {
         add_msg("You cannot go up here.");
@@ -372,7 +371,6 @@ there.<c=/>", map->get_name(player->pos).c_str());
         add_msg("Invalid direction.");
       } else {
         Tripoint close = player->pos + dir;
-// TODO: Should this stuff be in map.cpp?  Probably not, huh?
         Entity* ent = entities.entity_at(close);
         if (ent == player) {
           add_msg("Maybe you should move out of the doorway first.");
@@ -557,7 +555,6 @@ there.<c=/>", map->get_name(examine).c_str());
           player->eat_item_uid(it.get_uid());
         case IACT_APPLY:
 // Need to redraw the map
-// TODO:  Replace this with draw_all()?
           add_msg( player->apply_item_message(it) );
           player->apply_item_uid(it.get_uid());
           break;
@@ -667,8 +664,6 @@ there.<c=/>", map->get_name(examine).c_str());
 void Game::move_entities()
 {
   clean_up_dead_entities();
-// TODO: Only update scent_map when the player moves (i.e., move this call to
-//       player_move()?)
   //scent_map = map->get_dijkstra_map(player->pos, 15);
 // First, give all entities action points
   for (std::list<Entity*>::iterator it = entities.instances.begin();
@@ -836,8 +831,6 @@ void Game::launch_projectile(Entity* shooter, Ranged_attack attack,
   launch_projectile(shooter, Item(), attack, origin, target);
 }
 
-// TODO: Make this 3D
-//       Also, move it to projectile.cpp?
 void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
                              Tripoint origin, Tripoint target)
 {
