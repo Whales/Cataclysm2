@@ -732,7 +732,6 @@ void Field::process(Map* map, Tripoint pos)
   }
 
 // Lose duration if we rise and there's empty terrain above
-// TODO: Don't hard-code duration lost?
 // TODO: Actual vertical spreading?
   if (has_flag(FIELD_FLAG_RISE) &&
       map->has_flag(TF_OPEN_SPACE, pos.x, pos.y, pos.z + 1)) {
