@@ -159,6 +159,9 @@ std::string Item_type_launcher::get_property_description()
          (fire_ap % 100) / 10 << fire_ap % 10 << " turns" << std::endl;
   ret << "<c=red>Fire modes:<c=/> ";
 // TODO: If there's special mods, like "snipe," handle them specially
+  if (modes.empty()) {
+    ret << "Single shot";
+  }
   for (int i = 0; i < modes.size(); i++) {
     ret << "[" << modes[i] << "] ";
   }
