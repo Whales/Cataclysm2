@@ -1223,10 +1223,14 @@ void fix_lines(interface &edited, std::string name,
     Point  east(it->first.x + 1, it->first.y    );
     Point south(it->first.x    , it->first.y + 1);
     Point  west(it->first.x - 1, it->first.y    );
-    bool north_line = (north.y >= y1 && is_line(bg->drawing[north].symbol) );
-    bool  east_line = ( east.x <= x2 && is_line(bg->drawing[east ].symbol) );
-    bool south_line = (south.y <= y2 && is_line(bg->drawing[south].symbol) );
-    bool  west_line = ( west.x >= x1 && is_line(bg->drawing[west ].symbol) );
+    bool north_line = (north.y >= y1 && bg->drawing.count(north) &&
+                       is_line(bg->drawing[north].symbol) );
+    bool  east_line = ( east.x <= x2 && bg->drawing.count(east ) &&
+                       is_line(bg->drawing[east ].symbol) );
+    bool south_line = (south.y <= y2 && bg->drawing.count(south) &&
+                       is_line(bg->drawing[south].symbol) );
+    bool  west_line = ( west.x >= x1 && bg->drawing.count(west ) &&
+                       is_line(bg->drawing[west ].symbol) );
     if (north_line) {
       if (east_line) {
         if (south_line) {
