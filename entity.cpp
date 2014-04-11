@@ -195,7 +195,6 @@ glyph Entity::get_glyph()
 
 void Entity::die()
 {
-// TODO: Drop a corpse.
   for (int i = 0; i < inventory.size(); i++) {
     GAME.map->add_item( inventory[i], pos.x, pos.y, pos.z );
   }
@@ -737,12 +736,15 @@ void Entity::fall(int levels)
   int num   =  6;
   int sides = (levels + 1) * (levels + 1);
 
-// TODO: Use dodge skill somehow?
-  if (stats.dexterity >= 20) {
+  int fall_ability = stats.dexterity - 2;
+  fall_ability += rng(0, skills.get_level(SKILL_DODGE));
+
+
+  if (fall_ability >= 20) {
     num = 3;
-  } else if (stats.dexterity >= 15) {
+  } else if (fall_ability >= 15) {
     num = 4;
-  } else if (stats.dexterity >= 10) {
+  } else if (fall_ability >= 10) {
     num = 5;
   }
 
@@ -1114,16 +1116,16 @@ void Entity::apply_item_uid(int uid)
       return;
     }
     if (it->is_active() && it->power_off()) {
-      use_ap(100);  // TODO: Don't hardcode this value.
+      use_ap(25);  // TODO: Don't hardcode this value.
     } else if (it->power_on()) {
-      use_ap(100);  // TODO: Don't hardcode this value.
+      use_ap(25);  // TODO: Don't hardcode this value.
     }
   }
 
 // We have an effect that triggers after a countdown; so start the countdown!
   if (countdown->real && !it->is_active()) {
     if (it->start_countdown()) {
-      use_ap(100);  // TODO: Don't hardcode this value.
+      use_ap(25);  // TODO: Don't hardcode this value.
     }
   }
 }
@@ -1156,7 +1158,6 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
   }
   use_ap(action->ap_cost);
 
-// TODO: Some items are destroyed when they run out of charges - do that
 }
 
 bool Entity::eat_item_uid(int uid)
@@ -1362,9 +1363,14 @@ std::string Entity::apply_item_message(Item &it)
     Item_type_tool* tool = dynamic_cast<Item_type_tool*>(it.type);
     Tool_action* action = &(tool->applied_action);
     if (tool->uses_charges() && it.charges < action->charge_cost) {
-// TODO: Make this more appropriate / less technical?  I.e. reference the fuel?
       ret << get_possessive() << " " << it.get_name() << " doesn't have " <<
-             (it.charges == 0 ? "any" : "enough") << " charges.";
+             (it.charges == 0 ? "any" : "enough");
+      if (tool->fuel.empty()) {
+        ret << " charges";
+      } else {
+        ret << tool->fuel;
+      }
+      ret << ".";
     } else {
       ret << get_name_to_player() << " " << conjugate("use") << " " <<
              get_possessive() << " " << it.get_name() << ".";
@@ -1614,7 +1620,7 @@ void Entity::attack(Entity* target)
   att.adjust_with_stats(stats);
   att.adjust_with_skills(skills);
 
-  action_points -= att.speed;
+  use_up(att.speed);
 
   bool you_see = GAME.player->can_sense(GAME.map, pos.x, pos.y);
   bool attacker_is_you = is_you();
@@ -1631,7 +1637,8 @@ void Entity::attack(Entity* target)
              target->get_name_to_player() << "<c=/>.";
       GAME.add_msg( msg.str() );
     }
-// TODO: action_point penalty for missing?
+    int miss_penalty = rng(0, att.speed);
+    use_ap(miss_penalty);
     return;
   }
 
@@ -1793,14 +1800,12 @@ int Entity::get_armor(Damage_type damtype, Body_part part)
 
 Ranged_attack Entity::throw_item(Item it)
 {
-  Ranged_attack ret = it.get_thrown_attack();
-// TODO: Alter variance based on skill
+  Ranged_attack ret = it.get_thrown_attack(this);
   return ret;
 }
 
 Ranged_attack Entity::fire_weapon()
 {
-// TODO: Use >1 round if we've selected a burst/auto shot
   if (!weapon.is_real() || weapon.get_item_class() != ITEM_CLASS_LAUNCHER ||
       !weapon.ammo || weapon.charges == 0) {
     return Ranged_attack();
