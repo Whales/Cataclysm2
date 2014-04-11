@@ -1620,7 +1620,7 @@ void Entity::attack(Entity* target)
   att.adjust_with_stats(stats);
   att.adjust_with_skills(skills);
 
-  use_up(att.speed);
+  use_ap(att.speed);
 
   bool you_see = GAME.player->can_sense(GAME.map, pos.x, pos.y);
   bool attacker_is_you = is_you();

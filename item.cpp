@@ -597,7 +597,7 @@ Ranged_attack Item::get_thrown_attack(Entity* ent)
     while (rng(1, 10) > ent->stats.perception && !one_in(3)) {
       extra_dice++;
     }
-    ret.variance.dice += extra_dice;
+    ret.variance.number += extra_dice;
 
     ret.speed = (100 * ret.speed) / (100 + skill * 4); // TODO: Don't hardcode 4
 
