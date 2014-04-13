@@ -8,4 +8,6 @@ objwin/
 save/
 *.swp
 *.txt
+!data/*.txt
+!data/help/*.txt
 *.prof
