@@ -1,0 +1,22 @@
+Movement can be achieved using <c=white>vikeys<c=/> or the <c=white>numpad<c=/>.  You can also use the arrow keys, but this limits you greatly by preventing diagonal movement.  These charts show how to move:
+
+    <c=white>Vikeys<c=/>              <c=white>Numpad<c=/>
+
+    y k u               7 8 9
+     \|/                 \|/
+    h-.-l               4-5-6
+     /|\                 /|\
+    b j n               1 2 3
+
+So, to move north-west, you can press <c=magenta>y<c=/> or <c=magenta>7<c=/>; to pause, you can press <c=magenta>.<c=/> or <c=magenta>5<c=/>.  These keys are totally customizable; for information on how to customize your keybindings, please see the help on <c=cyan>Configuration<c=/>.
+While the vikeys may not make a lot of sense at first glance, they make a <c=white>lot<c=/> of sense to your fingers!  Using vikeys keeps your right hand on the home row, close to a lot of other key commands, and movement is very easy once you get used to it.  I highly recommend giving vikeys a chance!
+
+Every time you take a step, you use up a number of <c=ltgreen>Action Points<c=/>, or <c=ltgreen>AP<c=/>.  Moving on flat terrain typically costs 100 AP; moving over counters, through window frames, or on other rough terrain will take more.  Some traits, like <c=ltblue>Fleet-Footed<c=/>, make movement use less AP; some armor may increase or decrease the amount of AP used on movement; and some status effects alter AP used as well.  You can press <c=magenta>@<c=/> to view your character and check the amount of AP you'll use, along with how many AP you regenerate each turn (typically 100, but this is also modified by many factors).
+
+If you want to attempt to hit an enemy with your weapon, simply move into the monster.  For more information about this, see the <c=cyan>Combat<c=/> section of this Help screen.
+
+While exploring the world, you may encounter doors, represented by the <c=brown>+<c=/> symbol.  To open these, you can simply move into them, or you can use the <c=magenta>o<c=/> key.  Some doors are locked, and can only be opened from one side!  After opening a door, you can close it using the <c=magenta>C<c=/> key.  Closing doors behind you will make it harder for most monsters to follow you!
+
+When encountering locked doors, windows, or other obstacles, you can attempt to <c=ltgreen>smash<c=/> through them by using the <c=magenta>s<c=/> key, then selecting a direction.  Smashing down obstacles is much easier with a strong character or an appropriate weapon (some obstacles respond well to blunt weapons, others are better attacked with a cutting tool).
+
+There may be times when you're tempted to hold down a movement key, in order to move faster (in real-time, not game-time).  This can be dangerous - a monster might appear and hit you several times before you can react and take your finger off the key!  To prevent this, you can press <c=magenta>!<c=/> to toggle <c=ltgreen>Safety Mode.<c=/>  While Safety Mode is on, any movement will be ignored if new monsters enter the player's view.  To reset Safety Mode, ignoring the monsters currently in-view, just press <c=magenta>'<c=/>.
