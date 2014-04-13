@@ -15,6 +15,7 @@ void help_screen()
   help_files.push_back("status_effects.txt");
   help_files.push_back("combat.txt");
   help_files.push_back("items.txt");
+  help_files.push_back("configuration.txt");
 
   cuss::interface i_help;
   if (!i_help.load_from_file( CUSS_DIR + "/i_help.cuss" ) ) {
