@@ -1,0 +1,1 @@
+Welcome to Cataclysm 2.  This is a test of the help system.
