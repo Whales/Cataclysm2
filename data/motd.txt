@@ -2,6 +2,6 @@ Welcome to <c=ltgreen>Cataclysm II<c=/>!  This is an early alpha build - not int
 
       <c=magenta>Email:  <c=ltcyan>fivedozenwhales@gmail.com<c=/>
       <c=magenta>GitHub: <c=cyan>https://github.com/Whales/Cataclysm2/<c=/>
-      <c=magenta>IRC:    <c=ltred>#cataclsm2<c=/> on <c=ltred>irc.freenode.net<c=/>
+      <c=magenta>IRC:    <c=ltred>#cataclysm2<c=/> on <c=ltred>irc.freenode.net<c=/>
 
 <c=dkgray>Cataclysm II is licensed under the <c=ltblue>GPLv3<c=dkgray> license, and is free to copy, distribute, and modify.  Any changes must be made public for free.  See the full text of the GPLv3 at <c=cyan>https://gnu.org/licenses/gpl.html<c=dkgray>.<c=/>
