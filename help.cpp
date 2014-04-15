@@ -2,6 +2,7 @@
 #include "window.h"
 #include "cuss.h"
 #include "files.h"
+#include <sstream>
 
 void help_screen()
 {
@@ -31,7 +32,20 @@ void help_screen()
     if (ch >= 'A' && ch <= 'Z') {
       ch = ch - 'A' + 'a';
     }
-    if (ch >= 'a' && ch - 'a' < help_files.size()) {
+    if (ch == 'c') {  // Interface tour is handled specially
+      Window w_tour(0, 0, 80, 24);
+      cuss::interface i_tour;
+      for (int i = 1; i <= 6; i++) {
+        std::stringstream tour_name;
+        tour_name << CUSS_DIR << "/i_help_interface_" << i << ".cuss";
+        if (!i_tour.load_from_file(tour_name.str())) {
+          i = 100;
+        }
+        i_tour.draw(&w_tour);
+        long ch;
+        do { ch = getch(); } while (ch != ' ');
+      }
+    } else if (ch >= 'a' && ch - 'a' < help_files.size()) {
       std::string filename = DATA_DIR + "/help/" + help_files[ch - 'a'];
       if (!file_exists(filename)) {
         i_help.set_data("text_help",
