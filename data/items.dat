@@ -1889,6 +1889,34 @@ launcher
   capacity:   20
   reload_ap: 450
   fire_ap:   100
+  modes: 1 5 10
+done
+
+launcher
+  name: M249
+  description:
+    The M249 is a mountable light machine gun, used in every major conflict
+    involving the United States since 1989.  It is heavy, innaccurate, difficult
+    to control, and prone to jamming.  However, it more than makes up for these
+    flaws with its ability to fire huge amounts of powerful 5.56 NATO rounds
+    very quickly.
+  done
+  glyph: ) green black
+  weight: 170
+  volume: 600
+  bash: 16
+  to_hit: -2
+
+  type: 5.56
+  skill: rifles
+  accuracy: 7d15 - 7
+  damage: 10
+  recoil: -3
+  durability: 78
+  capacity: 100
+  reload_ap: 1000
+  fire_ap: 175
+  modes: 10 20 30
 done
 
 # END Launchers
