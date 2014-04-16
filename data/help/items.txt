@@ -1,0 +1,29 @@
+Items are a key part of Cataclysm 2.  Even the most frugal of travelers will rely upon certain items, and most will need one or more from all of the categories listed below.
+
+Regardless of the type of an item, they all share certain properties.  You can view all the properties for an item by opening your Inventory (by default, this uses the <c=magenta>i<c=/> key) and pressing the letter for the item.
+
+<c=ltred>Weight<c=/>: This is measured in 1/10ths of a pound.  Characters have a weight limit, determined by their strength; carrying over that limit will make movement and melee combat much slower.  Heavy items are also slower when used as a melee weapon, and have worse range when thrown (but may do more damage).
+<c=ltblue>Volume<c=/>: How large the item is.  This is slightly arbitrary, but a single unit of volume is around a cubic inch, or the size of a ping-pong ball.  The amount of volume you can carry is determined by the clothing you're wearing; for isntance, wearing pants will offer a couple pockets to store a few items, while wearing a backpack offers a lot of storage space.  The item you're wielding is <c=white>not<c=/> included when counting your volume carried, so if you're out of storage space you can carry your largest item in your hands.  Larger items are slower in melee combat and may have a shorter range when thrown.
+
+<c=red>Damage<c=/>: All items may be wielded as a weapon, and as such, they all have three damage properties: <c=ltred>bashing<c=/>, <c=ltred>cutting<c=/> and <c=ltred>piercing<c=/>.  If they item you're wielding is 0 for all three, then the game will ignore it while wielded and act as if you're fighting unarmed.
+<c=red>To-hit bonus<c=/>: This affects your chance to hit your target when using the item as a melee weapon.  This value generally ranges from -5 to +5.
+<c=red>Attack Speed<c=/>: The number of <c=ltgreen>Action Points<c=/> used when making a melee attack with this item.  You'll generally get 100 AP per turn (though this may vary depending on your condition).  This value is primarily derived from the weight and volume of the item, and may be affected by your <c=ltgreen>strength<c=/> and <c=ltgreen>dexterity<c=/>.
+
+
+In addition to these universal base values, there are several <c=white>item types<c=/>, each of which has its own values:
+
+<c=white>Melee Weapons<c=/>:
+Melee weapons are actually not a special type - since any item can be wielded as a weapon, "melee weapons" are just items with no special properties beyond that.
+However, certain items <c=white>are<c=/> flagged as being particularly suited for throwing.  They may be more accurate or more damaging that similar items; this will be described in the item's description.
+
+<c=white>Clothing<c=/>:
+Clothing is any items that can be worn.  To wear an article of clothing, press <c=magenta>W<c=/> and then select the item.
+Clothing has the following properties:
+<c=white>Coverage:<c=/> A list of the body parts that the clothing covers.  This affects heat, armor, and encumbrance.
+<c=white>Storage Space:<c=/> How much extra volume you can carry while wearing this item.
+<c=white>Encumbrance:<c=/> Some items will make certain actions more difficult while you wear them.  This differs depending on what body part(s) the clothing covers:
+  <c=ltblue>Eyes:<c=/> The clothing hampers your view.  You'll suffer penalties to actions requiring <c=ltgreen>perception<c=/>.
+  <c=ltblue>Mouth:<c=/> The clothing hampers your breathing.  Running is made a little more difficult; the amount of AP required to move is increased slightly.
+  <c=ltblue>Torso or Arms:<c=/> The clothing is bulky and makes movements with your torso and arms clumsy.  You suffer a to-hit penalty in melee combat.
+  <c=ltblue>Hands:<c=/> Your fine dexterity is hampered; however, since fine dexterity is only used for long-term projects like crafting, it's assumed that you take your gloves off temporarily for these tasks and the encumbrance has no effect.
+  <c=ltblue>Legs or Feet:<c=/> The clothing makes running awkward, and the amount of AP required to move is increased.  Note that some items have a <c=white>negative<c=/> encumbrance, and they'll <c=white>decrease<c=/> the AP used for movement!
