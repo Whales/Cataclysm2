@@ -273,7 +273,8 @@ std::string Item::get_description_full()
 
 // If we are a container, include info on our contents!
   if (get_item_class() == ITEM_CLASS_CONTAINER && !contents.empty()) {
-    ret << std::endl << "<c=yellow>Contents:<c=/>" << std::endl <<
+    ret << std::endl << "<c=yellow>Contents:<c=/> " <<
+           contents[0].get_name_full() << std::endl <<
            contents[0].get_description_full();
   }
 
