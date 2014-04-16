@@ -197,7 +197,12 @@ Item_type_tool::Item_type_tool()
 std::string Item_type_tool::get_property_description()
 {
   std::stringstream ret;
-  ret << "<c=yellow>Fuel:<c=/> " << fuel << std::endl;
+  ret << "<c=yellow>Fuel:<c=/> ";
+  if (fuel.empty()) {
+    ret << "<c=dkgray>N/A<c=/>";
+  } else {
+    ret << fuel << std::endl;
+  }
   ret << "<c=white>Max charges:<c=/> " << max_charges << std::endl;
   ret << "<c=green>Time to apply:<c=/> ";
   if (applied_action.real) {
