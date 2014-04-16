@@ -53,6 +53,7 @@ void help_screen()
       } else {
         i_help.set_data("text_help", slurp_file(filename));
       }
+      i_help.set_data("text_help", 0);  // Scroll to top
     } else if (ch == 'q' || ch == 'Q' || ch == KEY_ESC) {
       done = true;
     } else {

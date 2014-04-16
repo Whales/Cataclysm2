@@ -1,0 +1,28 @@
+Throughout the game, various <c=ltgreen>status effects<c=/> will appear.  Most of these are negative; however, some are positive effects, and some are a mixed bag.
+
+Status effects show up in the top right of the interface.  For information on where they'll appear, please see the <c=cyan>Interface<c=/> section of this help screen.
+
+While you'll get a one or two word summary of the effect in the main interface, you'll probably want to see more complete information on their effects.  You can access the character screen by pressing <c=magenta>@<c=/>.  There, you'll see a list of all your current status effects, and you can scroll through them to get a list of all effects they have - a change to your <c=ltgreen>Action Point<c=/> generation, a change to your <c=ltgreen>Stats<c=/>, or other effects.
+
+Here are a few common status effects, what their effects are, and how to counteract them:
+
+<c=yellow>Hungry<c=/>, <c=yellow>Very Hungry<c=/>, <c=ltred>Famished<c=/>, <c=red>Near Starving<c=/>, or <c=red>Starving<c=/>:
+  You need to eat!  You'll generate fewer AP each turn, and as your hunger increases, you'll suffer stat penalties, mainly to your <c=ltgreen>strength<c=/> and <c=ltgreen>intelligence<c=/>.
+  The only way to counteract hunger is to eat nourishing food.
+
+<c=yellow>Thirsty<c=/>, <c=yellow>Very Thirsty<c=/>, <c=ltred>Parched<c=/>, <c=red>Dehydrated<c=/>, or <c=red>Dying of thirst<c=/>:
+  You need water!  You'll generate fewer AP each turn, and as your thirst increases, you'll suffer stat penalities, mainly to your <c=ltgreen>strength<c=/> and <c=ltgreen>intelligence<c=/>.
+  The only way to counteract thirst is to drink.  Water is the best thirst quenchers, while things like soda or alcoholic beverages are less effective.
+
+<c=green>Overfull<c=/>, <c=ltgreen>Full<c=/>, <c=green>Quenched<c=/>, or <c=ltgreen>Hydrated<c=/>:
+  You've recently eaten, or drank, your fill!  This has no negative effects, but it does mean that you'll be unable to eat and/or drink any time soon (or if you do, you won't receive the full effect).
+  This effect will go away with time.
+
+<c=yellow>Tired<c=/>, <c=yellow>Very Tired<c=/>, <c=ltred>Severely Tired<c=/>, <c=ltred>Exhausted<c=/>, <c=ltred>Nearly Fainting<c=/>, or <c=red>Fainting<c=/>:
+  You need sleep!  You'll generate fewer AP each turn, and as you get more tired, you'll suffer stat penalties, mainly to your <c=ltgreen>intelligence<c=/> and <c=ltgreen>perception<c=/>.  If you get extremely tired, you may simply pass out - potentially deadly if you're driving or in combat!
+  You can stave off the effects of fatigue by ingesting <c=ltblue>caffeine<c=/> or other <c=ltblue>stimulants<c=/>, but you'll eventually crash and be worse off than you were without them.  The only real solution is to sleep.  You can attempt to sleep by pressing the <c=magenta>$<c=/> button, but don't try this in a dangerous area!  Sleep may be difficult, particularly if you have the <c=ltblue>Insomniac<c=/> trait; taking sleeping pills, or finding a comfortable spot, will help you greatly.
+
+<c=ltgray>Minor Pain<c=/>, <c=yellow>Pain<c=/>, <c=yellow>Heavy Pain<c=/>, <c=ltred>Severe Pain<c=/>, <c=ltred>Agonizing Pain<c=/>, or <c=red>Excrutiating Pain!<c=/>:
+  You're in pain!  Pain comes from several sources, most frequently <c=ltgreen>combat<c=/>, but there's no shortage of pain in this world.  Some status effects like <c=ltblue>Poison<c=/> can even increase your pain levels!
+  Minor pain's only effect is to cost you a single point of intelligence.  Anything worse than that will decrease the amount of AP you generate each turn, and incur stat penalties, spread evenly across all stats.
+  Pain can be temporarily reduced by taking <c=ltblue>painkillers<c=/>, available in a range of potency.  Painkillers can have minor negative effects of their own (mainly a reduction in <c=ltgreen>perception<c=/> and <c=ltgreen>strength<c=/>), so you're better off taking a painkiller appropriate for your pain level.  Plus, they can be addictive!  Pain will subside slowly over time, but <c=ltred>it may linger even after you've healed your wounds<c=/>.  The <c=ltblue>Pain Resistant<c=/> trait will reduce the amount of pain you incur, while the <c=ltblue>Quick Healer<c=/> trait will help your pain go away faster.

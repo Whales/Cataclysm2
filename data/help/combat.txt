@@ -1,0 +1,58 @@
+There's two types of combat in Cataclysm 2: <c=ltgreen>Melee<c=/> and <c=ltgreen>Ranged<c=/>.
+
+<c=green>Melee Combat<c=/>:
+
+Most monsters will seek to engage you in melee combat by moving next to you, and then attacking.  Some monsters have a variety of attacks at their disposal; for instance, <c=ltblue>zombies<c=/> will <c=ltblue>hit<c=/> and <c=ltblue>bite<c=/> you.  You can try to make a melee attack by moving into your enemy; see the Help on <c=cyan>Movement<c=/> for more detailed information.
+
+Whether you or an enemy performs a melee attack, it has the same stages:
+
+<c=ltgreen>1. Use AP<c=/>
+All melee attacks use up a certain amount of <c=ltgreen>Action Points<c=/>, or <c=ltgreen>AP<c=/>.  For more information on AP, see the Help on <c=cyan>Movement<c=/>.  The AP used is affected by your current weapon; unarmed attacks are the fastest, but if you're wielding a weapon, it will be slower the heavier and larger it is.  The effects of weight are reduced by high <c=ltgreen>strength<c=/>, and the effects of size are reduced by high <c=ltgreen>dexterity<c=/>.  <c=ltgreen>Melee skill<c=/> will further reduce the AP used.
+
+<c=ltgreen>2. Make a hit roll<c=/>
+  This determines whether or not you hit your enemy at all.  The attack makes a <c=ltgreen>hit roll<c=/> and the defender <c=white>may<c=/> make a <c=ltgreen>dodge roll<c=/>.  The hit roll is affected by your <c=ltgreen>melee skill<c=/>, your <c=ltgreen>dexterity<c=/>, and your <c=ltgreen>specific weapon skill<c=/>, which may be cutting, bashing, piercing, or unarmed, depending on what you're wielding.
+  The defender only gets to make <c=white>one dodge roll per turn<c=/>.  This means that if you're surrounded by five zombies, you'll only get to dodge <c=white>one<c=/> of their attacks!  There are some exceptions to this rule, but it applies in most circumstances.  Your dodge roll is affected by your <c=ltgreen>dexterity<c=/>, <c=ltgreen>perception<c=/> and <c=ltgreen>dodge skill<c=/>.
+  If the defender succesfully dodges the attack - or the attacker fails so spectacularly that they couldn't hit a non-dodging target - the attack fails outright.  Missing entirely may cause the attacker to <c=ltgreen>fumble<c=/>, which will result in them losing <c=white>up to twice<c=/> the normal AP cost of the attack!
+
+<c=ltgreen>3. Determine where we hit<c=/>
+  When a <c=white>human<c=/> (such as yourself) is the target of an attack, we need to determine where we hit.  A hit to the torso or head is much more dangerous than a hit to the arm!  This is determined partly by the hit roll above, and partly by a random factor.
+
+<c=ltgreen>4. Pick a damage type<c=/>
+  Almost all attacks will only do one damage type at a time.  There are three damage types: <c=ltred>bashing<c=/> or blunt damage, <c=ltred>cutting<c=/> damage, and <c=ltred>piercing<c=/> damage.  Unarmed attacks will almost always do bashing damage.  Monster attacks may vary; for instance, a zombie's hit attack does bashing damage, while its bite attack does piercing damage.
+  Melee weapons may offer a variety of damage types.  For instance, a <c=ltblue>hatchet<c=/> does both bashing and cutting damage.  The game will calculate them separately, taking into account the target's armor, and will use whichever is best for this situation.  Some rare weapons will allow you to use more than one damage type at once!
+
+<c=ltgreen>5. Determine how well we hit<c=/>
+  There are three types of melee hits: <c=ltred>grazing<c=/>, <c=ltred>normal<c=/>, and <c=ltred>critical<c=/>.  The type of hit is mainly based on the hit roll from above, but there is a slight random factor as well.  For this reason, it's worthwhile to improve your melee skills, even if you're able to hit your targets almost all the time!
+  On a <c=ltred>grazing hit<c=/>, you will do between <c=ltred>0<c=/> and <c=ltred>half<c=/> the nominal damage.
+  On a <c=ltred>normal hit<c=/>, you will do between <c=ltred>half<c=/> and <c=ltred>all<c=/> the nominal damage.
+  On a <c=ltred>critical hit<c=/>, you will do between <c=ltred>all<c=/> and <c=ltred>twice<c=/> the nominal damage.
+  "Nominal damage" is explained in the section below.
+
+<c=ltgreen>6. Roll for damage<c=/>
+  For a monster's attack, nominal damage depends on the attack type, and generally doesn't vary from attack to attack.
+  For a human such as yourself, nominal damage depends on a variety of factors.  First there's your <c=ltred>base damage<c=/>, a low value derived entirely from your strength.  If you are unarmed, this is further increased by your <c=ltgreen>unarmed skill<c=/>.  If you are wielding a weapon, this is increased by the weapon's <c=ltgreen>damage properties<c=/>, which you can view by examining the item in your inventory.  See the Help section on <c=cyan>Items<c=/> for more information.  An item's damage properties are further increased by your <c=ltgreen>weapon type skills<c=/> - bashing, cutting, or piercing skill.  These can up to double the damage!
+  After calculating the nominal damage, we vary it randomly based on the hit type.
+
+<c=ltgreen>7. Apply the damage<c=/>
+  The defender now takes whatever damage we roll.  There's two steps to this.  First, the defender's <c=ltgreen>armor<c=/>, if any, absorbs some damage.  For humans, this will usually mean worn armor, like a leather jacket.  Armor may resist different types of damage differently - that leather jacket is great at reducing cutting damage, but doesn't fare as well against bashing damage.  Absorbing damage may hurt or destroy the armor!
+  Anything left is dealt to the defender.  They will incur <c=ltred>pain<c=/>, or may die outright.
+
+
+<c=green>Ranged Combat<c=/>
+
+A few monsters have innate ranged attacks.  Humans such as yourself have two options for a ranged attack; <c=ltblue>launchers<c=/>, like firearms, or <c=ltblue>thrown attacks<c=/>.  Both are similar - they have a <c=ltred>ranged<c=/>, <c=ltred>accuracy<c=/>, and <c=ltred>damage<c=/>.
+
+For thrown attacks, the range, accuracy, and damage depend on your choice of missle, and your stats and skills.  Heavier and larger items are more difficult to throw, and their range and accuracy will be reduced.  The effects of weight are reduced by your <c=ltgreen>strength<c=/>, and the effects of size are reduced by your <c=ltgreen>dexterity<c=/>.  High <c=ltgreen>perception<c=/> and <c=ltgreen>dexterity<c=/> stats will improve your accuracy directly.  Range, damage, and accuracy are all improved by a high <c=ltgreen>throwing skill<c=/>!  Damage is mostly based on the item's <c=ltred>inherent damage properties<c=/>; for more information, see the Help on <c=cyan>Items<c=/>.  Heavy items will get a boost for <c=ltred>bashing<c=/> damage.  If an item does <c=ltred>cutting<c=/> or <c=ltred>piercing<c=/> damage, there's a chance that the sharp part won't hit your target!  This chance is reduced by high <c=ltgreen>throwing skill<c=/>; at very high levels, you're so skilled at throwing that you can always sink a knife's tip into your target.
+
+For launcher attacks, the range and damage are entirely dependent on the launcher and ammunition you're using, with ammunition playing a much more decisive role.  The accuracy is partially based on your launcher and ammunition, but it's also affected by your <c=ltgreen>perception<c=/>, and to a much lesser degree, <c=ltgreen>dexterity<c=/>.  It's also greatly affected by your <c=ltgreen>ranged combat<c=/> skill, and even more so by your <c=ltgreen>specific ranged weapon type skill<c=/> - handguns, submachine guns, shotguns, rifles, or bows.
+
+The accuracy of your attack is greatly affected by range.  Even a blind man can easily shoot an enemy at point-blank, but to hit an enemy that 50 meters away is much more challenging.  Accuracy also affects the damage you do - a very accurate attack will result in a headshot, which is almost always fatal, while poor attacks will only inflict a grazing hit.  If you're very innaccurate, you may shoot something several tiles away from where you were aiming!
+
+When aiming a ranged attack, the <c=ltred>trajectory<c=/> of your shot will be highlighted.  You should take note of things that lie in that trajectory!  Any <c=ltblue>monsters or humans<c=/> may be hit instead of your target; and <c=ltblue>barriers<c=/> like a small tree or a short wall may absorb your shot altogether; and some <c=ltblue>slight barriers<c=/> like a window won't stop your shot, but might reduce its damage.
+
+When throwing an item, the tile hit is calculated, the item is thrown, damage is dealt, and the item will either be destroyed or left on the tile where it landed.
+
+Firing a launcher is potentially more complex:
+  Launchers may be in <c=ltred>burst-fire mode<c=/>, in which case they will fire more than one shot.  If the first shot is off-target, then any subsequent shots will be even more off-target!  This effect is reduced by your specific weapon type skill, like submachine guns or rifles.  Firing <c=ltblue>tracer ammunition<c=/> further improves your skill to re-aim between rounds.  In burst-fire mode, if you kill your first target, then you may be able to re-aim at another enemy.  This happens automatically, and your ability to do so is dependent on your skill.
+  Some ammunition like buckshot will fire <c=ltred>pellets<c=/>.  Individual pellets are very innaccurate, but there are generally a lot of them, so you're very likely to hit your target - usually several times over!
+  Some ammunition is <c=ltred>armor-piercing<c=/>.  Most monsters aren't armored against the <c=ltred>piercing damage<c=/> of a bullet, but humans often are.  Armor-piercing rounds generally do a little less damage, but they reduce or ignore outright the damage-reducing effect of armor.
