@@ -12,11 +12,11 @@ Regardless of the type of an item, they all share certain properties.  You can v
 
 In addition to these universal base values, there are several <c=white>item types<c=/>, each of which has its own values:
 
-<c=white>Melee Weapons<c=/>:
+<c=ltblue>Melee Weapons:<c=/>
 Melee weapons are actually not a special type - since any item can be wielded as a weapon, "melee weapons" are just items with no special properties beyond that.
 However, certain items <c=white>are<c=/> flagged as being particularly suited for throwing.  They may be more accurate or more damaging that similar items; this will be described in the item's description.
 
-<c=white>Clothing<c=/>:
+<c=ltblue>Clothing<c=/>
 Clothing is any items that can be worn.  To wear an article of clothing, press <c=magenta>W<c=/> and then select the item.
 Clothing has the following properties:
 <c=white>Coverage:<c=/> A list of the body parts that the clothing covers.  This affects heat, armor, and encumbrance.
@@ -27,3 +27,23 @@ Clothing has the following properties:
   <c=ltblue>Torso or Arms:<c=/> The clothing is bulky and makes movements with your torso and arms clumsy.  You suffer a to-hit penalty in melee combat.
   <c=ltblue>Hands:<c=/> Your fine dexterity is hampered; however, since fine dexterity is only used for long-term projects like crafting, it's assumed that you take your gloves off temporarily for these tasks and the encumbrance has no effect.
   <c=ltblue>Legs or Feet:<c=/> The clothing makes running awkward, and the amount of AP required to move is increased.  Note that some items have a <c=white>negative<c=/> encumbrance, and they'll <c=white>decrease<c=/> the AP used for movement!
+<c=white>Armor:<c=/> Some clothing provides protection against damage.  There are three main damage types: <c=ltred>bashing<c=/> or blunt, <c=ltred>cutting<c=/> and <c=ltred>piercing<c=/>.  Clothing will protect against them differently; for instance, a leather jacket provides decent cutting protection, but little bashing protection.
+<c=white>Protection:<c=/> Some clothing provides environmental protection.  For instance, a gas mask will provide excellent environmental protection.  What this means depends on the body part(s) covered:
+  <c=ltblue>Eyes:<c=/> Protection against bright flashes of light.
+  <c=ltblue>Mouth:<c=/> Protection against poisonous gases and airbourne illnesses.
+  <c=ltblue>Others:<c=/> Protection against gases that have a contact effect (corrosive gases or irritants).
+
+
+<c=ltblue>Ammunition:<c=/>
+Ammunition (or ammo) is meant to be loaded into a tool or gun.  Some types of "ammunition" is actually an energy source, such as batteries or hydrogen cells.  Ammunition is <c=white>much more<c=/> important for ranged attacks than the gun used!  By itself, ammunition has no uses; it's only useful when loaded into another item.
+Ammunition has the following properties:
+<c=white>Type:<c=/> The category or caliber of the ammunition.  This determines what it can be loaded into.  Examples include "9mm," "shotgun shells," or "batteries."
+<c=white>Accuracy:<c=/> How accurate the ammo is.  This takes the form of a set of dice; for instance, "<c=ltblue>2d6 - 2<c=/>" means "roll two 6-sided dice and subtract 2 from the result."  The resulting roll is how far off you are from the intended target (measured in 1/10ths of a degree) - this means that <c=white>a low accuracy is better!<c=/>
+<c=white>Damage:<c=/> The base damage of the ammo.  This is treated as <c=ltred>piercing<c=/> damage, and the target's armor (if any) will treat it as such.
+<c=white>Armor Piercing:<c=/> Some ammunition has armor-piercing capabilities, enabling it to reduce the target's armor.  This is measured as a divisor; for instance, an armor pierce of <c=ltblue>3.0<c=/> means the target's armor will be divided by <c=ltblue>3<c=/> before damage is calculated.  Some ammo has an armor pierce of less than 1, meaning the target's armor will be <c=white>increased<c=/>!
+<c=white>Range:<c=/> The maximum range of the ammo, measured in tiles.
+<c=white>Pellets:<c=/> A few ammo types don't fire a single slug; instead, they fire several pellets.  The most common example is <c=ltblue>00 shot<c=/>, which fires 20 low-damage pellets.  Each pellet calculates its trajectory independently of the others.  Since there are so many, you're virtually guaranteed to hit!
+
+
+<c=ltblue>Launchers:<c=/>
+Launchers are weapons that fire ammunition.  Most of these are firearms, but a few other launchers, like a crossbow, exist.  Using a launcher is a multi-step process; first you need to <c=magenta>wield<c=/> the launcher with the <c=magenta>w<c=/> key; then you <c=magenta>reload<c=/> the launcher with the <c=magenta>r<c=/> key; and finally you <c=magenta>fire<c=/> the launcher with the <c=magenta>f<c=/> key.  Some launchers have multiple <c=ltgreen>firing modes<c=/>, and are capable of firing a single shot, or several shots at once.  To change the firing mode of a wielded launcher, press the <c=magenta>F<c=/> key.
