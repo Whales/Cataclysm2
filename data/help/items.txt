@@ -15,20 +15,35 @@ In addition to these universal base values, there are several <c=white>item type
 <c=ltblue>Melee Weapons:<c=/>
 Melee weapons are actually not a special type - since any item can be wielded as a weapon, "melee weapons" are just items with no special properties beyond that.
 However, certain items <c=white>are<c=/> flagged as being particularly suited for throwing.  They may be more accurate or more damaging that similar items; this will be described in the item's description.
+<c=yellow>Symbols:<c=/>
+<c=white>/<c=/> - An item that's probably good for wielding (colors vary).
+<c=white>*<c=/> - An item that's smaller (colors vary).
 
-<c=ltblue>Clothing<c=/>
-Clothing is any items that can be worn.  To wear an article of clothing, press <c=magenta>W<c=/> and then select the item.
+<c=ltblue>Clothing:<c=/>
+Clothing is any items that can be worn.  To <c=magenta>wear<c=/> an article of clothing, press <c=magenta>W<c=/> and then select the item.
+<c=yellow>Symbols and Colors:<c=/>
+<c=magenta>[<c=/> - Covers the head
+<c=pink>[<c=/> - Covers the eyes
+<c=yellow>[<c=/> - Covers the mouth
+<c=red>[<c=/> - Covers the torso (shirt)
+<c=ltred>[<c=/> - Covers the torso (jackets or coats)
+<c=ltblue>[<c=/> - Covers the hands
+<c=brown>[<c=/> - Covers the legs
+<c=blue>[<c=/> - Covers the feet
+<c=green>[<c=/> - No coverage (e.g. jewelry, holster, etc)
+<c=cyan>[<c=/> - Covers several body parts
+
 Clothing has the following properties:
-<c=white>Coverage:<c=/> A list of the body parts that the clothing covers.  This affects heat, armor, and encumbrance.
-<c=white>Storage Space:<c=/> How much extra volume you can carry while wearing this item.
-<c=white>Encumbrance:<c=/> Some items will make certain actions more difficult while you wear them.  This differs depending on what body part(s) the clothing covers:
+<c=brown>Coverage:<c=/> A list of the body parts that the clothing covers.  This affects heat, armor, and encumbrance.
+<c=brown>Storage Space:<c=/> How much extra volume you can carry while wearing this item.
+<c=brown>Encumbrance:<c=/> Some items will make certain actions more difficult while you wear them.  This differs depending on what body part(s) the clothing covers:
   <c=ltblue>Eyes:<c=/> The clothing hampers your view.  You'll suffer penalties to actions requiring <c=ltgreen>perception<c=/>.
   <c=ltblue>Mouth:<c=/> The clothing hampers your breathing.  Running is made a little more difficult; the amount of AP required to move is increased slightly.
   <c=ltblue>Torso or Arms:<c=/> The clothing is bulky and makes movements with your torso and arms clumsy.  You suffer a to-hit penalty in melee combat.
   <c=ltblue>Hands:<c=/> Your fine dexterity is hampered; however, since fine dexterity is only used for long-term projects like crafting, it's assumed that you take your gloves off temporarily for these tasks and the encumbrance has no effect.
   <c=ltblue>Legs or Feet:<c=/> The clothing makes running awkward, and the amount of AP required to move is increased.  Note that some items have a <c=white>negative<c=/> encumbrance, and they'll <c=white>decrease<c=/> the AP used for movement!
-<c=white>Armor:<c=/> Some clothing provides protection against damage.  There are three main damage types: <c=ltred>bashing<c=/> or blunt, <c=ltred>cutting<c=/> and <c=ltred>piercing<c=/>.  Clothing will protect against them differently; for instance, a leather jacket provides decent cutting protection, but little bashing protection.
-<c=white>Protection:<c=/> Some clothing provides environmental protection.  For instance, a gas mask will provide excellent environmental protection.  What this means depends on the body part(s) covered:
+<c=brown>Armor:<c=/> Some clothing provides protection against damage.  There are three main damage types: <c=ltred>bashing<c=/> or blunt, <c=ltred>cutting<c=/> and <c=ltred>piercing<c=/>.  Clothing will protect against them differently; for instance, a leather jacket provides decent cutting protection, but little bashing protection.
+<c=brown>Protection:<c=/> Some clothing provides environmental protection.  For instance, a gas mask will provide excellent environmental protection.  What this means depends on the body part(s) covered:
   <c=ltblue>Eyes:<c=/> Protection against bright flashes of light.
   <c=ltblue>Mouth:<c=/> Protection against poisonous gases and airbourne illnesses.
   <c=ltblue>Others:<c=/> Protection against gases that have a contact effect (corrosive gases or irritants).
@@ -36,14 +51,87 @@ Clothing has the following properties:
 
 <c=ltblue>Ammunition:<c=/>
 Ammunition (or ammo) is meant to be loaded into a tool or gun.  Some types of "ammunition" is actually an energy source, such as batteries or hydrogen cells.  Ammunition is <c=white>much more<c=/> important for ranged attacks than the gun used!  By itself, ammunition has no uses; it's only useful when loaded into another item.
+<c=yellow>Symbols and Colors:<c=/>
+<c=ltcyan>=<c=/> - Nails
+<c=yellow>=<c=/> - Batteries
+<c=ltgray>=<c=/> - .22 LR
+<c=ltblue>=<c=/> - 9mm
+<c=blue>=<c=/> - .45
+<c=pink>=<c=/> - 5.7x28mm
+<c=red>=<c=/> - Shotgun rounds
+<c=cyan>=<c=/> - 5.56 NATO
+<c=ltcyan>=<c=/> - 7.62 NATO
+<c=brown>=<c=/> - .50 BMG
+
 Ammunition has the following properties:
-<c=white>Type:<c=/> The category or caliber of the ammunition.  This determines what it can be loaded into.  Examples include "9mm," "shotgun shells," or "batteries."
-<c=white>Accuracy:<c=/> How accurate the ammo is.  This takes the form of a set of dice; for instance, "<c=ltblue>2d6 - 2<c=/>" means "roll two 6-sided dice and subtract 2 from the result."  The resulting roll is how far off you are from the intended target (measured in 1/10ths of a degree) - this means that <c=white>a low accuracy is better!<c=/>
-<c=white>Damage:<c=/> The base damage of the ammo.  This is treated as <c=ltred>piercing<c=/> damage, and the target's armor (if any) will treat it as such.
-<c=white>Armor Piercing:<c=/> Some ammunition has armor-piercing capabilities, enabling it to reduce the target's armor.  This is measured as a divisor; for instance, an armor pierce of <c=ltblue>3.0<c=/> means the target's armor will be divided by <c=ltblue>3<c=/> before damage is calculated.  Some ammo has an armor pierce of less than 1, meaning the target's armor will be <c=white>increased<c=/>!
-<c=white>Range:<c=/> The maximum range of the ammo, measured in tiles.
-<c=white>Pellets:<c=/> A few ammo types don't fire a single slug; instead, they fire several pellets.  The most common example is <c=ltblue>00 shot<c=/>, which fires 20 low-damage pellets.  Each pellet calculates its trajectory independently of the others.  Since there are so many, you're virtually guaranteed to hit!
+<c=brown>Type:<c=/> The category or caliber of the ammunition.  This determines what it can be loaded into.  Examples include "9mm," "shotgun shells," or "batteries."
+<c=brown>Accuracy:<c=/> How accurate the ammo is.  This takes the form of a set of dice; for instance, <c=ltblue>2d6 - 2<c=/> means "roll two 6-sided dice and subtract 2 from the result."  The resulting roll is how far off you are from the intended target (measured in 1/10ths of a degree) - this means that <c=white>a low accuracy is better!<c=/>
+<c=brown>Damage:<c=/> The base damage of the ammo.  This is treated as <c=ltred>piercing<c=/> damage, and the target's armor (if any) will treat it as such.
+<c=brown>Armor Piercing:<c=/> Some ammunition has armor-piercing capabilities, enabling it to reduce the target's armor.  This is measured as a divisor; for instance, an armor pierce of <c=ltblue>3.0<c=/> means the target's armor will be divided by <c=ltblue>3<c=/> before damage is calculated.  Some ammo has an armor pierce of less than 1, meaning the target's armor will be <c=white>increased<c=/>!
+<c=brown>Range:<c=/> The maximum range of the ammo, measured in tiles.
+<c=brown>Pellets:<c=/> A few ammo types don't fire a single slug; instead, they fire several pellets.  The most common example is <c=ltblue>00 shot<c=/>, which fires 20 low-damage pellets.  Each pellet calculates its trajectory independently of the others.  Since there are so many, you're virtually guaranteed to hit!
 
 
 <c=ltblue>Launchers:<c=/>
-Launchers are weapons that fire ammunition.  Most of these are firearms, but a few other launchers, like a crossbow, exist.  Using a launcher is a multi-step process; first you need to <c=magenta>wield<c=/> the launcher with the <c=magenta>w<c=/> key; then you <c=magenta>reload<c=/> the launcher with the <c=magenta>r<c=/> key; and finally you <c=magenta>fire<c=/> the launcher with the <c=magenta>f<c=/> key.  Some launchers have multiple <c=ltgreen>firing modes<c=/>, and are capable of firing a single shot, or several shots at once.  To change the firing mode of a wielded launcher, press the <c=magenta>F<c=/> key.
+Launchers are weapons that fire ammunition.  Most of these are firearms, but a few other launchers, like a crossbow, exist.  Using a launcher is a multi-step process; first you need to <c=magenta>wield<c=/> the launcher with the <c=magenta>w<c=/> key; then you <c=magenta>reload<c=/> the launcher with the <c=magenta>r<c=/> key; and finally you <c=magenta>fire<c=/> the launcher with the <c=magenta>f<c=/> key.  You can reload a launcher that's <c=white>not<c=/> currently wielded, press the <c=magenta>R<c=/> key and select the launcher.  You can also <c=magenta>unload<c=/> a launcher by pressing <c=magenta>U<c=/> and selecting the launcher.  Some launchers have multiple <c=ltgreen>firing modes<c=/>, and are capable of firing a single shot, or several shots at once.  To <c=magenta>change the firing mode<c=/> of a wielded launcher, press the <c=magenta>F<c=/> key.
+<c=yellow>Symbols and Colors:<c=/>
+<c=pink>)<c=/> - Nail gun
+<c=ltgray>)<c=/> - Handguns
+<c=red>)<c=/> - Shotguns
+<c=cyan>)<c=/> - Submachine guns (SMGs)
+<c=ltblue>)<c=/> - Hunting and sniping rifles
+<c=blue>)<c=/> - Assault and battle rifles
+<c=green>)<c=/> - Machine guns
+
+Launchers have the following properties:
+<c=brown>Type:<c=/> The type of the firearm, which corresponds to the skill used to improve your aim.  Some examples are <c=red>handgun<c=/>, <c=red>rifle<c=/>, or <c=red>crossbow<c=/>. 
+<c=brown>Ammo:<c=/> The ammunition type or caliber which it uses.  This corresponds to an ammunition's <c=brown>Type<c=/> property.
+<c=brown>Damage bonus:<c=/> An adjustment to the damage the currently-loaded ammunition provides.  This is generally -5 to 5; changing ammo is the best way to increase damage dealt!
+<c=brown>Accuracy:<c=/> How accurate the launcher is.  This takes the form of a set of dice; for instance, <c=ltblue>2d6 - 2<c=/> means "roll two 6-sided dice and subtract 2 from the result."  The resulting roll is how far off you are from the intended target (measured in 1/10ths of a degree) - this means that <c=white>a low accuracy is better!<c=/>  This accuracy is added to the ammo's accuracy.
+<c=brown>Recoil:<c=/> An adjustment to the recoil produced when firing.  Most ammunition generates <c=ltgreen>recoil<c=/> after firing, which decreases your accuracy on subsequent shots (until you pause to steady your aim).  Some launchers are more steady, and have less recoil; others, like handguns, are harder to steady, and produce more recoil.
+<c=brown>Durability:<c=/> How reliable the launcher is.  A lower durability means that the launcher will degrade faster.  A launcher in poor condition may fail to fire or jam outright!  Durability is generally between 75 and 100; 100 means that the launcher is perfect and will never jam.  Some home-made launchers will have much lower durability.
+<c=brown>Capacity:<c=/> How many rounds of ammunition the launcher can hold after reloading.  Reloading can take a lot of time, and is interrupted if an enemy attacks you, so a high capacity can be crucial for enabling you to finish a fight.
+<c=brown>Reload time:<c=/> How long it takes to reload the launcher.  Some launchers will reload only a single round at a time; these are generally much faster (but of course, you will only load one shot each time).
+<c=brown>Fire time:<c=/> How long it takes to fire the launcher.  Usually this is between 1 and 1.5 turns; it may be higher for some rifles or complex launchers.
+<c=brown>Fire modes:<c=/> The firing modes available.  Often this is just <c=red>Single shot<c=/>, which means you can only fire one shot at a time.  Other launchers may have two or three modes available.  Some SMGs with a high rate of fire allow you to unload 25 rounds in a single action!
+
+
+<c=ltblue>Food<c=/>
+Food is anything you can eat.  This includes nutritious food, drinks, and drugs.  Since all characters need to eat and drink to survive, food is the most important item in the game!  To <c=magenta>eat<c=/> food, press the <c=magenta>e<c=/> key and select the item.  This will take up a turn.
+<c=yellow>Symbols and Colors:<c=/>
+<c=white>$<c=/> - Food (colors vary)
+<c=white>!<c=/> - Drugs (colors vary)
+
+Food has the following properties:
+<c=brown>Nutrition:<c=/> The amount of raw calories available.  You will, on average, use up 1 unit of nutrition every 6 turns.
+<c=brown>Water:<c=/> The amount of hydration provider.  You will, on average, use up 1 unit of water every 6 turns.
+<c=brown>Special Effect:<c=/> Some foods impart a special effect; all drugs do.  This can range from the minor stimulant effect of a cigarette to the alleviating power of painkillers to hardcore tweaking on meth.  The effect of a drug will be described if you examine it in your inventory.
+
+
+<c=ltblue>Tools<c=/>
+Tools are items which have a special function.  To <c=magenta>apply<c=/> a tool, press <c=magenta>a<c=/> and select the tool.  Some tools use a power source, like batteries.  When this power source runs out, you can <c=magenta>reload<c=/> the tool by pressing the <c=magenta>R<c=/> key and selecting the tool.  You can also <c=magenta>unload<c=/> the fuel from a tool by pressing <c=magenta>U<c=/> and selecting the tool.
+<c=yellow>Symbols:<c=/>
+<c=white>:<c=/> - All tools (colors vary)
+
+Tools have the following properties:
+<c=brown>Fuel:<c=/> The ammunition type, if any, used to reload this tool.
+<c=brown>Max charges:<c=/> The maximum amount of fuel the tool can hold.  If the tool doesn't use fuel, this is how many times you can use the tool before it's totally used up.
+<c=brown>Time to apply:<c=/> How long it takes to apply the tool.
+<c=brown>Action:<c=/> What the tool actually does when applied.  This will be described in the tool's description, which you can read by viewing your <c=magenta>inventory<c=/> (press <c=magenta>i<c=/>) and selecting the tool.
+
+
+<c=ltblue>Containers<c=/>
+Containers are items which hold other items.  They are most commonly seen holding food and drink.  Containers are special; they can be treated like whatever's inside them.  This means that if you want to <c=magenta>eat<c=/> its contents, you can do so by pressing <c=magenta>e<c=/>.  You can also <c=magenta>unload<c=/> a container by pressing <c=magenta>U<c=/>.  Watertight containers can be very valuable, as they're the only way to transport precious, vital water!  You can use them to scoop up water from a pond or other source.  Simply <c=magenta>examine<c=/> a water tile by pressing <c=magenta>x<c=/>, and you'll be prompted to select a container to fill with water.
+Symbols and colors:
+<c=ltcyan>(<c=/> - Plastic container
+<c=cyan>(<c=/> - Glass container
+<c=white>(<c=/> - Other containers (color may vary)
+
+Containers have the following property:
+<c=brown>Capacity:<c=/> How much space the container can hold.  Measured in the same units as items' volume.  As a rule of thumb, one drink of water takes up <c=white>10 units<c=/> of capacity.
+
+
+<c=ltblue>Corpses<c=/>
+Corpses are the dead body of a person or monster.  They're usually left behind after you kill something (unless you totally obliterated them).  Corpses tend to be very heavy, and there's often not much use for carrying them around.  However, you can <c=magenta>butcher<c=/> a corpse by standing over it and pressing <c=magenta>B<c=/>.  This requires that you have some <c=ltgreen>sharp item<c=/> in your inventory.  Depending on the size (smaller is better) and sharpness of your butching tool (the best one will automatically be used), and your <c=ltblue>survival skill<c=/>, you'll receive a number of <c=ltblue>chunks of meat<c=/> from the corpse.  Some corpses may offer others things to the skilled butcher, like <c=ltblue>fur pelts<c=/>, <c=ltblue>vital glands<c=/>, or even more exotic rewards.
+<c=yellow>Symbol:<c=/>
+<c=white>&<c=/> - A corpse.  The color will match the color of its living counterpart.
