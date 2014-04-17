@@ -1,0 +1,80 @@
+<c=ltblue>Command Line Options<c=/>
+
+<c=blue>--test<c=/>
+Enable test mode.  This unlocks cheat commands and provides additional information.  For instance, the exact amount of damage your attacks deal will be displayed, and your exact location will be included on the world map.
+
+<c=blue>--debug<c=/>
+Enable debug mode.  This will enable in-depth information about game mechanics, such as AI state.
+
+<c=blue>--data-dir <c=green><directory><c=/>
+Set the data directory.  This directory is where game data is stored (files which defined items, monsters, and more).
+
+<c=blue>--cuss-dir <c=green><directory><c=/>
+Set the cuss directory.  This directory is where cuss files are stored.  These files define the various user interfaces in the game.
+
+<c=blue>--help<c=/>
+Display a short help, listing all command line options.
+
+<c=blue>--version<c=/>
+Print the current version of Cataclysm 2.
+
+
+<c=ltblue>Configuration<c=/>
+
+Currently, there is only one user-configurable file.  <c=green>keybindings.txt<c=/>, found in the <c=green>data directory<c=/>, contains a list of keys, followed by the command they're bound to.  The format for each line is:
+<c=ltblue><list of keys><c=/>  <c=white>=<c=/>  <c=green><command name><c=/>
+
+The list of keys can contain spaces; these are ignored.  The exception is for <c=white>special keys<c=/>, which must be surrounded by spaces.  The special keys available for binding are:
+<c=white>Key             Name in keybindings.txt<c=/>
+Arrow keys      UP, DOWN, LEFT, RIGHT
+Escape          ESC
+Enter/Return    ENTER
+Home            HOME
+End             END
+Backspace       BACKSPACE or BKSP
+
+
+<c=ltblue>Modding<c=/>
+
+Cataclysm 2 is extensively moddable.  Almost everything in the game is defined by plain-text data files, giving anyone the ability to add or edit items, monsters, terrain, and even map definitions.
+There is a <c=ltred>Developer's Wiki<c=/> available at <c=cyan>http://cata2dev.wikia.com/<c=/>.  This wiki explains in detail the layout of each data file.  Please see the wiki for more in-depth instructions on how to edit these.
+For help, you can join <c=red>#cataclysm2<c=/> on <c=red>irc.freenode.net<c=/>
+
+The data files are:
+
+<c=brown>biomes.dat:<c=/>
+Contains definitions for <c=ltgreen>biomes<c=/>; different areas of the world map which define what terrain to place and what monsters live there.
+
+<c=brown>fields.dat<c=/>
+Contains definitions for <c=ltgreen>fields<c=/>, which are active effects on the map, such as fire, smoke, acid, etc.
+
+<c=brown>furniture.dat<c=/>
+Contains definitions for <c=ltgreen>furniture<c=/>, items which sit on top of map terrain.  Furniture cannot be picked up, but it can be moved around.
+
+<c=brown>item_groups.dat<c=/>
+Contains lists of items.  These lists can be referenced in map layouts or monster equipment lists.
+
+<c=brown>items.dat<c=/>
+Defines all the <c=ltgreen>items<c=/> in the game.
+
+<c=brown>monster_genera.dat<c=/>
+Defines <c=ltgreen>monster genera<c=/> (that's the plural of genus).  A genus is a "family" of monsters which may share common traits or properties.
+
+<c=brown>monsters.dat<c=/>
+Contains definitions for <c=ltgreen>monsters<c=/>.
+
+<c=brown>motd.txt<c=/>
+Contains the "message of the day," a text message displayed on the opening screen of the game.
+
+<c=brown>professions.dat<c=/>
+Lists the various <c=ltgreen>professions<c=/> available for selection during character creation, along with the skills and items each possesses.
+
+<c=brown>terrain.dat<c=/>
+Contains definitions for the <c=ltgreen>terrain<c=/> in the game.  Used during map generation and when writing a map layout.
+
+<c=brown>world_terrain.dat<c=/>
+Contains definitions for the <c=ltgreen>world terrain<c=/> in the game.  Referenced in biomes.dat.  World terrain is a large-scale terrain, displayed on the world map.  Each world terrain has at least one map layout associated with it.
+
+
+<c=ltblue>Map Layouts<c=/>
+All maps in Cataclysm 2 are generated from a data file.  These data files are found in <c=ltblue>data/mapgen<c=/>.  Instructions for writing a map layout can be found at <c=cyan>http://cata2dev.wikia.com/wiki/Map_layouts<c=/>.
