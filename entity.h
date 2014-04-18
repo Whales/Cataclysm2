@@ -96,6 +96,8 @@ public:
   int get_net_pain();
   int get_pain_speed_penalty();
 
+  int get_smell();
+
 // AI
   virtual void take_turn();
   virtual bool try_goal(AI_goal goal);

@@ -348,7 +348,7 @@ bool Monster::can_sense(Entity* entity)
   }
 // TODO:  Use a range other than 10
   if (has_sense(SENSE_SMELL) &&
-      GAME.map->senses(pos, entity->pos, 10, SENSE_SMELL)) {
+      GAME.map->senses(pos, entity->pos, entity->get_smell(), SENSE_SMELL)) {
     return true;
   }
 // TODO: Other senses (e.g. echolocation)

@@ -32,6 +32,8 @@ struct Status_effect
   Status_effect(Status_effect_type _type, int _duration, int _level = 1);
   ~Status_effect();
 
+  Status_effect& operator=(const Status_effect& rhs);
+
   bool load_data(std::istream& data, std::string owner_name);
   std::string get_name();
 

@@ -7,7 +7,7 @@ enum Trait_id
 {
   TRAIT_NULL = 0,
   TRAIT_FLEET,        // Terrain movement cost of 100 is effectively 90
-  TRAIT_QUICK,        // +5 AP each turn
+  TRAIT_QUICK,        // +5% AP each turn
   TRAIT_LIGHT_EATER,  // Hunger increases more slowly
   TRAIT_CAMEL,        // Thirst increases more slowly
   TRAIT_NIGHT_VISION, // Sight radius is better at night

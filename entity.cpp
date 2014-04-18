@@ -300,6 +300,10 @@ int Entity::get_speed()
   for (int i = 0; i < effects.size(); i++) {
     ret += effects[i].speed_mod();
   }
+
+  if (has_trait(TRAIT_QUICK)) {
+    ret = ret + (ret + 19) / 20; // "+ 19" means we always round up.
+  }
   return ret;
 }
 
@@ -472,6 +476,15 @@ int Entity::get_pain_speed_penalty()
   }
   int ret = p / 4;
   return (ret > 50 ? 50 : ret);
+}
+
+// TODO: Overload for monsters?
+int Entity::get_smell()
+{
+  if (has_trait(TRAIT_SMELLY)) {
+    return 18;
+  }
+  return 10;
 }
 
 void Entity::take_turn()
@@ -692,7 +705,11 @@ void Entity::move_to(Map* map, int x, int y, int z)
 /* If get_movement_cost() is 100, we just use the "normal" movement cost;
  * if it's 200, movement takes twice as long, etc.
  */
-    int ap_cost = (map->move_cost(x, y, z) * get_movement_cost()) / 100;
+    int base_move_cost = map->move_cost(x, y, z);
+    if (has_trait(TRAIT_FLEET) && base_move_cost == 100) {
+      base_move_cost = 90;
+    }
+    int ap_cost = (base_move_cost * get_movement_cost()) / 100;
     use_ap(ap_cost);
   }
 // Now add the furniture we're dragged to its new location
@@ -842,11 +859,21 @@ void Entity::start_turn()
       }
     }
   }
-// Increment hunger and thirst when appropriate...
-// TODO: Don't hardcode these values?
-  if (GAME.minute_timer(6)) {
+// Increment hunger, thirst, and fatigue when appropriate...
+  int hunger_interval = 6, thirst_interval = 6, fatigue_interval = 6;
+  if (has_trait(TRAIT_LIGHT_EATER)) {
+    hunger_interval += 2;
+  }
+  if (has_trait(TRAIT_CAMEL)) {
+    thirst_interval += 2;
+  }
+  if (GAME.minute_timer(hunger_interval)) {
     hunger++;
+  }
+  if (GAME.minute_timer(thirst_interval)) {
     thirst++;
+  }
+  if (GAME.minute_timer(fatigue_interval)) {
     fatigue++;
   }
 
@@ -1195,8 +1222,16 @@ bool Entity::eat_item_uid(int uid)
     }
   }
 
-  if (food->effect.type != STATUS_NULL) {
-    add_status_effect( food->effect );
+  if (food->effect.type != STATUS_NULL &&
+      (food->effect_chance >= 100 || rng(1, 100) <= food->effect_chance)) {
+    Status_effect effect = food->effect;
+    if (has_trait(TRAIT_LIGHTWEIGHT)) {
+      effect.duration *= 1.33;
+      if (effect.level > 1 && rng(1, 5) < effect.level) {
+        effect.level++;
+      }
+    }
+    add_status_effect( effect );
   }
 
   it->charges--;

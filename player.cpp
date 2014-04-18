@@ -199,7 +199,11 @@ int Player::current_weight()
 int Player::maximum_weight()
 {
 // 25 pounds, plus 10 per point of strength; 10 strength = 125 lbs
-  return 250 + 100 * stats.strength;
+  int ret = 250 + 100 * stats.strength;
+  if (has_trait(TRAIT_BAD_BACK)) {
+    ret = ret * .8;
+  }
+  return ret;
 }
 
 int Player::current_volume()
@@ -216,6 +220,9 @@ int Player::maximum_volume()
   int ret = 0;
   for (int i = 0; i < items_worn.size(); i++) {
     ret += items_worn[i].get_volume_capacity();
+  }
+  if (has_trait(TRAIT_PACKMULE)) {
+    ret *= 1.2;
   }
   return ret;
 }
@@ -607,6 +614,11 @@ void Player::take_damage_no_armor(Damage_type damtype, int damage,
                                   std::string reason, Body_part part)
 {
   current_hp[ convert_to_HP(part) ] -= damage;
+  int min_pain = damage / 2, max_pain = damage;
+  if (has_trait(TRAIT_PAIN_RESISTANT)) {
+    min_pain /= 2;
+    max_pain = max_pain * .75;
+  }
   pain += rng(damage / 2, damage);
 }
 

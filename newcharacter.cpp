@@ -447,6 +447,14 @@ bool Player::create_new_character()
 
   skills = profession->skills;
 
+// The "Durable" trait needs to be set up here.
+  if (has_trait(TRAIT_DURABLE)) {
+    for (int i = 0; i < HP_PART_MAX; i++) {
+      current_hp[i] = 115;
+      max_hp[i] = 115;
+    }
+  }
+
   return true;
 }
 

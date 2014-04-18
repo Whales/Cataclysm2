@@ -21,6 +21,18 @@ Status_effect::~Status_effect()
 {
 }
 
+Status_effect& Status_effect::operator=(const Status_effect& rhs)
+{
+  type = rhs.type;
+  duration = rhs.duration;
+  level = rhs.level;
+  step_down.clear();
+  for (int i = 0; i < rhs.step_down.size(); i++) {
+    step_down.push_back(rhs.step_down[i]);
+  }
+  return *this;
+}
+
 bool Status_effect::load_data(std::istream& data, std::string owner_name)
 {
   std::string ident, junk;
