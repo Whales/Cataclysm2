@@ -590,6 +590,10 @@ int Entity::sight_range(int light_level)
       ret = 4;
     }
   }
+  if (has_trait(TRAIT_MYOPIC) && ret > 6 &&
+      !is_wearing_item_flag(ITEM_FLAG_GLASSES)) {
+    ret = 6;
+  }
   return ret;
 }
 
@@ -1317,6 +1321,16 @@ bool Entity::is_wearing_item(Item* it, int uid)
   for (int i = 0; i < items_worn.size(); i++) {
     if (items_worn[i].is_real() && 
         (&(items_worn[i]) == it || items_worn[i].get_uid() == uid)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Entity::is_wearing_item_flag(Item_flag flag)
+{
+  for (int i = 0; i < items_worn.size(); i++) {
+    if (items_worn[i].has_flag(flag)) {
       return true;
     }
   }

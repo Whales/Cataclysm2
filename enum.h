@@ -119,6 +119,7 @@ enum Item_flag
   ITEM_FLAG_CONSTANT,   // "constant_volume_weight" - doesn't use usual food v/w
   ITEM_FLAG_RELOAD_SINGLE,  // "reload_single" - reloading loads a single round
   ITEM_FLAG_OPEN_END,   // "open_end" - for containers.  Can hold 5x limit.
+  ITEM_FLAG_GLASSES,    // Prevent short-sightedness
   ITEM_FLAG_MAX
 };
 

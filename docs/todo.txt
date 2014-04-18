@@ -98,5 +98,4 @@ Traits:
   Sturdy Constitution
   Robust Genetics
   Chemical Imbalance
-  Myopic
   Bad Hearing

@@ -166,6 +166,7 @@ public:
   bool is_wielding_item(Item* it, int uid = -1);
   bool is_wearing_item_uid (int uid); // is_wearing_item(NULL, uid)
   bool is_wearing_item (Item* it, int uid = -1);
+  bool is_wearing_item_flag(Item_flag flag);
   bool is_carrying_item_uid(int uid); // is_carrying_item(NULL, uid)
   bool is_carrying_item(Item* it, int uid = -1);
   bool has_item_uid(int uid);         // has_item(NULL, uid)

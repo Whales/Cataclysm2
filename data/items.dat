@@ -595,6 +595,20 @@ clothing
 done
 
 clothing
+  name: glasses
+  description:
+    A pair of prescription eyeglasses.  Wearing these will allow short-sighted
+    individuals to see normally.
+  done
+  glyph: [ pink black
+  weight: 1
+  volume: 3
+  armor_cut: 2
+  covers: eyes
+  flags: glasses plural
+done
+
+clothing
   name: safety glasses
   description:
     Durable plastic glasses, designed to protect against light damage to the
@@ -602,10 +616,12 @@ clothing
   done
   glyph: [ pink black
   weight: 1
-  volume: 3
+  volume: 4
   armor_bash: 1
   armor_cut:  6
   armor_pierce: 2
+  covers: eyes
+  flags: plural
 done
 
 clothing
