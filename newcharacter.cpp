@@ -455,6 +455,17 @@ bool Player::create_new_character()
     }
   }
 
+// Myopic characters get free glasses
+  if (has_trait(TRAIT_MYOPIC)) {
+    Item_type* glasses = ITEM_TYPES.lookup_name("glasses");
+    if (!glasses) {
+      debugmsg("No item 'glasses' exists - required for the Myopic trait!");
+      return false;
+    }
+    Item tmp_it(glasses);
+    items_worn.push_back(tmp_it);
+  }
+
   return true;
 }
 
