@@ -14,5 +14,5 @@ i_inventory </> 80 24 17 1 BG </> 0 0 80 24 0 0 134974308 69 0 0 87 7 0 0 4 73 1
 2 text_instructions </> 42 0 37 2 0 0 0  </>
 3 list_clothing </> 42 5 28 19 0 0 134973320 0 
 3 list_clothing_weight </> 70 5 4 19 0 1 134970744 0 
-3 list_clothing_volume </> 75 5 4 19 0 1 0 0 
+3 list_clothing_volume </> 75 5 5 19 0 1 0 0 
 0 

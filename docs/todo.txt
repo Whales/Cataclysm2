@@ -95,7 +95,6 @@ Combat:
   Critical hits and headshots!
 
 Traits:
-  Night vision
   Sturdy Constitution
   Robust Genetics
   Chemical Imbalance

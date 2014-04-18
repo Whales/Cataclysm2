@@ -1279,7 +1279,8 @@ void Game::set_temp_light_level(int level)
 void Game::draw_all()
 {
   update_hud();
-  map->draw(w_map, &entities, player->pos);
+  int range = player->sight_range( get_light_level() );
+  map->draw(w_map, &entities, player->pos, range);
   w_map->refresh();
 }
   

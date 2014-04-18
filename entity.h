@@ -114,6 +114,7 @@ public:
   virtual int  get_stomach_maximum();
 
 // World interaction
+  int sight_range(int light_level = 50);
   virtual bool can_sense  (Entity* entity);
   virtual bool can_see    (Map* map, Tripoint target);
   virtual bool can_see    (Map* map, int x, int y, int z = 999);

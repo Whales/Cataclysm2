@@ -1935,7 +1935,7 @@ void Map::draw(Window* w, Entity_pool *entities, int refx, int refy, int refz,
     winy--; // Only odd numbers are allowed!
   }
   int minx = refx - (winx / 2), maxx = refx + ( (winx - 1) / 2 );
-  int miny = refy - (winy / 2), maxy = refy + ( (winy - 1) / 2 );
+  int miny = refy - (winy / 2) - 1, maxy = refy + ( (winy - 1) / 2 );
   draw_area(w, entities, refx, refy, refz, minx, miny, maxx, maxy, range,
             sense);
 }

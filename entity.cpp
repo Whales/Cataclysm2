@@ -580,6 +580,19 @@ int Entity::get_stomach_maximum()
   return 60;
 }
 
+int Entity::sight_range(int light_level)
+{
+  int ret = light_level;
+  if (has_trait(TRAIT_NIGHT_VISION)) {
+    if (ret < 3) {
+      ret = ret * 2;
+    } else if (ret == 3) {
+      ret = 4;
+    }
+  }
+  return ret;
+}
+
 bool Entity::can_sense(Entity* entity)
 {
   return false;
@@ -598,7 +611,8 @@ bool Entity::can_see(Map* map, int x, int y, int z)
   if (!map || !has_sense(SENSE_SIGHT)) {
     return false;
   }
-  return map->senses(pos.x, pos.y, pos.z, x, y, z, SIGHT_DIST, SENSE_SIGHT);
+  int range = sight_range( GAME.get_light_level() );
+  return map->senses(pos.x, pos.y, pos.z, x, y, z, range, SENSE_SIGHT);
 }
 
 bool Entity::can_move_to(Map* map, Tripoint move)
