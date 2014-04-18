@@ -92,7 +92,6 @@ Combat:
   Allow cycling through ranged combat targets with > and <
     Obviously entities are valid "targets" for these purposes... anything else?
     Maybe gas pumps, etc?
-  Critical hits and headshots!
 
 Traits:
   Sturdy Constitution
