@@ -1121,6 +1121,17 @@ void Entity::wear_item_uid(int uid)
   use_ap(300);
 }
 
+void Entity::take_off_item_uid(int uid)
+{
+  for (int i = 0; i < items_worn.size(); i++) {
+    if (items_worn[i].get_uid() == uid) {
+      add_item( items_worn[i] );
+      items_worn.erase( items_worn.begin() + i );
+      use_ap(300);  // TODO: Don't hardcode this.
+    }
+  }
+}
+
 void Entity::apply_item_uid(int uid)
 {
 // Find the item.
@@ -1393,6 +1404,18 @@ std::string Entity::wear_item_message(Item &it)
   }
   std::stringstream ret;
   ret << get_name_to_player() << " " << conjugate("put") << " on " <<
+         get_possessive() << " " << it.get_name() << ".";
+  return ret.str();
+}
+
+std::string Entity::take_off_item_message(Item &it)
+{
+  int uid = it.get_uid();
+  if (!is_wearing_item_uid(uid)) {
+    return "You're not wearing that.";
+  }
+  std::stringstream ret;
+  ret << get_name_to_player() << " " << conjugate("take") << " off " <<
          get_possessive() << " " << it.get_name() << ".";
   return ret.str();
 }

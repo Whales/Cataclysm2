@@ -128,7 +128,10 @@ bool Player::add_item(Item item)
     GAME.add_msg("You cannot carry that much weight.");
     return false;
   }
-// TODO: Prompt player to wear/wield/etc the item
+/* TODO: add_item() gets called when taking off an item.  If there's no room in
+ *       our inventory for the item... we'll ask the player if they want to put
+ *       it on.  Not great!
+ */
   if (current_volume() + item.get_volume() > maximum_volume()) {
     if (item.get_item_class() == ITEM_CLASS_CLOTHING) {
       if (query_yn("No room for that %s.  Put on now?",

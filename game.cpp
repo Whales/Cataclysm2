@@ -535,6 +535,12 @@ there.<c=/>", map->get_name(examine).c_str());
       player->wear_item_uid(it.get_uid());
     } break;
 
+    case IACTION_TAKE_OFF: {
+      Item it = player->inventory_single();
+      add_msg( player->take_off_item_message(it) );
+      player->take_off_item_uid(it.get_uid());
+    } break;
+
     case IACTION_APPLY: {
       Item it = player->inventory_single();
       Item_action act = it.default_action();

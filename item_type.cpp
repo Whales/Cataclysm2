@@ -199,7 +199,7 @@ std::string Item_type_tool::get_property_description()
   std::stringstream ret;
   ret << "<c=yellow>Fuel:<c=/> ";
   if (fuel.empty()) {
-    ret << "<c=dkgray>N/A<c=/>";
+    ret << "<c=dkgray>N/A<c=/>" << std::endl;
   } else {
     ret << fuel << std::endl;
   }

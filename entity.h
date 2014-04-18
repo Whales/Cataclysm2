@@ -152,13 +152,14 @@ public:
   Item  remove_item_ref(Item* it, int count = 1);
   Item  remove_item_uid(int uid, int count = 1);
 // These functions just handle the meat - messages are handled in Message below
-  void  wield_item_uid (int uid);
+  void  wield_item_uid   (int uid);
   void  sheath_weapon();
-  void  wear_item_uid  (int uid);
-  void  apply_item_uid (int uid);
+  void  wear_item_uid    (int uid);
+  void  take_off_item_uid(int uid);
+  void  apply_item_uid   (int uid);
   void  apply_item_action(Item* it, Tool_action* action);
-  bool  eat_item_uid   (int uid);
-  void  reload_prep    (int uid);
+  bool  eat_item_uid     (int uid);
+  void  reload_prep      (int uid);
   virtual Item pick_ammo_for(Item *it);
   virtual Tripoint pick_target_for(Item *it);
 
@@ -179,11 +180,12 @@ public:
  *            move this stuff to player.cpp - if only to make it clear that we
  *            don't expect NPCs to be generating these?
  */
-  virtual std::string drop_item_message (Item &it);
-  virtual std::string wear_item_message (Item &it);
-  virtual std::string wield_item_message(Item &it);
-  virtual std::string apply_item_message(Item &it);
-  virtual std::string eat_item_message  (Item &it);
+  virtual std::string drop_item_message     (Item &it);
+  virtual std::string wear_item_message     (Item &it);
+  virtual std::string take_off_item_message (Item &it);
+  virtual std::string wield_item_message    (Item &it);
+  virtual std::string apply_item_message    (Item &it);
+  virtual std::string eat_item_message      (Item &it);
   virtual std::string advance_fire_mode_message();  // Only applies to weapon
   virtual std::string sheath_weapon_message();
   std::string get_dragged_name();
