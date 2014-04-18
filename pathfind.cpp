@@ -534,19 +534,29 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
 
   while (!done && !open_points.empty()) {
 // 1) Find the lowest cost in open_points, and set (current) to that point
+// (if multiple points are tied, randomly select one)
     int lowest_cost = -1, point_index = -1;
     Tripoint current;
     int current_g = 0;
+    std::vector<int> lowest_indices;
     for (int i = 0; i < open_points.size(); i++) {
       Tripoint p = open_points[i];
       int score = gscore[p.x][p.y][p.z] + hscore[p.x][p.y][p.z];
       if (i == 0 || score < lowest_cost) {
         lowest_cost = score;
-        current = p;
-        current_g = gscore[p.x][p.y][p.z];
-        point_index = i;
+        lowest_indices.clear();
+        lowest_indices.push_back(i);
+      } else if (score == lowest_cost) {
+        lowest_indices.push_back(i);
       }
     }
+    if (lowest_indices.empty()) { // Should never happen
+      point_index = 0;
+    } else {
+      point_index = lowest_indices[ rng(0, lowest_indices.size() - 1) ];
+    }
+    current = open_points[point_index];
+    current_g = gscore[current.x][current.y][current.z];
 // 2) Check if (current) is the endpoint
     if (current == end) {
       done = true;
