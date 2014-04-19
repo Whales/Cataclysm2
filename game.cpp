@@ -606,7 +606,9 @@ there.<c=/>", map->get_name(examine).c_str());
         Tripoint target = target_selector(x, y, range, true);
         if (target.x == -1) { // We canceled
           add_msg("Never mind.");
-        } else {
+// If we target ourself, confirm that we want to shoot ourselves...
+        } else if (target != player->pos ||
+                   msg_query_yn("Really target yourself?")) {
 // If we actually targeted an entity, set that to our last target.
           Entity* targeted_entity = entities.entity_at(target);
           if (targeted_entity) {
@@ -1055,7 +1057,19 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
                     entity_hit->get_name_to_player().c_str(),
                     dam);
           }
-          entity_hit->take_damage(DAMAGE_PIERCE, dam, "you");
+// Figure out the part hit, in case it's the player or NPC
+          Body_part part_hit;
+          if (hit_type == RANGED_HIT_HEADSHOT) {
+            part_hit = random_head_part();
+          } else if (hit_type == RANGED_HIT_CRITICAL) {
+            part_hit = BODY_PART_TORSO;
+          } else if (hit_type == RANGED_HIT_GRAZE || one_in(3)) {
+            part_hit = random_extremity();
+          } else {
+            part_hit = BODY_PART_TORSO;
+          }
+            
+          entity_hit->take_damage(DAMAGE_PIERCE, dam, shooter_name, part_hit);
         } //for (int i = 0; i < entities_hit.size(); i++)
       } // Sanity check passed
     } // for (int pellet = 0; pellet < attack.pellets; pellet++)
