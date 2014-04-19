@@ -1,7 +1,6 @@
 Worldmap Generation:
-  -Covert lakes to ocean when they're ocean-adjacent
-  -Draw in city details!
-  -Roads between cities
+  -Convert lakes to ocean when they're ocean-adjacent
+    -We do this, but it's buggy...
 
 Graphics:
   -SDL integration with cuss stuff
@@ -47,7 +46,6 @@ Data (general):
    string lookup is a slow function, especially compared to a pointer deref.
 
 Monsters:
-  -Add natural armor to Monster_type
 
 Items:
   -Items currently all generate with an HP of 100, and it's only used when
@@ -76,8 +74,7 @@ AI and Pathing:
         }
 
 Status effects:
-  Stuff like "Stunned" "Blinded" "Poisoned" etc. 
-  Need to add this to:
+  Need to add these to:
     -Melee attacks
     -Ranged attacks
     -Fields
