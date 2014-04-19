@@ -1,5 +1,6 @@
 #include "enum.h"
 #include "stringfunc.h"
+#include "rng.h"  // For random body part functions
 
 Sense_type lookup_sense_type(std::string name)
 {
@@ -90,6 +91,40 @@ std::vector<Body_part> get_body_part_list(std::string name)
     }
   }
   return ret;
+}
+
+Body_part random_head_part()
+{
+  if (one_in(10)) {
+    return BODY_PART_EYES;
+  }
+  if (one_in(4)) {
+    return BODY_PART_MOUTH;
+  }
+  return BODY_PART_HEAD;
+}
+
+Body_part random_extremity()
+{
+  switch (rng(1, 16)) {
+    case  1: return BODY_PART_LEFT_HAND;   break;
+    case  2: return BODY_PART_RIGHT_HAND;  break;
+    case  3: return BODY_PART_LEFT_FOOT;   break;
+    case  4: return BODY_PART_RIGHT_FOOT;  break;
+    case  5:
+    case  6:
+    case  7: return BODY_PART_LEFT_ARM;    break;
+    case  8:
+    case  9:
+    case 10: return BODY_PART_RIGHT_ARM;   break;
+    case 11:
+    case 12:
+    case 13: return BODY_PART_LEFT_LEG;    break;
+    case 14:
+    case 15:
+    case 16: return BODY_PART_RIGHT_LEG;   break;
+  }
+  return BODY_PART_RIGHT_LEG;
 }
 
 HP_part lookup_HP_part(std::string name)
