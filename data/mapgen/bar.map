@@ -1,0 +1,424 @@
+### FILENAME GOES HERE
+#
+# The following tags are used: (# marks a line or part of a line as a comment)
+#
+# "name:" - Required.  A description of this spec.  It should appear first for
+#           debugging reasons.
+# "type:" - Required.  The World_terrain name this spec applies to.  See
+#           world_terrain.dat for a list of World_terrains.
+# "adjacent" - If this tag is present, then this map is an "adjacency" map.
+#              This should appear before "base_terrain:" or "tile:" lines.
+# "base_terrain:" - Recommended.  A terrain specification to be used for tiles
+#                   which are not defined in the map section.
+# "weight:" - A weight used when randomly choosing specs.  If omitted, the
+#             weight defaults to 100.  A spec with weight 200 is twice as likely#             to be used as one with weight 100.
+# "tile:" - Defines a terrain used in the map section.
+# "items:" - Defines an item drop used in the map section.
+# "map:" - Defines the start of the map section.
+# "endmap" - Defines the end of the map section.
+# "done" - Required.  Marks the end of this spec.
+#
+# See the bottom of this file for details on base_terrain and tile terrain
+# specifications, item drop specifications, and adjacency maps.
+
+
+name: std_bar_weend_1
+subname: std_bar_weend
+type: bar
+tile: #       = stone wall
+tile: .       = floor
+tile: o       = dirt / grass
+tile: ,       = pavement
+tile: +       = closed door
+tile: W       = toilet
+tile: K       = sink
+tile: D       = dumpster
+tile: "       = window
+
+tile: tTbd = floor
+furniture: tT     = table
+furniture: b      = billiard table
+furniture: d      = desk
+
+
+tile: LNMV = shelves
+item_group: 50 LV = items_hard_liquor
+item_group: 50 NM = items_snacks
+shuffle: LNMV
+
+tile: F = fridge
+item_group: 60 F = items_fridge_snacks
+
+tile: %$ = counter
+item_group: 60 %  = items_hard_liquor
+num_items: $ = w:1 c: 1d1; 2-barreled shotgun / w:4 c: 1d4-2; bundle of money
+
+#randomize enter door
+tile: r = closed door
+tile: we = stone wall
+shuffle: rwe
+
+#randomize chairs
+tile: cC = floor
+furniture: cC = plastic chair
+
+#randomize stools
+tile: sSzZ = floor
+furniture: sS = stool
+
+shuffle: sSzZ
+
+map:
+ooooooo,,,,,,,,,,,ooooooo
+ooooooo,,,,,,,,,,,ooooooo
+ooo######e##r##w######ooo
+ooo#.C..........tc.c.#ooo
+ooo#cTc.........c..tc#ooo
+ooo#.................#ooo
+ooo".Ctc...bb...cTc..#ooo
+ooo#.................#ooo
+ooo#..c...........ctc#ooo
+ooo#.Ct...Zbb......C.#ooo
+ooo#..c.............."ooo
+ooo#....t......c.....#ooo
+ooo#Ctc....bb.ct..cTC#ooo
+ooo####....z...c.#####ooo
+ooo#WK#..........#.c.#ooo
+ooo"..+...zsSZszs#.d."ooo
+ooo####...%%%%%$%#...#ooo
+ooo"..+..........+...#ooo
+ooo#WK#.ZsNMLVFFF#FV.#ooo
+ooo#################+#ooo
+oooooooooooooo,,DD,,,,ooo
+oooooooooooooo,,,,,,,,ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+
+name: std_bar_weend_2
+subname: std_bar_weend
+type: bar
+tile: #       = stone wall
+tile: .       = floor
+tile: o       = dirt / grass
+tile: ,       = pavement
+tile: +       = closed door
+tile: W       = toilet
+tile: K       = sink
+
+
+tile: D       = dumpster
+tile: 1234       = pavement
+shuffle: D1234
+
+tile: tTb = floor
+furniture: tT     = table
+furniture: b      = billiard table
+
+
+tile: LNVM = shelves
+item_group: 50 LV = items_hard_liquor
+item_group: 50 NM = items_snacks
+shuffle: LNVM
+
+tile: F = fridge
+item_group: 60 F = items_fridge_snacks
+
+tile: %$ = counter
+item_group: 60 %  = items_hard_liquor
+num_items: $ = w:1 c: 1d1; 2-barreled shotgun / w:4 c: 1d4-2; bundle of money
+
+#randomize enter door
+tile: r = closed door
+tile: we = stone wall
+shuffle: rwe
+
+#randomize windows
+tile: ' = stone wall
+tile: " = window
+shuffle: '"
+
+tile: cC = floor
+furniture: cC = plastic chair
+
+#randomize stools
+tile: sSzZ = floor
+furniture: sS = stool
+
+shuffle: sSzZ
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo#########,,,,2#####ooo
+ooo#F.%s...r,,,,,#.WW#ooo
+ooo#F.$S...w,,,,3#...#ooo
+ooo#L.%Z...e,,1,D#K..#ooo
+ooo#V.%s...####"####+#ooo
+ooo#N.%Z......ctc....#ooo
+ooo#.................#ooo
+ooo##+###...........c#ooo
+ooo#...z#c...bb....ct"ooo
+ooo#...M#t...z...b..c#ooo
+ooo#...L#c.......b...#ooo
+o,,#...F#...........c#ooo
+o,,+....#c....bbs...t"ooo
+o,4#..c.#tc.........c#ooo
+ooo#.tt.#c...........#ooo
+ooo#cttc#..CtC.CtC..c#ooo
+ooo#.cC.#..ctc.ctc.ct#ooo
+ooo#########"###"#####ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_bar_weend_roof
+subname: std_bar_weend
+floor: 1
+type: bar
+tile: . = concrete floor
+tile: o = empty
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+
+name: std_nightclub_weend_1fl
+subname: std_nightclub_weend
+type: bar
+tile: #       = stone wall
+tile: .       = floor
+tile: o       = dirt / grass
+tile: ,       = pavement
+tile: +       = closed door
+tile: W       = toilet
+tile: K       = sink
+tile: <       = stairs up
+
+tile: tb = floor
+furniture: t     = table
+furniture: b      = billiard table
+
+
+tile: LNMV = shelves
+item_group: 50 LV = items_hard_liquor
+item_group: 50 NM = items_snacks
+shuffle: LNMV
+
+tile: F = fridge
+item_group: 60 F = items_fridge_snacks
+
+tile: % = counter
+item_group: 60 %  = items_hard_liquor
+
+tile: cC = floor
+furniture: cC = plastic chair
+
+#randomize stools
+tile: sSzZ = floor
+furniture: sS = stool
+
+shuffle: sSzZ
+
+map:
+ooooooo,,,,,,,,,,,ooooooo
+ooooooo,,,,,,,,,,,ooooooo
+o########,,,,,,,########o
+o#cttc..#,,,,,,,#..ccc.#o
+o#ctt...###+++###.ctttc#o
+o#ccc...+.#...#.+...Cc.#o
+o########.#...#.########o
+o#ccc...+.#...#.+......#o
+o#ctt...#.#...#.#..tttc#o
+o#cc....#+##+##+#..cccc#o
+o########.......########o
+o#cc.ccc........ctc.ccc#o
+o#ct..tC............ttC#o
+o#..............bb...tC#o
+o#.....................#o
+o#.%................Ctc#o
+o#.%.............tc.ctc#o
+o#...ct..........cc....#o
+o#...cc......#######...#o
+o#...sSzsSzZ.......#...#o
+o#...%%%%%%%%##+##+###+#o
+o#...........#..#..#,,,,o
+o#<ZS%FLMNVLV#WK#WK#,,,,o
+o###################,,,,o
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_nightclub_weend_2fl
+subname: std_nightclub_weend
+floor: 1
+type: bar
+tile: #       = stone wall
+tile: .       = floor
+tile: o       = empty
+tile: +       = closed door
+tile: >       = stairs down
+tile: X       = glass wall
+tile: *       = concrete floor
+
+
+tile: s       = safe
+item_group: 80 s = items_hard_drugs
+
+tile: tbd = floor
+furniture: t      = table
+furniture: b      = billiard table
+furniture: d      = desk
+
+tile: F = fridge
+item_group: 60 F = items_fridge_snacks
+
+tile: cC = floor
+furniture: cC = plastic chair
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+o***********************o
+o***********************o
+o***********************o
+o***********************o
+o*******#XXX#XXX#*******o
+o*******X......FX*******o
+o*******+..bb..cX*******o
+o*******X....sddX*******o
+o########+XX##XX########o
+o#...................cc#o
+o#...................tc#o
+o#..XXXXXXXXXXXXXXX....#o
+o#..XoooooooooooooX..b.#o
+o#..XoooooooooooooX..b.#o
+o#..XoooooooooooooX....#o
+o#..XoooooooooooooX.ttc#o
+o#..XoooooooooooooX.ttc#o
+o#..XXXXXXXXXXXXXXX.ccc#o
+o#.................#####o
+o#....cttt..bb..ttc#ooooo
+o#>....ccc......ccc#ooooo
+o###################ooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_nightclub_weend_roof
+subname: std_nightclub_weend
+floor: 2
+type: bar
+tile: . = concrete floor
+tile: o = empty
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooooooo.........oooooooo
+oooooooo.........oooooooo
+oooooooo.........oooooooo
+oooooooo.........oooooooo
+o.......................o
+o.......................o
+o.......................o
+o.......................o
+o.......................o
+o.......................o
+o.......................o
+o.......................o
+o.......................o
+o.......................o
+o.......................o
+o...................ooooo
+o...................ooooo
+o...................ooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# A recommended format for spec names is <DESC>_<TYPE>_<NAME>
+#  <DESC> is a short description of the unusual feature of this spec.  If it is
+#         not unusual, use "std".
+#  <TYPE> is the World_terrain used here.
+#  <NAME> is your name, initials, or handle.
+# This format makes it easy to identify the spec when debugging.
+#
+# The "tile:" line uses the following format:
+#       tile: abc = w:20 dirt / w:15 grass / tree
+# "abc" is a list of characters which, when found in the map section, will use
+# this terrain.  You can include spaces and they will be ignored.
+# " = " delineates between the list of characters and the terrain spec.  It must
+# be surrounded by spaces.
+# The rest of the line is a list of terrain names (from terrain.dat).  A terrain
+# is randomly picked from this list.  You must place " / " between terrain
+# names.  You can also include "w:20" with the terrain name to define its
+# weight for random selection.  If omitted, the weight defaults to 10.  A
+# terrain with weight 20 is twice as likely to be chosen as a terrain with
+# weight 10.
+#
+# The "base_terrain:" line uses the same terrain spec format, but of course the
+# list of characters and the " = " are not used.
+#
+# The "items:" line uses the following format:
+#       50 abc = rock / w:20 stick
+# The number at the front MUST be present.  It's the percentage chance of
+# placing a single item.  If one item is used, the same chance is used to decide
+# whether to place a second item, and so on until the chance fails.  It must be
+# between 1 and 99.  If it's not, you will be warned and the chance will be
+# corrected.
+# The rest of the line is very similar to the terrain specifications, but with
+# item names (from items.dat) instead of terrain names.
+#
+# The "map:" tag should appear on its own line.  It is followed by 25 lines of
+# 25 characters each - you will be warned if there are missing characters or
+# extra characters.  It is a list of characters which refer back to the "tile:"
+# or "items:" lines.  If no matching "tile:" is found, the base_terrain is used;
+# if the base_terrain is not present, the first terrain in terrain.dat is used.
+#
+# "Adjacency" specs are identified by placing the "adjacent" tag in the spec.
+# These specs are used when generating a map ADJACENT to the specified type.
+# Adjacency specs should be designed as if the adjacent terrain were to the
+# north; the spec will be rotated as needed.
+# The base terrain is generated, and then the adjacency map is generated on top.
+# Adjacency specs are the same as normal maps, but with the difference that
+# it is allowed to use "nothing" as a terrain name.  If "nothing" is selected,
+# then the terrain in the map will be unchanged.  Also, ONLY floor terrain will
+# be changed; non-floor terrain will be unchanged.
