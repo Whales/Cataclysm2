@@ -164,7 +164,7 @@ bool Player::create_new_character()
             case 'l':
             case KEY_RIGHT: {
               int point_req = (*stat_value >= 16 ? 2 : 1);
-              if (points >= point_req) {
+              if (*stat_value < 20 && points >= point_req) {
                 points -= point_req;
                 (*stat_value)++;
               }
