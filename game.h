@@ -98,10 +98,12 @@ public:
 // TODO: Both are limited in that they can not return a point that the player
 //       cannot currently see (they return Tripoint() instead).
   Tripoint target_selector(int startx = -1, int starty = -1,
-                           int range  = -1, bool target_entites = false);
+                           int range  = -1, bool target_entites = false,
+                           bool show_path = false);
   std::vector<Tripoint> path_selector(int startx = -1, int starty = -1,
                                       int range  = -1,
-                                      bool target_entities = false);
+                                      bool target_entities = false,
+                                      bool show_path = true);
 
 /**** Data - Universal access functions ****/
   int get_item_uid();     // Get the next available UID (and increment)

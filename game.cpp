@@ -583,7 +583,7 @@ there.<c=/>", map->get_name(examine).c_str());
       } else {
         int x = player->pos.x, y = player->pos.y,
             range = player->weapon.get_fired_attack().range;
-        Tripoint target = target_selector(x, y, range, true);
+        Tripoint target = target_selector(x, y, range, true, true);
         if (target.x == -1) { // We canceled
           add_msg("Never mind.");
         } else {
@@ -603,7 +603,7 @@ there.<c=/>", map->get_name(examine).c_str());
       if (player->can_fire_weapon()) {
         int x = player->pos.x, y = player->pos.y,
             range = player->weapon.get_fired_attack().range;
-        Tripoint target = target_selector(x, y, range, true);
+        Tripoint target = target_selector(x, y, range, true, true);
         if (target.x == -1) { // We canceled
           add_msg("Never mind.");
 // If we target ourself, confirm that we want to shoot ourselves...
@@ -1623,10 +1623,10 @@ void Game::pickup_items(int posx, int posy)
 }
 
 Tripoint Game::target_selector(int startx, int starty, int range,
-                               bool target_entities)
+                               bool target_entities, bool show_path)
 {
   std::vector<Tripoint> path = path_selector(startx, starty, range,
-                                             target_entities);
+                                             target_entities, show_path);
   if (path.empty()) {
     return Tripoint(-1, -1, -1);
   }
@@ -1634,7 +1634,7 @@ Tripoint Game::target_selector(int startx, int starty, int range,
 }
 
 std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
-                                          bool target_entities)
+                                          bool target_entities, bool show_path)
 {
   std::vector<Tripoint> ret;
   if (!player) {
@@ -1684,10 +1684,17 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
 // First draw; we need to draw the path since we might auto-target
   ret = map->line_of_sight(player->pos, target);
   map->draw_area(w_map, &entities, player->pos, minx, miny, maxx, maxy);
-  for (int i = 0; i < ret.size(); i++) {
-    map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
-                   player->pos.x, player->pos.y, true); // true==inverted
+  if (show_path) {
+    for (int i = 0; i < ret.size(); i++) {
+      map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
+                     player->pos.x, player->pos.y, true); // true==inverted
+    }
+  } else {
+// Just do the last tile
+    map->draw_tile(w_map, &entities, ret.back().x, ret.back().y,
+                   player->pos.x, player->pos.y, true);
   }
+
 // TODO: No no no remove this!  Won't work for tiles!
   Entity* ent_targeted = entities.entity_at(target);
   if (ent_targeted) {
@@ -1728,9 +1735,11 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
         }
         ret = map->line_of_sight(player->pos, target);
         map->draw_area(w_map, &entities, player->pos, minx, miny, maxx, maxy);
-        for (int i = 0; i < ret.size(); i++) {
-          map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
-                         player->pos.x, player->pos.y, true); // true==inverted
+        if (show_path) {
+          for (int i = 0; i < ret.size(); i++) {
+            map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
+                           player->pos.x, player->pos.y, true);// true==inverted
+          }
         }
 // TODO: No no no remove this!  Won't work for tiles!
         ent_targeted = entities.entity_at(target);
