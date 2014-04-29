@@ -27,6 +27,7 @@ enum Interface_action
   IACTION_CLOSE,
   IACTION_SMASH,
   IACTION_EXAMINE,
+  IACTION_LOOK,
   IACTION_GRAB,
 // Inventory interaction
   IACTION_INVENTORY,
