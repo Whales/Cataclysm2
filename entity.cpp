@@ -1897,7 +1897,7 @@ Ranged_attack Entity::fire_weapon()
     return Ranged_attack();
   }
   weapon.charges -= weapon.get_shots_fired();
-  action_points -= weapon.time_to_fire();
+  use_ap( weapon.time_to_fire() );
   Ranged_attack ret = weapon.get_fired_attack();
 // Perception applies a flat bonus/penalty to accuracy
   ret.variance -= 3 * (stats.perception - 10);

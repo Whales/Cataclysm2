@@ -616,7 +616,7 @@ there.<c=/>", map->get_name(examine).c_str());
           }
 // And do the actual attack!
           Ranged_attack att = player->fire_weapon();
-          launch_projectile(player, att, player->pos, target);
+          launch_projectile(player, player->weapon, att, player->pos, target);
         }
       }
       break;
@@ -865,9 +865,29 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
 
 // We want to loop through once for each round.  Also, (target) will probably
 // change between rounds, so we recalculate range etc.
+  int retarget_range = 0;
   if (attack.rounds < 1) {
     attack.rounds = 1;
+  } else if (it.is_real()) {
+/* If we're firing a multiple-round weapon, and we kill our original target or
+ * wind up targeting a space without a monster in it, we can re-target to a
+ * nearby monster between rounds.  The range of this retargeting is dependent
+ * upon our skills.
+ */
+    Item_type_launcher* launcher_type =
+      static_cast<Item_type_launcher*>(it.type);
+    Skill_type launcher_skill = launcher_type->skill_used;
+    if (shooter) {
+      retarget_range = shooter->skills.get_level(launcher_skill) +
+                       shooter->skills.get_level(SKILL_LAUNCHERS) / 2;
+      retarget_range = sqrt(retarget_range);
+    }
   }
+
+/* If we're NOT targeting an entity, then we are probably shooting at scenery
+ * and we should not use our retargeting ability!
+ */
+  bool targeting_entity = entities.entity_at(target);
 
   for (int round = 0; round < attack.rounds; round++) {
 // Figure out the range to the target
@@ -1090,6 +1110,32 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
     if (rng(1, tiles_hit.size()) <= remainder_y) {
       new_y--;
     }
+/* Finally, if we were originally targeting an entity, and we are no longer
+ * pointed at an entity, we may have a chance to retarget.
+ */
+    if (targeting_entity && retarget_range > 0 &&
+        entities.entity_at(new_x, new_y, target.z)) {
+      std::vector<Tripoint> new_targets;
+      for (int ntx = new_x - retarget_range; ntx <= new_x + retarget_range;
+           ntx++) {
+        for (int nty = new_y - retarget_range; nty <= new_y + retarget_range;
+             nty++) {
+          Entity* new_target = entities.entity_at(ntx, nty, target.z);
+// TODO: Ensure that the new target isn't friendly!
+          if (new_target) {
+            new_targets.push_back( Tripoint(ntx, nty, target.z) );
+          }
+        }
+      }
+      if (!new_targets.empty()) {
+        int nt_index = rng(0, new_targets.size() - 1);
+        new_x = new_targets[nt_index].x;
+        new_y = new_targets[nt_index].y;
+      }
+    }
+    target.x = new_x;
+    target.y = new_y;
+        
   } // for (int round = 0; round < attack.rounds; round++)
 }
 
