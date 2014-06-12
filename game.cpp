@@ -1035,8 +1035,8 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
       } else {
         end_point = Tripoint(path[i].x, path[i].y, 0);
       }
-// Drop the projectile we threw, if it's "real"
-      if (it.is_real()) {
+// Drop the projectile we threw, if it's "real" and we're throwing it
+      if (it.is_real() && attack.type == RANGED_ATT_THROW) {
         map->add_item(it, end_point);
       }
 // Create the target_field from our attack, if it's "real"

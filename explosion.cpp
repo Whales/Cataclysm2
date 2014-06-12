@@ -153,7 +153,9 @@ void Explosion::explode(Tripoint epicenter)
     shrapnel_target.y = rng(epicenter.y - rad, epicenter.y + rad);
     shrapnel_target.z = epicenter.z;
 // Set up a Ranged_attack for the shrapnel
+// TODO: Actually throw an item?
     Ranged_attack shrapnel_attack;
+    shrapnel_attack.type = RANGED_ATT_OTHER;
     shrapnel_attack.range = rad;
     shrapnel_attack.variance = Dice(1, 6, 0); // Do we even need this?
 // TODO: Should shrapnel always pierce?  Maybe it should cut?

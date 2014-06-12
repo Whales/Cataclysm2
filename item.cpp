@@ -551,6 +551,7 @@ Ranged_attack Item::get_thrown_attack(Entity* ent)
   if (!type) {
     return ret;
   }
+  ret.type = RANGED_ATT_THROW;
 // If the ranged speed is 0, then set it based on our weight
   if (type->thrown_speed == 0) {
     ret.speed = 50 + 5 * type->weight;
@@ -624,6 +625,7 @@ Ranged_attack Item::get_fired_attack()
   Item_type_ammo*     itammo   = static_cast<Item_type_ammo*>    (ammo);
 
   Ranged_attack ret;
+  ret.type = RANGED_ATT_FIRE;
   ret.speed    = launcher->fire_ap;
   ret.range    = itammo->range;
   ret.variance = launcher->accuracy + itammo->accuracy;

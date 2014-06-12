@@ -279,6 +279,7 @@ bool Monster_type::load_data(std::istream &data)
       }
       std::getline(data, junk);
       Ranged_attack tmpattack;
+      tmpattack.type = RANGED_ATT_OTHER;  // It's a natural attack
       if (!tmpattack.load_data(data, name)) {
         debugmsg("Ranged attack failed to load (%s)", name.c_str());
         return false;

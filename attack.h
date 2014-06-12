@@ -36,6 +36,15 @@ enum Melee_hit_type
   MELEE_HIT_MAX
 };
 
+enum Ranged_attack_type
+{
+  RANGED_ATT_NULL = 0,
+  RANGED_ATT_THROW,
+  RANGED_ATT_FIRE,
+  RANGED_ATT_OTHER,
+  RANGED_ATT_MAX
+};
+
 struct Attack
 {
   std::string verb_second;
@@ -74,6 +83,8 @@ struct Ranged_attack
 {
   Ranged_attack();
   ~Ranged_attack();
+
+  Ranged_attack_type type;  // Fire, throw, or other (i.e. natural)
 
   std::string verb_second;
   std::string verb_third;
