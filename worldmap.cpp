@@ -22,6 +22,14 @@ std::string Worldmap_tile::get_name()
   return terrain->get_name();
 }
 
+bool Worldmap_tile::has_flag(World_terrain_flag flag)
+{
+  if (!terrain) {
+    return false;
+  }
+  return terrain->has_flag(flag);
+}
+
 void Worldmap_tile::set_terrain(std::string name)
 {
   World_terrain *ter = WORLD_TERRAIN.lookup_name(name);
@@ -378,6 +386,9 @@ glyph Worldmap::get_glyph(int x, int y)
   }
 */
   Worldmap_tile* tile = get_tile(x, y, false);
+  if (!tile) {
+    return glyph();
+  }
   glyph ret = tile->top_glyph();
   if (tile->terrain->has_flag(WTF_LINE_DRAWING)) {
     bool north = (get_tile(x, y - 1)->terrain->has_flag(WTF_LINE_DRAWING));
@@ -393,13 +404,28 @@ glyph Worldmap::get_glyph(int x, int y)
 std::string Worldmap::get_name(int x, int y)
 {
   Worldmap_tile* tile = get_tile(x, y, false);
+  if (!tile) {
+    return "Unknown";
+  }
   return tile->get_name();
 }
 
 std::vector<Monster_spawn>* Worldmap::get_spawns(int x, int y)
 {
   Worldmap_tile* tile = get_tile(x, y);
+  if (!tile) {
+    return NULL;
+  }
   return &(tile->monsters);
+}
+
+bool Worldmap::has_flag(World_terrain_flag flag, int x, int y)
+{
+  Worldmap_tile* tile = get_tile(x, y);
+  if (!tile) {
+    return false;
+  }
+  return tile->has_flag(flag);
 }
 
 Generic_map Worldmap::get_generic_map()

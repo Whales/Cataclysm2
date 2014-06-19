@@ -12,6 +12,7 @@
 #include <istream>
 
 #define WORLDMAP_SIZE 150
+#define BONUS_SPACING   8
 
 struct Worldmap_tile
 {
@@ -20,6 +21,7 @@ struct Worldmap_tile
 
   glyph top_glyph();
   std::string get_name();
+  bool has_flag(World_terrain_flag flag);
 
   void set_terrain(std::string name);
 
@@ -51,6 +53,7 @@ public:
   glyph get_glyph(int x, int y);
   std::string get_name(int x, int y);
   std::vector<Monster_spawn>* get_spawns(int x, int y);
+  bool has_flag(World_terrain_flag flag, int x, int y);
 
   Generic_map get_generic_map();  // For road drawing and long-travel
 

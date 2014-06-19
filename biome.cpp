@@ -266,7 +266,28 @@ bool Biome::load_data(std::istream &data)
       std::string terrain_line;
       std::getline(data, terrain_line);
       std::istringstream terrain_data(terrain_line);
-      terrain.load_data(terrain_data, name);
+      if (!terrain.load_data(terrain_data, name)) {
+        debugmsg("Error loading terrain for '%s'", name.c_str());
+        return false;
+      }
+
+    } else if (ident == "bonuses:") {
+      std::string terrain_line;
+      std::getline(data, terrain_line);
+      std::istringstream terrain_data(terrain_line);
+      if (!bonuses.load_data(terrain_data, name)) {
+        debugmsg("Error loading terrain for '%s'", name.c_str());
+        return false;
+      }
+
+    } else if (ident == "road_bonuses:") {
+      std::string terrain_line;
+      std::getline(data, terrain_line);
+      std::istringstream terrain_data(terrain_line);
+      if (!road_bonuses.load_data(terrain_data, name)) {
+        debugmsg("Error loading terrain for '%s'", name.c_str());
+        return false;
+      }
 
     } else if (ident == "monsters:") {
       std::string monster_line;
@@ -300,6 +321,16 @@ bool Biome::load_data(std::istream &data)
 World_terrain* Biome::pick_terrain()
 {
   return terrain.pick();
+}
+
+World_terrain* Biome::pick_bonus()
+{
+  return bonuses.pick();
+}
+
+World_terrain* Biome::pick_road_bonus()
+{
+  return road_bonuses.pick();
 }
 
 bool Biome::has_flag(Biome_flag flag)

@@ -46,6 +46,7 @@ struct World_terrain
   bool load_data(std::istream &data);
 
   bool has_flag(World_terrain_flag flag);
+
 private:
   std::vector<bool> flags;
 };

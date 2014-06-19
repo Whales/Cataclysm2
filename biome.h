@@ -84,6 +84,8 @@ struct Biome
   int uid;
 
   Variable_world_terrain terrain;
+  Variable_world_terrain bonuses;
+  Variable_world_terrain road_bonuses;
 
   Variable_monster_genus monsters;
   Dice monster_population;
@@ -94,7 +96,11 @@ struct Biome
   bool load_data(std::istream &data);
 
   World_terrain* pick_terrain();
+  World_terrain* pick_bonus();
+  World_terrain* pick_road_bonus();
+
   bool has_flag(Biome_flag flag);
+
 private:
   std::vector<bool> flags;
 };
