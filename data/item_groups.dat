@@ -186,6 +186,10 @@ name: items_assault_rifles
   items: w:10 M4A1 / w:8 Steyr AUG / w:7 FN SCAR-H / w:8 FN FAL
 done
 
+name: items_barn_guns
+  items: w:10 Ruger 10/22 / w:8 Ruger Mini-14 / w:6 Savage 111F / w:15 2-barreled shotgun / w:7 Remington 870 / w:20 00 shot / w:15 .22 LR / w:15 5.56 NATO / w:12 7.62 NATO
+done
+
 name: items_gun_accessories
   items: w:10 holster / w:6 cap / w:15 safety glasses / w:2 work gloves
 done
@@ -266,4 +270,8 @@ done
 name: items_museum
 #Maybe TODO: divide group to some theme groups, for thematic rooms in museum. And add some "antique" guns.
   items: w:1 antique sword / w:1 large axe / w:1 antique halberd / w:4 diamond / w:4 gold ring / w:4 diamond necklace / w:7 rock / w:7 wood dowel / w:7 hoe / w:7 rake / w:8 rag / w:3 bundle of money / w:3 dead plant / w:1 leather gloves / w:1 leather pants
+done
+
+name: items_survival_food
+  items: w:10 MRE (meat) / w:10 MRE (vegetable) / w:14 beans / w:10 SPAM / w:12 beef jerky / w:4 chocolate bar / w:40 water / w:8 dry pasta / w:8 dry rice / w:8 flour
 done

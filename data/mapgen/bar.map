@@ -40,7 +40,6 @@ furniture: tT     = table
 furniture: b      = billiard table
 furniture: d      = desk
 
-
 tile: LNMV = shelves
 item_group: 50 LV = items_hard_liquor
 item_group: 50 NM = items_snacks
@@ -117,7 +116,6 @@ shuffle: D1234
 tile: tTb = floor
 furniture: tT     = table
 furniture: b      = billiard table
-
 
 tile: LNVM = shelves
 item_group: 50 LV = items_hard_liquor
@@ -230,7 +228,7 @@ tile: <       = stairs up
 
 tile: tb = floor
 furniture: t     = table
-furniture: b      = billiard table
+furniture: b     = billiard table
 
 
 tile: LNMV = shelves
