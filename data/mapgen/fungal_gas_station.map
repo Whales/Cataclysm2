@@ -1,0 +1,482 @@
+### FILENAME GOES HERE
+#
+# The following tags are used: (# marks a line or part of a line as a comment)
+#
+# "name:" - Required.  A description of this spec.  It should appear first for
+#           debugging reasons.
+# "type:" - Required.  The World_terrain name this spec applies to.  See
+#           world_terrain.dat for a list of World_terrains.
+# "adjacent" - If this tag is present, then this map is an "adjacency" map.
+#              This should appear before "base_terrain:" or "tile:" lines.
+# "base_terrain:" - Recommended.  A terrain specification to be used for tiles
+#                   which are not defined in the map section.
+# "weight:" - A weight used when randomly choosing specs.  If omitted, the
+#             weight defaults to 100.  A spec with weight 200 is twice as likely#             to be used as one with weight 100.
+# "tile:" - Defines a terrain used in the map section.
+# "items:" - Defines an item drop used in the map section.
+# "map:" - Defines the start of the map section.
+# "endmap" - Defines the end of the map section.
+# "done" - Required.  Marks the end of this spec.
+#
+# See the bottom of this file for details on base_terrain and tile terrain
+# specifications, item drop specifications, and adjacency maps.
+
+name: std_fungal_gas_station_whales
+subname: std_gas_whales
+type: fungal gas station
+tile: o = grass / dirt
+tile: * = w:100 pavement / w:1 rubble
+tile: & = w:3 gas pump / w:1 rubble
+tile: P = w:3 gas pump / w:1 rubble
+tile: # = w:12 stone wall / w:1 rubble
+tile: X = w:1 glass wall / w:2 rubble
+tile: . = floor
+tile: + = w:1 closed glass door / w:2 rubble
+tile: T = w:10 toilet / w:1 rubble
+tile: K = w:10 sink / w:1 rubble
+tile: % = w:10 counter / w:1 rubble
+
+tile: a = w:3 locked door / w:1 closed door / w:1 rubble
+tile: bcd = w:12 stone wall / w:1 rubble
+shuffle: abcd
+
+tile: f = w:5 display fridge / w:1 rubble
+item_group: 40 f = items_fridge_snacks
+
+tile: D = dumpster
+item_group: 60 D = items_trash
+
+tile: C = w:5 display rack / w:1 rubble
+item_group: 60 C = items_behind_counter
+
+tile: 1234 = w:5 display rack / w:1 rubble
+item_group: 25 1 = items_snacks
+item_group: 18 2 = items_misc_goods
+item_group: 30 3 = items_cleaning
+item_group: 25 4 = items_snacks
+shuffle: 1234
+
+map:
+*************************
+*************************
+*************************
+*********&*****&*****&***
+*********&*****&*****&***
+*************************
+*************************
+*************************
+*****#XXXXXX++XXXXXX#####
+*****#f.............+..T#
+*****#f..1.......4..#..K#
+*****#f..1.......4..#####
+*****#f..1.......4.....2#
+*****#f..1.%%%%%.4..33.2#
+*****#f....%...%....33.2#
+****P#f....%CC.........2#
+*****##a##b######c###d###
+oooooooooooooDDDooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_fungal_gas_station_whales_roof
+subname: std_gas_whales
+type: fungal gas station
+floor: 1
+tile: o = empty
+tile: . = w:50 roof / w:1 empty
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooo....................
+ooooo....................
+ooooo....................
+ooooo....................
+ooooo....................
+ooooo....................
+ooooo....................
+ooooo....................
+ooooo....................
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: small_garage_fungal_gas_station_whales
+subname: small_garage_gas_whales
+type: fungal gas station
+weight: 80
+tile: o = grass / dirt
+tile: * = w:100 pavement / w:1 rubble
+tile: & = w:10 gas pump / w:1 rubble
+tile: # = w:12 stone wall / w:1 rubble
+tile: . = floor
+tile: % = w:5 counter / w:1 rubble
+tile: + = w:8 closed glass door / w:2 closed door / w:1 rubble
+tile: ' = w:6 closed door / w:1 rubble
+tile: T = w:6 toilet / w:1 rubble
+tile: K = w:6 sink / w:1 rubble
+tile: ! = w:30 chain-link fence / w:10 pavement / w:1 rubble
+tile: P = w:6 air pump / w:1 rubble
+tile_group: " = window / glass wall
+
+tile: D = dumpster
+item_group: 60 D = items_trash
+
+tile: c123 = w:6 display rack / w:1 rubble
+item_group: 60 c = items_behind_counter
+item_group: 25 1 = items_snacks
+item_group: 18 2 = items_misc_goods
+item_group: 30 3 = items_cleaning
+
+tile: {} = w:6 display rack / w:1 rubble
+item_group: 30 {} = items_car_mechanic
+
+map:
+*************************
+*&*****&*****&***********
+*************************
+*************************
+*************************
+#"+""#####ooooo**********
+#.....%.c#DDDoo**********
+#1.33.%.c######**********
+#1....%.c#...T#**********
+#1222....'...K#**********
+###############**********
+#{{{{{{{{{{{{{#P*********
+#*************#**********
+#************************
+#************************
+#************************
+#************************
+#}}}}}}}}}}}}}#**********
+###############!!!!!!!!!!
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: small_garage_fungal_gas_station_whales_roof
+subname: small_garage_gas_whales
+type: fungal gas station
+floor: 1
+tile: o = empty
+tile: . = w:50 roof / w:1 empty
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+..........ooooooooooooooo
+..........ooooooooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+...............oooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: sideways_fungal_gas_station_whales
+subname: sideways_gas_whales
+type: fungal gas station
+weight: 80
+tile: o = grass / dirt
+tile: * = w:50 pavement / w:1 rubble
+tile: & = w:8 gas pump / w:1 rubble
+tile: # = w:10 stone wall / w:1 rubble
+tile: Xb = w:1 glass wall / w:3 rubble
+tile: a = w:1 closed glass door / w:3 rubble
+shuffle: ab
+tile: + = w:3 closed door / w:1 rubble
+tile: . = floor
+tile: % = w:8 counter / w:1 rubble
+tile: T = w:6 toilet / w:1 rubble
+tile: K = w:6 sink / w:1 rubble
+tile: P = w:8 air pump / w:1 rubble
+tile_group: ! = w:3 chain-link fence / w:1 pavement / w:1 rubble
+tile_group: " = w:4 stone wall / w:1 window / w:1 rubble
+
+tile: D = dumpster
+item_group: 50 D = items_trash
+
+tile: C = w:6 display rack / w:1 rubble
+item_group: 50 C = items_behind_counter
+
+tile: f = w:8 display fridge / w:1 rubble
+item_group: 25 f = items_fridge_snacks
+
+tile: 123 = w:6 display rack / 2:1 rubble
+item_group: 18 1 = items_snacks
+item_group: 25 2 = items_misc_goods
+item_group: 25 3 = items_cleaning
+shuffle: 123
+
+map:
+*************oooooooooooo
+*************oooooooooooo
+*************############
+***&&******&*#11%CCCCCC.#
+*************X..%.......#
+*************X..%%%%%%%.#
+*************a..........#
+*************X.........f#
+*************X..1..22..f#
+***&&******&*X..1..22..f#
+*************X..1..22..f#
+*************X..1..22..f#
+*************b.........f#
+*************X..........#
+*************#3333333...#
+***&&******&*##########+#
+**************P***DDD#T.#
+*********************#K.#
+*********************##"#
+************************!
+!!!!!!!!!!!!!!!!!!!!!!!!!
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: sideways_fungal_gas_station_whales_roof
+subname: sideways_gas_whales
+level: 1
+type: fungal gas station
+tile: o = empty
+tile: . = w:50 roof / w:1 empty
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooo............
+ooooooooooooooooooooo....
+ooooooooooooooooooooo....
+ooooooooooooooooooooo....
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: island_fungal_gas_station_whales
+subname: island_gas_whales
+type: fungal gas station
+weight: 40
+tile: * = pavement
+tile: & = w:10 gas pump / w:1 rubble
+tile: # = w:12 stone wall / w:1 rubble
+tile: X = w:1 glass wall / w:3 rubble
+tile: + = w:1 closed glass door / w:3 rubble
+tile: @ = w:5 locked door / w:1 closed door / w:1 rubble
+tile: . = floor
+tile: % = w:8 counter / w:1 rubble
+tile: P = w:8 air pump / w:1 rubble
+
+tile: f = w:8 display fridge / w:1 rubble
+item_group: 25 f = items_fridge_snacks
+
+tile: {C = w:6 display rack / w:1 rubble
+item_group: 25 { = items_snacks
+item_group: 50 C = items_behind_counter
+
+map:
+*************************
+*************************
+*************************
+****&&*************&&****
+*************************
+*************************
+*************************
+*************************
+*************************
+****&&*************&&****
+*************************
+*************************
+*************************
+*********XX+XXXX*********
+*********X{..{{X*********
+****&****X{...{X****&****
+*********#f.%%%#*********
+*********#f.%..@*********
+*********#f.%CC#*********
+*********#######*********
+**********P**************
+****&***************&****
+*************************
+*************************
+*************************
+endmap
+done
+
+name: island_fungal_gas_station_whales_roof
+subname: island_gas_whales
+level: 1
+type: fungal gas station
+tile: o = empty
+tile: . = w:50 roof / w:1 rubble
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooo.......ooooooooo
+ooooooooo.......ooooooooo
+ooooooooo.......ooooooooo
+ooooooooo.......ooooooooo
+ooooooooo.......ooooooooo
+ooooooooo.......ooooooooo
+ooooooooo.......ooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: adj_fungal_gas_station_whales
+type: fungal gas station
+adjacent
+adj_on: road
+tile: a = pavement
+map:
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+endmap
+done
+
+# A recommended format for spec names is <DESC>_<TYPE>_<NAME>
+#  <DESC> is a short description of the unusual feature of this spec.  If it is
+#         not unusual, use "std".
+#  <TYPE> is the World_terrain used here.
+#  <NAME> is your name, initials, or handle.
+# This format makes it easy to identify the spec when debugging.
+#
+# The "tile:" line uses the following format:
+#       tile: abc = w:20 dirt / w:15 grass / tree
+# "abc" is a list of characters which, when found in the map section, will use
+# this terrain.  You can include spaces and they will be ignored.
+# " = " delineates between the list of characters and the terrain spec.  It must
+# be surrounded by spaces.
+# The rest of the line is a list of terrain names (from terrain.dat).  A terrain
+# is randomly picked from this list.  You must place " / " between terrain
+# names.  You can also include "w:20" with the terrain name to define its
+# weight for random selection.  If omitted, the weight defaults to 10.  A
+# terrain with weight 20 is twice as likely to be chosen as a terrain with
+# weight 10.
+#
+# The "base_terrain:" line uses the same terrain spec format, but of course the
+# list of characters and the " = " are not used.
+#
+# The "items:" line uses the following format:
+#       50 abc = rock / w:20 stick
+# The number at the front MUST be present.  It's the percentage chance of
+# placing a single item.  If one item is used, the same chance is used to decide
+# whether to place a second item, and so on until the chance fails.  It must be
+# between 1 and 99.  If it's not, you will be warned and the chance will be
+# corrected.
+# The rest of the line is very similar to the terrain specifications, but with
+# item names (from items.dat) instead of terrain names.
+#
+# The "map:" tag should appear on its own line.  It is followed by 25 lines of
+# 25 characters each - you will be warned if there are missing characters or
+# extra characters.  It is a list of characters which refer back to the "tile:"
+# or "items:" lines.  If no matching "tile:" is found, the base_terrain is used;
+# if the base_terrain is not present, the first terrain in terrain.dat is used.
+#
+# "Adjacency" specs are identified by placing the "adjacent" tag in the spec.
+# These specs are used when generating a map ADJACENT to the specified type.
+# Adjacency specs should be designed as if the adjacent terrain were to the
+# north; the spec will be rotated as needed.
+# The base terrain is generated, and then the adjacency map is generated on top.
+# Adjacency specs are the same as normal maps, but with the difference that
+# it is allowed to use "nothing" as a terrain name.  If "nothing" is selected,
+# then the terrain in the map will be unchanged.  Also, ONLY floor terrain will
+# be changed; non-floor terrain will be unchanged.

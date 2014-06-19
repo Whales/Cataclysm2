@@ -3,18 +3,23 @@ Name: ocean
   Done
 Name: grassland
   terrain: field
+  road_bonuses: w:100 gas station / w:15 barn
   Done
 Name: forest
   terrain: w:1 field / w:10 forest
+  road_bonuses: ranger station
   Done
 Name: swamp
   terrain: swamp
+  road_bonuses: w:100 gas station
   Done
 Name: mushroom forest
   terrain: mushroom forest
+  road_bonuses: w:100 fungal gas station / w:20 fungal ranger station / w:10 gas station / w:2 ranger station
   Done
 Name: rocky
   terrain: rocky
+  road_bonuses: w:100 gas station
   Done
 Name: city
   terrain: town square

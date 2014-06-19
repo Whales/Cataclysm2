@@ -124,6 +124,13 @@ Name: gas station
   Flags: shop face_road
 Done
 
+# A fungus-infected version
+Name: fungal gas station
+  Glyph: & ltred black
+  Road_cost: 500
+  Flags: face_road
+Done
+
 Name: park
   Glyph: O green black
   Road_cost: 500
@@ -183,3 +190,22 @@ Name: museum
   Road_cost: 500
   Flags: shop face_road
 Done
+
+# Roadside Bonuses
+
+Name: barn
+  Glyph: o brown black
+  Road_cost: 500
+  Flags: face_road
+Done
+
+Name: ranger station
+  Glyph: o green black
+  Road_cost: 500
+  Flags: face_road
+Done
+
+Name: fungal ranger station
+  Glyph: o green black
+  Road_cost: 500
+  Flags: face_road
