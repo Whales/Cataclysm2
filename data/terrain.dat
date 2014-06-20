@@ -202,6 +202,15 @@ name: stone wall
   flags: opaque
 done
 
+name: short wood wall
+  glyph: % brown black
+  movecost: 180
+  hp: 400
+  destroy: rubble
+  flags: opaque flammable
+  height: 25
+done
+
 name: wood wall
   glyph: # brown black
   movecost: 0
@@ -563,6 +572,24 @@ done
 name: stairs down
   display_name: staircase
   glyph: > yellow black
+  movecost: 100
+  hp: 200
+  destroy: rubble
+  flags: stairs_down flammable
+done
+
+name: wood ladder up
+  display_name: wood ladder
+  glyph: < ltred black
+  movecost: 100
+  hp: 200
+  destroy: rubble
+  flags: stairs_up flammable
+done
+
+name: wood ladder down
+  display_name: wood ladder
+  glyph: > ltred black
   movecost: 100
   hp: 200
   destroy: rubble

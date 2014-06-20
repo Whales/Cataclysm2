@@ -28,6 +28,8 @@ type: barn
 tile: o = w:2 grass / w:1 dirt
 tile: . = dirt
 tile: # = wood wall
+tile_group: " = window / wood wall
+tile_group: ' = window / wood wall
 subst: + = w:4 + / w:1 #
 tile: + = w:4 closed door / w:1 open door
 tile: abc = counter
@@ -37,7 +39,7 @@ item_group: 70 c = items_garden_tools
 
 subst: { = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
 subst: } = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
-tile: ABCD = display rack
+tile: ABCDEF = display rack
 item_group: 75 A = items_home_hardware
 item_group: 75 B = items_misc_construction
 item_group: 75 C = items_hardware
@@ -52,19 +54,19 @@ ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-oooo#+##.........##+#oooo
+oooo#+#'##.....##'#+#oooo
 oooo#...............#oooo
 oooo#...............#oooo
-oooo#a.............c#oooo
+oooo"a.............c"oooo
 oooo#a.............c#oooo
 oooo#a...}}}}}}}...c#oooo
-oooo#a.............c#oooo
+oooo"a.............c"oooo
 oooo#a.............c#oooo
 oooo#a...{{{{{{{...c#oooo
-oooo#a.............c#oooo
+oooo"a.............c"oooo
 oooo#a.............c#oooo
 oooo#a...ccccccc...c#oooo
-oooo###+#########+###oooo
+oooo###+###'''###+###oooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -74,6 +76,323 @@ ooooooooooooooooooooooooo
 endmap
 done
 
+name: std_barn_whales_1_roof
+subname: std_barn_whales_1
+floor: 1
+type: barn
+tile: o = empty
+tile: . = roof
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+oooo.................oooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# Fun Fact: This one is based on the small barn we had when I was a kid.
+# It's a larger version of that barn.
+
+name: std_barn_whales_2
+subname: std_barn_whales_2
+type: barn
+
+tile: o = w:2 grass / w:1 dirt
+tile: * = concrete floor
+tile: . = dirt
+tile: # = wood wall
+tile: % = short wood wall
+tile_group: $ = w:10 wood wall / w:3 short wood wall
+tile: / = w:3 closed door / w:1 open door / w:2 dirt
+tile: ' = w:5 wood wall / w:3 window / w:1 closed door
+tile: " = w:2 wood wall / w:1 window
+tile: + = w:4 closed door / w:1 open door
+tile: < = wood ladder up
+
+tile: abc = counter
+item_group: 60 a = items_tools
+item_group: 60 b = items_big_tools
+item_group: 70 c = items_garden_tools
+
+subst: { = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
+subst: } = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
+tile: ABCDEF = display rack
+item_group: 75 A = items_home_hardware
+item_group: 75 B = items_misc_construction
+item_group: 75 C = items_hardware
+item_group: 75 D = items_cleaning
+item_group: 75 E = items_survival_food
+item_group: 75 F = items_barn_guns
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooo*************oooooooo
+oooo*************oooooooo
+oooo*************oooooooo
+oooo###'#####+###oooooooo
+oooo#a....$.....#oooooooo
+oooo#a....$....."oooooooo
+oooo"a....$....<###""##oo
+oooo#a....$.....#.....#oo
+oooo#a................"oo
+oooo'.................#oo
+oooo###/###.....%%%%%%#oo
+oooo#}...{#b..........#oo
+oooo#}...{#b.........."oo
+oooo#}...{#b...c#.....#oo
+oooo#}...{#b...c###""##oo
+oooo#}...{#b...c#oooooooo
+oooo#}...{#b...c#oooooooo
+oooo#}....#.....#oooooooo
+oooo#}..../.....+oooooooo
+oooo###'#####'###oooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# A little loft.
+
+name: std_barn_whales_2_loft
+subname: std_barn_whales_2
+floor: 1
+type: barn
+tile: o = empty
+tile: . = floor
+tile: # = wood wall
+tile: * = roof
+tile_group: " = w:3 wood wall / w:1 window
+tile_group: ' = w:3 wood wall / w:1 window
+tile_group: ? = w:3 wood wall / w:1 window
+tile_group: / = w:3 wood wall / w:1 window
+
+subst: } = w:10 . / w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
+tile: ABCDEF = display rack
+item_group: 75 A = items_home_hardware
+item_group: 75 B = items_misc_construction
+item_group: 75 C = items_hardware
+item_group: 75 D = items_cleaning
+item_group: 75 E = items_survival_food
+item_group: 75 F = items_barn_guns
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooo##""#####''##oooooooo
+oooo#...}}}}}...#oooooooo
+oooo#...........#oooooooo
+oooo?..........</******oo
+oooo?.........../******oo
+oooo#...........#******oo
+oooo#...........#******oo
+oooo#ooooooooooo#******oo
+oooo#ooooooooooo#******oo
+oooo#ooooooooooo#******oo
+oooo#ooooooooooo#******oo
+oooo#ooooooooooo#******oo
+oooo#ooooooooooo#oooooooo
+oooo#ooooooooooo#oooooooo
+oooo#ooooooooooo#oooooooo
+oooo#ooooooooooo#oooooooo
+oooo#############oooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_barn_whales_2_roof
+subname: std_barn_whales_2
+floor: 2
+type: barn
+tile: o = empty
+tile: . = roof
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+oooo.............oooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_barn_whales_3
+subname: std_barn_whales_3
+type: barn
+
+tile: o = grass / dirt
+tile: # = wood wall
+tile: % = short wood wall
+tile: . = dirt
+tile: * = concrete floor
+tile: < = wood ladder up
+tile: + = closed door
+tile: ' = closed door / wood wall
+tile: " = w:3 wood wall / w:1 window
+
+tile: abc = counter
+item_group: 66 a = items_tools
+item_group: 66 b = items_big_tools
+item_group: 77 c = items_garden_tools
+
+map:
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooooo***ooooooooooooooooo
+ooo##"+"####"####"###"##o
+ooo#a...cccc...........#o
+ooo#a.................."o
+ooo"a.........%..%..%.."o
+ooo#a.........%..%..%..#o
+ooo"a.........###"###"##o
+ooo#..........#oooooooooo
+ooo#<..bbbb...'oooooooooo
+ooo###"####"###oooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_barn_whales_3_loft
+subname: std_barn_whales_3
+floor: 1
+type: barn
+
+tile: o = empty
+tile: . = floor
+tile: > = wood ladder down
+tile: " = w:5 wood wall / w:1 window
+subst: } = w:10 . / w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
+tile: ABCDEF = display rack
+item_group: 75 A = items_home_hardware
+item_group: 75 B = items_misc_construction
+item_group: 75 C = items_hardware
+item_group: 75 D = items_cleaning
+item_group: 75 E = items_survival_food
+item_group: 75 F = items_barn_guns
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo###"#################o
+ooo#}....oooooooooooooo#o
+ooo#}....oooooooooooooo#o
+ooo#}....oooooooooooooo#o
+ooo#}....oooooooooooooo#o
+ooo#}....ooooo##########o
+ooo".....ooooo#oooooooooo
+ooo#>....ooooo#oooooooooo
+ooo###"########oooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_barn_whales_3_roof
+subname: std_barn_whales_3
+type: barn
+floor: 2
+
+tile: o = empty
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo.....................o
+ooo.....................o
+ooo.....................o
+ooo.....................o
+ooo.....................o
+ooo.....................o
+ooo............oooooooooo
+ooo............oooooooooo
+ooo............oooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
 
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is

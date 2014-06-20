@@ -90,6 +90,9 @@ name: items_cleaning
   items: w:10 dust mask / w:15 rubber gloves / w:15 rag / w:3 broom / w:1 showerhead / w:2 plastic bottle
 done
 
+name: items_wilderness_tools
+  items: w:5 rope / w:10 pocket knife / w:10 hunting knife / w:10 hatchet / w:1 large axe / w:1 machete / w:15 rag / w:10 beef jerky / w:2 chocolate bar / w:5 water / w:15 birdseed / w:2 aspirin / w:5 bandages / w:30 flashlight
+
 # From the weird consumer items aisle at pharmacies!
 name: items_misc_goods
   items: w:20 broom / w:4 showerhead / w:4 wrench / w:3 screwdriver / w:16 batteries / w:14 lighter / w:3 cotton gloves / w:6 cotton hat / w:3 dumbbell
