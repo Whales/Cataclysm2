@@ -90,8 +90,13 @@ name: items_cleaning
   items: w:10 dust mask / w:15 rubber gloves / w:15 rag / w:3 broom / w:1 showerhead / w:2 plastic bottle
 done
 
-name: items_wilderness_tools
+name: items_hiking_tools
   items: w:5 rope / w:10 pocket knife / w:10 hunting knife / w:10 hatchet / w:1 large axe / w:1 machete / w:15 rag / w:10 beef jerky / w:2 chocolate bar / w:5 water / w:15 birdseed / w:2 aspirin / w:5 bandages / w:30 flashlight
+done
+
+name: items_hiking_clothes
+  items: w:10 cap / w:15 bandana / w:5 t shirt / w:5 leather gloves / w:3 cargo pants / w:10 sneakers / w:10 boots / w:18 backpack
+done
 
 # From the weird consumer items aisle at pharmacies!
 name: items_misc_goods

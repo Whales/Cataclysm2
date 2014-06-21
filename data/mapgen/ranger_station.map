@@ -27,7 +27,7 @@ type: ranger station
 
 tile: o = grass / dirt
 tile: . = floor
-tile: # = stone wall
+tile_group: # = stone wall / wood wall
 tile: X = glass wall
 tile: " = window
 
@@ -46,7 +46,7 @@ tile: ? = floor
 furniture: ? = chair
 
 tile: { = display rack
-item_group: 80 { = items_wilderness_tools
+item_group: 80 { = items_hiking_tools
 
 tile: T = floor
 furniture: T = table
@@ -121,6 +121,146 @@ ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 endmap
 done
+
+name: std_ranger_whales_2
+subname: std_ranger_whales_2
+type: ranger station
+
+tile: o = grass / dirt
+tile: # = wood wall
+tile: x = short stone wall
+tile: X = glass wall
+tile: * = stone path
+tile: . = floor
+tile: % = counter
+tile: t = toilet
+tile: k = sink
+tile: + = closed door
+tile: ' = w:3 closed glass door / w:1 closed door
+
+tile: S = stone path
+furniture: S = chair
+subst: S = w:3 * / w:1 S
+
+tile: TcC = floor
+furniture: T = table
+furniture: cC = chair
+
+shuffle: 123456
+tile: 1 = w:10 closed door / w:1 open door
+tile: 23456 = wood wall
+
+shuffle: ab
+tile: ab = display rack
+item_group: 70 a = items_hiking_tools
+item_group: 70 b = items_hiking_clothes
+
+map:
+oooooooooooooooooo***oooo
+oooooooooooooooooo***oooo
+oooooooooooooooooo***oooo
+ooooooooooooooooo***ooooo
+ooooooooooooooooo***ooooo
+oooooooooooooooo***oooooo
+oooxxxxxxxxxxxxx***xxxooo
+ooox*S*S*S*S*S*******xooo
+ooox*****************xooo
+ooox*****************xooo
+ooox*****************xooo
+ooo#+##+##XXXXXXXX'###ooo
+ooo#..#..#...........#ooo
+ooo#..#..#...........#ooo
+ooo#tk#tk#..a..b..%%%#ooo
+ooo#######..a..b..%..#ooo
+ooo#.....1..a..b..%..#ooo
+ooo#.CTc.2..a..b..%..#ooo
+ooo#.cTC.3..a..b..%%.#ooo
+ooo#.CTc.4..a..b.....#ooo
+ooo#.....5...........#ooo
+ooo#.....6...........#ooo
+ooo#######XXXXXXXXX###ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: std_ranger_whales_2_roof
+subname: std_ranger_whales_2
+floor: 1
+type: ranger station
+
+tile: o = empty
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# A ranger station with a tall observation tower.
+
+name: tower_ranger_whales
+subname: tower_ranger_whales
+type: ranger station
+
+tile: o = grass / dirt
+tile: # = wood wall
+tile: + = closed door
+tile: . = floor
+tile: * = stone path
+
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+
 
 
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
