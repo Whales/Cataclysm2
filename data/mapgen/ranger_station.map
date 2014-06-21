@@ -229,10 +229,102 @@ type: ranger station
 
 tile: o = grass / dirt
 tile: # = wood wall
+tile: $ = stone wall
+tile: x = short stone wall
+tile: " = w:3 window / w:1 wood wall
 tile: + = closed door
 tile: . = floor
 tile: * = stone path
+tile: < = wood ladder up
+tile: % = counter
 
+shuffle: 123
+tile: 1 = closed door
+tile: 23 = wood wall
+
+tile: { = display rack
+item_group: 80 { = items_hiking_tools
+
+map:
+ooooooooooo***ooooooooooo
+ooooooooooo***ooooooooooo
+ooooooooooo***ooooooooooo
+ooooooooooo***ooooooooooo
+ooooooooooo***ooooooooooo
+ooooooooooo***ooooooooooo
+ooooooooooo***ooooooooooo
+ooooooooooo***ooooooooooo
+oooooooxxxx***xxx##"#"##o
+oooo$$$$*********#.%...#o
+oooo$t.$*********1.%%%."o
+oooo$k.+*********#.....#o
+oooo$$$$*********2....{#o
+oooo$k.$*********#....{#o
+oooo$t.+*********3....{#o
+oooo$$$$*********#.....#o
+oooooooxxxx***xxx##"#"##o
+ooooooooooo***ooooooooooo
+ooooooooooo***ooooooooooo
+oooooooooo##+"##ooooooooo
+oooooooooo#....#ooooooooo
+oooooooooo"...."ooooooooo
+oooooooooo"..<."ooooooooo
+oooooooooo#....#ooooooooo
+oooooooooo##""##ooooooooo
+endmap
+done
+
+name: tower_ranger_whales_1
+subname: tower_ranger_whales
+level: 1
+type: ranger station
+
+tile: o = empty
+tile: * = roof
+tile: . = floor
+tile: # = wood wall
+tile: > = wood ladder down
+tile: < = wood ladder up
+tile: " = w:3 window / w:1 wood wall
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooo*******o
+oooo****ooooooooo*******o
+oooo****ooooooooo*******o
+oooo****ooooooooo*******o
+oooo****ooooooooo*******o
+oooo****ooooooooo*******o
+oooo****ooooooooo*******o
+oooo****ooooooooo*******o
+ooooooooooooooooo*******o
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooooooooo##""##ooooooooo
+oooooooooo#....#ooooooooo
+oooooooooo"...."ooooooooo
+oooooooooo".<>."ooooooooo
+oooooooooo#....#ooooooooo
+oooooooooo##""##ooooooooo
+endmap
+done
+
+name: tower_ranger_whales_2
+subname: tower_ranger_whales
+level: 2
+type: ranger station
+
+tile: o = empty
+tile: . = floor
+tile: % = short wood wall
+tile: > = wood ladder down
 
 map:
 ooooooooooooooooooooooooo
@@ -254,14 +346,14 @@ ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-
-
+oooooooooo%%%%%%ooooooooo
+oooooooooo%....%ooooooooo
+oooooooooo%....%ooooooooo
+oooooooooo%.>..%ooooooooo
+oooooooooo%....%ooooooooo
+oooooooooo%%%%%%ooooooooo
+endmap
+done
 
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
