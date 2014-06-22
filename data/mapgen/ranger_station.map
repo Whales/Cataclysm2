@@ -428,7 +428,7 @@ subname: courtyard_ranger_whales
 level: 1
 type: ranger station
 
-tile: o = nothing
+tile: o = empty
 tile: . = roof
 
 map:

@@ -437,7 +437,7 @@ subname: courtyard_fungal_ranger_whales
 level: 1
 type: fungal ranger station
 
-tile: o = nothing
+tile: o = empty
 tile: . = w:50 roof / w:1 rubble
 
 map:
