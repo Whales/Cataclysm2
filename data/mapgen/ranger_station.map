@@ -355,6 +355,109 @@ oooooooooo%%%%%%ooooooooo
 endmap
 done
 
+name: courtyard_ranger_whales
+subname: courtyard_ranger_whales
+type: ranger station
+
+tile: o = grass / dirt
+tile: . = floor
+tile: * = stone path
+tile: # = stone wall
+tile: X = glass wall
+tile: + = w:5 closed door / w:1 locked door / w:1 open door
+tile: t = toilet
+tile: k = sink
+tile_group: $ = w:3 stone wall / w:1 glass wall
+tile: ' = w:3 stone wall / w:2 locked door / w:1 closed door
+
+shuffle: 123
+tile: 1 = closed door
+tile: 23 = stone wall
+
+shuffle: 456
+tile: 4 = w:5 locked door / w:1 closed door
+tile: 56 = stone wall
+
+shuffle: 789
+tile: 7 = closed glass door
+tile: 89 = glass wall
+
+tile: Dc = floor
+furniture: D = desk
+furniture: c = chair
+
+tile: abc = display rack
+item_group: 65 a = items_hiking_tools
+item_group: 65 b = items_hiking_clothes
+item_group: 80 c = items_cleaning
+
+map:
+oooooooooo*****oooooooooo
+oooooooo*********oooooooo
+ooooooo***********ooooooo
+#######***********##"#"##
+#t..+.#***********#..C..#
+#k..#.1***********#.DDD."
+#####.#***********#.....#
+#t..+.2***********#.....#
+#k..#.#***********#+#####
+#####.3***********4.#..c#
+#t..+.#***********5.+..c#
+#k..#.#***********6.#..c#
+#####+#X7XXX8XXX9X#+#####
+#.......................#
+#..a..a...........b..b..#
+#..a..a...........b..b..#
+#..a..a...........b..b..#
+#..a..a...%%%%%...b..b..#
+#.........%...%.........#
+#.............%.........#
+#'$$$$$$$#######$$$$$$$'#
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: courtyard_ranger_whales_roof
+subname: courtyard_ranger_whales
+level: 1
+type: ranger station
+
+tile: o = nothing
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+.......ooooooooooo.......
+.......ooooooooooo.......
+.......ooooooooooo.......
+.......ooooooooooo.......
+.......ooooooooooo.......
+.......ooooooooooo.......
+.......ooooooooooo.......
+.......ooooooooooo.......
+.......ooooooooooo.......
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".
