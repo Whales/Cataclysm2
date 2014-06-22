@@ -184,6 +184,7 @@ tile: o = empty
 tile: . = floor
 tile: # = wood wall
 tile: * = roof
+tile: > = wood ladder down
 tile_group: " = w:3 wood wall / w:1 window
 tile_group: ' = w:3 wood wall / w:1 window
 tile_group: ? = w:3 wood wall / w:1 window
@@ -207,7 +208,7 @@ ooooooooooooooooooooooooo
 oooo##""#####''##oooooooo
 oooo#...}}}}}...#oooooooo
 oooo#...........#oooooooo
-oooo?..........</******oo
+oooo?..........>/******oo
 oooo?.........../******oo
 oooo#...........#******oo
 oooo#...........#******oo
@@ -317,6 +318,7 @@ type: barn
 
 tile: o = empty
 tile: . = floor
+tile: # = wood wall
 tile: > = wood ladder down
 tile: " = w:5 wood wall / w:1 window
 subst: } = w:10 . / w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F

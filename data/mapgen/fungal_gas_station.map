@@ -243,7 +243,7 @@ item_group: 50 C = items_behind_counter
 tile: f = w:8 display fridge / w:1 rubble
 item_group: 25 f = items_fridge_snacks
 
-tile: 123 = w:6 display rack / 2:1 rubble
+tile: 123 = w:6 display rack / w:1 rubble
 item_group: 18 1 = items_snacks
 item_group: 25 2 = items_misc_goods
 item_group: 25 3 = items_cleaning

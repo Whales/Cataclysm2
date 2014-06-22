@@ -1,4 +1,4 @@
-### ranger_station.map
+### fungal_ranger_station.map
 #
 # The following tags are used: (# marks a line or part of a line as a comment)
 #
@@ -21,37 +21,41 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: std_ranger_whales_1
-subname: std_ranger_whales_1
-type: ranger station
+name: std_fungal_ranger_whales_1
+subname: std_fungal_ranger_whales_1
+type: fungal ranger station
 
 tile: o = grass / dirt
 tile: . = floor
-tile_group: # = stone wall / wood wall
-tile: X = glass wall
-tile: " = window
+tile: # = w:8 wood wall / w:1 rubble
+tile: X = w:1 glass wall / w:5 rubble
+tile: " = w:1 window / w:5 rubble
 
 shuffle: 123
-tile: 1 = w:30 closed glass door / w:15 locked door / w:5 closed door / w:1 open door
-tile: 23 = glass wall
+tile: 1 = w:100 rubble / w:30 closed glass door / w:15 locked door / w:5 closed door / w:1 open door
+tile: 23 = w:1 glass wall / w:5 rubble
 
-tile: + = w:10 closed door / w:1 open door
-tile: t = toilet
-tile: K = sink
-tile: % = counter
+tile: + = w:10 rubble / w:10 closed door / w:1 open door
+tile: t = toilet / rubble
+tile: K = sink / rubble
+tile: % = w:4 counter / rubble
 
-subst: ? = w:3 ? / w:1 .
+subst: ? = ? / .
 tile: ? = floor
 furniture: ? = wood chair
 
-tile: { = display rack
+tile: { = w:4 display rack / w:1 rubble
 item_group: 80 { = items_hiking_tools
 
+subst: T = T / .
 tile: T = floor
 furniture: T = table
+subst: C = C / .
+subst: c = c / .
 tile: Cc = floor
 furniture: Cc = wood chair
 
+subst: D = D / .
 tile: D = floor
 furniture: D = desk
 
@@ -84,13 +88,13 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: std_ranger_whales_1_roof
-subname: std_ranger_whales_1
+name: std_fungal_ranger_whales_1_roof
+subname: std_fungal_ranger_whales_1
 floor: 1
-type: ranger station
+type: fungal ranger station
 
 tile: o = empty
-tile: . = roof
+tile: . = w:50 roof / w:1 empty
 
 map:
 ooooooooooooooooooooooooo
@@ -121,36 +125,39 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: std_ranger_whales_2
-subname: std_ranger_whales_2
-type: ranger station
+name: std_fungal_ranger_whales_2
+subname: std_fungal_ranger_whales_2
+type: fungal ranger station
 
 tile: o = grass / dirt
-tile: # = wood wall
-tile: x = short stone wall
-tile: X = glass wall
+tile: # = w:8 wood wall / w:1 rubble
+tile: x = w:15 short stone wall / w:1 rubble
+tile: X = w:1 glass wall / w:4 rubble
 tile: * = stone path
 tile: . = floor
-tile: % = counter
-tile: t = toilet
-tile: k = sink
-tile: + = closed door
-tile: ' = w:3 closed glass door / w:1 closed door
+tile: % = w:5 counter / w:1 rubble
+tile: t = toilet / rubble
+tile: k = sink / rubble
+tile: + = closed door / rubble
+tile: ' = w:3 closed glass door / w:1 closed door / w:2 rubble
 
 tile: S = stone path
 furniture: S = wood chair
-subst: S = w:3 * / w:1 S
+subst: S = w:15 * / w:1 S
 
+subst: T = T / .
+subst: c = c / .
+subst: C = C / .
 tile: TcC = floor
 furniture: T = table
 furniture: cC = wood chair
 
 shuffle: 123456
-tile: 1 = w:10 closed door / w:1 open door
+tile: 1 = w:3 rubble / w:10 closed door / w:1 open door
 tile: 23456 = wood wall
 
 shuffle: ab
-tile: ab = display rack
+tile: ab = w:4 display rack / w:1 rubble
 item_group: 70 a = items_hiking_tools
 item_group: 70 b = items_hiking_clothes
 
@@ -183,13 +190,13 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: std_ranger_whales_2_roof
-subname: std_ranger_whales_2
+name: std_fungal_ranger_whales_2_roof
+subname: std_fungal_ranger_whales_2
 floor: 1
-type: ranger station
+type: fungal ranger station
 
 tile: o = empty
-tile: . = roof
+tile: . = w:50 roof / w:1 empty
 
 map:
 ooooooooooooooooooooooooo
@@ -220,30 +227,30 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-# A ranger station with a tall observation tower.
+# A fungal ranger station with a tall observation tower.
 
-name: tower_ranger_whales
-subname: tower_ranger_whales
-type: ranger station
+name: tower_fungal_ranger_whales
+subname: tower_fungal_ranger_whales
+type: fungal ranger station
 
 tile: o = grass / dirt
-tile: # = wood wall
-tile: $ = stone wall
-tile: x = short stone wall
-tile: " = w:3 window / w:1 wood wall
-tile: + = closed door
+tile: # = w:8 wood wall / w:1 rubble
+tile: $ = w:20 stone wall / w:1 rubble
+tile: x = w:20 short stone wall / w:1 rubble
+tile: " = w:10 window / w:5 wood wall / w:5 window frame / w:1 rubble
+tile: + = w:4 closed door / w:1 rubble
+tile: t = toilet / rubble
+tile: k = sink / rubble
 tile: . = floor
 tile: * = stone path
 tile: < = wood ladder up
-tile: % = counter
-tile: t = toilet
-tile: k = sink
+tile: % = w:5 counter / w:1 rubble
 
 shuffle: 123
-tile: 1 = closed door
-tile: 23 = wood wall
+tile: 1 = w:4 closed door / w:1 rubble
+tile: 23 = w:8 wood wall / w:1 rubble
 
-tile: { = display rack
+tile: { = w:6 display rack / w:1 rubble
 item_group: 80 { = items_hiking_tools
 
 map:
@@ -275,18 +282,18 @@ oooooooooo##""##ooooooooo
 endmap
 done
 
-name: tower_ranger_whales_1
-subname: tower_ranger_whales
+name: tower_fungal_ranger_whales_1
+subname: tower_fungal_ranger_whales
 level: 1
-type: ranger station
+type: fungal ranger station
 
 tile: o = empty
-tile: * = roof
-tile: . = floor
-tile: # = wood wall
+tile: * = w:50 roof / w:1 empty
+tile: . = w:20 floor / w:1 empty
+tile: # = w:8 wood wall / w:1 rubble
 tile: > = wood ladder down
 tile: < = wood ladder up
-tile: " = w:3 window / w:1 wood wall
+tile: " = w:15 window / w:5 wood wall / w:5 window frame / w:1 rubble
 
 map:
 ooooooooooooooooooooooooo
@@ -317,14 +324,14 @@ oooooooooo##""##ooooooooo
 endmap
 done
 
-name: tower_ranger_whales_2
-subname: tower_ranger_whales
+name: tower_fungal_ranger_whales_2
+subname: tower_fungal_ranger_whales
 level: 2
-type: ranger station
+type: fungal ranger station
 
 tile: o = empty
-tile: . = floor
-tile: % = short wood wall
+tile: . = w:20 floor / w:1 empty
+tile: % = w:15 short wood wall / w:5 floor / w:1 empty
 tile: > = wood ladder down
 
 map:
@@ -356,40 +363,42 @@ oooooooooo%%%%%%ooooooooo
 endmap
 done
 
-name: courtyard_ranger_whales
-subname: courtyard_ranger_whales
-type: ranger station
+name: courtyard_fungal_ranger_whales
+subname: courtyard_fungal_ranger_whales
+type: fungal ranger station
 
 tile: o = grass / dirt
 tile: . = floor
 tile: * = stone path
-tile: # = stone wall
-tile: X = glass wall
-tile: + = w:5 closed door / w:1 locked door / w:1 open door
-tile: t = toilet
-tile: k = sink
-tile_group: $ = w:3 stone wall / w:1 glass wall
-tile: ' = w:3 stone wall / w:2 locked door / w:1 closed door
-tile: % = counter
-tile: " = window
+tile: # = w:20 stone wall / w:1 rubble
+tile: X = w:1 glass wall / w:5 rubble
+tile: + = w:5 closed door / w:1 locked door / w:1 open door / w:2 rubble
+tile: t = toilet / rubble
+tile: k = sink / rubble
+tile_group: $ = w:60 stone wall / w:2 glass wall / w:28 rubble
+tile: ' = w:9 stone wall / w:3 locked door / w:3 closed door / w:1 rubble
+tile: % = w:6 counter / w:1 rubble
+tile: " = w:1 window / w:8 window frame / w:1 rubble
 
 shuffle: 123
-tile: 1 = closed door
-tile: 23 = stone wall
+tile: 1 = w:6 closed door / w:1 rubble
+tile: 23 = w:20 stone wall / w:1 rubble
 
 shuffle: 456
-tile: 4 = w:5 locked door / w:1 closed door
-tile: 56 = stone wall
+tile: 4 = w:5 locked door / w:1 closed door / w:1 rubble
+tile: 56 = w:20 stone wall / w:1 rubble
 
 shuffle: 789
-tile: 7 = closed glass door
-tile: 89 = glass wall
+tile: 7 = w:1 closed glass door / w:5 rubble
+tile: 89 = w:1 glass wall / w:5 rubble
 
+subst: D = D / .
+subst: C = C / .
 tile: DC = floor
 furniture: D = desk
 furniture: C = wood chair
 
-tile: abc = display rack
+tile: abc = w:5 display rack / w:1 rubble
 item_group: 65 a = items_hiking_tools
 item_group: 65 b = items_hiking_clothes
 item_group: 80 c = items_cleaning
@@ -423,13 +432,13 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: courtyard_ranger_whales_roof
-subname: courtyard_ranger_whales
+name: courtyard_fungal_ranger_whales_roof
+subname: courtyard_fungal_ranger_whales
 level: 1
-type: ranger station
+type: fungal ranger station
 
 tile: o = nothing
-tile: . = roof
+tile: . = w:50 roof / w:1 rubble
 
 map:
 ooooooooooooooooooooooooo
