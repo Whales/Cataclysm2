@@ -478,46 +478,7 @@ void Worldmap::generate()
 // See worldmap.h for BONUS_SPACING definition
   for (int x = BONUS_SPACING; x < WORLDMAP_SIZE; x++) {
     for (int y = BONUS_SPACING; y < WORLDMAP_SIZE; y++) {
-// Check if we can place a road bonus - they're preferred
-      std::vector<Point> road_spots;
-      for (int rx = x - BONUS_SPACING / 2;
-           rx <= x + BONUS_SPACING / 2 && rx < WORLDMAP_SIZE - 1;
-           rx++) {
-        for (int ry = y - BONUS_SPACING / 2;
-             ry <= y + BONUS_SPACING / 2 && ry < WORLDMAP_SIZE - 1;
-             ry++) {
-          if (has_flag(WTF_ROAD, rx, ry)) {
-// It's a road; add all adjacent non-road tiles to the list
-            for (int cx = rx - 1; cx <= rx + 1; cx++) {
-              for (int cy = ry - 1; cy <= ry + 1; cy++) {
-                if (!has_flag(WTF_ROAD, cx, cy)) {
-                  road_spots.push_back( Point(cx, cy) );
-                }
-              }
-            }
-          }
-        }
-      }
-      int bx, by; // The actual spot we'll place our bonus
-      bool road = false;
-      if (road_spots.empty()) {
-        bx = x + rng(0 - BONUS_SPACING / 2, BONUS_SPACING / 2);
-        by = y + rng(0 - BONUS_SPACING / 2, BONUS_SPACING / 2);
-      } else {
-        road = true;
-        int index = rng(0, road_spots.size() - 1);
-        bx = road_spots[index].x;
-        by = road_spots[index].y;
-      }
-// We've got our spot!  But what biome is it in...?
-      Biome* bonus_biome = biomes[bx][by];
-      World_terrain* bonus_ter;
-      if (road) {
-        bonus_ter = bonus_biome->pick_road_bonus();
-      } else {
-        bonus_ter = bonus_biome->pick_bonus();
-      }
-      tiles[bx][by].terrain = bonus_ter;
+      add_bonus(x, y);
     }
   }
 // Finally, place mosnters!
@@ -546,6 +507,64 @@ void Worldmap::place_monsters()
           }
         }
       }
+    }
+  }
+}
+
+void Worldmap::add_bonus(int x, int y)
+{
+// Check if we can place a road bonus - they're preferred
+  std::vector<Point> road_spots;
+  for (int rx = x - BONUS_SPACING / 2;
+       rx <= x + BONUS_SPACING / 2 && rx < WORLDMAP_SIZE - 1;
+       rx++) {
+    for (int ry = y - BONUS_SPACING / 2;
+         ry <= y + BONUS_SPACING / 2 && ry < WORLDMAP_SIZE - 1;
+         ry++) {
+      if (has_flag(WTF_ROAD, rx, ry)) {
+// It's a road; add all adjacent non-road tiles to the list
+        for (int cx = rx - 1; cx <= rx + 1; cx++) {
+          for (int cy = ry - 1; cy <= ry + 1; cy++) {
+            if (!has_flag(WTF_ROAD, cx, cy)) {
+              road_spots.push_back( Point(cx, cy) );
+            }
+          }
+        }
+      }
+    }
+  }
+  int bx, by; // The actual spot we'll place our bonus
+  bool road = false;
+  if (road_spots.empty()) {
+    bx = x + rng(0 - BONUS_SPACING / 2, BONUS_SPACING / 2);
+    by = y + rng(0 - BONUS_SPACING / 2, BONUS_SPACING / 2);
+  } else {
+    road = true;
+    int index = rng(0, road_spots.size() - 1);
+    bx = road_spots[index].x;
+    by = road_spots[index].y;
+  }
+  if (bx < 0) {
+    bx = 0;
+  } else if (bx >= WORLDMAP_SIZE) {
+    bx = WORLDMAP_SIZE - 1;
+  }
+  if (by < 0) {
+    by = 0;
+  } else if (by >= WORLDMAP_SIZE) {
+    by = WORLDMAP_SIZE - 1;
+  }
+// We've got our spot!  But what biome is it in...?
+  Biome* bonus_biome = biomes[bx][by];
+  World_terrain* bonus_ter = NULL;
+  if (bonus_biome) {
+    if (road) {
+      bonus_ter = bonus_biome->pick_road_bonus();
+    } else {
+      bonus_ter = bonus_biome->pick_bonus();
+    }
+    if (bonus_ter) {
+      tiles[bx][by].terrain = bonus_ter;
     }
   }
 }

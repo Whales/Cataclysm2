@@ -41,6 +41,7 @@ public:
 
   void generate();
   void place_monsters();
+  void add_bonus(int x, int y);
   void set_terrain(int x, int y, std::string terrain_name);
 
   void init_shop_picker();

@@ -70,6 +70,9 @@ World_terrain* Variable_world_terrain::pick()
 
   int index = rng(1, total_chance);
   for (int i = 0; i < ter.size(); i++) {
+    if (i < 0 || i >= ter.size()) {
+      debugmsg("i = %d, ter.size() = %d", i, ter.size());
+    }
     index -= ter[i].chance;
     if (index <= 0) {
       return ter[i].terrain;
