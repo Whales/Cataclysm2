@@ -563,6 +563,7 @@ done
 name: stairs up
   display_name: staircase
   glyph: < yellow black
+  inverse: stairs down
   movecost: 100
   hp: 200
   destroy: rubble
@@ -572,6 +573,7 @@ done
 name: stairs down
   display_name: staircase
   glyph: > yellow black
+  inverse: stairs up
   movecost: 100
   hp: 200
   destroy: rubble
@@ -581,6 +583,7 @@ done
 name: wood ladder up
   display_name: wood ladder
   glyph: < ltred black
+  inverse: wood ladder down
   movecost: 100
   hp: 200
   destroy: rubble
@@ -590,6 +593,7 @@ done
 name: wood ladder down
   display_name: wood ladder
   glyph: > ltred black
+  inverse: wood ladder up
   movecost: 100
   hp: 200
   destroy: rubble
