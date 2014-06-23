@@ -681,6 +681,9 @@ Mapgen_spec::Mapgen_spec()
       terrain[x][y] = 0;
     }
   }
+  for (int i = 0; i < MAPFLAG_MAX; i++) {
+    flags.push_back(false);
+  }
 }
 
 bool Mapgen_spec::load_data(std::istream &data)
@@ -709,6 +712,21 @@ bool Mapgen_spec::load_data(std::istream &data)
     } else if (ident == "type:") {
       std::getline(data, terrain_name);
       terrain_name = trim(terrain_name);
+
+    } else if (ident == "flags:") {
+      std::string line;
+      std::getline(data, line);
+      std::istringstream flag_data(line);
+      std::string flag_name;
+      while (flag_data >> flag_name) {
+        Mapgen_flag flag = lookup_mapgen_flag(flag_name);
+        if (flag == MAPFLAG_NULL) {
+          debugmsg("Unknown Mapgen_flag '%s' (%s).", flag_name.c_str(),
+                   name.c_str());
+          return false;
+        }
+        flags[flag] = true;
+      }
 
     } else if (ident == "adjacent") {
       is_adjacent = true;
@@ -1390,6 +1408,14 @@ std::string Mapgen_spec::get_name()
   return ret.str();
 }
 
+bool Mapgen_spec::has_flag(Mapgen_flag flag)
+{
+  if (flag < 0 || flag >= flags.size()) {
+    return false;
+  }
+  return flags[flag];
+}
+
 void Mapgen_spec::debug_output()
 {
   std::ofstream fout;
@@ -1781,4 +1807,27 @@ Mapgen_spec* Mapgen_spec_pool::random_adjacent_to(World_terrain *ptr,
 int Mapgen_spec_pool::size()
 {
   return instances.size();
+}
+
+Mapgen_flag lookup_mapgen_flag(std::string name)
+{
+  name = trim( no_caps( name ) );
+  for (int i = 0; i < MAPFLAG_MAX; i++) {
+    Mapgen_flag ret = Mapgen_flag(i);
+    if ( no_caps( mapgen_flag_name(ret) ) == name ) {
+      return ret;
+    }
+  }
+  return MAPFLAG_NULL;
+}
+
+std::string mapgen_flag_name(Mapgen_flag flag)
+{
+  switch (flag) {
+    case MAPFLAG_NULL:          return "NULL";
+    case MAPFLAG_AUTOSTAIRS:    return "autostairs";
+    case MAPFLAG_MAX:           return "ERROR - MAPFLAG_MAX";
+    default:                    return "UNKNOWN MAPGEN_FLAG";
+  }
+  return "ERROR - Escaped mapgen_flag_name switch";
 }

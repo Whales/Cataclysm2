@@ -220,6 +220,16 @@ private:
   char selected;
 };
 
+enum Mapgen_flag
+{
+  MAPFLAG_NULL = 0,
+  MAPFLAG_AUTOSTAIRS,
+  MAPFLAG_MAX
+};
+
+Mapgen_flag lookup_mapgen_flag(std::string name);
+std::string mapgen_flag_name(Mapgen_flag flag);
+
 struct Mapgen_spec
 {
   Mapgen_spec();
@@ -235,6 +245,7 @@ struct Mapgen_spec
   int pick_furniture_uid(int x, int y);
 
   std::string get_name();
+  bool has_flag(Mapgen_flag flag);
   void debug_output();
 
   int uid;
@@ -268,6 +279,7 @@ private:
   void mark_furniture_uid(int x, int y, int uid);  // Recurses into neighbors
 
   int furniture_uid[MAPGEN_SIZE][MAPGEN_SIZE];
+  std::vector<bool> flags;
 };
 
 class Mapgen_spec_pool
