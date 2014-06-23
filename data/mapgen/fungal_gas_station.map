@@ -41,7 +41,7 @@ tile: bcd = w:12 stone wall / w:1 rubble
 shuffle: abcd
 
 tile: f = w:5 display fridge / w:1 rubble
-item_group: 40 f = items_fridge_snacks
+item_group: 50 f = items_fridge_snacks
 
 tile: D = dumpster
 item_group: 60 D = items_trash
