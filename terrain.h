@@ -87,6 +87,8 @@ struct Terrain
   unsigned int height;
   unsigned int hp;      // Defaults to 0.  0 HP means it's indestructible.
 
+  std::string inverse;  // For stairs - the opposite direction
+
   Terrain_smash smash;
   bool smashable;
   std::string destroy_result;

@@ -868,6 +868,21 @@ void Submap::generate_above(World_terrain* type, Submap* below)
   spec->prepare(ter);
   spec->rotate(rotation);
   generate(spec);
+// We might need to add stairs to match what's below.
+  if (spec->has_flag(MAPFLAG_AUTOSTAIRS)) {
+    for (int x = 0; x < SUBMAP_SIZE; x++) {
+      for (int y = 0; y < SUBMAP_SIZE; y++) {
+        Tile* t = &(below->tiles[x][y]);
+        if (t->terrain && t->terrain->has_flag(TF_STAIRS_UP)) {
+          std::string stair_name = t->terrain->inverse;
+          Terrain* stair = TERRAIN.lookup_name(stair_name);
+          if (stair) {
+            tiles[x][y].set_terrain(stair);
+          }
+        }
+      }
+    }
+  }
 }
 
 void Submap::clear_items()

@@ -247,6 +247,10 @@ bool Terrain::load_data(std::istream &data)
       std::getline(data, display_name);
       display_name = trim(display_name);
 
+    } else if (ident == "inverse:") {
+      std::getline(data, inverse);
+      inverse = trim(inverse);
+
     } else if (ident == "glyph:") {
       sym.load_data_text(data, name);
       std::getline(data, junk);
