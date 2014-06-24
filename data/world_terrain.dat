@@ -210,3 +210,15 @@ Name: fungal ranger station
   Road_cost: 500
   Flags: face_road
 Done
+
+Name: graveyard
+  Glyph: o dkgray black
+  Road_cost: 500
+  Flags: face_road
+Done
+
+Name: cabin
+  Glyph: o ltgreen black
+  Road_cost: 500
+  Flags: face_road
+Done

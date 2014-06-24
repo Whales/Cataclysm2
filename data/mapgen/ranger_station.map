@@ -226,6 +226,8 @@ name: tower_ranger_whales
 subname: tower_ranger_whales
 type: ranger station
 
+weight: 50
+
 tile: o = grass / dirt
 tile: # = wood wall
 tile: $ = stone wall
@@ -359,6 +361,8 @@ done
 name: courtyard_ranger_whales
 subname: courtyard_ranger_whales
 type: ranger station
+
+weight: 80
 
 tile: o = grass / dirt
 tile: . = floor

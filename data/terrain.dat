@@ -34,7 +34,6 @@ name: tall grass
   done
   destroy: grass
 done
-  
 
 # TODO: redo hole as a trapish thing.
 name: hole
@@ -234,7 +233,7 @@ name: stockade fence
 done
 
 name: chain-link fence
-  glyph: { dkgray black
+  glyph: { ltgray black
   movecost: 0
   height: 80
   hp: 35
@@ -246,6 +245,14 @@ name: chain-link fence
     armor: bash 1d10
     armor: cut 3d8
   done
+done
+
+name: iron fence
+  glyph: { dkgray black
+  movecost: 0
+  height: 80
+  hp: 80
+  destroy: pavement
 done
 
 name: floor
@@ -749,3 +756,19 @@ name: server rack
   flags: flammable container
 done
 
+name: grave
+  glyph: { dkgray black
+  movecost: 0
+  hp: 25
+  height: 40
+  smash:
+    failure_sound: "thud."
+    success_sound: rock crumbling.
+    armor: bash 5
+    armor: pierce 20
+    armor: cut 40
+    ignore_chance: 10
+  done
+  destroy: rubble
+  flags: opaque
+done

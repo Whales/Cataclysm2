@@ -1,33 +1,42 @@
 Name: ocean
   terrain: ocean
-  Done
+Done
+
 Name: grassland
   terrain: field
-  road_bonuses: w:100 gas station / w:15 barn
-  Done
+  road_bonuses: w:100 gas station / w:15 barn / w:5 graveyard
+Done
+
 Name: forest
   terrain: w:1 field / w:10 forest
-  road_bonuses: ranger station
-  Done
+  road_bonuses: w:100 ranger station / w:1 graveyard
+  bonuses: w:100 cabin
+Done
+
 Name: swamp
   terrain: swamp
-  road_bonuses: w:100 gas station
-  Done
+  road_bonuses: w:100 gas station / w:2 graveyard
+Done
+
 Name: mushroom forest
   terrain: mushroom forest
   road_bonuses: w:100 fungal gas station / w:20 fungal ranger station / w:10 gas station / w:2 ranger station
-  Done
+Done
+
 Name: rocky
   terrain: rocky
   road_bonuses: w:100 gas station
-  Done
+Done
+
 Name: city
   terrain: town square
   monsters: zombies
   population: 2d6 - 4
   flags: city
-  Done
+Done
+
 Name: lake
   terrain: fresh water
   flags: lake
-  Done
+Done
+
