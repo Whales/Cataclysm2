@@ -69,11 +69,11 @@ tile: + = w:5 grave / w:1 grass / w:1 dirt
 tile: 7 = w:1 dirt / w:1 grass / w:15 tree / w:1 small tree
 tile: 1 = w:4 dirt / w:4 grass / w:1 small tree / w:5 tree
 tile: 2 = w:10 dirt / w:10 grass / w:1 small tree / w:2 tree
-tile: 3 = w:18 dirt / w:18 grass / w:1 small tree / w:1 tree
-tile: 4 = w:30 dirt / w:30 grass / w:2 small tree / w:1 tree
+tile: 3 = w:14 dirt / w:14 grass / w:1 small tree / w:1 tree
+tile: 4 = w:20 dirt / w:20 grass / w:2 small tree / w:1 tree
 tile: { = iron fence
 tile: [ = w:3 dirt / w:1 iron fence
-tile_group: ] = iron fence / dirt
+tile_group: ] = iron fence / stone path
 
 map:
 ..43334.43.1o1.34.43334..
@@ -93,14 +93,14 @@ map:
 .434.4{++++.o.++++{4.434.
 .44.43{1....o....1{34.44.
 434{{{{++++.o.++++{{{{434
-323{7.ooooooooooooo.7{323
+323{7ooooooooooooooo7{323
 434{..+.+.+.o.+.+.+..{434
 4{{{..+.+.+.o.+.+.+..{{{4
 4{434.+.+.+.o.+.+.+.434{4
 4{3134+.+.+.o.+.+.+4313{4
 4{434......ooo......434{4
 4{{{{{{{{{{]]]{{{{{{{{{{4
-44444444444...44444444444
+44444444444ooo44444444444
 endmap
 done
 
@@ -110,7 +110,7 @@ type: graveyard
 tile: . = w:1 grass / w:5 dirt
 tile: o = stone path
 tile: + = w:2 grave / w:1 grass / w:1 dirt
-tile: 7 = w:2 grass / w:2 dirt / w:1 small tree / w:15 tree
+tile: 7 = w:2 grass / w:2 dirt / w:1 small tree / w:5 tree
 
 map:
 .+.o.................o.+.

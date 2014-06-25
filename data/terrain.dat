@@ -775,7 +775,7 @@ name: server rack
 done
 
 name: grave
-  glyph: { dkgray black
+  glyph: { ltgray black
   movecost: 0
   hp: 25
   height: 40
