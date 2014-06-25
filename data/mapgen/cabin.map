@@ -1,0 +1,409 @@
+### cabin.map
+#
+# The following tags are used: (# marks a line or part of a line as a comment)
+#
+# "name:" - Required.  A description of this spec.  It should appear first for
+#           debugging reasons.
+# "type:" - Required.  The World_terrain name this spec applies to.  See
+#           world_terrain.dat for a list of World_terrains.
+# "adjacent" - If this tag is present, then this map is an "adjacency" map.
+#              This should appear before "base_terrain:" or "tile:" lines.
+# "base_terrain:" - Recommended.  A terrain specification to be used for tiles
+#                   which are not defined in the map section.
+# "weight:" - A weight used when randomly choosing specs.  If omitted, the
+#             weight defaults to 100.  A spec with weight 200 is twice as likely#             to be used as one with weight 100.
+# "tile:" - Defines a terrain used in the map section.
+# "items:" - Defines an item drop used in the map section.
+# "map:" - Defines the start of the map section.
+# "endmap" - Defines the end of the map section.
+# "done" - Required.  Marks the end of this spec.
+#
+# See the bottom of this file for details on base_terrain and tile terrain
+# specifications, item drop specifications, and adjacency maps.
+
+name: porch_cabin_whales_1
+subname: porch_cabin_whales_1
+type: cabin
+
+tile: o = w:50 grass / w:50 dirt / w:1 small tree / w:1 tree
+tile: . = wood floor
+tile: # = wood wall
+tile: " = window
+tile: % = wood railing
+tile: ^ = counter
+tile: 7 = w:3 grass / w:3 dirt / w:4 tree
+tile: t = toilet
+tile: K = sink
+tile: B = bed
+
+tile: D = dresser
+item_group: 80 D = items_all_clothes
+
+shuffle: abc
+tile: a = w:4 locked door / w:1 closed door
+tile: bc = w:3 wood wall / w:1 window
+
+shuffle: de
+tile: d = wood floor
+tile: e = w:3 wood floor / w:1 counter
+
+shuffle: fgh
+tile: f = w:3 closed door / w:1 open door
+tile: gh = wood wall
+
+shuffle: ijkl
+tile: i = w:3 closed door / w:1 open door
+tile: jkl = wood wall
+
+shuffle: mn
+tile: m = w:3 closed door / w:1 open door
+tile: n = wood wall
+
+tile: F = fridge
+item_group: 50 F = items_fridge
+tile: { = shelves
+item_group: 50 { = items_food_shelves
+
+tile: STCL = wood floor
+furniture: S = sofa
+furniture: T = table
+furniture: C = wood chair
+furniture: L = stool
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo%%%%%%%%...%%%%%%%%ooo
+ooo%.................%ooo
+ooo%.................%ooo
+ooo###""###abc###""###ooo
+ooo#....C.....d.....F#ooo
+ooo#S.T.......^.....{#ooo
+ooo"S.T.......^.....{#ooo
+ooo#S...C.....^......#ooo
+ooo#..........^^^^^^e#ooo
+ooo"...........L.L.L."ooo
+ooo#.................#ooo
+ooo##########.##k##l##ooo
+ooo#D.BBT...f.i......#ooo
+ooo"..BB....#.#....B."ooo
+ooo#........g.j.D..B.#ooo
+ooo#........#.########ooo
+ooo"...C....#...m...t#ooo
+ooo#..TTT...h...n...K"ooo
+ooo###"##"####"#######ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: porch_cabin_whales_1_roof
+subname: porch_cabin_whales_1
+type: cabin
+floor: 1
+
+tile: o = empty
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooo...................ooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: porch_cabin_whales_2
+subname: porch_cabin_whales_2
+type: cabin
+
+tile: o = w:30 grass / w:30 dirt / w:1 small tree / w:1 tree
+tile: . = wood floor
+tile: # = wood wall
+tile: " = window
+tile: ' = w:3 window / w:1 wood wall
+tile: % = wood railing
+tile: t = toilet
+tile: K = sink
+tile: B = bed
+
+tile: STCL = wood floor
+furniture: S = sofa
+furniture: T = table
+furniture: C = wood chair
+
+tile: ^ = counter
+item_group: 40 ^ = items_kitchen_counter
+
+tile: F = fridge
+item_group: 50 F = items_fridge
+
+tile: $ = shelves
+item_group: 50 $ = items_food_shelves
+
+tile: D = dresser
+item_group: D = 80 items_all_clothes
+
+shuffle: abc
+shuffle: defg
+shuffle: hi
+shuffle: jkl
+shuffle: mnO
+shuffle: pqr
+tile: ad = w:3 locked door / w:1 closed door
+tile: hjmp = w:5 closed door / w:1 open door
+tile: bcfgiklnOqr = wood wall
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo%%%%%%%%%%%%%%%%ooooooo
+oo%..............%ooooooo
+oo%..............%ooooooo
+oo%..##d''e''f''g#ooooooo
+oo%..#...........#ooooooo
+oo%..a...C.C....S"ooooooo
+oo%.."...TTT....S#ooooooo
+oo%..b...C.C....S#ooooooo
+oo%..'..........."ooooooo
+oo%..c.......SSS.#ooooooo
+oo%%%###..########'##oooo
+ooooo#F........h...t#oooo
+ooooo"^........i...K#oooo
+ooooo'^....$#..######oooo
+ooooo'^....$#..j...D'oooo
+ooooo'^....$#..k...."oooo
+ooooo"^....$#..l..BB'oooo
+ooooo########..######oooo
+ooooo#BBT...r..m..BB'oooo
+ooooo"BB....q..n...."oooo
+ooooo#D.....p..o...D'oooo
+ooooo##"##"##''##"'##oooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: porch_cabin_whales_2_roof
+subname: porch_cabin_whales_2
+level: 1
+type: cabin
+
+tile: o = empty
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo................ooooooo
+oo................ooooooo
+oo................ooooooo
+oo................ooooooo
+oo................ooooooo
+oo................ooooooo
+oo................ooooooo
+oo................ooooooo
+oo................ooooooo
+oo................ooooooo
+oo...................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooo................oooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: garden_cabin_whales
+subname: garden_cabin_whales
+type: cabin
+
+tile: o = w:30 grass / w:30 dirt / w:1 small tree / w:1 tree
+tile: . = wood floor
+tile: * = stone path
+subst: & = * / o
+tile: # = wood wall
+tile: " = window
+tile: ' = w:3 window / w:1 wood wall
+tile: t = toilet
+tile: K = sink
+tile: B = bed
+
+tile: ! = picket fence
+tile: ~ = grass
+tile: ; = tall grass
+tile: / = hedge
+tile: 1 = w:10 small tree / w:1 tree / w:1 hedge
+tile: _ = undergrowth
+
+tile: ^ = counter
+item_group: 40 ^ = items_kitchen_counter
+
+tile: F = fridge
+item_group: 50 F = items_fridge
+
+tile: $ = shelves
+item_group: 50 $ = items_food_shelves
+
+tile: D = dresser
+item_group: D = 80 items_all_clothes
+
+tile: STCL = wood floor
+furniture: S = sofa
+furniture: T = table
+furniture: C = wood chair
+
+tile: H = grass
+furniture: H = wood chair
+
+shuffle: abcde
+shuffle: fgh
+tile: a = w:4 locked door / w:1 closed door
+tile: bcdegh = wood wall
+
+tile: +f = w:5 closed door / w:1 open door
+
+map:
+ooo&&&&&&&&&&&&&&&&&**ooo
+ooo&&&&&&&&&&&&&&&&&**ooo
+ooo#'a#"b#'c'#d"#e'#**ooo
+ooo#...............#**ooo
+ooo'..............S'**ooo
+ooo#SSS.C.C.......S#**ooo
+ooo###########...###**ooo
+ooo't...+........$$#**ooo
+ooo#K...#.C.C.....^"**ooo
+ooo######.TTT.....^"**ooo
+ooo#.DD.#.C.C.....F#**ooo
+ooo#....#####..#####**ooo
+ooo"....+......+..D#**ooo
+ooo#....#f#g#h##..."**ooo
+ooo#....#......#...#**ooo
+ooo".BB.#....BB#.BB"**ooo
+ooo#TBBT#D...BB#.BB#**ooo
+oo!##'"###"##"###"##**!oo
+oo!////////////////***!oo
+oo!~~~___~~___~~__***;!oo
+oo!~;***************;;!oo
+oo!~;**************H;1!oo
+oo!~~~~~~~~~~~~~~~~~;;!oo
+oo!~1~~1__1//1__1~~1~;!oo
+oo!!!!!!!!!!!!!!!!!!!!!oo
+endmap
+done
+
+name: garden_cabin_whales_roof
+subname: garden_cabin_whales
+level: 1
+type: cabin
+
+tile: o = empty
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooo.................ooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+
+# A recommended format for spec names is <DESC>_<TYPE>_<NAME>
+#  <DESC> is a short description of the unusual feature of this spec.  If it is
+#         not unusual, use "std".
+#  <TYPE> is the World_terrain used here.
+#  <NAME> is your name, initials, or handle.
+# This format makes it easy to identify the spec when debugging.
+#
+# The "tile:" line uses the following format:
+#       tile: abc = w:20 dirt / w:15 grass / tree
+# "abc" is a list of characters which, when found in the map section, will use
+# this terrain.  You can include spaces and they will be ignored.
+# " = " delineates between the list of characters and the terrain spec.  It must
+# be surrounded by spaces.
+# The rest of the line is a list of terrain names (from terrain.dat).  A terrain
+# is randomly picked from this list.  You must place " / " between terrain
+# names.  You can also include "w:20" with the terrain name to define its
+# weight for random selection.  If omitted, the weight defaults to 10.  A
+# terrain with weight 20 is twice as likely to be chosen as a terrain with
+# weight 10.
+#
+# The "base_terrain:" line uses the same terrain spec format, but of course the
+# list of characters and the " = " are not used.
+#
+# The "items:" line uses the following format:
+#       50 abc = rock / w:20 stick
+# The number at the front MUST be present.  It's the percentage chance of
+# placing a single item.  If one item is used, the same chance is used to decide
+# whether to place a second item, and so on until the chance fails.  It must be
+# between 1 and 99.  If it's not, you will be warned and the chance will be
+# corrected.
+# The rest of the line is very similar to the terrain specifications, but with
+# item names (from items.dat) instead of terrain names.
+#
+# The "map:" tag should appear on its own line.  It is followed by 25 lines of
+# 25 characters each - you will be warned if there are missing characters or
+# extra characters.  It is a list of characters which refer back to the "tile:"
+# or "items:" lines.  If no matching "tile:" is found, the base_terrain is used;
+# if the base_terrain is not present, the first terrain in terrain.dat is used.
+#
+# "Adjacency" specs are identified by placing the "adjacent" tag in the spec.
+# These specs are used when generating a map ADJACENT to the specified type.
+# Adjacency specs should be designed as if the adjacent terrain were to the
+# north; the spec will be rotated as needed.
+# The base terrain is generated, and then the adjacency map is generated on top.
+# Adjacency specs are the same as normal maps, but with the difference that
+# it is allowed to use "nothing" as a terrain name.  If "nothing" is selected,
+# then the terrain in the map will be unchanged.  Also, ONLY floor terrain will
+# be changed; non-floor terrain will be unchanged.

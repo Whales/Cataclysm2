@@ -101,7 +101,6 @@ done
 name: sand
   glyph: . yellow black
   movecost: 100
-  flags: floor
   signal: dig
     result: hole
   done
@@ -113,7 +112,6 @@ name: beach sand
   display_name: sand
   glyph: . yellow black
   movecost: 100
-  flags: floor
   signal: dig
     result: shallow salt water
   done
@@ -218,6 +216,20 @@ name: wood wall
   flags: opaque flammable
 done
 
+name: picket fence
+  glyph: { white black
+  movecost: 0
+  height: 60
+  hp: 12
+  destroy: dirt
+  smash:
+    failure_sound: "thump!"
+    success_sound: "crunch!"
+    armor: bash 1d7
+  done
+  flags: opaque flammable
+done
+
 name: stockade fence
   glyph: { yellow black
   movecost: 0
@@ -294,6 +306,12 @@ done
 
 name: concrete floor
   glyph: . ltgray black
+  movecost: 100
+  flags: floor
+done
+
+name: wood floor
+  glyph: . ltred black
   movecost: 100
   flags: floor
 done
@@ -771,4 +789,18 @@ name: grave
   done
   destroy: rubble
   flags: opaque
+done
+
+name: wood railing
+  glyph: % ltred black
+  movecost: 200
+  hp: 25
+  height: 40
+  smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+    armor: bash 5
+    armor: pierce 15
+  done
+  destroy: wood floor
 done

@@ -41,6 +41,23 @@ name: wood chair
   Flags: flammable
 done
 
+name: sofa
+  glyph: } blue black
+  move_cost: 300
+  height: 35
+  weight: 250
+  HP:      40
+  Smash:
+    failure_sound: "whack."
+    success_sound: "crunch."
+    armor: bash 15
+    armor: pierce 20
+    ignore_chance: 40
+  Done
+  Components: c:4 wood plank
+  flags: flammable
+done
+
 name: plastic chair
   glyph: } pink black
   move_cost:  300
