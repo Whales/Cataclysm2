@@ -476,9 +476,11 @@ void Worldmap::generate()
   }
 // Add some bonuses / road bonuses
 // See worldmap.h for BONUS_SPACING definition
-  for (int x = BONUS_SPACING; x < WORLDMAP_SIZE; x++) {
-    for (int y = BONUS_SPACING; y < WORLDMAP_SIZE; y++) {
-      add_bonus(x, y);
+  for (int x = BONUS_SPACING; x < WORLDMAP_SIZE; x += BONUS_SPACING) {
+    for (int y = BONUS_SPACING; y < WORLDMAP_SIZE; y += BONUS_SPACING) {
+      if (one_in(3)) {
+        add_bonus(x, y);
+      }
     }
   }
 // Finally, place mosnters!
