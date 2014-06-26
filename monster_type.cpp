@@ -190,7 +190,9 @@ bool Monster_type::load_data(std::istream &data)
       }
 
     } else if (ident == "hp:") {
-      hp_dice.load_data(data, name);
+      if (!hp_dice.load_data(data, name)) {
+        return false;
+      }
       hp_set = true;
 
     } else if (ident == "armor:") {
