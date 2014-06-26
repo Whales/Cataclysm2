@@ -83,11 +83,11 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
   bool done = false;
   while (!done && data.good()) {
     char ch = data.get();
-    //debugmsg("Dice '%c'", ch);
     if (data.good()) {
+
       if (ch >= '0' && ch <= '9') {
         current_number = current_number * 10 + (ch - '0');
-        //debugmsg("Dice Current %d", current_number);
+
       } else if (ch == 'd' || ch == 'D') {
         if (set_number) {
           debugmsg("Two 'd' characters in dice spec (%s)", owner_name.c_str());
@@ -96,6 +96,7 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
         set_number = true;
         number = current_number;
         current_number = 0;
+
       } else if (ch == '+' || ch == '-') {
         if (set_sides) {
           debugmsg("More than one bonus in dice spec (%s)", owner_name.c_str());
@@ -112,13 +113,16 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
         if (ch == '-') {
           negative_bonus = true;
         }
+
       } else if (ch == '\n' || ch == ';') {
         done = true;
+
       } else if (ch != ' ') {
         debugmsg("Extraneous character '%c' in dice spec (%s)", ch,
                  owner_name.c_str());
         return false;
       }
+
     } // if (data.good())
   } // while (!done && data.good())
 
