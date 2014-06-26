@@ -16,6 +16,7 @@
 #include "attack.h"
 #include "pathfind.h"
 #include "field.h"
+#include <istream>
 
 class Entity_pool;
 class Entity;
@@ -46,6 +47,10 @@ struct Furniture
   bool damage(Damage_type damtype, int dam);
   void destroy(); // Reset type to NULL
 
+  std::string save_data();
+  bool load_data(std::istream& data);
+
+// Properties
   Furniture_type *type;
   int hp;
   int uid;
@@ -94,6 +99,9 @@ struct Tile
   void destroy(); // Happens if hp <= 0
   bool signal_applies(std::string signal);
   bool apply_signal  (std::string signal, Entity* user = NULL);
+
+  std::string save_data();
+  bool load_data(std::istream& data);
 };
 
 struct Submap
@@ -129,11 +137,26 @@ struct Submap
   bool add_item(Item item, int x, int y);
   int  item_count(int x, int y);
   std::vector<Item>* items_at(int x, int y);
+
   Point random_empty_tile();
+
   std::string get_spec_name();
   std::string get_world_ter_name();
 
+  std::string save_data();
+  bool load_data(std::istream& data);
+
 };
+
+/* So: We need to limit how many submaps are in memory at any given time,
+ * because they use a lot of memory and we'll quickly run out.
+ * The idea here is to divide the world into "sectors," and have nine sectors -
+ * a 3x3 grid - in memory at once.  Once the player moves out of the center
+ * sector, we move/reload sectors so that the player is repositioned in the
+ * center.
+ */
+
+#define SECTOR_SIZE 10
 
 struct Submap_pool
 {
@@ -143,6 +166,13 @@ public:
   Submap* at_location(int x, int y, int z = 0);
   Submap* at_location(Point p);
   Submap* at_location(Tripoint p);
+
+/* load_area() loads nine sectors, with the upper-left corner at
+ * [SECTOR_SIZE * sector_x][SECTOR_SIZE * sector_y].  It saves all current data,
+ * runs through (instances) o find any submaps which aren't in that area, and
+ * removes them; it then loads or generates any missing submaps.
+ */
+  void load_area(int sector_x, int sector_y);
 
   int size();
 

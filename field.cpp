@@ -823,6 +823,66 @@ void Field::adjust_level()
   }
 }
 
+std::string Field::save_data()
+{
+  if (!type) {
+    return "Done";
+  }
+
+  std::stringstream ret;
+
+  ret << "Type: " << type->name << std::endl;
+  ret << "Level: " << level << std::endl;
+  ret << "Duration: " << duration << std::endl;
+  ret << "Dead: " << dead << std::endl; // TODO: Remove this?
+  ret << "Creator: " << creator << std::endl
+  ret << "Done";
+
+  return ret.str();
+}
+
+bool Field::load_data(std::istream& data)
+{
+  std::string ident;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      debugmsg("Couldn't read Field data.");
+      return false;
+    }
+    ident = no_caps( ident );
+
+    if (ident == "type:") {
+      std::string tmpname;
+      std::getline(data, tmpname);
+      tmpname = trim(tmpname);
+      type = FIELDS.lookup_name(tmpname);
+      if (!type) {
+        debugmsg("Unknown Field_type '%s'", tmpname.c_str());
+        return false;
+      }
+
+    } else if (ident == "level:") {
+      data >> level;
+
+    } else if (ident == "duration:") {
+      data >> duration;
+
+    } else if (ident == "dead:") {
+      data >> dead;
+
+    } else if (ident == "creator:") {
+      std::getline(data, creator);
+      creator = trim( creator );
+
+    } else {
+      debugmsg("Unknown Field property '%s'", ident.c_str());
+      return false;
+    }
+  }
+
+  return true;
+}
+
 bool Field::consume_fuel(Map* map, Tripoint pos)
 {
 // Calculate which points are open - in case we spread or put out smoke/etc

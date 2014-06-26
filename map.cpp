@@ -35,10 +35,7 @@ void Furniture::set_uid(int id)
 
 bool Furniture::is_real()
 {
-  if (type == NULL) {
-    return false;
-  }
-  return true;
+  return (type);
 }
 
 int Furniture::get_uid()
@@ -169,6 +166,56 @@ void Furniture::destroy()
 {
   type = NULL;
   uid  = -1;
+}
+
+std::string Furniture::save_data()
+{
+  if (!type) {
+    return "Done";
+  }
+
+  std::stringstream ret;
+
+  ret << "Type: " << type->name << std::endl;  // Name is a persistant unique ID
+  ret << "HP: " <<  hp << std::endl;
+  ret << "UID: " << uid << std::endl;
+  ret << "Done";
+
+  return ret;
+}
+
+bool Furniture::load_data(std::istream& data)
+{
+  std::string ident;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      debugmsg("Couldn't read Furniture data.");
+      return false;
+    }
+    ident = no_caps( ident );
+
+    if (ident == "type:") {
+      std::string tmpname;
+      std::getline(data, tmpname);
+      tmpname = trim( tmpname );
+      type = FURNITURE_TYPES.lookup_name(tmpname);
+      if (!type) {
+        debugmsg("Unknown furniture '%s'", tmpname.c_str());
+        return false;
+      }
+
+    } else if (ident == "hp:") {
+      data >> hp;
+
+    } else if (ident == "uid:") {
+      data >> uid;
+
+    } else {
+      debugmsg("Unknown furniture identifier '%s'", ident.c_str());
+      return false;
+    }
+  }
+  return true;
 }
 
 void Tile::set_terrain(Terrain* ter)
@@ -581,6 +628,31 @@ bool Tile::apply_signal(std::string signal, Entity* user)
     GAME.add_msg( handler.failure_message );
   }
   return true;  // True cause we still *tried* to...
+}
+
+std::string Tile::save_data()
+{
+  if (!terrain) {
+    return std::string;
+  }
+
+  std::stringstream ret;
+
+  ret << "Type: " << terrain->name << std::endl; // Name is a persistant UID
+  ret << "HP: " << hp << std::endl;
+  if (field.is_valid()) {
+    ret << "Field: " << field.save_data() << std::endl;
+  }
+  if (furniture.is_real()) {
+    ret << "Furniture: " << furniture.save_data() << std::endl;
+  }
+  for (int i = 0; i < items.size(); i++) {
+    ret << "Item: " << items[i].save_data() << std::endl;
+  }
+
+  ret << "Done";
+
+  return ret.str();
 }
 
 Submap::Submap()

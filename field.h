@@ -204,6 +204,11 @@ public:
   void gain_level();
   void lose_level();
   void adjust_level();  // Fixes level based on duration
+
+// File I/O
+  std::string save_data();
+  bool load_data(std::istream& data);
+
 private:
 // consume_fuel iterates over type/level's fuels and runs look_for_fuel on each
 // It returns true if we consumed fuel.

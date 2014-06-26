@@ -6,6 +6,7 @@
 #include "monster_type.h"
 #include <string>
 #include <vector>
+#include <istream>
 
 class Stats;
 class Entity;
@@ -99,6 +100,10 @@ public:
 
 // Interfaces
   Item_action show_info(Entity* user = NULL);
+
+// File I/O
+  std::string save_data();
+  bool load_data(std::istream& data);
 
   Item_type* ammo;  // Currently-loaded ammo type.
   std::vector<Item> contents; // Contents, attached mods, etc.
