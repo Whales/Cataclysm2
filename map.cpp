@@ -7,6 +7,8 @@
 #include "attack.h"
 #include "entity.h"
 #include "enum.h"
+#include "worldmap.h"
+#include "files.h"    // For SAVE_DIR
 #include <fstream>
 #include <sstream>
 
@@ -1090,8 +1092,89 @@ std::string Submap::get_world_ter_name()
   return spec_used->terrain_name;
 }
 
+std::string Submap::save_data()
+{
+  std::stringstream ret;
+
+  ret << "Tiles: " << std::endl;
+  for (int x = 0; x < SUBMAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE; y++) {
+      ret << tiles[x][y].save_data() << std::endl;
+    }
+  }
+
+  if (spec_used) {
+    ret << "Spec: " << spec_used->get_name() << std::endl;
+  }
+
+  ret << "Subname: " << subname << std::endl;
+  ret << "Rotation: " << rotation << std::endl;
+  ret << "Level: " << level << std::endl;
+  ret << "Done";
+
+  return ret.str();
+}
+
+bool Submap::load_data(std::istream& data)
+{
+  std::string ident;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      debugmsg("Couldn't read Submap data.");
+      return false;
+    }
+    ident = no_caps(ident);
+
+    if (ident == "tiles:") {
+      for (int x = 0; x < SUBMAP_SIZE; x++) {
+        for (int y = 0; y < SUBMAP_SIZE; y++) {
+          if (!tiles[x][y].load_data(data)) {
+            debugmsg("Failed to read Submap Tile [%d:%d]", x, y);
+            return false;
+          }
+        }
+      }
+
+    } else if (ident == "spec:") {
+      std::string specname;
+      std::getline(data, specname);
+      specname = trim(specname);
+      spec_used = MAPGEN_SPECS.lookup_name(specname);
+      if (!spec_used) {
+        debugmsg("Unknown Mapgen_spec %s.", specname.c_str());
+        return false;
+      }
+
+    } else if (ident == "subname:") {
+      std::string tmpname;
+      std::getline(data, tmpname);
+      subname = trim(tmpname);
+
+    } else if (ident == "rotation:") {
+      int tmprot;
+      data >> tmprot;
+      if (tmprot < 0 || tmprot > DIR_WEST) {
+        debugmsg("Invalid direction %d (range is 0 - 4).", tmprot);
+        return false;
+      }
+
+    } else if (ident == "level:") {
+      data >> level;
+
+    } else if (ident != "done") {
+      debugmsg("Unknown Submap property '%s'", ident.c_str());
+    }
+  }
+  if (ident != "done") {
+    debugmsg("Submap save data was incomplete.");
+    return false;
+  }
+  return true;
+}
+
 Submap_pool::Submap_pool()
 {
+  sector = Point(-1, -1);
 }
 
 Submap_pool::~Submap_pool()
@@ -1119,6 +1202,175 @@ Submap* Submap_pool::at_location(Tripoint p)
   if (point_map.count(p) > 0) {
     return point_map[p];
   }
+  return generate_submap(p);
+}
+
+void Submap_pool::load_area(int sector_x, int sector_y)
+{
+  int max_sector = WORLDMAP_SIZE / SECTOR_SIZE;
+  if (sector_x < 0 || sector_x > max_sector ||
+      sector_y < 0 || sector_y > max_sector   ) {
+    debugmsg("Submap_pool::load_area(%d, %d) - limit (%d, %d)",
+             sector_x, sector_y, max_sector, max_sector);
+    return;
+  }
+
+// First, handle the existing submaps
+  for (int sx = sector.x; sx < sector.x + 3; sx++) {
+    for (int sy = sector.y; sy < sector.y + 3; sy++) {
+
+// Only save sectors that won't exist in the new Submap_pool.
+      if (sx < sector_x || sx >= sector_x + 3 ||
+          sy < sector_y || sy >= sector_y + 3   ) {
+        std::stringstream filename;
+        filename << SAVE_DIR << "/" << GAME.worldmap->get_name() << "/map." <<
+                    sx << "." << sy;
+  
+        std::ofstream fout;
+        fout.open( filename.str().c_str() );
+        if (!fout.is_open()) {
+          debugmsg("Couldn't open %s.", filename.str().c_str());
+          return;
+        }
+  
+        int start_x = sx * SECTOR_SIZE, start_y = sy * SECTOR_SIZE;
+        for (int mx = start_x; mx < start_x + SECTOR_SIZE; mx++) {
+          for (int my = start_y; my < start_y + SECTOR_SIZE; my++) {
+  // TODO: Save above-ground submaps
+            Tripoint curpos = Tripoint(mx, my, 0);
+            if (point_map.count(curpos) == 0) {
+              debugmsg("No submap exists at %s!", curpos.str().c_str());
+            } else {
+              Submap* curmap = point_map[curpos];
+              fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
+                      curmap->save_data() << std::endl;
+              remove_point(curpos);
+              remove_submap(curmap);
+  // Now do above-ground submaps!
+              curpos.z++;
+              while (point_map.count(curpos) > 0) {
+                curmap = point_map[curpos];
+                fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
+                        curmap->save_data() << std::endl;
+                remove_point(curpos);
+                remove_submap(curmap);
+                curpos.z++;
+              }
+            }
+          } // for (start_y <= mx < start_x + SECTOR_SIZE
+        } // for (start_x <= mx < start_x + SECTOR_SIZE
+      } // If <sector is moving out of bounds>
+    } // for (int sy = sector.y; sy < sector.y + 3; sy++)
+  } // for (int sx = sector.x; sx < sector.x + 3; sx++)
+
+/* At this point, we've saved and deleted all submaps which won't be in the
+ * updated pool.  The next step is to load (or generate if need be) all the
+ * submaps which WILL be in the updated pool.
+ */
+
+  for (int sx = sector_x; sx < sector_x + 3; sx++) {
+    for (int sy = sector_y; sy < sector_y + 3; sy++) {
+/* Again, we check for overlap with the *old* position - no need to re-load
+ * or re-generate those submaps.
+ */
+      if (sx < sector.x || sx >= sector.x + 3 ||
+          sy < sector.y || sy >= sector.y + 3   ) {
+// Attempt to load from file
+        std::stringstream filename;
+        filename << SAVE_DIR << "/" << GAME.worldmap->get_name() << "/map." <<
+                    sx << "." << sy;
+        if (!load_submaps( filename.str() )) { // No file! Generate the submaps.
+          int startx = sx * SECTOR_SIZE, starty = sy * SECTOR_SIZE;
+          for (int mx = startx; mx < startx + SECTOR_SIZE; mx++) {
+            for (int my = starty; my < starty + SECTOR_SIZE; my++) {
+              generate_submap(mx, my);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+void Submap_pool::load_area_centered_on(int center_x, int center_y)
+{
+  if (center_x < 0 || center_x >= WORLDMAP_SIZE ||
+      center_y < 0 || center_y >= WORLDMAP_SIZE   ) {
+    debugmsg("Submap_pool::load_area_centered_on(%d, %d) - limit (%d, %d)",
+             center_x, center_y, WORLDMAP_SIZE, WORLDMAP_SIZE);
+    return;
+  }
+// e.g. SECTOR_SIZE = 10; 47 => 40
+  int sector_x = center_x - (center_x % SECTOR_SIZE);
+  int sector_y = center_y - (center_y % SECTOR_SIZE);
+
+// 40 => 4
+  sector_x /= SECTOR_SIZE;
+  sector_y /= SECTOR_SIZE;
+
+// 4 => 3
+  sector_x--;
+  sector_y--;
+
+  load_area(sector_x, sector_y);
+}
+
+int Submap_pool::size()
+{
+  return instances.size();
+}
+
+void Submap_pool::remove_point(Tripoint p)
+{
+  if (point_map.count(p) == 0) {
+    return;
+  }
+  point_map.erase(p);
+}
+
+void Submap_pool::remove_submap(Submap* sm)
+{
+  if (!sm) {
+    return;
+  }
+  delete sm;
+  instances.remove(sm);
+}
+
+bool Submap_pool::load_submaps(std::string filename)
+{
+  std::ifstream fin;
+  fin.open( filename.c_str() );
+  if (!fin.is_open()) {
+    return false;
+  }
+  while (!fin.eof()) {
+    Tripoint smpos;
+    fin >> smpos.x >> smpos.y >> smpos.z;
+    if (point_map.count(smpos) > 0) {
+      debugmsg("Submap_pool collision at %s!", smpos.str().c_str());
+      return false;
+    }
+    Submap* sm = new Submap;
+    if (sm->load_data(fin)) {
+      instances.push_back(sm);
+      point_map[smpos] = sm;
+    } else {
+      delete sm;
+      debugmsg("Failed to load submap at %s.", smpos.str().c_str());
+      return false;
+    }
+  }
+  return true;
+}
+
+Submap* Submap_pool::generate_submap(int x, int y, int z)
+{
+  return generate_submap( Tripoint(x, y, z) );
+}
+
+Submap* Submap_pool::generate_submap(Tripoint p)
+{
   Submap* sub = new Submap;
   if (p.z > 0) {
     Submap* below = at_location(p.x, p.y, p.z - 1);
@@ -1134,11 +1386,6 @@ Submap* Submap_pool::at_location(Tripoint p)
   point_map[p] = sub;
   instances.push_back(sub);
   return sub;
-}
-
-int Submap_pool::size()
-{
-  return instances.size();
 }
 
 Map::Map()

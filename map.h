@@ -173,12 +173,25 @@ public:
  * removes them; it then loads or generates any missing submaps.
  */
   void load_area(int sector_x, int sector_y);
+/* load_area_centered_on() calls load_area, passing a sector_x and sectory_y
+ * which will place [center_x][center_y] in the center sector.
+ */
+  void load_area_centered_on(int center_x, int center_y);
 
   int size();
 
   std::list<Submap*> instances;
+  Point sector;
+
 private:
   std::map<Tripoint,Submap*,Tripointcomp> point_map;
+
+  void remove_point(Tripoint p);
+  void remove_submap(Submap* sm);
+
+  bool load_submaps(std::string filename);
+  Submap* generate_submap(int x, int y, int z = 0);
+  Submap* generate_submap(Tripoint p);
 };
 
 class Map
