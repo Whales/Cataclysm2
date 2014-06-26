@@ -181,7 +181,7 @@ std::string Furniture::save_data()
   ret << "UID: " << uid << std::endl;
   ret << "Done";
 
-  return ret;
+  return ret.str();
 }
 
 bool Furniture::load_data(std::istream& data)
@@ -210,7 +210,7 @@ bool Furniture::load_data(std::istream& data)
     } else if (ident == "uid:") {
       data >> uid;
 
-    } else {
+    } else if (ident != "done") {
       debugmsg("Unknown furniture identifier '%s'", ident.c_str());
       return false;
     }
@@ -633,7 +633,7 @@ bool Tile::apply_signal(std::string signal, Entity* user)
 std::string Tile::save_data()
 {
   if (!terrain) {
-    return std::string;
+    return "Done";
   }
 
   std::stringstream ret;
@@ -653,6 +653,53 @@ std::string Tile::save_data()
   ret << "Done";
 
   return ret.str();
+}
+
+bool Tile::load_data(std::istream& data)
+{
+  std::string ident;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      debugmsg("Couldn't read data (Tile).");
+      return false;
+    }
+    ident = no_caps(ident);
+
+    if (ident == "type:") {
+      std::string tmpname;
+      std::getline(data, tmpname);
+      tmpname = trim(tmpname);
+      terrain = TERRAIN.lookup_name(tmpname);
+      if (!terrain) {
+        debugmsg("Unknown Terrain '%s'", tmpname.c_str());
+        return false;
+      }
+
+    } else if (ident == "hp:") {
+      data >> hp;
+
+    } else if (ident == "field:") {
+      if (!field.load_data(data)) {
+        field = Field();
+      }
+
+    } else if (ident == "furniture:") {
+      if (!furniture.load_data(data)) {
+        furniture = Furniture();
+      }
+
+    } else if (ident == "item:") {
+      Item tmpit;
+      if (tmpit.load_data(data)) {
+        items.push_back(tmpit);
+      }
+
+    } else if (ident != "done") {
+      debugmsg("Unknown Tile property '%s'", ident.c_str());
+      return false;
+    }
+  }
+  return true;
 }
 
 Submap::Submap()

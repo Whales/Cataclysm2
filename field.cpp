@@ -835,7 +835,7 @@ std::string Field::save_data()
   ret << "Level: " << level << std::endl;
   ret << "Duration: " << duration << std::endl;
   ret << "Dead: " << dead << std::endl; // TODO: Remove this?
-  ret << "Creator: " << creator << std::endl
+  ret << "Creator: " << creator << std::endl;
   ret << "Done";
 
   return ret.str();
@@ -874,7 +874,7 @@ bool Field::load_data(std::istream& data)
       std::getline(data, creator);
       creator = trim( creator );
 
-    } else {
+    } else if (ident != "done") {
       debugmsg("Unknown Field property '%s'", ident.c_str());
       return false;
     }
