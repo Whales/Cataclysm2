@@ -1023,6 +1023,109 @@ Item_action Item::show_info(Entity* user)
   return IACT_NULL;
 }
 
+std::string Item::save_data()
+{
+  if (!type) {
+    return "Done";
+  }
+
+  std::stringstream ret;
+
+  ret << "Type: " << type->name << std::endl;
+  if (ammo) {
+    ret << "Ammo: " << ammo->name << std::endl;
+  }
+  ret << "Count: " << count << std::endl;
+  ret << "Charges: " << charges << std::endl;
+  ret << "Subcharges: " << subcharges << std::endl;
+  ret << "HP: " << hp << std::endl;
+  ret << "Fire_mode: " << fire_mode << std::endl;
+  ret << "UID: " << uid << std::endl;
+  if (active != ITEM_ACTIVE_OFF) {
+    ret << "Active: " << int(active) << std::endl;
+  }
+  if (corpse) {
+    ret << "Corpse: " << corpse->name << std::endl;
+  }
+  ret << "Done";
+
+  return ret.str();
+}
+
+bool Item::load_data(std::istream& data)
+{
+  std::string ident;
+  while (ident != "done" && !data.eof()) {
+    if ( ! (data >> ident) ) {
+      debugmsg("Couldn't read Item data.");
+      return false;
+    }
+    ident = no_caps( ident );
+
+    if (ident == "type:") {
+      std::string tmpname;
+      std::getline(data, tmpname);
+      type = ITEM_TYPES.lookup_name(tmpname);
+      if (!type) {
+        debugmsg("Unknown Item_type '%s'", tmpname.c_str());
+        return false;
+      }
+
+    } else if (ident == "ammo:") {
+      std::string tmpname;
+      std::getline(data, tmpname);
+      ammo = ITEM_TYPES.lookup_name(tmpname);
+      if (!ammo) {
+        debugmsg("Unknown Item_type '%s' (ammo)", tmpname.c_str());
+        return false;
+      }
+
+    } else if (ident == "count:") {
+      data >> count;
+
+    } else if (ident == "charges:") {
+      data >> charges;
+
+    } else if (ident == "subcharges:") {
+      data >> subcharges;
+
+    } else if (ident == "hp:") {
+      data >> hp;
+
+    } else if (ident == "fire_mode:") {
+      data >> fire_mode;
+
+    } else if (ident == "uid:") {
+      data >> uid;
+
+    } else if (ident == "active:") {
+      int tmpact;
+      data >> tmpact;
+      if (tmpact < 0 || tmpact >= ITEM_ACTIVE_MAX) {
+        debugmsg("Invalid Item_active_type %d (Max is %d)", tmpact,
+                 int(ITEM_ACTIVE_MAX) - 1);
+        return false;
+      }
+
+    } else if (ident == "corpse:") {
+      std::string tmpname;
+      std::getline(data, tmpname);
+      corpse = MONSTER_TYPES.lookup_name(tmpname);
+      if (!corpse) {
+        debugmsg("Unknown Monster_type '%s' (corpse)", tmpname.c_str());
+        return false;
+      }
+
+    } else if (ident != "done") {
+      debugmsg("Unknown Item property '%s'", ident.c_str());
+      return false;
+    }
+  }
+  return true;
+}
+
+
+
 std::string list_items(std::vector<Item> *items)
 {
   if (items->empty()) {

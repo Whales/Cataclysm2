@@ -29,8 +29,6 @@ public:
 
   Item& operator=(const Item &rhs);
 
-  Item_type* type;
-
   void set_corpse(Monster_type* type) { corpse = type; }
 
   Item_class get_item_class();
@@ -105,6 +103,8 @@ public:
   std::string save_data();
   bool load_data(std::istream& data);
 
+// Data
+  Item_type* type;
   Item_type* ammo;  // Currently-loaded ammo type.
   std::vector<Item> contents; // Contents, attached mods, etc.
   int count;
