@@ -270,3 +270,12 @@ Name: pond
   Spread_cost: 25
   Spread: 2d4 - 2
 Done
+
+Name: factory
+  Glyph: F ltred black
+  Road_cost: 500
+  Spread_cost: 20
+  Spread: 1d9
+  Spread_type: center
+  Flags: face_road
+Done

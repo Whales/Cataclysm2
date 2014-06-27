@@ -90,6 +90,10 @@ name: items_cleaning
   items: w:10 dust mask / w:15 rubber gloves / w:15 rag / w:3 broom / w:1 showerhead / w:2 plastic bottle
 done
 
+name: items_factory_tools
+  items: w:1 rope / w:20 hammer / w:30 wrench / w:1 sledgehammer / w:5 steel pipe / w:25 screwdriver / w:5 rag / w:5 dust mask / w:5 work gloves / w:3 nails / w:3 batteries / w:8 crowbar / w:3 bandages / w:2 first aid kit / w:10 flashlight
+done
+
 name: items_hiking_tools
   items: w:5 rope / w:10 pocket knife / w:10 hunting knife / w:10 hatchet / w:1 large axe / w:1 machete / w:15 rag / w:10 beef jerky / w:2 chocolate bar / w:5 water / w:15 birdseed / w:2 aspirin / w:5 bandages / w:30 flashlight
 done
@@ -161,6 +165,10 @@ done
 
 name: items_cash
   items: w:5 brick of money / w:1 bundle of money
+done
+
+name: items_office
+  items: w:10 pocket knife / w:1 rag / w:3 bundle of money / w:2 fedora / w:20 glasses / w:2 scarf / w:2 bandana / w:2 leather gloves / w:1 oxfords / w:5 purse / w:1 gold ring / w:15 batteries / w:3 potato chips / w:2 pretzels / w:2 beef jerky / w:3 chocolate bar / w:3 water / w:3 whisky / w:3 wine / w:7 energy drink / w:3 cigarettes / w:8 aspirin / w:1 amphetamine / w:5 lighter / w:1 bandages / w:2 flashlight
 done
 
 # Gun store items

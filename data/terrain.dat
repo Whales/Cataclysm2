@@ -828,3 +828,17 @@ name: wood railing
   done
   destroy: wood floor
 done
+
+name: machinery
+  glyph: { magenta black
+  movecost: 0
+  hp: 50
+  height: 80
+  smash:
+    failure_sound: "whunk."
+    success_sound: "crash!"
+    armor: bash 2d8
+    armor: cut 3d10
+  done
+  destroy: rubble
+done
