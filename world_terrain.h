@@ -65,7 +65,11 @@ struct World_terrain
   int road_cost;  // Used when pathing roads; high cost means roads go around
   int spread_cost;  // Resistance to being covered by bonuses
   Dice spread; // How much spread_cost we can cover when placed as a bonus
-  Variable_world_terrain spread_options;  // Other terrain for spreading
+/* We use a string in order to allow us to include ourselves and not-yet-defined
+ * terrain.  When the spread_options is used (in worldmap_generate.cpp,
+ * Worldmap::add_bonus()), we'll convert it to a Variable_world_terrain.
+ */
+  std::string spread_options;
   glyph sym;
 
   World_terrain();

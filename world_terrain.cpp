@@ -164,13 +164,15 @@ bool World_terrain::load_data(std::istream &data)
       }
 
     } else if (ident == "spread_options:") {
-      std::string spread_line;
-      std::getline(data, spread_line);
+      std::getline(data, spread_options);
+      spread_options = trim(spread_options);
+/*
       std::istringstream spread_data(spread_line);
       if (!spread_options.load_data(spread_data, name)) {
         debugmsg("Error loading spread_options for '%s'", name.c_str());
         return false;
       }
+*/
 
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
@@ -196,14 +198,6 @@ bool World_terrain::load_data(std::istream &data)
     }
   } while (ident != "done" && !data.eof());
 
-/* If we have spread options, always include ourselves with a weight of 10.
- * TODO: It'd be nice to not have to use this hack, but since we can't
- *       reference ourselves until we've been added to the Datapool, it's our
- *       only option for now.
- */
-  if (!spread_options.empty()) {
-    spread_options.add_terrain(10, this);
-  }
 // TODO: Flag loading.
   return true;
 }

@@ -232,7 +232,7 @@ Name: barn
   Flags: face_road
   Spread_cost: 5
   Spread: 3d3 - 1
-  Spread_options: w:8 house / w:100 farm plot
+  Spread_options: w:10 farm plot / w:3 barn / w:2 house
 Done
 
 Name: ranger station

@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "window.h"
 #include <math.h>
+#include <sstream>
 
 void Worldmap::generate()
 {
@@ -604,11 +605,15 @@ void Worldmap::add_bonus(int x, int y)
           if (bonus_ter->spread_options.empty()) {
             target->terrain = bonus_ter;
           } else {
-            World_terrain* new_bonus = bonus_ter->spread_options.pick();
-            if (new_bonus) {
-              target->terrain = new_bonus;
-            } else {
-              target->terrain = bonus_ter;
+            Variable_world_terrain options;
+            std::istringstream options_ss(bonus_ter->spread_options);
+            if (options.load_data(options_ss, bonus_ter->get_name())) {
+              World_terrain* new_bonus = options.pick();
+              if (new_bonus) {
+                target->terrain = new_bonus;
+              } else {
+                target->terrain = bonus_ter;
+              }
             }
           }
         }
