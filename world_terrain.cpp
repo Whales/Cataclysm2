@@ -95,6 +95,7 @@ World_terrain::World_terrain()
   beach_range = -1;
   road_cost = 100;
   spread_cost = 1;
+  spread_type = SPREAD_NORMAL;
   sym = glyph();
   for (int i = 0; i < WTF_MAX; i++) {
     flags.push_back(false);
@@ -160,6 +161,16 @@ bool World_terrain::load_data(std::istream &data)
 
     } else if (ident == "spread:") {
       if (!spread.load_data(data, name)) {
+        return false;
+      }
+
+    } else if (ident == "spread_type:") {
+      std::string spread_name;
+      std::getline(data, spread_name);
+      spread_type = lookup_spread_type(spread_name);
+      if (spread_type == SPREAD_NULL) {
+        debugmsg("Unknown Spread_type '%s' (%s)",
+                 spread_name.c_str(), name.c_str());
         return false;
       }
 
@@ -245,4 +256,28 @@ std::string world_terrain_flag_name(World_terrain_flag flag)
     default:                return "BUG - Unnamed World_terrain_flag";
   }
   return "BUG - Escaped switch in world_terrain_flag_name()";
+}
+
+Spread_type lookup_spread_type(std::string name)
+{
+  name = no_caps( trim( name ) );
+  for (int i = 0; i < SPREAD_MAX; i++) {
+    Spread_type ret = Spread_type(i);
+    if (no_caps( spread_type_name(ret) ) == name) {
+      return ret;
+    }
+  }
+  return SPREAD_NULL;
+}
+
+std::string spread_type_name(Spread_type type)
+{
+  switch (type) {
+    case SPREAD_NULL:   return "NULL";
+    case SPREAD_NORMAL: return "normal";
+    case SPREAD_CENTER: return "center";
+    case SPREAD_MAX:    return "BUG - SPREAD_MAX";
+    default:            return "BUG - Unnamed Spread_type";
+  }
+  return "BUG - Escaped spread_type_name() switch";
 }

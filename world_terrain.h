@@ -26,6 +26,17 @@ enum World_terrain_flag
 World_terrain_flag lookup_world_terrain_flag(std::string name);
 std::string world_terrain_flag_name(World_terrain_flag flag);
 
+enum Spread_type
+{
+  SPREAD_NULL = 0,
+  SPREAD_NORMAL,    // Normal spread; slightly weighted towards circular
+  SPREAD_CENTER,    // Always spread from the center if we're able
+  SPREAD_MAX
+};
+
+Spread_type lookup_spread_type(std::string name);
+std::string spread_type_name(Spread_type type);
+
 struct World_terrain;
 
 struct World_terrain_chance
@@ -65,6 +76,7 @@ struct World_terrain
   int road_cost;  // Used when pathing roads; high cost means roads go around
   int spread_cost;  // Resistance to being covered by bonuses
   Dice spread; // How much spread_cost we can cover when placed as a bonus
+  Spread_type spread_type;  // How do we spread?  Defaults to SPREAD_NORMAL
 /* We use a string in order to allow us to include ourselves and not-yet-defined
  * terrain.  When the spread_options is used (in worldmap_generate.cpp,
  * Worldmap::add_bonus()), we'll convert it to a Variable_world_terrain.
