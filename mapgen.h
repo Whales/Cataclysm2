@@ -258,7 +258,8 @@ struct Mapgen_spec
 
   bool is_adjacent; // If true, this is instructions for building adjacent to
                     // terrain_name
-  int  num_neighbors;
+  int  num_neighbors; // For relational maps, how many neighbors we have
+                      // Note that "11" means two neighbors on opposite sides
   int  weight;      // The likelihood of using this spec
   int  z_level;
   std::map<char,Variable_terrain> terrain_defs;

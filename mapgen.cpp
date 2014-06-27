@@ -1242,7 +1242,7 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
     for (int i = 1; i < 5; i++) {
       neighbor.push_back( (world_ter[i] == world_ter[0]) );
     }
-    if (num_neighbors == 1) {
+    if (num_neighbors == 1 || num_neighbors == 11) {
       if (neighbor[DIR_NORTH]) {
       } else if (neighbor[DIR_EAST]) {
         rotate(DIR_EAST);
@@ -1259,7 +1259,7 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
       } else if (neighbor[DIR_WEST] && neighbor[DIR_NORTH]) {
         rotate(DIR_WEST);
       }
-    } else if (num_neighbors == 3) { // Fast to check who DOESN'T have it
+    } else if (num_neighbors == 3) { // Faster to check who DOESN'T have it
       if (!neighbor[DIR_NORTH]) {
         rotate(DIR_EAST);
       } else if (!neighbor[DIR_EAST]) {
@@ -1607,10 +1607,10 @@ Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
       num_neighbors++;
     }
   }
-// Special case "straight" ones - they're 1-neighbor too
+// Special case "straight" ones - they're 11-neighbor (1 and 1)
   if (num_neighbors == 2 && ((neighbor[DIR_NORTH] && neighbor[DIR_SOUTH]) ||
                              (neighbor[DIR_EAST]  && neighbor[DIR_WEST] )   )) {
-    num_neighbors = 1;
+    num_neighbors = 11;
   }
 
   int new_total_chance = 0;
