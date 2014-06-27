@@ -7,6 +7,15 @@ name: dirt
   flags: plural floor mutable
 done
 
+name: dirt mound
+  glyph: % brown black
+  movecost: 150
+  signal: dig
+    result: hole
+  done
+  flags: floor mutable
+done
+
 name: grass
   glyph: . green black
   movecost: 100
@@ -265,6 +274,21 @@ name: iron fence
   height: 80
   hp: 80
   destroy: pavement
+done
+
+name: field fence
+  glyph: { brown black
+  movecost: 300
+  height: 65
+  hp: 40
+  destroy: dirt
+  smash:
+    failure_sound: "Thump!"
+    success_sound: "Crunch!"
+    armor: bash 1d8
+    armor: cut 1d6
+  done
+  flags: flammable
 done
 
 name: floor

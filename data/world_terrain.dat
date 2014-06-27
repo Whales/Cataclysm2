@@ -221,11 +221,18 @@ Done
 
 # Roadside Bonuses
 
+Name: farm plot
+  Glyph: _ brown black
+  Road_cost: 300
+Done
+
 Name: barn
   Glyph: o brown black
   Road_cost: 500
   Flags: face_road
   Spread_cost: 5
+  Spread: 3d3 - 1
+  Spread_options: w:8 house / w:100 farm plot
 Done
 
 Name: ranger station
@@ -247,6 +254,7 @@ Name: graveyard
   Road_cost: 500
   Flags: face_road
   Spread_cost: 10
+  Spread: 1d5 - 3
 Done
 
 Name: cabin
@@ -260,5 +268,5 @@ Name: pond
   Glyph: ~ ltblue black
   Road_cost: 1000
   Spread_cost: 25
-  Spread: 2d4
+  Spread: 2d4 - 2
 Done

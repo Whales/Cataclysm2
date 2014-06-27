@@ -597,10 +597,20 @@ void Worldmap::add_bonus(int x, int y)
           spread_points = 0;
         } else {
           Point spread = spread_targets[ rng(0, spread_targets.size() - 1) ];
+          included.push_back(spread);
           Worldmap_tile* target = get_tile(spread);
           spread_points -= target->terrain->spread_cost;
-          target->terrain = bonus_ter;
-          included.push_back(spread);
+// If bonus_ter has spread options, pick one; otherwise, keep the terrain
+          if (bonus_ter->spread_options.empty()) {
+            target->terrain = bonus_ter;
+          } else {
+            World_terrain* new_bonus = bonus_ter->spread_options.pick();
+            if (new_bonus) {
+              target->terrain = new_bonus;
+            } else {
+              target->terrain = bonus_ter;
+            }
+          }
         }
       } // while (spread_points > 0)
     } // if (bonus_ter)

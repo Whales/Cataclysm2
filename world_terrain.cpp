@@ -2,7 +2,91 @@
 #include "stringfunc.h"
 #include "window.h"
 #include "globals.h"
+#include "rng.h"
 #include <sstream>
+
+Variable_world_terrain::Variable_world_terrain()
+{
+  total_chance = 0;
+}
+
+void Variable_world_terrain::add_terrain(int chance, World_terrain *terrain)
+{
+  if (!terrain) {
+    return;
+  }
+  World_terrain_chance tmp(chance, terrain);
+  add_terrain(tmp);
+}
+
+void Variable_world_terrain::add_terrain(World_terrain_chance terrain)
+{
+  total_chance += terrain.chance;
+  ter.push_back(terrain);
+}
+
+bool Variable_world_terrain::load_data(std::istream &data, std::string name)
+{
+  std::string tile_ident;
+  std::string terrain_name;
+  World_terrain_chance tmp_chance;
+  while (data >> tile_ident) {
+    tile_ident = no_caps(tile_ident);
+    if (tile_ident.substr(0, 2) == "w:") { // It's a weight, i.e. a chance
+      tmp_chance.chance = atoi( tile_ident.substr(2).c_str() );
+    } else if (tile_ident == "/") { // End of this option
+      terrain_name = trim(terrain_name);
+      World_terrain* tmpter = WORLD_TERRAIN.lookup_name(terrain_name);
+      if (!tmpter) {
+        debugmsg("Unknown world terrain '%s' (%s)", terrain_name.c_str(),
+                 name.c_str());
+        return false;
+      }
+      tmp_chance.terrain = tmpter;
+      add_terrain(tmp_chance);
+      tmp_chance.chance  = 10;
+      tmp_chance.terrain = NULL;
+      terrain_name = "";
+    } else { // Otherwise it should be a terrain name
+      terrain_name = terrain_name + " " + tile_ident;
+    }
+  }
+// Add the last terrain def to our list
+  terrain_name = trim(terrain_name);
+  World_terrain* tmpter = WORLD_TERRAIN.lookup_name(terrain_name);
+  tmp_chance.terrain = tmpter;
+  if (!tmpter) {
+    debugmsg("Unknown world terrain '%s' (%s)", terrain_name.c_str(),
+             name.c_str());
+    return false;
+  }
+  add_terrain(tmp_chance);
+  return true;
+}
+
+bool Variable_world_terrain::empty()
+{
+  return ter.empty();
+}
+
+World_terrain* Variable_world_terrain::pick()
+{
+  if (ter.empty()) {
+    return NULL;
+  }
+
+  int index = rng(1, total_chance);
+  for (int i = 0; i < ter.size(); i++) {
+    if (i < 0 || i >= ter.size()) {
+      debugmsg("i = %d, ter.size() = %d", i, ter.size());
+    }
+    index -= ter[i].chance;
+    if (index <= 0) {
+      return ter[i].terrain;
+    }
+  }
+  return ter.back().terrain;
+}
 
 World_terrain::World_terrain()
 {
@@ -79,6 +163,15 @@ bool World_terrain::load_data(std::istream &data)
         return false;
       }
 
+    } else if (ident == "spread_options:") {
+      std::string spread_line;
+      std::getline(data, spread_line);
+      std::istringstream spread_data(spread_line);
+      if (!spread_options.load_data(spread_data, name)) {
+        debugmsg("Error loading spread_options for '%s'", name.c_str());
+        return false;
+      }
+
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
       std::getline(data, junk);
@@ -102,6 +195,15 @@ bool World_terrain::load_data(std::istream &data)
                ident.c_str(), name.c_str());
     }
   } while (ident != "done" && !data.eof());
+
+/* If we have spread options, always include ourselves with a weight of 10.
+ * TODO: It'd be nice to not have to use this hack, but since we can't
+ *       reference ourselves until we've been added to the Datapool, it's our
+ *       only option for now.
+ */
+  if (!spread_options.empty()) {
+    spread_options.add_terrain(10, this);
+  }
 // TODO: Flag loading.
   return true;
 }

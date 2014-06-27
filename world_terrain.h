@@ -46,6 +46,7 @@ public:
   void add_terrain(World_terrain_chance terrain);
   bool load_data(std::istream &data, std::string name = "unknown");
 
+  bool empty();
   World_terrain* pick();
 
 private:
@@ -64,6 +65,7 @@ struct World_terrain
   int road_cost;  // Used when pathing roads; high cost means roads go around
   int spread_cost;  // Resistance to being covered by bonuses
   Dice spread; // How much spread_cost we can cover when placed as a bonus
+  Variable_world_terrain spread_options;  // Other terrain for spreading
   glyph sym;
 
   World_terrain();
