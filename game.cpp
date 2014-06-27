@@ -1521,7 +1521,7 @@ active items!");
     case DEBUG_ACTION_PLACE_BONUS: {
       Point p = map->get_center_point();
       p = worldmap->get_point(p.x, p.y);
-      worldmap->add_bonus(p.x, p.y);
+      worldmap->add_bonus(p.x, p.y, true);  // true == debug on
     } break;
 
     default:

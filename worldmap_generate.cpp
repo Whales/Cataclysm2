@@ -514,7 +514,7 @@ void Worldmap::place_monsters()
   }
 }
 
-void Worldmap::add_bonus(int x, int y)
+void Worldmap::add_bonus(int x, int y, bool debug)
 {
 // Check if we can place a road bonus - they're preferred
   std::vector<Point> road_spots;
@@ -541,11 +541,18 @@ void Worldmap::add_bonus(int x, int y)
   if (road_spots.empty()) {
     bx = x + rng(0 - BONUS_SPACING / 2, BONUS_SPACING / 2);
     by = y + rng(0 - BONUS_SPACING / 2, BONUS_SPACING / 2);
+    if (debug) {
+      debugmsg("No road; [%d:%d] => [%d:%d]", x, y, bx, by);
+    }
   } else {
     road = true;
     int index = rng(0, road_spots.size() - 1);
     bx = road_spots[index].x;
     by = road_spots[index].y;
+    if (debug) {
+      debugmsg("%d valid road spots; [%d:%d] => [%d:%d]",
+               road_spots.size(), bx, by);
+    }
   }
   if (bx < 0) {
     bx = 0;
@@ -569,6 +576,9 @@ void Worldmap::add_bonus(int x, int y)
     }
 
     if (bonus_ter) {
+      if (debug) {
+        debugmsg("Picked '%s'", bonus_ter->get_name().c_str());
+      }
 // Yay!  We're actually placing a real bonus.  So put it on the chosen tile...
       tiles[bx][by].terrain = bonus_ter;
 // ... and if it spreads, maybe some adjacent tiles?
@@ -576,6 +586,9 @@ void Worldmap::add_bonus(int x, int y)
       std::vector<Point> included;
       included.push_back( Point(bx, by) );
       while (spread_points > 0) {
+        if (debug) {
+          debugmsg("Spread points: %d", spread_points);
+        }
 /* Yes, the below makes it more likely to spread to points adjacent to more than
  * one already-used point.  Not only is this easier to code, but it's also often
  * more desirable behavior, since it leads to centralized blobs rather than
@@ -596,6 +609,9 @@ void Worldmap::add_bonus(int x, int y)
         }
         if (spread_targets.empty()) { // Nowhere to go, so sad :(
           spread_points = 0;
+          if (debug) {
+            debugmsg("No valid spread targets.");
+          }
         } else {
           Point spread = spread_targets[ rng(0, spread_targets.size() - 1) ];
           included.push_back(spread);
@@ -604,6 +620,10 @@ void Worldmap::add_bonus(int x, int y)
 // If bonus_ter has spread options, pick one; otherwise, keep the terrain
           if (bonus_ter->spread_options.empty()) {
             target->terrain = bonus_ter;
+            if (debug) {
+              debugmsg("No spread options; spreading '%s' to [%d:%d]",
+                       bonus_ter->get_name().c_str(), spread.x, spread.y);
+            }
           } else {
             Variable_world_terrain options;
             std::istringstream options_ss(bonus_ter->spread_options);
@@ -611,15 +631,31 @@ void Worldmap::add_bonus(int x, int y)
               World_terrain* new_bonus = options.pick();
               if (new_bonus) {
                 target->terrain = new_bonus;
+                if (debug) {
+                  debugmsg("Spread chose '%s' to [%d:%d]",
+                           new_bonus->get_name().c_str(), spread.x, spread.y);
+                }
               } else {
+                if (debug) {
+                  debugmsg("Spread failed! Spreading '%s' to [%d:%d]",
+                           bonus_ter->get_name().c_str(), spread.x, spread.y);
+                }
                 target->terrain = bonus_ter;
               }
             }
           }
         }
       } // while (spread_points > 0)
-    } // if (bonus_ter)
-  } // if (bonus_biome)
+    } else { // if (bonus_ter)
+      if (debug) {
+        debugmsg("No bonuses for biome '%s'", bonus_biome->get_name().c_str());
+      }
+    }
+  } else { // if (bonus_biome)
+    if (debug) {
+      debugmsg("No biome there!");
+    }
+  }
 }
 
 void Worldmap::draw_island(std::vector<std::vector<int> > &altitude,
