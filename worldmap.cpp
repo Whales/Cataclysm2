@@ -529,6 +529,7 @@ std::string Worldmap::save_data()
       } else {
         ret << -1;
       }
+      ret << " ";
     }
   }
 
@@ -583,6 +584,9 @@ bool Worldmap::load_data(std::istream& data)
         biomes[x][y] = NULL;
       } else {
         biomes[x][y] = BIOMES.lookup_uid(biome_uid);
+        if (!biomes[x][y]) {
+          debugmsg("Failed to find Biome of UID %s.", biome_uid);
+        }
       }
     }
   }
