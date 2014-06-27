@@ -583,6 +583,10 @@ void Worldmap::add_bonus(int x, int y, bool debug)
       tiles[bx][by].terrain = bonus_ter;
 // ... and if it spreads, maybe some adjacent tiles?
       int spread_points = bonus_ter->spread.roll();
+      if (bonus_ter->spread_type == SPREAD_NULL) {
+// TODO: Warn about this?  Shouldn't ever actually happen.
+        spread_points = 0;
+      }
       std::vector<Point> included;
       included.push_back( Point(bx, by) );
       while (spread_points > 0) {
@@ -593,20 +597,38 @@ void Worldmap::add_bonus(int x, int y, bool debug)
  * one already-used point.  Not only is this easier to code, but it's also often
  * more desirable behavior, since it leads to centralized blobs rather than
  * stretched-out things.
- * TODO: If we implement Spread_style (different ways to spread) we can do
- *       something different here.
  */
         std::vector<Point> spread_targets;
-        for (int i = 0; i < included.size(); i++) {
-          for (int x = included[i].x - 1; x <= included[i].x + 1; x++) {
-            for (int y = included[i].y - 1; y <= included[i].y + 1; y++) {
-              Worldmap_tile* target = get_tile(x, y);
-              if (target && target->terrain->spread_cost <= spread_points) {
-                spread_targets.push_back( Point(x, y) );
+        switch (bonus_ter->spread_type) {
+
+          case SPREAD_NORMAL:
+            for (int i = 0; i < included.size(); i++) {
+              for (int x = included[i].x - 1; x <= included[i].x + 1; x++) {
+                for (int y = included[i].y - 1; y <= included[i].y + 1; y++) {
+                  Worldmap_tile* target = get_tile(x, y);
+                  if (target && target->terrain->spread_cost <= spread_points) {
+                    spread_targets.push_back( Point(x, y) );
+                  }
+                }
               }
             }
-          }
-        }
+            break;
+
+          case SPREAD_CENTER:
+// By stopping as soon as we have targets, we always use the earliest point
+            for (int i = 0; spread_targets.empty() && i < included.size(); i++){
+              for (int x = included[i].x - 1; x <= included[i].x + 1; x++) {
+                for (int y = included[i].y - 1; y <= included[i].y + 1; y++) {
+                  Worldmap_tile* target = get_tile(x, y);
+                  if (target && target->terrain->spread_cost <= spread_points) {
+                    spread_targets.push_back( Point(x, y) );
+                  }
+                }
+              }
+            }
+            break;
+        } // switch (bonus_ter->spread_type)
+
         if (spread_targets.empty()) { // Nowhere to go, so sad :(
           spread_points = 0;
           if (debug) {
