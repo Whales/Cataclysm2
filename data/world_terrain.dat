@@ -21,6 +21,7 @@ Name: beach_shipwreck
   Display_name: beach
   Glyph: . yellow black
   Road_cost: 110
+  Spread_cost: 100
 Done
 
 Name: forest
@@ -28,12 +29,14 @@ Name: forest
   Beach: mangrove
   Beach_range: 3
   Road_cost: 150
+  Spread_cost: 2
 Done
 
 Name: mangrove
   Glyph: 7 cyan black
   Flags: no_river water salty
   Road_cost: 300
+  Spread_cost: 2
 Done
 
 Name: swamp
@@ -42,12 +45,14 @@ Name: swamp
   beach_range: 3
   Flags: no_river water
   Road_cost: 200
+  Spread_cost: 2
 Done
 
 Name: salt marsh
   Glyph: " cyan black
   Flags: no_river water salty
   Road_cost: 220
+  Spread_cost: 2
 Done
 
 Name: mushroom forest
@@ -55,23 +60,27 @@ Name: mushroom forest
   Beach: salt marsh
   Beach_range: 2
   Road_cost: 120
+  Spread_cost: 2
 Done
 
 Name: rocky
   Glyph: # brown black
   Road_cost: 180
+  Spread_cost: 2
 Done
 
 Name: fresh water
   Glyph: = ltblue black
   Flags: no_river water
   Road_cost: 4000
+  Spread_cost: 100
 Done
 
 Name: river
   Glyph: ~ ltblue black
   Flags: no_river water bridge
   Road_cost: 500
+  Spread_cost: 100
 Done
 
 Name: road
@@ -79,6 +88,7 @@ Name: road
   Flags: line_drawing relational road
   Connector: bridge
   Road_cost: 1
+  Spread_cost: 10
 Done
 
 Name: bridge
@@ -86,42 +96,49 @@ Name: bridge
   Flags: relational no_road line_drawing
   Connector: road
   Road_cost: 20
+  Spread_cost: 100
 Done
 
 Name: town square
   Glyph: O ltgray black
   Flags: no_river
   Road_cost: 150
+  Spread_cost: 10
 Done
 
 Name: house
   Glyph: o ltgreen black
   Road_cost: 500
   Flags: face_road
+  Spread_cost: 20
 Done
 
 Name: hardware store
   Glyph: o ltblue black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: pharmacy
   Glyph: o ltred black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: gun store
   Glyph: o red black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: gas station
   Glyph: & ltred black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 # A fungus-infected version
@@ -129,66 +146,77 @@ Name: fungal gas station
   Glyph: & ltred black
   Road_cost: 500
   Flags: face_road
+  Spread_cost: 20
 Done
 
 Name: park
   Glyph: O green black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: grocery store
   Glyph: o green black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: clothing store
   Glyph: o blue black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: liquor store
   Glyph: o magenta black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: bank
   Glyph: o yellow black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: restaurant
   Glyph: o cyan black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: library
   Glyph: o brown black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: bar
   Glyph: o pink black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: pawn shop
   Glyph: o ltcyan black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 Name: museum
   Glyph: O brown black
   Road_cost: 500
   Flags: shop face_road
+  Spread_cost: 20
 Done
 
 # Roadside Bonuses
@@ -197,28 +225,40 @@ Name: barn
   Glyph: o brown black
   Road_cost: 500
   Flags: face_road
+  Spread_cost: 5
 Done
 
 Name: ranger station
   Glyph: o green black
   Road_cost: 500
   Flags: face_road
+  Spread_cost: 10
 Done
 
 Name: fungal ranger station
   Glyph: o green black
   Road_cost: 500
   Flags: face_road
+  Spread_cost: 10
 Done
 
 Name: graveyard
   Glyph: o dkgray black
   Road_cost: 500
   Flags: face_road
+  Spread_cost: 10
 Done
 
 Name: cabin
   Glyph: o ltgreen black
   Road_cost: 500
   Flags: face_road
+  Spread_cost: 10
+Done
+
+Name: pond
+  Glyph: ~ ltblue black
+  Road_cost: 1000
+  Spread_cost: 25
+  Spread: 2d4
 Done

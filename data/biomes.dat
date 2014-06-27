@@ -4,13 +4,14 @@ Done
 
 Name: grassland
   terrain: field
-  road_bonuses: w:100 gas station / w:15 barn / w:5 graveyard
+  road_bonuses: w:100 gas station / w:50 house / w:25 barn / w:10 graveyard
+  bonuses: w:100 pond
 Done
 
 Name: forest
   terrain: w:1 field / w:10 forest
   road_bonuses: w:100 ranger station / w:1 graveyard
-  bonuses: w:100 cabin
+  bonuses: w:100 pond / w:25 cabin
 Done
 
 Name: swamp
@@ -21,6 +22,7 @@ Done
 Name: mushroom forest
   terrain: mushroom forest
   road_bonuses: w:100 fungal gas station / w:20 fungal ranger station / w:10 gas station / w:2 ranger station
+  bonuses: w:100 pond
 Done
 
 Name: rocky
@@ -39,4 +41,3 @@ Name: lake
   terrain: fresh water
   flags: lake
 Done
-
