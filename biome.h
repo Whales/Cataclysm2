@@ -6,31 +6,6 @@
 #include "dice.h"
 #include <istream>
 
-struct World_terrain_chance
-{
-  World_terrain_chance(int C = 100, World_terrain* WT = NULL) :
-    chance (C), terrain (WT) {}
-  int chance;
-  World_terrain* terrain;
-};
-
-struct Variable_world_terrain
-{
-public:
-  Variable_world_terrain();
-  ~Variable_world_terrain(){}
-
-  void add_terrain(int chance, World_terrain* terrain);
-  void add_terrain(World_terrain_chance terrain);
-  bool load_data(std::istream &data, std::string name = "unknown");
-
-  World_terrain* pick();
-
-private:
-  std::vector<World_terrain_chance> ter;
-  int total_chance;
-};
-
 // TODO: Move this to monster_type.h?
 
 struct Monster_genus_chance
