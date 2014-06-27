@@ -559,16 +559,52 @@ void Worldmap::add_bonus(int x, int y)
 // We've got our spot!  But what biome is it in...?
   Biome* bonus_biome = biomes[bx][by];
   World_terrain* bonus_ter = NULL;
+
   if (bonus_biome) {
     if (road) {
       bonus_ter = bonus_biome->pick_road_bonus();
     } else {
       bonus_ter = bonus_biome->pick_bonus();
     }
+
     if (bonus_ter) {
+// Yay!  We're actually placing a real bonus.  So put it on the chosen tile...
       tiles[bx][by].terrain = bonus_ter;
-    }
-  }
+// ... and if it spreads, maybe some adjacent tiles?
+      int spread_points = bonus_ter->spread.roll();
+      std::vector<Point> included;
+      included.push_back( Point(bx, by) );
+      while (spread_points > 0) {
+/* Yes, the below makes it more likely to spread to points adjacent to more than
+ * one already-used point.  Not only is this easier to code, but it's also often
+ * more desirable behavior, since it leads to centralized blobs rather than
+ * stretched-out things.
+ * TODO: If we implement Spread_style (different ways to spread) we can do
+ *       something different here.
+ */
+        std::vector<Point> spread_targets;
+        for (int i = 0; i < included.size(); i++) {
+          for (int x = included[i].x - 1; x <= included[i].x + 1; x++) {
+            for (int y = included[i].y - 1; y <= included[i].y + 1; y++) {
+              Worldmap_tile* target = get_tile(x, y);
+              if (target && target->terrain->spread_cost <= spread_points) {
+                spread_targets.push_back( Point(x, y) );
+              }
+            }
+          }
+        }
+        if (spread_targets.empty()) { // Nowhere to go, so sad :(
+          spread_points = 0;
+        } else {
+          Point spread = spread_targets[ rng(0, spread_targets.size() - 1) ];
+          Worldmap_tile* target = get_tile(spread);
+          spread_points -= target->terrain->spread_cost;
+          target->terrain = bonus_ter;
+          included.push_back(spread);
+        }
+      } // while (spread_points > 0)
+    } // if (bonus_ter)
+  } // if (bonus_biome)
 }
 
 void Worldmap::draw_island(std::vector<std::vector<int> > &altitude,

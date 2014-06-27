@@ -29,12 +29,14 @@ std::string world_terrain_flag_name(World_terrain_flag flag);
 struct World_terrain
 {
   int uid;
-  std::string name;
-  std::string display_name;
-  std::string beach_name;
+  std::string name; // Unique data name
+  std::string display_name; // Name as the player sees it (if blank, use name)
+  std::string beach_name; // What we become when we're near to the ocean
   std::vector<std::string> connectors;
-  int beach_range;
-  int road_cost;
+  int beach_range;  // The maximum distance to ocean to become beach
+  int road_cost;  // Used when pathing roads; high cost means roads go around
+  int spread_cost;  // Resistance to being covered by bonuses
+  Dice spread; // How much spread_cost we can cover when placed as a bonus
   glyph sym;
 
   World_terrain();

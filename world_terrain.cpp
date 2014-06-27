@@ -9,6 +9,8 @@ World_terrain::World_terrain()
   uid = -1;
   name = "ERROR";
   beach_range = -1;
+  road_cost = 100;
+  spread_cost = 1;
   sym = glyph();
   for (int i = 0; i < WTF_MAX; i++) {
     flags.push_back(false);
@@ -67,6 +69,15 @@ bool World_terrain::load_data(std::istream &data)
     } else if (ident == "road_cost:") {
       data >> road_cost;
       std::getline(data, junk);
+
+    } else if (ident == "spread_cost:") {
+      data >> spread_cost;
+      std::getline(data, junk);
+
+    } else if (ident == "spread:") {
+      if (!spread.load_data(data, name)) {
+        return false;
+      }
 
     } else if (ident == "glyph:") {
       sym.load_data_text(data);
