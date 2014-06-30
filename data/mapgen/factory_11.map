@@ -184,8 +184,6 @@ tile: # = stone wall
 tile: " = w:4 window / w:1 stone wall
 tile: 0 = w:10 window / w:1 stone wall
 tile: + = w:5 closed door / w:1 open door
-tile: T = toilet
-tile: K = sink
 tile: % = conveyor belt
 tile: & = counter
 tile: { = machinery
@@ -204,6 +202,7 @@ tile: T = shelves
 item_group: 75 T = items_factory_tools
 
 map:
+oo#...................#oo
 oo#..#XXXXXXXX+XXXXXXX#oo
 oo#..#{{&.............#oo
 oo"..#{{&C............"oo
@@ -228,7 +227,6 @@ oo#..Y.%%%%%%%%%%%%%{{#oo
 oo#..Y...{{{{{{{..{{{{#oo
 oo#..##################oo
 oo#...................#oo
-oo#...................#oo
 endmap
 done
 
@@ -239,20 +237,12 @@ neighbors: 1
 
 tile: o = grass / dirt
 tile: . = floor
-tile: * = pavement
-tile_group: ^ = w:9 yellow pavement / w:1 pavement
-tile_group: ! = w:1 chain-link fence / w:1 pavement
 tile: " = window
 tile: # = stone wall
 tile: + = w:10 closed door / w:1 open door
 tile: t = toilet
 tile: k = sink
 tile: { = cubicle wall
-
-tile: CD = floor
-furniture: C = wood chair
-furniture: D = desk
-item_group: 80 D = items_office
 
 tile: L$ = shelves
 item_group: 70 L = items_cleaning
@@ -269,11 +259,11 @@ shuffle: 456
 shuffle: 789
 shuffle: def
 shuffle: ghi
-shuffle: jkm
+shuffle: jlm
 shuffle: npq
 shuffle: rsu
 tile: 147dgjnr = w:9 closed door / w:1 open door
-tile: 235689efhikmpqsu = stone wall
+tile: 235689efhilmpqsu = stone wall
 
 tile: DTCc = floor
 furniture: D = desk
@@ -449,6 +439,7 @@ tile: ' = w:14 locked door / w:1 closed door
 tile: + = w:14 closed door / w:1 open door
 tile: " = w:9 window / w:1 stone wall
 tile: % = counter
+tile: < = w:3 stairs up / w:1 floor
 
 tile: TDcC = floor
 furniture: cC = wood chair

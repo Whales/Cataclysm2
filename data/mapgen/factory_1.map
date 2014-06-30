@@ -635,10 +635,10 @@ tile: 23 = stone wall
 subst: 45678 = w:3 . / w:1 <
 tile: < = stairs up
 
-shuffle: abcd
+shuffle: abxd
 shuffle: efgh
 tile: ae = w:14 closed door / w:1 open door
-tile: bcdfgh = stone wall
+tile: bxdfgh = stone wall
 
 map:
 oo#######.......#######oo
@@ -647,7 +647,7 @@ oo#E...7#..,,,..#8...E#oo
 oo###+######'######+###oo
 oo#4...a...,,,...e...5#oo
 oo#....b..%%%%%..f....#oo
-oo#....c..%.C.%..g....#oo
+oo#....x..%.C.%..g....#oo
 oo#....d.........h....#oo
 oo####+############+###oo
 oo#.......#EEEEEEE#,.6#oo
