@@ -482,7 +482,7 @@ subst: * = w:7 * / w:1 o
 tile: * = pavement
 tile: # = stone wall
 tile: " = w:3 window / w:1 stone wall
-tile_group: X = w:2 glass wall / w:1 stone wall
+tile_group: X = w:2 bulletproof glass / w:1 stone wall
 tile: { = machinery
 tile: $ = server rack
 tile_group: ! = w:9 chain-link fence / w:1 pavement
@@ -632,17 +632,25 @@ shuffle: 123
 tile: 1 = w:9 locked door / w:1 closed door
 tile: 23 = stone wall
 
+subst: 45678 = w:3 . / w:1 <
+tile: < = stairs up
+
+shuffle: abcd
+shuffle: efgh
+tile: ae = w:14 closed door / w:1 open door
+tile: bcdfgh = stone wall
+
 map:
-oo#E....#.......#....E#oo
+oo#######.......#######oo
 oo#E...."......."....E#oo
-oo#E....#..,,,..#....E#oo
+oo#E...7#..,,,..#8...E#oo
 oo###+######'######+###oo
-oo#........,,,........#oo
-oo#.......%%%%%.......#oo
-oo#.......%.C.%.......#oo
-oo#...................#oo
+oo#4...a...,,,...e...5#oo
+oo#....b..%%%%%..f....#oo
+oo#....c..%.C.%..g....#oo
+oo#....d.........h....#oo
 oo####+############+###oo
-oo#.......#EEEEEEE#,..#oo
+oo#.......#EEEEEEE#,.6#oo
 oo#.CcCcC.#.......',..#oo
 oo#.TTTTT.#########,..#oo
 oo#.cCcCc.#WWWWWWW#,..#oo
@@ -677,6 +685,7 @@ tile: { = ticket dispenser
 tile: + = w:4 locked door / w:1 closed door
 tile: ' = w:6 closed glass door / w:2 open glass door / w:3 closed door / w:1 open door
 tile_group: ! = chain-link fence / pavement
+tile: < = w:4 floor / w:1 stairs up
 
 shuffle: abc
 shuffle: def
@@ -692,8 +701,8 @@ oo#+########+########+#oo
 oo",,......,,,......,,"oo
 oo"..................."oo
 oo#################def#oo
-oo".............{{#..."oo
-oo"...SSS.DDD.....'..."oo
+oo#..+,.........{{#..."oo
+oo#<.#SSS.DDD.....'..."oo
 oo#################abc#oo
 oo#***^***^***^***^***#oo
 oo"***^***^***^***^***"oo
@@ -721,30 +730,32 @@ subname: factory_1
 type: factory
 neighbors: 1
 level: 1
+flags: autostairs
 
 tile: o = empty
 tile: . = roof
+tile: % = short stone wall
 
 map:
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
-oo.....................oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%...................%oo
+oo%%%%%%%%%%%%%%%%%%%%%oo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo

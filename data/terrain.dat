@@ -225,6 +225,22 @@ name: wood wall
   flags: opaque flammable
 done
 
+name: cubicle wall
+  glyph: { ltgray black
+  movecost: 0
+  height: 90
+  hp: 10
+  destroy: rubble
+  smash:
+    failure_sound: "whack."
+    success_sound: "crash!"
+    armor: bash 1d8
+    armor: cut  1d4
+    armor: pierce 2d6
+  done
+  flags: opaque flammable
+done
+
 name: picket fence
   glyph: { white black
   movecost: 0
@@ -325,6 +341,20 @@ name: glass wall
     success_sound: glass shattering.
     armor: cut 1d8
     armor: pierce 2
+  done
+done
+
+name: bulletproof glass
+  glyph: # ltcyan black
+  movecost: 0
+  hp: 100
+  destroy: floor
+  smash:
+    failure_sound: "whunk."
+    success_sound: glass shattering.
+    armor: bash 4d8
+    armor: cut 6d8
+    armor: pierce 5d8
   done
 done
 
@@ -656,6 +686,26 @@ name: wood ladder down
   hp: 200
   destroy: rubble
   flags: stairs_down flammable
+done
+
+name: metal ladder up
+  display_name: metal ladder
+  glyph: < ltcyan black
+  inverse: metal ladder down
+  movecost: 100
+  hp: 200
+  destroy: rubble
+  flags: stairs_up
+done
+
+name: metal ladder down
+  display_name: metal ladder
+  glyph: > ltcyan black
+  inverse: metal ladder up
+  movecost: 100
+  hp: 200
+  destroy: rubble
+  flags: stairs_down
 done
 
 name: stove
