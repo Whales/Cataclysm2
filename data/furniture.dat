@@ -151,3 +151,37 @@ name: antique sculpture
   #TODO: it is made from a clay, so it may leave a... some clay, if it will implemented
   Components: c:8 wood plank
 done
+
+name: crate
+  glyph: } ltred black
+  move_cost: 0
+  height: 50
+  weight: 75
+  HP:     35
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+    armor: bash 1d2
+    armor: pierce 1d6
+    armor: cut 1
+  done
+  Components: c:12 wood plank
+  Flags: flammable opaque
+done
+
+name: tall crate
+  glyph: } ltred black
+  move_cost: 0
+  height: 80
+  weight: 75
+  HP:     50
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+    armor: bash 1d2
+    armor: pierce 1d6
+    armor: cut 1
+  done
+  Components: c:12 wood plank
+  Flags: flammable opaque
+done

@@ -145,6 +145,19 @@ weapon
 done
 
 weapon
+  name: baton
+  description:
+    A sturdy plastic and metal baton, intended for non-lethal suppression of
+    criminals.
+  done
+  glyph: / ltgray black
+  weight: 35
+  volume: 20
+  bash: 20
+  to_hit: 1
+done
+
+weapon
   name: antique sword
   description:
     An ancient, probably centuries-old sword.  You can see flakes of rust on the
@@ -518,6 +531,36 @@ weapon
   bash:   10
   to_hit: -3
   container: flower pot
+done
+
+weapon
+  name: processor
+  description:
+    A high-end processor, applicable for computers or embedded electronics.
+  done
+  glyph: * green black
+  weight: 1
+  volume: 10
+done
+
+weapon
+  name: RAM
+  description:
+    A stick of computer memory.  This one's low-end; only 1 terabyte.
+  done
+  glyph: * dkgray black
+  weight: 1
+  volume: 3
+done
+
+weapon
+  name: data cable
+  description:
+    A universal data cable, useful for many different electronics or computers.
+  done
+  glyph: ( ltgreen black
+  weight: 1
+  volume: 6
 done
 
 # END Weapons / vanilla

@@ -129,6 +129,10 @@ name: items_car_mechanic
   items: w:30 work gloves / w:5 hammer / w:45 wrench / w:30 steel pipe / w:40 screwdriver / w:7 crowbar
 done
 
+name: items_computer_room
+  items: w:5 processor / w:8 RAM / w:15 data cable / w:3 screwdriver / w:2 batteries
+done
+
 name: items_fridge
   items: w:10 water / w:5 beer / w:5 cola / w:1 V8 / w:2 energy drink
 done
@@ -290,4 +294,12 @@ done
 
 name: items_survival_food
   items: w:10 MRE (meat) / w:10 MRE (vegetable) / w:14 beans / w:10 SPAM / w:12 beef jerky / w:4 chocolate bar / w:40 water / w:8 dry pasta / w:8 dry rice / w:8 flour
+done
+
+name: items_security_equipment
+  items: w:1 rope / w:4 pocket knife / w:2 dumbbell / w:3 cap / w:3 safety glasses / w:1 dust mask / w:3 leather gloves / w:2 boots / w:8 holster / w:2 codeine / w:2 amphetamine / w:4 crowbar / w:8 bandages / w:5 first aid kit / w:20 flashlight
+done
+
+name: items_security_weapons
+  items: w:5 combat knife / w:15 baton / w:20 9mm / w:16 .45 ACP / w:12 USP 9mm / w:8 USP .45 / w:3 H&K MP5 / w:1 H&K UMP45
 done

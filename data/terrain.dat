@@ -609,6 +609,15 @@ name: counter
   flags: flammable opaque
 done
 
+name: conveyor belt
+  glyph: % magenta black
+  movecost: 180
+  height: 25
+  hp: 50
+  destroy: rubble
+  flags: flammable
+done
+
 name: stairs up
   display_name: staircase
   glyph: < yellow black
@@ -833,6 +842,35 @@ name: machinery
   glyph: { magenta black
   movecost: 0
   hp: 50
+  height: 80
+  smash:
+    failure_sound: "whunk."
+    success_sound: "crash!"
+    armor: bash 2d8
+    armor: cut 3d10
+  done
+  destroy: rubble
+done
+
+name: snack machine
+  glyph: { pink black
+  movecost: 0
+  hp: 30
+  height: 80
+  smash:
+    failure_sound: "whunk."
+    success_sound: "crash!"
+    armor: bash 1d4
+    armor: cut 30
+  done
+  destroy: rubble
+  flags: container sealed
+done
+
+name: ticket dispenser
+  glyph: { magenta black
+  movecost: 0
+  hp: 40
   height: 80
   smash:
     failure_sound: "whunk."
