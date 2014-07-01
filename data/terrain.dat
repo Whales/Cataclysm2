@@ -930,3 +930,18 @@ name: ticket dispenser
   done
   destroy: rubble
 done
+
+name: projector
+  glyph: { ltgreen black
+  movecost: 0
+  hp: 20
+  height: 50
+  smash:
+    failure_sound: "whack!"
+    success_sound: "smash!"
+    armor: bash 1d3
+    armor: cut 3d8
+    armor: pierce 5d8
+  done
+  destroy: rubble
+done

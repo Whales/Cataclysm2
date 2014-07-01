@@ -1,0 +1,637 @@
+### factory.map
+#
+# The following tags are used: (# marks a line or part of a line as a comment)
+#
+# "name:" - Required.  A description of this spec.  It should appear first for
+#           debugging reasons.
+# "type:" - Required.  The World_terrain name this spec applies to.  See
+#           world_terrain.dat for a list of World_terrains.
+# "adjacent" - If this tag is present, then this map is an "adjacency" map.
+#              This should appear before "base_terrain:" or "tile:" lines.
+# "base_terrain:" - Recommended.  A terrain specification to be used for tiles
+#                   which are not defined in the map section.
+# "weight:" - A weight used when randomly choosing specs.  If omitted, the
+#             weight defaults to 100.  A spec with weight 200 is twice as likely#             to be used as one with weight 100.
+# "tile:" - Defines a terrain used in the map section.
+# "items:" - Defines an item drop used in the map section.
+# "map:" - Defines the start of the map section.
+# "endmap" - Defines the end of the map section.
+# "done" - Required.  Marks the end of this spec.
+#
+# See the bottom of this file for details on base_terrain and tile terrain
+# specifications, item drop specifications, and adjacency maps.
+
+
+# Since all "puzzle pieces" of a given neighbors: value are the same shape, we
+# can group them all into the same subname and only have one roof!  Yay!
+
+map:
+oo#...................#oo
+oo#...................#oo
+###...................###
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+###...................###
+oo#...................#oo
+oo#...................#oo
+endmap
+done
+
+name: n4_floor_factory_whales
+subname: factory_4
+type: factory
+neighbors: 4
+
+tile: o = grass / dirt
+tile: * = pavement
+tile: . = floor
+tile: , = floor_lock
+tile: # = stone wall
+tile: " = w:4 window / w:1 stone wall
+tile: 0 = w:10 window / w:1 stone wall
+tile: + = w:5 closed door / w:1 open door
+tile: T = toilet
+tile: K = sink
+tile: % = counter
+tile_group: XY = w:2 glass wall / w:1 stone wall
+
+tile: CD = floor
+furniture: C = chair
+furniture: D = desk
+item_group: 60 D = items_office
+
+shuffle: 1234
+tile: 1 = w:4 closed door / w:1 closed glass door / w:1 open door
+tile: 234 = stone wall
+
+tile: tl = shelves
+item_group: 60 t = items_factory_tools
+item_group: 75 l = items_cleaning
+
+map:
+oo#...................#oo
+oo#...................#oo
+###XXXXXXXXXX#++#######""
+................#.....#..
+...%%%%%.%%%%%..1.....#..
+...C.C.C.C.C.C..#..D..#..
+................2..DC.#..
+...%%%%%.%%%%%..#..D..#..
+...C.C.C.C.C.C..3.....#..
+................#.....#..
+...%%%%%.%%%%%..##4####..
+...C.C.C.C.C.C........#..
+......................+..
+...%%%%%.%%%%%........#..
+...C.C.C.C.C.C..#######..
+................#.TTTT#..
+...%%%%%.%%%%%..+.....#..
+...C.C.C.C.C.C..#.KKKK#..
+................#######..
+...##5##6##7##..#.TTTT#..
+...#t.......l#..+.....#..
+...#tttt.llll#..#.KKKK#..
+##############++#######""
+oo#...................#oo
+oo#...................#oo
+endmap
+done
+
+name: n4_machinery_factory_whales
+subname: factory_4
+type: factory
+neighbors: 4
+
+tile: o = grass / dirt
+tile: . = floor
+tile: , = floor_lock
+tile: # = stone wall
+tile: " = w:4 window / w:1 stone wall
+tile: + = w:5 closed door / w:1 open door
+tile: % = counter
+tile: { = machinery
+tile: ^ = conveyor belt
+
+tile: C = floor
+furniture: C = wood chair
+
+tile: TL = shelves
+item_group: 70 T = items_factory_tools
+item_group: 70 L = items_cleaning
+
+shuffle: 12
+shuffle: 34
+shuffle: 5678
+tile: 13 = w:6 closed door / w:1 open door / w:6 stone wall
+tile: 5 = w:6 closed door / w:4 locked door / w:1 open door
+tile: 24678 = stone wall
+
+map:
+oo#...................#oo
+oo#...................#oo
+###..........##1####2####
+............,#........#..
+............,5.TTTTTT.3..
+....{{{.....,6.LLLLLL.4..
+....{%%.....,#........#..
+....{.C......###7###8##..
+...............,,,.,,,...
+....{{{..{{{..{{{..{{{...
+....{%%..{%%..{%%..{%%...
+....{.C..{.C..{.C..{.C...
+.........................
+....{{{..{{{..{{{..{{{...
+....{%%..{%%..{%%..{%%...
+....{.C..{.C..{.C..{.C...
+.........................
+....{{{..{{{..{{{..{{{...
+....{%%..{%%..{%%..{%%...
+....{.C..{.C..{.C..{.C...
+.........................
+.........................
+###...................###
+oo#...................#oo
+oo#...................#oo
+endmap
+done
+
+name: n4_dense_machinery_factory_whales
+subname: factory_4
+type: factory
+neighbors: 4
+
+tile: o = grass / dirt
+tile: * = pavement
+tile: . = floor
+tile: , = floor_lock
+tile: # = stone wall
+tile: " = w:4 window / w:1 stone wall
+tile: + = w:5 closed door / w:1 open door
+tile: ^ = conveyor belt
+tile: % = counter
+tile: { = machinery
+tile_group: } = w:2 floor / w:1 machinery
+
+tile: C = floor
+furniture: C = wood chair
+
+tile: LT = shelves
+item_group: 50 L = items_cleaning
+item_group: 70 T = items_factory_tools
+
+shuffle: 12345
+tile: 1 = w:6 closed door / w:4 locked door / w:1 open door
+
+map:
+oo#...................#oo
+oo#............########oo
+###...........,#TTTTLL###
+........C.....,5......#..
+.......%%.....,#1#23#4#..
+.....{{{{......,,,,,,,,..
+.....{{^^^^^^^...........
+.....{{{{....^...........
+............{^{..{{%C....
+.....{{{{{..}^}..{{%.....
+.....{{{{{..{^{..{.......
+....%{{^{{..}^}..^.......
+...C%{{^{{..{^{..^.......
+.......^....}^}..^.......
+.......^...{{^{{.^.......
+.....^^^^^^^^^^^^^.......
+.....^.....{{^{{.........
+.....{......{^{...{{.....
+.....{{%C....^^^^{{{.....
+.....{{%..........%%.....
+..................C......
+.........................
+###...................###
+oo#...................#oo
+oo#...................#oo
+endmap
+done
+
+name: n4_offices_factory_whales
+subname: factory_4
+type: factory
+neighbors: 4
+
+tile: o = grass / dirt
+tile: . = floor
+tile: " = w:2 window / w:1 stone wall
+tile: # = stone wall
+tile: + = w:10 locked door / w:3 closed door / w:1 open door
+tile: { = projector
+
+tile: TCcD = floor
+furniture: T = table
+furniture: Cc = wood chair
+furniture: D = desk
+item_group: 60 D = items_office
+
+tile: L$ = shelves
+item_group: 70 L = items_cleaning
+item_group: 75 $ = items_office
+
+tile: F = fridge
+item_group: 40 F = items_fridge
+
+tile: %&^ = counter
+item_group: 20 & = items_kitchen_counter
+item_group: 50 ^ = items_consumer_tech
+
+shuffle: 1234
+shuffle: 567
+shuffle: 890
+shuffle: uv
+shuffle: wxyz
+shuffle: qrs
+tile: 158quw' = w:4 closed door / w:1 open door
+tile: 2346790rsvxyz = stone wall
+
+map:
+oo"..................."oo
+oo"..................."oo
+""########wxyz#########""
+..#......#....#^^^^^^^#..
+..#..cC..1....#.......#..
+..#.CTTc.#...,#..CcC..#..
+..#.cTTC.2...,+.cTTTc.#..
+..#.CTTc.3...,#.CTTTC.#..
+..#.cTTC.#....#.cT{Tc.#..
+..#..Cc..4....#.CT{TC.#..
+..#......#...,#.cTTTc.#..
+..#%....%#...,+.CTTTC.#..
+..#%%$$%%#...,#..cCc..#..
+..########....#.......#..
+..u...........###+##+##..
+..v.............,,,,,,'..
+..##5#6#7##...##8###9##..
+..#.......#...#......$#..
+..#.......#...0......$#..
+..#..DDD..#...#L.....$#..
+..#...C...#...#L.....&#..
+..#.......#...#&&&k&F&#..
+""#########qrs#########""
+oo"..................."oo
+oo"..................."oo
+endmap
+done
+
+
+name: n4_electrical_factory_whales
+subname: factory_4
+type: factory
+neighbors: 4
+
+tile: o = grass / dirt
+tile: . = floor
+tile: , = floor_lock
+tile: # = stone wall
+tile: " = w:7 window / w:1 stone wall
+tile: { = machinery
+tile: $ = server rack
+tile: + = w:14 locked door / w:1 closed door
+tile: ' = w:9 closed door / w:1 open door
+tile: ? = w:9 stone wall / w:5 locked door / w:1 closed door
+
+tile: %^ = counter
+item_group: 85 ^ = items_computer_room
+
+tile: CD = floor
+furniture: C = wood chair
+furniture: D = desk
+item_group: 70 D = items_office
+
+shuffle: 123
+tile: 1 = w:14 locked door / w:1 closed door
+subst: 23 = X
+
+tile_group: XZ = w:3 bulletproof glass / w:1 stone wall
+tile_group: Y = w:1 bulletproof glass / w:4 stone wall
+
+map:
+oo"..................."oo
+oo"..................."oo
+""#....###########....#""
+......##^^^^^^^^^##......
+.....##^..C...C...##.....
+....##^..DDD.DDD...##....
+...##^.,,,.,,,,,,...##...
+..####XX1XXX2XX3XX#'###..
+..Y...............#...#..
+..Y.$.$.$.$.$.$..^#...#..
+..Y.$.$.$.$.$.$..^#...#..
+..Y.$.$.$.$.$.$..{#...#,.
+..Y.$.$.$.$.$.$.{{#...?,.
+..Y.$.$.$.$.$.$..{#...#,.
+..Y.$.$.$.$.$.$..^#...#..
+..Y.$.$.$.$.$.$..^#...#..
+..Y...............#...#..
+..###ZZZZZZZ+ZZZZZ#'###..
+...##......,,,......##...
+....##....%.C.%....##....
+.....##...%%%%%...##.....
+......##.........##......
+""#....#####+#####....#""
+oo"..................."oo
+oo"..................."oo
+endmap
+done
+
+name: n4_cafeteria_factory_whales
+subname: factory_4
+type: cafeteria
+neighbors: 4
+
+tile: o = grass / dirt
+tile: . = floor
+tile: # = stone wall
+tile: S = stove
+tile: % = counter
+tile: + = w:6 closed door / w:1 open door
+tile: " = w:11 window / w:1 stone wall
+tile: & = affixed table
+tile: ~ = affixed bench
+tile: t = toilet
+tile: k = sink
+
+tile: F = fridge
+item_group: 80 F = items_fast_food
+
+tile: $ = shelves
+item_group: 80 $ = items_food_shelves
+
+tile: ^ = counter
+item_group: 70 ^ = items_kitchen_counter
+
+map:
+oo"..................."oo
+oo"..................."oo
+""########..~&~.~&~...#""
+..#tttkkk#..~&~.~&~......
+..#......+..~&~.~&~......
+..########...............
+....................~&~..
+........%%%%%%%%%...~&~..
+..~&~..%%.......%%..~&~..
+..~&~..%.###+###.%.......
+..~&~..%.#F^.^k#.%..~&~..
+.......%.#^...^#.%..~&~..
+..~&~..%.+..!..+.%..~&~..
+..~&~..%.#$...^#.%.......
+..~&~..%.#$$.^S#.%..~&~..
+.......%.###+###.%..~&~..
+..~&~..%%.......%%..~&~..
+..~&~...%%%%%%%%%........
+..~&~....................
+...............########..
+.......~&~.~&~.+......#..
+.......~&~.~&~.#kkkttt#..
+""#....~&~.~&~.########""
+oo"..................."oo
+oo"..................."oo
+endmap
+done
+
+name: n4_security_factory_whales
+subname: factory_4
+type: factory
+neighbors: 4
+
+tile: o = grass / dirt
+tile: . = floor
+tile: , = floor_lock
+tile: # = stone wall
+tile: ' = w:14 locked door / w:1 closed door
+tile: + = w:14 closed door / w:1 open door
+tile: " = w:9 window / w:1 stone wall
+tile: % = counter
+tile: < = w:9 floor / w:1 stairs up
+
+tile: DTcC = floor
+furniture: T = table
+furniture: cC = wood chair
+furniture: D = desk
+item_group: 80 D = items_office
+
+tile: E = shelves
+item_group: 80 E = items_security_equipment
+
+tile: W = shelves
+item_group: 70 W = items_security_weapons
+
+map:
+oo#...................#oo
+oo##########+##########oo
+###<#...D.#...#EEEE.#<###
+.#<.##..DC#...#E...3#.<#.
+.###.#+.D.#...#E..2#.###.
+.#.##.##..#...#E.1#.#6.#.
+.#..+#.##.#...#.##.#5.W#.
+.#...##.####+####.#4..W#.
+.#DDD.##',.....,'##...W#.
+.#.C...#,,.....,,#.WWWW#.
+.#######...%%%...#######.
+.#.....#..%.C.%..#.....#.
+.#.....+..%C.C%..+.....+.
+.#.....#..%.C.%..#.....#.
+.#######...%%%...#######.
+.#.#.#<#,,.....,,#...C.#.
+.#.#.#.#',.....,'##.TTT#.
+.#'#'#..####+####.+..C.#.
+.#,,,,.,#.#...#E#+######.
+.#'#,,,,'.#...#........#.
+.#.#'#'##.#...#..cCcC..#.
+.#.#.#.#..#...#..TTTT..#.
+####.#.#..#...#..CcCc.###
+oo##########+##########oo
+oo#...................#oo
+endmap
+done
+
+name: n4_roof_factory_whales
+subname: factory_4
+type: factory
+neighbors: 4
+level: 1
+flags: autostairs
+
+tile: o = empty
+tile: . = roof
+tile: % = short stone wall
+
+map:
+oo%...................%oo
+oo%...................%oo
+%%%...................%%%
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+%%%...................%%%
+oo%...................%oo
+oo%...................%oo
+endmap
+done
+
+name: n4_hallway_factory_whales
+subname: factory_hallway_2
+type: factory
+neighbors: 4
+
+tile: o = grass / dirt
+tile: . = floor
+tile: # = stone wall
+tile: " = w:5 window / w:1 stone wall
+tile: < = w:19 floor / w:1 metal ladder up
+
+map:
+oo"..................."oo
+oo##.................##oo
+"#o########...########o#"
+.##ooooooo#...#ooooooo##.
+..#ooooooo"..."ooooooo#..
+.."ooooooo#...#ooooooo"..
+..#ooooooo"..."ooooooo#..
+.."ooooooo#...#ooooooo"..
+..#ooooooo"..."ooooooo#..
+..#ooooooo#...#ooooooo#..
+..#########...#########..
+.........................
+............<............
+.........................
+..#########...#########..
+..#ooooooo#...#ooooooo#..
+..#ooooooo"..."ooooooo#..
+.."ooooooo#...#ooooooo"..
+..#ooooooo"..."ooooooo#..
+.."ooooooo#...#ooooooo"..
+..#ooooooo"..."ooooooo#..
+.##ooooooo#...#ooooooo##.
+"#o########...########o#"
+oo##.................##oo
+oo"..................."oo
+endmap
+done
+
+name: n4_hallway_roof_factory_whales
+subname: factory_hallway_2
+type: factory
+neighbors: 4
+level: 1
+flags: autostairs
+
+tile: o = empty
+tile: % = short stone wall
+tile: . = roof
+
+map:
+oo%...................%oo
+oo%%.................%%oo
+%%o%%%%%%%%...%%%%%%%%o%%
+.%%ooooooo%...%ooooooo%%.
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%%%%%%%%%...%%%%%%%%%..
+.........................
+.........................
+.........................
+..%%%%%%%%%...%%%%%%%%%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+..%ooooooo%...%ooooooo%..
+.%%ooooooo%...%ooooooo%%.
+%%o%%%%%%%%...%%%%%%%%o%%
+oo%%.................%%oo
+oo%...................%oo
+endmap
+done
+
+# A recommended format for spec names is <DESC>_<TYPE>_<NAME>
+#  <DESC> is a short description of the unusual feature of this spec.  If it is
+#         not unusual, use "std".
+#  <TYPE> is the World_terrain used here.
+#  <NAME> is your name, initials, or handle.
+# This format makes it easy to identify the spec when debugging.
+#
+# The "tile:" line uses the following format:
+#       tile: abc = w:20 dirt / w:15 grass / tree
+# "abc" is a list of characters which, when found in the map section, will use
+# this terrain.  You can include spaces and they will be ignored.
+# " = " delineates between the list of characters and the terrain spec.  It must
+# be surrounded by spaces.
+# The rest of the line is a list of terrain names (from terrain.dat).  A terrain
+# is randomly picked from this list.  You must place " / " between terrain
+# names.  You can also include "w:20" with the terrain name to define its
+# weight for random selection.  If omitted, the weight defaults to 10.  A
+# terrain with weight 20 is twice as likely to be chosen as a terrain with
+# weight 10.
+#
+# The "base_terrain:" line uses the same terrain spec format, but of course the
+# list of characters and the " = " are not used.
+#
+# The "items:" line uses the following format:
+#       50 abc = rock / w:20 stick
+# The number at the front MUST be present.  It's the percentage chance of
+# placing a single item.  If one item is used, the same chance is used to decide
+# whether to place a second item, and so on until the chance fails.  It must be
+# between 1 and 99.  If it's not, you will be warned and the chance will be
+# corrected.
+# The rest of the line is very similar to the terrain specifications, but with
+# item names (from items.dat) instead of terrain names.
+#
+# The "map:" tag should appear on its own line.  It is followed by 25 lines of
+# 25 characters each - you will be warned if there are missing characters or
+# extra characters.  It is a list of characters which refer back to the "tile:"
+# or "items:" lines.  If no matching "tile:" is found, the base_terrain is used;
+# if the base_terrain is not present, the first terrain in terrain.dat is used.
+#
+# "Adjacency" specs are identified by placing the "adjacent" tag in the spec.
+# These specs are used when generating a map ADJACENT to the specified type.
+# Adjacency specs should be designed as if the adjacent terrain were to the
+# north; the spec will be rotated as needed.
+# The base terrain is generated, and then the adjacency map is generated on top.
+# Adjacency specs are the same as normal maps, but with the difference that
+# it is allowed to use "nothing" as a terrain name.  If "nothing" is selected,
+# then the terrain in the map will be unchanged.  Also, ONLY floor terrain will
+# be changed; non-floor terrain will be unchanged.
