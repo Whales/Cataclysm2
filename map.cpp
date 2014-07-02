@@ -259,7 +259,7 @@ glyph Tile::top_glyph()
   if (furniture.is_real()) {
     return furniture.get_glyph();
   }
-  if (!items.empty() && !has_flag(TF_SEALED)) {
+  if (!items.empty() && (!has_flag(TF_SEALED) || !has_flag(TF_OPAQUE))) {
     if (terrain && !terrain->has_flag(TF_FLOOR)) {
       return terrain->sym.hilite(c_blue);
     }
