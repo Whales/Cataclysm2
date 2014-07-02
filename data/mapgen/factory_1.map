@@ -38,6 +38,7 @@ tile: T = toilet
 tile: K = sink
 tile: + = w:5 locked door / w:1 closed door
 tile: ' = w:5 closed door / w:1 open door
+tile_group: ? = w:5 locked door / w:1 closed door
 tile_group: ! = w:4 chain-link fence / w:1 pavement
 
 subst: X = w:3 X / w:2 x
@@ -72,7 +73,7 @@ item_group: 75 L = items_cleaning
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
-oo###"""###+++###"""###oo
+oo###"""###???###"""###oo
 oo#.......'....%%%%%%.#oo
 oo#ijk#lmn#....C.C.C..#oo
 oo"...#...#..........."oo
@@ -86,7 +87,7 @@ oo#.%%%%%%.....%%%%%%.#oo
 oo#.C.C.C......C.C.C..#oo
 oo"...................#oo
 oo"...........,#XXXXXX#oo
-oo#+##+##.....,a......#oo
+oo#'##'##.....,a......#oo
 oo#..#..#.....,b..DDD.0oo
 oo#TK#TK#.....,c...C..#oo
 oo#######defgh####0#0##oo
