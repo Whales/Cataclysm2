@@ -900,6 +900,7 @@ name: machinery
     armor: cut 3d10
   done
   destroy: rubble
+  flags: opaque
 done
 
 name: snack machine

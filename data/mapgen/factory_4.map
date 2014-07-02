@@ -25,35 +25,6 @@
 # Since all "puzzle pieces" of a given neighbors: value are the same shape, we
 # can group them all into the same subname and only have one roof!  Yay!
 
-map:
-oo#...................#oo
-oo#...................#oo
-###...................###
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-.........................
-###...................###
-oo#...................#oo
-oo#...................#oo
-endmap
-done
-
 name: n4_floor_factory_whales
 subname: factory_4
 type: factory
@@ -73,13 +44,17 @@ tile: % = counter
 tile_group: XY = w:2 glass wall / w:1 stone wall
 
 tile: CD = floor
-furniture: C = chair
+furniture: C = wood chair
 furniture: D = desk
 item_group: 60 D = items_office
 
 shuffle: 1234
 tile: 1 = w:4 closed door / w:1 closed glass door / w:1 open door
 tile: 234 = stone wall
+
+shuffle: 567
+tile: 5 = w:6 closed door / w:3 locked door / w:1 open door
+tile: 67 = stone wall
 
 tile: tl = shelves
 item_group: 60 t = items_factory_tools
@@ -104,7 +79,7 @@ oo#...................#oo
 ................#.TTTT#..
 ...%%%%%.%%%%%..+.....#..
 ...C.C.C.C.C.C..#.KKKK#..
-................#######..
+....,,,,,,,,,...#######..
 ...##5##6##7##..#.TTTT#..
 ...#t.......l#..+.....#..
 ...#tttt.llll#..#.KKKK#..
@@ -198,6 +173,7 @@ item_group: 70 T = items_factory_tools
 
 shuffle: 12345
 tile: 1 = w:6 closed door / w:4 locked door / w:1 open door
+tile: 2345 = stone wall
 
 map:
 oo#...................#oo
@@ -235,10 +211,12 @@ neighbors: 4
 
 tile: o = grass / dirt
 tile: . = floor
+tile: , = floor_lock
 tile: " = w:2 window / w:1 stone wall
 tile: # = stone wall
 tile: + = w:10 locked door / w:3 closed door / w:1 open door
 tile: { = projector
+tile: k = sink
 
 tile: TCcD = floor
 furniture: T = table
@@ -395,7 +373,7 @@ oo"..................."oo
 ..~&~..%.###+###.%.......
 ..~&~..%.#F^.^k#.%..~&~..
 .......%.#^...^#.%..~&~..
-..~&~..%.+..!..+.%..~&~..
+..~&~..%.+.....+.%..~&~..
 ..~&~..%.#$...^#.%.......
 ..~&~..%.#$$.^S#.%..~&~..
 .......%.###+###.%..~&~..
@@ -437,6 +415,11 @@ item_group: 80 E = items_security_equipment
 
 tile: W = shelves
 item_group: 70 W = items_security_weapons
+
+shuffle: 123
+shuffle: 456
+tile: 14 = w:14 closed door / w:1 open door
+tile: 2356 = stone wall
 
 map:
 oo#...................#oo
@@ -526,17 +509,17 @@ oo##.................##oo
 ..#ooooooo"..."ooooooo#..
 .."ooooooo#...#ooooooo"..
 ..#ooooooo"..."ooooooo#..
-.."ooooooo#...#ooooooo"..
-..#ooooooo"..."ooooooo#..
-..#ooooooo#...#ooooooo#..
-..#########...#########..
+.."ooooo#"#...#"#ooooo"..
+..#oooo##.......##oooo#..
+..#oooo"........."oooo#..
+..######.........######..
 .........................
 ............<............
 .........................
-..#########...#########..
-..#ooooooo#...#ooooooo#..
-..#ooooooo"..."ooooooo#..
-.."ooooooo#...#ooooooo"..
+..######.........######..
+..#oooo"........."oooo#..
+..#oooo##.......##oooo#..
+.."ooooo#"#...#"#ooooo"..
 ..#ooooooo"..."ooooooo#..
 .."ooooooo#...#ooooooo"..
 ..#ooooooo"..."ooooooo#..
@@ -566,17 +549,17 @@ oo%%.................%%oo
 ..%ooooooo%...%ooooooo%..
 ..%ooooooo%...%ooooooo%..
 ..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
-..%%%%%%%%%...%%%%%%%%%..
+..%ooooo%%%...%%%ooooo%..
+..%oooo%%.......%%oooo%..
+..%oooo%.........%oooo%..
+..%%%%%%.........%%%%%%..
 .........................
 .........................
 .........................
-..%%%%%%%%%...%%%%%%%%%..
-..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
+..%%%%%%.........%%%%%%..
+..%oooo%.........%oooo%..
+..%oooo%%.......%%oooo%..
+..%ooooo%%%...%%%ooooo%..
 ..%ooooooo%...%ooooooo%..
 ..%ooooooo%...%ooooooo%..
 ..%ooooooo%...%ooooooo%..
