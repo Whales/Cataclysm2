@@ -1612,7 +1612,9 @@ Mapgen_spec* Mapgen_spec_pool::random_for_terrain(World_terrain* ptr,
 
   int new_total_chance = 0;
   for (int i = 0; i < vec->size(); i++) {
-    if ( (*vec)[i]->num_neighbors == num_neighbors ) {
+// Explicitly check for a z-level of 0.
+// TODO: Will this cause trouble?  Probably not, right?
+    if ( (*vec)[i]->num_neighbors == num_neighbors && (*vec)[i]->z_level == 0) {
       use.push_back( (*vec)[i] );
       new_total_chance += (*vec)[i]->weight;
     }
