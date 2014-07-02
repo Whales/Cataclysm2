@@ -277,5 +277,5 @@ Name: factory
   Spread_cost: 20
   Spread: 1d9
   Spread_type: center
-  Flags: face_road
+  Flags: face_road relational
 Done
