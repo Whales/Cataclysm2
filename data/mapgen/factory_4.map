@@ -490,48 +490,54 @@ oo%...................%oo
 endmap
 done
 
-name: n4_hallway_factory_whales
-subname: factory_hallway_2
+name: n4_courtyard_factory_whales
+subname: factory_courtyard_4
 type: factory
 neighbors: 4
 
 tile: o = grass / dirt
 tile: . = floor
+tile: * = stone path
 tile: # = stone wall
-tile: " = w:5 window / w:1 stone wall
-tile: < = w:19 floor / w:1 metal ladder up
+tile: " = w:14 window / w:1 stone wall
+tile: + = w:3 closed door / w:1 open door
+tile: 7 = w:9 tree / w:3 small tree / w:1 grass / w:1 dirt
+
+tile: TCc = grass / dirt
+furniture: T = table
+furniture: cC = wood chair
 
 map:
-oo"..................."oo
-oo##.................##oo
-"#o########...########o#"
-.##ooooooo#...#ooooooo##.
-..#ooooooo"..."ooooooo#..
-.."ooooooo#...#ooooooo"..
-..#ooooooo"..."ooooooo#..
-.."ooooo#"#...#"#ooooo"..
-..#oooo##.......##oooo#..
-..#oooo"........."oooo#..
-..######.........######..
-.........................
-............<............
-.........................
-..######.........######..
-..#oooo"........."oooo#..
-..#oooo##.......##oooo#..
-.."ooooo#"#...#"#ooooo"..
-..#ooooooo"..."ooooooo#..
-.."ooooooo#...#ooooooo"..
-..#ooooooo"..."ooooooo#..
-.##ooooooo#...#ooooooo##.
-"#o########...########o#"
-oo##.................##oo
-oo"..................."oo
+oo#...................#oo
+o##...................##o
+##...###"##"+"##"###...##
+....##ooooo***ooooo##....
+...#"oooooo***oooCco"#...
+..##ooooo7o***o7oTToo#"..
+..#oooooooo***ooocCooo#..
+..#ooooo7oo***oo7ooooo#..
+.."oooo7o*******o7oooo"..
+..#oo7oo*********oo7oo#..
+..#ooooo*********ooooo#..
+.."*******************"..
+..+*******************+..
+.."*******************"..
+..#ooooo*********ooooo#..
+..#oo7oo*********oo7oo#..
+.."oooo7o*******o7cooo"..
+..#ooooo7oo***oo7coooo#..
+..#ooocCooo***oooooooo#..
+..##ooTTo7o***o7coooo##..
+...#"oCcooo***oooooo"#...
+....##ooooo***ooooo##....
+##...###"##"+"##"###...##
+o##...................##o
+oo#...................#oo
 endmap
 done
 
-name: n4_hallway_roof_factory_whales
-subname: factory_hallway_2
+name: n4_courtyard_roof_factory_whales
+subname: factory_courtyard_4
 type: factory
 neighbors: 4
 level: 1
@@ -543,33 +549,32 @@ tile: . = roof
 
 map:
 oo%...................%oo
-oo%%.................%%oo
-%%o%%%%%%%%...%%%%%%%%o%%
-.%%ooooooo%...%ooooooo%%.
-..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
-..%ooooo%%%...%%%ooooo%..
-..%oooo%%.......%%oooo%..
-..%oooo%.........%oooo%..
-..%%%%%%.........%%%%%%..
-.........................
-.........................
-.........................
-..%%%%%%.........%%%%%%..
-..%oooo%.........%oooo%..
-..%oooo%%.......%%oooo%..
-..%ooooo%%%...%%%ooooo%..
-..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
-..%ooooooo%...%ooooooo%..
-.%%ooooooo%...%ooooooo%%.
-%%o%%%%%%%%...%%%%%%%%o%%
-oo%%.................%%oo
+o%%...................%%o
+%%...%%%%%%%%%%%%%%%...%%
+....%%ooooooooooooo%%....
+...%%ooooooooooooooo%%...
+..%%ooooooooooooooooo%%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%ooooooooooooooooooo%..
+..%%ooooooooooooooooo%%..
+...%%ooooooooooooooo%%...
+....%%ooooooooooooo%%....
+%%...%%%%%%%%%%%%%%%...%%
+o%%...................%%o
 oo%...................%oo
 endmap
 done
-
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".
