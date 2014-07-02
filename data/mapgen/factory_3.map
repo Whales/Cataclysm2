@@ -25,46 +25,6 @@
 # Since all "puzzle pieces" of a given neighbors: value are the same shape, we
 # can group them all into the same subname and only have one roof!  Yay!
 
-name: n3_factory_roof
-subname: factory_3
-type: factory
-level: 1
-neighbors: 3
-flags: autostairs
-
-tile: o = empty
-tile: . = roof
-tile: # = short stone wall
-
-map:
-oo#...................#oo
-oo#...................#oo
-oo#...................###
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#......................
-oo#...................###
-oo#...................#oo
-oo#...................#oo
-endmap
-done
-
 name: n3_floor_factory_whales
 subname: factory_3
 type: factory
@@ -578,7 +538,7 @@ name: n3_roof_factory_whales
 subname: factory_3
 type: factory
 neighbors: 3
-level: 1
+floor: 1
 flags: autostairs
 
 tile: o = empty
@@ -658,7 +618,7 @@ name: n3_hallway_roof_factory_whales
 subname: factory_hallway_3
 type: factory
 neighbors: 3
-level: 1
+floor: 1
 flags: autostairs
 
 tile: o = empty

@@ -779,7 +779,7 @@ done
 name: safe
   glyph: { dkgray black
   movecost: 150
-  height: 50
+  height: 40
   hp: 250
   destroy: rubble
 
@@ -791,7 +791,7 @@ name: safe
     failure_message: The safe resists.
   done
 
-  flags: sealed container
+  flags: sealed container opaque
 done
 
 name: open safe
