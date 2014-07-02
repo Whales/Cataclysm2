@@ -4,7 +4,7 @@ Done
 
 Name: grassland
   terrain: field
-  road_bonuses: w:100 gas station / w:80 house / w:60 barn / w:25 factory / w:10 graveyard
+  road_bonuses: w:100 gas station / w:80 house / w:60 barn / w:25 factory entrance / w:10 graveyard
   bonuses: w:100 pond
 Done
 
@@ -27,7 +27,7 @@ Done
 
 Name: rocky
   terrain: rocky
-  road_bonuses: w:100 gas station / w:20 factory
+  road_bonuses: w:100 gas station / w:20 factory entrance
 Done
 
 Name: city

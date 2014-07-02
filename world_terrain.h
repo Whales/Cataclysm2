@@ -71,6 +71,7 @@ struct World_terrain
   std::string name; // Unique data name
   std::string display_name; // Name as the player sees it (if blank, use name)
   std::string beach_name; // What we become when we're near to the ocean
+// Any names in (connectors) count as "the same" as this tile, for Relationals
   std::vector<std::string> connectors;
   int beach_range;  // The maximum distance to ocean to become beach
   int road_cost;  // Used when pathing roads; high cost means roads go around

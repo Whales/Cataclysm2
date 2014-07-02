@@ -271,7 +271,20 @@ Name: pond
   Spread: 2d4 - 2
 Done
 
+Name: factory entrance
+  Display_name: factory
+  Connector: factory
+  Glyph: F ltred black
+  Road_cost: 500
+  Spread_cost: 20
+  Spread: 1d9
+  Spread_type: center
+  Spread_options: factory
+  Flags: face_road relational
+Done
+
 Name: factory
+  Connector: factory entrance
   Glyph: F ltred black
   Road_cost: 500
   Spread_cost: 20
