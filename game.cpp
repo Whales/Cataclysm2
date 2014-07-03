@@ -1357,6 +1357,7 @@ void Game::update_hud()
   i_hud.set_data("text_date", time.get_text());
 // Update location description
   Submap* sm = map->get_center_submap();
+// TODO: This prints the DATA name of the World_ter; we want the DISPLAY name
   if (sm) {
     i_hud.set_data("text_location", sm->get_world_ter_name());
   }
