@@ -4,30 +4,30 @@ Done
 
 Name: grassland
   terrain: field
-  road_bonuses: w:100 gas station / w:80 house / w:60 barn / w:25 factory entrance / w:10 graveyard
-  bonuses: w:100 pond
+  road_bonuses: w:100 gas station / w:80 house / w:60 barn / w:40 factory entrance / w:10 graveyard
+  bonuses: w:100 pond / w:15 factory entrance
 Done
 
 Name: forest
   terrain: w:1 field / w:10 forest
-  road_bonuses: w:100 ranger station / w:1 graveyard
-  bonuses: w:100 pond / w:25 cabin
+  road_bonuses: w:100 ranger station / w:10 graveyard
+  bonuses: w:100 pond / w:50 cabin
 Done
 
 Name: swamp
   terrain: swamp
-  road_bonuses: w:100 gas station / w:2 graveyard
+  road_bonuses: w:100 gas station / w:15 graveyard
 Done
 
 Name: mushroom forest
   terrain: mushroom forest
-  road_bonuses: w:100 fungal gas station / w:20 fungal ranger station / w:10 gas station / w:2 ranger station
+  road_bonuses: w:15 fungal gas station / w:20 fungal ranger station / w:1 gas station / w:2 ranger station
   bonuses: w:100 pond
 Done
 
 Name: rocky
   terrain: rocky
-  road_bonuses: w:100 gas station / w:20 factory entrance
+  road_bonuses: w:100 gas station / w:80 factory entrance
 Done
 
 Name: city
