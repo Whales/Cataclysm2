@@ -1237,7 +1237,14 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
     std::vector<bool> neighbor;
     neighbor.push_back(false);
     for (int i = 1; i < 5; i++) {
-      neighbor.push_back( (world_ter[i] == world_ter[0]) );
+      bool nb = (world_ter[i] == world_ter[0]);
+      for (int n = 0; !nb && n < world_ter[0]->connectors.size(); n++) {
+        std::string conn = no_caps( world_ter[0]->connectors[n] );
+        if ( no_caps( world_ter[i]->get_data_name() ) == conn ) {
+          nb = true;
+        }
+      }
+      neighbor.push_back(nb);
     }
     if (num_neighbors == 1 || num_neighbors == 11) {
       if (neighbor[DIR_NORTH]) {

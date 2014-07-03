@@ -781,40 +781,36 @@ void Submap::generate(World_terrain* terrain[5], int posz)
   if (!terrain[0]) {
     generate_empty();
   } else {
+    std::vector<bool> neighbor;
     Mapgen_spec* spec = NULL;
 // We shouldn't ever hit this; Mapgen_pool handles above-ground.  But safety!
     if (posz > 0) {
       generate_open();
     } else if (terrain[0]->has_flag(WTF_RELATIONAL)) {
-      std::vector<bool> neighbor;
       neighbor.push_back(false);
       for (int i = 1; i < 5; i++) {
-        if (terrain[i] == terrain[0]) {
-          neighbor.push_back(true);
-        } else {
-// Check the terrain's list of connectors
-// E.g. "road" and "bridge" connect to each other
-          bool found = false;
-          for (int n = 0; !found && n < terrain[0]->connectors.size(); n++) {
-            std::string conn = terrain[0]->connectors[n];
-            conn = no_caps(conn);
-            if ( no_caps( terrain[i]->get_data_name() ) == conn ) {
-              neighbor.push_back(true);
-              found = true;
-            }
-          }
-          if (!found) {
-            neighbor.push_back(false);
+        bool nb = (terrain[i] == terrain[0]);
+        for (int n = 0; !nb && n < terrain[0]->connectors.size(); n++) {
+          std::string conn = no_caps( terrain[0]->connectors[n] );
+          if ( no_caps( terrain[i]->get_data_name() ) == conn ) {
+            nb = true;
           }
         }
+        neighbor.push_back(nb);
       }
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], neighbor);
     } else {
       spec = MAPGEN_SPECS.random_for_terrain(terrain[0], "", 0);
     }
     if (!spec) {
-      debugmsg("Mapgen::generate() failed to find spec for %s [%d]",
-               terrain[0]->get_name().c_str(), posz);
+      int num_conn = 0;
+      for (int i = 0; i < neighbor.size(); i++) {
+        if (neighbor[i]) {
+          num_conn++;
+        }
+      }
+      debugmsg("Mapgen::generate() failed to find spec for %s [conn=%d, z=%d]",
+               terrain[0]->get_data_name().c_str(), num_conn, posz);
       generate_empty();
       return;
     }
