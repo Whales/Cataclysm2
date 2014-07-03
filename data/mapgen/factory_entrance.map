@@ -316,8 +316,9 @@ tile: " = window
 tile: I = column
 tile: % = counter
 
-tile: C = floor
-furniture: C = wood chair
+tile: TCc = floor
+furniture: T = table
+furniture: Cc = wood chair
 
 map:
 oo#####+#########+#####oo
@@ -348,7 +349,7 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: n1_factory_entrance_whales_3
+name: n1_factory_entrance_roof_whales_3
 subname: n1_factory_entrance_3
 type: factory entrance
 neighbors: 1
@@ -398,6 +399,8 @@ tile_group: + = w:4 closed door / w:1 locked door
 tile: " = window
 tile: I = column
 tile: % = counter
+tile: X = w:4 glass wall / w:1 stone wall
+tile: ' = closed glass door
 
 tile: C = floor
 furniture: C = wood chair
@@ -431,7 +434,7 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: n1_factory_entrance_whales_4
+name: n1_factory_entrance_roof_whales_4
 subname: n1_factory_entrance
 type: factory entrance
 neighbors: 1
@@ -523,7 +526,7 @@ done
 
 name: parking_factory_entrance_roof_whales
 subname: parking_factory_entrance
-type: factory
+type: factory entrance
 level: 1
 
 tile: o = empty
@@ -574,6 +577,7 @@ tile: " = window
 tile: % = counter
 tile: t = toilet
 tile: k = sink
+tile: + = w:6 locked door / w:1 closed door
 
 tile: C = floor
 furniture: C = wood chair
@@ -657,7 +661,7 @@ done
 
 name: n2_factory_entrance_whales_1
 subname: factory_entrance_2_1
-type: factory
+type: factory entrance
 neighbors: 2
 
 tile: o = grass / dirt
@@ -665,9 +669,10 @@ tile: . = floor
 tile: , = floor_lock
 tile: # = stone wall
 tile: X = w:4 glass wall / w:1 stone wall
-tile: ' = glass door
+tile: ' = closed glass door
 tile: + = w:6 locked door / w:1 closed door
 tile: " = window
+tile: % = counter
 
 tile: TcC = floor
 furniture: T = table
@@ -677,7 +682,7 @@ tile: p = floor
 num_items: p = c: 1d1; dead plant
 
 tile: { = shelves
-tile: 80 { = items_factory_worker
+item_group: 80 { = items_factory_worker
 
 map:
 oo#...................#oo
@@ -805,6 +810,10 @@ type: factory entrance
 level: 1
 flags: autostairs
 
+tile: o = empty
+tile: . = roof
+tile: % = short stone wall
+
 map:
 oo%...................%oo
 oo%...................%oo
@@ -887,7 +896,7 @@ oo#...................#oo
 endmap
 done
 
-name: n3_factory_entrance_whales_2
+name: n3_factory_entrance_roof_whales_2
 subname: factory_entrance_3_2
 type: factory entrance
 level: 1
@@ -898,31 +907,31 @@ tile: . = roof
 tile: % = short stone wall
 
 map:
-oo%%...................%oo
-oo%%...................%oo
-ooo%%..................%%%
-oooo%%....................
-ooooo%%...................
-oooooo%%..................
-ooooooo%%.................
-oooooooo%%................
-ooooooooo%%...............
-oooooooooo%%..............
-ooooooooooo%%.............
-ooooooooooo%%.............
-ooooooooooo%%.............
-ooooooooooo%%.............
-ooooooooooo%%.............
-oooooooooo%%..............
-ooooooooo%%...............
-oooooooo%%................
-ooooooo%%.................
-oooooo%%..................
-ooooo%%...................
-oooo%%....................
-ooo%%..................%%%
-oo%%...................%oo
-oo%%...................%oo
+oo%%..................%oo
+oo%%..................%oo
+ooo%%.................%%%
+oooo%%...................
+ooooo%%..................
+oooooo%%.................
+ooooooo%%................
+oooooooo%%...............
+ooooooooo%%..............
+oooooooooo%%.............
+ooooooooooo%%............
+ooooooooooo%%............
+ooooooooooo%%............
+ooooooooooo%%............
+ooooooooooo%%............
+oooooooooo%%.............
+ooooooooo%%..............
+oooooooo%%...............
+ooooooo%%................
+oooooo%%.................
+ooooo%%..................
+oooo%%...................
+ooo%%.................%%%
+oo%%..................%oo
+oo%%..................%oo
 endmap
 done
 

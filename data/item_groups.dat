@@ -308,6 +308,6 @@ name: items_consumer_tech
   items: w:3 pocket knife / w:2 hunting knife / w:4 combat knife / w:3 baton / w:1 antique sword / w:1 antique halberd / w:10 golf club / w:6 chef knife / w:3 frying pan / w:2 showerhead / w:1 diamond / w:15 processor / w:15 RAM / w:12 data cable / w:8 glasses / w:3 safety glasses / w:3 puffy coat / w:6 sneakers / w:2 boots / w:2 steel-toed boots / w:20 batteries / w:1 FN Five-Seven / w:1 KRISS Vector / w:1 FN P90 / w:1 Steyr HS .50 / w:5 MRE (meat) / w:5 MRE (vegetable) / w:3 SPAM / w:3 chicken soup / w:3 chocolate bar / w:3 cola / w:4 energy drink / w:5 cigarettes / w:6 aspirin / w:5 codeine / w:4 tramadol / w:4 oxycodone / w:4 amphetamine / w:5 sleeping pills / w:5 lighter / w:10 bandages / w:15 first aid kit / w:20 flashlight
 done
 
-names: items_factory_worker
+name: items_factory_worker
   items: w:3 pocket knife / w:15 hammer / w:20 wrench / w:4 sledgehammer / w:3 steel pipe / w:20 screwdriver / w:4 rag / w:5 data cable / w:5 cap / w:14 hard hat / w:5 glasses / w:12 safety glasses / w:12 dust mask / w:5 bandana / w:3 t shirt / w:14 work gloves / w:7 rubber gloves / w:5 boots / w:7 steel-toed boots / w:7 nails / w:8 batteries / w:7 nail gun / w:3 beef jerky / w:4 water / w:1 beer / w:2 cola / w:3 energy drink / w:7 cigarettes / w:2 aspirin / w:1 codeine / w:7 crowbar / w:15 lighter / w:4 bandages / w:2 first aid kit / w:8 flashlight
 done
