@@ -277,7 +277,7 @@ Name: factory entrance
   Glyph: F ltred black
   Road_cost: 500
   Spread_cost: 20
-  Spread: 1d9
+  Spread: 3d4
   Spread_type: center
   Spread_options: factory
   Flags: face_road relational
