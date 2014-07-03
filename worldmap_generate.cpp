@@ -605,9 +605,13 @@ void Worldmap::add_bonus(int x, int y, bool debug)
             for (int i = 0; i < included.size(); i++) {
               for (int x = included[i].x - 1; x <= included[i].x + 1; x++) {
                 for (int y = included[i].y - 1; y <= included[i].y + 1; y++) {
-                  Worldmap_tile* target = get_tile(x, y);
-                  if (target && target->terrain->spread_cost <= spread_points) {
-                    spread_targets.push_back( Point(x, y) );
+// Don't use diagonally-adjacent tiles
+                  if (x == included[i].x || y == included[i].y) {
+                    Worldmap_tile* target = get_tile(x, y);
+                    if (target &&
+                        target->terrain->spread_cost <= spread_points) {
+                      spread_targets.push_back( Point(x, y) );
+                    }
                   }
                 }
               }
