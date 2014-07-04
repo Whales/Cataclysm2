@@ -364,6 +364,7 @@ name: bulletproof glass
     armor: cut 6d8
     armor: pierce 5d8
   done
+  flags: plural
 done
 
 name: concrete floor

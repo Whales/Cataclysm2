@@ -127,7 +127,7 @@ tile_group: X = w:2 glass wall / w:1 stone wall
 tile_group: Y = w:2 glass wall / w:1 stone wall
 
 map:
-oo#...................#oo
+oo"...................#oo
 oo#...................#oo
 oo#XX1XXX23XXX4XX#....###
 oo#..............#.......
@@ -149,7 +149,7 @@ oo#..{%C...{%C.#T.....#..
 oo"..{.....{...#T.....0..
 oo#..^^^^^^^...#T.....#..
 oo#............#T.LLLL#..
-oo###"##""##"####"#####..
+oo###"##""##"####"######"
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 endmap
@@ -296,7 +296,7 @@ tile: " = w:7 window / w:1 stone wall
 tile_group: X = w:2 bulletproof glass / w:1 stone wall
 tile: { = machinery
 tile: $ = server rack
-tile: ' = w:5 closed glass door / w:3 closed door / w:1 open glass door
+tile_group: ' = w:5 closed glass door / w:3 closed door / w:1 open glass door
 tile: : = w:9 locked door / w:1 closed door
 tile: + = w:9 closed door / w:1 open door
 
@@ -317,9 +317,9 @@ tile: 6 = w:9 locked door / w:1 closed door
 subst: 789 = X
 
 map:
-oo"..................."oo
 oo#...................#oo
-oo#...................##"
+oo"...................#oo
+oo#...................###
 oo####''#######..........
 oo#........#^^##.........
 oo"........#...##........
@@ -339,7 +339,7 @@ oo#...................#..
 oo#.$$$$$$$$..$$$$$$$.#..
 oo#.$$$$$$$$..$$$$$$$.#..
 oo#...................#..
-oo######################"
+oo#####################"#
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 endmap

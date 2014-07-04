@@ -10,13 +10,13 @@ Done
 
 Name: forest
   terrain: w:1 field / w:10 forest
-  road_bonuses: w:100 ranger station / w:10 graveyard
+  road_bonuses: w:100 ranger station / w:10 graveyard / w:30 cabin
   bonuses: w:100 pond / w:50 cabin
 Done
 
 Name: swamp
   terrain: swamp
-  road_bonuses: w:100 gas station / w:15 graveyard
+  road_bonuses: w:50 gas station / w:15 graveyard
 Done
 
 Name: mushroom forest

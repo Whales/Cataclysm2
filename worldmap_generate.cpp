@@ -479,7 +479,7 @@ void Worldmap::generate()
 // See worldmap.h for BONUS_SPACING definition
   for (int x = BONUS_SPACING; x < WORLDMAP_SIZE; x += BONUS_SPACING) {
     for (int y = BONUS_SPACING; y < WORLDMAP_SIZE; y += BONUS_SPACING) {
-      if (one_in(3)) {
+      if (!one_in(3)) {
         add_bonus(x, y);
       }
     }
