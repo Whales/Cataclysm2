@@ -96,6 +96,8 @@ bool Game::setup_new_game(int world_index)
   Point start = worldmap->random_tile_with_terrain("beach", 0);
 // Set the starting point to a shipwreck beach!
   worldmap->set_terrain(start.x, start.y, "beach_shipwreck");
+// Prep our Submap_pool.
+  //SUBMAP_POOL.load_area_centered_on(start.x, start.y);
 // And then generate our map.
   map->generate(worldmap, start.x, start.y, 0);
   worldmap->set_terrain(start.x, start.y, "beach");
@@ -787,6 +789,8 @@ void Game::shift_if_needed()
     shifty =  1 + (player->pos.y - max) / SUBMAP_SIZE;
   }
   map->shift(worldmap, shiftx, shifty);
+  Point p = map->get_center_point();
+  //SUBMAP_POOL.load_area_centered_on( p.x, p.y );
   for (std::list<Entity*>::iterator it = entities.instances.begin();
        it != entities.instances.end();
        it++) {

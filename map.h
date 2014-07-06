@@ -173,7 +173,7 @@ public:
  * removes them; it then loads or generates any missing submaps.
  */
   void load_area(int sector_x, int sector_y);
-/* load_area_centered_on() calls load_area, passing a sector_x and sectory_y
+/* load_area_centered_on() calls load_area(), passing a sector_x and sectory_y
  * which will place [center_x][center_y] in the center sector.
  */
   void load_area_centered_on(int center_x, int center_y);

@@ -1211,7 +1211,12 @@ void Submap_pool::load_area(int sector_x, int sector_y)
     return;
   }
 
-// First, handle the existing submaps
+// Check if we're loading what we already have - if so, skip all this work
+  if (sector_x == sector.x && sector_y == sector.y) {
+    return;
+  }
+
+// First, handle any existing submaps
   for (int sx = sector.x; sx < sector.x + 3; sx++) {
     for (int sy = sector.y; sy < sector.y + 3; sy++) {
 
