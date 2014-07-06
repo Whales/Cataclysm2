@@ -189,9 +189,13 @@ private:
   void remove_point(Tripoint p);
   void remove_submap(Submap* sm);
 
+  void clear_submaps(int sector_x, int sector_y);
+  void init_submaps (int sector_x, int sector_y);
   bool load_submaps(std::string filename);
+
   Submap* generate_submap(int x, int y, int z = 0);
   Submap* generate_submap(Tripoint p);
+
 };
 
 class Map

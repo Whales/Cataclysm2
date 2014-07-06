@@ -1216,81 +1216,21 @@ void Submap_pool::load_area(int sector_x, int sector_y)
     return;
   }
 
-// First, handle any existing submaps
-  for (int sx = sector.x; sx < sector.x + 3; sx++) {
-    for (int sy = sector.y; sy < sector.y + 3; sy++) {
-
-// Only save sectors that won't exist in the new Submap_pool.
-      if (sx < sector_x || sx >= sector_x + 3 ||
-          sy < sector_y || sy >= sector_y + 3   ) {
-        std::stringstream filename;
-        filename << SAVE_DIR << "/" << GAME.worldmap->get_name() << "/map." <<
-                    sx << "." << sy;
-  
-        std::ofstream fout;
-        fout.open( filename.str().c_str() );
-        if (!fout.is_open()) {
-          debugmsg("Couldn't open %s.", filename.str().c_str());
-          return;
-        }
-  
-        int start_x = sx * SECTOR_SIZE, start_y = sy * SECTOR_SIZE;
-        for (int mx = start_x; mx < start_x + SECTOR_SIZE; mx++) {
-          for (int my = start_y; my < start_y + SECTOR_SIZE; my++) {
-  // TODO: Save above-ground submaps
-            Tripoint curpos = Tripoint(mx, my, 0);
-            if (point_map.count(curpos) == 0) {
-              debugmsg("No submap exists at %s!", curpos.str().c_str());
-            } else {
-              Submap* curmap = point_map[curpos];
-              fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
-                      curmap->save_data() << std::endl;
-              remove_point(curpos);
-              remove_submap(curmap);
-  // Now do above-ground submaps!
-              curpos.z++;
-              while (point_map.count(curpos) > 0) {
-                curmap = point_map[curpos];
-                fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
-                        curmap->save_data() << std::endl;
-                remove_point(curpos);
-                remove_submap(curmap);
-                curpos.z++;
-              }
-            }
-          } // for (start_y <= mx < start_x + SECTOR_SIZE
-        } // for (start_x <= mx < start_x + SECTOR_SIZE
-      } // If <sector is moving out of bounds>
-    } // for (int sy = sector.y; sy < sector.y + 3; sy++)
-  } // for (int sx = sector.x; sx < sector.x + 3; sx++)
+// Start by clearing out existing submaps which we don't need...
+// (unless we're brand-new)
+  if (sector.x != -1 && sector.y != -1) {
+    clear_submaps(sector_x, sector_y);
+  }
 
 /* At this point, we've saved and deleted all submaps which won't be in the
  * updated pool.  The next step is to load (or generate if need be) all the
  * submaps which WILL be in the updated pool.
  */
+  init_submaps(sector_x, sector_y);
 
-  for (int sx = sector_x; sx < sector_x + 3; sx++) {
-    for (int sy = sector_y; sy < sector_y + 3; sy++) {
-/* Again, we check for overlap with the *old* position - no need to re-load
- * or re-generate those submaps.
- */
-      if (sx < sector.x || sx >= sector.x + 3 ||
-          sy < sector.y || sy >= sector.y + 3   ) {
-// Attempt to load from file
-        std::stringstream filename;
-        filename << SAVE_DIR << "/" << GAME.worldmap->get_name() << "/map." <<
-                    sx << "." << sy;
-        if (!load_submaps( filename.str() )) { // No file! Generate the submaps.
-          int startx = sx * SECTOR_SIZE, starty = sy * SECTOR_SIZE;
-          for (int mx = startx; mx < startx + SECTOR_SIZE; mx++) {
-            for (int my = starty; my < starty + SECTOR_SIZE; my++) {
-              generate_submap(mx, my);
-            }
-          }
-        }
-      }
-    }
-  }
+// Finally, set sector.
+  sector = Point(sector_x, sector_y);
+
 }
 
 void Submap_pool::load_area_centered_on(int center_x, int center_y)
@@ -1336,6 +1276,99 @@ void Submap_pool::remove_submap(Submap* sm)
   }
   delete sm;
   instances.remove(sm);
+}
+
+void Submap_pool::clear_submaps(int sector_x, int sector_y)
+{
+  std::string map_dir = SAVE_DIR + "/" + GAME.worldmap->get_name();
+  if (!directory_exists(map_dir)) {
+    if (!create_directory(map_dir)) {
+      debugmsg("Couldn't create directory '%s'.", map_dir.c_str());
+      return;
+    }
+  }
+  for (int sx = sector.x; sx < sector.x + 3; sx++) {
+    for (int sy = sector.y; sy < sector.y + 3; sy++) {
+// Only save sectors that won't exist in the new Submap_pool.
+      if (sx < sector_x || sx >= sector_x + 3 ||
+          sy < sector_y || sy >= sector_y + 3   ) {
+        std::stringstream filename;
+        filename << map_dir << "/map." << sx << "." << sy;
+        std::ofstream fout;
+        fout.open( filename.str().c_str() );
+        if (!fout.is_open()) {
+          debugmsg("Couldn't open '%s' for writing.", filename.str().c_str());
+          return;
+        }
+  
+        int start_x = sx * SECTOR_SIZE, start_y = sy * SECTOR_SIZE;
+        for (int mx = start_x; mx < start_x + SECTOR_SIZE; mx++) {
+          for (int my = start_y; my < start_y + SECTOR_SIZE; my++) {
+  // TODO: Save above-ground submaps
+            Tripoint curpos = Tripoint(mx, my, 0);
+            if (point_map.count(curpos) == 0) {
+              debugmsg("No submap exists at %s!", curpos.str().c_str());
+            } else {
+              Submap* curmap = point_map[curpos];
+              fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
+                      curmap->save_data() << std::endl;
+              remove_point(curpos);
+              remove_submap(curmap);
+  // Now do above-ground submaps!
+              curpos.z++;
+              while (point_map.count(curpos) > 0) {
+                curmap = point_map[curpos];
+                fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
+                        curmap->save_data() << std::endl;
+                remove_point(curpos);
+                remove_submap(curmap);
+                curpos.z++;
+              }
+            }
+          } // for (start_y <= mx < start_x + SECTOR_SIZE
+        } // for (start_x <= mx < start_x + SECTOR_SIZE
+      } // If <sector is moving out of bounds>
+    } // for (int sy = sector.y; sy < sector.y + 3; sy++)
+  } // for (int sx = sector.x; sx < sector.x + 3; sx++)
+
+}
+
+void Submap_pool::init_submaps(int sector_x, int sector_y)
+{
+  std::string map_dir = SAVE_DIR + "/" + GAME.worldmap->get_name();
+/* The first time we use a new world, the directory won't even exist!  This will
+ * be remedied the first time we have to SAVE Submaps, but for now, we'll take
+ * it as a sign that we need to generate ALL of them.
+ */
+  bool gen_all = false;
+  if (!directory_exists(map_dir)) {
+    gen_all = true;
+  }
+  for (int sx = sector_x; sx < sector_x + 3; sx++) {
+    for (int sy = sector_y; sy < sector_y + 3; sy++) {
+/* Again, we check for overlap with the *old* position - no need to re-load
+ * or re-generate those submaps.
+ */
+      if (sx < sector.x || sx >= sector.x + 3 ||
+          sy < sector.y || sy >= sector.y + 3   ) {
+// Attempt to load from file
+        std::stringstream filename;
+        if (!gen_all) {
+          filename << SAVE_DIR << "/" << GAME.worldmap->get_name() << "/map." <<
+                      sx << "." << sy;
+        }
+        if (gen_all || !load_submaps( filename.str() )) {
+// No file!  Generate the submaps.
+          int startx = sx * SECTOR_SIZE, starty = sy * SECTOR_SIZE;
+          for (int mx = startx; mx < startx + SECTOR_SIZE; mx++) {
+            for (int my = starty; my < starty + SECTOR_SIZE; my++) {
+              generate_submap(mx, my);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 bool Submap_pool::load_submaps(std::string filename)
