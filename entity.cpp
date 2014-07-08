@@ -1703,7 +1703,7 @@ void Entity::attack(Entity* target)
 
   Attack att = std_attack();
 
-  att.adjust_with_stats(stats);
+  att.adjust_with_stats (stats);
   att.adjust_with_skills(skills);
 
   use_ap(att.speed);
@@ -1729,9 +1729,11 @@ void Entity::attack(Entity* target)
   }
 
   Melee_hit_type hit_type = MELEE_HIT_NORMAL;
-  if (hit_sum < rng(1, 6)) {
+// TODO: This could mess up if, later on, we restrict Entities to one dodge roll
+//       per turn.  So, make it free_dodge_roll() or something.
+  if (hit_sum < target->dodge_roll()) {
     hit_type = MELEE_HIT_GRAZE;
-  } else if (hit_sum >= 15 || hit_sum > rng(1, 100)) { // TODO: Don't hardcode
+  } else if (hit_sum - target->dodge_roll() - target->dodge_roll() > 1) {
     hit_type = MELEE_HIT_CRITICAL;
   }
 
@@ -1822,7 +1824,7 @@ void Entity::attack(Entity* target)
   
 int Entity::hit_roll(int bonus)
 {
-  return rng(1, 10) + bonus;
+  return rng(1, 10 + bonus);
 }
 
 int Entity::dodge_roll()

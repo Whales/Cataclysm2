@@ -119,6 +119,12 @@ void Attack::adjust_with_stats(Stats stats)
   damage[DAMAGE_BASH]   = rng(damage[DAMAGE_BASH],   bash_adjust  );
   damage[DAMAGE_CUT]    = rng(damage[DAMAGE_CUT],    cut_adjust   );
   damage[DAMAGE_PIERCE] = rng(damage[DAMAGE_PIERCE], pierce_adjust);
+
+// We randomly reduce dexterity twice here... and then of course to_hit is
+// randomly reduced when we roll to hit.  So dexterity helps but isn't a HUGE
+// impact.
+  int to_hit_bonus = rng(0, stats.dexterity);
+  to_hit += rng(0, to_hit_bonus);
 }
 
 void Attack::adjust_with_skills(Skill_set skills)
@@ -199,7 +205,8 @@ Damage_set Attack::roll_damage(Melee_hit_type hit_type)
     if (hit_type == MELEE_HIT_GRAZE) {
       ret.set_damage( Damage_type(i), rng(0, damage[i] * .5) );
     } else if (hit_type == MELEE_HIT_CRITICAL) {
-      ret.set_damage( Damage_type(i), rng(damage[i], damage[i] * 2) );
+      Dice dam_dice(damage[i], 4);
+      ret.set_damage( Damage_type(i), dam_dice.roll() );
     } else {
       ret.set_damage( Damage_type(i), rng(damage[i] * .5, damage[i]) );
     }
