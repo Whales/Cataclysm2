@@ -393,13 +393,13 @@ int Item::get_volume()
 
   if (get_item_class() == ITEM_CLASS_CORPSE) {
     if (corpse) {
-      return corpse->get_volume();
+      return corpse->get_volume() * count;
     }
     return 0;
   }
 
 // Everything else just returns its type's volume.
-  return type->volume;
+  return type->volume * count;
 }
 
 int Item::get_volume_capacity()
