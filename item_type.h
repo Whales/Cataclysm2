@@ -71,7 +71,7 @@ public:
   virtual int  time_to_fire()    { return 0; }
   virtual int  default_charges() { return 0; }
   virtual bool uses_charges()       { return false; }
-  virtual bool always_combines()    { return false; }
+  virtual bool always_combines()    { return true;  }
   virtual bool combine_by_charges() { return false; }
   bool has_flag(Item_flag flag);
 
@@ -113,7 +113,6 @@ public:
 
   virtual int default_charges() { return count; }
   virtual std::string get_property_description();
-  virtual bool always_combines()    { return true;  }
   virtual bool combine_by_charges() { return true;  }
   virtual bool uses_charges()       { return true;  }
 
@@ -192,6 +191,7 @@ public:
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual bool uses_charges(); // true if max_charges > 0 && charges_per_use > 0
+  virtual bool always_combines() { return false; }
 
   Tool_action applied_action;   // Action when applied
   Tool_action powered_action;   // Action every turn, while powered
@@ -214,6 +214,8 @@ public:
   virtual Item_class get_class() { return ITEM_CLASS_CONTAINER; }
   virtual Item_action default_action() { return IACT_UNLOAD; }
   virtual std::string get_property_description();
+
+  virtual bool always_combines() { return false; }
 
   virtual bool handle_data(std::string ident, std::istream &data);
 

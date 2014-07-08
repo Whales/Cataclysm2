@@ -240,6 +240,10 @@ std::string Item::get_name_full()
   if (type->uses_charges() || active == ITEM_ACTIVE_TIMER) {
     ret << " (" << charges << ")";
   }
+
+  if (count > 1) {
+    ret << " <c=ltblue>x" << count << "<c=/>";
+  }
     
   if (is_active()) {
     ret << " <c=yellow>[on]<c=/>";
