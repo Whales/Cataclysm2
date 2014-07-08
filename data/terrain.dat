@@ -312,7 +312,7 @@ name: field fence
     armor: bash 1d8
     armor: cut 1d6
   done
-  flags: flammable
+  flags: flammable no_items
 done
 
 name: floor
@@ -579,7 +579,7 @@ name: window frame
   movecost: 250
   hp: 150
   destroy: rubble
-  flags: flammable
+  flags: flammable no_items
 done
 
 name: window
@@ -895,6 +895,7 @@ name: wood railing
     armor: pierce 15
   done
   destroy: wood floor
+  flags: no_items
 done
 
 name: machinery

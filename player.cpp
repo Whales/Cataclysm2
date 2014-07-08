@@ -280,6 +280,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
   std::vector<char> clothing_letters;
   std::vector<bool> include_clothing;
   std::vector<std::string> clothing_name, clothing_weight, clothing_volume;
+
   for (int i = 0; i < items_worn.size(); i++) {
     include_clothing.push_back(false);
 

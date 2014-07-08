@@ -1016,7 +1016,8 @@ bool Submap::add_item(Item item, int x, int y)
   if (x < 0 || y < 0 || x >= SUBMAP_SIZE || y >= SUBMAP_SIZE) {
     return false;
   }
-  if (tiles[x][y].move_cost() > 0 || tiles[x][y].has_flag(TF_CONTAINER)) {
+  if ((tiles[x][y].move_cost() > 0 || tiles[x][y].has_flag(TF_CONTAINER)) &&
+      !tiles[x][y].has_flag(TF_NO_ITEMS)) {
     tiles[x][y].items.push_back(item);
   } else {
 // Pick a random adjacent space with move_cost != 0
@@ -1030,7 +1031,8 @@ bool Submap::add_item(Item item, int x, int y)
       }
     }
     if (valid_points.empty()) {
-      return false; // No valid points!  Oh well.
+      return false; // No valid points!  Oh well.  ITEM OBLITERATED
+// TODO: Don't obliterate items.
     }
     int index = rng(0, valid_points.size() - 1);
     Point p = valid_points[index];
