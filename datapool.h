@@ -93,6 +93,7 @@ public:
   T* lookup_name(std::string name)
   {
     name = no_caps(name);
+    name = trim(name);
     if (name_map.count(name) == 0) {
       return NULL;
     }
