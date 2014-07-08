@@ -1536,6 +1536,7 @@ active items!");
 
 void Game::pickup_items(Tripoint pos)
 {
+// TODO: don't ignore z?
   pickup_items(pos.x, pos.y);
 }
 
@@ -1664,13 +1665,25 @@ void Game::pickup_items(int posx, int posy)
   }
 // TODO: Code for multi-turn pickup
   std::vector<Item> items_gotten;
+  std::vector<bool> actually_got_it;
   for (int i = 0; i < available->size(); i++) {
     if (pick_up[i]) {
       items_gotten.push_back( (*available)[i] );
       if (player->add_item( (*available)[i] )) {
-        available->erase(available->begin() + i);
-        pick_up.erase(pick_up.begin() + i);
+        actually_got_it.push_back(true);
+      } else {
+        actually_got_it.push_back(false);
       }
+    } else {
+      actually_got_it.push_back(false);
+    }
+  }
+
+  for (int i = 0; i < actually_got_it.size(); i++) {
+    if (actually_got_it[i]) {
+      available->erase(available->begin() + i);
+      actually_got_it.erase(actually_got_it.begin() + i);
+      i--;
     }
   }
 
