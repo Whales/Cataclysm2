@@ -1412,6 +1412,11 @@ std::string Mapgen_spec::get_name()
   return ret.str();
 }
 
+std::string Mapgen_spec::get_short_name()
+{
+  return name;
+}
+
 bool Mapgen_spec::has_flag(Mapgen_flag flag)
 {
   if (flag < 0 || flag >= flags.size()) {

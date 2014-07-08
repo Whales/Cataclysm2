@@ -1016,6 +1016,16 @@ bool Submap::add_item(Item item, int x, int y)
   if (x < 0 || y < 0 || x >= SUBMAP_SIZE || y >= SUBMAP_SIZE) {
     return false;
   }
+  if (item.count > 1) {
+    int count = item.count;
+    item.count = 1;
+    for (int i = 0; i < count; i++) {
+      if (!add_item(item, x, y)) {
+        return false;
+      }
+    }
+    return true;
+  }
   if ((tiles[x][y].move_cost() > 0 || tiles[x][y].has_flag(TF_CONTAINER)) &&
       !tiles[x][y].has_flag(TF_NO_ITEMS)) {
     tiles[x][y].items.push_back(item);
@@ -1102,7 +1112,7 @@ std::string Submap::save_data()
   }
 
   if (spec_used) {
-    ret << "Spec: " << spec_used->get_name() << std::endl;
+    ret << "Spec: " << spec_used->get_short_name() << std::endl;
   }
 
   ret << "Subname: " << subname << std::endl;

@@ -245,6 +245,7 @@ struct Mapgen_spec
   int pick_furniture_uid(int x, int y);
 
   std::string get_name();
+  std::string get_short_name(); // Without the type included
   bool has_flag(Mapgen_flag flag);
   void debug_output();
 
