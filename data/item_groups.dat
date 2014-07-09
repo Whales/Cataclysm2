@@ -176,7 +176,7 @@ name: items_office
 done
 
 name: items_misc_housewares
-  items: w:10 pocket knife / w:1 hunting knife / w:1 baseball bat / w:30 golf club / w:5 rag / w:8 broom / w:5 showerhead / w:10 dumbbell / w:8 backpack / w:5 purse / w:1 gold ring / w:1 diamond necklace / w:15 batteries / w:5 bandages / w:2 first aid kit / w:15 flashlight / w:15 glass bottle / w:20 flower pot
+  items: w:10 pocket knife / w:1 hunting knife / w:1 baseball bat / w:30 golf club / w:5 rag / w:8 broom / w:5 showerhead / w:10 dumbbell / w:8 backpack / w:5 purse / w:1 gold ring / w:1 diamond necklace / w:15 batteries / w:5 bandages / w:2 first aid kit / w:15 flashlight / w:15 glass bottle / w:20 flower pot / w:15 frying pan
 done
 
 name: items_sport_equipment
@@ -251,7 +251,7 @@ name: items_jackets
 done
 
 name: items_gloves
-  items: w:12 cotton gloves / w:10 leather gloves
+  items: w:12 cotton gloves / w:10 leather gloves / w:1 work gloves
 done
 
 name: items_pants

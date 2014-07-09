@@ -339,6 +339,20 @@ name: roof
   flags: opaque floor
 done
 
+name: glass roof
+  glyph: . ltcyan black
+  movecost: 100
+  height: 1
+  hp: 10
+  flags: floor
+  smash:
+    failure_sound: "whunk."
+    success_sound: glass shattering.
+    armor: cut 1d8
+    armor: pierce 2
+  done
+done
+
 name: glass wall
   glyph: # ltcyan black
   movecost: 0
@@ -713,6 +727,26 @@ name: metal ladder down
   inverse: metal ladder up
   movecost: 100
   hp: 200
+  destroy: rubble
+  flags: stairs_down
+done
+
+name: escalator up
+  display_name: escalator
+  glyph: < ltgreen black
+  inverse: escalator down
+  movecost: 100
+  hp: 1000
+  destroy: rubble
+  flags: stairs_up
+done
+
+name: escalator down
+  display_name: escalator
+  glyph: > ltgreen black
+  inverse: escalator up
+  movecost: 100
+  hp: 1000
   destroy: rubble
   flags: stairs_down
 done

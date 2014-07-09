@@ -581,6 +581,148 @@ map:
 endmap
 done
 
+name: n1_department_mall_whales
+subname: department_mall_1
+type: mall
+neighbors: 1
+
+tile: . = floor
+tile: # = stone wall
+tile: X = glass wall
+tile: + = closed glass door
+tile_group: ' = w:2 closed glass door / w:1 glass wall
+tile: % = counter
+tile: < = escalator up
+
+shuffle: 123456789
+tile: 1234567890 = display rack
+item_group: 60 1 = items_small tools
+item_group: 70 2 = items_cleaning
+item_group: 72 3 = items_misc_goods
+item_group: 50 4 = items_soft_drugs
+item_group: 60 5 = items_computer_room
+item_group: 60 6 = items_food_shelves
+item_group: 78 7 = items_office
+item_group: 75 8 = items_misc_housewares
+item_group: 70 9 = items_sport_equipment
+item_group: 50 0 = items_jewelry
+
+map:
+#.......................#
+#.......................#
+#####XXXXXX'+'XXXXXX#####
+#.......................#
+#1.1.................4.4#
+#1.1..22.........55..4.4#
+#1.1..22.........55..4.4#
+#1.1.................4.4#
+#1.1..22.........55..4.4#
+#1.1..22..00000..55..4.4#
+#1.1.................4.4#
+#.........%%%%%.........#
+#.........%...%.........#
+#.........%...%.........#
+#..66666..%%.%%..77777..#
+#.......................#
+#..66666..#####..77777..#
+#.........#<#<#.........#
+#..66666..#...#..77777..#
+#.........#...#.........#
+#8.....................9#
+#8.....................9#
+#8.....................9#
+#888888888.....999999999#
+#########################
+endmap
+done
+
+name: n1_department_2_mall_whales
+subname: department_mall_1
+type: mall
+neighbors: 1
+level: 1
+
+tile: # = stone wall
+tile: . = floor
+tile: % = counter
+tile: > = escalator down
+
+shuffle: 12345678
+tile: 12345678 = display rack
+item_group: 75 1 = items_hats
+item_group: 75 2 = items_shirts
+item_group: 70 3 = items_jackets
+item_group: 75 4 = items_gloves
+item_group: 75 5 = items_pants
+item_group: 80 6 = items_shoes
+item_group: 75 7 = items_misc_clothes
+item_group: 50 8 = items_sport_clothes
+
+map:
+#########################
+#.......................#
+#.......................#
+#..33333333...44444444..#
+#.......................#
+#..33333333...44444444..#
+#.......................#
+#.......................#
+#1..1..1.........2..2..2#
+#1..1..1..%%.%%..2..2..2#
+#1..1..1..%...%..2..2..2#
+#1..1..1..%...%..2..2..2#
+#1..1..1..%%%%%..2..2..2#
+#.......................#
+#.......................#
+#..55..55.......66..66..#
+#..55..55.#.#.#.66..66..#
+#.........#>#>#.........#
+#.........#####.........#
+#..55..55.......66..66..#
+#..55..55.......66..66..#
+#7.....................8#
+#7.....................8#
+#7777777777...8888888888#
+#########################
+endmap
+done
+
+name: n1_department_roof_mall_whales
+subname: department_mall_1
+type: mall
+level: 2
+
+tile: . = roof
+tile_group: * = w:3 glass roof / w:1 roof
+
+map:
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+..........*****..........
+.........*******.........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+.........*******.........
+..........*****..........
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+endmap
+done
 
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
