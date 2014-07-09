@@ -292,3 +292,24 @@ Name: factory
   Spread_type: center
   Flags: face_road relational
 Done
+
+Name: mall entrance
+  Display_name: mall
+  Connector: mall
+  Glyph: M ltgreen black
+  Road_cost: 500
+  Spread_cost: 20
+  Spread: 3d4
+  Spread_type: center
+  Flags: face_road relational
+Done
+
+Name: mall
+  Connector: mall entrance
+  Glyph: M ltgreen black
+  Road_cost: 500
+  Spread_cost: 20
+  Spread: 3d4
+  Spread_type: center
+  Flags: face_road relational
+Done

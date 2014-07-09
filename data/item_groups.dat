@@ -175,6 +175,22 @@ name: items_office
   items: w:10 pocket knife / w:1 rag / w:3 bundle of money / w:2 fedora / w:20 glasses / w:2 scarf / w:2 bandana / w:2 leather gloves / w:1 oxfords / w:5 purse / w:1 gold ring / w:15 batteries / w:3 potato chips / w:2 pretzels / w:2 beef jerky / w:3 chocolate bar / w:3 water / w:3 whisky / w:3 wine / w:7 energy drink / w:3 cigarettes / w:8 aspirin / w:1 amphetamine / w:5 lighter / w:1 bandages / w:2 flashlight
 done
 
+name: items_misc_housewares
+  items: w:10 pocket knife / w:1 hunting knife / w:1 baseball bat / w:30 golf club / w:5 rag / w:8 broom / w:5 showerhead / w:10 dumbbell / w:8 backpack / w:5 purse / w:1 gold ring / w:1 diamond necklace / w:15 batteries / w:5 bandages / w:2 first aid kit / w:15 flashlight / w:15 glass bottle / w:20 flower pot
+done
+
+name: items_sport_equipment
+  items: w:30 baseball bat / w:20 golf club / w:5 dumbbell / w:12 bowling ball / w:8 hockey stick
+done
+
+name: items_sport_clothes
+  items: w:5 cotton hat / w:30 cap / w:10 football helmet / w:18 safety glasses / w:3 hockey mask / w:12 t shirt / w:5 leather gloves / w:20 sneakers
+done
+
+name: items_hunting_equipment
+  items: w:8 pocket knife / w:35 hunting knife / w:5 hatchet / w:6 machete / w:2 frying pan / w:5 rag / w:5 cotton hat / w:8 cap / w:10 safety glasses / w:1 leather jacket / w:2 leather gloves / w:3 boots / w:10 backpack / w:1 MRE (meat) / w:3 beef jerky / w:8 bandages / w:3 first aid kit / w:10 flashlight
+done
+
 # Gun store items
 # "Civilian" ammo - omit armor-piercing variants.  This is a crazy gun-toting
 # future so other rounds that might be illegal can appear here.
@@ -208,6 +224,10 @@ done
 
 name: items_barn_guns
   items: w:10 Ruger 10/22 / w:8 Ruger Mini-14 / w:6 Savage 111F / w:15 2-barreled shotgun / w:7 Remington 870 / w:20 00 shot / w:15 .22 LR / w:15 5.56 NATO / w:12 7.62 NATO
+done
+
+name: items_hunting_guns
+  items: w:5 2-barreled shotgun / w:10 Remington 870 / w:10 Ruger 10/22 / w:3 Ruger Mini-14 / w:1 Savage 111F / w:6 crossbow / w:15 00 shot / w:15 .22 LR / w:10 5.56 NATO / w:8 7.62 NATO / w:15 steel bolt
 done
 
 name: items_gun_accessories

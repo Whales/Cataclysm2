@@ -254,6 +254,30 @@ weapon
 done
 
 weapon
+  name: bowling ball
+  description:
+    A heavy stone ball.
+  done
+  glyph: * dkgray black
+  weight: 120
+  volume: 225
+  bash:    30
+  to_hit:  -2
+done
+
+weapon
+  name: hockey stick
+  description:
+    A large wooden stick, curved at the end for hitting a puck.
+  don
+  glyph: / brown black
+  weight:  12
+  volume: 150
+  bash:    18
+  to_hit:   2
+done
+
+weapon
   name: machete
   description:
     A heavy, long, single-bladed knife.  Ideal for hacking through undergrowth,
@@ -563,6 +587,16 @@ weapon
   volume: 6
 done
 
+weapon
+  name: mannequin
+  description:
+    A human body made out of wood, used for displaying clothing.
+  done
+  glyph: ( ltred black
+  weight: 300
+  volume: 1600
+done
+
 # END Weapons / vanilla
 
 # Clothing
@@ -633,8 +667,26 @@ clothing
   weight: 4
   volume: 100
   armor_bash: 8
-  armor_cut: 16
+  armor_cut: 12
   armor_pierce: 18
+done
+
+clothing
+  name: football helmet
+  description:
+    A hard plastic helmet which covers the head fully.  Before these were
+    introduced, concussions were extremely common in football.  Oh wait, they
+    still are.
+  done
+  glyph: [ magenta black
+  covers: head
+  weight: 15
+  volume: 200
+  armor_bash:   10
+  armor_cut:    16
+  armor_pierce: 18
+  bash:    8
+  to_hit: -1
 done
 
 clothing
@@ -665,6 +717,22 @@ clothing
   armor_pierce: 2
   covers: eyes
   flags: plural
+done
+
+clothing
+  name: hockey mask
+  description:
+    A tough plastic mask covered with small holes for ventilation.  Famous for
+    protecting hockey goalies from 80 mph, hard disks.  Also famous as serial
+    killer Jason's favored accessory.
+  done
+  glyph: [ cyan
+  weight: 5
+  volume: 45
+  covers: eyes mouth
+  armor_bash:  10
+  armor_cut:    8
+  armor_pierce: 3
 done
 
 clothing
@@ -1315,6 +1383,41 @@ ammo
   pierce: 80
   range:  60
   accuracy: 1d2 - 1
+  count: 10
+done
+
+ammo
+  name: steel bolt
+  description:
+    A sharp crossbow bolt made from steel.  Deadly in skilled hands.  Stands an
+    excellent chance of remaining intact after firing.
+  done
+  type: bolt
+  glyph: = ltgreen black
+  weight: 10
+  volume: 80
+  damage: 20
+  pierce: 14
+  range:  20
+  accuracy: 1d6 - 1
+  count: 18
+done
+
+ammo
+  name: wood bolt
+  description:
+    A somewhat-sharp crossbow bolt, carved from wood.  It's much less effective
+    than a steel bolt; it does less damage, is less accurate, has a shorter
+    range, and is very poor at penetrating armor.
+  done
+  type: bolt
+  glyph: = ltgreen black
+  weight:  7
+  volume: 80
+  damage: 12
+  pierce:  6
+  range:  16
+  accuracy: 1d12 - 1
   count: 10
 done
 
@@ -1976,6 +2079,30 @@ launcher
   reload_ap: 1000
   fire_ap: 175
   modes: 10 20 30
+done
+
+launcher
+  name: crossbow
+  description:
+    A slow-loading hand weapon that fires steel or wooden bolts.  Stronger
+    people can reload it much faster.  Bolts fired from this weapon have a good
+    chance of remaining intact for re-use.
+  done
+  glyph: ) ltgreen black
+  weight: 90
+  volume: 45
+  bash:   12
+  to_hit: -2
+
+  type: bolt
+  skill: bows
+  accuracy: 5d12 - 5
+  recoil: -8
+  durability: 75
+  capacity: 1
+  reload_ap: 700
+  fire_ap: 125
+  flags: reload_strength
 done
 
 # END Launchers

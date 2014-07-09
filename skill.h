@@ -21,6 +21,7 @@ enum Skill_type
   SKILL_SHOTGUNS,
   SKILL_SMGS,
   SKILL_RIFLES,
+  SKILL_BOWS,
 
 // Crafting & Construction
   SKILL_COOKING,

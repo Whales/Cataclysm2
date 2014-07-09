@@ -956,3 +956,19 @@ name: projector
   done
   destroy: rubble
 done
+
+name: mall map
+  glyph: { pink black
+  movecost: 0
+  hp: 15
+  height: 70
+  smash:
+    failure_sound: "smack!"
+    success_sound: "clatter!"
+    armor: bash 1d3
+    armor: cut 3d6
+    armor: pierce 4d10
+  done
+  destroy: rubble
+done
+  

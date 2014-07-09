@@ -80,6 +80,21 @@ name: stool
   Flags: flammable
 done
 
+name: bench
+  glyph: } ltred black
+  move_cost: 250
+  height: 40
+  weight: 180
+  HP: 40
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+    armor: bash 1d3
+    armor: cut 1d6
+  done
+  Components: c:4 wood plank
+  Flags: flammable
+done
 name: desk
   glyph: } blue black
   move_cost:  350

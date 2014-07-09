@@ -124,6 +124,7 @@ enum Item_flag
   ITEM_FLAG_RELOAD_SINGLE,  // "reload_single" - reloading loads a single round
   ITEM_FLAG_OPEN_END,   // "open_end" - for containers.  Can hold 5x limit.
   ITEM_FLAG_GLASSES,    // Prevent short-sightedness
+  ITEM_FLAG_RELOAD_STR, // "reload_strength" - Reduce reload_ap by Str * 30
   ITEM_FLAG_MAX
 };
 
