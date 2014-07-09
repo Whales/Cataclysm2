@@ -328,7 +328,9 @@ name: items_security_weapons
   items: w:5 combat knife / w:15 baton / w:20 9mm / w:16 .45 ACP / w:12 USP 9mm / w:8 USP .45 / w:3 H&K MP5 / w:1 H&K UMP45
 done
 
-name: items_consumer_tech
+# Any stuff a factory might be producing or studying.
+
+name: items_manufactured_tech
   items: w:3 pocket knife / w:2 hunting knife / w:4 combat knife / w:3 baton / w:1 antique sword / w:1 antique halberd / w:10 golf club / w:6 chef knife / w:3 frying pan / w:2 showerhead / w:1 diamond / w:15 processor / w:15 RAM / w:12 data cable / w:8 glasses / w:3 safety glasses / w:3 puffy coat / w:6 sneakers / w:2 boots / w:2 steel-toed boots / w:20 batteries / w:1 FN Five-Seven / w:1 KRISS Vector / w:1 FN P90 / w:1 Steyr HS .50 / w:5 MRE (meat) / w:5 MRE (vegetable) / w:3 SPAM / w:3 chicken soup / w:3 chocolate bar / w:3 cola / w:4 energy drink / w:5 cigarettes / w:6 aspirin / w:5 codeine / w:4 tramadol / w:4 oxycodone / w:4 amphetamine / w:5 sleeping pills / w:5 lighter / w:10 bandages / w:15 first aid kit / w:20 flashlight
 done
 

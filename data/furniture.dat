@@ -200,3 +200,19 @@ name: tall crate
   Components: c:12 wood plank
   Flags: flammable opaque
 done
+
+name: trash can
+  glyph: } green black
+  move_cost: 400
+  height: 50
+  weight: 120
+  HP:     200
+  Smash:
+    failure_sound: metal ringing.
+    success_sound: "crash!"
+    armor: bash 2d6
+    armor: pierce 1d20
+    armor: cut 3d10
+  done
+  Flags: opaque
+done

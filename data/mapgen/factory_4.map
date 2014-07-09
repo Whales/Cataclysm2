@@ -233,7 +233,7 @@ item_group: 40 F = items_fridge
 
 tile: %&^ = counter
 item_group: 20 & = items_kitchen_counter
-item_group: 50 ^ = items_consumer_tech
+num_item_group: ^ = c: 1d2; items_manufactured_tech
 
 shuffle: 1234
 shuffle: 567

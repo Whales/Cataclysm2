@@ -1004,5 +1004,20 @@ name: mall map
     armor: pierce 4d10
   done
   destroy: rubble
+  flags: opaque
 done
-  
+
+name: fountain
+  glyph: { ltblue black
+  movecost: 0
+  hp: 60
+  height: 80
+  smash:
+    failure_sound: "whack!"
+    success_sound: stone crumbling
+    armor: bash 1d6
+    armor: cut 4d10
+  done
+  destroy: rubble
+  flags: opaque
+done

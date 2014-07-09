@@ -1,0 +1,764 @@
+### mall_2.map
+#
+# The following tags are used: (# marks a line or part of a line as a comment)
+#
+# "name:" - Required.  A description of this spec.  It should appear first for
+#           debugging reasons.
+# "type:" - Required.  The World_terrain name this spec applies to.  See
+#           world_terrain.dat for a list of World_terrains.
+# "adjacent" - If this tag is present, then this map is an "adjacency" map.
+#              This should appear before "base_terrain:" or "tile:" lines.
+# "base_terrain:" - Recommended.  A terrain specification to be used for tiles
+#                   which are not defined in the map section.
+# "weight:" - A weight used when randomly choosing specs.  If omitted, the
+#             weight defaults to 100.  A spec with weight 200 is twice as likely#             to be used as one with weight 100.
+# "tile:" - Defines a terrain used in the map section.
+# "items:" - Defines an item drop used in the map section.
+# "map:" - Defines the start of the map section.
+# "endmap" - Defines the end of the map section.
+# "done" - Required.  Marks the end of this spec.
+#
+# See the bottom of this file for details on base_terrain and tile terrain
+# specifications, item drop specifications, and adjacency maps.
+
+name: n11_food_court_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+
+tile: # = stone wall
+tile: . = floor
+tile: , = floor_lock
+tile: % = counter
+tile: T = toilet
+tile: K = sink
+tile: & = affixed table
+tile: + = w:4 locked door / w:1 closed door / w:1 open door
+
+tile: Pp = floor
+furniture: Pp = plastic chair
+
+tile: ^ = counter
+item_group: 75 ^ = items_kitchen_counter
+tile: F = fridge
+item_group: 80 F = items_fast_food
+tile: $ = shelves
+item_group: 75 $ = items_food_shelves
+tile: S = stove
+
+shuffle: 12
+shuffle: 34
+tile: 13 = closed door
+tile: 24 = stone wall
+
+subst: s = w:3 S / w:1 .
+subst: D = w:3 D / w:1 .
+
+tile: sD = snack machine
+item_group: 70 s = items_snacks
+item_group: 70 D = items_fridge_snacks
+
+map:
+#.......................#
+#.......................#
+#DDss...............ssDD#
+######.............######
+#S^#,%.............%,#^^#
+#^.+,%.P&&P.P.P&&P.%,+.S#
+#F.#,%.p&&p.&.p&&p.%,#.F#
+#$$#.%.P&&P.P.P&&P.%.#$$#
+######.............######
+#$$#,%.............%,#S^#
+#^.+,%.P&&P.P.P&&P.%,+.$#
+#^.#,%.p&&p.&.p&&p.%,#.$#
+#SF#.%.P&&P.P.P&&P.%.#^F#
+######.............######
+#^S#,%..p.p...p.p..%,#F^#
+#$.+,%.P&&&P.P&&&P.%,+.S#
+#$.#,%..&&&...&&&..%,#.^#
+#^F#.%.p&&&p.p&&&p.%.#$$#
+######..P.P...P.P..######
+#T...1.............3...T#
+###.K#..PpP..PpP...#K.###
+#T..K#..&&&..&&&...#K..T#
+######..pPp..pPp...######
+#.......................#
+#.......................#
+endmap
+done
+
+name: n11_corridor_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+weight: 50
+
+tile: . = floor
+tile: # = stone wall
+tile: % = short stone wall
+tile: * = dirt
+tile: T = w:2 small tree / w:1 dirt
+tile: ~ = shallow water
+tile: F = fountain
+
+tile: B = floor
+furniture: B = bench
+
+subst: S = w:3 S / w:1 .
+subst: D = w:3 D / w:1 .
+
+tile: SD = snack machine
+item_group: 70 S = items_snacks
+item_group: 70 D = items_fridge_snacks
+
+map:
+map:
+#.......................#
+#..........%%%..........#
+#..........%T%..........#
+#B........B%*%B........B#
+#B........B%T%B........B#
+#B........B%*%B........B#
+#..........%T%..........#
+#..........%%%..........#
+#S.....................D#
+#.........%%%%%.........#
+#........%%~~~%%........#
+#B.......%~~~~~%.......B#
+#B.......%~~F~~%.......B#
+#B.......%~~~~~%.......B#
+#........%%~~~%%........#
+#.........%%%%%.........#
+#D.....................S#
+#..........%%%..........#
+#..........%T%..........#
+#B........B%*%B........B#
+#B........B%T%B........B#
+#B........B%*%B........B#
+#..........%T%..........#
+#..........%%%..........#
+#.......................#
+endmap
+done
+
+name: n11_clothing_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+weight: 300
+
+tile: # = stone wall
+tile: . = floor
+tile: X = glass wall
+tile: + = closed glass door
+tile_group: ' = w:3 glass wall / w:1 closed glass door
+tile: % = counter
+tile: ^ = short stone wall
+
+tile: M = floor
+num_items: M = c: 1d2 - 1; mannequin
+
+shuffle: 1234567
+tile: 1234567 = display rack
+item_group: 65 1 = items_hats
+item_group: 65 2 = items_shirts
+item_group: 65 3 = items_jackets
+item_group: 65 4 = items_gloves
+item_group: 65 5 = items_pants
+item_group: 65 6 = items_shoes
+item_group: 65 7 = items_misc_clothing
+
+shuffle: T*
+tile: * = dirt
+tile: T = w:2 small tree / w:1 dirt
+
+tile: B = floor
+furniture: B = bench
+
+subst: S = w:7 . / w:1 S
+subst: D = w:7 . / w:1 D
+
+tile: SD = snack machine
+item_group: 70 S = items_snacks
+item_group: 70 D = items_fridge_snacks
+
+map:
+###########.............#
+#2222222..X.............#
+#.........X.............#
+#1..33...MX....^^^^.....#
+#1..33....X....^T*^.....#
+#1.......MX....^*T^....S#
+#1..33....X....^T*^.....#
+#1..33...MX....^^^^.....#
+#1........X.............#
+#.....77..X.............#
+#.%%..77..X.............#
+#..%......'......B^.....#
+#..%......+......B^.....#
+#..%......'......B^.....#
+#%%%..77..X.............#
+#.....77..X.............#
+#4........X.............#
+#4..55...MX....^^^^.....#
+#4..55....X....^T*^.....#
+#4.......MX....^*T^....D#
+#4..55....X....^T*^.....#
+#4..55...MX....^^^^.....#
+#.........X.............#
+#6666666..X.............#
+###########.............#
+endmap
+done
+
+name: n11_housewares_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+
+tile: # = stone wall
+tile: . = floor
+tile_group: X = w:4 glass wall / w:1 stone wall
+tile: % = counter
+
+shuffle: abc
+tile: a = w:6 closed glass door / w:1 open glass door
+subst: b = w:4 X / w:1 a
+subst: c = w:9 X / w:1 a
+
+shuffle: 123456
+tile: 123456 = display rack
+item_group: 65 1 = items_garden_tools
+item_group: 60 2 = items_home_hardware
+item_group: 72 3 = items_cleaning
+item_group: 60 4 = items_kitchen_counter
+item_group: 72 5 = items_office
+item_group: 65 6 = items_misc_housewares
+
+tile: TB = floor
+furniture: B = bench
+furniture: T = trash can
+item_group: 75 T = items_trash
+
+tile: p = floor
+num_items: p = c: 1d1; dead plant
+
+subst: S = w:7 . / w:1 S
+subst: D = w:7 . / w:1 D
+
+tile: SD = snack machine
+item_group: 70 S = items_snacks
+item_group: 70 D = items_fridge_snacks
+
+map:
+###########.............#
+#555..111.X.............#
+#5......1.X......T......#
+#5.5..1.1.X......B......#
+#5.5..1.1.X......B......#
+#5.5..1.1.X......B......#
+#.........a.............#
+#2222.....X............S#
+#2222...2.X.............#
+#.......2.X......p......#
+#.%....22.X.............#
+#.%.......X.............#
+#.%.......b......p......#
+#.%.......X.............#
+#.%....33.X.............#
+#.......3.X......p......#
+#3333...3.X.............#
+#3333.....X............D#
+#.........c.............#
+#6.6..4.4.X......B......#
+#6.6..4.4.X......B......#
+#6.6..4.4.X......B......#
+#6......4.X......T......#
+#666..444.X.............#
+###########.............#
+endmap
+done
+
+name: n11_sporting_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+
+tile: # = stone wall
+tile: % = counter
+tile_group: X = w:7 glass wall / w:1 stone wall
+tile: . = floor
+tile: ^ = short stone wall
+tile: T = w:3 dirt / w:1 small tree
+
+shuffle: abc
+tile: a = w:9 closed glass door / w:1 open glass door
+subst: b = w:4 X / w:1 a
+subst: c = w:9 X / w:1 a
+
+subst: t = w:2 t / w:1 .
+tile: t = floor
+furniture: t = trash can
+item_group: 75 t = items_trash
+
+tile: p = floor
+num_items: p = c: 1d1; dead plant
+
+tile: B = floor
+furniture: B = bench
+
+subst: S = w:7 . / w:1 S
+subst: D = w:7 . / w:1 D
+
+tile: SD = snack machine
+item_group: 70 S = items_snacks
+item_group: 70 D = items_fridge_snacks
+
+map:
+###########.............#
+#3.111111.X.............#
+#3........X....ptp......#
+#3.111111.X....BBB......#
+#3........X.............#
+#3.222222.X............S#
+#3........X.............#
+#3.22222..X....BBB......#
+#3........b....p.p......#
+#3........X.............#
+#3.%%%%...X.............#
+#..%..%...X....^^^......#
+#.....%...a....^T^......#
+#..%..%...X....^^^......#
+#4.%%%%...X.............#
+#4........X.............#
+#4........c....p.p......#
+#4.55555..X....BBB......#
+#4........X.............#
+#4.555555.X............D#
+#4........X.............#
+#4.666666.X....BBB......#
+#4........X....ptp......#
+#4.666666.X.............#
+###########.............#
+endmap
+done
+
+
+name: n11_bathrooms_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+weight: 75
+
+tile: # = stone wall
+tile: . = floor
+tile: , = floor_lock
+tile: T = toilet
+tile: K = sink
+tile: ^ = short stone wall
+tile: 7 = w:4 small tree / w:1 dirt
+tile: + = w:9 closed door / w:1 open door
+tile: ' = w:4 open door / w:1 closed door
+tile: : = w:6 locked door / w:1 closed door / w:1 open door
+tile: & = mall map
+tile_group: X = w:4 glass wall / w:3 window / w:2 stone wall
+
+tile: tB = floor
+furniture: B = bench
+furniture: t = trash can
+item_group: 75 t = items_trash
+
+tile: C = shelves
+item_group: 80 C = items_cleaning
+
+subst: S = w:9 S / w:1 .
+subst: D = w:9 D / w:1 .
+
+terrain: SD = snack machine
+item_group: 70 S = items_snacks
+item_group: 70 D = items_fridge_snacks
+
+map:
+###########.............#
+#.KKKKKKK.#.............#
+#.........+.............#
+#.........#.............#
+#'#'#'#'#'#t............#
+#T#T#T#T#T#.............#
+###########.............#
+#B...SD.................#
+#B......................#
+#B......................#
+X...........&.......#####
+X....^^^....&&.....,#.CC#
+X....^7^....&&&....,:..C#
+X....^^^....&&.....,#.CC#
+X...........&.......#####
+#B......................#
+#B......................#
+#B...SD.................#
+###########.............#
+#T#T#T#T#T#.............#
+#'#'#'#'#'#t............#
+#.........#.............#
+#.........+.............#
+#.KKKKKKK.#.............#
+###########.............#
+endmap
+done
+
+
+name: n11_restaurant_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+
+tile: # = stone wall
+tile: - = short stone wall
+tile: . = floor
+tile: & = affixed bench
+tile_group: X = w:2 glass wall / w:1 wall
+tile: t = toilet
+tile: K = sink
+tile: S = stove
+tile: % = counter
+tile: 7 = w:2 small tree / w:1 dirt
+tile: + = w:4 closed class door / w:1 open glass door / w:1 locked door / w:1 closed door
+tile: ' = w:9 closed door / w:3 open door / w:1 locked door
+tile_group: " = w:3 window / w:1 stone wall
+
+tile: ^ = counter
+item_group: 70 ^ = items_kitchen_counter
+
+tile: $ = shelves
+item_group: 75 $ = items_fast_food
+
+tile: TcCBk = floor
+furniture: T = table
+furniture: cC = wood chair
+furniture: B = bench
+furniture: k = trash can
+item_group: 65 k = items_trash
+
+shuffle: 
+
+map:
+###########.............#
+#.cTC.cTC.#.............#
+#.CTc.CTc.".............#
+#.cTC.cTC.#.....---.....#
+#.........".....-7-.....#
+#.cTC.cTC.#.....---.....#
+#.CTc.CTc.".............#
+#.cTC.cTC.#.............#
+#.........####..........#
+#.cTC.cTC.&&&XX........B#
+#.CTc.CTc.....XX.......B#
+#..............X.......B#
+#..Cc......%...+.......k#
+#.cTTC.........X.......B#
+#.CTTc..c.....XX.......B#
+#.cTTC..T.&&&XX........B#
+#..Cc...c.####..........#
+#.........#.............#
+#..##1234##.............#
+#..#-....-#.....---.....#
+#'##K....S#.....-7-.....#
+#..#K....S#.....---.....#
+#..#^....^#.............#
+#tK#$$$^^^#.............#
+###########.............#
+endmap
+done
+
+map: n11_small_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+
+tile: # = stone wall
+tile: . = floor
+tile: % = counter
+tile_group: + = w:5 closed glass door / w:3 locked door / w:1 closed door
+subst: ' = w:3 # / w:1 +
+
+subst: ABCDE = w:5 a / w:5 b / w:8 c / w:8 d / w:9 e / w:13 f / w:3 g / w:6 h
+tile: abcdefgh = display rack
+item_group: 65 a = items_jewelry
+item_group: 72 b = items_soft_drugs
+item_group: 80 c = items_misc_housewares
+item_group: 70 d = items_snacks
+item_group: 72 e = items_office
+item_group: 80 f = items_shoes
+item_group: 70 g = items_wine
+item_group: 78 h = items_pawn_shop
+
+shuffle: 12
+shuffle: 34
+shuffle: 567
+shuffle: 890
+
+tile: 1358 = w:5 closed glass door / w:3 locked door / w:1 closed door
+tile: 246790 = stone wall
+
+
+map:
+###########............##
+#A..A....A#...........###
+#A..A...A##..........##D#
+#A..A..A##..........##D.#
+#A.....##..........##D..#
+#A..%%.1..........##D...#
+#....%.2.........##D...D#
+########.........#.....D#
+#BBBBBB#.........5.....D#
+#B....B#.........6.....D#
+#......#.........7.%%..D#
+#..%%..'.........#.%...D#
+#...%..+.........########
+#..%%..'.........#.%...E#
+#......#.........8.%%..E#
+#B....B#.........9.....E#
+#BBBBBB#.........0.....E#
+########.........#.....E#
+#....%.3.........##E...E#
+#C..%%.4..........##E...#
+#C.....##..........##E..#
+#C..C..C##..........##E.#
+#C..C...C##..........##E#
+#C..C....C#...........###
+###########............##
+endmap
+done
+
+name: n11_department_mall_whales
+subname: department_mall_11
+type: mall
+neighbors: 11
+weight: 200
+
+tile: . = floor
+tile: # = stone wall
+tile: X = glass wall
+tile: + = closed glass door
+tile_group: '; = w:2 closed glass door / w:1 glass wall
+tile: % = counter
+tile: < = escalator up
+
+shuffle: 123456789
+tile: 1234567890 = display rack
+item_group: 60 1 = items_small tools
+item_group: 70 2 = items_cleaning
+item_group: 72 3 = items_misc_goods
+item_group: 50 4 = items_soft_drugs
+item_group: 60 5 = items_computer_room
+item_group: 60 6 = items_food_shelves
+item_group: 78 7 = items_office
+item_group: 75 8 = items_misc_housewares
+item_group: 70 9 = items_sport_equipment
+item_group: 50 0 = items_jewelry
+
+map:
+#.......................#
+##XXXXXXXXX'+'XXXXXXXXX##
+#.......................#
+#1.111111.......222222.2#
+#1.........%%%.........2#
+#1.111111..%.%..222222.2#
+#..........%%%..........#
+#5.55..99..000..99..66.6#
+#5.55..99.......99..66.6#
+#5.....................6#
+#5.55..99..#.#..99..66.6#
+#5.55..99..#<#..99..66.6#
+#..........###..........#
+#..........#<#..........#
+#7..7..7...#.#...8..8..8#
+#7..7..7.........8..8..8#
+#7..7..7.........8..8..8#
+#7..7..7...000...8..8..8#
+#..........%%%..........#
+#3.333333..%.%..444444.4#
+#3.........%%%.........4#
+#3.333333.......444444.4#
+#.......................#
+##XXXXXXXXX;+;XXXXXXXXX##
+#.......................#
+endmap
+done
+
+name: n11_department_2_mall_whales
+subname: department_mall_11
+type: mall
+neighbors: 11
+level: 1
+
+tile: # = stone wall
+tile: . = floor
+tile: % = counter
+tile: > = escalator down
+tile_group: XY = w:1 glass wall / w:4 stone wall
+
+shuffle: 12345678
+tile: 12345678 = display rack
+item_group: 75 1 = items_hats
+item_group: 75 2 = items_shirts
+item_group: 70 3 = items_jackets
+item_group: 75 4 = items_gloves
+item_group: 75 5 = items_pants
+item_group: 80 6 = items_shoes
+item_group: 75 7 = items_misc_clothes
+item_group: 50 8 = items_sport_clothes
+
+map:
+#XXXXXXXXXXXXXXXXXXXXXXX#
+#.......................#
+#3..3..22..222..22..4..4#
+#3..3..22..222..22..4..4#
+#3..3...............4..4#
+#3..3....1111111....4..4#
+#3..3...............4..4#
+#3..3....11...11....4..4#
+#3..3....11...11....4..4#
+#.......................#
+#7.7.7..%%.#.#%%%..8.8.8#
+#7.7.7..%..#>#..%..8.8.8#
+#7.7.7..%..###..%..8.8.8#
+#7.7.7..%..#>#..%..8.8.8#
+#7.7.7..%%%#.#.%%..8.8.8#
+#7.7.7.............8.8.8#
+#.......................#
+#.......................#
+#.66666666.....55555555.#
+#.......................#
+#.......................#
+#.66666666.....55555555.#
+#.......................#
+#.......................#
+#YYYYYYYYYYYYYYYYYYYYYYY#
+endmap
+done
+
+name: n11_department_roof_mall_whales
+subname: department_malL_11
+type: mall
+level: 2
+
+tile: . = roof
+tile_group: * = w:3 glass roof / w:1 roof
+
+map:
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+..........*****..........
+.........*******.........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+.........*******.........
+..........*****..........
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+.........................
+endmap
+done
+
+name: n11_roof_mall_whales
+subname: mall_11
+type: mall
+level: 1
+
+tile: . = roof
+tile_group: * = w:3 glass roof / w:1 roof
+
+map:
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+........*********........
+endmap
+done
+
+
+# A recommended format for spec names is <DESC>_<TYPE>_<NAME>
+#  <DESC> is a short description of the unusual feature of this spec.  If it is
+#         not unusual, use "std".
+#  <TYPE> is the World_terrain used here.
+#  <NAME> is your name, initials, or handle.
+# This format makes it easy to identify the spec when debugging.
+#
+# The "tile:" line uses the following format:
+#       tile: abc = w:20 dirt / w:15 grass / tree
+# "abc" is a list of characters which, when found in the map section, will use
+# this terrain.  You can include spaces and they will be ignored.
+# " = " delineates between the list of characters and the terrain spec.  It must
+# be surrounded by spaces.
+# The rest of the line is a list of terrain names (from terrain.dat).  A terrain
+# is randomly picked from this list.  You must place " / " between terrain
+# names.  You can also include "w:20" with the terrain name to define its
+# weight for random selection.  If omitted, the weight defaults to 10.  A
+# terrain with weight 20 is twice as likely to be chosen as a terrain with
+# weight 10.
+#
+# The "base_terrain:" line uses the same terrain spec format, but of course the
+# list of characters and the " = " are not used.
+#
+# The "items:" line uses the following format:
+#       50 abc = rock / w:20 stick
+# The number at the front MUST be present.  It's the percentage chance of
+# placing a single item.  If one item is used, the same chance is used to decide
+# whether to place a second item, and so on until the chance fails.  It must be
+# between 1 and 99.  If it's not, you will be warned and the chance will be
+# corrected.
+# The rest of the line is very similar to the terrain specifications, but with
+# item names (from items.dat) instead of terrain names.
+#
+# The "map:" tag should appear on its own line.  It is followed by 25 lines of
+# 25 characters each - you will be warned if there are missing characters or
+# extra characters.  It is a list of characters which refer back to the "tile:"
+# or "items:" lines.  If no matching "tile:" is found, the base_terrain is used;
+# if the base_terrain is not present, the first terrain in terrain.dat is used.
+#
+# "Adjacency" specs are identified by placing the "adjacent" tag in the spec.
+# These specs are used when generating a map ADJACENT to the specified type.
+# Adjacency specs should be designed as if the adjacent terrain were to the
+# north; the spec will be rotated as needed.
+# The base terrain is generated, and then the adjacency map is generated on top.
+# Adjacency specs are the same as normal maps, but with the difference that
+# it is allowed to use "nothing" as a terrain name.  If "nothing" is selected,
+# then the terrain in the map will be unchanged.  Also, ONLY floor terrain will
+# be changed; non-floor terrain will be unchanged.
