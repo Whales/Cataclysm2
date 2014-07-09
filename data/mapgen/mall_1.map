@@ -469,6 +469,119 @@ map:
 endmap
 done
 
+name: n1_small_mall_whales
+subname: mall_1
+type: mall
+neighbors: 1
+
+tile: . = floor
+tile: # = stone_wall
+tile: & = mall map
+tile: X = glass wall
+tile: + = closed glass door
+tile: % = counter
+
+tile: $ = display rack
+item_group: 70 $ = items_behind_counter
+
+subst: ABC = w:5 a / w:5 b / w:8 c / w:8 d / w:9 e / w:13 f / w:3 g / w:6 h
+tile: abcdefgh = display rack
+item_group: 65 a = items_jewelry
+item_group: 72 b = items_soft_drugs
+item_group: 80 c = items_misc_housewares
+item_group: 70 d = items_snacks
+item_group: 72 e = items_office
+item_group: 80 f = items_shoes
+item_group: 70 g = items_wine
+item_group: 78 h = items_pawn_shop
+
+map:
+#.......................#
+#####.......&.......#####
+#...XX.....&&&.....XX...#
+#....XX...&&&&&...XX....#
+#.BB..XX.........XX..CC.#
+#.BB...X#.......#X...CC.#
+#.......X.......X.......#
+#B.B.B..X.......X..C.C.C#
+#B.B.B..1.......4..C.C.C#
+#B.B.B..X.......X..C.C.C#
+#B.B.B..X.......X..C.C.C#
+#B.B.B..2.......5..C.C.C#
+#.......X.......X.......#
+#..%%%%.X.......X.%%%%..#
+#B......3.......6......C#
+#B......X.......X......C#
+#BBBBBB.X.......X.CCCCCC#
+##########XX+XX##########
+#A..............%..$#AAA#
+#A..A.A.A.......%..$#..A#
+#A..A.A.A.AAAAA.%..$#..A#
+#A..A.A.A.......%..$#..A#
+#A......................#
+#AAAAAAAAAAAAAAAAAAAAAAA#
+#########################
+endmap
+done
+
+name: n1_minifood_mall_whales
+subname: mall_1
+type: mall
+neighbors: 1
+
+tile: . = floor
+tile: , = floor_lock
+tile: # = stone wall
+tile_group: " = w:2 window / w:1 stone wall
+tile: % = counter
+tile: T = toilet
+tile: K = sink
+tile: S = stove
+tile: - = short stone wall
+tile: * = dirt
+tile: 7 = w:4 small tree / w:1 dirt
+tile: ' = w:4 locked door / w:1 closed door / w:1 open door
+
+tile: B = floor
+furniture: B = bench
+
+tile: F = fridge
+item_group: 70 F = items_fast_food
+tile: ^ = counter
+item_group: 50 ^ = items_kitchen_counter
+tile: C = shelves
+item_group: 75 C = items_cleaning
+
+map:
+#.......................#
+#.......................#
+##,.....B.......B......##
+#'#.....B.......B.....###
+#.##....B.......B....##.#
+#..##...............##..#
+#CCC##.....---.....##...#
+#######....-*-....#######
+#^KK#.%....-7-....#.KKK.#
+#S..#,%....-*-....+.....#
+#S..',%....-*-....#.#.#.#
+#^..#,%....-7-....#T#T#T#
+#^..#.%....-*-....#######
+#F..#.%....-*-....#T#T#T#
+#F..#.%....-7-....#.#.#.#
+#^..#.%....-*-....+.....#
+#^^.#.%....---....#.KKK.#
+###+###...........#######
+#...##.............##...#
+#..##...............##..#
+#.##...-----------...##.#
+#'#....-*7**7**7*-....###
+##,....-----------.....##
+#.......................#
+###"##"##"##"##"##"##"###
+endmap
+done
+
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".

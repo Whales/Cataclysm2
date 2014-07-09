@@ -191,6 +191,10 @@ name: items_hunting_equipment
   items: w:8 pocket knife / w:35 hunting knife / w:5 hatchet / w:6 machete / w:2 frying pan / w:5 rag / w:5 cotton hat / w:8 cap / w:10 safety glasses / w:1 leather jacket / w:2 leather gloves / w:3 boots / w:10 backpack / w:1 MRE (meat) / w:3 beef jerky / w:8 bandages / w:3 first aid kit / w:10 flashlight
 done
 
+name: items_jewelry
+  items: w:5 diamond / w:8 purse / w:10 gold ring / w:10 diamond necklace
+done
+
 # Gun store items
 # "Civilian" ammo - omit armor-piercing variants.  This is a crazy gun-toting
 # future so other rounds that might be illegal can appear here.
