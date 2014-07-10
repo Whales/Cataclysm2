@@ -279,20 +279,211 @@ map:
 #.........#B........&....
 #.........#..............
 #.2222222.#..............
-#.........#XX............
-#.33..33....X+...........
-#.33..33.....XX..........
-#.............X..BBB.DS..
+#.........#X.............
+#.33..33...XX+...........
+#.33..33.....X...........
+#............XX..BBB.DS..
 #.33..........###########
 #.33..%%%%..............#
 #........%.....5.5.5.5.5#
 #.33.....%..44.5.5.5.5.5#
 #.33.....%..44.5.5.5.5.5#
 #.......................#
-#.^^...........6.6.6.6.6#
-#.^^^.44.44.44.6.6.6.6.6#
+#.^............6.6.6.6.6#
+#.^^..44.44.44.6.6.6.6.6#
 #.^^^.44.44.44.6.6.6.6.6#
 #.......................#
+#########################
+endmap
+done
+
+name: n2_bathrooms_mall_whales
+subname: mall_2
+type: mall
+neighbors: 2
+weight: 75
+
+tile: # = stone wall
+tile: - = short stone wall
+tile: . = floor
+tile: , = floor_lock
+tile: T = toilet
+tile: K = sink
+tile: + = w:6 closed door / w:1 locked door / w:1 open door
+tile: ' = w:5 open door / w:1 closed door
+tile: * = dirt
+tile: 7 = w:2 small tree / w:1 dirt
+tile: : = w:5 locked door / w:2 closed door
+tile_group: XYZ = w:3 glass wall / w:1 stone wall
+
+tile: Bp = floor
+furniture: B = bench
+num_items: p = c:1 1d2 - 1; dead plant
+
+subst: S = w:4 S / w:1 .
+subst: D = w:4 D / w:1 .
+tile: SD = snack machine
+item_group: 70 S = items_snacks
+item_group: 70 D = items_fridge_snacks
+
+tile: C = shelves
+item_group: 72 C = items_cleaning
+
+map:
+###########.............#
+#T#T#T#T#T#..............
+#'#'#'#'#'#......t.......
+#.........#.....-----....
+#.........+.....-7*7--...
+#.........#.....---*7-...
+#.KKKKKKK.#.......--*-...
+###########........-7-t..
+#.BBBppBBB...&&&&..---...
+#.............&&&........
+#S.............&&........
+#D..............&........
+X........................
+X.....BBB................
+Y....------......###+####
+Y....-*7**-B....B#....'T#
+Z....-***7-B....B#K...###
+Z....-7***-B....B#K...'T#
+Z....-**7*-......#K...###
+Y....------..SD,,#K...'T#
+Y............###:#K...###
+X............#...#K...'T#
+X............#C..#K...###
+#............#CCC#....'T#
+##XXYYZZZYYXX############
+endmap
+done
+
+name: n2_restaurant_mall_whales
+subname: mall_2
+type: mall
+neighbors: 2
+
+tile: # = stone wall
+tile: . = floor
+tile: % = counter
+tile_group: X = w:3 glass wall / w:1 stone wall
+tile: + = closed glass door
+tile: ' = w:5 closed door / w:2 open door / w:1 locked door
+tile: T = toilet
+tile: k = sink
+tile_group: " = w:2 stone wall / w:1 window
+tile: I = w:5 column / w:1 floor
+
+shuffle: FSK
+tile: K = sink
+tile: S = stove
+tile: F = fridge
+item_group: 75 F = items_fast_food
+
+shuffle: 123
+tile: 1 = w:7 closed door / w:2 open door / w:1 locked door
+tile: 2 = w:9 stone wall / w:3 closed door / w:1 locked door
+tile: 3 = stone wall
+
+tile: ^ = counter
+item_group: 65 ^ = items_kitchen_counter
+
+tile: TcC = floor
+furniture: T = table
+furniture: cC = wood chair
+
+map:
+###########.............#
+#.cCc...cC#..............
+#.TTT...TT"..............
+#.CcC...Cc#.....I........
+#........."..............
+#.cCc...cC#..............
+#.TTT...TT"..............
+#.CcC...Cc#..............
+#.........#XX+XX#....I...
+#...cCc.........X........
+#..CTTTC........X........
+#..cTTTc...%%%..+........
+#...CcC......%..X........
+#............%..X........
+#.cTC.cTC.......#########
+#.CTc.CTc..cC...#^^^FF^^#
+#.cTC.cTC..TT...1......^#
+#..........Cc...#..^^..S#
+#.cTC.cTC.......#..^^..S#
+#.CTc.CTc.......2......^#
+#.cTC.cTC..cC...#..^KK^^#
+#..........TT...##3######
+#.cTC.cTC..Cc.......#..T#
+#.CTc.CTc...........'..k#
+#########################
+endmap
+done
+
+name: n2_small_mall_whales
+subname: mall_2
+type: mall
+neighbors: 2
+weight: 150
+
+tile: # = stone wall
+tile: . = floor
+tile: % = counter
+tile: - = short stone wall
+tile: T = w:2 small tree / w:1 dirt
+tile_group: & = w:2 mall map / w:1 floor
+
+shuffle: 12
+shuffle: 34
+shuffle: 56
+shuffle: 78
+shuffle: 90
+shuffle: ab
+tile_group: 13579a = w:7 closed glass door / w:4 open glass door / w:5 closed door / w:3 locked door / w:1 open door
+subst: 2 = w:5 # / w:1 1
+subst: 4 = w:5 # / w:1 3
+subst: 6 = w:5 # / w:1 5
+subst: 8 = w:5 # / w:1 7
+subst: 0 = w:5 # / w:1 9
+subst: b = w:5 # / w:1 a
+
+subst: ABCDEF = w:5 a / w:5 b / w:8 c / w:8 d / w:9 e / w:13 f / w:3 g / w:6 h
+tile: abcdefgh = display rack
+item_group: 65 a = items_jewelry
+item_group: 72 b = items_soft_drugs
+item_group: 80 c = items_misc_housewares
+item_group: 70 d = items_snacks
+item_group: 72 e = items_office
+item_group: 80 f = items_shoes
+item_group: 70 g = items_wine
+item_group: 78 h = items_pawn_shop
+
+map:
+###########.............#
+#A.AAAAAA.#..............
+#A........1....---.......
+#A..A.....#....-T-.......
+#A..A..%%.2....---.......
+#A..A...%.#..............
+###########..............
+#B.B...%..3...&.....---..
+#B.B.%%%..4...&&....-T-..
+#B.......##...&&&...---..
+#B......##....&&&&.......
+#BBBBBB##................
+########.................
+#C...%.#.................
+#C..%%.5.......#90##a#b##
+#C.....6......##..#.....#
+#C..CC.#.....##...#.%%%.#
+#C.....##78###..%%#.%.%.#
+#C.CCC##....#E..%.#.....#
+#C....#D..%%#E....#F...F#
+#CCCCC#D..%.#E....#F.F.F#
+#######D..%.#E.E.E#F.F.F#
+#DDDDDDD....#E.E.E#F.F.F#
+#.........DD#E.E.E#F...F#
 #########################
 endmap
 done

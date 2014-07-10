@@ -488,6 +488,7 @@ map: n11_small_mall_whales
 subname: mall_11
 type: mall
 neighbors: 11
+weight: 150
 
 tile: # = stone wall
 tile: . = floor
