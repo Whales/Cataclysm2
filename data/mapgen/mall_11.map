@@ -58,6 +58,10 @@ tile: sD = snack machine
 item_group: 70 s = items_snacks
 item_group: 70 D = items_fridge_snacks
 
+tile: t = floor
+furniture: t = trash can
+item_group: 80 t = items_trash
+
 map:
 #.......................#
 #.......................#
@@ -79,10 +83,10 @@ map:
 #^F#.%.p&&&p.p&&&p.%.#$$#
 ######..P.P...P.P..######
 #T...1.............3...T#
-###.K#..PpP..PpP...#K.###
-#T..K#..&&&..&&&...#K..T#
-######..pPp..pPp...######
-#.......................#
+###.K#t.PpP...PpP.t#K.###
+#T..K#..&&&...&&&..#K..T#
+######t.pPp...pPp.t######
+#t.t.t.............t.t.t#
 #.......................#
 endmap
 done
@@ -313,6 +317,15 @@ subst: D = w:7 . / w:1 D
 tile: SD = snack machine
 item_group: 70 S = items_snacks
 item_group: 70 D = items_fridge_snacks
+
+shuffle: 123456
+tile: 123456 = display rack
+item_group: 70 1 = items_sport_equipment
+item_group: 78 2 = items_sport_clothes
+item_group: 70 3 = items_hiking_tools
+item_group: 78 4 = items_hiking_clothes
+item_group: 60 5 = items_hunting_equipment
+item_group: 50 6 = items_hunting_guns
 
 map:
 ###########.............#
