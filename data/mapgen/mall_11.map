@@ -488,7 +488,7 @@ map:
 endmap
 done
 
-map: n11_small_mall_whales
+name: n11_small_mall_whales
 subname: mall_11
 type: mall
 neighbors: 11
