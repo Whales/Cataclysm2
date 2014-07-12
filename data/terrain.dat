@@ -351,6 +351,7 @@ name: glass roof
     armor: cut 1d8
     armor: pierce 2
   done
+  destroy: empty
 done
 
 name: glass wall

@@ -269,7 +269,7 @@ weapon
   name: hockey stick
   description:
     A large wooden stick, curved at the end for hitting a puck.
-  don
+  done
   glyph: / brown black
   weight:  12
   volume: 150
@@ -726,7 +726,7 @@ clothing
     protecting hockey goalies from 80 mph, hard disks.  Also famous as serial
     killer Jason's favored accessory.
   done
-  glyph: [ cyan
+  glyph: [ cyan black
   weight: 5
   volume: 45
   covers: eyes mouth
