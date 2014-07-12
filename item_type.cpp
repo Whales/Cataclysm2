@@ -743,6 +743,7 @@ std::string item_flag_name(Item_flag flag)
     case ITEM_FLAG_RELOAD_SINGLE: return "reload_single";
     case ITEM_FLAG_OPEN_END:      return "open_end";
     case ITEM_FLAG_GLASSES:       return "glasses";
+    case ITEM_FLAG_RELOAD_STR:    return "reload_strength";
     case ITEM_FLAG_MAX:           return "BUG - ITEM_FLAG_MAX";
     default:                      return "BUG - Unnamed Item_flag";
   }
