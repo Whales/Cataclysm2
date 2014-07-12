@@ -950,16 +950,30 @@ done
 name: snack machine
   glyph: { pink black
   movecost: 0
-  hp: 30
+  hp: 3
+  height: 80
+  smash:
+    failure_sound: "whunk."
+    success_sound: glass shattering.
+    armor: cut 1d6
+  done
+  destroy: broken snack machine
+  flags: container sealed
+done
+
+name: broken snack machine
+  glyph: { ltgray black
+  movecost: 0
+  hp: 60
   height: 80
   smash:
     failure_sound: "whunk."
     success_sound: "crash!"
-    armor: bash 1d4
+    armor: bash 2d10
     armor: cut 30
   done
   destroy: rubble
-  flags: container sealed
+  flags: container
 done
 
 name: ticket dispenser
