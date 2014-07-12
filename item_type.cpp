@@ -271,7 +271,7 @@ bool Item_type::load_data(std::istream &data)
       description = trim(description);  // Get rid of extra " "
 
     } else if (ident == "glyph:") {
-      sym.load_data_text(data);
+      sym.load_data_text(data, name);
       std::getline(data, junk);
       set_glyph = true;
 
