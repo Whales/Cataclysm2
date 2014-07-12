@@ -781,7 +781,8 @@ bool Mapgen_spec::load_data(std::istream &data)
         }
       }
       if (!tmp_var.load_data(tile_data, name)) {
-        debugmsg("Failed to load Variable_terrain (%s)", name.c_str());
+        debugmsg("Failed to load Variable_terrain '%s' (%s)",
+                 tile_data.str().c_str(), name.c_str());
         return false;
       }
 // For every character in symbols, map that char to tmp_var
