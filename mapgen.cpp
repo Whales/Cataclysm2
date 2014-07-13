@@ -870,6 +870,10 @@ bool Mapgen_spec::load_data(std::istream &data)
           symbols += item_ident;
         }
       }
+      if (reading_symbols) {
+        debugmsg("No '=' in item_group line (%s)", name.c_str());
+        return false;
+      }
       std::string group_name;
       std::getline(data, group_name);
       group_name = no_caps(group_name);
@@ -879,6 +883,7 @@ bool Mapgen_spec::load_data(std::istream &data)
       if (!group) {
         debugmsg("Unknown item group '%s' (%s)", group_name.c_str(),
                  name.c_str());
+        return false;
       } else {
         tmp_area.set_group(group);
       }
@@ -912,7 +917,10 @@ bool Mapgen_spec::load_data(std::istream &data)
           symbols += item_ident;
         }
       }
-      if (!tmp_area.load_data(item_data, name)) {
+      if (reading_symbols) {
+        debugmsg("No '=' in num_item_group line (%s)", name.c_str());
+        return false;
+      } else if (!tmp_area.load_data(item_data, name)) {
         debugmsg("Failed to load Item_group_amount_area (%s)", name.c_str());
         return false;
       }
@@ -946,7 +954,10 @@ bool Mapgen_spec::load_data(std::istream &data)
           symbols += item_ident;
         }
       }
-      if (!tmp_area.load_data(item_data, name)) {
+      if (reading_symbols) {
+        debugmsg("No '=' in num_items: line (%s)", name.c_str());
+        return false;
+      } else if (!tmp_area.load_data(item_data, name)) {
         debugmsg("Failed to load Item_group_amount_area (%s)", name.c_str());
         return false;
       }
@@ -994,7 +1005,15 @@ bool Mapgen_spec::load_data(std::istream &data)
           symbols += item_ident;
         }
       }
-      tmp_area.load_data(item_data, name);
+      if (reading_symbols) {
+        debugmsg("No '=' in items block (%s)", name.c_str());
+        return false;
+      }
+      if (!tmp_area.load_data(item_data, name)) {
+        debugmsg("Failed to load items area '%s' (%s)", item_data.str().c_str(),
+                 name.c_str());
+        return false;
+      }
 // For every character in symbols, map that char to tmp_var
       for (int i = 0; i < symbols.length(); i++) {
         char ch = symbols[i];
@@ -1018,6 +1037,11 @@ bool Mapgen_spec::load_data(std::istream &data)
         } else {
           symbols += item_ident;
         }
+      }
+
+      if (reading_symbols) {
+        debugmsg("No '=' in furniture line (%s)", name.c_str());
+        return false;
       }
 
       std::string furniture_name;
