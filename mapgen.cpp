@@ -1050,15 +1050,19 @@ bool Mapgen_spec::load_data(std::istream &data)
         
         if (no_caps( trim(mapchars) ) != "endmap" &&
             mapchars.length() != MAPGEN_SIZE) {
-          debugmsg("Width %d", mapchars.length());
-          debugmsg("Bad map width '%s' (%s)", mapchars.c_str(), name.c_str());
+          debugmsg("Bad map width %d '%s' (%s)", mapchars.length(),
+                   mapchars.c_str(), name.c_str());
         }
-        for (int i = 0; i < mapchars.length(); i++) {
-          terrain[i][line] = mapchars[i];
+        if (line < MAPGEN_SIZE) {
+          for (int i = 0; i < mapchars.length(); i++) {
+            terrain[i][line] = mapchars[i];
+          }
         }
         line++;
-      } while (no_caps( trim(mapchars) ) != "endmap" && line < MAPGEN_SIZE);
-      if (line != MAPGEN_SIZE) {
+      } while (no_caps( trim(mapchars) ) != "endmap" && line < MAPGEN_SIZE * 2);
+      if (line == MAPGEN_SIZE * 2) {
+        debugmsg("Missing 'endmap' (entirely?) (%s)", name.c_str());
+      } else if (line != MAPGEN_SIZE) {
         debugmsg("Bad map height %d (%s)", line, name.c_str());
       }
     } else if (ident != "done" && ident != "endmap") {
