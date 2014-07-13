@@ -1116,7 +1116,7 @@ std::string Submap::save_data()
   }
 
   ret << "Subname: " << subname << std::endl;
-  ret << "Rotation: " << rotation << std::endl;
+  ret << "Rotation: " << int(rotation) << std::endl;
   ret << "Level: " << level << std::endl;
   ret << "Done";
 
@@ -1165,6 +1165,7 @@ bool Submap::load_data(std::istream& data)
         debugmsg("Invalid direction %d (range is 0 - 4).", tmprot);
         return false;
       }
+      rotation = Direction(tmprot);
 
     } else if (ident == "level:") {
       data >> level;
