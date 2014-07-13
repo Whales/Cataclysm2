@@ -301,6 +301,7 @@ Name: mall entrance
   Spread_cost: 20
   Spread: 3d4
   Spread_type: center
+  Spread_options: mall
   Flags: face_road relational
 Done
 
