@@ -104,7 +104,7 @@ public:
   void set_group(Item_group *group);
   void clear_points();
   void add_point(int x, int y);
-  void load_data(std::istream &data, std::string name = "unknown");
+  bool load_data(std::istream &data, std::string name = "unknown");
 
 // Functions used for item placement.
   void reset(); // Resets counters used when use_all_items is true.
