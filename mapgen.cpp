@@ -1295,6 +1295,9 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
       } else if (neighbor[DIR_WEST]) {
         rotate(DIR_WEST);
       }
+      if (num_neighbors == 11 && !has_flag(MAPFLAG_NOROTATE) && one_in(2)) {
+        rotate(DIR_SOUTH);  // Flip 180 degrees
+      }
     } else if (num_neighbors == 2) {
       if (neighbor[DIR_EAST] && neighbor[DIR_SOUTH]) {
         rotate(DIR_EAST);
@@ -1311,7 +1314,11 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
       } else if (!neighbor[DIR_SOUTH]) {
         rotate(DIR_WEST);
       }
-    } else if (num_neighbors != 4) {
+    } else if (num_neighbors == 4) {
+      if (!has_flag(MAPFLAG_NOROTATE)) {
+        rotate( Direction( rng(DIR_NORTH, DIR_WEST) ) );
+      }
+    } else {
       debugmsg("Used neighbor on a '%s' map with num_neighbors %d; '%s'/'%s'",
                world_ter[0]->name.c_str(), num_neighbors, name.c_str(),
                terrain_name.c_str());
@@ -1330,7 +1337,8 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
     } else {
       rotate( valid_rotate[ rng(0, valid_rotate.size() - 1) ] );
     }
-  } else if (!is_adjacent && num_neighbors > 0 && z_level <= 0) {
+  } else if (!is_adjacent && num_neighbors > 0 && z_level <= 0 &&
+             !has_flag(MAPFLAG_NOROTATE)) {
     random_rotate();
   }
 // Clear item locations
@@ -1877,6 +1885,7 @@ std::string mapgen_flag_name(Mapgen_flag flag)
   switch (flag) {
     case MAPFLAG_NULL:          return "NULL";
     case MAPFLAG_AUTOSTAIRS:    return "autostairs";
+    case MAPFLAG_NOROTATE:      return "norotate";
     case MAPFLAG_MAX:           return "ERROR - MAPFLAG_MAX";
     default:                    return "UNKNOWN MAPGEN_FLAG";
   }
