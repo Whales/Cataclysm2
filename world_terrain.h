@@ -31,6 +31,7 @@ enum Spread_type
   SPREAD_NULL = 0,
   SPREAD_NORMAL,    // Normal spread; slightly weighted towards circular
   SPREAD_CENTER,    // Always spread from the center if we're able
+  SPREAD_ARMS,      // Opposite of center - spread while reducing neighbor count
   SPREAD_MAX
 };
 

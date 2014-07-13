@@ -599,6 +599,7 @@ void Worldmap::add_bonus(int x, int y, bool debug)
  * stretched-out things.
  */
         std::vector<Point> spread_targets;
+        std::vector<Point> spread_preferred;
         switch (bonus_ter->spread_type) {
 
           case SPREAD_NORMAL:
@@ -635,8 +636,47 @@ void Worldmap::add_bonus(int x, int y, bool debug)
               }
             }
             break;
+
+          case SPREAD_ARMS:
+            for (int i = 0; i < included.size(); i++) {
+              for (int x = included[i].x - 1; x <= included[i].x + 1; x++) {
+                for (int y = included[i].y - 1; y <= included[i].y + 1; y++) {
+// Don't use diagonally-adjacent tiles
+                  if (x == included[i].x || y == included[i].y) {
+                    Worldmap_tile* target = get_tile(x, y);
+                    if (target &&
+                        target->terrain->spread_cost <= spread_points) {
+// Check if we would create an "arm"
+                      bool arm = true;
+                      for (int ax = x - 1; arm && ax <= x + 1; ax++) {
+                        for (int ay = y - 1; arm && ay <= y + 1; ay++) {
+                          if (ay == y) {
+                            ay++; // Skip our own tile
+                          }
+                          for (int n = 0; arm && n < included.size(); n++) {
+                            if (included[n].x == ax && included[n].y == ay) {
+                              arm = false;
+                            }
+                          }
+                        }
+                      }
+                      if (arm) {  // This is a preferred point!
+                        spread_preferred.push_back( Point(x, y) );
+                      } else {
+                        spread_targets.push_back( Point(x, y) );
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            break;
+                            
         } // switch (bonus_ter->spread_type)
 
+        if (!spread_preferred.empty()) {
+          spread_targets = spread_preferred;
+        }
         if (spread_targets.empty()) { // Nowhere to go, so sad :(
           spread_points = 0;
           if (debug) {

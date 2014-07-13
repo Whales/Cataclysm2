@@ -276,6 +276,7 @@ std::string spread_type_name(Spread_type type)
     case SPREAD_NULL:   return "NULL";
     case SPREAD_NORMAL: return "normal";
     case SPREAD_CENTER: return "center";
+    case SPREAD_ARMS:   return "arms";
     case SPREAD_MAX:    return "BUG - SPREAD_MAX";
     default:            return "BUG - Unnamed Spread_type";
   }
