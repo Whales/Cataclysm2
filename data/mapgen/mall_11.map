@@ -120,7 +120,6 @@ furniture: t = trash can
 item_group: 76 t = items_trash
 
 map:
-map:
 #.......................#
 #..........%%%..........#
 #..........%T%..........#
@@ -391,7 +390,7 @@ item_group: 80 C = items_cleaning
 subst: S = w:9 S / w:1 .
 subst: D = w:9 D / w:1 .
 
-terrain: SD = snack machine
+tile: SD = snack machine
 item_group: 70 S = items_snacks
 item_group: 70 D = items_fridge_snacks
 
@@ -434,13 +433,13 @@ tile: # = stone wall
 tile: - = short stone wall
 tile: . = floor
 tile: & = affixed bench
-tile_group: X = w:2 glass wall / w:1 wall
+tile_group: X = w:2 glass wall / w:1 stone wall
 tile: t = toilet
 tile: K = sink
 tile: S = stove
 tile: % = counter
 tile: 7 = w:2 small tree / w:1 dirt
-tile: + = w:4 closed class door / w:1 open glass door / w:1 locked door / w:1 closed door
+tile: + = w:4 closed glass door / w:1 open glass door / w:1 locked door / w:1 closed door
 tile: ' = w:9 closed door / w:3 open door / w:1 locked door
 tile_group: " = w:3 window / w:1 stone wall
 
@@ -457,7 +456,9 @@ furniture: B = bench
 furniture: k = trash can
 item_group: 65 k = items_trash
 
-shuffle: 
+shuffle: 1234
+tile: 1 = w:7 closed door / w:1 open door
+tile: 234 = stone wall
 
 map:
 ###########.............#
@@ -565,7 +566,7 @@ tile: < = escalator up
 
 shuffle: 123456789
 tile: 1234567890 = display rack
-item_group: 60 1 = items_small tools
+item_group: 60 1 = items_small_tools
 item_group: 70 2 = items_cleaning
 item_group: 72 3 = items_misc_goods
 item_group: 50 4 = items_soft_drugs
@@ -625,7 +626,7 @@ item_group: 70 3 = items_jackets
 item_group: 75 4 = items_gloves
 item_group: 75 5 = items_pants
 item_group: 80 6 = items_shoes
-item_group: 75 7 = items_misc_clothes
+item_group: 75 7 = items_misc_clothing
 item_group: 50 8 = items_sport_clothes
 
 map:

@@ -90,11 +90,10 @@ tile: % = counter
 tile: T = toilet
 tile: K = sink
 tile: + = w:4 locked door / w:1 closed door / w:1 open door
+tile: ' = w:7 closed door / w:1 open door
 tile: & = affixed table
+tile: ! = affixed bench
 tile: S = stove
-
-tile: Pp = floor
-furniture: Pp = plastic chair
 
 tile: ^ = counter
 item_group: 70 ^ = items_kitchen_counter
@@ -211,7 +210,7 @@ tile: * = dirt
 tile: T = w:2 small tree / w:1 dirt
 
 tile: ^ = counter
-num_items: c: 1d6 - 3; items_misc_housewares
+num_item_group: ^ = c: 1d6 - 3; items_misc_housewares
 
 shuffle: 12345678
 tile: 12345678 = display rack
@@ -343,10 +342,11 @@ tile: * = dirt
 tile: 7 = w:2 small tree / w:1 dirt
 tile: : = w:5 locked door / w:2 closed door
 tile_group: XYZ = w:3 glass wall / w:1 stone wall
+tile: & = mall map
 
 tile: Bp = floor
 furniture: B = bench
-num_items: p = c:1 1d2 - 1; dead plant
+num_items: p = c: 1d2 - 1; dead plant
 
 subst: S = w:4 S / w:1 .
 subst: D = w:4 D / w:1 .
@@ -356,6 +356,10 @@ item_group: 70 D = items_fridge_snacks
 
 tile: C = shelves
 item_group: 72 C = items_cleaning
+
+tile: t = floor
+furniture: t = trash can
+item_group: 68 t = items_trash
 
 map:
 ###########.............#
@@ -397,7 +401,7 @@ tile: % = counter
 tile_group: X = w:3 glass wall / w:1 stone wall
 tile: + = closed glass door
 tile: ' = w:5 closed door / w:2 open door / w:1 locked door
-tile: T = toilet
+tile: t = toilet
 tile: k = sink
 tile_group: " = w:2 stone wall / w:1 window
 tile: I = w:5 column / w:1 floor
@@ -443,7 +447,7 @@ map:
 #.CTc.CTc.......2......^#
 #.cTC.cTC..cC...#..^KK^^#
 #..........TT...##3######
-#.cTC.cTC..Cc.......#..T#
+#.cTC.cTC..Cc.......#..t#
 #.CTc.CTc...........'..k#
 #########################
 endmap
@@ -467,14 +471,14 @@ shuffle: 34
 shuffle: 56
 shuffle: 78
 shuffle: 90
-shuffle: ab
-tile_group: 13579a = w:7 closed glass door / w:4 open glass door / w:5 closed door / w:3 locked door / w:1 open door
+shuffle: xy
+tile_group: 13579x = w:7 closed glass door / w:4 open glass door / w:5 closed door / w:3 locked door / w:1 open door
 subst: 2 = w:5 # / w:1 1
 subst: 4 = w:5 # / w:1 3
 subst: 6 = w:5 # / w:1 5
 subst: 8 = w:5 # / w:1 7
 subst: 0 = w:5 # / w:1 9
-subst: b = w:5 # / w:1 a
+subst: y = w:5 # / w:1 a
 
 subst: ABCDEF = w:5 a / w:5 b / w:8 c / w:8 d / w:9 e / w:13 f / w:3 g / w:6 h
 tile: abcdefgh = display rack
@@ -502,7 +506,7 @@ map:
 #BBBBBB##................
 ########.................
 #C...%.#.................
-#C..%%.5.......#90##a#b##
+#C..%%.5.......#90##x#y##
 #C.....6......##..#.....#
 #C..CC.#.....##...#.%%%.#
 #C.....##78###..%%#.%.%.#
@@ -530,7 +534,7 @@ tile: < = escalator up
 
 shuffle: 123456789
 tile: 1234567890 = display rack
-item_group: 60 1 = items_small tools
+item_group: 60 1 = items_small_tools
 item_group: 70 2 = items_cleaning
 item_group: 72 3 = items_misc_goods
 item_group: 50 4 = items_soft_drugs
@@ -578,7 +582,7 @@ level: 1
 tile: o = empty
 tile: # = stone wall
 tile: . = floor
-tile: < = escalator_down
+tile: > = escalator down
 tile_group: X = w:3 glass wall / w:1 stone wall
 
 shuffle: 12345678
@@ -589,7 +593,7 @@ item_group: 70 3 = items_jackets
 item_group: 75 4 = items_gloves
 item_group: 75 5 = items_pants
 item_group: 80 6 = items_shoes
-item_group: 75 7 = items_misc_clothes
+item_group: 75 7 = items_misc_clothing
 item_group: 50 8 = items_sport_clothes
 
 map:

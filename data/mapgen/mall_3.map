@@ -145,6 +145,7 @@ tile: % = counter
 tile: & = affixed table
 tile: O = toilet
 tile: K = sink
+tile: S = stove
 
 tile: CcTt = floor
 furniture: Cc = plastic chair
@@ -159,9 +160,18 @@ tile: 147 = w:7 locked door / w:2 closed door / w:1 open door
 tile: 235689 = stone wall
 
 shuffle: ab
-shuffle: cd
-tile: ac = w:7 closed door / w:1 open door
-tile: bd = stone wall
+shuffle: de
+tile: ad = w:7 closed door / w:1 open door
+tile: be = stone wall
+
+tile: $ = shelves
+item_group: 78 $ = items_food_shelves
+
+tile: ^ = counter
+item_group: 72 ^ = items_kitchen_counter
+
+tile: F = fridge
+item_group: 80 F = items_fast_food
 
 map:
 ###########.............#
@@ -197,7 +207,7 @@ subname: mall_3
 type: mall
 neighbors: 3
 
-tile: # = stone wal
+tile: # = stone wall
 tile: . = floor
 tile: % = counter
 tile: - = short stone wall
@@ -463,6 +473,7 @@ weight: 150
 
 tile: # = stone wall
 tile: . = floor
+tile: , = floor_lock
 tile: % = counter
 tile: & = mall map
 tile: - = short stone wall
@@ -482,41 +493,41 @@ subst: ef = X
 subst: hi = Y
 subst: kl = Z
 
-subst: ABCD = w:5 a / w:5 b / w:8 c / w:8 d / w:9 e / w:13 f / w:3 g / w:6 h
-tile: abcdefgh = display rack
-item_group: 65 a = items_jewelry
-item_group: 72 b = items_soft_drugs
-item_group: 80 c = items_misc_housewares
-item_group: 70 d = items_snacks
-item_group: 72 e = items_office
-item_group: 80 f = items_shoes
-item_group: 70 g = items_wine
-item_group: 78 h = items_pawn_shop
+subst: ABCD = w:5 z / w:5 y / w:8 x / w:8 w / w:9 v / w:13 u / w:3 t / w:6 s
+tile: zyxwvuts = display rack
+item_group: 65 z = items_jewelry
+item_group: 72 y = items_soft_drugs
+item_group: 80 x = items_misc_housewares
+item_group: 70 w = items_snacks
+item_group: 72 v = items_office
+item_group: 80 u = items_shoes
+item_group: 70 t = items_wine
+item_group: 78 s = items_pawn_shop
 
-subst: & = w:7 & / w:1 .
+subst: @ = w:7 @ / w:1 .
 subst: ^ = w:7 ^ / w:1 .
-subst: t = w:3 t / w:1 .
+subst: R = w:3 R / w:1 .
 subst: p = w:2 p / w:1 .
-tile: &^tp = floor
-furniture: &^ = bench
-furniture: t = trash can
-item_group: 60 t = items_trash
+tile: @^Rp = floor
+furniture: @^ = bench
+furniture: R = trash can
+item_group: 60 R = items_trash
 num_items: p = c: 1d1; dead plant
 
 subst: S = w:2 S / w:1 .
-subst: D = w:2 D / w:1 .
-tile: SD = snack machine
+subst: M = w:2 M / w:1 .
+tile: SM = snack machine
 item_group: 70 S = items_snacks
-item_group: 70 D = items_fridge_snacks
+item_group: 70 M = items_fridge_snacks
 
 map:
 ###########,............#
 #AAAAAAA..a,.............
 #A........W,....---......
 #A........b,....-T-p.....
-#A.AAA%%..W,....-*-&.....
-#A.....%..c,....-*-&.....
-###########,....-T-t.....
+#A.AAA%%..W,....-*-@.....
+#A.....%..c,....-*-@.....
+###########,....-T-R.....
 #B.B.B.B..d,...S---......
 #B.B.B.B..X,.............
 #B........e,.............
@@ -527,8 +538,8 @@ map:
 #C...%%%..Y,.....&.......
 #CCC......h,.............
 #C........Y,.............
-#CCCCCCC..i,...D---......
-###########,....-T-t.....
+#CCCCCCC..i,...M---......
+###########,....-T-R.....
 #DDD...%..j,....-*-^.....
 #D...%%%..Z,....-*-^.....
 #D........k,....-T-p.....
@@ -555,7 +566,7 @@ tile: < = escalator up
 
 shuffle: 123456789
 tile: 1234567890 = display rack
-item_group: 60 1 = items_small tools
+item_group: 60 1 = items_small_tools
 item_group: 70 2 = items_cleaning
 item_group: 72 3 = items_misc_goods
 item_group: 50 4 = items_soft_drugs
@@ -604,6 +615,7 @@ tile: o = empty
 tile: # = stone wall
 tile: . = floor
 tile_group: X = w:7 stone wall / w:1 glass wall
+tile: > = escalator down
 
 shuffle: 12345678
 tile: 12345678 = display rack
@@ -613,7 +625,7 @@ item_group: 70 3 = items_jackets
 item_group: 75 4 = items_gloves
 item_group: 75 5 = items_pants
 item_group: 80 6 = items_shoes
-item_group: 75 7 = items_misc_clothes
+item_group: 75 7 = items_misc_clothing
 item_group: 50 8 = items_sport_clothes
 
 map:
@@ -709,14 +721,6 @@ map:
 ........*****************
 ........*****************
 ........*****************
-........*********........
-........*********........
-........*********........
-........*********........
-........*********........
-........*********........
-........*********........
-........*********........
 ........*********........
 ........*********........
 ........*********........

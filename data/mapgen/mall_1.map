@@ -255,6 +255,7 @@ tile: # = stone wall
 tile: ^ = short stone wall
 tile: T = w:4 small tree / w:1 dirt
 tile: % = counter
+tile_group: X = w:7 glass wall / w:1 stone wall
 
 tile: B = floor
 furniture: B = bench
@@ -432,7 +433,8 @@ tile: ^ = affixed bench
 tile: % = counter
 tile: T = toilet
 tile: K = sink
-tile: S = stove
+tile: V = stove
+tile: + = w:9 closed door / w:1 open door
 
 tile: WBL$ = shelves
 item_group: 60 W = items_wine
@@ -446,6 +448,10 @@ item_group: 75 - = items_kitchen_counter
 shuffle: 123
 tile: 1 = w:6 closed glass door / w:3 locked door / w:1 closed door
 tile: 23 = stone wall
+
+tile: CcSs = floor
+furniture: Cc = wood chair
+furniture: Ss = stool
 
 map:
 #.......................#
@@ -468,8 +474,8 @@ map:
 #^^............##########
 #^^..cTC.cTC...#--KK----#
 #&&..CTc.CTc...+.......-#
-#^^............#...-...S#
-#^^..CTc...#####...-...S#
+#^^............#...-...V#
+#^^..CTc...#####...-...V#
 #&&..cTC...+..T#.......-#
 #^^........#..K#$$$$$$--#
 #########################
@@ -482,9 +488,9 @@ type: mall
 neighbors: 1
 
 tile: . = floor
-tile: # = stone_wall
+tile: # = stone wall
 tile: & = mall map
-tile: X = glass wall
+tile_group: XYZ = w:9 glass wall / w:1 stone wall
 tile: + = closed glass door
 tile: % = counter
 
@@ -502,25 +508,31 @@ item_group: 80 f = items_shoes
 item_group: 70 g = items_wine
 item_group: 78 h = items_pawn_shop
 
+shuffle: 123
+shuffle: 456
+tile: 14 = closed glass door
+subst: 23 = X
+subst: 56 = Y
+
 map:
 #.......................#
 #####.......&.......#####
-#...XX.....&&&.....XX...#
-#....XX...&&&&&...XX....#
-#.BB..XX.........XX..CC.#
-#.BB...X#.......#X...CC.#
-#.......X.......X.......#
-#B.B.B..X.......X..C.C.C#
+#...XX.....&&&.....YY...#
+#....XX...&&&&&...YY....#
+#.BB..XX.........YY..CC.#
+#.BB...X#.......#Y...CC.#
+#.......X.......Y.......#
+#B.B.B..X.......Y..C.C.C#
 #B.B.B..1.......4..C.C.C#
-#B.B.B..X.......X..C.C.C#
-#B.B.B..X.......X..C.C.C#
+#B.B.B..X.......Y..C.C.C#
+#B.B.B..X.......Y..C.C.C#
 #B.B.B..2.......5..C.C.C#
-#.......X.......X.......#
-#..%%%%.X.......X.%%%%..#
+#.......X.......Y.......#
+#..%%%%.X.......Y.%%%%..#
 #B......3.......6......C#
-#B......X.......X......C#
-#BBBBBB.X.......X.CCCCCC#
-##########XX+XX##########
+#B......X.......Y......C#
+#BBBBBB.X.......Y.CCCCCC#
+##########ZZ+ZZ##########
 #A..............%..$#AAA#
 #A..A.A.A.......%..$#..A#
 #A..A.A.A.AAAAA.%..$#..A#
@@ -548,6 +560,7 @@ tile: - = short stone wall
 tile: * = dirt
 tile: 7 = w:4 small tree / w:1 dirt
 tile: ' = w:4 locked door / w:1 closed door / w:1 open door
+tile: + = w:9 closed door / w:1 open door
 
 tile: B = floor
 furniture: B = bench
@@ -604,7 +617,7 @@ tile: < = escalator up
 
 shuffle: 123456789
 tile: 1234567890 = display rack
-item_group: 60 1 = items_small tools
+item_group: 60 1 = items_small_tools
 item_group: 70 2 = items_cleaning
 item_group: 72 3 = items_misc_goods
 item_group: 50 4 = items_soft_drugs
@@ -665,7 +678,7 @@ item_group: 70 3 = items_jackets
 item_group: 75 4 = items_gloves
 item_group: 75 5 = items_pants
 item_group: 80 6 = items_shoes
-item_group: 75 7 = items_misc_clothes
+item_group: 75 7 = items_misc_clothing
 item_group: 50 8 = items_sport_clothes
 
 map:
