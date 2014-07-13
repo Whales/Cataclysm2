@@ -982,8 +982,8 @@ void Submap::generate_above(World_terrain* type, Submap* below)
   for (int i = 0; i < 5; i++) {
     ter[i] = NULL;
   }
-  spec->prepare(ter);
   spec->rotate(rotation);
+  spec->prepare(ter, false);  // false means no rotation happens here.
   generate(spec);
 // We might need to add stairs to match what's below.
   if (spec->has_flag(MAPFLAG_AUTOSTAIRS)) {

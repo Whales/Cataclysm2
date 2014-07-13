@@ -1214,7 +1214,7 @@ int Mapgen_spec::pick_furniture_uid(int x, int y)
   return furniture_uid[x][y];
 }
 
-void Mapgen_spec::prepare(World_terrain* world_ter[5])
+void Mapgen_spec::prepare(World_terrain* world_ter[5], bool allow_rotation)
 {
 // Prep terrain_defs; if they're grouped, this picks and "locks in" the terrain
   for (std::map<char,Variable_terrain>::iterator it = terrain_defs.begin();
@@ -1269,78 +1269,82 @@ void Mapgen_spec::prepare(World_terrain* world_ter[5])
     }
   }
 
-// Rotate as required.
-// TODO: Allow for a "norotate" flag?
+// Rotate as required (including randomly).  allow_rotation defaults to true.
+  if (allow_rotation) {
 // If we're a relational map, rotate based on neighbors...
-  if (!is_adjacent && world_ter && world_ter[0] && num_neighbors > 0 &&
-      world_ter[0]->has_flag(WTF_RELATIONAL)) {
-    std::vector<bool> neighbor;
-    neighbor.push_back(false);
-    for (int i = 1; i < 5; i++) {
-      bool nb = (world_ter[i] == world_ter[0]);
-      for (int n = 0; !nb && n < world_ter[0]->connectors.size(); n++) {
-        std::string conn = no_caps( world_ter[0]->connectors[n] );
-        if ( no_caps( world_ter[i]->get_data_name() ) == conn ) {
-          nb = true;
+    if (!is_adjacent && world_ter && world_ter[0] && num_neighbors > 0 &&
+        world_ter[0]->has_flag(WTF_RELATIONAL)) {
+      std::vector<bool> neighbor;
+      neighbor.push_back(false);
+      for (int i = 1; i < 5; i++) {
+        bool nb = (world_ter[i] == world_ter[0]);
+        for (int n = 0; !nb && n < world_ter[0]->connectors.size(); n++) {
+          std::string conn = no_caps( world_ter[0]->connectors[n] );
+          if ( no_caps( world_ter[i]->get_data_name() ) == conn ) {
+            nb = true;
+          }
+        }
+        neighbor.push_back(nb);
+      }
+      if (num_neighbors == 1 || num_neighbors == 11) {
+        if (neighbor[DIR_NORTH]) {
+        } else if (neighbor[DIR_EAST]) {
+          rotate(DIR_EAST);
+        } else if (neighbor[DIR_SOUTH]) {
+          rotate(DIR_SOUTH);
+        } else if (neighbor[DIR_WEST]) {
+          rotate(DIR_WEST);
+        }
+        if (num_neighbors == 11 && !has_flag(MAPFLAG_NOROTATE) && one_in(2)) {
+          rotate(DIR_SOUTH);  // Flip 180 degrees
+        }
+      } else if (num_neighbors == 2) {
+        if (neighbor[DIR_EAST] && neighbor[DIR_SOUTH]) {
+          rotate(DIR_EAST);
+        } else if (neighbor[DIR_SOUTH] && neighbor[DIR_WEST]) {
+          rotate(DIR_SOUTH);
+        } else if (neighbor[DIR_WEST] && neighbor[DIR_NORTH]) {
+          rotate(DIR_WEST);
+        }
+      } else if (num_neighbors == 3) { // Faster to check who DOESN'T have it
+        if (!neighbor[DIR_NORTH]) {
+          rotate(DIR_EAST);
+        } else if (!neighbor[DIR_EAST]) {
+          rotate(DIR_SOUTH);
+        } else if (!neighbor[DIR_SOUTH]) {
+          rotate(DIR_WEST);
+        }
+      } else if (num_neighbors == 4) {
+        if (!has_flag(MAPFLAG_NOROTATE)) {
+          rotate( Direction( rng(DIR_NORTH, DIR_WEST) ) );
+        }
+      } else {
+        debugmsg("Used neighbor on a '%s' map with num_neighbors %d; '%s'/'%s'",
+                 world_ter[0]->name.c_str(), num_neighbors, name.c_str(),
+                 terrain_name.c_str());
+      }
+
+  // If we're a road-facing map, face the road...
+    } else if (!is_adjacent && world_ter && world_ter[0] &&
+               world_ter[0]->has_flag(WTF_FACE_ROAD)) {
+      std::vector<Direction> valid_rotate;
+      for (int i = 1; i < 5; i++) {
+        if (world_ter[i]->has_flag(WTF_ROAD)) {
+          valid_rotate.push_back( Direction(i) );
         }
       }
-      neighbor.push_back(nb);
+      if (valid_rotate.empty()) {
+        random_rotate(); // Hopefully won't ever happen!
+      } else {
+        rotate( valid_rotate[ rng(0, valid_rotate.size() - 1) ] );
+      }
+
+// Everyone else gets rotated randomly (unless they don't).
+    } else if (!is_adjacent && num_neighbors > 0 && z_level <= 0 &&
+               !has_flag(MAPFLAG_NOROTATE)) {
+      random_rotate();
     }
-    if (num_neighbors == 1 || num_neighbors == 11) {
-      if (neighbor[DIR_NORTH]) {
-      } else if (neighbor[DIR_EAST]) {
-        rotate(DIR_EAST);
-      } else if (neighbor[DIR_SOUTH]) {
-        rotate(DIR_SOUTH);
-      } else if (neighbor[DIR_WEST]) {
-        rotate(DIR_WEST);
-      }
-      if (num_neighbors == 11 && !has_flag(MAPFLAG_NOROTATE) && one_in(2)) {
-        rotate(DIR_SOUTH);  // Flip 180 degrees
-      }
-    } else if (num_neighbors == 2) {
-      if (neighbor[DIR_EAST] && neighbor[DIR_SOUTH]) {
-        rotate(DIR_EAST);
-      } else if (neighbor[DIR_SOUTH] && neighbor[DIR_WEST]) {
-        rotate(DIR_SOUTH);
-      } else if (neighbor[DIR_WEST] && neighbor[DIR_NORTH]) {
-        rotate(DIR_WEST);
-      }
-    } else if (num_neighbors == 3) { // Faster to check who DOESN'T have it
-      if (!neighbor[DIR_NORTH]) {
-        rotate(DIR_EAST);
-      } else if (!neighbor[DIR_EAST]) {
-        rotate(DIR_SOUTH);
-      } else if (!neighbor[DIR_SOUTH]) {
-        rotate(DIR_WEST);
-      }
-    } else if (num_neighbors == 4) {
-      if (!has_flag(MAPFLAG_NOROTATE)) {
-        rotate( Direction( rng(DIR_NORTH, DIR_WEST) ) );
-      }
-    } else {
-      debugmsg("Used neighbor on a '%s' map with num_neighbors %d; '%s'/'%s'",
-               world_ter[0]->name.c_str(), num_neighbors, name.c_str(),
-               terrain_name.c_str());
-    }
-// If we're a road-facing map, face the road...
-  } else if (!is_adjacent && world_ter && world_ter[0] &&
-             world_ter[0]->has_flag(WTF_FACE_ROAD)) {
-    std::vector<Direction> valid_rotate;
-    for (int i = 1; i < 5; i++) {
-      if (world_ter[i]->has_flag(WTF_ROAD)) {
-        valid_rotate.push_back( Direction(i) );
-      }
-    }
-    if (valid_rotate.empty()) {
-      random_rotate(); // Hopefully won't ever happen!
-    } else {
-      rotate( valid_rotate[ rng(0, valid_rotate.size() - 1) ] );
-    }
-  } else if (!is_adjacent && num_neighbors > 0 && z_level <= 0 &&
-             !has_flag(MAPFLAG_NOROTATE)) {
-    random_rotate();
-  }
+  } // if (allow_rotation)
 // Clear item locations
   for (std::map<char, Item_area>::iterator it = item_defs.begin();
        it != item_defs.end();
