@@ -513,12 +513,14 @@ bool Tile::apply_signal(std::string signal, Entity* user)
   signal = no_caps(signal);
   signal = trim(signal);
   std::string user_name = "";
+
   if (user) {
     user_name = user->get_name_to_player();
   }
+
   if (!terrain || !signal_applies(signal)) {
     if (user) {
-      GAME.add_msg("%s can't %s there.", user_name.c_str(), signal.c_str());
+      GAME.add_msg("Nothing to %s there.", user_name.c_str(), signal.c_str());
     }
     return false;
   }
@@ -552,7 +554,7 @@ bool Tile::apply_signal(std::string signal, Entity* user)
         case STAT_INTELLIGENCE: stat = user->stats.intelligence;  break;
         case STAT_PERCEPTION:   stat = user->stats.perception;    break;
       }
-// Apply stat in different ways, depending on the operator used..
+// Apply stat in different ways, depending on the operator used...
       switch (it->op) {
 
         case MATH_MULTIPLY:
@@ -604,6 +606,7 @@ bool Tile::apply_signal(std::string signal, Entity* user)
                    handler.failure_message.c_str());
     }
     return true;  // True since we *tried*
+
   } else if (rng(1, 100) <= success) {
 // Success!
     if (handler.success_message.empty()) {
