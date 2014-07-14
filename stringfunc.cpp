@@ -10,8 +10,11 @@ std::vector<std::string> break_into_lines(std::string text, int linesize)
  size_t pos = 0; // ... this point in the string
  size_t linebreak = std::string::npos; // The last acceptable breakpoint
  std::string active_color_tag;
+/*
  while ((text.length() > linesize || text.find('\n') != std::string::npos) &&
         pos < text.size()) {
+*/
+ while (text.length() > linesize && pos < text.size()) {
   bool force = false;
   if (text.substr(pos, 3) == "<c=") {
    size_t tmppos = text.find('>', pos);
@@ -27,8 +30,9 @@ std::vector<std::string> break_into_lines(std::string text, int linesize)
   } else if (text[pos] == '\n') {
    linebreak = pos;
    force = true;
-  } else if (text[pos] == ' ')
+  } else if (text[pos] == ' ') {
    linebreak = pos;
+  }
   pos++;
   chars++;
   if (force || chars > linesize) {
