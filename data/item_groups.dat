@@ -300,6 +300,7 @@ done
 
 # TODO!
 name: items_magazines
+  items: w:1 rock
 done
 
 name: items_diner_food
