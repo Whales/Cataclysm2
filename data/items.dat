@@ -575,6 +575,7 @@ weapon
   glyph: * dkgray black
   weight: 1
   volume: 3
+  flags: plural
 done
 
 weapon
