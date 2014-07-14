@@ -667,6 +667,9 @@ there.<c=/>", map->get_name(examine).c_str());
       got.y -= MAP_SIZE / 2;
       if (TESTING_MODE) {
         map->generate(worldmap, got.x, got.y);
+        Point mp = map->get_center_point();
+        debugmsg("Worldmap %s, map %s", got.str().c_str(), mp.str().c_str());
+        SUBMAP_POOL.load_area_centered_on( mp.x, mp.y );
       }
     }  break;
 
