@@ -35,6 +35,39 @@ bool create_directory(std::string name)
   return true;
 }
 
+bool remove_directory(std::string name)
+{
+  if (!directory_exists(name)) {
+    return false;
+  }
+
+  DIR *dir;
+  struct dirent *entry;
+
+  dir = opendir(name.c_str());
+  if (dir == NULL) {
+    return false;
+  }
+
+  while ((entry = readdir(dir)) != NULL) {
+    std::string d_name = entry->d_name;
+    std::string full_path = name + "/" + d_name;
+
+    if (!d_name.empty() && d_name[0] != '.') {
+
+      if (entry->d_type == DT_DIR) {  // remove other directories recursively
+        remove_directory(full_path);
+      }
+      remove(full_path.c_str());
+    }
+  }
+
+  remove(name.c_str());
+  closedir(dir);
+
+  return true;
+}
+
 bool file_exists(std::string name)
 {
   std::ifstream fin;
@@ -44,6 +77,16 @@ bool file_exists(std::string name)
     return true;
   }
   return false;
+}
+
+bool remove_file(std::string name)
+{
+  if (!file_exists(name)) {
+    return false;
+  }
+
+  remove(name.c_str());
+  return true;
 }
 
 std::vector<std::string> files_in(std::string dir, std::string suffix)

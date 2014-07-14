@@ -12,7 +12,9 @@ extern std::string SAVE_DIR;
 
 bool directory_exists(std::string name);
 bool create_directory(std::string name);
+bool remove_directory(std::string name);
 bool file_exists     (std::string name);
+bool remove_file     (std::string name);
 std::vector<std::string> files_in(std::string dir, std::string suffix = "");
 std::vector<std::string> directories_in(std::string dir);
 
