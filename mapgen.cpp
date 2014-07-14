@@ -678,6 +678,61 @@ char Tile_substitution::current_selection()
   return selected;
 }
 
+Variable_name::Variable_name()
+{
+  total_chance = 0;
+}
+
+bool Variable_name::empty()
+{
+  return names.empty();
+}
+
+std::string Variable_name::pick()
+{
+  if (names.empty()) {
+    return "";
+  }
+  int roll = rng(1, total_chance);
+  int pick = -1;
+  while (roll > 0 && pick < names.size() - 1) {
+    pick++;
+    roll -= names[pick].chance;
+  }
+  return names[pick].name;
+}
+
+void Variable_name::add_name(int chance, std::string name)
+{
+  add_name( Name_chance(chance, name) );
+}
+
+void Variable_name::add_name(Name_chance name)
+{
+  total_chance += name.chance;
+  names.push_back(name);
+}
+
+bool Variable_name::load_data(std::istream& data, std::string owner)
+{
+  std::string ident;
+  Name_chance tmp_chance;
+  while (data >> ident) {
+    if (no_caps( ident.substr(0, 2) ) == "w:") { // it's a weight, i.e. a chance
+      tmp_chance.chance = atoi( ident.substr(2).c_str() );
+
+    } else if (ident == "/") {  // End of an option
+      add_name(tmp_chance);
+
+    } else { 
+      tmp_chance.name += ident;
+    }
+  }
+// Add the last one in the line to our list
+  add_name(tmp_chance);
+  return true;
+}
+
 Mapgen_spec::Mapgen_spec()
 {
   name = "unknown";
@@ -713,6 +768,15 @@ bool Mapgen_spec::load_data(std::istream &data)
       if (MAPGEN_SPECS.lookup_name(name)) {
         debugmsg("Loaded '%s' but it already exists!", name.c_str());
         return false;
+      }
+
+    } else if (ident == "display_name:") {
+      std::string line;
+      std::getline(data, line);
+      std::istringstream name_data(line);
+      if (!name_options.load_data(name_data, name)) {
+        debugmsg("name_options failed to load (%s)", name.c_str());
+// Intentionally non-fatal
       }
 
     } else if (ident == "subname:") {
@@ -763,7 +827,11 @@ bool Mapgen_spec::load_data(std::istream &data)
       std::string tile_line;
       std::getline(data, tile_line);
       std::istringstream tile_data(tile_line);
-      base_terrain.load_data(tile_data, name, is_adjacent);
+      if (!base_terrain.load_data(tile_data, name, is_adjacent)) {
+        debugmsg("Failed to load base terrain '%s' (%s)",
+                 tile_line.c_str(), name.c_str());
+        return false;
+      }
 
     } else if (ident == "weight:") {
       data >> weight;
@@ -1217,6 +1285,10 @@ int Mapgen_spec::pick_furniture_uid(int x, int y)
 
 void Mapgen_spec::prepare(World_terrain* world_ter[5], bool allow_rotation)
 {
+// Pick a display_name, if applicable.
+  if (!name_options.empty()) {
+    display_name = name_options.pick();
+  }
 // Prep terrain_defs; if they're grouped, this picks and "locks in" the terrain
   for (std::map<char,Variable_terrain>::iterator it = terrain_defs.begin();
        it != terrain_defs.end();
