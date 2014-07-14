@@ -1283,6 +1283,9 @@ int Submap_pool::size()
 void Submap_pool::remove_point(Tripoint p)
 {
   if (point_map.count(p) == 0) {
+    if (TESTING_MODE) {
+      debugmsg("Submap_pool couldn't remove point %s.", p.str().c_str());
+    }
     return;
   }
   point_map.erase(p);
@@ -1291,6 +1294,9 @@ void Submap_pool::remove_point(Tripoint p)
 void Submap_pool::remove_submap(Submap* sm)
 {
   if (!sm) {
+    if (TESTING_MODE) {
+      debugmsg("Submap_pool couldn't remove submap %d.", sm);
+    }
     return;
   }
   delete sm;
@@ -1306,6 +1312,8 @@ void Submap_pool::clear_submaps(int sector_x, int sector_y)
       return;
     }
   }
+
+  int num_removed = 0;
   for (int sx = sector.x; sx < sector.x + 3; sx++) {
     for (int sy = sector.y; sy < sector.y + 3; sy++) {
 // Only save sectors that won't exist in the new Submap_pool.
@@ -1323,32 +1331,27 @@ void Submap_pool::clear_submaps(int sector_x, int sector_y)
         int start_x = sx * SECTOR_SIZE, start_y = sy * SECTOR_SIZE;
         for (int mx = start_x; mx < start_x + SECTOR_SIZE; mx++) {
           for (int my = start_y; my < start_y + SECTOR_SIZE; my++) {
-  // TODO: Save above-ground submaps
             Tripoint curpos = Tripoint(mx, my, 0);
-            if (point_map.count(curpos) == 0) {
-              debugmsg("No submap exists at %s!", curpos.str().c_str());
-            } else {
+// while loop moves upwards until we stop having maps
+            while (point_map.count(curpos) > 0) {
               Submap* curmap = point_map[curpos];
               fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
                       curmap->save_data() << std::endl;
               remove_point(curpos);
               remove_submap(curmap);
-  // Now do above-ground submaps!
+              num_removed++;
               curpos.z++;
-              while (point_map.count(curpos) > 0) {
-                curmap = point_map[curpos];
-                fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
-                        curmap->save_data() << std::endl;
-                remove_point(curpos);
-                remove_submap(curmap);
-                curpos.z++;
-              }
             }
           } // for (start_y <= mx < start_x + SECTOR_SIZE
         } // for (start_x <= mx < start_x + SECTOR_SIZE
       } // If <sector is moving out of bounds>
     } // for (int sy = sector.y; sy < sector.y + 3; sy++)
   } // for (int sx = sector.x; sx < sector.x + 3; sx++)
+
+  if (TESTING_MODE) {
+    debugmsg("%d submaps erased; %d left (point_map %d, instances %d).",
+             num_removed, size(), point_map.size(), instances.size());
+  }
 
 }
 
