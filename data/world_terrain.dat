@@ -300,7 +300,7 @@ Name: mall entrance
   Road_cost: 500
   Spread_cost: 20
   Spread: 3d4
-  Spread_type: center
+  Spread_type: arms
   Spread_options: mall
   Flags: face_road relational
 Done
@@ -311,6 +311,6 @@ Name: mall
   Road_cost: 500
   Spread_cost: 20
   Spread: 3d4
-  Spread_type: center
+  Spread_type: arms
   Flags: face_road relational
 Done
