@@ -426,6 +426,7 @@ name: n1_shipping_factory_whales
 subname: factory_1
 type: factory
 neighbors: 1
+flags: separate_furniture
 
 tile: o = grass / dirt
 tile: . = floor
@@ -441,7 +442,7 @@ furniture: C = tall crate
 
 shuffle: XYZ
 tile: X = floor
-tile: YZ = w:8 stone wall / w:1 floor
+tile_group: YZ = w:8 stone wall / w:1 floor
 
 map:
 oo#...................#oo

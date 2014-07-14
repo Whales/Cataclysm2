@@ -225,6 +225,7 @@ enum Mapgen_flag
   MAPFLAG_NULL = 0,
   MAPFLAG_AUTOSTAIRS, // if level > 0, automatically match stairs below
   MAPFLAG_NOROTATE,   // Don't rotate randomly (still rotates for neighbors etc)
+  MAPFLAG_SEPARATE_FURNITURE, // Furniture is never more than 1 tile
   MAPFLAG_MAX
 };
 

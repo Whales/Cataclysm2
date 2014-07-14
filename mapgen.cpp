@@ -1407,6 +1407,10 @@ void Mapgen_spec::mark_furniture_uid(int x, int y, int uid)
   }
 
   furniture_uid[x][y] = uid;
+
+  if (has_flag(MAPFLAG_SEPARATE_FURNITURE)) {
+    return; // No recursing if we have this flag!
+  }
 // Now mark all adjacent tiles with the same furniture binding
   for (int i = 1; i <= 4; i++) {
     int xrec = x, yrec = y;
@@ -1891,6 +1895,7 @@ std::string mapgen_flag_name(Mapgen_flag flag)
     case MAPFLAG_NULL:          return "NULL";
     case MAPFLAG_AUTOSTAIRS:    return "autostairs";
     case MAPFLAG_NOROTATE:      return "norotate";
+    case MAPFLAG_SEPARATE_FURNITURE:  return "separate_furniture";
     case MAPFLAG_MAX:           return "ERROR - MAPFLAG_MAX";
     default:                    return "UNKNOWN MAPGEN_FLAG";
   }
