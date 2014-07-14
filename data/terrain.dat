@@ -104,7 +104,7 @@ name: hedge
     armor: bash 1d20 + 10
     ignore_chance: 10
   done
-  flags: opaque flammable plural
+  flags: opaque flammable
 done
 
 name: sand
@@ -391,7 +391,7 @@ done
 name: wood floor
   glyph: . ltred black
   movecost: 100
-  flags: floor
+  flags: floor indoors
 done
 
 name: stone path
