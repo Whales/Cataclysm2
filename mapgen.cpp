@@ -222,7 +222,7 @@ bool Item_area::place_item()
   return (rng(1, 100) <= overall_chance);
 }
 
-Item_type* Item_area::pick_type()
+Item_type* Item_area::pick_type(std::string owner)
 {
 // If use_all_items is true, we just scroll through the list
   if (use_all_items) {
@@ -239,7 +239,7 @@ Item_type* Item_area::pick_type()
   }
 
   if (item_types.empty()) {
-    debugmsg("Using NULL item");
+    debugmsg("Using NULL item (%s)", owner.c_str());
     return NULL;
   }
   int index = rng(1, total_chance);

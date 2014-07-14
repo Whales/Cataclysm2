@@ -109,7 +109,7 @@ public:
 // Functions used for item placement.
   void reset(); // Resets counters used when use_all_items is true.
   bool place_item();
-  Item_type* pick_type();
+  Item_type* pick_type(std::string owner = "unknown");
   Point pick_location();
 
 /* The chance the number of items placed to be increased:
