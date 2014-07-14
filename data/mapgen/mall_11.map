@@ -153,6 +153,7 @@ subname: mall_11
 type: mall
 neighbors: 11
 weight: 300
+flags: norotate
 
 tile: # = stone wall
 tile: . = floor
@@ -222,6 +223,7 @@ name: n11_housewares_mall_whales
 subname: mall_11
 type: mall
 neighbors: 11
+flags: norotate
 
 tile: # = stone wall
 tile: . = floor
@@ -290,6 +292,7 @@ name: n11_sporting_mall_whales
 subname: mall_11
 type: mall
 neighbors: 11
+flags: norotate
 
 tile: # = stone wall
 tile: % = counter
@@ -364,6 +367,7 @@ name: n11_bathrooms_mall_whales
 subname: mall_11
 type: mall
 neighbors: 11
+flags: norotate
 weight: 75
 
 tile: # = stone wall
@@ -428,6 +432,7 @@ name: n11_restaurant_mall_whales
 subname: mall_11
 type: mall
 neighbors: 11
+flags: norotate
 
 tile: # = stone wall
 tile: - = short stone wall
@@ -493,6 +498,7 @@ name: n11_small_mall_whales
 subname: mall_11
 type: mall
 neighbors: 11
+flags: norotate
 weight: 150
 
 tile: # = stone wall

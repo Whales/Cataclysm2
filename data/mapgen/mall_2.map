@@ -140,6 +140,7 @@ name: n2_clothing_mall_whales
 subname: mall_2
 type: mall
 neighbors: 2
+flags: norotate
 weight: 300
 
 tile: # = stone wall
@@ -199,6 +200,7 @@ name: n2_housewares_mall_whales
 subname: mall_2
 type: mall
 neighbors: 2
+flags: norotate
 
 tile: # = stone wall
 tile: . = floor
@@ -261,6 +263,7 @@ name: n2_sporting_mall_whales
 subname: mall_2
 type: mall
 neighbors: 2
+flags: norotate
 
 tile: # = stone wall
 tile: . = floor
@@ -328,6 +331,7 @@ name: n2_bathrooms_mall_whales
 subname: mall_2
 type: mall
 neighbors: 2
+flags: norotate
 weight: 75
 
 tile: # = stone wall
@@ -394,6 +398,7 @@ name: n2_restaurant_mall_whales
 subname: mall_2
 type: mall
 neighbors: 2
+flags: norotate
 
 tile: # = stone wall
 tile: . = floor
@@ -457,6 +462,7 @@ name: n2_small_mall_whales
 subname: mall_2
 type: mall
 neighbors: 2
+flags: norotate
 weight: 150
 
 tile: # = stone wall
@@ -524,6 +530,7 @@ name: n2_department_mall_whales
 subname: department_mall_2
 type: mall
 neighbors: 2
+flags: norotate
 
 tile: # = stone wall
 tile: . = floor
