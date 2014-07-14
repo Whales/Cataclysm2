@@ -848,6 +848,7 @@ void Submap::generate(Mapgen_spec* spec)
 // Ditto rotation.
   spec_used = spec;
   subname = spec->subname;
+// Rotation gets set in Mapgen_spec::prepare(), so it should still be valid here
   rotation = spec->rotation;
 // First, set the terrain.
   for (int x = 0; x < SUBMAP_SIZE; x++) {
@@ -1162,7 +1163,7 @@ bool Submap::load_data(std::istream& data)
       int tmprot;
       data >> tmprot;
       if (tmprot < 0 || tmprot > DIR_WEST) {
-        debugmsg("Invalid direction %d (range is 0 - 4).", tmprot);
+        debugmsg("Invalid rotation %d (range is 0 - 5).", tmprot);
         return false;
       }
       rotation = Direction(tmprot);

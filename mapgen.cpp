@@ -685,6 +685,7 @@ Mapgen_spec::Mapgen_spec()
   is_adjacent = false;
   num_neighbors = 0;
   z_level = 0;
+  rotation = DIR_NULL;
   for (int x = 0; x < MAPGEN_SIZE; x++) {
     for (int y = 0; y < MAPGEN_SIZE; y++) {
       terrain[x][y] = 0;
