@@ -183,6 +183,23 @@ int Game::world_screen()
       i_worlds.set_data("list_worlds", worldmap_names);
       i_worlds.select("list_worlds");
 
+    } else if ((ch == 'd' || ch == 'D') && !worldmap_names.empty()) {
+      int index = i_worlds.get_int("list_worlds");
+      std::string del_name = trim( worldmap_names[index] );
+      if (query_yn("Really delete %s and all saves?", del_name.c_str())) {
+        worldmap_names.erase( worldmap_names.begin() + index );
+        std::string dir_name = SAVE_DIR + "/" + del_name;
+        std::string file_name = SAVE_DIR + "/worlds/" + del_name + ".map";
+        if (!remove_directory( dir_name )) {
+          debugmsg("Failed to remove directory '%s'.", dir_name.c_str());
+        }
+        if (!remove_file( file_name )) {
+          debugmsg("Failed to remove file '%s'.", file_name.c_str());
+        }
+        i_worlds.set_data("list_worlds", worldmap_names);
+        i_worlds.set_data("list_worlds", 0);
+      }
+
     } else if (ch == '\n') {
       return i_worlds.get_int("list_worlds");
 
