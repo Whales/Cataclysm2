@@ -190,7 +190,7 @@ int Game::world_screen()
         worldmap_names.erase( worldmap_names.begin() + index );
         std::string dir_name = SAVE_DIR + "/" + del_name;
         std::string file_name = SAVE_DIR + "/worlds/" + del_name + ".map";
-        if (!remove_directory( dir_name )) {
+        if (directory_exists( dir_name ) && !remove_directory( dir_name )) {
           debugmsg("Failed to remove directory '%s'.", dir_name.c_str());
         }
         if (!remove_file( file_name )) {
