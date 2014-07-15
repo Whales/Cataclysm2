@@ -843,7 +843,7 @@ std::string Field::save_data()
 
 bool Field::load_data(std::istream& data)
 {
-  std::string ident;
+  std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
       debugmsg("Couldn't read Field data.");
@@ -863,12 +863,15 @@ bool Field::load_data(std::istream& data)
 
     } else if (ident == "level:") {
       data >> level;
+      std::getline(data, junk);
 
     } else if (ident == "duration:") {
       data >> duration;
+      std::getline(data, junk);
 
     } else if (ident == "dead:") {
       data >> dead;
+      std::getline(data, junk);
 
     } else if (ident == "creator:") {
       std::getline(data, creator);

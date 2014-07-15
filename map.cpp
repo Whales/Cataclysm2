@@ -179,7 +179,7 @@ std::string Furniture::save_data()
   std::stringstream ret;
 
   ret << "Type: " << type->name << std::endl;  // Name is a persistant unique ID
-  ret << "HP: " <<  hp << std::endl;
+  ret << "HP: " << hp << std::endl;
   ret << "UID: " << uid << std::endl;
   ret << "Done";
 
@@ -188,7 +188,7 @@ std::string Furniture::save_data()
 
 bool Furniture::load_data(std::istream& data)
 {
-  std::string ident;
+  std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
       debugmsg("Couldn't read Furniture data.");
@@ -208,9 +208,11 @@ bool Furniture::load_data(std::istream& data)
 
     } else if (ident == "hp:") {
       data >> hp;
+      std::getline(data, junk);
 
     } else if (ident == "uid:") {
       data >> uid;
+      std::getline(data, junk);
 
     } else if (ident != "done") {
       debugmsg("Unknown furniture identifier '%s'", ident.c_str());
@@ -649,10 +651,10 @@ std::string Tile::save_data()
     ret << "Field: " << field.save_data() << std::endl;
   }
   if (furniture.is_real()) {
-    ret << "Furniture: " << furniture.save_data() << std::endl;
+    ret << "Furniture: " << std::endl << furniture.save_data() << std::endl;
   }
   for (int i = 0; i < items.size(); i++) {
-    ret << "Item: " << items[i].save_data() << std::endl;
+    ret << "Item: " << std::endl << items[i].save_data() << std::endl;
   }
 
   ret << "Done";
@@ -662,7 +664,7 @@ std::string Tile::save_data()
 
 bool Tile::load_data(std::istream& data)
 {
-  std::string ident;
+  std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
       debugmsg("Couldn't read data (Tile).");
@@ -682,6 +684,7 @@ bool Tile::load_data(std::istream& data)
 
     } else if (ident == "hp:") {
       data >> hp;
+      std::getline(data, junk);
 
     } else if (ident == "field:") {
       if (!field.load_data(data)) {
@@ -1110,6 +1113,15 @@ std::string Submap::save_data()
 {
   std::stringstream ret;
 
+  if (spec_used) {
+    ret << "Spec: " << spec_used->get_short_name() << std::endl;
+  }
+
+  if (!subname.empty()) {
+    ret << "Subname: " << subname << std::endl;
+  }
+  ret << "Rotation: " << int(rotation) << std::endl;
+  ret << "Level: " << level << std::endl;
   ret << "Tiles: " << std::endl;
   for (int x = 0; x < SUBMAP_SIZE; x++) {
     for (int y = 0; y < SUBMAP_SIZE; y++) {
@@ -1117,13 +1129,6 @@ std::string Submap::save_data()
     }
   }
 
-  if (spec_used) {
-    ret << "Spec: " << spec_used->get_short_name() << std::endl;
-  }
-
-  ret << "Subname: " << subname << std::endl;
-  ret << "Rotation: " << int(rotation) << std::endl;
-  ret << "Level: " << level << std::endl;
   ret << "Done";
 
   return ret.str();
@@ -1131,7 +1136,7 @@ std::string Submap::save_data()
 
 bool Submap::load_data(std::istream& data)
 {
-  std::string ident;
+  std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
       debugmsg("Couldn't read Submap data.");
@@ -1172,9 +1177,11 @@ bool Submap::load_data(std::istream& data)
         return false;
       }
       rotation = Direction(tmprot);
+      std::getline(data, junk);
 
     } else if (ident == "level:") {
       data >> level;
+      std::getline(data, junk);
 
     } else if (ident != "done") {
       debugmsg("Unknown Submap property '%s'", ident.c_str());
@@ -1403,18 +1410,33 @@ bool Submap_pool::load_submaps(std::string filename)
   while (!fin.eof()) {
     Tripoint smpos;
     fin >> smpos.x >> smpos.y >> smpos.z;
-    if (point_map.count(smpos) > 0) {
-      debugmsg("Submap_pool collision at %s!", smpos.str().c_str());
-      return false;
-    }
-    Submap* sm = new Submap;
-    if (sm->load_data(fin)) {
-      instances.push_back(sm);
-      point_map[smpos] = sm;
-    } else {
-      delete sm;
-      debugmsg("Failed to load submap at %s.", smpos.str().c_str());
-      return false;
+    if (!fin.eof()) {
+/*
+      if (TESTING_MODE) {
+        debugmsg("Loading %s...", smpos.str().c_str());
+      }
+  */
+      bool use_sm = true;
+      if (point_map.count(smpos) > 0) {
+        use_sm = false;
+  /*
+        debugmsg("Submap_pool collision at %s!", smpos.str().c_str());
+        return false;
+  */
+      }
+      Submap* sm = new Submap;
+      if (sm->load_data(fin)) {
+        if (use_sm) {
+          instances.push_back(sm);
+          point_map[smpos] = sm;
+        } else {
+          delete sm;
+        }
+      } else {
+        delete sm;
+        debugmsg("Failed to load submap at %s.", smpos.str().c_str());
+        return false;
+      }
     }
   }
   return true;

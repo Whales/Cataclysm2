@@ -28,7 +28,7 @@ Item::Item(Item_type* T)
       Item_type_tool* tool = static_cast<Item_type_tool*>(type);
       subcharges = tool->subcharges;
     }
-    if (type->volume < 100) {
+    if (type->volume < 100 && type->volume > 0) {
       hp = type->volume;
     }
     if (hp < 5) {
@@ -1058,7 +1058,7 @@ std::string Item::save_data()
 
 bool Item::load_data(std::istream& data)
 {
-  std::string ident;
+  std::string ident, junk;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident) ) {
       debugmsg("Couldn't read Item data.");
@@ -1086,21 +1086,27 @@ bool Item::load_data(std::istream& data)
 
     } else if (ident == "count:") {
       data >> count;
+      std::getline(data, junk);
 
     } else if (ident == "charges:") {
       data >> charges;
+      std::getline(data, junk);
 
     } else if (ident == "subcharges:") {
       data >> subcharges;
+      std::getline(data, junk);
 
     } else if (ident == "hp:") {
       data >> hp;
+      std::getline(data, junk);
 
     } else if (ident == "fire_mode:") {
       data >> fire_mode;
+      std::getline(data, junk);
 
     } else if (ident == "uid:") {
       data >> uid;
+      std::getline(data, junk);
 
     } else if (ident == "active:") {
       int tmpact;
@@ -1110,6 +1116,7 @@ bool Item::load_data(std::istream& data)
                  int(ITEM_ACTIVE_MAX) - 1);
         return false;
       }
+      std::getline(data, junk);
 
     } else if (ident == "corpse:") {
       std::string tmpname;
