@@ -1411,7 +1411,7 @@ bool Submap_pool::load_submaps(std::string filename)
     Tripoint smpos;
     fin >> smpos.x >> smpos.y >> smpos.z;
     if (!fin.eof()) {
-/*
+/*  Too spammy.  Uncomment if really needed...
       if (TESTING_MODE) {
         debugmsg("Loading %s...", smpos.str().c_str());
       }
@@ -1419,10 +1419,14 @@ bool Submap_pool::load_submaps(std::string filename)
       bool use_sm = true;
       if (point_map.count(smpos) > 0) {
         use_sm = false;
-  /*
+/* I commented this out because sometimes, there's supposed to be a submap
+ * collision - an example is when using Test mode to teleport to a very-close-by
+ * location.  I don't think that a submap collision will ever happen
+ * unintentionally, and if it does, it doesn't need to be fatal.
+
         debugmsg("Submap_pool collision at %s!", smpos.str().c_str());
         return false;
-  */
+*/
       }
       Submap* sm = new Submap;
       if (sm->load_data(fin)) {
