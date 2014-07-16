@@ -1351,10 +1351,12 @@ void Submap_pool::clear_submaps(int sector_x, int sector_y)
     }
   }
 
+/*
   if (TESTING_MODE) {
     debugmsg("Submap_pool::clear_submaps(%d, %d) (sector = %s)",
              sector_x, sector_y, sector.str().c_str());
   }
+*/
   int num_removed = 0;
   for (int sx = sector.x; sx < sector.x + 3; sx++) {
     for (int sy = sector.y; sy < sector.y + 3; sy++) {
@@ -1371,10 +1373,12 @@ void Submap_pool::clear_submaps(int sector_x, int sector_y)
         }
   
         int start_x = sx * SECTOR_SIZE, start_y = sy * SECTOR_SIZE;
+/*
         if (TESTING_MODE) {
           debugmsg("Clearing from %d:%d to %d:%d", start_x, start_y,
                    start_x + SECTOR_SIZE - 1, start_y + SECTOR_SIZE - 1);
         }
+*/
         for (int mx = start_x; mx < start_x + SECTOR_SIZE; mx++) {
           for (int my = start_y; my < start_y + SECTOR_SIZE; my++) {
             Tripoint curpos = Tripoint(mx, my, 0);
@@ -1394,10 +1398,12 @@ void Submap_pool::clear_submaps(int sector_x, int sector_y)
     } // for (int sy = sector.y; sy < sector.y + 3; sy++)
   } // for (int sx = sector.x; sx < sector.x + 3; sx++)
 
+/*
   if (TESTING_MODE) {
     debugmsg("%d submaps erased; %d left (point_map %d, instances %d).",
              num_removed, size(), point_map.size(), instances.size());
   }
+*/
 
 }
 
@@ -1469,22 +1475,28 @@ bool Submap_pool::load_submaps(std::string filename)
       }
       Submap* sm = new Submap;
       if (sm->load_data(fin)) {
+/*
         bool shipwreck = TESTING_MODE && sm->spec_used &&
                          sm->spec_used->get_short_name() ==
                          "shipwreck_beach_whales";
         if (shipwreck) {
           debugmsg("Loaded shipwreck");
         }
+*/
         if (use_sm) {
+/*
           if (shipwreck) {
             debugmsg("Using it!");
           }
+*/
           instances.push_back(sm);
           point_map[smpos] = sm;
         } else {
+/*
           if (shipwreck) {
             debugmsg("Tossing it!");
           }
+*/
           delete sm;
         }
       } else {

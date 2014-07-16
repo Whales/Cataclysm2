@@ -97,17 +97,21 @@ bool Game::setup_new_game(int world_index)
 // Set the starting point to a shipwreck beach!
   worldmap->set_terrain(start.x, start.y, "beach_shipwreck");
 // Prep our Submap_pool.
+/*
   if (TESTING_MODE) {
     debugmsg("Starting at %s.", start.str().c_str());
   }
+*/
   SUBMAP_POOL.load_area_centered_on(start.x, start.y);
 // And then generate our map.
   map->generate(worldmap, start.x, start.y, 0);
+/*
   if (TESTING_MODE) {
     debugmsg("Pool covers %s, map covers %s.",
              SUBMAP_POOL.get_range_text().c_str(),
              map->get_range_text().c_str());
   }
+*/
   worldmap->set_terrain(start.x, start.y, "beach");
 
   player = new Player;
@@ -680,7 +684,7 @@ there.<c=/>", map->get_name(examine).c_str());
         SUBMAP_POOL.load_area_centered_on( posx, posy );
         map->generate(worldmap, got.x, got.y);
         Point mp = map->get_center_point();
-        debugmsg("Worldmap %s, map %s", got.str().c_str(), mp.str().c_str());
+        //debugmsg("Worldmap %s, map %s", got.str().c_str(), mp.str().c_str());
       }
     }  break;
 
