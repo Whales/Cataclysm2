@@ -46,9 +46,11 @@ bool remove_directory(std::string name)
 
   dir = opendir(name.c_str());
   if (dir == NULL) {
+    closedir(dir);
     return false;
   }
 
+  bool return_value = true;
   while ((entry = readdir(dir)) != NULL) {
     std::string d_name = entry->d_name;
     std::string full_path = name + "/" + d_name;
@@ -56,16 +58,22 @@ bool remove_directory(std::string name)
     if (!d_name.empty() && d_name[0] != '.') {
 
       if (entry->d_type == DT_DIR) {  // remove other directories recursively
-        remove_directory(full_path);
+        if (!remove_directory(full_path)) {
+          return_value = false;
+        }
       }
-      remove(full_path.c_str());
+      if (!remove(full_path.c_str())) {
+        return_value = false;
+      }
     }
   }
 
-  remove(name.c_str());
+  if (!remove(name.c_str())) {
+    return_value = false;
+  }
   closedir(dir);
 
-  return true;
+  return return_value;
 }
 
 bool file_exists(std::string name)
