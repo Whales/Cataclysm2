@@ -156,7 +156,7 @@ struct Submap
  * center.
  */
 
-#define SECTOR_SIZE 10
+#define SECTOR_SIZE 15
 
 struct Submap_pool
 {
@@ -179,6 +179,9 @@ public:
   void load_area_centered_on(int center_x, int center_y);
 
   int size();
+
+// For debugging purposes.
+  std::string get_range_text();
 
   std::list<Submap*> instances;
   Point sector;
@@ -330,7 +333,9 @@ public:
   Tripoint find_item(Item* it, int uid = -1);
   Tripoint find_item_uid(int uid); // find_item(NULL, uid)
 
-  int posx, posy, posz;
+  std::string get_range_text(); // For debugging purposes.
+
+  int posx, posy, posz; // Worldmap coordinates of the upper-left submap.
 
 private:
   Submap* submaps[MAP_SIZE][MAP_SIZE][VERTICAL_MAP_SIZE * 2 + 1];

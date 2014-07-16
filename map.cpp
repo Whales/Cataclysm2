@@ -1224,6 +1224,10 @@ Submap* Submap_pool::at_location(Tripoint p)
   if (point_map.count(p) > 0) {
     return point_map[p];
   }
+  if (TESTING_MODE && p.z == 0) {
+    debugmsg("WARNING: Generating rogue submap %s! We have %s.",
+             p.str().c_str(), get_range_text().c_str());
+  }
   return generate_submap(p);
 }
 
@@ -1275,9 +1279,13 @@ void Submap_pool::load_area_centered_on(int center_x, int center_y)
   sector_x /= SECTOR_SIZE;
   sector_y /= SECTOR_SIZE;
 
-// 4 => 3
-  sector_x--;
-  sector_y--;
+// But these numbers are for the CENTER sector!  So subtract one.
+  if (sector_x > 0) {
+    sector_x--;
+  }
+  if (sector_y > 0) {
+    sector_y--;
+  }
 
   load_area(sector_x, sector_y);
 }
@@ -1286,6 +1294,29 @@ int Submap_pool::size()
 {
   return instances.size();
 }
+
+std::string Submap_pool::get_range_text()
+{
+  std::stringstream ret;
+  Point lower = sector;
+  Point upper = lower;
+  lower.x *= SECTOR_SIZE;
+  lower.y *= SECTOR_SIZE;
+  upper.x += 3;
+  upper.y += 3;
+  upper.x *= SECTOR_SIZE;
+  upper.y *= SECTOR_SIZE;
+  upper.x += SECTOR_SIZE - 1;
+  upper.y += SECTOR_SIZE - 1;
+  ret << lower.str() << " to " << upper.str() << " (center ";
+  lower.x += SECTOR_SIZE;
+  lower.y += SECTOR_SIZE;
+  upper.x -= SECTOR_SIZE;
+  upper.y -= SECTOR_SIZE;
+  ret << lower.str() << " to " << upper.str() << ")";
+  return ret.str();
+}
+  
 
 void Submap_pool::remove_point(Tripoint p)
 {
@@ -1320,6 +1351,10 @@ void Submap_pool::clear_submaps(int sector_x, int sector_y)
     }
   }
 
+  if (TESTING_MODE) {
+    debugmsg("Submap_pool::clear_submaps(%d, %d) (sector = %s)",
+             sector_x, sector_y, sector.str().c_str());
+  }
   int num_removed = 0;
   for (int sx = sector.x; sx < sector.x + 3; sx++) {
     for (int sy = sector.y; sy < sector.y + 3; sy++) {
@@ -1336,14 +1371,18 @@ void Submap_pool::clear_submaps(int sector_x, int sector_y)
         }
   
         int start_x = sx * SECTOR_SIZE, start_y = sy * SECTOR_SIZE;
+        if (TESTING_MODE) {
+          debugmsg("Clearing from %d:%d to %d:%d", start_x, start_y,
+                   start_x + SECTOR_SIZE - 1, start_y + SECTOR_SIZE - 1);
+        }
         for (int mx = start_x; mx < start_x + SECTOR_SIZE; mx++) {
           for (int my = start_y; my < start_y + SECTOR_SIZE; my++) {
             Tripoint curpos = Tripoint(mx, my, 0);
 // while loop moves upwards until we stop having maps
             while (point_map.count(curpos) > 0) {
               Submap* curmap = point_map[curpos];
-              fout << curpos.x << " " << curpos.y << " " << curpos.z << " " <<
-                      curmap->save_data() << std::endl;
+              fout << curpos.x << " " << curpos.y << " " << curpos.z <<
+                      std::endl << curmap->save_data() << std::endl;
               remove_point(curpos);
               remove_submap(curmap);
               num_removed++;
@@ -1430,10 +1469,22 @@ bool Submap_pool::load_submaps(std::string filename)
       }
       Submap* sm = new Submap;
       if (sm->load_data(fin)) {
+        bool shipwreck = TESTING_MODE && sm->spec_used &&
+                         sm->spec_used->get_short_name() ==
+                         "shipwreck_beach_whales";
+        if (shipwreck) {
+          debugmsg("Loaded shipwreck");
+        }
         if (use_sm) {
+          if (shipwreck) {
+            debugmsg("Using it!");
+          }
           instances.push_back(sm);
           point_map[smpos] = sm;
         } else {
+          if (shipwreck) {
+            debugmsg("Tossing it!");
+          }
           delete sm;
         }
       } else {
@@ -2586,4 +2637,12 @@ Tripoint Map::find_item(Item* it, int uid)
 Tripoint Map::find_item_uid(int uid)
 {
   return find_item(NULL, uid);
+}
+
+std::string Map::get_range_text()
+{
+  std::stringstream ret;
+  Tripoint min(posx, posy, posz), max(posx + MAP_SIZE - 1, posy + MAP_SIZE - 1);
+  ret << min.str() << " to " << max.str();
+  return ret.str();
 }
