@@ -104,3 +104,17 @@ Name: zombies
     done
   done
 done
+
+Name: Chiratia
+  Default:
+    Senses: omniscient
+    AI:
+      awareness: 12
+      attention: 30
+      goals:
+        attack_enemies
+        attack_neutrals
+      done
+    done
+  done
+done
