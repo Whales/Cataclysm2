@@ -17,6 +17,7 @@ Done
 Name: swamp
   terrain: swamp
   road_bonuses: w:50 gas station / w:15 graveyard / w:8 mall entrance
+  bonuses: w:10 sunken cabin
 Done
 
 Name: mushroom forest

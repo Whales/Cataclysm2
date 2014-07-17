@@ -88,7 +88,7 @@ Name: road
   Flags: line_drawing relational road
   Connector: bridge
   Road_cost: 1
-  Spread_cost: 10
+  Spread_cost: 20
 Done
 
 Name: bridge
@@ -259,6 +259,13 @@ Done
 
 Name: cabin
   Glyph: o ltgreen black
+  Road_cost: 500
+  Flags: face_road
+  Spread_cost: 10
+Done
+
+Name: sunken cabin
+  Glyph: o cyan black
   Road_cost: 500
   Flags: face_road
   Spread_cost: 10

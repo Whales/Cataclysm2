@@ -233,6 +233,14 @@ name: column
   flags: opaque
 done
 
+name: wood column
+  glyph: # ltred black
+  movecost: 0
+  hp: 400
+  destroy: rubble
+  flags: opaque flammable
+done
+
 name: cubicle wall
   glyph: { ltgray black
   movecost: 0

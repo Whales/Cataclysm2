@@ -21,15 +21,15 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-name: porch_cabin_whales_1
-subname: porch_cabin_whales_1
-type: cabin
+name: porch_sunken_cabin_whales_1
+subname: porch_sunken_cabin_whales_1
+type: sunken cabin
 
-tile: o = w:50 grass / w:50 dirt / w:1 small tree / w:1 tree
-tile: . = wood floor
+tile: o = w:6 shallow water / w:4 mud / w:3 dirt / w:2 grass / w:1 tree
+tile: . = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
 tile: # = wood wall
 tile: " = window
-tile: % = wood railing
+tile: % = wood railing / w:2 shallow water / w:1 mud
 tile: ^ = counter
 tile: 7 = w:3 grass / w:3 dirt / w:4 tree
 tile: t = toilet
@@ -45,8 +45,8 @@ tile: a = w:4 locked door / w:1 closed door
 tile: bc = w:3 wood wall / w:1 window
 
 shuffle: de
-tile: d = wood floor
-tile: e = w:3 wood floor / w:1 counter
+tile: d = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
+tile: e = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass / w:7 counter
 
 shuffle: fgh
 tile: f = w:3 closed door / w:1 open door
@@ -65,7 +65,7 @@ item_group: 50 F = items_fridge
 tile: { = shelves
 item_group: 50 { = items_food_shelves
 
-tile: STCL = wood floor
+tile: STCL = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
 furniture: S = sofa
 furniture: T = table
 furniture: C = wood chair
@@ -100,10 +100,10 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: porch_cabin_whales_1_roof
-subname: porch_cabin_whales_1
-type: cabin
-floor: 1
+name: porch_sunken_cabin_whales_1_roof
+subname: porch_sunken_cabin_whales_1
+type: sunken cabin
+w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass: 1
 
 tile: o = empty
 tile: . = roof
@@ -137,22 +137,22 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: porch_cabin_whales_2
-subname: porch_cabin_whales_2
-type: cabin
+name: porch_sunken_cabin_whales_2
+subname: porch_sunken_cabin_whales_2
+type: sunken cabin
 
-tile: o = w:30 grass / w:30 dirt / w:1 small tree / w:1 tree
-tile: . = wood floor
+tile: o = w:6 shallow water / w:4 mud / w:3 dirt / w:2 grass / w:1 tree
+tile: . = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
 tile: # = wood wall
 tile: " = window
 tile: ' = w:3 window / w:1 wood wall
-tile: % = wood railing
+tile: % = wood railing / w:2 shallow water / w:1 mud
+tile: I = wood column
 tile: t = toilet
 tile: K = sink
 tile: B = bed
-tile: I = wood column
 
-tile: STCL = wood floor
+tile: STCL = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
 furniture: S = sofa
 furniture: T = table
 furniture: C = wood chair
@@ -180,8 +180,8 @@ tile: hjmp = w:5 closed door / w:1 open door
 tile: bcefgiklnOqr = wood wall
 
 shuffle: wxyz
-tile: z = wood floor
-tile_group: wxy = w:3 wood railing / w:1 wood floor
+tile: z = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
+tile_group: wxy = w:3 wood railing / w:2 shallow water
 
 map:
 ooooooooooooooooooooooooo
@@ -212,10 +212,10 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: porch_cabin_whales_2_roof
-subname: porch_cabin_whales_2
+name: porch_sunken_cabin_whales_2_roof
+subname: porch_sunken_cabin_whales_2
 level: 1
-type: cabin
+type: sunken cabin
 
 tile: o = empty
 tile: . = roof
@@ -249,12 +249,12 @@ ooooooooooooooooooooooooo
 endmap
 done
 
-name: garden_cabin_whales
-subname: garden_cabin_whales
-type: cabin
+name: garden_sunken_cabin_whales
+subname: garden_sunken_cabin_whales
+type: sunken cabin
 
-tile: o = w:30 grass / w:30 dirt / w:1 small tree / w:1 tree
-tile: . = wood floor
+tile: o = w:6 shallow water / w:4 mud / w:3 dirt / w:2 grass / w:1 tree
+tile: . = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
 tile: * = stone path
 subst: & = * / o
 tile: # = wood wall
@@ -264,7 +264,7 @@ tile: t = toilet
 tile: K = sink
 tile: B = bed
 
-tile: ! = picket fence
+tile: ! = w:3 picket fence / w:4 shallow water / w:2 mud
 tile: ~ = grass
 tile: ; = tall grass
 tile: / = hedge
@@ -283,7 +283,7 @@ item_group: 50 $ = items_food_shelves
 tile: D = dresser
 item_group: 80 D = items_all_clothes
 
-tile: STCL = wood floor
+tile: STCL = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
 furniture: S = sofa
 furniture: T = table
 furniture: C = wood chair
@@ -299,38 +299,38 @@ tile: bcdegh = wood wall
 tile: +f = w:5 closed door / w:1 open door
 
 map:
-ooo&&&&&&&&&&&&&&&&&**ooo
-ooo&&&&&&&&&&&&&&&&&**ooo
-ooo#'a#"b#'c'#d"#e'#**ooo
-ooo#...............#**ooo
-ooo'..............S'**ooo
-ooo#SSS.C.C.......S#**ooo
-ooo###########...###**ooo
-ooo't...+........$$#**ooo
-ooo#K...#.C.C.....^"**ooo
-ooo######.TTT.....^"**ooo
-ooo#.DD.#.C.C.....F#**ooo
-ooo#....#####..#####**ooo
-ooo"....+......+..D#**ooo
-ooo#....#f#g#h##..."**ooo
-ooo#....#......#...#**ooo
-ooo".BB.#....BB#.BB"**ooo
-ooo#TBBT#D...BB#.BB#**ooo
-oo!##'"###"##"###"##**!oo
-oo!////////////////***!oo
-oo!~~~___~~___~~__***;!oo
-oo!~;***************;;!oo
-oo!~;**************H;1!oo
-oo!~~~~~~~~~~~~~~~~~;;!oo
-oo!~1~~1__1//1__1~~1~;!oo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooo#'a#"b#'c'#d"#e'#ooooo
+ooo#...............#ooooo
+ooo'..............S'ooooo
+ooo#SSS.C.C.......S#ooooo
+ooo###########...###ooooo
+ooo't...+........$$#ooooo
+ooo#K...#.C.C.....^"ooooo
+ooo######.TTT.....^"ooooo
+ooo#.DD.#.C.C.....F#ooooo
+ooo#....#####..#####ooooo
+ooo"....+......+..D#ooooo
+ooo#....#f#g#h##..."ooooo
+ooo#....#......#...#ooooo
+ooo".BB.#....BB#.BB"ooooo
+ooo#TBBT#D...BB#.BB#ooooo
+oo!##'"###"##"###"##oo!oo
+oo!ooooooooooooooooooo!oo
+oo!ooooooooooooooooooo!oo
+oo!ooooooooooooooooooo!oo
+oo!ooooooooooooooooooo!oo
+oo!ooooooooooooooooooo!oo
+oo!ooooooooooooooooooo!oo
 oo!!!!!!!!!!!!!!!!!!!!!oo
 endmap
 done
 
-name: garden_cabin_whales_roof
-subname: garden_cabin_whales
+name: garden_sunken_cabin_whales_roof
+subname: garden_sunken_cabin_whales
 level: 1
-type: cabin
+type: sunken cabin
 
 tile: o = empty
 tile: . = roof
@@ -411,5 +411,5 @@ done
 # The base terrain is generated, and then the adjacency map is generated on top.
 # Adjacency specs are the same as normal maps, but with the difference that
 # it is allowed to use "nothing" as a terrain name.  If "nothing" is selected,
-# then the terrain in the map will be unchanged.  Also, ONLY floor terrain will
+# then the terrain in the map will be unchanged.  Also, ONLY floor terrain
 # be changed; non-floor terrain will be unchanged.
