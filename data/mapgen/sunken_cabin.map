@@ -38,7 +38,7 @@ tile: B = bed
 tile: I = wood column
 
 tile: D = dresser
-item_group: 80 D = items_all_clothes
+item_group: 85 D = items_all_clothes
 
 shuffle: abc
 tile: a = w:4 locked door / w:1 closed door
@@ -61,9 +61,9 @@ tile: m = w:3 closed door / w:1 open door
 tile: n = wood wall
 
 tile: F = fridge
-item_group: 50 F = items_fridge
+item_group: 70 F = items_fridge
 tile: { = shelves
-item_group: 50 { = items_food_shelves
+item_group: 70 { = items_food_shelves
 
 tile: STCL = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
 furniture: S = sofa
@@ -158,16 +158,16 @@ furniture: T = table
 furniture: C = wood chair
 
 tile: ^ = counter
-item_group: 40 ^ = items_kitchen_counter
+item_group: 60 ^ = items_kitchen_counter
 
 tile: F = fridge
-item_group: 50 F = items_fridge
+item_group: 70 F = items_fridge
 
 tile: $ = shelves
-item_group: 50 $ = items_food_shelves
+item_group: 70 $ = items_food_shelves
 
 tile: D = dresser
-item_group: 80 D = items_all_clothes
+item_group: 85 D = items_all_clothes
 
 shuffle: abc
 shuffle: defg
@@ -272,16 +272,16 @@ tile: 1 = w:10 small tree / w:1 tree / w:1 hedge
 tile: _ = underbrush
 
 tile: ^ = counter
-item_group: 40 ^ = items_kitchen_counter
+item_group: 60 ^ = items_kitchen_counter
 
 tile: F = fridge
-item_group: 50 F = items_fridge
+item_group: 70 F = items_fridge
 
 tile: $ = shelves
-item_group: 50 $ = items_food_shelves
+item_group: 70 $ = items_food_shelves
 
 tile: D = dresser
-item_group: 80 D = items_all_clothes
+item_group: 85 D = items_all_clothes
 
 tile: STCL = w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass
 furniture: S = sofa
