@@ -40,7 +40,7 @@ tile: % = counter
 
 subst: Dd = o / D
 tile: D = dumpster
-item_group: 235 D = items_trash
+item_group: 55 D = items_trash
 
 # Randomly pick where the door to the shooting range is
 tile: a = closed door

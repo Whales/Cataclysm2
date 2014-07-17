@@ -103,7 +103,7 @@ done
 name: porch_sunken_cabin_whales_1_roof
 subname: porch_sunken_cabin_whales_1
 type: sunken cabin
-w:12 shallow water / w:4 mud / w:3 dirt / w:2 grass: 1
+level: 1
 
 tile: o = empty
 tile: . = roof
