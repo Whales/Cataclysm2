@@ -5,6 +5,7 @@
 #include "item_type.h"
 #include "geometry.h"
 #include "dice.h"
+#include "var_string.h"
 #include <istream>
 #include <vector>
 #include <map>
@@ -232,32 +233,6 @@ enum Mapgen_flag
 Mapgen_flag lookup_mapgen_flag(std::string name);
 std::string mapgen_flag_name(Mapgen_flag flag);
 
-struct Name_chance
-{
-  Name_chance(int C = 10, std::string N = "") : chance (C), name (N) {}
-  int chance;
-  std::string name;
-};
-
-struct Variable_name
-{
-public:
-  Variable_name();
-  ~Variable_name(){}
-
-  bool empty();
-  std::string pick();
-
-  void add_name(int chance, std::string name);
-  void add_name(Name_chance name);
-  bool load_data(std::istream &data, std::string owner = "unknown");
-
-  std::vector<Name_chance> names;
-
-private:
-  int total_chance;
-};
-
 struct Mapgen_spec
 {
   Mapgen_spec();
@@ -312,7 +287,7 @@ private:
   int furniture_uid[MAPGEN_SIZE][MAPGEN_SIZE];
   std::vector<bool> flags;
 
-  Variable_name name_options; // Potential results for our display name
+  Variable_string name_options; // Potential results for our display name
   std::string display_name; // Set in prepare() via name_options
 
 };

@@ -506,6 +506,11 @@ bool Entity::pick_flee_target()
   return false;
 }
 
+bool Entity::has_target()
+{
+  return (plan.target_entity || plan.is_active());
+}
+
 std::vector<Ranged_attack> Entity::get_ranged_attacks()
 {
   return std::vector<Ranged_attack>();

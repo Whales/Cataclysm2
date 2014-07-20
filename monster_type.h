@@ -6,6 +6,7 @@
 #include "attack.h"
 #include "entity_ai.h"
 #include "dice.h"
+#include "var_string.h"
 #include <string>
 #include <istream>
 #include <vector>
@@ -62,6 +63,8 @@ struct Monster_type
   int get_weight();
   int get_volume();
 
+  std::string get_sound(bool attacking);
+
 private:
 // These bools determine whether we've copied data from our genus
   bool attacks_copied_from_genus;
@@ -70,6 +73,12 @@ private:
   bool armor_copied_from_genus;
   bool hp_set;  // Temp variable used to copy from genus
   std::vector<bool> senses;
+  Variable_string idle_sounds;
+  Variable_string attack_sounds;
+  int idle_sound_chance;
+  int attack_sound_chance;
+  int idle_sound_volume;
+  int attack_sound_volume;
 
 };
 

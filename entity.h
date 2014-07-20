@@ -103,6 +103,7 @@ public:
   virtual bool try_goal(AI_goal goal);
   virtual bool pick_attack_victim();
   virtual bool pick_flee_target();
+  bool has_target();
 
 // Type data
   virtual Entity_AI get_AI();

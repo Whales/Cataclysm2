@@ -678,61 +678,6 @@ char Tile_substitution::current_selection()
   return selected;
 }
 
-Variable_name::Variable_name()
-{
-  total_chance = 0;
-}
-
-bool Variable_name::empty()
-{
-  return names.empty();
-}
-
-std::string Variable_name::pick()
-{
-  if (names.empty()) {
-    return "";
-  }
-  int roll = rng(1, total_chance);
-  int pick = -1;
-  while (roll > 0 && pick < names.size() - 1) {
-    pick++;
-    roll -= names[pick].chance;
-  }
-  return names[pick].name;
-}
-
-void Variable_name::add_name(int chance, std::string name)
-{
-  add_name( Name_chance(chance, name) );
-}
-
-void Variable_name::add_name(Name_chance name)
-{
-  total_chance += name.chance;
-  names.push_back(name);
-}
-
-bool Variable_name::load_data(std::istream& data, std::string owner)
-{
-  std::string ident;
-  Name_chance tmp_chance;
-  while (data >> ident) {
-    if (no_caps( ident.substr(0, 2) ) == "w:") { // it's a weight, i.e. a chance
-      tmp_chance.chance = atoi( ident.substr(2).c_str() );
-
-    } else if (ident == "/") {  // End of an option
-      add_name(tmp_chance);
-
-    } else { 
-      tmp_chance.name += ident;
-    }
-  }
-// Add the last one in the line to our list
-  add_name(tmp_chance);
-  return true;
-}
-
 Mapgen_spec::Mapgen_spec()
 {
   name = "unknown";

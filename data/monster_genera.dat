@@ -15,6 +15,12 @@ Name: canis
 	      attack_enemies
 	    done
 	  done
+    idle_sound_chance: 30
+    idle_sound_volume: 5
+    idle_sounds: w:10 panting / w:1 whine
+    attack_sound_chance: 10
+    attack_sound_volume: 12
+    attack_sounds: w:10 bark / w:3 growl viciously / w:2 snarl
 	  attack:
 	    verb: bite / bites
 	    speed: 150
@@ -90,6 +96,12 @@ Name: zombies
         attack_neutrals
       done
     done
+    idle_sound_chance: 40
+    idle_sound_volume: 8
+    idle_sounds: w:10 moan / w:1 gurgle
+    attack_sound_chance: 5
+    attack_sound_volume: 12
+    attack_sounds: w:10 snarl / w:3 grunt
     attack:
       verb: hit / hits
       speed: 100

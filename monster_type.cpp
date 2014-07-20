@@ -24,6 +24,10 @@ Monster_type::Monster_type()
   attacks_copied_from_genus = false;
   ranged_attacks_copied_from_genus = false;
   senses_copied_from_genus = false;
+  idle_sound_chance = 0;
+  attack_sound_chance = 0;
+  idle_sound_volume = 0;
+  attack_sound_volume = 0;
   
   for (int i = 0; i < SENSE_MAX; i++) {
     senses.push_back(false);
@@ -65,6 +69,18 @@ void Monster_type::set_genus(Monster_genus *mg)
       ranged_attacks_copied_from_genus = true;
     }
     total_ranged_attack_weight = mg->default_values.total_ranged_attack_weight;
+  }
+
+  if (idle_sounds.empty()) {
+    idle_sounds = mg->default_values.idle_sounds;
+    idle_sound_chance = mg->default_values.idle_sound_chance;
+    idle_sound_volume = mg->default_values.idle_sound_volume;
+  }
+
+  if (attack_sounds.empty()) {
+    attack_sounds = mg->default_values.attack_sounds;
+    attack_sound_chance = mg->default_values.attack_sound_chance;
+    attack_sound_volume = mg->default_values.attack_sound_volume;
   }
 
   if (!hp_set) {  // hp_set is true if monsters.dat includes HP for this monster
@@ -292,6 +308,40 @@ bool Monster_type::load_data(std::istream &data)
     } else if (ident == "ai:") {
       std::getline(data, junk);
       AI.load_data(data, name);
+
+    } else if (ident == "idle_sound_chance:") {
+      data >> idle_sound_chance;
+      std::getline(data, junk);
+
+    } else if (ident == "attack_sound_chance:") {
+      data >> attack_sound_chance;
+      std::getline(data, junk);
+
+    } else if (ident == "idle_sound_volume:") {
+      data >> idle_sound_volume;
+      std::getline(data, junk);
+
+    } else if (ident == "attack_sound_volume:") {
+      data >> attack_sound_volume;
+      std::getline(data, junk);
+
+    } else if (ident == "idle_sounds:") {
+      std::string sound_line;
+      std::getline(data, sound_line);
+      std::istringstream sound_data(sound_line);
+      if (!idle_sounds.load_data(sound_data, name)) {
+        debugmsg("'%s' failed to load idle sounds.", name.c_str());
+        return false;
+      }
+
+    } else if (ident == "attack_sounds:") {
+      std::string sound_line;
+      std::getline(data, sound_line);
+      std::istringstream sound_data(sound_line);
+      if (!attack_sounds.load_data(sound_data, name)) {
+        debugmsg("'%s' failed to load attack sounds.", name.c_str());
+        return false;
+      }
 
     } else if (ident != "done") {
       debugmsg("Unknown monster property '%s' (%s)",

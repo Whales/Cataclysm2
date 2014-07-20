@@ -43,6 +43,7 @@ public:
   virtual bool pick_flee_target();
   virtual std::vector<Ranged_attack> get_ranged_attacks();
   virtual void take_turn();
+  void make_sound();
 
   virtual bool can_sense(Entity* entity);
   virtual Attack base_attack();
