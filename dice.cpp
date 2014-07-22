@@ -6,7 +6,7 @@
 int Dice::roll()
 {
   if (number == 0 || sides == 0) {
-    return 0;
+    return bonus;
   }
   int ret = dice(number, sides) + bonus;
   for (int i = 0; i < others.size(); i++) {
