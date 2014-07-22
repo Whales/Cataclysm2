@@ -19,7 +19,7 @@ Name: canis
     idle_sound_volume: 5
     idle_sounds: w:10 panting / w:1 whine
     attack_sound_chance: 20
-    attack_sound_volume: 12
+    attack_sound_volume: 16
     attack_sounds: w:10 bark / w:3 growl viciously / w:2 snarl
 	  attack:
 	    verb: bite / bites
@@ -100,7 +100,7 @@ Name: zombies
     idle_sound_volume: 8
     idle_sounds: w:10 moan / w:1 gurgle
     attack_sound_chance: 15
-    attack_sound_volume: 12
+    attack_sound_volume: 14
     attack_sounds: w:10 snarl / w:3 grunt
     attack:
       verb: hit / hits
