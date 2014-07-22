@@ -853,8 +853,7 @@ void Game::make_sound(std::string desc, int x, int y)
     return;
   }
 // TODO: Alert monsters
-  Direction_full dir = get_general_direction(player->pos,
-                                             Point(x, y));
+  Direction_full dir = get_general_direction(player->pos, Point(x, y));
 // TODO: Don't hardcode color
   if (dir == DIRFULL_NULL) { // On top of the player!
     add_msg("<c=ltblue>You hear %s<c=/>", desc.c_str());
