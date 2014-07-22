@@ -289,7 +289,15 @@ void Monster::take_turn()
 // Make some noise!
   if (type) {
     Sound snd = type->get_sound( has_target() );
-    GAME.make_sound(snd, pos);
+    if (snd.valid()) {
+      snd.description = get_name_indefinite() + " " + snd.description;
+      if (snd.volume >= 15) {
+        snd.description += "!";
+      } else {
+        snd.description += ".";
+      }
+      GAME.make_sound(snd, pos);
+    }
   }
   
   if (!plan.is_active()) {
