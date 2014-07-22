@@ -342,8 +342,8 @@ bool Item_type::load_data(std::istream &data)
         flags[flag] = true;
       }
 
-    } else if (!handle_data(ident, data)) {
-      debugmsg("Unknown item_type flag '%s' (%s)", ident.c_str(), name.c_str());
+    } else if (ident != "done" && !handle_data(ident, data)) {
+      debugmsg("Unknown Item_type flag '%s' (%s)", ident.c_str(), name.c_str());
       return false;
 
     }
