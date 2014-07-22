@@ -9,6 +9,7 @@
 #include "keybind.h"
 #include "pathfind.h"
 #include "time.h"
+#include "sound.h"
 
 // Identical messages within MESSAGE_GAP turns of each other are combined
 #define MESSAGE_GAP 3
@@ -52,9 +53,10 @@ public:
 
 /**** Engine - Called-as-needed ****/
   void shift_if_needed();  // Shift the map, if the player's not in the center
-  void make_sound(std::string desc, Tripoint pos);
-  void make_sound(std::string desc, Point pos);
-  void make_sound(std::string desc, int x, int y);
+  void make_sound(std::string desc, int volume, Tripoint pos);
+  void make_sound(std::string desc, int volume, Point pos);
+  void make_sound(std::string desc, int volume, int x, int y);
+  void make_sound(Sound snd, Tripoint pos);
 
 // Pass NULL as shooter and Item() as it
   void launch_projectile(Ranged_attack attack,

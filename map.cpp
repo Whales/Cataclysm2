@@ -2203,7 +2203,8 @@ void Map::smash(int x, int y, int z, Damage_set dam, bool make_sound)
   if (hit) {
     std::string sound = hit->smash(dam);
     if (make_sound) {
-      GAME.make_sound(sound, x, y);
+// TODO: Don't hardcode volume (12)?
+      GAME.make_sound(sound, 12, x, y);
     }
   }
 }

@@ -837,29 +837,39 @@ void Game::shift_if_needed()
   }
 }
 
-void Game::make_sound(std::string desc, Tripoint pos)
+void Game::make_sound(std::string desc, int volume, Tripoint pos)
 {
-  make_sound(desc, pos.x, pos.y);
+  make_sound(Sound(desc, volume), pos);
 }
 
-void Game::make_sound(std::string desc, Point pos)
+void Game::make_sound(std::string desc, int volume, Point pos)
 {
-  make_sound(desc, pos.x, pos.y);
+  make_sound(desc, volume, Tripoint(pos.x, pos.y, 0));
 }
 
-void Game::make_sound(std::string desc, int x, int y)
+void Game::make_sound(std::string desc, int volume, int x, int y)
 {
-  if (desc.empty()) {
+  make_sound(desc, volume, Point(x, y));
+}
+
+void Game::make_sound(Sound snd, Tripoint pos)
+{
+  if (snd.description.empty()) {
     return;
   }
 // TODO: Alert monsters
-  Direction_full dir = get_general_direction(player->pos, Point(x, y));
+  Direction_full dir = get_general_direction(player->pos, pos);
+  snd.volume -= rl_dist(pos, player->pos);
+  if (snd.volume <= 0) {
+    return; // To quiet to hear!
+  }
 // TODO: Don't hardcode color
+// We don't punctuate the messages below - that's for the sound to do!
   if (dir == DIRFULL_NULL) { // On top of the player!
-    add_msg("<c=ltblue>You hear %s<c=/>", desc.c_str());
+    add_msg("<c=ltblue>You hear %s<c=/>", snd.description.c_str());
   } else {
     add_msg("<c=ltblue>To the <c=ltred>%s<c=ltblue>, you hear %s<c=/>",
-            Direction_name(dir).c_str(), desc.c_str());
+            Direction_name(dir).c_str(), snd.description.c_str());
   }
 }
 

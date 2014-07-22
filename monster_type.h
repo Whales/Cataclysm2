@@ -7,6 +7,7 @@
 #include "entity_ai.h"
 #include "dice.h"
 #include "var_string.h"
+#include "sound.h"
 #include <string>
 #include <istream>
 #include <vector>
@@ -63,7 +64,7 @@ struct Monster_type
   int get_weight();
   int get_volume();
 
-  std::string get_sound(bool attacking);
+  Sound get_sound(bool attacking);
 
 private:
 // These bools determine whether we've copied data from our genus
