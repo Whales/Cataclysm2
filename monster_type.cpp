@@ -397,6 +397,21 @@ int Monster_type::get_volume()
   return 0;
 }
 
+Sound Monster_type::get_sound(bool attacking)
+{
+  if (!one_in( (attacking ? attack_sound_chance : idle_sound_chance ) )) {
+    return Sound();
+  }
+  Variable_string* sound_bin = (attacking ? &attack_sounds : &idle_sounds);
+  if (sound_bin->empty()) {
+    return Sound();
+  }
+  Sound ret;
+  ret.description = sound_bin->pick();
+  ret.volume = (attacking ? attack_sound_volume : idle_sound_volume);
+  return ret;
+}
+
 Monster_genus::Monster_genus()
 {
   uid = -1;

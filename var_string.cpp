@@ -25,12 +25,13 @@ std::string Variable_string::pick()
     return "";
   }
   int roll = rng(1, total_chance);
-  int pick = -1;
-  while (roll > 0 && pick < strings.size() - 1) {
-    pick++;
-    roll -= strings[pick].chance;
+  for (int i = 0; i < strings.size(); i++) {
+    roll -= strings[i].chance;
+    if (roll <= 0) {
+      return strings[i].string;
+    }
   }
-  return strings[pick].string;
+  return strings.back().string;
 }
 
 void Variable_string::add_string(int chance, std::string string)
@@ -54,6 +55,8 @@ bool Variable_string::load_data(std::istream& data, std::string owner)
 
     } else if (ident == "/") {  // End of an option
       add_string(tmp_chance);
+      tmp_chance.string = "";
+      tmp_chance.chance = 0;
 
     } else { 
       tmp_chance.string += ident;

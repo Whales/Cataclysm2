@@ -286,6 +286,12 @@ void Monster::take_turn()
 /*
 */
 
+// Make some noise!
+  if (type) {
+    Sound snd = type->get_sound( has_target() );
+    GAME.make_sound(snd, pos);
+  }
+  
   if (!plan.is_active()) {
     wander();
     return;
