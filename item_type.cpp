@@ -241,6 +241,8 @@ bool Item_type::load_data(std::istream &data)
   bool set_name = false, set_glyph = false;
   while (ident != "done" && !data.eof()) {
     if ( ! (data >> ident)) {
+      debugmsg("Couldn't read Item_type data (%s)",
+               (set_name ? name.c_str() : "Name not set!"));
       return false;
     }
     ident = no_caps(ident);
