@@ -3,6 +3,7 @@
 
 #include "var_string.h"
 #include "status_ability.h"
+#include "dice.h"
 #include <istream>
 #include <string>
 
