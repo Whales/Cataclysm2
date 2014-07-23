@@ -13,6 +13,8 @@ Monster::Monster()
   type = NULL;
   action_points = 0;
   special_timer = 0;
+  summons_used = 0;
+  parent_uid = -1;
 }
 
 Monster::Monster(std::string name)
@@ -24,6 +26,8 @@ Monster::Monster(std::string name)
   type = NULL;
   action_points = 0;
   special_timer = 0;
+  summons_used = 0;
+  parent_uid = -1;
   set_type(name);
 }
 
@@ -36,6 +40,8 @@ Monster::Monster(Monster_type* newtype)
   type = NULL;
   action_points = 0;
   special_timer = 0;
+  summons_used = 0;
+  parent_uid = -1;
   set_type(newtype);
 }
 
@@ -122,6 +128,13 @@ std::string Monster::get_name_definite()
 void Monster::die()
 {
   Entity::die();
+
+  if (parent_uid >= 0) {  // Reduce the parent's summons_used
+    Entity* parent = GAME.entities.lookup_uid(parent_uid);
+    if (parent && parent->summons_used > 0) {
+      parent->summons_used--;
+    }
+  }
 // Drop a corpse.
   if (type) {
     Item corpse( ITEM_TYPES.lookup_name("corpse") );

@@ -72,6 +72,10 @@ public:
   Monster_type *type;
   int current_hp, max_hp;
 
+private:
+  int summons_used;
+  int parent_uid;
+
 };
 
 #endif
