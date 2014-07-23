@@ -97,6 +97,7 @@ std::string Monster::get_name()
   return "Typeless Monster";
 }
 
+// TODO: Include possesive if it's friendly (e.g. "your dog")
 std::string Monster::get_name_to_player()
 {
   return get_name_definite();
