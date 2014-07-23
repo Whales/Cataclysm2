@@ -94,7 +94,7 @@ struct Monster_ability_terrain : public Monster_ability
  * otherwise, we reduce its HP by a roll of <damage> and if it reaches 0 (or
  * less), then we do the replacement.
  * Note that by setting <damage> but leaving <terrain> empty, this ability is
- * abilityively a terrain-damaging ability (destroyed terrain will be replaced by
+ * effectively a terrain-damaging ability (destroyed terrain will be replaced by
  * its <destroy_result>).
  */
   Dice damage;
