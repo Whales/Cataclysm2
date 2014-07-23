@@ -7,6 +7,15 @@
 #include <istream>
 #include <string>
 
+/* Note:
+ * All Monster_ability substructs have a function effect(), which the Monster
+ * using the ability should call.  This function returns false if the ability
+ * was canceled before being attempted!  If the Monster legitimately attempted
+ * to use their ability, but failed for some reason, it should return true.
+ * The Monster should use this return value to determine whether to use up some
+ * AP, etc.
+ */
+
 enum Monster_ability_type
 {
   MON_ABILITY_NULL = 0, // nuffin
