@@ -24,13 +24,13 @@ struct Monster_ability
   Monster_ability();
   virtual ~Monster_ability();
 
-  virtual Monster_ability_type type() { return MON_ability_NULL; }
+  virtual Monster_ability_type type() { return MON_ABILITY_NULL; }
 
   bool load_data(std::istream& data, std::string owner);
   virtual bool handle_data(std::string ident, std::istream& data,
                            std::string owner);
 
-  virtual bool effect(Entity* user);
+  virtual bool effect(Monster* user);
 
   int frequency;    // How much using this increases the monster's special_timer
   int AP_cost;      // How much AP using this costs (defaults to 0).
@@ -44,14 +44,15 @@ struct Monster_ability_summon : public Monster_ability
   Monster_ability_summon();
   ~Monster_ability_summon(){}
 
-  virtual Monster_ability_type type() { return MON_ability_SUMMON; }
+  virtual Monster_ability_type type() { return MON_ABILITY_SUMMON; }
 
   virtual bool handle_data(std::string ident, std::istream& data,
                            std::string owner);
 
-  virtual bool effect(Entity* user);
+  virtual bool effect(Monster* user);
 
   Variable_string monster; // So that summons may vary.
+  Dice number;  // How many monsters to place.  Defaults to 1.
   int range;  // How far away can the monster be placed?  Defaults to 1.
   int max_summons;  // Maximum # of children we can have. 0 = no limit (default)
 };
@@ -63,12 +64,12 @@ struct Monster_ability_signal : public Monster_ability
   Monster_ability_signal();
   ~Monster_ability_signal(){}
 
-  virtual Monster_ability_type type() { return MON_ability_SIGNAL; }
+  virtual Monster_ability_type type() { return MON_ABILITY_SIGNAL; }
 
   virtual bool handle_data(std::string ident, std::istream& data,
                            std::string owner);
 
-  virtual bool effect(Entity* user);
+  virtual bool effect(Monster* user);
 
   Variable_string signal; // A signal to be sent to terrain (may be randomized)
   int range;  // Radius of ability; defaults to 1
@@ -79,12 +80,12 @@ struct Monster_ability_terrain : public Monster_ability
   Monster_ability_terrain();
   ~Monster_ability_terrain(){}
 
-  virtual Monster_ability_type type() { return MON_ability_TERRAIN; }
+  virtual Monster_ability_type type() { return MON_ABILITY_TERRAIN; }
 
   virtual bool handle_data(std::string ident, std::istream& data,
                            std::string owner);
 
-  virtual bool effect(Entity* user);
+  virtual bool effect(Monster* user);
 
   bool always_replace;  // Defaults to false; if true, always replace terrain
 
@@ -113,7 +114,7 @@ struct Monster_ability_teleport : public Monster_ability
   virtual bool handle_data(std::string ident, std::istream& data,
                            std::string owner);
 
-  virtual bool effect(Entity* user);
+  virtual bool effect(Monster* user);
 
   int range;  // Max range of teleport.
 /* If <always_use_max_range> is true, we'll use a random open tile exactly
@@ -147,7 +148,7 @@ struct Monster_ability_fields
   virtual bool handle_data(std::string ident, std::istream& data,
                            std::string owner);
 
-  virtual bool effect(Entity* user);
+  virtual bool effect(Monster* user);
 
   int range;  // Radius of affected tiles; defaults to 1
   bool affect_all_tiles;  // If true, all tiles affected; defaulst to false
