@@ -78,7 +78,6 @@ public:
 // msg_query_yn adds a message, refreshes the HUD, and accepts Y/N input
   bool msg_query_yn(std::string msg, ...);
 
-
   void add_active_item(Item* it);
   void remove_active_item(Item* it);
   void remove_active_item_uid(int uid);
@@ -113,6 +112,13 @@ public:
   bool minute_timer(int minutes); // Returns true once every $minutes minutes
   bool turn_timer(int turns);     // Returns true once every $turns turns
   int get_light_level();          // Current light distance, based on the time
+
+/* is_empty() returns true if and only if the specified tile has a move_cost > 0
+ * and there are no entities there.
+ * TODO: Other requirements?
+ */
+  bool is_empty(int x, int y, int z);
+  bool is_empty(Tripoint pos);
 
 /* find_item() returns the location of the item.  If it == NULL, use the uid;
  * otherwise, use it.  If it == NULL and uid == -1, just fail immediately.

@@ -1912,6 +1912,16 @@ int Game::get_light_level()
   return ret;
 }
 
+bool Game::is_empty(int x, int y, int z)
+{
+  return is_empty( Tripoint(x, y, z) );
+}
+
+bool Game::is_empty(Tripoint pos)
+{
+  return (!entities->entity_at(pos) && map->move_cost(pos) > 0);
+}
+
 // UID defaults to -1
 Tripoint Game::find_item(Item* it, int uid)
 {
