@@ -72,10 +72,6 @@ public:
   Monster_type *type;
   int current_hp, max_hp;
 
-private:
-  Entity* entity_target;
-  Tripoint wander_target;
-  int wander_duration;
 };
 
 #endif
