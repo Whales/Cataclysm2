@@ -462,3 +462,30 @@ bool Monster_ability_terrain::effect(Monster* user)
   return true;
 }
 
+bool Monster_ability_teleport::handle_data(std::string ident,
+                                           std::istream& data,
+                                           std::string owner)
+{
+  std::string junk
+
+  if (ident == "range:") {
+    data >> range;
+    std::getline(data, junk);
+
+  } else if (ident == "always_use_max_range") {
+    always_use_max_range = true;
+
+  } else if (ident == "controlled") {
+    controlled = true;
+
+  } else if (ident == "phase") {
+    phase = true;
+
+  } else {
+    debugsmg("Unknown Monster_ability_teleport property '%s' (%s)",
+             ident.c_str(), owner.c_str());
+    return false;
+  }
+  return true;
+}
+    
