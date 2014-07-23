@@ -67,7 +67,7 @@ std::string Dice::str()
   return ret.str();
 }
 
-bool Dice::load_data(std::istream &data, std::string owner_name)
+bool Dice::load_data(std::istream &data, std::string owner)
 {
   if (!data.good()) {
     return false;
@@ -90,7 +90,7 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
 
       } else if (ch == 'd' || ch == 'D') {
         if (set_number) {
-          debugmsg("Two 'd' characters in dice spec (%s)", owner_name.c_str());
+          debugmsg("Two 'd' characters in dice spec (%s)", owner.c_str());
           return false;
         }
         set_number = true;
@@ -99,12 +99,12 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
 
       } else if (ch == '+' || ch == '-') {
         if (set_sides) {
-          debugmsg("More than one bonus in dice spec (%s)", owner_name.c_str());
+          debugmsg("More than one bonus in dice spec (%s)", owner.c_str());
           return false;
         }
         if (!set_number) {
           debugmsg("Encountered + before d in dice spec (%s)",
-                   owner_name.c_str());
+                   owner.c_str());
           return false;
         }
         set_sides = true;
@@ -119,7 +119,7 @@ bool Dice::load_data(std::istream &data, std::string owner_name)
 
       } else if (ch != ' ') {
         debugmsg("Extraneous character '%c' in dice spec (%s)", ch,
-                 owner_name.c_str());
+                 owner.c_str());
         return false;
       }
 

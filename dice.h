@@ -24,7 +24,7 @@ struct Dice
 
   std::string str();
 
-  bool load_data(std::istream &data, std::string owner_name = "Unknown");
+  bool load_data(std::istream &data, std::string owner = "Unknown");
 
 };
 
