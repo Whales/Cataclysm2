@@ -108,16 +108,12 @@ bool Monster_ability_summon::handle_data(std::string ident, std::istream& data,
     std::string line;
     std::getline(data, line);
     std::istringstream name_data(line);
-    if (!monster.load_data(name_data, owner)) {
-      debugmsg("Failed to load monster list for Monster_ability_summon (%s)",
-               owner.c_str());
+    if (!monster.load_data(name_data, owner + " Monster_ability_summon")) {
       return false;
     }
 
   } else if (ident == "number:") {
-    if (!number.load_data(data, owner)) {
-      debugmsg("Failed to load number for Monster_ability_summon (%s)",
-               owner.c_str());
+    if (!number.load_data(data, owner + " Monster_ability_summon")) {
       return false;
     }
 
@@ -259,9 +255,7 @@ bool Monster_ability_signal::handle_data(std::string ident, std::istream& data,
     std::string line;
     std::getline(data, line);
     std::istringstream signal_data(line);
-    if (!signal.load_data(signal_data, owner)) {
-      debugmsg("Failed to load signal list for Monster_ability_signal (%s)",
-               owner.c_str());
+    if (!signal.load_data(signal_data, owner + " Monster_ability_signal")) {
       return false;
     }
 
@@ -316,9 +310,7 @@ bool Monster_ability_terrain::handle_data(std::string ident, std::istream& data,
     always_replace = true;
 
   } else if (ident == "damage:") {
-    if (!damage.load_data(data, owner)) {
-      debugmsg("Monster_ability_terrain failed to load damage (%s)",
-               owner.c_str());
+    if (!damage.load_data(data, owner + " Monster_ability_terrain")) {
       return false;
     }
 
@@ -326,9 +318,7 @@ bool Monster_ability_terrain::handle_data(std::string ident, std::istream& data,
     std::string line;
     std::getline(data, line);
     std::istringstream terrain_data(line);
-    if (!variable_string.load_data(terrain_data, owner)) {
-      debugmsg("Monster_ability_terrain failed to load terrain list (%s).",
-               owner.c_str());
+    if (!terrain.load_data(terrain_data, owner + " Monster_ability_terrain")) {
       return false;
     }
 
@@ -337,9 +327,7 @@ bool Monster_ability_terrain::handle_data(std::string ident, std::istream& data,
     std::getline(data, junk);
 
   } else if (ident == "tiles_affected:") {
-    if (!tiles_affected.load_data(data, owner)) {
-      debugmsg("Monster_ability_terrain failed to load tiles_affected (%s).",
-               owner.c_str());
+    if (!tiles_affected.load_data(data, owner + " Monster_ability_terrain")) {
       return false;
     }
 
@@ -589,6 +577,45 @@ bool Monster_ability_teleport::effect(Monster* user)
   int index = rng(0, valid_targets.size());
   Tripoint new_pos = valid_targets[index];
   pos = new_pos;
+
+  return true;
+}
+
+bool Monster_ability_fields::handle_data(std::string ident, std::istream& data,
+                                         std::string owner)
+{
+  std::string junk;
+
+  if (ident == "range:") {
+    data >> range;
+    std::getline(data, junk);
+
+  } else if (ident == "affect_all_tiles") {
+    affect_all_tiles = true;
+
+  } else if (ident == "tiles_affected") {
+    if (!tiles_affected.load_data(data, owner + " Monster_ability_fields")) {
+      return false;
+    }
+
+  } else if (ident == "field_type:") {
+    std::string line;
+    std::getline(data, line);
+    std::istringstream field_data(line);
+    if (!field_type.load_data(field_data, owner + " Monster_ability_fields")) {
+      return false;
+    }
+
+  } else if (ident == "duration:") {
+    if (!duration.load_data(data, owner + " Monster_ability_fields")) {
+      return false;
+    }
+
+  } else {
+    debugmsg("Unknown Monster_ability_fields property '%s' (%s)",
+             ident.c_str(), owner.c_str());
+    return false;
+  }
 
   return true;
 }
