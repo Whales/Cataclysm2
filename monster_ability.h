@@ -152,7 +152,7 @@ struct Monster_ability_teleport : public Monster_ability
   bool phase;
 };
 
-struct Monster_ability_fields
+struct Monster_ability_fields : public Monster_ability
 {
   Monster_ability_fields();
   ~Monster_ability_fields(){}
