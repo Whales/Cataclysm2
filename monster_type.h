@@ -78,6 +78,7 @@ private:
 // These bools determine whether we've copied data from our genus
   bool attacks_copied_from_genus;
   bool ranged_attacks_copied_from_genus;
+  bool abilities_copied_from_genus;
   bool senses_copied_from_genus;
   bool armor_copied_from_genus;
   bool hp_set;  // Temp variable used to copy from genus
