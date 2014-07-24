@@ -579,9 +579,35 @@ bool Monster_ability_teleport::effect(Monster* user)
     return false; // No valid teleport points, so cancel the attempt.
   }
 
+  bool see_orig = GAME.player->can_see(user);
+
   int index = rng(0, valid_targets.size() - 1);
   Tripoint new_pos = valid_targets[index];
   user->pos = new_pos;
+
+  bool see_new = GAME.player->can_see(user);
+
+  std::stringstream message;
+  if (see_orig) {
+    message << user->get_name_to_player() << " " << verb;
+    if (see_new) {
+      if (rl_dist(user->pos, GAME.player->pos) == 1) {
+        message << " right next to you!";
+      } else {
+        message << "!";
+      }
+    } else {
+      message << " out of sight!";
+    }
+  } else if (see_new) {
+    message << user->get_name_indefinite << " " << verb << " ";
+    if (rl_dist(user->pos, GAME.player->pos) == 1) {
+      message << "right next to you!";
+    } else {
+      message << "into view!";
+    }
+  }
+// Obviously, if we can't see their old OR their new position, no message.
 
   return true;
 }
@@ -682,6 +708,9 @@ bool Monster_ability_fields::effect(Monster* user)
       GAME.map->add_field(field, target);
     }
   }
+
+// Do we need messages for this skill?  Seems like it'd often be spammy.
+// Skipping it for now.
 
   return true;
 }
