@@ -227,6 +227,15 @@ public:
   bool senses(Point origin, Point target, int range, Sense_type sense);
   bool senses(Tripoint origin, Tripoint target, int range, Sense_type sense);
 
+// clear_path() uses line_of_sight() to detemine if there's an movement path
+  bool clear_path_exists(Tripoint origin, Tripoint target, int range = -1);
+  bool clear_path_exists(int x0, int y0, int z0,
+                         int x1, int y1, int z1, int range = -1);
+
+  std::vector<Tripoint> clear_path(Tripoint origin, Tripoint target);
+  std::vector<Tripoint> clear_path(int x0, int y0, int z0,
+                                   int x1, int y1, int z1);
+
   std::vector<Tripoint> line_of_sight(int x0, int y0, int x1, int y1);
   std::vector<Tripoint> line_of_sight(int x0, int y0, int z0,
                                    int x1, int y1, int z1);

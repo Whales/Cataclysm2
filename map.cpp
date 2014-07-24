@@ -2329,6 +2329,117 @@ bool Map::senses(int x0, int y0, int z0, int x1, int y1, int z1, int range,
   return false;
 }
 
+bool Map::clear_path_exists(Tripoint origin, Tripoint target)
+{
+  return clear_path_exists(origin.x, origin.y, origin.z,
+                           target.x, target.y, target.z);
+}
+
+bool Map::clear_path_exists(int x0, int y0, int z0, int x1, int y1, int z1)
+{
+  if (x0 < 0 || y0 < 0 ||
+      x1 >= SUBMAP_SIZE * MAP_SIZE || y1 >= SUBMAP_SIZE * MAP_SIZE) {
+    return false;
+  }
+  if (range >= 0 && rl_dist(x0, y0, z0, x1, y1, z1) > range) {
+    return false;
+  }
+  std::vector<Tripoint> line = clear_path(x0, y0, z0, x1, y1, z1);
+  return (!line.empty() && (range < 0 || line.size() <= range));
+}
+
+std::vector<Tripoint> Map::clear_path(Tripoint origin, Tripoint target)
+{
+  return clear_path(origin.x, origin.y, origin.z, target.x, target.y, target.z);
+}
+
+std::vector<Tripoint> Map::clear_path(int x0, int y0, int z0,
+                                      int x1, int y1, int z1)
+{
+  std::vector<Tripoint>  lines;    // Process many lines at once.
+  std::vector< std::vector<Tripoint> > return_values;
+  std::vector<int>    t_values; // T-values for Bresenham lines
+
+  int dx = x1 - x0, dy = y1 - y0, dz = z1 - z0;
+  int ax = abs(dx) << 1, ay = abs(dy) << 1;
+  int sx = (dx < 0 ? -1 : 1), sy = (dy < 0 ? -1 : 1);
+  int dist = rl_dist(x0, y0, x1, y1);
+  int z_step;
+  if (dist == 0) {
+    z_step = 0;
+  } else {
+    z_step = (100 * dz) / dist;
+  }
+  if (dx == 0) {
+    sx = 0;
+  }
+  if (dy == 0) {
+    sy = 0;
+  }
+
+  int min_t = (ax > ay ? ay - ax : ax - ay),
+      max_t = 0;
+  if (dx == 0 || dy == 0) {
+    min_t = 0;
+  }
+// Init our "lines"
+  std::vector<Tripoint> seed;
+  for (int t = min_t; t <= max_t; t++) {
+    lines.push_back( Tripoint(x0, y0, z0) );
+    return_values.push_back(seed);
+    t_values.push_back(t);
+  }
+  int z_value = 50; // Each tile is 100 microunits tall, start halfway up
+  int z_level = z0;
+// Keep going as long as we've got at least one valid line
+  while (!lines.empty()) {
+// Since we track z_value universally, don't do it inside the for loop below
+    bool z_stepped = false;
+    int old_z = z_level;
+    z_value += z_step;
+    if (z_value < 0) {
+      z_level--;
+      z_value += 100;
+      z_stepped = true;
+    } else if (z_value >= 100) {
+      z_level++;
+      z_value -= 100;
+      z_stepped = true;
+    }
+    for (int i = 0; i < lines.size(); i++) {
+      lines[i].z = z_level;
+      if (ax > ay) {
+        lines[i].x += sx;
+        if (t_values[i] >= 0) {
+          lines[i].y += sy;
+          t_values[i] -= ax;
+        }
+        t_values[i] += ay;
+      } else {
+        lines[i].y += sy;
+        if (t_values[i] >= 0) {
+          lines[i].x += sx;
+          t_values[i] -= ay;
+        }
+        t_values[i] += ax;
+      }
+      return_values[i].push_back(lines[i]);
+// Don't need to check z, right?
+      if (lines[i].x == x1 && lines[i].y == y1) {
+        return return_values[i];
+      }
+// TODO: Make this work better over z-values.
+      if (move_cost(lines[i]) == 0) {
+        lines.erase(lines.begin() + i);
+        t_values.erase(t_values.begin() + i);
+        return_values.erase(return_values.begin() + i);
+        i--;
+      }
+    }
+  }
+  return std::vector<Tripoint>();
+}
+
 bool Map::senses(Point origin, Point target, int range, Sense_type sense)
 {
   return senses(origin.x, origin.y, posz, target.x, target.y, posz, range,
