@@ -28,6 +28,9 @@ enum Monster_ability_type
   MON_ABILITY_MAX
 };
 
+Monster_ability_type lookup_monster_ability_type(std::string name);
+std::string monster_ability_type_name(Monster_ability_type type);
+
 // Base struct
 struct Monster_ability
 {
