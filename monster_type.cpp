@@ -24,6 +24,7 @@ Monster_type::Monster_type()
   hp_set = false;
   attacks_copied_from_genus = false;
   ranged_attacks_copied_from_genus = false;
+  abilities_copied_from_genus = false;
   senses_copied_from_genus = false;
   idle_sound_chance = 0;
   attack_sound_chance = 0;
@@ -73,6 +74,14 @@ void Monster_type::set_genus(Monster_genus *mg)
       ranged_attacks_copied_from_genus = true;
     }
     total_ranged_attack_weight = mg->default_values.total_ranged_attack_weight;
+  }
+
+  if (abilities.empty()) {
+    abilities = mg->default_values.abilities;
+    if (!abilities.empty()) {
+      abilities_copied_from_genus = true;
+    }
+    total_ability_weight = mg->default_values.total_ability_weight;
   }
 
   if (idle_sounds.empty()) {
@@ -282,6 +291,7 @@ bool Monster_type::load_data(std::istream &data)
       if (attacks_copied_from_genus) {
         attacks_copied_from_genus = false;
         attacks.clear();
+        total_attack_weight = 0;
       }
       std::getline(data, junk);
       Attack tmpattack;
@@ -298,6 +308,7 @@ bool Monster_type::load_data(std::istream &data)
       if (ranged_attacks_copied_from_genus) {
         ranged_attacks_copied_from_genus = false;
         ranged_attacks.clear();
+        total_ranged_attack_weight = 0;
       }
       std::getline(data, junk);
       Ranged_attack tmpattack;
@@ -308,6 +319,53 @@ bool Monster_type::load_data(std::istream &data)
       }
       ranged_attacks.push_back(tmpattack);
       total_ranged_attack_weight += tmpattack.weight;
+
+    } else if (ident == "ability:") {
+// Remove all abilities, if they were copied from our genus
+// (Because we want to completely override the defaults)
+      if (abilities_copied_from_genus) {
+        abilities_copied_from_genus = false;
+        abilities.clear();
+        total_ability_weight = 0;
+      }
+      std::string type_name;
+      std::getline(data, type_name);
+      Monster_ability_type abil_type = lookup_monster_ability_type(type_name);
+      if (abil_type == MON_ABILITY_NULL) {
+        debugmsg("Unknown Monster_ability_type '%s' (%s)",
+                 type_name.c_str(), name.c_str());
+        return false;
+      }
+      Monster_ability* abil;
+      switch (abil_type) {
+        case MON_ABILITY_SUMMON:
+          abil = new Monster_ability_summon;
+          break;
+        case MON_ABILITY_SIGNAL:
+          abil = new Monster_ability_signal;
+          break;
+        case MON_ABILITY_TERRAIN:
+          abil = new Monster_ability_terrain;
+          break;
+        case MON_ABILITY_TELEPORT:
+          abil = new Monster_ability_teleport;
+          break;
+        case MON_ABILITY_FIELDS:
+          abil = new Monster_ability_fields;
+          break;
+        default:
+          debugmsg("BUG - need to edit monster_type.cpp to handle %s.",
+                   monster_ability_type_name(abil_type).c_str());
+          return false;
+          break;
+      }
+      if (!abil->load_data(data, name)) {
+        debugmsg("Failed to load ability '%s' (%s).",
+                 monster_ability_type_name(abil_type).c_str(), name.c_str());
+        return false;
+      }
+      total_ability_weight += abil->weight;
+      abilities.push_back(abil);
 
     } else if (ident == "ai:") {
       std::getline(data, junk);
