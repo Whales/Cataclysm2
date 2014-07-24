@@ -1,5 +1,9 @@
 #include "monster_ability.h"
 #include "geometry.h" // For Tripoint
+#include "monster.h"
+#include "game.h"
+#include "globals.h"
+#include "rng.h"
 #include <sstream>
 #include <map> // To help with messages
 
@@ -79,7 +83,7 @@ bool Monster_ability::load_data(std::istream& data, std::string owner)
       std::getline(data, verb);
       verb = trim(verb);
 
-    } else if (ident != "done" && !handle_data(ident, data)) {
+    } else if (ident != "done" && !handle_data(ident, data, owner)) {
       debugmsg("Unknown Monster_ability property '%s' (%s)",
                ident.c_str(), owner.c_str());
       return false;
@@ -94,7 +98,7 @@ bool Monster_ability::handle_data(std::string ident, std::istream& data,
   return false;
 }
 
-bool Monster_ability::effect(Entity* user)
+bool Monster_ability::effect(Monster* user)
 {
   debugmsg("Monster_ability::effect() called!  This is a NULL ability!");
   return false;
@@ -252,7 +256,7 @@ bool Monster_ability_signal::handle_data(std::string ident, std::istream& data,
 {
   std::string junk;
 
-  if (ident = "signal:") {
+  if (ident == "signal:") {
     std::string line;
     std::getline(data, line);
     std::istringstream signal_data(line);
@@ -296,7 +300,7 @@ bool Monster_ability_signal::effect(Monster* user)
   for (pos.x = user->pos.x - range; pos.x <= user->pos.x + range; pos.x++) {
     for (pos.y = user->pos.y - range; pos.y <= user->pos.y + range; pos.y++) {
       pos.z = user->pos.z;
-      GAME.map->apply_signal(signal, pos, user);
+      GAME.map->apply_signal(sig, pos, user);
     }
   }
   return true;
@@ -479,7 +483,7 @@ bool Monster_ability_teleport::handle_data(std::string ident,
     phase = true;
 
   } else {
-    debugsmg("Unknown Monster_ability_teleport property '%s' (%s)",
+    debugmsg("Unknown Monster_ability_teleport property '%s' (%s)",
              ident.c_str(), owner.c_str());
     return false;
   }
@@ -577,7 +581,7 @@ bool Monster_ability_teleport::effect(Monster* user)
 
   int index = rng(0, valid_targets.size() - 1);
   Tripoint new_pos = valid_targets[index];
-  pos = new_pos;
+  user->pos = new_pos;
 
   return true;
 }

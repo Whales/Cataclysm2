@@ -105,7 +105,7 @@ Tripoint Entity_plan::get_target()
     return target_point;
   }
   if (target_entity) {
-    return target_entity.pos;
+    return target_entity->pos;
   }
   return Tripoint(-1, -1, -1);
 }

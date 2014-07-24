@@ -2329,13 +2329,14 @@ bool Map::senses(int x0, int y0, int z0, int x1, int y1, int z1, int range,
   return false;
 }
 
-bool Map::clear_path_exists(Tripoint origin, Tripoint target)
+bool Map::clear_path_exists(Tripoint origin, Tripoint target, int range)
 {
   return clear_path_exists(origin.x, origin.y, origin.z,
-                           target.x, target.y, target.z);
+                           target.x, target.y, target.z, range);
 }
 
-bool Map::clear_path_exists(int x0, int y0, int z0, int x1, int y1, int z1)
+bool Map::clear_path_exists(int x0, int y0, int z0, int x1, int y1, int z1,
+                            int range)
 {
   if (x0 < 0 || y0 < 0 ||
       x1 >= SUBMAP_SIZE * MAP_SIZE || y1 >= SUBMAP_SIZE * MAP_SIZE) {
@@ -2394,17 +2395,13 @@ std::vector<Tripoint> Map::clear_path(int x0, int y0, int z0,
 // Keep going as long as we've got at least one valid line
   while (!lines.empty()) {
 // Since we track z_value universally, don't do it inside the for loop below
-    bool z_stepped = false;
-    int old_z = z_level;
     z_value += z_step;
     if (z_value < 0) {
       z_level--;
       z_value += 100;
-      z_stepped = true;
     } else if (z_value >= 100) {
       z_level++;
       z_value -= 100;
-      z_stepped = true;
     }
     for (int i = 0; i < lines.size(); i++) {
       lines[i].z = z_level;

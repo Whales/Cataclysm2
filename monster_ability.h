@@ -2,7 +2,6 @@
 #define _MONSTER_ABILITY_H_
 
 #include "var_string.h"
-#include "status_ability.h"
 #include "dice.h"
 #include <istream>
 #include <string>
@@ -15,6 +14,8 @@
  * The Monster should use this return value to determine whether to use up some
  * AP, etc.
  */
+
+class Monster;
 
 enum Monster_ability_type
 {

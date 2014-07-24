@@ -259,6 +259,8 @@ public:
   int hunger, thirst, fatigue, stomach_food, stomach_water;
   int pain, painkill;
   int special_timer;
+  int summons_used;
+  int parent_uid;
 
   std::vector<Status_effect> effects;
 

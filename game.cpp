@@ -1919,7 +1919,7 @@ bool Game::is_empty(int x, int y, int z)
 
 bool Game::is_empty(Tripoint pos)
 {
-  return (!entities->entity_at(pos) && map->move_cost(pos) > 0);
+  return (!(entities.entity_at(pos)) && map->move_cost(pos) > 0);
 }
 
 // UID defaults to -1
