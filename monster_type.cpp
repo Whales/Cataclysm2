@@ -3,6 +3,7 @@
 #include "monster_type.h"
 #include "globals.h"
 #include "rng.h"
+#include "monster_ability.h"
 #include <sstream>
 
 Monster_type::Monster_type()
@@ -40,6 +41,9 @@ Monster_type::Monster_type()
 
 Monster_type::~Monster_type()
 {
+  for (int i = 0; i < abilities.size(); i++) {
+    delete abilities[i];
+  }
 }
 
 void Monster_type::set_genus(Monster_genus *mg)

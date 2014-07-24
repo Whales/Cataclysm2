@@ -28,6 +28,8 @@ std::string monster_size_name(Monster_size size);
 
 struct Monster_genus;
 
+struct Monster_ability;
+
 struct Monster_type
 {
   Monster_type();
@@ -51,6 +53,7 @@ struct Monster_type
   std::vector<Ranged_attack> ranged_attacks;  // See attack.h
   int total_attack_weight;  // Variable for choosing an attack
   int total_ranged_attack_weight; // Variable for choosing a ranged attack
+  std::vector<Mosnter_ability*> abilities; // See monster_ability.h
   Entity_AI AI; // AI set
 
   void set_genus(Monster_genus *mg);
