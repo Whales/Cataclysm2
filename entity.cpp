@@ -90,10 +90,24 @@ bool Entity_plan::is_active()
   if (attention <= 0) {
     return false;
   }
+  if (target_entity) {
+    return true;
+  }
   if (target_point.x < 0 || target_point.y < 0) {
     return false;
   }
   return true;
+}
+
+Tripoint Entity_plan::get_target()
+{
+  if (target_point.x >= 0 && target_point.y >= 0) {
+    return target_point;
+  }
+  if (target_entity) {
+    return target_entity.pos;
+  }
+  return Tripoint(-1, -1, -1);
 }
 
 Tripoint Entity_plan::next_step()
@@ -508,7 +522,12 @@ bool Entity::pick_flee_target()
 
 bool Entity::has_target()
 {
-  return (plan.target_entity || plan.is_active());
+  return (plan.target_entity);
+}
+
+bool Entity::is_fleeing()
+{
+  return (plan.is_active() && plan.goal_type == AIGOAL_FLEE);
 }
 
 std::vector<Ranged_attack> Entity::get_ranged_attacks()

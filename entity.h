@@ -41,6 +41,7 @@ struct Entity_plan
   void update();  // Decrement attention, reset target_entity if <= 0
 
   bool is_active();
+  Tripoint get_target();
 
   Tripoint next_step();
   void erase_step();
@@ -104,6 +105,7 @@ public:
   virtual bool pick_attack_victim();
   virtual bool pick_flee_target();
   bool has_target();
+  bool is_fleeing();
 
 // Type data
   virtual Entity_AI get_AI();
