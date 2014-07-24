@@ -49,11 +49,16 @@ struct Monster_type
   int accuracy; // Our melee accuracy; compared against target's dodge
   int dodge;    // Rolled against attacker's hit roll
   int chance;   // How frequently this appears
+
   std::vector<Attack> attacks;  // Melee attacks - see attack.h
-  std::vector<Ranged_attack> ranged_attacks;  // See attack.h
   int total_attack_weight;  // Variable for choosing an attack
+
+  std::vector<Ranged_attack> ranged_attacks;  // See attack.h
   int total_ranged_attack_weight; // Variable for choosing a ranged attack
-  std::vector<Mosnter_ability*> abilities; // See monster_ability.h
+
+  std::vector<Monster_ability*> abilities; // See monster_ability.h
+  int total_ability_weight;
+
   Entity_AI AI; // AI set
 
   void set_genus(Monster_genus *mg);
