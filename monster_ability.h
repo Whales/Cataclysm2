@@ -43,6 +43,7 @@ struct Monster_ability
   virtual bool effect(Monster* user);
 
   int frequency;    // How much using this increases the monster's special_timer
+  int weight;       // How likely we are to used this (compared to other abils)
   int AP_cost;      // How much AP using this costs (defaults to 0).
   int HP_cost;      // HP lost when using this ability (defaults to 0).
   std::string verb; // "The <monster_name> <verb>!" (so use 3rd person)

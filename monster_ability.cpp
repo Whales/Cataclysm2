@@ -10,6 +10,7 @@
 Monster_ability::Monster_ability()
 {
   frequency = 0;
+  weight = 10;
   AP_cost = 0;
   HP_cost = 0;
 }
@@ -23,6 +24,7 @@ Monster_ability_summon::Monster_ability_summon()
   number = Dice(0, 0, 1);
   range = 1;
   max_summons = 0;
+  verb = "creates";
 }
 
 Monster_ability_signal::Monster_ability_signal()
@@ -35,6 +37,7 @@ Monster_ability_terrain::Monster_ability_terrain()
   always_replace = false;
   range = 1;
   tiles_affected = Dice(0, 0, 1);
+  verb = "creates";
 }
 
 Monster_ability_teleport::Monster_ability_teleport()
@@ -43,6 +46,7 @@ Monster_ability_teleport::Monster_ability_teleport()
   always_use_max_range = false;
   controlled = false;
   phase = false;
+  verb = "creates";
 }
 
 Monster_ability_fields::Monster_ability_fields()
@@ -69,6 +73,10 @@ bool Monster_ability::load_data(std::istream& data, std::string owner)
 
     } else if (ident == "freq:" || ident == "frequency:") {
       data >> frequency;
+      std::getline(data, junk);
+
+    } else if (ident == "weight:") {
+      data >> weight;
       std::getline(data, junk);
 
     } else if (ident == "ap_cost:") {
@@ -579,13 +587,13 @@ bool Monster_ability_teleport::effect(Monster* user)
     return false; // No valid teleport points, so cancel the attempt.
   }
 
-  bool see_orig = GAME.player->can_see(user);
+  bool see_orig = GAME.player->can_sense(user);
 
   int index = rng(0, valid_targets.size() - 1);
   Tripoint new_pos = valid_targets[index];
   user->pos = new_pos;
 
-  bool see_new = GAME.player->can_see(user);
+  bool see_new = GAME.player->can_sense(user);
 
   std::stringstream message;
   if (see_orig) {
@@ -600,7 +608,7 @@ bool Monster_ability_teleport::effect(Monster* user)
       message << " out of sight!";
     }
   } else if (see_new) {
-    message << user->get_name_indefinite << " " << verb << " ";
+    message << user->get_name_indefinite() << " " << verb << " ";
     if (rl_dist(user->pos, GAME.player->pos) == 1) {
       message << "right next to you!";
     } else {
