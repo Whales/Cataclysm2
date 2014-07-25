@@ -1567,8 +1567,8 @@ active items!");
       break;
 
     case DEBUG_ACTION_MEMORY_INFO:
-      popup("Submaps: %d\nSizeof(Submap): %d", SUBMAP_POOL.size(),
-            sizeof(Submap));
+      popup("Submaps: %d\nSizeof(Submap): %d\nEntities: %d", SUBMAP_POOL.size(),
+            sizeof(Submap), entities.instances.size());
       break;
 
     case DEBUG_ACTION_PLACE_BONUS: {
