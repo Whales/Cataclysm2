@@ -120,6 +120,15 @@ done
 Name: Chiratia
   Default:
     Senses: omniscient
+    Ability: teleport
+      freq: 5
+      weight: 20
+      ap_cost: 100
+      verb: teleports
+      range: 5
+      controlled
+      phase
+    done
     AI:
       awareness: 12
       attention: 30
