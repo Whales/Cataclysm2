@@ -179,6 +179,7 @@ public:
   void load_area_centered_on(int center_x, int center_y);
 
   int size();
+  std::string all_size();
 
 // For debugging purposes.
   std::string get_range_text();

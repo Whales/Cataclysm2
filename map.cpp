@@ -1224,10 +1224,12 @@ Submap* Submap_pool::at_location(Tripoint p)
   if (point_map.count(p) > 0) {
     return point_map[p];
   }
-  if (TESTING_MODE && p.z == 0) {
+/*
+  if (TESTING_MODE) {
     debugmsg("WARNING: Generating rogue submap %s! We have %s.",
              p.str().c_str(), get_range_text().c_str());
   }
+*/
   return generate_submap(p);
 }
 
@@ -1293,6 +1295,14 @@ void Submap_pool::load_area_centered_on(int center_x, int center_y)
 int Submap_pool::size()
 {
   return instances.size();
+}
+
+std::string Submap_pool::all_size()
+{
+  std::stringstream ret;
+  ret << "instances: " << instances.size() << " point_map: " <<
+         point_map.size();
+  return ret.str();
 }
 
 std::string Submap_pool::get_range_text()
@@ -1522,9 +1532,11 @@ Submap* Submap_pool::generate_submap(Tripoint p)
     Worldmap_tile *tile = GAME.worldmap->get_tile(p.x, p.y);
     if (!tile) {
       sub->generate_empty();
-      return sub;
+    } else {
+      sub->generate_above(tile->terrain, below);
     }
-    sub->generate_above(tile->terrain, below);
+    point_map[p] = sub;
+    instances.push_back(sub);
     return sub;
   }
   sub->generate(GAME.worldmap, p.x, p.y, p.z);
@@ -1574,7 +1586,7 @@ void Map::test_generate(std::string terrain_name)
 
 void Map::generate(Worldmap *world, int wposx, int wposy, int wposz)
 {
-// All arguments default to -999
+// All int arguments default to -999
   if (wposx != -999) {
     posx = wposx;
   }
