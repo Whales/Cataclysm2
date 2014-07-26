@@ -811,6 +811,7 @@ void Game::process_active_items()
 
 void Game::shift_if_needed()
 {
+  //return;
   int min = SUBMAP_SIZE * (MAP_SIZE / 2), max = min + SUBMAP_SIZE - 1;
   int shiftx = 0, shifty = 0;
   if (player->pos.x < min) {
@@ -1228,7 +1229,9 @@ void Game::player_move(int xdif, int ydif)
                       levels_to_fall)) {
       return;
     }
-    debugmsg("Fall");
+    if (TESTING_MODE) {
+      debugmsg("Fall");
+    }
     player->move_to(map, newx, newy);
     player_move_vertical(0 - levels_to_fall);
     player->fall(levels_to_fall); // This handles damage, etc.
@@ -1567,7 +1570,7 @@ active items!");
       break;
 
     case DEBUG_ACTION_MEMORY_INFO:
-      popup("Submaps: %d\nSizeof(Submap): %d", SUBMAP_POOL.size(),
+      popup("Submaps: %s\nSizeof(Submap): %d", SUBMAP_POOL.all_size().c_str(),
             sizeof(Submap));
       break;
 
