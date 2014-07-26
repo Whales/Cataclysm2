@@ -1570,8 +1570,9 @@ active items!");
       break;
 
     case DEBUG_ACTION_MEMORY_INFO:
-      popup("Submaps: %s\nSizeof(Submap): %d", SUBMAP_POOL.all_size().c_str(),
-            sizeof(Submap));
+      popup("Submaps: %s\nSizeof(Submap): %d\nEntities: %d",
+            SUBMAP_POOL.all_size().c_str(), sizeof(Submap),
+            entities.instances.size());
       break;
 
     case DEBUG_ACTION_PLACE_BONUS: {
