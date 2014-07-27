@@ -73,6 +73,7 @@ struct Monster_type
   int get_volume();
 
   Sound get_sound(bool attacking);
+  Monster_ability* get_ability();
 
 private:
 // These bools determine whether we've copied data from our genus

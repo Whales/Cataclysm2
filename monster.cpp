@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "game.h"
 #include "player.h"
+#include "monster_ability.h"
 #include <sstream>
 
 Monster::Monster()
@@ -321,6 +322,8 @@ void Monster::take_turn()
   plan.update();
   if (special_timer > 0) {
     special_timer--;
+  } else {
+    use_ability();
   }
 
   if (plan.target_entity && can_attack(plan.target_entity)) {
@@ -356,6 +359,23 @@ void Monster::take_turn()
   }
 }
 
+void Monster::use_ability()
+{
+  if (special_timer > 0 || !type) {
+    return;
+  }
+  Monster_ability* abil = type->get_ability();
+  if (!abil || current_hp < abil->HP_cost) {
+    return;
+  }
+  if (abil->effect(this)) {
+    action_points -= abil->AP_cost;
+    current_hp -= abil->HP_cost;
+    special_timer += abil->frequency;
+  }
+}
+
+/*
 bool Monster::can_sense(Entity* entity)
 {
   if (!entity) {
@@ -382,6 +402,7 @@ bool Monster::can_sense(Entity* entity)
 // TODO: Other senses (e.g. echolocation)
   return false;
 }
+*/
 
 Attack Monster::base_attack()
 {

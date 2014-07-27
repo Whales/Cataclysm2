@@ -474,6 +474,21 @@ Sound Monster_type::get_sound(bool attacking)
   return ret;
 }
 
+Monster_ability* Monster_type::get_ability()
+{
+  if (abilities.empty()) {
+    return NULL;
+  }
+  int index = rng(1, total_ability_weight);
+  for (int i = 0; i < abilities.size(); i++) {
+    index -= abilities[i]->weight;
+    if (index <= 0) {
+      return abilities[i];
+    }
+  }
+  return abilities.back();
+}
+
 Monster_genus::Monster_genus()
 {
   uid = -1;

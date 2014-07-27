@@ -44,8 +44,9 @@ public:
   virtual std::vector<Ranged_attack> get_ranged_attacks();
   virtual void take_turn();
   void make_sound();
+  void use_ability();
 
-  virtual bool can_sense(Entity* entity);
+  //virtual bool can_sense(Entity* entity);
   virtual Attack base_attack();
   virtual int hit_roll(int bonus);
   virtual int dodge_roll();
