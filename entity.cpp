@@ -623,6 +623,28 @@ int Entity::sight_range(int light_level)
 
 bool Entity::can_sense(Entity* entity)
 {
+  if (!entity) {
+    return false;
+  }
+// Do it in order of lowest resource cost to highest!
+  if (has_sense(SENSE_OMNISCIENT)) {
+    return true;
+  }
+// TODO: require that the target is warm-blooded
+  if (has_sense(SENSE_INFRARED)) {
+    return true;
+  }
+// TODO: Use a range other than 15
+  if (has_sense(SENSE_SIGHT) &&
+      GAME.map->senses(pos, entity->pos, 15, SENSE_SIGHT)) {
+    return true;
+  }
+// TODO:  Use a range other than 10
+  if (has_sense(SENSE_SMELL) &&
+      GAME.map->senses(pos, entity->pos, entity->get_smell(), SENSE_SMELL)) {
+    return true;
+  }
+// TODO: Other senses (e.g. echolocation)
   return false;
 }
 

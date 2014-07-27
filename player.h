@@ -30,8 +30,9 @@ public:
   void set_profession(Profession* prof);
   Profession* get_profession();
 
-// Movement functions
+// Movement/perception functions
   virtual bool has_sense(Sense_type sense);
+  //virtual bool can_sense(Entity* entity);
   virtual int  get_movement_cost();
 
 // Inventory functions
