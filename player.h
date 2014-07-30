@@ -65,6 +65,7 @@ public:
 
   virtual void heal_damage(int damage, HP_part part = HP_PART_NULL);
   virtual int  get_armor(Damage_type damtype, Body_part part = BODY_PART_NULL);
+  virtual int  get_protection(Body_part part = BODY_PART_NULL);
 
   std::string hp_text(Body_part part);
   std::string hp_text(HP_part part);

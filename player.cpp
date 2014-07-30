@@ -686,6 +686,19 @@ int Player::get_armor(Damage_type damtype, Body_part part)
   return ret;
 }
 
+int Player::get_protection(Body_part part)
+{
+  int ret = 0;
+  for (int i = 0; i < items_worn.size(); i++) {
+    if (items_worn[i].covers(part)) {
+      Item_type* type = items_worn[i].type;
+      Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
+      ret += clothing->protection;
+    }
+  }
+  return ret;
+}
+
 std::string Player::hp_text(Body_part part)
 {
   return hp_text( convert_to_HP(part) );

@@ -37,6 +37,8 @@ public:
   virtual int get_genus_uid();
 
   virtual int get_speed();
+
+  //virtual bool is_enemy(Entity* ent);
   void make_plans();
   virtual bool try_goal(AI_goal goal);
   virtual bool pick_attack_victim();

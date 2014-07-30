@@ -236,8 +236,7 @@ bool Monster::pick_attack_victim()
        it++) {
     Entity* tmp = (*it);
 // Not us, not in our genus, and we can sense them
-    if (tmp->uid != uid && tmp->get_genus_uid() != get_genus_uid() &&
-        can_sense(tmp)) {
+    if (is_enemy(tmp) && can_sense(tmp)) {
       int dist = rl_dist(pos, tmp->pos);
       if (closest == 0 || dist < closest) {
         closest = dist;

@@ -505,6 +505,15 @@ void Entity::take_turn()
 {
 }
 
+bool Entity::is_enemy(Entity* ent)
+{
+  if (!ent) {
+    return false;
+  }
+// Not us, and not in our genus.
+  return (ent->uid != uid && ent->get_genus_uid() != get_genus_uid());
+}
+
 bool Entity::try_goal(AI_goal goal)
 {
   return false;
@@ -873,6 +882,21 @@ void Entity::add_status_effect(Status_effect effect)
     }
   }
   effects.push_back(effect);
+}
+
+void Entity::infect(Body_part vector, int strength,
+                    Status_effect_type type, int duration, int level)
+{
+  Status_effect effect(type, duration, level);
+  infect(vector, strength, effect);
+}
+
+void Entity::infect(Body_part vector, int strength, Status_effect effect)
+{
+  int protection = get_protection(vector);
+  if (rng(0, strength) > rng(0, protection)) {
+    add_status_effect(effect);
+  }
 }
 
 bool Entity::has_status_effect(Status_effect_type type)
@@ -1928,6 +1952,13 @@ void Entity::heal_damage(int damage, HP_part part)
 
 // Overridden in monster.cpp and player.cpp
 int Entity::get_armor(Damage_type damtype, Body_part part)
+{
+  return 0;
+}
+
+// Overridden in player.cpp
+// TODO: Do monsters ever need this?  Maybe...
+int Entity::get_protection(Body_part part)
 {
   return 0;
 }

@@ -101,6 +101,7 @@ public:
 
 // AI
   virtual void take_turn();
+  virtual bool is_enemy(Entity* ent);
   virtual bool try_goal(AI_goal goal);
   virtual bool pick_attack_victim();
   virtual bool pick_flee_target();
@@ -140,6 +141,16 @@ public:
                     int primary_uid = -1, int secondary_uid = -1);
   void add_status_effect(Status_effect_type type, int duration, int level = 1);
   void add_status_effect(Status_effect effect);
+/* infect() works like add_status_effect(), but it checks our resistance value
+ * in the given vector.  For instance, tear gas infects us via the eyes vector
+ * (for blinding effect) and the mouth vector (for coughing effect).  Thus, eye
+ * protection (e.g. goggles) and mouth protection (e.g. filter) reduce the odds
+ * of us suffering the effects.
+ */
+  void infect(Body_part vector, int strength,
+              Status_effect_type type, int duration, int level = 1);
+  void infect(Body_part vector, int strength, Status_effect effect);
+
   bool has_status_effect(Status_effect_type type);
   void use_ap(int amount);
   void shift(int shiftx, int shifty); // For map shifting
@@ -224,7 +235,10 @@ public:
 
   virtual void absorb_damage(Damage_type damtype, int &damage, Body_part part);
   virtual void heal_damage(int damage, HP_part part = HP_PART_NULL);
+
   virtual int  get_armor(Damage_type damtype, Body_part part = BODY_PART_NULL);
+// Ambient protection, for use with infect()
+  virtual int  get_protection(Body_part part = BODY_PART_NULL);
 
   virtual Ranged_attack throw_item(Item it);
   virtual Ranged_attack fire_weapon();
