@@ -3,6 +3,8 @@
 
 #include "var_string.h"
 #include "dice.h"
+#include "status_effect.h"
+#include "enum.h"
 #include <istream>
 #include <string>
 
@@ -25,6 +27,7 @@ enum Monster_ability_type
   MON_ABILITY_TERRAIN,  // Change (i.e. generate) nearby terrain
   MON_ABILITY_TELEPORT, // Instantly teleport.
   MON_ABILITY_FIELDS,   // Place fields around us.
+  MON_ABILITY_STATUS,   // Impart status effect(s) on nearby entities.
   MON_ABILITY_MAX
 };
 
@@ -170,6 +173,30 @@ struct Monster_ability_fields : public Monster_ability
   Dice tiles_affected;  // How many tiles to hit; ignored if <affect_all_tiles>
   Variable_string field_type; // Type of field (maybe random)
   Dice duration;  // Duration of field(s) generated; if <0 rolled, no field made
+};
+
+struct Monster_ability_status : public Monster_ability
+{
+  Monster_ability_status();
+  ~Monster_ability_status(){}
+
+  virtual Monster_ability_type type() { return MON_ABILITY_STATUS; }
+
+  virtual bool handle_data(std::string ident, std::istream& data,
+                           std::string owner);
+
+  virtual bool effect(Monster* user);
+
+  Status_effect_type status;  // Status effect imparted
+  int range;  // Range of effect; defaults to 0
+  Body_part vector; // Vector of effect; defaults to BODY_PART_NULL (no vector)
+  int strength; // How likely it is to be imparted; defaults to 0
+                // Set to 0 to guarantee that the effect is imparted.
+  Dice duration;  // Duration of effect; defaults to 1
+  Dice level;     // Level of effect; defaults to 1
+  bool affect_friends;  // If true, affect friends; defaults to false
+  bool affect_enemies;  // If true, affect enemies; defaults to false
+  bool affect_self;     // If true, affect self;    defaults to false
 };
 
 #endif
