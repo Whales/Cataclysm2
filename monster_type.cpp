@@ -42,8 +42,10 @@ Monster_type::Monster_type()
 
 Monster_type::~Monster_type()
 {
-  for (int i = 0; i < abilities.size(); i++) {
-    delete abilities[i];
+  if (!abilities_copied_from_genus) {
+    for (int i = 0; i < abilities.size(); i++) {
+      delete abilities[i];
+    }
   }
 }
 
