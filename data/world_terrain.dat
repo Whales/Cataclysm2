@@ -321,3 +321,10 @@ Name: mall
   Spread_type: arms
   Flags: face_road relational
 Done
+
+Name: campsite
+  Glyph: C ltblue black
+  Road_cost: 100
+  Spread_cost: 10
+  Spread: 1d3 - 1
+Done

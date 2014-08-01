@@ -216,3 +216,35 @@ name: trash can
   done
   Flags: opaque
 done
+
+name: large log
+  glyph: } brown black
+  move_cost: 150
+  height: 30
+  weight: 180
+  HP: 50
+  Smash:
+    failure_sound: "whack."
+    success_sound: wood splintering.
+    armor: bash 40
+    armor: pierce 1d10 + 10
+    armor: cut 1d6
+  done
+  components: c:10 chunk of wood
+  Flags: flammable
+done
+
+name: pup tent
+  glyph: } ltgreen black
+  move_cost: 300
+  height: 50
+  weight: 100
+  HP: 15
+  Smash:
+    failure_sound: "whump."
+    success_sound: a clatter.
+    armor: pierce 4d10
+    armor: cut 1d10
+  done
+  components: c:6 metal pole / c:1 tarp
+done

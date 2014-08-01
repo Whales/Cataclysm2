@@ -23,14 +23,41 @@ done
 weapon
   name: tree branch
   description:
-    A heavy branch from a tree. Solid enough to hit things with but unrefined
-    and clumsy.
+    A heavy branch from a tree. Solid enough to hit things with, but not
+    particularly damaging.
   done
   glyph: / brown black
   weight: 25
   volume: 20
   bash:    8
   to_hit:  2
+  flags: flammable
+done
+
+weapon
+  name: log
+  description:
+    A thick, heavy wood log.  Hard enough to be used as a weapon, but very
+    awkward to wield.
+  done
+  glyph: / ltred black
+  weight:  80
+  volume: 900
+  bash:    15
+  to_hit:  -3
+  flags: flammable
+done
+
+weapon
+  name: chunk of wood
+  description:
+    A misshapen piece of wood, not particularly good for anything.
+  done
+  glyph: * ltred black
+  weight: 10
+  volume: 30
+  bash:    6
+  to_hit: -1
   flags: flammable
 done
 
@@ -73,6 +100,30 @@ weapon
   bash:    8
   to_hit:  2
   flags: flammable
+done
+
+weapon
+  name: metal pole
+  description:
+    A solid cylindrical rod made of aluminum.  Not very hard or heavy.
+  done
+  glyph: / ltcyan black
+  weight: 10
+  volume: 36
+  bash:    6
+  to_hit:  2
+done
+
+weapon
+  name: tarp
+  description:
+    A big sheet of thin plastic.  Could be used to make shelter.
+  done
+  glyph: | ltgreen black
+  weight:   8
+  volume: 225
+  bash:     0
+  to_hit:   0
 done
 
 weapon

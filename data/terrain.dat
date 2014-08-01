@@ -1044,3 +1044,11 @@ name: fountain
   destroy: rubble
   flags: opaque
 done
+
+name: fire pit
+  glyph: % dkgray black
+  movecost: 150
+  signal: dig
+    result: hole
+  done
+done

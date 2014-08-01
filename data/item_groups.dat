@@ -338,3 +338,11 @@ done
 name: items_factory_worker
   items: w:3 pocket knife / w:15 hammer / w:20 wrench / w:4 sledgehammer / w:3 steel pipe / w:20 screwdriver / w:4 rag / w:5 data cable / w:5 cap / w:14 hard hat / w:5 glasses / w:12 safety glasses / w:12 dust mask / w:5 bandana / w:3 t shirt / w:14 work gloves / w:7 rubber gloves / w:5 boots / w:7 steel-toed boots / w:7 nails / w:8 batteries / w:7 nail gun / w:3 beef jerky / w:4 water / w:1 beer / w:2 cola / w:3 energy drink / w:7 cigarettes / w:2 aspirin / w:1 codeine / w:7 crowbar / w:15 lighter / w:4 bandages / w:2 first aid kit / w:8 flashlight
 done
+
+name: items_fire_pit
+  items: w:10 tree branch / w:5 log / w:1 rock
+done
+
+name: items_camping
+  items: w:2 rope / w:20 pocket knife / w:8 hunting knife / w:12 hatchet / w:5 large axe / w:2 machete / w:10 frying pan / w:10 rag / w:5 cotton hat / w:2 cap / w:5 bandana / w:3 work gloves / w:2 leather gloves / w:3 boots / w:12 backpack / w:3 batteries / w:1 crossbow / w:4 MRE (meat) / w:4 MRE (vegetable) / w:6 beans / w:6 SPAM / w:7 beef jerky / w:5 chocolate bar / w:14 water / w:2 beer / w:2 dry pasta / w:2 dry rice / w:3 dry coffee / w:3 birdseed / w:4 shovel / w:5 bandages / w:2 first aid kit / w:12 flashlight
+done
