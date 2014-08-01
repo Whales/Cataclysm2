@@ -1142,12 +1142,36 @@ std::string list_items(std::vector<Item> *items)
   if (items->empty()) {
     return "nothing.";
   }
-  std::stringstream item_text;
+// First, form a map that joins together items of the same type.
+  std::map<Item_type*,int> types;
   for (int i = 0; i < items->size(); i++) {
-    item_text << (*items)[i].get_name_indefinite();
-    if (i == items->size() - 2) {
+    Item_type* type = (*items)[i].type;
+    if (type) {
+      if (types.count(type) == 0) {
+        types[type] = 1;
+      } else {
+        types[type]++;
+      }
+    }
+  }
+// Now tailor the actual message.
+  std::stringstream item_text;
+  int num = types.size();
+  for (std::map<Item_type*,int>::iterator it = types.begin();
+       it != types.end();
+       it++) {
+    num--;
+    Item_type* type = it->first;
+    if (it->second == 1) {
+      item_text << (type->has_flag(ITEM_FLAG_PLURAL) ? "some " : "a ") <<
+                   type->get_name();
+    } else {
+// TODO: Smarter pluralization; maybe store a plural form in Item_type
+      item_text << it->second << " " << type->get_name() << "s";
+    }
+    if (num == 1) {
       item_text << " and ";
-    } else if (items->size() >= 3 && i < items->size() - 2) {
+    } else if (num > 1) {
       item_text << ", ";
     }
   }

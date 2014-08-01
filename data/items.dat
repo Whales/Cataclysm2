@@ -49,7 +49,7 @@ weapon
 done
 
 weapon
-  name: chunk of wood
+  name: wood chunks
   description:
     A misshapen piece of wood, not particularly good for anything.
   done
