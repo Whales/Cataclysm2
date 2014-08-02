@@ -161,6 +161,7 @@ Entity::Entity()
   pain = 0;
   painkill = 0;
   special_timer = 0;
+  experience = 0;
 
 // Initialize trait vector
   for (int i = 0; i < TRAIT_MAX; i++) {
@@ -499,6 +500,43 @@ int Entity::get_smell()
     return 18;
   }
   return 10;
+}
+
+void Entity::gain_xp(int amount)
+{
+  if (amount < 0) {
+    debugmsg("%s gained %d XP (negative)!",
+             get_name_to_player().c_str(), amount);
+    return;
+  }
+
+  experience += amount;
+}
+
+bool Entity::improve_skill(Skill_type type)
+{
+  if (type == SKILL_NULL || type == SKILL_MAX) {
+    debugmsg("%s tried to improve %s.",
+             get_name_to_player().c_str(), skill_type_name(type).c_str());
+    return false;
+  }
+
+  if (skills.maxed_out(type)) {
+    return false;
+  }
+
+  int xp_needed = (1 + skills.get_level(type)) * 3;
+  xp_needed *= xp_needed;
+  xp_needed += 50;
+  xp_needed -= xp_needed % 5; // Round down to nearest multiple of 5
+
+  if (experience < xp_needed) {
+    return false;
+  }
+
+  experience -= xp_needed;
+  skills.increase_level(type);
+  return true;
 }
 
 void Entity::take_turn()

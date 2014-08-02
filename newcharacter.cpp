@@ -455,6 +455,15 @@ bool Player::create_new_character()
     }
   }
 
+// Set up our max mental skill levels, based on int.
+  int max_sk = 1 + stats.intelligence / 5;
+  for (int i = 0; i < SKILL_MAX; i++) {
+    Skill_type sk = Skill_type(i);
+    if (is_skill_mental(sk)) {
+      skills.set_max_level(sk, max_sk);
+    }
+  }
+
 // Myopic characters get free glasses
   if (has_trait(TRAIT_MYOPIC)) {
     Item_type* glasses = ITEM_TYPES.lookup_name("glasses");

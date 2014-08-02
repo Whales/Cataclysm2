@@ -99,6 +99,10 @@ public:
 
   int get_smell();
 
+// Experience functions
+  void gain_xp(int amount);
+  bool improve_skill(Skill_type type);
+
 // AI
   virtual void take_turn();
   virtual bool is_enemy(Entity* ent);
@@ -237,6 +241,7 @@ public:
   virtual void heal_damage(int damage, HP_part part = HP_PART_NULL);
 
   virtual int  get_armor(Damage_type damtype, Body_part part = BODY_PART_NULL);
+
 // Ambient protection, for use with infect()
   virtual int  get_protection(Body_part part = BODY_PART_NULL);
 
@@ -268,6 +273,7 @@ public:
   Stats stats;
   Skill_set skills;
   std::vector<bool> traits;
+  int experience;
 
 // Temporary attributes
   int hunger, thirst, fatigue, stomach_food, stomach_water;

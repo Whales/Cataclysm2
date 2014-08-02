@@ -44,6 +44,7 @@ enum Skill_type
 
 Skill_type lookup_skill_type(std::string name);
 std::string skill_type_name(Skill_type type);
+bool is_skill_mental(Skill_type type);
 
 struct Skill_set
 {
@@ -54,9 +55,19 @@ struct Skill_set
 
   int  get_level(Skill_type type) const;
   void set_level(Skill_type type, int lev);
+  void increase_level(Skill_type type, int amount = 1);
+
+  int  get_max_level(Skill_type type) const;
+  void set_max_level(Skill_type type, int lev);
+  void increase_max_level(Skill_type type, int amount = 1);
+
+  bool unlock_skill(Skill_type type); // No max level anymore!
+  bool maxed_out(Skill_type type) const;  // true if level >= max_level
 
 private:
   int level[SKILL_MAX];
+  int max_level[SKILL_MAX];
+  bool unlocked[SKILL_MAX];
 };
 
 #endif

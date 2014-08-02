@@ -7,6 +7,12 @@ Skill_set::Skill_set()
 {
   for (int i = 0; i < SKILL_MAX; i++) {
     level[i] = 0;
+    max_level[i] = 0;
+    if (!is_skill_mental( Skill_type(i) )) {
+      unlocked[i] = true;
+    } else {
+      unlocked[i] = false;
+    }
   }
 }
 
@@ -34,7 +40,53 @@ int Skill_set::get_level(Skill_type type) const
 
 void Skill_set::set_level(Skill_type type, int lev)
 {
+  if (lev < 0) {
+    debugmsg("Setting skill level to %d (%s)!",
+             lev, skill_type_name(type).c_str());
+    return;
+  }
   level[type] = lev;
+}
+
+void Skill_set::increase_level(Skill_type type, int amount)
+{
+  level[type] += amount;
+  if (level[type] < 0) {
+    level[type] = 0;
+  }
+}
+
+int Skill_set::get_max_level(Skill_type type) const
+{
+  return max_level[type];
+}
+
+void Skill_set::set_max_level(Skill_type type, int lev)
+{
+  if (lev < 0) {
+    debugmsg("Setting skill max level to %d (%s)!",
+             lev, skill_type_name(type).c_str());
+    return;
+  }
+  max_level[type] = lev;
+}
+
+void Skill_set::increase_max_level(Skill_type type, int amount)
+{
+  max_level[type] += amount;
+  if (max_level[type] < 0) {
+    max_level[type] = 0;
+  }
+}
+
+void Skill_set::unlock_skill(Skill_type type)
+{
+  unlocked[type] = true;
+}
+
+bool Skill_set::maxed_out(Skill_type type) const
+{
+  return (!unlocked[type] && level[type] >= max_level[type]);
 }
 
 Skill_type lookup_skill_type(std::string name)
@@ -87,4 +139,52 @@ std::string skill_type_name(Skill_type type)
     default:                  return "ERROR - Unnamed skill";
   }
   return "ERROR - Escaped skill_type_name() switch!";
+}
+
+bool is_skill_mental(Skill_type type)
+{
+  switch (type) {
+    case SKILL_NULL:          return false;
+
+    case SKILL_MELEE:         return false;
+    case SKILL_UNARMED:       return false;
+    case SKILL_BASH:          return false;
+    case SKILL_CUT:           return false;
+    case SKILL_PIERCE:        return
+
+    case SKILL_DODGE:         return false;
+    case SKILL_THROWING:      return false;
+
+    case SKILL_LAUNCHERS:     return false;
+    case SKILL_HANDGUNS:      return false;
+    case SKILL_SHOTGUNS:      return false;
+    case SKILL_SMGS:          return false;
+    case SKILL_RIFLES:        return false;
+    case SKILL_BOWS:          return false;
+
+    case SKILL_MECHANICS:     return true;
+    case SKILL_ELECTRONICS:   return true;
+    case SKILL_CONSTRUCTION:  return true;
+
+// These skills may SEEM mental, but really they're applied.
+    case SKILL_SPEECH:        return false;
+    case SKILL_BARTER:        return false;
+
+    case SKILL_COOKING:       return true;
+    case SKILL_FIRST_AID:     return true;
+    case SKILL_BOTANY:        return true;
+    case SKILL_SURVIVAL:      return true;
+    case SKILL_DRIVING:       return false;
+
+    case SKILL_MAX:
+      debugmsg("ERROR - tried to check if SKILL_MAX is mental.");
+      return false;
+
+    default:
+      debugmsg("ERROR - is_skill_mental() missing %s!",
+               skill_type_name(type).c_str());
+      return false;
+  }
+  debugmsg("ERROR - Escaped is_skill_mental() switch!");
+  return false;
 }
