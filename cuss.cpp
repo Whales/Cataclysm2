@@ -1351,6 +1351,52 @@ std::vector<std::string> interface::get_str_list(std::string name)
  return ele->get_str_list();
 }
 
+int interface::element_height(std::string name)
+{
+  element* ele = find_by_name(name);
+  if (!ele) {
+    return -1;
+  }
+  return ele->sizey;
+}
+
+int interface::element_width(std::string name)
+{
+  element* ele = find_by_name(name);
+  if (!ele) {
+    return -1;
+  }
+  return ele->sizex;
+}
+
+int interface::element_posx(std::string name)
+{
+  element* ele = find_by_name(name);
+  if (!ele) {
+    return -1;
+  }
+  return ele->posx;
+}
+
+int interface::element_posy(std::string name)
+{
+  element* ele = find_by_name(name);
+  if (!ele) {
+    return -1;
+  }
+  return ele->posy;
+}
+
+Point interface::element_pos(std::string name)
+{
+  element* ele = find_by_name(name);
+  if (!ele) {
+    return Point(-1, -1);
+  }
+  return Point(ele->posx, ele->posy);
+}
+
+
 std::vector<std::string> interface::binding_list()
 {
  std::vector<std::string> ret;

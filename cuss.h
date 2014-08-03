@@ -408,6 +408,12 @@ namespace cuss {
     int get_int(std::string name);
     std::vector<std::string> get_str_list(std::string name);
 
+    int   element_height(std::string name);
+    int   element_width (std::string name);
+    int   element_posx  (std::string name);
+    int   element_posy  (std::string name);
+    Point element_pos   (std::string name);
+
     std::vector<std::string> binding_list();
     bool add_binding(long ch, action_id act, std::string target = "");
     bool add_binding(long ch, action_id act, std::string target,
