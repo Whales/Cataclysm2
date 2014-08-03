@@ -182,7 +182,7 @@ bool is_skill_mental(Skill_type type)
     case SKILL_ELECTRONICS:   return true;
     case SKILL_CONSTRUCTION:  return true;
 
-// These skills may SEEM mental, but really they're applied.
+// Social skills may SEEM mental, but really they're applied.
     case SKILL_SPEECH:        return false;
     case SKILL_BARTER:        return false;
 
@@ -190,6 +190,7 @@ bool is_skill_mental(Skill_type type)
     case SKILL_FIRST_AID:     return true;
     case SKILL_BOTANY:        return true;
     case SKILL_SURVIVAL:      return true;
+// Can't learn driving from a book!
     case SKILL_DRIVING:       return false;
 
     case SKILL_MAX:
