@@ -138,6 +138,7 @@ std::string skill_type_name(Skill_type type)
     case SKILL_RIFLES:        return "rifles";
     case SKILL_BOWS:          return "bows";
 
+    case SKILL_COOKING:       return "cooking";
     case SKILL_MECHANICS:     return "mechanics";
     case SKILL_ELECTRONICS:   return "electronics";
     case SKILL_CONSTRUCTION:  return "construction";
@@ -145,11 +146,50 @@ std::string skill_type_name(Skill_type type)
     case SKILL_SPEECH:        return "speech";
     case SKILL_BARTER:        return "barter";
 
-    case SKILL_COOKING:       return "cooking";
     case SKILL_FIRST_AID:     return "first_aid";
     case SKILL_BOTANY:        return "botany";
     case SKILL_SURVIVAL:      return "survival";
     case SKILL_DRIVING:       return "driving";
+
+    case SKILL_MAX:           return "ERROR - SKILL_MAX";
+    default:                  return "ERROR - Unnamed skill";
+  }
+  return "ERROR - Escaped skill_type_name() switch!";
+}
+
+std::string skill_type_user_name(Skill_type type)
+{
+  switch (type) {
+    case SKILL_NULL:          return "NULL";
+
+    case SKILL_MELEE:         return "Melee";
+    case SKILL_UNARMED:       return "Unarmed Combat";
+    case SKILL_BASH:          return "Bashing Weapons";
+    case SKILL_CUT:           return "Cutting Weapons";
+    case SKILL_PIERCE:        return "Piercing Weapons";
+
+    case SKILL_DODGE:         return "Dodge";
+    case SKILL_THROWING:      return "Throwing";
+
+    case SKILL_LAUNCHERS:     return "Launchers";
+    case SKILL_HANDGUNS:      return "Handguns";
+    case SKILL_SHOTGUNS:      return "Shotguns";
+    case SKILL_SMGS:          return "SMGs";
+    case SKILL_RIFLES:        return "Rifles";
+    case SKILL_BOWS:          return "Bows";
+
+    case SKILL_COOKING:       return "Cooking";
+    case SKILL_MECHANICS:     return "Mechanics";
+    case SKILL_ELECTRONICS:   return "Electronics";
+    case SKILL_CONSTRUCTION:  return "Construction";
+
+    case SKILL_SPEECH:        return "Speech";
+    case SKILL_BARTER:        return "Barter";
+
+    case SKILL_FIRST_AID:     return "First Aid";
+    case SKILL_BOTANY:        return "Botany";
+    case SKILL_SURVIVAL:      return "Survival";
+    case SKILL_DRIVING:       return "Driving";
 
     case SKILL_MAX:           return "ERROR - SKILL_MAX";
     default:                  return "ERROR - Unnamed skill";
@@ -178,6 +218,7 @@ bool is_skill_mental(Skill_type type)
     case SKILL_RIFLES:        return false;
     case SKILL_BOWS:          return false;
 
+    case SKILL_COOKING:       return true;
     case SKILL_MECHANICS:     return true;
     case SKILL_ELECTRONICS:   return true;
     case SKILL_CONSTRUCTION:  return true;
@@ -186,7 +227,6 @@ bool is_skill_mental(Skill_type type)
     case SKILL_SPEECH:        return false;
     case SKILL_BARTER:        return false;
 
-    case SKILL_COOKING:       return true;
     case SKILL_FIRST_AID:     return true;
     case SKILL_BOTANY:        return true;
     case SKILL_SURVIVAL:      return true;

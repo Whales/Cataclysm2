@@ -43,7 +43,10 @@ enum Skill_type
 };
 
 Skill_type lookup_skill_type(std::string name);
+// The internal data name, used in data files
 std::string skill_type_name(Skill_type type);
+// The name as we display it to the user
+std::string skill_type_user_name(Skill_type type);
 bool is_skill_mental(Skill_type type);
 
 struct Skill_set
