@@ -2,9 +2,10 @@
 #include "window.h"
 #include "cuss.h"
 #include "files.h"
+#include "stringfunc.h"
 #include <sstream>
 
-void help_screen(std::string file, int line)
+void help_screen(std::string file, std::string term)
 {
 // This is a list of text files bound to different number input.
 // They'll be looked for in DATA_DIR/help/
@@ -34,8 +35,20 @@ void help_screen(std::string file, int line)
       i_help.set_data("text_help",
                       "Help file '" + filename + "' doesn't exist.");
     } else {
+
       i_help.set_data("text_help", slurp_file(filename));
-      i_help.set_data("text_help", line);  // Scroll to specified line
+      if (!term.empty()) {
+        term = no_caps(term);
+        std::vector<std::string> str_list = i_help.get_str_list("text_help");
+        int line = -1;
+        for (int i = 0; line == -1 && i < str_list.size(); i++) {
+          std::string clipped = trim( no_caps( remove_color_tags(str_list[i])));
+          if (clipped.find(term) == 0) {
+            line = i;
+          }
+        }
+        i_help.set_data("text_help", line);
+      }
     }
   }
 
@@ -78,16 +91,6 @@ void help_screen(std::string file, int line)
 
 void help_skill_desc(Skill_type skill)
 {
-  std::string filename = DATA_DIR + "/help/skills.txt";
-  if (!file_exists(filename)) {
-    debugmsg("File '%s' does not exist!", filename.c_str());
-    return;
-  }
-  std::string sk_name = skill_type_name(skill);
-  int line_num = find_line_starting_with(filename, sk_name);
-  if (line_num == -1) {
-    debugmsg("No help on '%s' in '%s'!", sk_name.c_str(), filename.c_str());
-    return;
-  }
-  help_screen(filename, line_num);
+  std::string sk_name = skill_type_user_name(skill);
+  help_screen("skills.txt", sk_name);
 }
