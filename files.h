@@ -19,6 +19,8 @@ std::vector<std::string> files_in(std::string dir, std::string suffix = "");
 std::vector<std::string> directories_in(std::string dir);
 
 std::string slurp_file(const std::string &filename);
+int find_line_starting_with(const std::string &filename, std::string term,
+                            bool match_case = false);
 
 void chomp(std::istream &data);
 

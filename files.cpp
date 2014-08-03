@@ -1,4 +1,5 @@
 #include "files.h"
+#include "stringfunc.h" // for no_upper() etc
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
@@ -157,6 +158,41 @@ std::string slurp_file(const std::string &filename)
               (std::istreambuf_iterator<char>()    ) );
 
   return ret;
+}
+
+int find_line_starting_with(const std::string &filename, std::string term,
+                            bool match_case)
+{
+  if (!match_case) {
+    term = no_caps(term);
+  }
+// Should we also trim term?  I say, no.  The user can trim it themselves, and
+// we might WANT to search for whitespace.
+
+  std::ifstream fin;
+  fin.open(filename.c_str());
+  if (!fin.is_open()) {
+    return -1;
+  }
+
+  int line_number = 1;
+  std::string line;
+
+  while (std::getline(fin, line)) {
+    if (fin.bad()) {
+      return -1;
+    } else if (fin.eof()) {
+      return -1;
+    }
+    if (!match_case) {
+      line = no_caps(line);
+    }
+    if (line.find(term) == 0) {
+      return line_number;
+    }
+    line_number++;
+  }
+  return -1;
 }
 
 void chomp(std::istream &data)
