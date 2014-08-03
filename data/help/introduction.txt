@@ -1,4 +1,4 @@
-Welcome to <c=ltgreen>Cataclysm 2<c=/>!  Cataclysm 2 is an open-world, post-apocalyptic roguelike survival game.
+Welcome to <c=green>Cataclysm 2<c=/>!  Cataclysm 2 is an open-world, post-apocalyptic roguelike survival game.
 
 Cataclysm 2 has a lot in common with "traditional" roguelikes - death is permanent, so once you die, there's no coming back.  The game is turn-based, and there's no time limit, so spend as much time as you need looking through your inventory.  It's also grid-based, and moving diagonally takes as long as moving laterally.
 

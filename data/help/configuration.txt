@@ -42,38 +42,38 @@ For help, you can join <c=red>#cataclysm2<c=/> on <c=red>irc.freenode.net<c=/>
 
 The data files are:
 
-<c=brown>biomes.dat:<c=/>
-Contains definitions for <c=ltgreen>biomes<c=/>; different areas of the world map which define what terrain to place and what monsters live there.
+<c=ltcyan>biomes.dat:<c=/>
+Contains definitions for <c=ltred>biomes<c=/>; different areas of the world map which define what terrain to place and what monsters live there.
 
-<c=brown>fields.dat<c=/>
-Contains definitions for <c=ltgreen>fields<c=/>, which are active effects on the map, such as fire, smoke, acid, etc.
+<c=ltcyan>fields.dat<c=/>
+Contains definitions for <c=ltred>fields<c=/>, which are active effects on the map, such as fire, smoke, acid, etc.
 
-<c=brown>furniture.dat<c=/>
-Contains definitions for <c=ltgreen>furniture<c=/>, items which sit on top of map terrain.  Furniture cannot be picked up, but it can be moved around.
+<c=ltcyan>furniture.dat<c=/>
+Contains definitions for <c=ltred>furniture<c=/>, items which sit on top of map terrain.  Furniture cannot be picked up, but it can be moved around.
 
-<c=brown>item_groups.dat<c=/>
+<c=ltcyan>item_groups.dat<c=/>
 Contains lists of items.  These lists can be referenced in map layouts or monster equipment lists.
 
-<c=brown>items.dat<c=/>
-Defines all the <c=ltgreen>items<c=/> in the game.
+<c=ltcyan>items.dat<c=/>
+Defines all the <c=ltred>items<c=/> in the game.
 
-<c=brown>monster_genera.dat<c=/>
-Defines <c=ltgreen>monster genera<c=/> (that's the plural of genus).  A genus is a "family" of monsters which may share common traits or properties.
+<c=ltcyan>monster_genera.dat<c=/>
+Defines <c=ltred>monster genera<c=/> (that's the plural of genus).  A genus is a "family" of monsters which may share common traits or properties.
 
-<c=brown>monsters.dat<c=/>
-Contains definitions for <c=ltgreen>monsters<c=/>.
+<c=ltcyan>monsters.dat<c=/>
+Contains definitions for <c=ltred>monsters<c=/>.
 
-<c=brown>motd.txt<c=/>
+<c=ltcyan>motd.txt<c=/>
 Contains the "message of the day," a text message displayed on the opening screen of the game.
 
-<c=brown>professions.dat<c=/>
-Lists the various <c=ltgreen>professions<c=/> available for selection during character creation, along with the skills and items each possesses.
+<c=ltcyan>professions.dat<c=/>
+Lists the various <c=ltred>professions<c=/> available for selection during character creation, along with the skills and items each possesses.
 
-<c=brown>terrain.dat<c=/>
-Contains definitions for the <c=ltgreen>terrain<c=/> in the game.  Used during map generation and when writing a map layout.
+<c=ltcyan>terrain.dat<c=/>
+Contains definitions for the <c=ltred>terrain<c=/> in the game.  Used during map generation and when writing a map layout.
 
-<c=brown>world_terrain.dat<c=/>
-Contains definitions for the <c=ltgreen>world terrain<c=/> in the game.  Referenced in biomes.dat.  World terrain is a large-scale terrain, displayed on the world map.  Each world terrain has at least one map layout associated with it.
+<c=ltcyan>world_terrain.dat<c=/>
+Contains definitions for the <c=ltred>world terrain<c=/> in the game.  Referenced in biomes.dat.  World terrain is a large-scale terrain, displayed on the world map.  Each world terrain has at least one map layout associated with it.
 
 
 <c=ltblue>Map Layouts<c=/>
