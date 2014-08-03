@@ -459,8 +459,10 @@ bool Player::create_new_character()
   int max_sk = 1 + stats.intelligence / 5;
   for (int i = 0; i < SKILL_MAX; i++) {
     Skill_type sk = Skill_type(i);
+// If we start with some skill from our profession, increase the max by that
+    int cap = max_sk + skills.get_level(sk);
     if (is_skill_mental(sk)) {
-      skills.set_max_level(sk, max_sk);
+      skills.set_max_level(sk, cap);
     }
   }
 
