@@ -1,5 +1,7 @@
 #include <fstream>
 #include <sstream>
+#include <unistd.h>
+#include <iostream> // For displaying messages to the terminal
 #include "cuss.h"
 #include "files.h"
 #include "stringfunc.h"
@@ -27,6 +29,8 @@ void set_pen_fg();
 void set_pen_bg();
 nc_color pick_color();
 
+bool parse_options(int argc, char* argv[]);
+
 enum draw_mode {
 DM_NULL = 0,
 DM_DRAW,
@@ -43,8 +47,9 @@ DM_MAX
 
 glyph pen;
 
-int main()
+int main(int argc, char* argv[])
 { 
+
  init_display();
 
  int sizex = 80, sizey = 24;
@@ -59,408 +64,421 @@ int main()
  pen = glyph('x', c_white, c_black);
 
  bool really_done = false;
-while (!really_done) {
- cuss::interface edited;
- really_done = starting_window(edited);
- bool done = really_done;
- while (!done) {
-  if (dm == DM_DRAW)
-   paint(edited, posx, posy);
-
-  edited.draw_prototype(&w);
-  glyph gl_orig = w.glyphat(posx, posy);
-  element* sel = edited.selected();
-
-  if (blink) {
-   if (dm == DM_MOVE_ELE)
-     w.putglyph(sel->posx, sel->posy, glyph(LINE_OXXO, c_pink, c_black));
-   else if (dm == DM_RESIZE_ELE)
-     w.putglyph(sel->posx + sel->sizex - 1, sel->posy + sel->sizey - 1,
-                glyph(LINE_XOOX, c_pink, c_black));
-   else {
-     if (gl_orig == pen) {
-       glyph tmp(pen.symbol, pen.fg, hilight(pen.bg));
-       w.putglyph(posx, posy, tmp);
-     } else
-       w.putglyph(posx, posy, pen);
-   }
-  }
-
-  if (dm == DM_LINE)
-   temp_line(w, bufx, bufy, posx, posy);
-  if (dm == DM_BOX || dm == DM_ELEMENT || dm == DM_DELETE || dm == DM_FIXLINES)
-   temp_box(w, bufx, bufy, posx, posy);
-
-
-  if (show_coord) {
-    std::stringstream coord_ss;
-    coord_ss << posx << "," << posy;
-    w.putstr(74, 23, c_magenta, c_black, coord_ss.str());
-  }
-  w.refresh();
-  timeout((blink ? 300 : 150));
-  long ch = getch();
-  timeout(-1);
-
-  if (ch == ERR)
-   blink = !blink;
-  else {
-   blink = true;
-   if (dm == DM_TYPE) {
-    if (ch == '\n') {
-     if (bufx != -1 && bufy != -1 && posy < sizey - 1) {
-      posx = bufx;
-      posy++;
-     }
-    } else if (ch == KEY_ESC)
-     dm = DM_NULL;
-    else if (ch == KEY_LEFT) {
-     if (posx > 0) posx--;
-    } else if (ch == KEY_RIGHT) {
-     if (posx < sizex - 1) posx++;
-    } else if (ch == KEY_UP) {
-     if (posy > 0) posy--;
-    } else if (ch == KEY_DOWN) {
-     if (posy < sizey - 1) posy++;
-    } else if (ch == KEY_BACKSPACE || ch == 127 || ch == 8) {
-     edited.set_data("BG", glyph(-1, c_black, c_black), posx, posy);
-     if (posx > 0) posx--;
-    } else {
-     pen.symbol = ch;
-     edited.set_data("BG", pen, posx, posy);
-     pen.symbol = '_';
-     if (posx < sizex - 1) posx++;
+ while (!really_done) {
+  cuss::interface edited;
+  if (argc >= 2) {
+   std::string filename = argv[1];
+   if (!file_exists(filename)) {
+     std::cout << "File '" << filename << "' does not exist.";
+     return 1;
+   } else {
+    if (!edited.load_from_file(filename)) {
+     std::cout << "File '" << filename << "' exists, but could not be loaded.";
+     return 1;
     }
-   } else { // Not typing.
+   }
+  } else {
+   really_done = starting_window(edited);
+  }
+  bool done = really_done;
+  while (!done) {
+   if (dm == DM_DRAW)
+    paint(edited, posx, posy);
  
-    int movex = 0, movey = 0;
-    if (ch == 'y' || ch == 'h' || ch == 'b' || ch == '7' || ch == '4' ||
-        ch == '1' || ch == KEY_LEFT)
-     movex = -1;
-    if (ch == 'u' || ch == 'l' || ch == 'n' || ch == '9' || ch == '6' ||
-        ch == '3' || ch == KEY_RIGHT)
-     movex = 1;
-    if (ch == 'y' || ch == 'k' || ch == 'u' || ch == '7' || ch == '8' ||
-        ch == '9' || ch == KEY_UP)
-     movey = -1;
-    if (ch == 'b' || ch == 'j' || ch == 'n' || ch == '1' || ch == '2' ||
-        ch == '3' || ch == KEY_DOWN)
-     movey = 1;
-
-    if (movex != 0 || movey != 0) {
-
-     if (dm == DM_MOVE_ELE && sel) {
-      sel->posx += movex;
-      if (sel->posx < 0)
-       sel->posx = 0;
-      if (sel->posx + sel->sizex - 1 >= sizex)
-       sel->posx = sizex - sel->sizex;
-      if (sel->posx + sel->sizex - 1 >= edited.sizex)
-       sel->posx = edited.sizex - sel->sizex;
-
-      sel->posy += movey;
-      if (sel->posy < 0)
-       sel->posy = 0;
-      if (sel->posy + sel->sizey - 1 >= sizey)
-       sel->posy = sizey - sel->sizey;
-      if (sel->posy + sel->sizey - 1 >= edited.sizey)
-       sel->posy = edited.sizey - sel->sizey;
-
-     } else if (dm == DM_RESIZE_ELE && sel) {
-      sel->sizex += movex;
-      if (sel->sizex < 1)
-       sel->sizex = 1;
-      if (sel->posx + sel->sizex - 1 >= sizex)
-       sel->sizex = sizex - sel->posx;
-      if (sel->posx + sel->sizex - 1 >= edited.sizex)
-       sel->sizex = edited.sizex - sel->posx;
-
-      sel->sizey += movey;
-      if (sel->sizey < 1)
-       sel->sizey = 1;
-      if (sel->posy + sel->sizey - 1 >= sizey)
-       sel->sizey = sizey - sel->posy;
-      if (sel->posy + sel->sizey - 1 >= edited.sizey)
-       sel->sizey = edited.sizey - sel->posy;
-
-     } else { // Normal cursor movement
-      posx += movex;
-      if (posx < 0) posx = 0;
-      if (posx >= sizex) posx = sizex - 1;
-      if (posx >= edited.sizex) posx = edited.sizex - 1;
-      posy += movey;
-      if (posy < 0) posy = 0;
-      if (posy >= sizey) posy = sizey - 1;
-      if (posy >= edited.sizey) posy = edited.sizey - 1;
-     }
-
-    } else if (ch == 'g') {
-     posy = 0;
-
-    } else if (ch == 'G') {
-     posy = sizey - 1;
-
-    } else if (ch == '^' || ch == '0') {
-     posx = 0;
-
-    } else if (ch == '$') {
-     posx = sizex - 1;
-
-    } else if (ch == '?') {
-     help();
-
-    } else if (ch == '!') {
-     show_coord = !show_coord;
-
-    } else if (ch == '-') {
-     elements_window(edited);
-
-    } else if (ch == '_') {
-     bindings_window(edited);
-
-    } else if (ch == '<') {
-     sel = edited.select_last(true);
-
-    } else if (ch == '>') {
-     sel = edited.select_next(true);
-
-    } else if (ch == '{' && sel) {
-     sel->align = ALIGN_LEFT;
-
-    } else if (ch == '}' && sel) {
-     sel->align = ALIGN_RIGHT;
-
-    } else if (ch == '(' && sel) {
-     sel->v_align = ALIGN_TOP;
-
-    } else if (ch == ')' && sel) {
-     sel->v_align = ALIGN_BOTTOM;
-
-    } else if (ch == '|' && sel) {
-     sel->align = ALIGN_CENTER;
-
-    } else if (ch == 'm' && sel) {
-     dm = DM_MOVE_ELE;
-     bufx = sel->posx; bufy = sel->posy;
-
-    } else if (ch == 'r' && sel) {
-     dm = DM_RESIZE_ELE;
-     bufx = sel->sizex; bufy = sel->sizey;
-
-    } else if (ch == 'c' || ch == 'C') {
-     pen = gl_orig;
-
-    } else if (ch == '\'') {
-     set_pen_symbol();
-
-    } else if (ch == '"') {
-     switch (pen.symbol) {
-      case LINE_XXXX: pen.symbol = LINE_XOXO; break;
-      case LINE_XOXO: pen.symbol = LINE_OXOX; break;
-      case LINE_OXOX: pen.symbol = LINE_XXOO; break;
-      case LINE_XXOO: pen.symbol = LINE_OXXO; break;
-      case LINE_OXXO: pen.symbol = LINE_OOXX; break;
-      case LINE_OOXX: pen.symbol = LINE_XOOX; break;
-      case LINE_XOOX: pen.symbol = LINE_XXOX; break;
-      case LINE_XXOX: pen.symbol = LINE_XXXO; break;
-      case LINE_XXXO: pen.symbol = LINE_OXXX; break;
-      case LINE_OXXX: pen.symbol = LINE_XOXX; break;
-      case LINE_XOXX: pen.symbol = LINE_XXXX; break;
-      default:        pen.symbol = LINE_XXXX; break;
-     }
-      
-    } else if (ch == '[') {
-     set_pen_fg();
-
-    } else if (ch == ']') {
-     set_pen_bg();
-
-    } else if (ch == 'i' || ch == 'I') {
-     dm = DM_TYPE;
-     pen.symbol = '_';
-     bufx = posx; bufy = posy;
-
-    } else if (ch == ';') {
-     bufx = posx; bufy = posy;
-     dm = DM_LINE;
-
-    } else if (ch == ':') {
-     bufx = posx; bufy = posy;
-     dm = DM_BOX;
-
-    } else if (ch == 'd' || ch == 'D') {
-     bufx = posx; bufy = posy;
-     dm = DM_DELETE;
-
-    } else if (ch == 'p' || ch == 'P') {
-     if (!clipboard.drawing.empty()) {
-      for (std::map<Point, glyph>::iterator it = clipboard.drawing.begin();
-           it != clipboard.drawing.end(); it++) {
-       edited.set_data("BG", it->second, it->first.x + posx, it->first.y+posy);
+   edited.draw_prototype(&w);
+   glyph gl_orig = w.glyphat(posx, posy);
+   element* sel = edited.selected();
+ 
+   if (blink) {
+    if (dm == DM_MOVE_ELE)
+      w.putglyph(sel->posx, sel->posy, glyph(LINE_OXXO, c_pink, c_black));
+    else if (dm == DM_RESIZE_ELE)
+      w.putglyph(sel->posx + sel->sizex - 1, sel->posy + sel->sizey - 1,
+                 glyph(LINE_XOOX, c_pink, c_black));
+    else {
+      if (gl_orig == pen) {
+        glyph tmp(pen.symbol, pen.fg, hilight(pen.bg));
+        w.putglyph(posx, posy, tmp);
+      } else
+        w.putglyph(posx, posy, pen);
+    }
+   }
+ 
+   if (dm == DM_LINE)
+    temp_line(w, bufx, bufy, posx, posy);
+   if (dm == DM_BOX || dm == DM_ELEMENT || dm == DM_DELETE || dm == DM_FIXLINES)
+    temp_box(w, bufx, bufy, posx, posy);
+ 
+ 
+   if (show_coord) {
+     std::stringstream coord_ss;
+     coord_ss << posx << "," << posy;
+     w.putstr(74, 23, c_magenta, c_black, coord_ss.str());
+   }
+   w.refresh();
+   timeout((blink ? 300 : 150));
+   long ch = getch();
+   timeout(-1);
+ 
+   if (ch == ERR)
+    blink = !blink;
+   else {
+    blink = true;
+    if (dm == DM_TYPE) {
+     if (ch == '\n') {
+      if (bufx != -1 && bufy != -1 && posy < sizey - 1) {
+       posx = bufx;
+       posy++;
       }
-     } else {
-      debugmsg("paste was empty");
-     }
-
-    } else if (ch == ',') {
-     dm = DM_DRAW;
-
-    } else if (ch == '.') {
-     paint(edited, posx, posy);
-
-    } else if (ch == 'x') {
-     if (sel && (popup_getkey("Really delete %s?", sel->name.c_str()) == 'Y')) {
-      edited.erase_element(sel->name);
-      sel = NULL;
-     } else
+     } else if (ch == KEY_ESC)
+      dm = DM_NULL;
+     else if (ch == KEY_LEFT) {
+      if (posx > 0) posx--;
+     } else if (ch == KEY_RIGHT) {
+      if (posx < sizex - 1) posx++;
+     } else if (ch == KEY_UP) {
+      if (posy > 0) posy--;
+     } else if (ch == KEY_DOWN) {
+      if (posy < sizey - 1) posy++;
+     } else if (ch == KEY_BACKSPACE || ch == 127 || ch == 8) {
       edited.set_data("BG", glyph(-1, c_black, c_black), posx, posy);
-
-    } else if (ch == '/') {
-     bufx = posx; bufy = posy;
-     dm = DM_FIXLINES;
-
-    } else if (ch == 'S' || ch == 's') {
-     char quitconf = popup_getkey("Quit & Save?");
-     if (quitconf == 'y' || quitconf == 'Y' || quitconf == 's' ||
-         quitconf == 'S')
-      done = true;
-     if (ch == 'S')
-      really_done = true;
-
-    } else if (ch == '\n') {
-     switch (dm) {
-      case DM_NULL:
-       dm = DM_ELEMENT;
-       bufx = posx;
-       bufy = posy;
-       break;
+      if (posx > 0) posx--;
+     } else {
+      pen.symbol = ch;
+      edited.set_data("BG", pen, posx, posy);
+      pen.symbol = '_';
+      if (posx < sizex - 1) posx++;
+     }
+    } else { // Not typing.
+  
+     int movex = 0, movey = 0;
+     if (ch == 'y' || ch == 'h' || ch == 'b' || ch == '7' || ch == '4' ||
+         ch == '1' || ch == KEY_LEFT)
+      movex = -1;
+     if (ch == 'u' || ch == 'l' || ch == 'n' || ch == '9' || ch == '6' ||
+         ch == '3' || ch == KEY_RIGHT)
+      movex = 1;
+     if (ch == 'y' || ch == 'k' || ch == 'u' || ch == '7' || ch == '8' ||
+         ch == '9' || ch == KEY_UP)
+      movey = -1;
+     if (ch == 'b' || ch == 'j' || ch == 'n' || ch == '1' || ch == '2' ||
+         ch == '3' || ch == KEY_DOWN)
+      movey = 1;
  
-      case DM_DRAW:
-       if (bufx != -1 && bufy != -1 && posy < sizey - 1) {
-        posx = bufx;
-        posy++;
+     if (movex != 0 || movey != 0) {
+ 
+      if (dm == DM_MOVE_ELE && sel) {
+       sel->posx += movex;
+       if (sel->posx < 0)
+        sel->posx = 0;
+       if (sel->posx + sel->sizex - 1 >= sizex)
+        sel->posx = sizex - sel->sizex;
+       if (sel->posx + sel->sizex - 1 >= edited.sizex)
+        sel->posx = edited.sizex - sel->sizex;
+ 
+       sel->posy += movey;
+       if (sel->posy < 0)
+        sel->posy = 0;
+       if (sel->posy + sel->sizey - 1 >= sizey)
+        sel->posy = sizey - sel->sizey;
+       if (sel->posy + sel->sizey - 1 >= edited.sizey)
+        sel->posy = edited.sizey - sel->sizey;
+ 
+      } else if (dm == DM_RESIZE_ELE && sel) {
+       sel->sizex += movex;
+       if (sel->sizex < 1)
+        sel->sizex = 1;
+       if (sel->posx + sel->sizex - 1 >= sizex)
+        sel->sizex = sizex - sel->posx;
+       if (sel->posx + sel->sizex - 1 >= edited.sizex)
+        sel->sizex = edited.sizex - sel->posx;
+ 
+       sel->sizey += movey;
+       if (sel->sizey < 1)
+        sel->sizey = 1;
+       if (sel->posy + sel->sizey - 1 >= sizey)
+        sel->sizey = sizey - sel->posy;
+       if (sel->posy + sel->sizey - 1 >= edited.sizey)
+        sel->sizey = edited.sizey - sel->posy;
+ 
+      } else { // Normal cursor movement
+       posx += movex;
+       if (posx < 0) posx = 0;
+       if (posx >= sizex) posx = sizex - 1;
+       if (posx >= edited.sizex) posx = edited.sizex - 1;
+       posy += movey;
+       if (posy < 0) posy = 0;
+       if (posy >= sizey) posy = sizey - 1;
+       if (posy >= edited.sizey) posy = edited.sizey - 1;
+      }
+ 
+     } else if (ch == 'g') {
+      posy = 0;
+ 
+     } else if (ch == 'G') {
+      posy = sizey - 1;
+ 
+     } else if (ch == '^' || ch == '0') {
+      posx = 0;
+ 
+     } else if (ch == '$') {
+      posx = sizex - 1;
+ 
+     } else if (ch == '?') {
+      help();
+ 
+     } else if (ch == '!') {
+      show_coord = !show_coord;
+ 
+     } else if (ch == '-') {
+      elements_window(edited);
+ 
+     } else if (ch == '_') {
+      bindings_window(edited);
+ 
+     } else if (ch == '<') {
+      sel = edited.select_last(true);
+ 
+     } else if (ch == '>') {
+      sel = edited.select_next(true);
+ 
+     } else if (ch == '{' && sel) {
+      sel->align = ALIGN_LEFT;
+ 
+     } else if (ch == '}' && sel) {
+      sel->align = ALIGN_RIGHT;
+ 
+     } else if (ch == '(' && sel) {
+      sel->v_align = ALIGN_TOP;
+ 
+     } else if (ch == ')' && sel) {
+      sel->v_align = ALIGN_BOTTOM;
+ 
+     } else if (ch == '|' && sel) {
+      sel->align = ALIGN_CENTER;
+ 
+     } else if (ch == 'm' && sel) {
+      dm = DM_MOVE_ELE;
+      bufx = sel->posx; bufy = sel->posy;
+ 
+     } else if (ch == 'r' && sel) {
+      dm = DM_RESIZE_ELE;
+      bufx = sel->sizex; bufy = sel->sizey;
+ 
+     } else if (ch == 'c' || ch == 'C') {
+      pen = gl_orig;
+ 
+     } else if (ch == '\'') {
+      set_pen_symbol();
+ 
+     } else if (ch == '"') {
+      switch (pen.symbol) {
+       case LINE_XXXX: pen.symbol = LINE_XOXO; break;
+       case LINE_XOXO: pen.symbol = LINE_OXOX; break;
+       case LINE_OXOX: pen.symbol = LINE_XXOO; break;
+       case LINE_XXOO: pen.symbol = LINE_OXXO; break;
+       case LINE_OXXO: pen.symbol = LINE_OOXX; break;
+       case LINE_OOXX: pen.symbol = LINE_XOOX; break;
+       case LINE_XOOX: pen.symbol = LINE_XXOX; break;
+       case LINE_XXOX: pen.symbol = LINE_XXXO; break;
+       case LINE_XXXO: pen.symbol = LINE_OXXX; break;
+       case LINE_OXXX: pen.symbol = LINE_XOXX; break;
+       case LINE_XOXX: pen.symbol = LINE_XXXX; break;
+       default:        pen.symbol = LINE_XXXX; break;
+      }
+       
+     } else if (ch == '[') {
+      set_pen_fg();
+ 
+     } else if (ch == ']') {
+      set_pen_bg();
+ 
+     } else if (ch == 'i' || ch == 'I') {
+      dm = DM_TYPE;
+      pen.symbol = '_';
+      bufx = posx; bufy = posy;
+ 
+     } else if (ch == ';') {
+      bufx = posx; bufy = posy;
+      dm = DM_LINE;
+ 
+     } else if (ch == ':') {
+      bufx = posx; bufy = posy;
+      dm = DM_BOX;
+ 
+     } else if (ch == 'd' || ch == 'D') {
+      bufx = posx; bufy = posy;
+      dm = DM_DELETE;
+ 
+     } else if (ch == 'p' || ch == 'P') {
+      if (!clipboard.drawing.empty()) {
+       for (std::map<Point, glyph>::iterator it = clipboard.drawing.begin();
+            it != clipboard.drawing.end(); it++) {
+        edited.set_data("BG", it->second, it->first.x + posx, it->first.y+posy);
        }
-       break;
+      } else {
+       debugmsg("paste was empty");
+      }
  
-      case DM_LINE:
-       draw_line(edited, bufx, bufy, posx, posy);
-       dm = DM_NULL;
-       bufx = -1;
-       bufy = -1;
-       break;
+     } else if (ch == ',') {
+      dm = DM_DRAW;
  
-      case DM_BOX:
-       draw_box(edited, bufx, bufy, posx, posy);
-       dm = DM_NULL;
-       bufx = -1;
-       bufy = -1;
-       break;
-
-      case DM_FIXLINES:
-       fix_lines(edited, "BG", bufx, bufy, posx, posy);
-       dm = DM_NULL;
-       bufx = -1;
-       bufy = -1;
-       break;
-
-      case DM_DELETE:
-       clipboard.clear_data();
-       clipboard.sizex = posx - bufx + 1;
-       clipboard.sizey = posy - bufy + 1;
-       for (int x = bufx; x <= posx; x++) {
-        for (int y = bufy; y <= posy; y++) {
-         Point p(x, y);
-         element* tmp = edited.find_by_name("BG");
-         if (!tmp) {
-          debugmsg("Couldn't find BG for cutting");
-         }
-         ele_drawing* bg = static_cast<ele_drawing*>(tmp);
-         if (bg->drawing.count(p)) {
-          //debugmsg("added %d %d", p.x, p.y);
-          clipboard.set_data( bg->drawing[p], x - bufx, y - bufy );
-          //debugmsg("%d", clipboard.drawing.size());
-         }
-         edited.set_data("BG", glyph(-1, c_black, c_black), x, y);
+     } else if (ch == '.') {
+      paint(edited, posx, posy);
+ 
+     } else if (ch == 'x') {
+      if (sel && (popup_getkey("Really delete %s?", sel->name.c_str()) == 'Y')) {
+       edited.erase_element(sel->name);
+       sel = NULL;
+      } else
+       edited.set_data("BG", glyph(-1, c_black, c_black), posx, posy);
+ 
+     } else if (ch == '/') {
+      bufx = posx; bufy = posy;
+      dm = DM_FIXLINES;
+ 
+     } else if (ch == 'S' || ch == 's') {
+      char quitconf = popup_getkey("Quit & Save?");
+      if (quitconf == 'y' || quitconf == 'Y' || quitconf == 's' ||
+          quitconf == 'S')
+       done = true;
+      if (ch == 'S')
+       really_done = true;
+ 
+     } else if (ch == '\n') {
+      switch (dm) {
+       case DM_NULL:
+        dm = DM_ELEMENT;
+        bufx = posx;
+        bufy = posy;
+        break;
+  
+       case DM_DRAW:
+        if (bufx != -1 && bufy != -1 && posy < sizey - 1) {
+         posx = bufx;
+         posy++;
         }
+        break;
+  
+       case DM_LINE:
+        draw_line(edited, bufx, bufy, posx, posy);
+        dm = DM_NULL;
+        bufx = -1;
+        bufy = -1;
+        break;
+  
+       case DM_BOX:
+        draw_box(edited, bufx, bufy, posx, posy);
+        dm = DM_NULL;
+        bufx = -1;
+        bufy = -1;
+        break;
+ 
+       case DM_FIXLINES:
+        fix_lines(edited, "BG", bufx, bufy, posx, posy);
+        dm = DM_NULL;
+        bufx = -1;
+        bufy = -1;
+        break;
+ 
+       case DM_DELETE:
+        clipboard.clear_data();
+        clipboard.sizex = posx - bufx + 1;
+        clipboard.sizey = posy - bufy + 1;
+        for (int x = bufx; x <= posx; x++) {
+         for (int y = bufy; y <= posy; y++) {
+          Point p(x, y);
+          element* tmp = edited.find_by_name("BG");
+          if (!tmp) {
+           debugmsg("Couldn't find BG for cutting");
+          }
+          ele_drawing* bg = static_cast<ele_drawing*>(tmp);
+          if (bg->drawing.count(p)) {
+           //debugmsg("added %d %d", p.x, p.y);
+           clipboard.set_data( bg->drawing[p], x - bufx, y - bufy );
+           //debugmsg("%d", clipboard.drawing.size());
+          }
+          edited.set_data("BG", glyph(-1, c_black, c_black), x, y);
+         }
+        }
+        dm = DM_NULL;
+        bufx = -1;
+        bufy = -1;
+        break;
+  
+       case DM_ELEMENT: {
+        element_type type = ELE_NULL;
+        dm = DM_NULL;
+        switch (menu("Element type:", "Drawing", "Text", "List", "Text Entry",
+                     "Number", "Drop-down Menu", "Cancel", NULL)) {
+         case 0: type = ELE_DRAWING;   break;
+         case 1: type = ELE_TEXTBOX;   break;
+         case 2: type = ELE_LIST;      break;
+         case 3: type = ELE_TEXTENTRY; break;
+         case 4: type = ELE_NUMBER;    break;
+         case 5: type = ELE_MENU;      break;
+         case 7: type = ELE_NULL;      break;
+        }
+        if (type != ELE_NULL) {
+         int sizex = posx - bufx + 1;
+         int sizey = posy - bufy + 1;
+         int x1, y1;
+         if (bufx < posx)
+          x1 = bufx;
+         else
+          x1 = posx;
+         if (bufy < posy)
+          y1 = bufy;
+         else
+          y1 = posy;
+         std::string name = string_input_popup("Name element:");
+         char selch = popup_getkey("Selectable?");
+         bool selectable = (selch == 'y' || selch == 'Y');
+         edited.add_element(type, name, x1, y1, sizex, sizey, selectable);
+         edited.draw(&w);
+         bufx = -1;
+         bufy = -1;
+        }
+       } break;
+ 
+       case DM_MOVE_ELE:
+       case DM_RESIZE_ELE:
+        dm = DM_NULL;
+        break;
+      } // switch (dm)
+     } else if (ch == KEY_ESC) {
+      if (sel) {
+       if (dm == DM_MOVE_ELE && bufx != -1 && bufy != -1) {
+        sel->posx = bufx;
+        sel->posy = bufy;
        }
-       dm = DM_NULL;
+       if (dm == DM_RESIZE_ELE && bufx != -1 && bufy != -1) {
+        sel->sizex = bufx;
+        sel->sizey = bufy;
+       }
        bufx = -1;
        bufy = -1;
-       break;
+       edited.select_none();
+       sel = edited.selected();
+      } else {
+       edited.select_none();
+       sel = edited.selected();
+      }
  
-      case DM_ELEMENT: {
-       element_type type = ELE_NULL;
+      if (dm != DM_NULL) {
        dm = DM_NULL;
-       switch (menu("Element type:", "Drawing", "Text", "List", "Text Entry",
-                    "Number", "Drop-down Menu", "Cancel", NULL)) {
-        case 0: type = ELE_DRAWING;   break;
-        case 1: type = ELE_TEXTBOX;   break;
-        case 2: type = ELE_LIST;      break;
-        case 3: type = ELE_TEXTENTRY; break;
-        case 4: type = ELE_NUMBER;    break;
-        case 5: type = ELE_MENU;      break;
-        case 7: type = ELE_NULL;      break;
-       }
-       if (type != ELE_NULL) {
-        int sizex = posx - bufx + 1;
-        int sizey = posy - bufy + 1;
-        int x1, y1;
-        if (bufx < posx)
-         x1 = bufx;
-        else
-         x1 = posx;
-        if (bufy < posy)
-         y1 = bufy;
-        else
-         y1 = posy;
-        std::string name = string_input_popup("Name element:");
-        char selch = popup_getkey("Selectable?");
-        bool selectable = (selch == 'y' || selch == 'Y');
-        edited.add_element(type, name, x1, y1, sizex, sizey, selectable);
-        edited.draw(&w);
+       if (bufx != -1 && bufy != -1) {
+        posx = bufx;
+        posy = bufy;
         bufx = -1;
         bufy = -1;
        }
-      } break;
-
-      case DM_MOVE_ELE:
-      case DM_RESIZE_ELE:
-       dm = DM_NULL;
-       break;
-     } // switch (dm)
-    } else if (ch == KEY_ESC) {
-     if (sel) {
-      if (dm == DM_MOVE_ELE && bufx != -1 && bufy != -1) {
-       sel->posx = bufx;
-       sel->posy = bufy;
-      }
-      if (dm == DM_RESIZE_ELE && bufx != -1 && bufy != -1) {
-       sel->sizex = bufx;
-       sel->sizey = bufy;
-      }
-      bufx = -1;
-      bufy = -1;
-      edited.select_none();
-      sel = edited.selected();
-     } else {
-      edited.select_none();
-      sel = edited.selected();
-     }
-
-     if (dm != DM_NULL) {
-      dm = DM_NULL;
-      if (bufx != -1 && bufy != -1) {
-       posx = bufx;
-       posy = bufy;
-       bufx = -1;
-       bufy = -1;
       }
      }
-    }
-   } // Not typing
-  } // ch != ERR
-
- } // while !done
+    } // Not typing
+   } // ch != ERR
+ 
+  } // while !done
   if (!edited.name.empty()) {
     std::ofstream fout;
     std::stringstream foutname;
@@ -473,8 +491,7 @@ while (!really_done) {
     } else
       popup("Couldn't open %s for saving", fname.c_str());
   }
-}
-
+ } // while (!really_done)
 
  endwin();
  return 0;
