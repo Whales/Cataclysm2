@@ -8,7 +8,7 @@ As you complete quests, you will gain <c=ltred>experience points<c=/> as a rewar
 
 However, mental skills have a <c=ltred>skill cap<c=/>.  This cap reflects the fact that these skills require some kind of special training or study.  The cap will start at some small value, partially dependent on your starting intelligence.  Once your skill level hits the cap, you can no longer improve that skill until you increase the cap.  You can increase the cap by reading <c=ltred>books<c=/> on your topic of training, or by receiving <c=ltred>training<c=/> from an <c=ltred>NPC<c=/>.
 
-You can view your current skill levels and caps by pressing <c=magenta>K<=c/>.  This screen is also where you spend experience to increase your skill levels.
+You can view your current skill levels and caps by pressing <c=magenta>K<c=/>.  This screen is also where you spend experience to increase your skill levels.
 
 
 <c=green>Skills List:<c=/>
@@ -34,3 +34,51 @@ Your ability to evade melee attacks.  Typically you only get to make one dodge a
 
 <c=ltgreen>Throwing<c=/>
 Your ability to throw items.  This improves the <c=ltred>range<c=/> and <c=ltred>accuracy<c=/> of projectiles.  Also, if you are throwing a damaging item like a <c=ltblue>rock<c=/> or <c=ltblue>throwing knife<c=/>, it increases the <c=ltred>damage<c=/>.  Items with a blade (like <c=ltblue>throwing knives<c=/>) have a better chance for the bladed side to strike your enemy with high throwing skill.
+
+<c=ltgreen>Launchers<c=/>
+Your skill with any kind of ranged weapon, including all firearms, crossbows, and more.  A high launchers skill improves your ability to target multiple enemies when using <c=ltred>burst fire<c=/>.  It also improves your accuracy, but only 1/3rd as much as the specific skill associated with your weapon.
+
+<c=ltgreen>Handguns<c=/>
+Your skill with small firearms.  Handguns skill improves your accuracy and reload time with these weapons.  They tend to have a low capacity and very poor accuracy, but they are light and small, and tend to reload and fire quickly.
+
+<c=ltgreen>Shotguns<c=/>
+Your skill with shotguns.  Shotguns skill improves your accuracy and reload time with these weapons.  Shotguns can fire <c=ltblue>slugs<c=/>, which are extremely damaging but inaccurate, or they can fire <c=ltblue>shot<c=/>.  Rather than firing a single projectile, shot fires 20 or more pellets.  The pellets spread a lot, have a very short range, and do little damage, but there are so many that a hit on one or more enemies is practically guaranteed.  Shotguns fire and reload quickly, but most reload a single round at a time, rather than filling to capacity in one action.
+
+<c=ltgreen>SMGs<c=/>
+Your skill with submachine guns, or SMGs.  SMGs skill improves your accuracy and reload time with these weapons.  SMGs is a broad category of weapons; some are glorified handguns, while others are practically an assault rifle.  They all fire quickly, and are capable of firing multiple rounds at once.
+
+<c=ltgreen>Rifles<c=/>
+Your skill with rifles.  Rifles skill improves your accuracy and reload time with these weapons.  There are five kinds of rifles; hunting rifles, sniper rifles, assault rifles, battle rifles, and machine guns.  Hunting rifles tend to be extremely accurate and fire a single round at a time.  Sniper rifles are even more accurate and damaging, but are slow to fire and reload.  Assault rifles are fairly accurate and may fire bursts.  Battle rifles are inaccurate, but fire large bursts and are very damaging.  Machine guns are highly inaccurate and very slow to reload, but have a huge capacity and can fire dozens of rounds at once.
+
+<c=ltgreen>Bows<c=/>
+Your skill with longbows and crossbows.  Bows skill improves your accuracy, reload time, and firing speed with these weapons.  Longbows are accurate, but not very damaging compared to firearms.  The accuracy, damage, and range of a longbow is greatly affected by your <c=ltred>strength<c=/>.  Crossbows are more accurate and damaging, but they take a long time to reload.  The reload speed of crossbows is reduced by high <c=ltred>strength<c=/>.  Both longbows and crossbows have the unique advantage of reusable ammo.  After shooting an arrow or bolt, you may be able to retrieve it and use it again.
+
+<c=ltgreen>Cooking<c=/>
+At low levels, cooking skill is used to prepare food, making it more nutrious and tastier.  At higher levels, your cooking skill can be applied towards making deadlier concoctions, like tear gas or poisons.
+
+<c=ltgreen>Mechanics<c=/>
+Mechanics is your skill with any kind of mechanical system.  It can be used to repair cars and other machinery, or to craft a huge variety of items, including primitive firearms, bombs, and various tools.
+
+<c=ltgreen>Electronics<c=/>
+Your skill at using, repairing, and creating electronic tools.  It can be applied towards fixing broken control panels, augmenting energy weapons, and crafting a variety of advanced items.  Some items require a degree of electronics skill to unlock their full potential.
+
+<c=ltgreen>Construction<c=/>
+Your ability to create structures.  Construction skill is required in order to build or repair a shelter.  It also helps you modify existing structures, like removing windows or doors.  Some actions, like digging a pit, do not require construction skill, but you can perform them faster with some knowledge about structures.
+
+<c=ltgreen>Speech<c=/>
+Your skill at talking to people.  Speech skill improves your ability to persuade and lie to others.  If you want to recruit NPCs to help you, or work your way into a position of power in a faction, you'll need a strong speech skill.  This skill is augmented to a degree by your <c=ltred>intelligence<c=/> and <c=ltred>perception<c=/>.
+
+<c=ltgreen>Barter<c=/>
+The Barter skill decides what kind of deal you'll get when trading with others.  It also helps you negotiate a bigger reward for completing a job.  A low barter skill will see you frequently getting ripped off when trading; a high skill will let you get rare items for a pittance.
+
+<c=ltgreen>First Aid<c=/>
+The post-apocalyptic word is scattered with the remanants of a high-tech society.  <c=cyan>Bandages<c=/> and <c=cyan>first aid kits<c=/> are imbued with advanced nanotechnology, allowing them to heal wounds almost instantly.  While you can use these without any skill, a strong first aid skill will make them much more effective.
+
+<c=ltgreen>Botany<c=/>
+Botany covers your ability to identify a variety of wild plants, as well as your ability to grow plants.  With a high botany skill, you may find a wide variety of edible produce in the wild.  Also, anything you plant will grow faster and produce more to eat.
+
+<c=ltgreen>Survival<c=/>
+Survival skill is your ability to survive in the wilderness, and covers a wide variety of actions.  Building a fire, butchering animals, and making some traps are all dependent on survival skill.
+
+<c=ltgreen>Driving<c=/>
+Your ability to operate vehicles.  With a high driving skill, you'll be able to exert much finer control when driving a car or boat.  This includes turning more sharply and stopping faster.
