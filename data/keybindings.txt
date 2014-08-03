@@ -45,3 +45,4 @@ m         = spawn_monster
 p         = monster_path
 !         = memory_info
 b         = place_bonus
+x         = gain_xp

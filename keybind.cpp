@@ -216,6 +216,7 @@ std::string debug_action_name(Debug_action action)
     case DEBUG_ACTION_MONSTER_PATH:   return "monster_path";
     case DEBUG_ACTION_MEMORY_INFO:    return "memory_info";
     case DEBUG_ACTION_PLACE_BONUS:    return "place_bonus";
+    case DEBUG_ACTION_GAIN_XP:        return "gain_xp";
     case DEBUG_ACTION_MAX:            return "BUG - DEBUG_ACTION_MAX";
     default:                          return "BUG - Unnamed Debug_action";
   }
