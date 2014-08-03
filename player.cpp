@@ -747,7 +747,7 @@ void Player::skills_interface()
 
   bool help_mode = false;
 
-  do {
+  while (true) {
     long ch = input();
 
     if (ch == KEY_ESC) {
@@ -788,16 +788,19 @@ Press <c=pink>?<c=/> and then a skill letter to get information on the skill.");
       } else {
         sk_num = sk_num - 'Z' + 27;
       }
-      Skill_type sk = Skill_type(ch);
+      Skill_type sk = Skill_type(sk_num);
 
       if (help_mode) {
         help_mode = false;
         help_skill_desc(sk);
       } else {
         int cost = skills.improve_cost(sk);
-        if (experience >= cost &&
-            query_yn("Spend %d XP to increase %s to %d?", cost,
-                     skill_type_name(sk).c_str(), skills.get_level(sk) + 1)) {
+        if (skills.maxed_out(sk)) {
+          popup("That skill has hit its cap!");
+        } else if (experience >= cost &&
+                   query_yn("Spend %d XP to increase %s to %d?", cost,
+                            skill_type_name(sk).c_str(),
+                            skills.get_level(sk) + 1)) {
           experience -= cost;
           skills.increase_level(sk);
         } else {
@@ -807,8 +810,12 @@ Press <c=pink>?<c=/> and then a skill letter to get information on the skill.");
       }
 
       setup_skills_interface(i_skills);
+      i_skills.draw(&w_skills);
+      w_skills.refresh();
+
     } // End of "ch is a letter"
-  } while (true);
+
+  }
 }
 
 void Player::setup_skills_interface(cuss::interface& i_skills)
