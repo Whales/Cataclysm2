@@ -161,7 +161,7 @@ std::string slurp_file(const std::string &filename)
 }
 
 int find_line_starting_with(const std::string &filename, std::string term,
-                            bool match_case)
+                            bool match_case, bool ignore_flags)
 {
   if (!match_case) {
     term = no_caps(term);
@@ -183,6 +183,9 @@ int find_line_starting_with(const std::string &filename, std::string term,
       return -1;
     } else if (fin.eof()) {
       return -1;
+    }
+    if (ignore_flags) {
+      line = remove_color_tags(line);
     }
     if (!match_case) {
       line = no_caps(line);

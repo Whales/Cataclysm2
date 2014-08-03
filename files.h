@@ -20,7 +20,7 @@ std::vector<std::string> directories_in(std::string dir);
 
 std::string slurp_file(const std::string &filename);
 int find_line_starting_with(const std::string &filename, std::string term,
-                            bool match_case = false);
+                            bool match_case = false, bool ignore_tags = true);
 
 void chomp(std::istream &data);
 
