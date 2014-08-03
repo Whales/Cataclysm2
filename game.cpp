@@ -1585,6 +1585,10 @@ active items!");
       worldmap->add_bonus(p.x, p.y, true);  // true == debug on
     } break;
 
+    case DEBUG_ACTION_GAIN_XP:
+      player->gain_experience(100);
+      break;
+
     default:
       add_msg("Nothing coded for %s yet.", debug_action_name(act).c_str());
   }
