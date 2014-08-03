@@ -1,0 +1,36 @@
+<c=green>Overview<c=/>
+
+Skills are a measure of how well you perform at various tasks.  While your stats (<c=ltred>Strength<c=/>, <c=ltred>Dexterity<c=/>, <c=ltred>Intelligence<c=/> and <c=ltred>Perception<c=/>) may provide some minor bonuses, your skill value is far more important.
+
+There are two broad categories of skills: <c=ltred>Applied<c=/> and <c=ltred>Mental<c=/>.  Applied skills are anything which is learned from experience, while Mental skills are those which are generally taught.  Applied skills include all combat skills, ranged and melee alike, along with some social skills like <c=ltblue>speech<c=/> and <c=ltblue>barter<c=/>.  Mental skills are more profession-oriented.  They include a range of <c=ltred>crafting<c=/> skills like <c=ltblue>cooking<c=/>, <c=ltblue>mechanics<c=/>, or <c=ltblue>electronics<c=/>, and other special-use skills like <c=ltblue>first aid<c=/> or <c=ltblue>botany<c=/>.
+
+As you complete quests, you will gain <c=ltred>experience points<c=/> as a reward.  Experience points can be spent on skills to improve them.  The price for improving a skill will rise dramatically as your skill level increases.
+
+However, mental skills have a <c=ltred>skill cap<c=/>.  This cap reflects the fact that these skills require some kind of special training or study.  The cap will start at some small value, partially dependent on your starting intelligence.  Once your skill level hits the cap, you can no longer improve that skill until you increase the cap.  You can increase the cap by reading <c=ltred>books<c=/> on your topic of training, or by receiving <c=ltred>training<c=/> from an <c=ltred>NPC<c=/>.
+
+You can view your current skill levels and caps by pressing <c=magenta>K<=c/>.  This screen is also where you spend experience to increase your skill levels.
+
+
+<c=green>Skills List:<c=/>
+
+<c=ltgreen>Melee<c=/>
+Melee skill is your overall ability to fight hand-to-hand - reaction times, how to get around a block, and more.  It applies to all melee combat, including unarmed.  It increases the <c=ltred>speed<c=/> and <c=ltred>accuracy<c=/> of your attacks.
+
+<c=ltgreen>Unarmed Combat<c=/>
+Your ability to fight hand-to-hand, without a weapon.  Unarmed combat is very ineffective at low levels, unless you're going for a non-lethal takedown.  However, at higher levels it becomes extremely powerful, unlocking throws, takedowns, heavy kicks, and disarming enemies.
+
+<c=ltgreen>Bashing Weapons<c=/>
+Your skill at swinging blunt instruments.  This will automatically apply to any
+wielded item which does bashing damage.  It increases the <c=ltred>damage<c=/> and <c=ltred>speed<c=/> of bashing weapons.
+
+<c=ltgreen>Cutting Weapons<c=/>
+Your skill at using edged weapons to slice an enemy.  This will automatically apply to any wielded item which does cutting damage.  It increases the <c=ltred>damage<c=/>, and slightly improves the <c=ltred>speed<c=/> and <c=ltred>accuracy<c=/>, of cutting weapons.
+
+<c=ltgreen>Piercing Weapons<c=/>
+Your skill at using pointed weapons to impale an enemy.  This will automatically apply to any wielded item which does piercing damage.  It improves the <c=ltred>speed<c=/>, and slightly increases the <c=ltred>damage<c=/>, of piercing weapons.  It also greatly improves their <c=ltred>accuracy<c=/>.
+
+<c=ltgreen>Dodge<c=/>
+Your ability to evade melee attacks.  Typically you only get to make one dodge attempt per turn, so don't get surrounded.  Dodging skill also applies to other acrobatic feats, like avoiding <c=ltred>falling damage<c=/>.
+
+<c=ltgreen>Throwing<c=/>
+Your ability to throw items.  This improves the <c=ltred>range<c=/> and <c=ltred>accuracy<c=/> of projectiles.  Also, if you are throwing a damaging item like a <c=ltblue>rock<c=/> or <c=ltblue>throwing knife<c=/>, it increases the <c=ltred>damage<c=/>.  Items with a blade (like <c=ltblue>throwing knives<c=/>) have a better chance for the bladed side to strike your enemy with high throwing skill.

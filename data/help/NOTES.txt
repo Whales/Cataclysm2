@@ -1,0 +1,17 @@
+Help files should adhere to this color code:
+(You can ignore the color code a for a good enough reason; e.g. matching the
+ in-game colors)
+
+White - Emphasis
+Green - Major header
+Light Green - Minor header
+Brown - Subsection
+Cyan - Reference to another section of the help
+Magenta - Key command
+Light Red - Reference to a game mechanic or term
+  e.g. "dodge roll" "base damage" "armor" "pain" "strength"
+Light Blue - Reference to a piece of data
+  e.g. "spitter zombie" "desk" "factory"
+Light Cyan - Reference to a file
+  e.g. "monsters.dat" "Makefile"
+
