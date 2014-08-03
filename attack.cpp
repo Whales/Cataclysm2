@@ -218,21 +218,21 @@ void Attack::adjust_with_skills(Skill_set skills)
       final_bash = rng(bash_adj, damage[DAMAGE_BASH]);
     }
   } else {
-    final_bash   = rng(damage[DAMAGE_BASH],   bash_adj   ),
+    final_bash   = rng(damage[DAMAGE_BASH],   bash_adj   );
   }
   if (cut_adj < damage[DAMAGE_CUT]) {
     if (!one_in(3)) {
       final_cut = rng(cut_adj, damage[DAMAGE_CUT]);
     }
   } else {
-    final_cut   = rng(damage[DAMAGE_CUT],   cut_adj   ),
+    final_cut   = rng(damage[DAMAGE_CUT],   cut_adj   );
   }
   if (pierce_adj < damage[DAMAGE_PIERCE]) {
     if (!one_in(3)) {
       final_pierce = rng(cut_adj, damage[DAMAGE_PIERCE]);
     }
   } else {
-    final_pierce   = rng(damage[DAMAGE_PIERCE],   cut_adj   ),
+    final_pierce   = rng(damage[DAMAGE_PIERCE],   cut_adj   );
   }
 
 // Don't do more than double our damage.  Skills higher than 7 still matter;
