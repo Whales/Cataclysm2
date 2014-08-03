@@ -157,7 +157,7 @@ void Attack::adjust_with_skills(Skill_set skills)
 
     to_hit += (unarmed > 10 ? 5 : unarmed / 2);
     if (unarmed % 2 == 1 && one_in(2)) {
-      to_hit++; // Odd numbers impact speed too!
+      to_hit++; // Odd numbers impact hit bonus too!
     }
 
     speed -= (unarmed > 15 ? 30 : unarmed * 2);
@@ -169,14 +169,71 @@ void Attack::adjust_with_skills(Skill_set skills)
       sk_cut    = skills.get_level(SKILL_CUT),
       sk_pierce = skills.get_level(SKILL_PIERCE);
 
+// Look at damage to determine if skills affect something other than damage
+  if (damage[DAMAGE_BASH] >= 8 &&
+      damage[DAMAGE_BASH] >= damage[DAMAGE_CUT] &&
+      damage[DAMAGE_BASH] >= damage[DAMAGE_PIERCE]) {
+    speed -= (sk_bash > 10 ? 30 : sk_bash * 3);
+
+  } else if (damage[DAMAGE_CUT] >= 8 &&
+      damage[DAMAGE_CUT] >= damage[DAMAGE_BASH] &&
+      damage[DAMAGE_CUT] >= damage[DAMAGE_PIERCE]) {
+    speed -= (sk_cut > 10 ? 20 : sk_pierce * 2);
+    if (sk_cut > 18) {
+      to_hit += 3;
+    } else {
+      to_hit += sk_cut / 6;
+      if (rng(0, 6) < sk_cut % 6) {
+        to_hit++;
+      }
+    }
+
+  } else if (damage[DAMAGE_PIERCE] >= 8 &&
+      damage[DAMAGE_PIERCE] >= damage[DAMAGE_BASH] &&
+      damage[DAMAGE_PIERCE] >= damage[DAMAGE_CUT]) {
+    speed -= (sk_pierce > 10 ? 30 : sk_pierce * 3);
+    if (sk_pierce > 18) {
+      to_hit += 6;
+    } else {
+      to_hit += sk_pierce / 3;
+      if (rng(0, 3) < sk_pierce % 3) {
+        to_hit++;
+      }
+    }
+  }
+
 // We can up to double our damage!
   int bash_adj   = (damage[DAMAGE_BASH]   * (sk_bash   + 1)) / 4;
   int cut_adj    = (damage[DAMAGE_CUT]    * (sk_cut    + 1)) / 4;
   int pierce_adj = (damage[DAMAGE_PIERCE] * (sk_pierce + 1)) / 4;
 
-  int final_bash   = rng(damage[DAMAGE_BASH],   bash_adj   ),
-      final_cut    = rng(damage[DAMAGE_CUT],    cut_adj    ),
-      final_pierce = rng(damage[DAMAGE_PIERCE], pierce_adj );
+// Piercing doesn't get as strong a damage bonus, but a bigger speed bonus
+  if (pierce_adj > damage[DAMAGE_PIERCE]) {
+    pierce_adj = (damage[DAMAGE_PIERCE] + pierce_adj) / 2;
+  }
+
+  int final_bash, final_cut, final_pierce;
+  if (bash_adj < damage[DAMAGE_BASH]) {
+    if (!one_in(3)) {
+      final_bash = rng(bash_adj, damage[DAMAGE_BASH]);
+    }
+  } else {
+    final_bash   = rng(damage[DAMAGE_BASH],   bash_adj   ),
+  }
+  if (cut_adj < damage[DAMAGE_CUT]) {
+    if (!one_in(3)) {
+      final_cut = rng(cut_adj, damage[DAMAGE_CUT]);
+    }
+  } else {
+    final_cut   = rng(damage[DAMAGE_CUT],   cut_adj   ),
+  }
+  if (pierce_adj < damage[DAMAGE_PIERCE]) {
+    if (!one_in(3)) {
+      final_pierce = rng(cut_adj, damage[DAMAGE_PIERCE]);
+    }
+  } else {
+    final_pierce   = rng(damage[DAMAGE_PIERCE],   cut_adj   ),
+  }
 
 // Don't do more than double our damage.  Skills higher than 7 still matter;
 // they give a better chance of that doubling!
