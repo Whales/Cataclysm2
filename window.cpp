@@ -617,12 +617,12 @@ bool query_yn(const char *mes, ...)
  while (pos != std::string::npos) {
   std::string line = tmp.substr(0, pos);
   line_num++;
-  w.putstr(1, line_num, c_white, c_black, line);
+  w.putstr(1, line_num, c_ltgray, c_black, line);
   tmp = tmp.substr(pos + 1);
   pos = tmp.find('\n');
  }
  line_num++;
- w.putstr(1, line_num, c_white, c_black, std::string(tmp));
+ w.putstr(1, line_num, c_ltgray, c_black, std::string(tmp));
  
  w.refresh();
  long ch = getch();
@@ -704,12 +704,12 @@ void popup(const char *mes, ...)
  while (pos != std::string::npos) {
   std::string line = tmp.substr(0, pos);
   line_num++;
-  w.putstr(1, line_num, c_white, c_black, line.c_str());
+  w.putstr(1, line_num, c_ltgray, c_black, line.c_str());
   tmp = tmp.substr(pos + 1);
   pos = tmp.find('\n');
  }
  line_num++;
- w.putstr(1, line_num, c_white, c_black, tmp.c_str());
+ w.putstr(1, line_num, c_ltgray, c_black, tmp.c_str());
  
  w.refresh();
  long ch;
@@ -749,12 +749,12 @@ void popup_nowait(const char *mes, ...)
  while (pos != std::string::npos) {
   std::string line = tmp.substr(0, pos);
   line_num++;
-  w.putstr(1, line_num, c_white, c_black, line.c_str());
+  w.putstr(1, line_num, c_ltgray, c_black, line.c_str());
   tmp = tmp.substr(pos + 1);
   pos = tmp.find('\n');
  }
  line_num++;
- w.putstr(1, line_num, c_white, c_black, tmp.c_str());
+ w.putstr(1, line_num, c_ltgray, c_black, tmp.c_str());
  
  w.refresh();
 }
@@ -776,12 +776,12 @@ void popup_fullscreen(const char *mes, ...)
  while (pos != std::string::npos) {
   std::string line = tmp.substr(0, pos);
   line_num++;
-  w.putstr(1, line_num, c_white, c_black, line.c_str());
+  w.putstr(1, line_num, c_ltgray, c_black, line.c_str());
   tmp = tmp.substr(pos + 1);
   pos = tmp.find('\n');
  }
  line_num++;
- w.putstr(1, line_num, c_white, c_black, tmp.c_str());
+ w.putstr(1, line_num, c_ltgray, c_black, tmp.c_str());
  
  w.refresh();
  long ch;
@@ -811,12 +811,12 @@ void popup_scrollable(const char *mes, ...)
   while (pos != std::string::npos) {
     std::string line = tmp.substr(0, pos);
     line_num++;
-    w.putstr(1, line_num, c_white, c_black, line.c_str());
+    w.putstr(1, line_num, c_ltgray, c_black, line.c_str());
     tmp = tmp.substr(pos + 1);
     pos = tmp.find('\n');
   }
   line_num++;
-  w.putstr(1, line_num, c_white, c_black, tmp.c_str());
+  w.putstr(1, line_num, c_ltgray, c_black, tmp.c_str());
 */
   
   long ch;
