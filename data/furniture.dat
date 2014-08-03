@@ -230,7 +230,7 @@ name: large log
     armor: pierce 1d10 + 10
     armor: cut 1d6
   done
-  components: c:10 chunk of wood
+  components: c:10 wood chunk
   Flags: flammable
 done
 
