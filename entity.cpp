@@ -1383,10 +1383,30 @@ void Entity::reload_prep(int uid)
   if (!it || !it->can_reload()) {
     return;
   }
+  int speed = it->time_to_reload();
+// Improve reload time if it's a launcher
+  if (it->get_item_class() == ITEM_CLASS_LAUNCHER) {
+    Item_type_launcher* launcher =
+      static_cast<Item_type_launcher*>(weapon.type);
+    Skill_type sk_used = launcher->skill_used;
+    int sk_level = skills.get_level(sk_used);
+    if (sk_level >= 12) {
+      speed = speed / 2;
+    } else {
+      speed = speed / 2 + (speed * (12 - sk_level)) / 24;
+    }
+  }
+
+// Improve / penalize reload time based on Dex
+  if (stats.dexterity >= 20) {
+    speed = (speed * 2) / 3;
+  } else {
+    speed = (speed * 2) / 3 + (speed * (20 - stats.dexterity)) / 30;
+  }
+  
   Item ammo = pick_ammo_for(it);
   if (ammo.is_real()) {
-    set_activity(PLAYER_ACTIVITY_RELOAD, it->time_to_reload(),
-                 it->get_uid(), ammo.get_uid());
+    set_activity(PLAYER_ACTIVITY_RELOAD, speed, it->get_uid(), ammo.get_uid());
   }
 }
 
