@@ -30,6 +30,9 @@ public:
   void set_profession(Profession* prof);
   Profession* get_profession();
 
+// Character development functions
+  void gain_experience(int amount);
+
 // Movement/perception functions
   virtual bool has_sense(Sense_type sense);
   //virtual bool can_sense(Entity* entity);

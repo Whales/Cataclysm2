@@ -78,6 +78,55 @@ Profession* Player::get_profession()
   return profession;
 }
 
+void Player::gain_experience(int amount)
+{
+  if (amount <= 0) {
+    return;
+  }
+
+// Display a message when we unlock improvements
+  std::vector<bool> could_improve;
+  for (int i = 0; i < SKILL_MAX; i++) {
+    Skill_type sk = Skill_type(i);
+    if (experience >= skills.improve_cost(sk) && !skills.maxed_out(sk)) {
+      could_improve.push_back(true);
+    } else {
+      could_improve.push_back(false);
+    }
+  }
+
+  experience += amount;
+  GAME.add_msg("You gain %d experience!", amount);
+
+  std::vector<Skill_type> unlocked_skills;
+
+  for (int i = 0; i < SKILL_MAX; i++) {
+    Skill_type sk = Skill_type(i);
+    if (i > 0 && !could_improve[i] && experience >= skills.improve_cost(sk) &&
+        !skills.maxed_out(sk)) {
+      unlocked_skills.push_back(sk);
+    }
+  }
+
+  if (unlocked_skills.size() > 3) {
+    GAME.add_msg("You can improve %d new skills!", unlocked_skills.size());
+  } else if (!unlocked_skills.empty()) {
+    std::stringstream mes;
+    mes << "You can now improve ";
+    for (int i = 0; i < unlocked_skills.size(); i++) {
+      mes << skill_type_user_name( unlocked_skills[i] );
+      if (i == unlocked_skills.size() - 1) {
+        mes << "!";
+      } else if (i == unlocked_skills.size() - 2) {
+        mes << " and ";
+      } else {
+        mes << ", ";
+      }
+    }
+    GAME.add_msg(mes.str());
+  }
+}
+
 bool Player::has_sense(Sense_type sense)
 {
 // TODO: Turn off senses if we're blinded, deafened, etc.
@@ -766,18 +815,24 @@ void Player::skills_interface()
       return;
 
     } else if (ch == '?') {
+      if (help_mode) {
+        help_screen("skills.txt");
+      }
       help_mode = !help_mode;
 
       if (help_mode) {
         i_skills.set_data("text_help", "\
-Press the letter attached to a skill for information on that skill.\n\
-Press <c=pink>?<c=/> again for general help on skills.");
+<c=yellow>Press the letter attached to a skill for information on that skill.\
+\n\n\
+Press <c=pink>?<c=yellow> again for general help on skills.<c=/>");
       } else {
         i_skills.set_data("text_help", "\
-Press the letter attached to a skill to improve it.  You cannot improve a \
-skill beyond its cap; to increase the cap, read a book or find a trainer.\n\
-Press <c=pink>?<c=/> and then a skill letter to get information on the skill.");
+<c=yellow>Press the letter attached to a skill to improve it.  You cannot \
+improve a skill beyond its cap.\n\n\
+Press <c=pink>?<c=yellow> and then a skill letter to get help.<c=/>");
       }
+      i_skills.draw(&w_skills);
+      w_skills.refresh();
 
 
     } else if ( (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ) {
@@ -797,12 +852,13 @@ Press <c=pink>?<c=/> and then a skill letter to get information on the skill.");
         int cost = skills.improve_cost(sk);
         if (skills.maxed_out(sk)) {
           popup("That skill has hit its cap!");
-        } else if (experience >= cost &&
-                   query_yn("Spend %d XP to increase %s to %d?", cost,
-                            skill_type_name(sk).c_str(),
-                            skills.get_level(sk) + 1)) {
-          experience -= cost;
-          skills.increase_level(sk);
+        } else if (experience >= cost) {
+          if (query_yn("Spend %d XP to increase %s to %d?", cost,
+                       skill_type_user_name(sk).c_str(),
+                       skills.get_level(sk) + 1)) {
+            experience -= cost;
+            skills.increase_level(sk);
+          }
         } else {
           popup("You do not have enough XP! (You: %d; %d required)",
                 experience, cost);
@@ -852,7 +908,11 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
     } else {
       sk_name << char( i - 27 + 'A' );
     }
-    sk_name << "<c=/>: " << skill_type_name(sk);
+    sk_name << "<c=/>: ";
+    if (!skills.maxed_out(sk) && experience >= skills.improve_cost(sk)) {
+      sk_name << "<c=white>";
+    }
+    sk_name << skill_type_user_name(sk) << "<c=/>";
     i_skills.add_data(cur_name, sk_name.str());
 
     if (skills.maxed_out(sk)) {
@@ -871,7 +931,7 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
 
     int cost = skills.improve_cost(sk);
     if (experience >= cost) {
-      sk_cost << "<c=yellow>";
+      sk_cost << "<c=white>";
     } else {
       sk_cost << "<c=dkgray>";
     }
@@ -890,9 +950,9 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
   i_skills.set_data("num_experience", experience);
 
   i_skills.set_data("text_help", "\
-Press the letter attached to a skill to improve it.  You cannot improve a \
-skill beyond its cap; to increase the cap, read a book or find a trainer.\n\
-Press <c=pink>?<c=/> and then a skill letter to get information on the skill.");
+<c=yellow>Press the letter attached to a skill to improve it.  You cannot \
+improve a skill beyond its cap.\n\n\
+Press <c=pink>?<c=yellow> and then a skill letter to get help.<c=/>");
 
 }
 
