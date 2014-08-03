@@ -1,5 +1,6 @@
 #include "skill.h"
 #include "stringfunc.h"
+#include "window.h" // For debugmsg()
 
 #include <string>
 
@@ -84,6 +85,21 @@ void Skill_set::unlock_skill(Skill_type type)
   unlocked[type] = true;
 }
 
+int Skill_set::improve_cost(Skill_type type)
+{
+// To get level x, we need to spend (3x)^2 + 50, rounded down to multiple of 5
+  int ret = (1 + get_level(type)) * 3;
+  ret *= ret;
+  ret += 50;
+  ret -= ret % 5;
+  return ret;
+}
+
+bool Skill_set::is_unlocked(Skill_type type) const
+{
+  return unlocked[type];
+}
+
 bool Skill_set::maxed_out(Skill_type type) const
 {
   return (!unlocked[type] && level[type] >= max_level[type]);
@@ -150,7 +166,7 @@ bool is_skill_mental(Skill_type type)
     case SKILL_UNARMED:       return false;
     case SKILL_BASH:          return false;
     case SKILL_CUT:           return false;
-    case SKILL_PIERCE:        return
+    case SKILL_PIERCE:        return false;
 
     case SKILL_DODGE:         return false;
     case SKILL_THROWING:      return false;

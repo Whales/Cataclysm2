@@ -688,6 +688,10 @@ there.<c=/>", map->get_name(examine).c_str());
       }
     }  break;
 
+    case IACTION_CHAR_SKILLS:
+      player->skills_interface();
+      break;
+
     case IACTION_DEBUG:
       if (!TESTING_MODE) {
         add_msg("<c=red>To access debug commands, run the program with the \

@@ -525,10 +525,7 @@ bool Entity::improve_skill(Skill_type type)
     return false;
   }
 
-  int xp_needed = (1 + skills.get_level(type)) * 3;
-  xp_needed *= xp_needed;
-  xp_needed += 50;
-  xp_needed -= xp_needed % 5; // Round down to nearest multiple of 5
+  int xp_needed = skills.improve_cost(type);
 
   if (experience < xp_needed) {
     return false;

@@ -47,6 +47,7 @@ enum Interface_action
   IACTION_MESSAGES_SCROLL_FORWARD,
 // Other interfaces
   IACTION_VIEW_WORLDMAP,
+  IACTION_CHAR_SKILLS,
 // Other
   IACTION_QUIT,
   IACTION_SAVE,

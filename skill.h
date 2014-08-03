@@ -61,11 +61,14 @@ struct Skill_set
   void set_max_level(Skill_type type, int lev);
   void increase_max_level(Skill_type type, int amount = 1);
 
-  bool unlock_skill(Skill_type type); // No max level anymore!
+  void unlock_skill(Skill_type type); // No max level anymore!
+
+  int  improve_cost(Skill_type type);
+  bool is_unlocked(Skill_type type) const;
   bool maxed_out(Skill_type type) const;  // true if level >= max_level
 
 private:
-  int level[SKILL_MAX];
+  int     level[SKILL_MAX];
   int max_level[SKILL_MAX];
   bool unlocked[SKILL_MAX];
 };

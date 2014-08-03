@@ -3,6 +3,7 @@
 #include "game.h"
 #include "files.h"  // For CUSS_DIR
 #include "rng.h"
+#include "help.h"   // For help_skill_desc()
 #include <sstream>
 
 void populate_item_lists(Player* p, int offset_size,
@@ -728,6 +729,166 @@ std::string Player::hp_text(HP_part part)
   ret << current_hp[part] << "<c=/>";
   return ret.str();
 }
+
+void Player::skills_interface()
+{
+  cuss::interface i_skills;
+  std::string iface_file = CUSS_DIR + "/i_char_skills.cuss";
+  if (!i_skills.load_from_file(iface_file)) {
+    return;
+  }
+
+  Window w_skills(0, 0, 80, 24);
+
+  setup_skills_interface(i_skills);
+
+  i_skills.draw(&w_skills);
+  w_skills.refresh();
+
+  bool help_mode = false;
+
+  do {
+    long ch = input();
+
+    if (ch == KEY_ESC) {
+      return;
+
+    } else if (ch == '1') {
+// TODO: Put link to status_screen() here
+      return;
+
+    } else if (ch == '3') {
+// TODO: Put link to clothing_screen() here
+      return;
+
+    } else if (ch == '4') {
+// TODO: Put link to quests_screen() here
+      return;
+
+    } else if (ch == '?') {
+      help_mode = !help_mode;
+
+      if (help_mode) {
+        i_skills.set_data("text_help", "\
+Press the letter attached to a skill for information on that skill.\n\
+Press <c=pink>?<c=/> again for general help on skills.");
+      } else {
+        i_skills.set_data("text_help", "\
+Press the letter attached to a skill to improve it.  You cannot improve a \
+skill beyond its cap; to increase the cap, read a book or find a trainer.\n\
+Press <c=pink>?<c=/> and then a skill letter to get information on the skill.");
+      }
+
+
+    } else if ( (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ) {
+// We picked a skill!
+      int sk_num = ch;
+      if (sk_num >= 'a' && sk_num <= 'z') {
+        sk_num = sk_num - 'a' + 1;
+      } else {
+        sk_num = sk_num - 'Z' + 27;
+      }
+      Skill_type sk = Skill_type(ch);
+
+      if (help_mode) {
+        help_mode = false;
+        help_skill_desc(sk);
+      } else {
+        int cost = skills.improve_cost(sk);
+        if (experience >= cost &&
+            query_yn("Spend %d XP to increase %s to %d?", cost,
+                     skill_type_name(sk).c_str(), skills.get_level(sk) + 1)) {
+          experience -= cost;
+          skills.increase_level(sk);
+        } else {
+          popup("You do not have enough XP! (You: %d; %d required)",
+                experience, cost);
+        }
+      }
+
+      setup_skills_interface(i_skills);
+    } // End of "ch is a letter"
+  } while (true);
+}
+
+void Player::setup_skills_interface(cuss::interface& i_skills)
+{
+  std::string cur_name  = "list_name_1",
+              cur_level = "list_level_1",
+              cur_max   = "list_max_1",
+              cur_cost  = "list_cost_1";
+
+  i_skills.clear_data("list_name_1");
+  i_skills.clear_data("list_level_1");
+  i_skills.clear_data("list_max_1");
+  i_skills.clear_data("list_cost_1");
+  i_skills.clear_data("list_name_2");
+  i_skills.clear_data("list_level_2");
+  i_skills.clear_data("list_max_2");
+  i_skills.clear_data("list_cost_2");
+
+  int list_size = i_skills.element_height(cur_name);
+  if (list_size == -1) {
+    debugmsg("i_char_skills.cuss is missing element 'list_name_1'!");
+    return;
+  }
+
+// Set up the lists.
+  for (int i = 1; i < SKILL_MAX; i++) {
+
+    Skill_type sk = Skill_type(i);
+
+    std::stringstream sk_name, sk_level, sk_max, sk_cost;
+    sk_name << "<c=pink>";
+    if (i <= 26) {
+      sk_name << char( i - 1 + 'a' );
+    } else {
+      sk_name << char( i - 27 + 'A' );
+    }
+    sk_name << "<c=/>: " << skill_type_name(sk);
+    i_skills.add_data(cur_name, sk_name.str());
+
+    if (skills.maxed_out(sk)) {
+      sk_level << "<c=red>";
+      sk_max   << "<c=red>";
+    }
+    sk_level << skills.get_level(sk) << "<c=/> /";
+    i_skills.add_data(cur_level, sk_level.str());
+
+    if (skills.is_unlocked(sk)) {
+      sk_max << "<c=dkgray>--<c=/>";
+    } else {
+      sk_max << skills.get_max_level(sk) << "<c=/>";
+    }
+    i_skills.add_data(cur_max, sk_max.str());
+
+    int cost = skills.improve_cost(sk);
+    if (experience >= cost) {
+      sk_cost << "<c=yellow>";
+    } else {
+      sk_cost << "<c=dkgray>";
+    }
+    sk_cost << cost << "<c=/>";
+    i_skills.add_data(cur_cost, sk_cost.str());
+
+// Switch to the next list if needed
+    if (i == list_size) {
+      cur_name  = "list_name_2";
+      cur_level = "list_level_2";
+      cur_max   = "list_max_2";
+      cur_cost  = "list_cost_2";
+    }
+  }
+
+  i_skills.set_data("num_experience", experience);
+
+  i_skills.set_data("text_help", "\
+Press the letter attached to a skill to improve it.  You cannot improve a \
+skill beyond its cap; to increase the cap, read a book or find a trainer.\n\
+Press <c=pink>?<c=/> and then a skill letter to get information on the skill.");
+
+}
+
 
 void populate_item_lists(Player* p, int offset_size,
                          std::vector<int>  item_indices[ITEM_CLASS_MAX],

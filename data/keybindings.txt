@@ -31,6 +31,7 @@ e         = eat
 -         = messages_scroll_back
 +         = messages_scroll_forward
 :M        = view_worldmap
+K         = skills
 Q         = quit
 S         = save
 Z         = debug

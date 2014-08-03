@@ -61,3 +61,7 @@ void help_screen()
     }
   }
 }
+
+void help_skill_desc(Skill_type skill)
+{
+}
