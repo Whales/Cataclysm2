@@ -635,6 +635,100 @@ bool Item_type_tool::uses_charges()
   return (max_charges > 0);
 }
 
+Item_type_book::Item_type_book()
+{
+  skill_learned = SKILL_NULL;
+  cap_limit = 0;
+  int_required = 0;
+  high_int_bonus = 0;
+  bonus_int_required = 0;
+  time_to_read = 1;
+  fun = 0;
+}
+
+std::string Item_type_book::get_property_description()
+{
+  std::stringstream ret;
+
+  ret << "<c=magenta>Intelligence required: " << int_required << "<c=/>" <<
+         std::endl;
+
+  ret << "<c=brown>Time to read: ";
+  if (time_to_read < 5) {
+    ret << "<c=white>";
+  } else if (time_to_read < 30) {
+    ret << "<c=yellow>";
+  } else {
+    ret << "<c=ltred>";
+  }
+  ret << time_to_read << "<c=/>" << std::endl;
+
+  if (skill_learned == SKILL_NULL) {
+    ret << "<c=dkgray>No related skill.<c=/>" << std::endl;
+  } else {
+    ret << "<c=white>Increases your " << skill_type_user_name(skill_learned) <<
+           " skill cap to <c=ltblue>" << cap_limit << "<c=/>." << std::endl;
+    if (high_int_bonus > 0) {
+      ret << "<c=white>With intelligence <c=magenta>" << bonus_int_required <<
+             "<c=white>, increases your skill cap to <c=ltblue>" <<
+             high_int_bonus + cap_limit << "<c=/>." << std::endl;
+    }
+  }
+
+  if (fun < 0) {
+    ret << "<c=ltred>Morale lost:<c=ltgray> " << 0 - fun << std::endl;
+  } else if (fun > 0) {
+    ret << "<c=ltgreen>Morale gained:<c=ltgray> " << fun << std::endl;
+  }
+
+  return ret.str();
+}
+
+bool Item_type_book::handle_data(std::string ident, std::istream& data)
+{
+  std::string junk;
+
+  if (ident == "skill:") {
+    std::string skill_name;
+    std::getline(data, skill_name);
+    skill_learned = lookup_skill_type(skill_name);
+    if (skill_learned == SKILL_NULL) {
+      debugmsg("Unknown Skill_type '%s' (%s).",
+               skill_name.c_str(), name.c_str());
+      return false;
+    }
+
+  } else if (ident == "cap:") {
+    data >> cap_limit;
+    std::getline(data, junk);
+
+  } else if (ident == "int_required:") {
+    data >> int_required;
+    std::getline(data, junk);
+
+  } else if (ident == "high_int_bonus:") {
+    data >> high_int_bonus;
+    std::getline(data, junk);
+
+  } else if (ident == "bonus_int_required:") {
+    data >> bonus_int_required;
+    std::getline(data, junk);
+
+  } else if (ident == "time_to_read:") {
+    data >> time_to_read;
+    std::getline(data, junk);
+
+  } else if (ident == "fun:") {
+    data >> fun;
+    std::getline(data, junk);
+
+  } else if (ident != "done") {
+    return false;
+  }
+
+  return true;
+}
+
 Item_type_container::Item_type_container()
 {
   capacity = 0;
@@ -713,6 +807,7 @@ std::string item_class_name(Item_class iclass, bool plural)
     case ITEM_CLASS_LAUNCHER:   return (plural ? "Launchers"  : "Launcher"  );
     case ITEM_CLASS_FOOD:       return "Food";
     case ITEM_CLASS_TOOL:       return (plural ? "Tools"      : "Tool"      );
+    case ITEM_CLASS_BOOK:       return (plural ? "Books"      : "Book"      );
     case ITEM_CLASS_CONTAINER:  return (plural ? "Containers" : "Container" );
     case ITEM_CLASS_CORPSE:     return (plural ? "Corpses"    : "Corpse"    );
 

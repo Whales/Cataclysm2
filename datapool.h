@@ -173,6 +173,9 @@ bool Data_pool<Item_type>::load_element(std::istream &data,
   } else if (item_category == "tool") {
     tmp = new Item_type_tool;
 
+  } else if (item_category == "book") {
+    tmp = new Item_type_book;
+
   } else if (item_category == "container") {
     tmp = new Item_type_container;
 

@@ -6,7 +6,7 @@
 #include "dice.h"
 #include "tool.h"
 #include "status_effect.h"
-#include "skill.h"  // For launcher skill (handgun, rifle, etc)
+#include "skill.h"  // For launcher skill (handgun, rifle, etc) and books
 #include <string>
 #include <istream>
 #include <vector>
@@ -22,6 +22,7 @@ enum Item_class
   ITEM_CLASS_LAUNCHER,
   ITEM_CLASS_FOOD,
   ITEM_CLASS_TOOL,
+  ITEM_CLASS_BOOK,
   ITEM_CLASS_CONTAINER,
   ITEM_CLASS_CORPSE,
   ITEM_CLASS_MAX
@@ -203,6 +204,28 @@ public:
   int countdown_timer;  // How many turns after applying before countdown_action
   std::string fuel;     // Ammo name - matches this with an ammo type for fuel
   std::string powered_text; // Text for when it's powered; e.g. "on", "active"
+};
+
+class Item_type_book : public Item_type
+{
+  public:
+  Item_type_book();
+  ~Item_type_book(){}
+
+  virtual Item_class get_class() { return ITEM_CLASS_BOOK; }
+  virtual Item_action default_action() { return IACT_READ; }
+  virtual std::string get_property_description();
+
+  virtual bool handle_data(std::string ident, std::istream& data);
+
+  Skill_type skill_learned;
+  int cap_limit;  // What's the highest cap this will take us to?
+  int int_required;  // What intelligence do we need to read this?
+  int high_int_bonus; // How much extra do we get for high intelligence?
+  int bonus_int_required; // What intelligence do we need to get the bonus?
+
+  int time_to_read; // In minutes (i.e. 10 turns)
+  int fun;          // Morale gained (or lost) from reading this
 };
 
 class Item_type_container : public Item_type
