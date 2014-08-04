@@ -130,13 +130,11 @@ int Item::time_to_fire()
 
 int Item::time_to_read()
 {
-  if (!is_real() || get_item_class() != ITEM_CLASS_BOOK) {
+  if (!is_real()) {
     return 0;
   }
 
-  Item_type_book* book = static_cast<Item_type_book*>(type);
-
-  return book->time_to_read;
+  return type->time_to_read();
 }
 
 int Item::get_uid()

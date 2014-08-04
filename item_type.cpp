@@ -643,7 +643,6 @@ Item_type_book::Item_type_book()
   skill_required = 0;
   high_int_bonus = 0;
   bonus_int_required = 0;
-  time_to_read = 1;
   fun = 0;
 }
 
@@ -655,14 +654,14 @@ std::string Item_type_book::get_property_description()
          std::endl;
 
   ret << "<c=brown>Time to read: ";
-  if (time_to_read < 5) {
+  if (time_to_read() < 5) {
     ret << "<c=white>";
-  } else if (time_to_read < 30) {
+  } else if (time_to_read() < 30) {
     ret << "<c=yellow>";
   } else {
     ret << "<c=ltred>";
   }
-  ret << time_to_read << "<c=/>" << std::endl;
+  ret << time_to_read() << "<c=/>" << std::endl;
 
   if (skill_learned == SKILL_NULL) {
     ret << "<c=dkgray>No related skill.<c=/>" << std::endl;
@@ -687,6 +686,15 @@ std::string Item_type_book::get_property_description()
   }
 
   return ret.str();
+}
+
+int Item_type_book::time_to_read()
+{
+  if (skill_learned == SKILL_NULL) {  // It's just a fun book - reads faster
+    return 15 + int_required; // More complex books read slower.
+  }
+
+  return cap_limit * 5 + int_required * 2;
 }
 
 bool Item_type_book::handle_data(std::string ident, std::istream& data)
@@ -721,10 +729,6 @@ bool Item_type_book::handle_data(std::string ident, std::istream& data)
 
   } else if (ident == "bonus_int_required:") {
     data >> bonus_int_required;
-    std::getline(data, junk);
-
-  } else if (ident == "time_to_read:") {
-    data >> time_to_read;
     std::getline(data, junk);
 
   } else if (ident == "fun:") {

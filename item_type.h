@@ -74,6 +74,7 @@ public:
   virtual bool uses_charges()       { return false; }
   virtual bool always_combines()    { return true;  }
   virtual bool combine_by_charges() { return false; }
+  virtual int  time_to_read()       { return 0; }
   bool has_flag(Item_flag flag);
 
 private:
@@ -215,6 +216,7 @@ class Item_type_book : public Item_type
   virtual Item_class get_class() { return ITEM_CLASS_BOOK; }
   virtual Item_action default_action() { return IACT_READ; }
   virtual std::string get_property_description();
+  virtual int time_to_read();
 
   virtual bool handle_data(std::string ident, std::istream& data);
 
@@ -225,7 +227,6 @@ class Item_type_book : public Item_type
   int high_int_bonus; // How much extra do we get for high intelligence?
   int bonus_int_required; // What intelligence do we need to get the bonus?
 
-  int time_to_read; // In minutes (i.e. 10 turns)
   int fun;          // Morale gained (or lost) from reading this
 };
 
