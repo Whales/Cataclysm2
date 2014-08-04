@@ -108,6 +108,7 @@ enum Item_action
   IACT_DROP,    // Drop on the ground
   IACT_EAT,     // Eat - only applies for food
   IACT_APPLY,   // Apply as in a tool
+  IACT_READ,    // Read - only applies for books
   IACT_UNLOAD,  // Applies for launchers and containers
   IACT_RELOAD,  // Only applies for launchers
   IACT_BUTCHER, // Cut into pieces of meat - only applies for corpses

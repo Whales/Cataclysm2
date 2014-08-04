@@ -37,6 +37,7 @@ public:
   bool can_reload();
   int  time_to_reload();
   int  time_to_fire();
+  int  time_to_read();
 
 // Info fetching
   int get_uid();

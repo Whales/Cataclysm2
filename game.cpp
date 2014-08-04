@@ -527,6 +527,11 @@ there.<c=/>", map->get_name(examine).c_str());
           player->apply_item_uid(it.get_uid());
           break;
 
+        case IACT_READ:
+          add_msg( player->read_item_message(it) );
+          player->read_item_uid(it.get_uid());
+          break;
+
         case IACT_UNLOAD:
 // TODO: Put unload code here
           break;
@@ -575,28 +580,46 @@ there.<c=/>", map->get_name(examine).c_str());
     case IACTION_APPLY: {
       Item it = player->inventory_single();
       Item_action act = it.default_action();
+
       switch (act) {
         case IACT_NULL:
           add_msg("Can't do anything with that item.");
           break;
+
         case IACT_WIELD:
           add_msg( player->wield_item_message(it) );
           player->wield_item_uid(it.get_uid());
           break;
+
         case IACT_WEAR:
           add_msg( player->wear_item_message(it) );
           player->wear_item_uid(it.get_uid());
           break;
+
         case IACT_EAT:
           add_msg( player->eat_item_message(it) );
           player->eat_item_uid(it.get_uid());
+          break;
+
         case IACT_APPLY:
 // Need to redraw the map
           add_msg( player->apply_item_message(it) );
           player->apply_item_uid(it.get_uid());
           break;
+
+        case IACT_READ:
+          add_msg( player->read_item_message(it) );
+          player->read_item_uid(it.get_uid());
+          break;
       }
     } break;
+
+    case IACTION_READ: {
+      Item it = player->inventory_single();
+      add_msg( player->read_item_message(it) );
+      player->read_item_uid(it.get_uid());
+    } break;
+      
 
     case IACTION_RELOAD: {
       Item it = player->inventory_single();
@@ -797,6 +820,16 @@ void Game::complete_player_activity()
       }
       add_msg("You reload your %s.", reloaded->get_name().c_str());
       reloaded->reload(player, act->secondary_item_uid);
+    } break;
+
+    case PLAYER_ACTIVITY_READ: {
+      Item* read = player->ref_item_uid(act->primary_item_uid);
+      if (!read) {
+        debugmsg("Completed reading, but the item wasn't there!");
+        return;
+      }
+      add_msg("You finish reading.");
+      player->finish_reading(read);
     } break;
 
     default:

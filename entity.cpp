@@ -1321,6 +1321,64 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
 
 }
 
+void Entity::read_item_uid(int uid)
+{
+  Item* it = ref_item_uid(uid);
+  if (!it || it->get_item_class() != ITEM_CLASS_BOOK) {
+    return;
+  }
+  Item_type_book* book = static_cast<Item_type_book*>(it->type);
+  if (stats.intelligence < book->int_required) {
+    return; // Not smart enough to read this!
+  }
+  Skill_type sk = book->skill_learned;
+  if (sk != SKILL_NULL && book->fun <= 0) {
+    int cap = book->cap_limit;
+    if (stats.intelligence >= book->bonus_int_required) {
+      cap += book->high_int_bonus;
+    }
+    if (skills.get_max_level(sk) >= cap) {
+      return; // We've already exceeded what this book can teach us!
+    }
+  }
+  int speed = it->time_to_read();
+// Alter read speed based on intelligence
+  speed = (speed * 10) / stats.intelligence;
+  set_activity(PLAYER_ACTIVITY_READ, speed, uid);
+}
+
+void Entity::finish_reading(Item* it)
+{
+  if (!it) {
+    debugmsg("Entity::finish_reading(NULL) called!");
+    return;
+  } else if (!it->is_real() || !it->get_item_class() == ITEM_CLASS_BOOK) {
+    debugmsg("Entity::finish_reading passed a bad item!");
+    return;
+  }
+
+  Item_type_book* book = static_cast<Item_type_book*>(it->type);
+
+  if (stats.intelligence < book->int_required) {
+    if (is_you()) {
+      GAME.add_msg("You got confused while reading and couldn't learn \
+anything.");
+    }
+    return;
+  }
+// TODO: Morale-boost code.
+  Skill_type sk_boosted = book->skill_learned;
+  if (sk_boosted != SKILL_NULL) {
+    int cap = book->cap_limit;
+    if (stats.intelligence >= book->bonus_int_required) {
+      cap += book->high_int_bonus;
+    }
+    if (skills.get_max_level(sk_boosted) < cap) {
+      skills.increase_max_level(sk_boosted);
+    }
+  }
+}
+
 bool Entity::eat_item_uid(int uid)
 {
   Item* it = ref_item_uid(uid);
@@ -1384,7 +1442,7 @@ void Entity::reload_prep(int uid)
     return;
   }
   int speed = it->time_to_reload();
-// Improve reload time if it's a launcher
+// Improve reload time by skills if it's a launcher
   if (it->get_item_class() == ITEM_CLASS_LAUNCHER) {
     Item_type_launcher* launcher =
       static_cast<Item_type_launcher*>(weapon.type);
@@ -1587,6 +1645,48 @@ std::string Entity::apply_item_message(Item &it)
              get_possessive() << " " << it.get_name() << ".";
     }
   }
+  return ret.str();
+}
+
+std::string Entity::read_item_message(Item &it)
+{
+  int uid = it.get_uid();
+  std::stringstream ret;
+
+  if (!it.is_real() || !ref_item_uid(uid)) {
+    ret << get_name_to_player() << " don't have that item.";
+
+  } else if (it.get_item_class() != ITEM_CLASS_BOOK) {
+// Check the contents!
+    for (int i = 0; i < it.contents.size(); i++) {
+      if (it.contents[i].get_item_class() == ITEM_CLASS_BOOK) {
+        return read_item_message(it.contents[i]);
+      }
+    }
+    ret << get_name_to_player() << " cannot read that.";
+
+  } else {
+    Item_type_book* book = static_cast<Item_type_book*>(it.type);
+    int cap = book->cap_limit;
+    Skill_type sk_learned = book->skill_learned;
+    if (stats.intelligence >= book->bonus_int_required) {
+      cap += book->high_int_bonus;
+    }
+    if (stats.intelligence < book->int_required) {
+      ret << "<c=dkgray>This book is too complicated for " <<
+             get_name_to_player() << " (Intelligence " << stats.intelligence <<
+             ", " << book->int_required << " required).<c=/>";
+    } else if (sk_learned != SKILL_NULL && book->fun <= 0 &&
+               skills.get_max_level(sk_learned) >= cap) {
+      ret << "<c=dkgray>" << get_name_to_player() << " won't learn anything" <<
+             " by reading that.";
+    } else {
+      ret << "<c=ltblue>" << get_name_to_player() << " " <<
+             conjugate("start") << " reading \"" << it.get_name() <<
+             ".\"<c=/>";
+    }
+  }
+
   return ret.str();
 }
 

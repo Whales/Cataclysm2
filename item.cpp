@@ -128,6 +128,17 @@ int Item::time_to_fire()
   return type->time_to_fire();
 }
 
+int Item::time_to_read()
+{
+  if (!is_real() || get_item_class() != ITEM_CLASS_BOOK) {
+    return 0;
+  }
+
+  Item_type_book* book = static_cast<Item_type_book*>(type);
+
+  return book->time_to_read;
+}
+
 int Item::get_uid()
 {
   if (!is_real()) {

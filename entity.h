@@ -176,8 +176,11 @@ public:
   void  take_off_item_uid(int uid);
   void  apply_item_uid   (int uid);
   void  apply_item_action(Item* it, Tool_action* action);
+  void  read_item_uid    (int uid);
+  void  finish_reading   (Item* it);
   bool  eat_item_uid     (int uid);
   void  reload_prep      (int uid);
+
   virtual Item pick_ammo_for(Item *it);
   virtual Tripoint pick_target_for(Item *it);
 
@@ -203,6 +206,7 @@ public:
   virtual std::string take_off_item_message (Item &it);
   virtual std::string wield_item_message    (Item &it);
   virtual std::string apply_item_message    (Item &it);
+  virtual std::string read_item_message     (Item &it);
   virtual std::string eat_item_message      (Item &it);
   virtual std::string advance_fire_mode_message();  // Only applies to weapon
   virtual std::string sheath_weapon_message();
