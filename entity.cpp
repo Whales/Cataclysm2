@@ -1333,6 +1333,9 @@ void Entity::read_item_uid(int uid)
   }
   Skill_type sk = book->skill_learned;
   if (sk != SKILL_NULL && book->fun <= 0) {
+    if (skills.get_level(sk) < book->skill_required) {
+      return;
+    }
     int cap = book->cap_limit;
     if (stats.intelligence >= book->bonus_int_required) {
       cap += book->high_int_bonus;
@@ -1375,6 +1378,11 @@ anything.");
     }
     if (skills.get_max_level(sk_boosted) < cap) {
       skills.increase_max_level(sk_boosted);
+      if (is_you()) {
+        GAME.add_msg("<c=yellow>Your %s cap increases to <c=ltgreen>%d<c=/>!",
+                     skill_type_user_name(sk_boosted).c_str(),
+                     skills.get_max_level(sk_boosted));
+      }
     }
   }
 }
@@ -1672,15 +1680,24 @@ std::string Entity::read_item_message(Item &it)
     if (stats.intelligence >= book->bonus_int_required) {
       cap += book->high_int_bonus;
     }
+
     if (stats.intelligence < book->int_required) {
       ret << "<c=dkgray>This book is too complicated for " <<
              get_name_to_player() << " (Intelligence " << stats.intelligence <<
              ", " << book->int_required << " required).<c=/>";
+
+    } else if (skills.get_level(sk_learned) < book->skill_required) {
+      ret << "<c=dkgray>This book is too advanced for " <<
+             get_name_to_player() << " (" << skill_type_user_name(sk_learned) <<
+             " level " << skills.get_level(sk_learned) << ", " <<
+             book->skill_required << " required).<c=/>";
+
     } else if (sk_learned != SKILL_NULL && book->fun <= 0 &&
                skills.get_max_level(sk_learned) >= cap) {
       ret << "<c=dkgray>" << get_name_to_player() << " won't learn anything" <<
              " by reading that.";
-    } else {
+
+    } else {  // Success!
       ret << "<c=ltblue>" << get_name_to_player() << " " <<
              conjugate("start") << " reading \"" << it.get_name() <<
              ".\"<c=/>";

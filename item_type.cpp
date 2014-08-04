@@ -640,6 +640,7 @@ Item_type_book::Item_type_book()
   skill_learned = SKILL_NULL;
   cap_limit = 0;
   int_required = 0;
+  skill_required = 0;
   high_int_bonus = 0;
   bonus_int_required = 0;
   time_to_read = 1;
@@ -673,6 +674,10 @@ std::string Item_type_book::get_property_description()
              "<c=white>, increases your skill cap to <c=ltblue>" <<
              high_int_bonus + cap_limit << "<c=/>." << std::endl;
     }
+    if (skill_required > 0) {
+      ret << "<c=ltred>" << skill_type_user_name(skill_learned) << " level " <<
+             "required: " << skill_required;
+    }
   }
 
   if (fun < 0) {
@@ -704,6 +709,10 @@ bool Item_type_book::handle_data(std::string ident, std::istream& data)
 
   } else if (ident == "int_required:") {
     data >> int_required;
+    std::getline(data, junk);
+
+  } else if (ident == "skill_required:") {
+    data >> skill_required;
     std::getline(data, junk);
 
   } else if (ident == "high_int_bonus:") {

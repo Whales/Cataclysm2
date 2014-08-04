@@ -221,6 +221,7 @@ class Item_type_book : public Item_type
   Skill_type skill_learned;
   int cap_limit;  // What's the highest cap this will take us to?
   int int_required;  // What intelligence do we need to read this?
+  int skill_required; // What skill level do we need to read this?
   int high_int_bonus; // How much extra do we get for high intelligence?
   int bonus_int_required; // What intelligence do we need to get the bonus?
 
