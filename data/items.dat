@@ -2964,6 +2964,94 @@ done
 
 # END Tools
 
+# Books
+
+book
+  name: Cooking Basics
+  description:
+    A simple cook book, covering a variety of easy recipes and techniques.
+  done
+  glyph: ? ltgreen black
+  weight: 12
+  volume: 90
+  bash:    4
+  to_hit: -1
+
+  skill: cooking
+  cap: 3
+  int_required: 6
+done
+
+book
+  name: French Cuisine
+  description:
+    An advanced cook book, with a variety of complicated French recipes.
+  done
+  glyph: ? ltgreen black
+  weight: 14
+  volume: 90
+  bash:    5
+  to_hit: -1
+
+  skill: cooking
+  cap: 4
+  int_required: 8
+  skill_required: 2
+done
+
+book
+  name: Chemistry 101
+  description:
+    A textbook on the basics of chemistry.
+  done
+  glyph: ? ltgreen black
+  weight:  16
+  volume: 100
+  bash:    6
+  to_hit: -1
+
+  skill: cooking
+  cap: 7
+  int_required: 10
+  skill_required: 3
+done
+
+book
+  name: Advanced Chemistry
+  description:
+    A textbook on chemistry.  Written for college students with a strong
+    chemistry background.
+  done
+  glyph: ? ltgreen black
+  weight:  17
+  volume: 100
+  bash:    6
+  to_hit: -1
+
+  skill: cooking
+  cap: 12
+  int_required: 12
+  skill_required: 5
+done
+
+book
+  name: Molecular Engineering
+  description:
+    A graduate-level textbook on chemistry, detailing the modern science of
+    manipulating molecules through chemistry.
+  done
+  glyph: ? ltgreen black
+  weight:  18
+  volume: 105
+  bash:    6
+  to_hit: -1
+
+  skill: cooking
+  cap: 18
+  int_required: 14
+  skill_required: 8
+done
+
 # Containers
 
 container
