@@ -318,14 +318,14 @@ bool Item_type::load_data(std::istream &data)
       data >> thrown_speed;
       std::getline(data, junk);
 
-  } else if (ident == "container:") {
-    std::getline(data, container);
-    container = no_caps(container);
-    container = trim(container);
-    if (container.empty()) {
-      debugmsg("Empty container (%s)", name.c_str());
-      return false;
-    }
+    } else if (ident == "container:") {
+      std::getline(data, container);
+      container = no_caps(container);
+      container = trim(container);
+      if (container.empty()) {
+        debugmsg("Empty container (%s)", name.c_str());
+        return false;
+      }
 
     } else if (ident == "flags:") {
       std::string flag_line;
