@@ -170,6 +170,8 @@ public:
 
   virtual bool handle_data(std::string ident, std::istream &data);
 
+// TODO: Add morale boost?
+
   int food;
   int water;
   int effect_chance;    // Chance to inflict the effect below
@@ -228,6 +230,8 @@ class Item_type_book : public Item_type
   int bonus_int_required; // What intelligence do we need to get the bonus?
 
   int fun;          // Morale gained (or lost) from reading this
+  int chapters;     // How many times can we read this before it's "used up?"
+                    // (Chapters only applies to non-skill books.)
 };
 
 class Item_type_container : public Item_type

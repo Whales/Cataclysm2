@@ -644,6 +644,7 @@ Item_type_book::Item_type_book()
   high_int_bonus = 0;
   bonus_int_required = 0;
   fun = 0;
+  chapters = 1;
 }
 
 std::string Item_type_book::get_property_description()
@@ -682,7 +683,8 @@ std::string Item_type_book::get_property_description()
   if (fun < 0) {
     ret << "<c=ltred>Morale lost:<c=ltgray> " << 0 - fun << std::endl;
   } else if (fun > 0) {
-    ret << "<c=ltgreen>Morale gained:<c=ltgray> " << fun << std::endl;
+    ret << "<c=ltgreen>Morale gained:<c=ltgray> " << fun << std::endl <<
+           "<c=white>Chapters:<c=ltgray> " << chapters << std::endl;
   }
 
   return ret.str();
