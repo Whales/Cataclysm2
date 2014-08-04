@@ -16,6 +16,7 @@ enum Trait_id
   TRAIT_PACKMULE,     // +20% increase to volume capacity
   TRAIT_ROBUST_GENETICS, // Mutations are more likely to be good
   TRAIT_PAIN_RESISTANT, // Pain is reduced
+  TRAIT_INSIGHTFUL,   // Ignore skill_required on books
 
   TRAIT_MAX_GOOD,     // Splits good traits from neutral traits
 

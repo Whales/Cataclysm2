@@ -56,6 +56,9 @@ std::string trait_id_name(Trait_id trait)
     case TRAIT_PAIN_RESISTANT:
       return "Pain Resistant";
 
+    case TRAIT_INSIGHTFUL:
+      return "Insightful";
+
     case TRAIT_MAX_GOOD:
       return "BUG - TRAIT_MAX_GOOD";
 
@@ -153,6 +156,12 @@ wind up with a bad mutation).";
 You have a high pain threshold.  The amount of pain needed to reach each level \
 (e.g. \"Minor Pain,\" \"Moderate Pain\" etc) is 20 percent higher.";
 
+    case TRAIT_INSIGHTFUL:
+      return "\
+You have an ability to understand advanced concepts, even without knowing the \
+fundamentals first.  You ignore any skill level requirements when reading \
+books.";
+
     case TRAIT_MAX_GOOD:
       return "TRAIT_MAX_GOOD - If you're seeing this, it's a bug!";
 
@@ -242,6 +251,9 @@ int trait_cost(Trait_id trait)
 
     case TRAIT_PAIN_RESISTANT:
       return 3;
+
+    case TRAIT_INSIGHTFUL:
+      return 2;
 
     case TRAIT_MAX_GOOD:
       return 0;
