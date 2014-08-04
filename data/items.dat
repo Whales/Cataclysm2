@@ -3014,6 +3014,8 @@ book
   cap: 7
   int_required: 10
   skill_required: 3
+  high_int_bonus: 2
+  bonus_int_required: 14
 done
 
 book
@@ -3032,6 +3034,8 @@ book
   cap: 12
   int_required: 12
   skill_required: 5
+  high_int_bonus: 2
+  bonus_int_required: 15
 done
 
 book
@@ -3051,6 +3055,178 @@ book
   int_required: 14
   skill_required: 8
 done
+
+book
+  name: The DIY Handbook
+  description:
+    A handy paperback book explaining a wide variety of home projects you can
+    build yourself.
+  done
+  glyph: ? ltblue black
+  weight:  3
+  volume: 11
+
+  skill: mechanics
+  cap: 2
+  int_required: 5
+  high_int_bonus: 1
+  bonus_int_required: 10
+done
+
+book
+  name: How to Fix Anything
+  description:
+    A guide to fixing a variety of mechanical items.  Includes a large chapter
+    devoted to cars.
+  done
+  glyph: ? ltblue black
+  weight:  8
+  volume: 14
+
+  skill: mechanics
+  cap: 5
+  int_required: 5
+  skill_required: 2
+  high_int_bonus: 1
+  bonus_int_required: 10
+done
+
+book
+  name: Mechanical Engineering
+  description:
+    A college-level textbook on various engineering concepts.
+  done
+  glyph: ? ltblue black
+  weight:  18
+  volume: 100
+
+  skill: mechanics
+  cap: 10
+  int_required: 8
+  skill_required: 5
+  high_int_bonus: 2
+  bonus_int_required: 14
+done
+
+book
+  name: Materials Science
+  description:
+    A graduate-level textbook on advanced mechanics and engineering, detailing
+    the various properties of materials and how to take advantage of them.
+  done
+  glyph: ? ltblue black
+  weight:  24
+  volume: 100
+
+  skill: mechanics
+  cap: 14
+  int_required: 10
+  skill_required: 8
+  high_int_bonus: 2
+  bonus_int_required: 15
+done
+
+book
+  name: Quantum Engineering
+  description:
+    An advanced textbook on the complex science - and art - of manipulating
+    matter via quantum methods.
+  done
+  glyph: ? ltblue black
+  weight:  30
+  volume: 120
+
+  skill: mechanics
+  cap: 20
+  int_required: 13
+  skill_required: 12
+done
+
+book
+  name: Electronics Basics
+  description:
+    A popular paperback book that describes various electronic components and
+    the basics of electricity flow.
+  done
+  glyph: ? cyan black
+  weight:  2
+  volume: 12
+
+  skill: electronics
+  cap: 3
+  int_required: 7
+done
+
+book
+  name: Digital Logic
+  description:
+    A book that describes how to implement simple logical circuits.
+  done
+  glyph: ? cyan black
+  weight:  3
+  volume: 15
+
+  skill: electronics
+  cap: 6
+  int_required: 9
+  skill_required: 1
+  high_int_bonus: 1
+  bonus_int_required: 12
+done
+
+book
+  name: Data Coding Theory
+  description:
+    A textbook that describes how to code and manipulate data using electronic
+    circuitry.
+  done
+  glyph: ? cyan black
+  weight: 14
+  volume: 95
+
+  skill: electronics
+  cap: 9
+  int_required: 10
+  skill_required: 5
+  high_int_bonus: 2
+  bonus_int_required: 13
+done
+
+book
+  name: Applied Microcircuity
+  description:
+    A textbook on using miniturized circuitry to achieve faster processing, and
+    various ways to take advantage of this technology.
+  done
+  glyph: ? cyan black
+  weight:  18
+  volume: 100
+
+  skill: electronics
+  cap: 13
+  int_required: 12
+  skill_required: 8
+  high_int_bonus: 2
+  bonus_int_required: 15
+done
+
+book
+  name: Quantum Circuitry
+  description:
+    An advanced textbook that covers the circuitry behind quantum computing, and
+    how to create bespoke circuits that use quantum mechanics.
+  done
+  glyph: ? cyan black
+  weight:  28
+  volume: 120
+
+  skill: electronics
+  cap: 20
+  int_required: 14
+  skill_required: 11
+done
+
+# END Books
 
 # Containers
 
