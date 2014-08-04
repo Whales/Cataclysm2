@@ -2971,7 +2971,7 @@ book
   description:
     A simple cook book, covering a variety of easy recipes and techniques.
   done
-  glyph: ? ltgreen black
+  glyph: ? magenta black
   weight: 12
   volume: 90
   bash:    4
@@ -2987,7 +2987,7 @@ book
   description:
     An advanced cook book, with a variety of complicated French recipes.
   done
-  glyph: ? ltgreen black
+  glyph: ? magenta black
   weight: 14
   volume: 90
   bash:    5
@@ -3004,7 +3004,7 @@ book
   description:
     A textbook on the basics of chemistry.
   done
-  glyph: ? ltgreen black
+  glyph: ? magenta black
   weight:  16
   volume: 100
   bash:    6
@@ -3024,7 +3024,7 @@ book
     A textbook on chemistry.  Written for college students with a strong
     chemistry background.
   done
-  glyph: ? ltgreen black
+  glyph: ? magenta black
   weight:  17
   volume: 100
   bash:    6
@@ -3044,7 +3044,7 @@ book
     A graduate-level textbook on chemistry, detailing the modern science of
     manipulating molecules through chemistry.
   done
-  glyph: ? ltgreen black
+  glyph: ? magenta black
   weight:  18
   volume: 105
   bash:    6
@@ -3224,6 +3224,239 @@ book
   cap: 20
   int_required: 14
   skill_required: 11
+done
+
+book
+  name: Simple Structures
+  description:
+    This book describes the basics of building structures, like lean-tos,
+    fences, and chicken coops.
+  done
+  glyph: ? brown black
+  weight:  8
+  volume: 12
+
+  skill: construction
+  cap: 4
+  int_required: 3
+done
+
+book
+  name: Home Improvement
+  description:
+    This book is a guide to a variety of home improvement projects, such as
+    adding windows to a room or building an attic.
+  done
+  glyph: ? brown black
+  weight: 10
+  volume: 45
+
+  skill: construction
+  cap: 7
+  int_required: 5
+  skill_required: 3
+done
+
+book
+  name: Urban Constructing
+  description:
+    This textbook covers the entire process of building a simple urban house.
+  done
+  glyph: ? brown black
+  weight: 18
+  volume: 90
+
+  skill: construction
+  cap: 10
+  int_required: 6
+  skill_required: 6
+  high_int_bonus: 2
+  bonus_int_required: 12
+done
+
+book
+  name: Army Engineer Manual
+  description:
+    This manual - more like a textbook - is an official U.S. Army guidebook for
+    field and combat engineering, covering both demolition and the construction
+    of advanced defenses.
+  done
+  glyph: ? brown black
+  weight:  18
+  volume: 100
+
+  skill: construction
+  cap: 14
+  int_required: 8
+  skill_required: 9
+  high_int_bonus: 2
+  bonus_int_required: 14
+done
+
+book
+  name: Basic First Aid
+  description:
+    This small handbook explains several first aid techniques.
+  done
+  glyph: ? ltred black
+  weight:  2
+  volume:  6
+
+  skill: first_aid
+  cap: 4
+  int_required: 4
+done
+
+book
+  name: Paramedic Handbook
+  description:
+    This book covers everything a paramedic needs to know to perform emergency
+    first aid and resuscitation.
+  done
+  glyph: ? ltred black
+  weight:  6
+  volume: 18
+
+  skill: first_aid
+  cap: 6
+  skill_required: 1
+  int_required: 4
+  high_int_bonus: 1
+  bonus_int_required: 9
+done
+
+book
+  name: Physical Health Assessment
+  description:
+    This medical textbook is part of many medical degree programs.  It covers
+    everything a primary care physician will need to know.
+  done
+  glyph: ? ltred black
+  weight: 13
+  volume: 90
+
+  skill: first_aid
+  cap: 10
+  skill_required: 5
+  int_required: 7
+  high_int_bonus: 2
+  bonus_int_required: 13
+done
+
+book
+  name: Advanced Physiology
+  description:
+    This advanced medical textbook goes beyond basic doctoring skills and into
+    some simple surgery.
+  done
+  glyph: ? ltred black
+  weight:  18
+  volume: 110
+
+  skill: first_aid
+  cap: 14
+  skill_required: 10
+  int_required: 10
+  high_int_bonus: 2
+  bonus_int_required: 15
+done
+
+book
+  name: Modern Surgery
+  description:
+    This textbook covers a variety of complex surgical techniques.
+  done
+  glyph: ? ltred black
+  weight:  22
+  volume: 120
+
+  skill: first_aid
+  cap: 20
+  skill_required: 14
+  int_required: 13
+done
+
+book
+  name: Wild Edibles
+  description:
+    This handbook describes a variety of edible wild plants.
+  done
+  glyph: ? green black
+  weight:  1
+  volume:  4
+
+  skill: botany
+  cap: 3
+  int_required: 2
+done
+
+book
+  name: Plant Identification
+  description:
+    This book goes into detail on the practice of identifying plants and their
+    uses.
+  done
+  glyph: ? green black
+  weight: 10
+  volume: 60
+
+  skill: botany
+  cap: 6
+  skill_required: 2
+  int_required: 6
+  high_int_bonus: 1
+  bonus_int_required: 10
+done
+
+book
+  name: Plant Biology 101
+  description:
+    This textbook covers the essentials of college-level plant biology.
+  done
+  glyph: ? green black
+  weight:  16
+  volume: 110
+
+  skill: botany
+  cap: 9
+  skill_required: 4
+  int_required: 8
+  high_int_bonus: 1
+  bonus_int_required: 10
+done
+
+book
+  name: Scientific Farming
+  description:
+    This textbook covers a variety of theories and techniques on a scientific
+    approach to farming.
+  done
+  glyph: ? green black
+  weight:  18
+  volume: 110
+
+  skill: botany
+  cap: 14
+  skill_required: 8
+  int_required: 11
+  high_int_bonus: 1
+  bonus_int_required: 13
+done
+
+book
+  name: Modern GMO
+  description:
+    This textbook covers techniques and safety concerns for growing genetically
+    modified crops.
+  done
+  glyph: ? green black
+  weight:  20
+  volume: 115
+
+  skill: botany
+  cap: 18
+  skill_required: 14
+  int_required: 12
 done
 
 # END Books
