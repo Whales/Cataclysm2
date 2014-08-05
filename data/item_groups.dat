@@ -298,9 +298,8 @@ name: items_dry_drinks
   items: w:4 dry coffee / w:3 dry tea
 done
 
-# TODO!
 name: items_magazines
-  items: w:1 rock
+  items: w:9 Bon Appetit / w:9 Popular Mechanics / w:4 Electronics Monthly / w:4 ASCE Magazine / w:7 Health and Medicine / w:9 Gardener's World / w:8 Outside Magazine / w:11 People Magazine / w:12 Reader's Digest / w:9 The New Yorker
 done
 
 name: items_diner_food

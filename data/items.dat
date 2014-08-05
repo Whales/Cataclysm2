@@ -3968,6 +3968,178 @@ book
   int_required: 8
 done
 
+# Magazines
+# Right now they're all colored pink, regardless of any skill attached.
+# Should this change?
+
+book
+  name: Bon Appetit
+  description:
+    A popular cooking magazine, with full-color illustrations of various
+    recipes.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  skill: cooking
+  cap: 2
+  high_int_bonus: 1
+  bonus_int_required: 10
+  fun: 2
+  chapters: 2
+done
+
+book
+  name: Popular Mechanics
+  description:
+    A magazine about popular technology, in publiction for a century and a half
+    when the apocalypse hit.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  skill: mechanics
+  cap: 2
+  high_int_bonus: 1
+  bonus_int_required: 12
+  fun: 2
+  chapters: 3
+done
+
+book
+  name: Electronics Monthly
+  description:
+    A magazine about electronics, with articles ranging from reviews of consumer
+    products to an actual cirtcuit diagram in every issue.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  skill: electronics
+  cap: 2
+  high_int_bonus: 1
+  bonus_int_required: 12
+  fun: 2
+  chapters: 3
+done
+
+book
+  name: ASCE Magazine
+  description:
+    A monthly magazine published by the American Society of Civil Engineers.  It
+    has interviews and analysis of new techniques and projects.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  skill: construction
+  cap: 2
+  high_int_bonus: 1
+  bonus_int_required: 11
+  fun: 2
+  chapters: 3
+done
+
+book
+  name: Health and Medicine
+  description:
+    A magazine about medical issues targeted at the general population and
+    professionals alike.  It has some interviews and news on new developments in
+    the field of medicine.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  skill: first_aid
+  cap: 2
+  high_int_bonus: 1
+  bonus_int_required: 10
+  fun: 1
+  chapters: 3
+done
+
+book
+  name: Gardener's World
+  description:
+    A magazine about gardening and home farming, with articles about various
+    techniques and brands of seeds.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  skill: botany
+  cap: 2
+  high_int_bonus: 1
+  bonus_int_required: 10
+  fun: 2
+  chapters: 2
+done
+
+book
+  name: Outside Magazine
+  description:
+    A magazine about outdoor adventure.  Contains interviews, stories, and tips
+    on a wide variety of activities.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  skill: survival
+  cap: 2
+  fun: 3
+  chapters: 3
+done
+
+book
+  name: People Magazine
+  description:
+    A celebrity gossip magazine.  Everyone in it has been dead for decades, of
+    course, but it's still fun to read.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  fun: 2
+  chapters: 3
+done
+
+book
+  name: Reader's Digest
+  description:
+    A magazine containing a variety of stories, fiction and non-fiction alike.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 4
+
+  fun: 2
+  chapters: 4
+  int_required: 5
+done
+
+book
+  name: The New Yorker
+  description:
+    A popular magazine, with fiction and nonfiction sorties, cultural reviews,
+    poetry, and cartoons.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 5
+
+  fun: 2
+  chapters: 5
+  int_required: 10
+done
+
 # END Books
 
 # Containers
