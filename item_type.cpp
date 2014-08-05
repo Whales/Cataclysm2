@@ -737,6 +737,10 @@ bool Item_type_book::handle_data(std::string ident, std::istream& data)
     data >> fun;
     std::getline(data, junk);
 
+  } else if (ident == "chapters:") {
+    data >> chapters;
+    std::getline(data, junk);
+
   } else if (ident != "done") {
     return false;
   }
