@@ -1328,6 +1328,9 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
 
 void Entity::read_item_uid(int uid)
 {
+  if (has_trait(TRAIT_ILLITERATE)) {
+    return; // We can't read!
+  }
   Item* it = ref_item_uid(uid);
   if (!it || it->get_item_class() != ITEM_CLASS_BOOK) {
     return;
@@ -1705,6 +1708,11 @@ std::string Entity::apply_item_message(Item &it)
 
 std::string Entity::read_item_message(Item &it)
 {
+  if (has_trait(TRAIT_ILLITERATE)) {
+    std::stringstream ret;
+    ret << "<c=ltred>" << get_name_to_player() << " cannot read!<c=/>";
+    return ret.str();
+  }
   int uid = it.get_uid();
   std::stringstream ret;
 

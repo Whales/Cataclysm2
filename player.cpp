@@ -88,7 +88,12 @@ void Player::gain_experience(int amount)
   std::vector<bool> could_improve;
   for (int i = 0; i < SKILL_MAX; i++) {
     Skill_type sk = Skill_type(i);
-    if (experience >= skills.improve_cost(sk) && !skills.maxed_out(sk)) {
+    int cost = skills.improve_cost(sk);
+    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
+      cost *= 2;
+    }
+    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
+    if (experience >= cost && !maxed) {
       could_improve.push_back(true);
     } else {
       could_improve.push_back(false);
@@ -102,8 +107,12 @@ void Player::gain_experience(int amount)
 
   for (int i = 0; i < SKILL_MAX; i++) {
     Skill_type sk = Skill_type(i);
-    if (i > 0 && !could_improve[i] && experience >= skills.improve_cost(sk) &&
-        !skills.maxed_out(sk)) {
+    int cost = skills.improve_cost(sk);
+    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
+      cost *= 2;
+    }
+    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
+    if (i > 0 && !could_improve[i] && experience >= cost && !maxed) {
       unlocked_skills.push_back(sk);
     }
   }
@@ -850,7 +859,10 @@ Press <c=pink>?<c=yellow> and then a skill letter to get help.<c=/>");
         help_skill_desc(sk);
       } else {
         int cost = skills.improve_cost(sk);
-        if (skills.maxed_out(sk)) {
+        if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
+          cost *= 2;
+        }
+        if (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT)) {
           popup("That skill has hit its cap!");
         } else if (experience >= cost) {
           if (query_yn("Spend %d XP to increase %s to %d?", cost,
@@ -900,6 +912,11 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
   for (int i = 1; i < SKILL_MAX; i++) {
 
     Skill_type sk = Skill_type(i);
+    int cost = skills.improve_cost(sk);
+    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
+      cost *= 2;
+    }
+    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
 
     std::stringstream sk_name, sk_level, sk_max, sk_cost;
     sk_name << "<c=pink>";
@@ -909,13 +926,13 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
       sk_name << char( i - 27 + 'A' );
     }
     sk_name << "<c=/>: ";
-    if (!skills.maxed_out(sk) && experience >= skills.improve_cost(sk)) {
+    if (!maxed && experience >= cost) {
       sk_name << "<c=white>";
     }
     sk_name << skill_type_user_name(sk) << "<c=/>";
     i_skills.add_data(cur_name, sk_name.str());
 
-    if (skills.maxed_out(sk)) {
+    if (maxed) {
       sk_level << "<c=red>";
       sk_max   << "<c=red>";
     }
@@ -929,7 +946,6 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
     }
     i_skills.add_data(cur_max, sk_max.str());
 
-    int cost = skills.improve_cost(sk);
     if (experience >= cost) {
       sk_cost << "<c=white>";
     } else {

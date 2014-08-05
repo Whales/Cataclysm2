@@ -17,6 +17,7 @@ enum Trait_id
   TRAIT_ROBUST_GENETICS, // Mutations are more likely to be good
   TRAIT_PAIN_RESISTANT, // Pain is reduced
   TRAIT_INSIGHTFUL,   // Ignore skill_required on books
+  TRAIT_AUTODIDACT,   // Ignore skill cap by spending triple XP
 
   TRAIT_MAX_GOOD,     // Splits good traits from neutral traits
 
@@ -29,6 +30,7 @@ enum Trait_id
   TRAIT_BAD_BACK,     // -20% weight capacity
   TRAIT_BAD_HEARING,  // Volume of sounds is decreased by 50%
   TRAIT_SMELLY,       // Increased smell radius
+  TRAIT_ILLITERATE,   // Can't read books at all!
 
   TRAIT_MAX_BAD,      // Splits bad traits from mutations
 

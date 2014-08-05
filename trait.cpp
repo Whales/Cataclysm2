@@ -59,6 +59,9 @@ std::string trait_id_name(Trait_id trait)
     case TRAIT_INSIGHTFUL:
       return "Insightful";
 
+    case TRAIT_AUTODIDACT:
+      return "Autodidact";
+
     case TRAIT_MAX_GOOD:
       return "BUG - TRAIT_MAX_GOOD";
 
@@ -82,6 +85,9 @@ std::string trait_id_name(Trait_id trait)
 
     case TRAIT_SMELLY:
       return "Smelly";
+
+    case TRAIT_ILLITERATE:
+      return "Illiterate";
 
     case TRAIT_MAX_BAD:
       return "BUG - TRAIT_MAX_BAD";
@@ -162,6 +168,12 @@ You have an ability to understand advanced concepts, even without knowing the \
 fundamentals first.  You ignore any skill level requirements when reading \
 books.";
 
+    case TRAIT_AUTODIDACT:
+      return "\
+You learn things intuitively, even without a teacher or reference material.  \
+Skill caps don't prevent you from improving a skill entirely, but they do make \
+it cost twice as much experience.";
+
     case TRAIT_MAX_GOOD:
       return "TRAIT_MAX_GOOD - If you're seeing this, it's a bug!";
 
@@ -201,6 +213,11 @@ particularly dangerous - while you're asleep!";
       return "\
 You have a strong body odor.  Animals and monsters that track using scent will \
 find you easier to detect, and many NPCs will have a slight negative reaction.";
+
+    case TRAIT_ILLITERATE:
+      return "\
+You never learned to read, and it's far too late to start now.  You cannot \
+read books at all!";
 
     case TRAIT_MAX_BAD:
       return "TRAIT_MAX_BAD - If you're seeing this, it's a bug!";
@@ -255,6 +272,9 @@ int trait_cost(Trait_id trait)
     case TRAIT_INSIGHTFUL:
       return 2;
 
+    case TRAIT_AUTODIDACT:
+      return 3;
+
     case TRAIT_MAX_GOOD:
       return 0;
 
@@ -278,6 +298,9 @@ int trait_cost(Trait_id trait)
 
     case TRAIT_SMELLY:
       return -2;
+
+    case TRAIT_ILLITERATE:
+      return -4;
 
     case TRAIT_MAX_BAD:
       return 0;
