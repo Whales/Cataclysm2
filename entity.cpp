@@ -1345,6 +1345,8 @@ void Entity::read_item_uid(int uid)
     if (skills.get_max_level(sk) >= cap) {
       read_for_skill = false; // We've already reached the book's cap!
     }
+  } else {
+    read_for_skill = false;
   }
   if (!read_for_skill) {
     if (book->fun <= 0) { // Can't read it for fun, either
@@ -1353,6 +1355,7 @@ void Entity::read_item_uid(int uid)
       return; // We've already read all the chapters!
     }
   }
+  //debugmsg("%s chapters read: %d/%d", book->get_data_name().c_str(), get_chapters_read(book->get_data_name()), book->chapters);
   int speed = it->time_to_read();
 // Alter read speed based on intelligence
   speed = (speed * 10) / stats.intelligence;
@@ -1384,7 +1387,8 @@ anything.");
     if (get_chapters_read(title) < book->chapters) {
 // TODO: Put "add_morale()" here!
     }
-    read_chapter(book->get_data_name());
+    read_chapter(title);
+    debugmsg("'%s' chapters read: %d", title.c_str(), get_chapters_read(title));
   }
 
   Skill_type sk_boosted = book->skill_learned;
@@ -1744,6 +1748,9 @@ std::string Entity::read_item_message(Item &it)
                conjugate("start") << " reading \"" << it.get_name() <<
                ".\"<c=/>";
       }
+    } else if (get_chapters_read(book->get_data_name()) >= book->chapters) {
+      ret << "<c=dkgray>" << get_name_to_player() <<
+             " have finished that book.<c=/>";
     } else {  // Success!  Reading for fun or skill.
       ret << "<c=ltblue>" << get_name_to_player() << " " <<
              conjugate("start") << " reading \"" << it.get_name() <<
