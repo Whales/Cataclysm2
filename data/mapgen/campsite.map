@@ -24,6 +24,8 @@
 name: std_campsite_1_whales
 type: campsite
 
+base_terrain: w:20 dirt / w:1 grass
+
 tile: . = w:20 dirt / w:1 grass
 tile: F = w:30 dirt / w:4 grass / w:3 tree / w:2 small tree / w:2 underbrush
 
@@ -73,10 +75,12 @@ done
 name: std_campsite_2_whales
 type: campsite
 
+base_terrain: w:20 dirt / w:1 grass
+
 tile: . = w:20 dirt / w:1 grass
 tile: F = w:30 dirt / w:4 grass / w:3 tree / w:2 small tree / w:2 underbrush
 
-shuffle: 123456789
+shuffle: 12345
 tile: 1 = fire pit
 item_group: 80 1 = items_fire_pit
 subst: 2345 = .
