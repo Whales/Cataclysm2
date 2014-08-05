@@ -28,7 +28,7 @@ tile: # = stone wall
 tile: .23 = floor
 tile: o = grass / dirt
 tile: * = concrete floor
-tile: Xbcd = wood wall
+tile: Xbd = wood wall
 tile: { = shelves
 item_group: 70 { = items_garage
 tile: V$ = shelves
@@ -61,6 +61,7 @@ furniture: ch = wood chair
 subst: 4 = w:2 . / w:1 4
 subst: 5 = w:2 . / w:1 5
 subst: 6 = w:2 . / w:1 6
+tile: 456 = shelves
 item_group: 65 4 = items_home_books
 item_group: 65 5 = items_home_books
 item_group: 65 6 = items_home_books
@@ -86,7 +87,7 @@ oo#c......@**********oooo
 oo###+#+###**oo**oooooooo
 oo#K..#..V#*ooo**XXbbXXoo
 oo#...#..V#oooo**!***{Xoo
-oo#T..#..V#oooo**a***{coo
+oo#T..#..V#oooo**a***{Xoo
 oo#########ooooooX{{{{Xoo
 oooooooooooooooooXXddXXoo
 ooooooooooooooooooooooooo
@@ -122,6 +123,7 @@ furniture: C = wood chair
 subst: 7 = w:2 . / w:1 7
 subst: 8 = w:2 . / w:1 8
 subst: 9 = w:2 . / w:1 9
+tile: 789 = shelves
 item_group: 65 7 = items_home_books
 item_group: 65 8 = items_home_books
 item_group: 65 9 = items_home_books
@@ -218,6 +220,7 @@ shuffle: 123
 
 subst: 4 = w:9 . / w:1 4
 subst: 5 = w:9 . / w:1 5
+tile: 45 = shelves
 item_group: 15 4 = items_home_books
 item_group: 15 5 = items_home_books
 
@@ -276,6 +279,7 @@ subst: 5 = w:9 . / w:1 5
 subst: 6 = w:9 . / w:1 6
 subst: 7 = w:9 . / w:1 7
 subst: 8 = w:9 . / w:1 8
+tile: 5678 = shelves
 item_group: 15 5 = items_home_books
 item_group: 15 6 = items_home_books
 item_group: 15 7 = items_home_books

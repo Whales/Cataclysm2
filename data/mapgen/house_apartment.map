@@ -103,7 +103,7 @@ tile: S$ = shelves
 tile: B = bed
 tile: D = dresser
 # Randomly either place shelves or floor
-tile_group: 12345678 = w:2 . / w:1 S
+subst: 12345678 = w:2 . / w:1 S
 item_group: 76 S = items_home_books
 # Randomly extend a bed to 2x2, or keep it 2x1
 tile_group: xyz = w:2 floor / w:1 bed
