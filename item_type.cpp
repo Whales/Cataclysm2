@@ -651,8 +651,7 @@ std::string Item_type_book::get_property_description()
 {
   std::stringstream ret;
 
-  ret << "<c=magenta>Intelligence required: " << int_required << "<c=/>" <<
-         std::endl;
+  ret << "<c=magenta>Intelligence required:<c=/> " << int_required << std::endl;
 
   ret << "<c=brown>Time to read: ";
   if (time_to_read() < 5) {
@@ -662,7 +661,7 @@ std::string Item_type_book::get_property_description()
   } else {
     ret << "<c=ltred>";
   }
-  ret << time_to_read() << "<c=/>" << std::endl;
+  ret << time_to_read() << " minutes<c=/>" << std::endl;
 
   if (skill_learned == SKILL_NULL) {
     ret << "<c=dkgray>No related skill.<c=/>" << std::endl;
