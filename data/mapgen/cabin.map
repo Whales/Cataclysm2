@@ -71,6 +71,10 @@ furniture: T = table
 furniture: C = wood chair
 furniture: L = stool
 
+subst: 1234 = w:1 s / w:3 .
+tile: s = shelves
+item_group: 70 s = items_home_books
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -79,19 +83,19 @@ oooI%%%%I%%...%%I%%%%Iooo
 ooo%.................%ooo
 ooo%.................%ooo
 ooo###""###abc###""###ooo
-ooo#....C.....d.....F#ooo
+ooo#11..C.....d.....F#ooo
 ooo#S.T.......^.....{#ooo
 ooo"S.T.......^.....{#ooo
 ooo#S...C.....^......#ooo
-ooo#..........^^^^^^e#ooo
+ooo#2.........^^^^^^e#ooo
 ooo"...........L.L.L."ooo
 ooo#.................#ooo
 ooo##########.##k##l##ooo
-ooo#D.BBT...f.i......#ooo
+ooo#D.BBT...f.i.....4#ooo
 ooo"..BB....#.#....B."ooo
 ooo#........g.j.D..B.#ooo
-ooo#........#.########ooo
-ooo"...C....#...m...t#ooo
+ooo#.......3#.########ooo
+ooo"...C...3#...m...t#ooo
 ooo#..TTT...h...n...K"ooo
 ooo###"##"####"#######ooo
 ooooooooooooooooooooooooo
@@ -183,6 +187,10 @@ shuffle: wxyz
 tile: z = wood floor
 tile_group: wxy = w:3 wood railing / w:1 wood floor
 
+subst: 1234 = w:1 s / w:3 .
+tile: s = shelves
+item_group: 70 s = items_home_books
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -195,18 +203,18 @@ ooI..a...C.C....S"ooooooo
 oo%.."...TTT....S#ooooooo
 oow..b...C.C....S#ooooooo
 oow..'..........."ooooooo
-oo%..c.......SSS.#ooooooo
+oo%..c....112SSS.#ooooooo
 ooI%%###..########'##oooo
 ooooo#F........h...t#oooo
 ooooo"^........i...K#oooo
 ooooo'^....$#..######oooo
-ooooo'^....$#..j...D'oooo
+ooooo'^....$#..j..3D'oooo
 ooooo'^....$#..k...."oooo
 ooooo"^....$#..l..BB'oooo
 ooooo########..######oooo
 ooooo#BBT...r..m..BB'oooo
 ooooo"BB....q..n...."oooo
-ooooo#D.....p..O...D'oooo
+ooooo#D..4..p..O...D'oooo
 ooooo##"##"##''##"'##oooo
 ooooooooooooooooooooooooo
 endmap
@@ -298,24 +306,28 @@ tile: bcdegh = wood wall
 
 tile: +f = w:5 closed door / w:1 open door
 
+subst: 234 = w:1 s / w:3 .
+tile: s = shelves
+item_group: 70 s = items_home_books
+
 map:
 ooo&&&&&&&&&&&&&&&&&**ooo
 ooo&&&&&&&&&&&&&&&&&**ooo
 ooo#'a#"b#'c'#d"#e'#**ooo
 ooo#...............#**ooo
 ooo'..............S'**ooo
-ooo#SSS.C.C.......S#**ooo
+ooo#SSS.C.C.22....S#**ooo
 ooo###########...###**ooo
 ooo't...+........$$#**ooo
 ooo#K...#.C.C.....^"**ooo
 ooo######.TTT.....^"**ooo
-ooo#.DD.#.C.C.....F#**ooo
+ooo#3DD3#.C.C.....F#**ooo
 ooo#....#####..#####**ooo
 ooo"....+......+..D#**ooo
 ooo#....#f#g#h##..."**ooo
 ooo#....#......#...#**ooo
 ooo".BB.#....BB#.BB"**ooo
-ooo#TBBT#D...BB#.BB#**ooo
+ooo#TBBT#D.4.BB#.BB#**ooo
 oo!##'"###"##"###"##**!oo
 oo!////////////////***!oo
 oo!~~~___~~___~~__***;!oo

@@ -37,15 +37,16 @@ item_group: 60 a = items_tools
 item_group: 60 b = items_big_tools
 item_group: 70 c = items_garden_tools
 
-subst: { = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
-subst: } = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
-tile: ABCDEF = display rack
+subst: { = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F / w:4 G
+subst: } = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F / w:4 G
+tile: ABCDEFG = display rack
 item_group: 75 A = items_home_hardware
 item_group: 75 B = items_misc_construction
 item_group: 75 C = items_hardware
 item_group: 75 D = items_cleaning
 item_group: 75 E = items_survival_food
 item_group: 75 F = items_barn_guns
+item_group: 75 G = items_farmer_books
 
 map:
 ooooooooooooooooooooooooo
@@ -135,15 +136,16 @@ item_group: 60 a = items_tools
 item_group: 60 b = items_big_tools
 item_group: 70 c = items_garden_tools
 
-subst: { = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
-subst: } = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
-tile: ABCDEF = display rack
+subst: { = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F / w:4 G
+subst: } = w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F / w:4 G
+tile: ABCDEFG = display rack
 item_group: 75 A = items_home_hardware
 item_group: 75 B = items_misc_construction
 item_group: 75 C = items_hardware
 item_group: 75 D = items_cleaning
 item_group: 75 E = items_survival_food
 item_group: 75 F = items_barn_guns
+item_group: 75 G = items_farmer_books
 
 map:
 ooooooooooooooooooooooooo
@@ -190,14 +192,15 @@ tile_group: ' = w:3 wood wall / w:1 window
 tile_group: ? = w:3 wood wall / w:1 window
 tile_group: / = w:3 wood wall / w:1 window
 
-subst: } = w:10 . / w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
-tile: ABCDEF = display rack
+subst: } = w:10 . / w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F / w:4 G
+tile: ABCDEFG = display rack
 item_group: 75 A = items_home_hardware
 item_group: 75 B = items_misc_construction
 item_group: 75 C = items_hardware
 item_group: 75 D = items_cleaning
 item_group: 75 E = items_survival_food
 item_group: 75 F = items_barn_guns
+item_group: 75 G = items_farmer_books
 
 map:
 ooooooooooooooooooooooooo
@@ -321,14 +324,15 @@ tile: . = floor
 tile: # = wood wall
 tile: > = wood ladder down
 tile: " = w:5 wood wall / w:1 window
-subst: } = w:10 . / w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F
-tile: ABCDEF = display rack
+subst: } = w:10 . / w:10 A / w:10 B / w:10 C / w:10 D / w:8 E / w:2 F / w:4 G
+tile: ABCDEFG = display rack
 item_group: 75 A = items_home_hardware
 item_group: 75 B = items_misc_construction
 item_group: 75 C = items_hardware
 item_group: 75 D = items_cleaning
 item_group: 75 E = items_survival_food
 item_group: 75 F = items_barn_guns
+item_group: 75 G = items_farmer_books
 
 map:
 ooooooooooooooooooooooooo
