@@ -95,6 +95,7 @@ name: bench
   Components: c:4 wood plank
   Flags: flammable
 done
+
 name: desk
   glyph: } blue black
   move_cost:  350
