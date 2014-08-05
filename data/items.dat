@@ -3074,6 +3074,24 @@ book
 done
 
 book
+  name: Universal Car Repair
+  description:
+    A hefty tome that details various car repair jobs for nearly any make and
+    model.
+  done
+  glyph: ? ltblue black
+  weight:  38
+  volume: 150
+
+  skill: mechanics
+  cap: 5
+  int_required: 4
+  skill_required: 2
+  high_int_bonus: 3
+  bonus_int_required: 11
+done
+
+book
   name: How to Fix Anything
   description:
     A guide to fixing a variety of mechanical items.  Includes a large chapter
@@ -3193,7 +3211,7 @@ book
 done
 
 book
-  name: Applied Microcircuity
+  name: Applied Microcircuitry
   description:
     A textbook on using miniturized circuitry to achieve faster processing, and
     various ways to take advantage of this technology.
@@ -3258,7 +3276,7 @@ book
 done
 
 book
-  name: Urban Constructing
+  name: Urban Construction
   description:
     This textbook covers the entire process of building a simple urban house.
   done
@@ -3457,6 +3475,497 @@ book
   cap: 18
   skill_required: 14
   int_required: 12
+done
+
+book
+  name: 23 Camping Tips
+  description:
+    A small paperback book with nearly two dozen handy tips and tricks for your
+    next camping trip.
+  done
+  glyph: ? red black
+  weight:  1
+  volume:  4
+
+  skill: survival
+  cap: 3
+done
+
+book
+  name: Orienteering and You
+  description:
+    An introduction to the sport of orienteering, navigation in the wilderness
+    with a map and compass.  In addition to navigation, it goes into detail on
+    several survival skills.
+  done
+  glyph: ? red black
+  weight:  4
+  volume: 32
+
+  skill: survival
+  cap: 5
+  skill_required: 2
+  high_int_bonus: 1
+  bonus_int_required: 10
+done
+
+book
+  name: Apocatips for the Apocalypse
+  description:
+    An old book (early 21st century) about ways to survive after a theoretical
+    apocalypse.  It was clearly written by a (well-trained) nutjob - who
+    would've guessed they were right about the downfall of society?
+  done
+  glyph: ? red black
+  weight: 12
+  volume: 90
+
+  skill: survival
+  cap: 9
+  skill_required: 4
+  int_required: 5
+  high_int_bonus: 1
+  bonus_int_required: 12
+done
+
+book
+  name: U.S. Survival Handbook
+  description:
+    A military-issued guide on extended survival in the wilderness, even in
+    enemy territory.
+  done
+  glyph: ? red black
+  weight: 10
+  volume: 90
+
+  skill: survival
+  cap: 13
+  skill_required: 8
+  int_required: 6
+  high_int_bonus: 3
+  bonus_int_required: 14
+done
+
+# Novals / entertainment books
+book
+  name: Living with Leopards
+  description:
+    The autobiography of a famous biologist who spent many years living with and
+    studying a family of leopards.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 5
+  chapters: 12
+  int_required: 6
+done
+
+book
+  name: A Childhood Lost
+  description:
+    A depressing autobiography by a woman who had to work 10-hour days as a
+    child.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 3
+  chapters: 18
+  int_required: 5
+done
+
+book
+  name: Bad News
+  description:
+    The autobiography of a prominent reporter who investigated corruption at the
+    news station that employed him.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 16
+  int_required: 5
+done
+
+book
+  name: Dragon's Domain
+  description:
+    The first book in the popular Dragon's Domain trilogy, a set of fantasy
+    novels about warriors who fight - and befriend - powerful dragons.
+  done
+  glyph: ? white black
+  weight: 14
+  volume: 72
+
+  fun: 3
+  Chapters: 20
+  int_required: 4
+done
+
+book
+  name: Dragon's Dissent
+  description:
+    The second book in the popular Dragon's Domain fantasy trilogy.  This book
+    sees Mahar's tame dragon rebelling against him.
+  done
+  glyph: ? white black
+  weight: 14
+  volume: 72
+
+  fun: 3
+  chapters: 20
+  int_required: 4
+done
+
+book
+  name: Dragon's Dirge
+  description:
+    The third and final book in the popular Dragon's Domain fantasy trilogy.  In
+    this book, the Dragon Wars draw to a close - or do they?
+  done
+  glyph: ? white black
+  weight: 16
+  volume: 78
+
+  fun: 3
+  chapters: 22
+  int_required: 4
+done
+
+book
+  name: The Wizard's Daughter
+  description:
+    A fantasy novel about the daughter of a powerful wizard, who struggles to
+    learn his powers despite the fact that female wizards are outlawed.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 14
+  int_required: 4
+done
+
+book
+  name: Wolfrider
+  description:
+    A fantasy novel about a crafty goblin and his trusty wolf steed.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 10
+  int_required: 4
+done
+
+book
+  name: Murder in Moscow
+  description:
+    A crime novel about a detective investigating a series of murders in Soviet
+    Moscow.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 12
+  int_required: 5
+done
+
+book
+  name: The Red Card
+  description:
+    A mystery novel about a series of thefts and murders - and broken hearts -
+    set in a large casino.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 14
+  int_required: 6
+done
+
+book
+  name: Hunting the Hunter
+  description:
+    A crime/mystery novel about a police officer pursuing a serial killer - or
+    is it the other way around?
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 12
+  int_required: 5
+done
+
+book
+  name: Get What You Need
+  description:
+    A romance novel about a woman in love with two men - one a jock, one a nerd.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 10
+  int_required: 3
+done
+
+book
+  name: Think of England
+  description:
+    A romance novel about an Englishwoman who arrives in a young United States
+    in 1824.  She stays at the estate of a distant cousin, and sson finds
+    herself falling for not only a rich gentleman - but also the estate's stable
+    boy.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 10
+  int_required: 3
+done
+
+book
+  name: Dirty Little Secret
+  description:
+    A romance novel about a woman whose marriage is on the rocks.  She starts a
+    secretive, BDSM-laden affair with her husband's best friend - just as it
+    starts to look like their marriage might be saved.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 12
+  int_required: 4
+done
+
+book
+  name: 50 Weeks to Live
+  description:
+    A dramatic novel about a man told he has less than a year left in his life.
+    He starts living life to its fullest, but soon finds out that's harder than
+    it sounds.  A best-seller and winner of multiple awards.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 5
+  chapters: 14
+  int_required: 8
+done
+
+book
+  name: God Save the Queen
+  description:
+    A dramatic novel about a man hired to write stories on the royal family for
+    a British tabloid.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 14
+  int_required: 6
+done
+
+book
+  name: Back on the Back Fourty
+  description:
+    A novel about a man who quits his office job to become a farmer after his
+    father dies and leaves him the family farm.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 3
+  chapters: 13
+  int_required: 3
+done
+
+book
+  name: The Mind's Eye
+  description:
+    A scientific journalism book which delves into research on the eye and how
+    our brain processes visual information.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 5
+  chapters: 12
+  int_required: 11
+done
+
+book
+  name: Not My Father's Son
+  description:
+    A humorous novel about a boy who feels like he doesn't belong in his family.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 13
+  int_required: 5
+done
+
+book
+  name: Wait, What?
+  description:
+    A humorous novel about a woman whose life is turned upside-down when a
+    distance relative comes to visit.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 12
+  int_required: 4
+done
+
+book
+  name: My Mom Thinks I'm Cool
+  description:
+    A humorous novel about a misfit kid just trying to survive middle school.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 5
+  chapters: 8
+  int_required: 4
+done
+
+book
+  name: Psi Squadron
+  description:
+    A sci-fi book about an elite team of space marines that uses their psionic
+    powers to combat a mysterious race of insectoid aliens.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 14
+  int_required: 5
+done
+
+book
+  name: Pod Seven
+  description:
+    A sci-fi book about the colonization of a distant, hostile planet.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 12
+  int_required: 4
+done
+
+book
+  name: The Other Side of Light
+  description:
+    A surreal science fiction novel about the bizarre ramifications of time
+    travel.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 5
+  chapters: 10
+  int_required: 11
+done
+
+book
+  name: Empire of Addiction
+  description:
+    A historical account of 19th century England-China relations.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 18
+  int_required: 10
+done
+
+book
+  name: Criminal Art
+  description:
+    A history of the draconian copyright laws of yore, supporting a theory that
+    they led to the Culture Collapse of 2034.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 5
+  chapters: 12
+  int_required: 10
+done
+
+book
+  name: A History of Secrets
+  description:
+    A history of intelligence agencies, starting with the spying used in
+    medieval Europe and Asia, and progressing through to the digital panopticons
+    of the early 21st century.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 18
+  int_required: 12
+done
+
+book
+  name: Business Battles
+  description:
+    A nonfiction account of various dramatic business stories, such as hostile
+    takeovers, political backstabbing, risky policy changes and more.  Despite
+    its excessive use of sensationalistic language, this book is still pretty
+    boring.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 32
+
+  fun: 2
+  chapters: 16
+  int_required: 8
 done
 
 # END Books
