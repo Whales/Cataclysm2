@@ -1355,10 +1355,12 @@ void Entity::read_item_uid(int uid)
       return; // We've already read all the chapters!
     }
   }
-  //debugmsg("%s chapters read: %d/%d", book->get_data_name().c_str(), get_chapters_read(book->get_data_name()), book->chapters);
   int speed = it->time_to_read();
 // Alter read speed based on intelligence
   speed = (speed * 10) / stats.intelligence;
+// At this point, speed is measured in minutes - we need to change that to AP
+// 100 AP per turn, 10 turns per minute
+  speed *= 1000;
   set_activity(PLAYER_ACTIVITY_READ, speed, uid);
 }
 
@@ -1388,7 +1390,6 @@ anything.");
 // TODO: Put "add_morale()" here!
     }
     read_chapter(title);
-    debugmsg("'%s' chapters read: %d", title.c_str(), get_chapters_read(title));
   }
 
   Skill_type sk_boosted = book->skill_learned;
