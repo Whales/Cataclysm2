@@ -1332,17 +1332,25 @@ void Entity::read_item_uid(int uid)
     return; // Not smart enough to read this!
   }
   Skill_type sk = book->skill_learned;
-  if (sk != SKILL_NULL && book->fun <= 0) {
+  bool read_for_skill = true;
+  if (sk != SKILL_NULL) {
     if (!has_trait(TRAIT_INSIGHTFUL) &&
         skills.get_level(sk) < book->skill_required) {
-      return;
+      return; // Can't even read for fun if we don't have enough skill
     }
     int cap = book->cap_limit;
     if (stats.intelligence >= book->bonus_int_required) {
       cap += book->high_int_bonus;
     }
     if (skills.get_max_level(sk) >= cap) {
-      return; // We've already exceeded what this book can teach us!
+      read_for_skill = false; // We've already reached the book's cap!
+    }
+  }
+  if (!read_for_skill) {
+    if (book->fun <= 0) { // Can't read it for fun, either
+      return;
+    } else if (get_chapters_read(book->get_data_name()) >= book->chapters) {
+      return; // We've already read all the chapters!
     }
   }
   int speed = it->time_to_read();
@@ -1357,7 +1365,7 @@ void Entity::finish_reading(Item* it)
     debugmsg("Entity::finish_reading(NULL) called!");
     return;
   } else if (!it->is_real() || !it->get_item_class() == ITEM_CLASS_BOOK) {
-    debugmsg("Entity::finish_reading passed a bad item!");
+    debugmsg("Entity::finish_reading() passed a bad item!");
     return;
   }
 
@@ -1370,7 +1378,15 @@ anything.");
     }
     return;
   }
-// TODO: Morale-boost code.
+
+  if (book->fun > 0) {
+    std::string title = book->get_data_name();
+    if (get_chapters_read(title) < book->chapters) {
+// TODO: Put "add_morale()" here!
+    }
+    read_chapter(book->get_data_name());
+  }
+
   Skill_type sk_boosted = book->skill_learned;
   if (sk_boosted != SKILL_NULL) {
     int cap = book->cap_limit;
@@ -1497,6 +1513,25 @@ Item Entity::pick_ammo_for(Item *it)
 Tripoint Entity::pick_target_for(Item *it)
 {
   return Tripoint(-1, -1, -1);
+}
+
+int Entity::get_chapters_read(std::string title)
+{
+  title = trim( no_caps( title ) );
+  if (chapters_read.count(title) == 0) {
+    return 0;
+  }
+  return chapters_read[title];
+}
+
+void Entity::read_chapter(std::string title)
+{
+  title = trim( no_caps( title ) );
+  if (chapters_read.count(title) == 0) {
+    chapters_read[title] = 1;
+  } else {
+    chapters_read[title]++;
+  }
 }
 
 bool Entity::is_wielding_item_uid(int uid)
@@ -1695,12 +1730,21 @@ std::string Entity::read_item_message(Item &it)
              " level " << skills.get_level(sk_learned) << ", " <<
              book->skill_required << " required).<c=/>";
 
-    } else if (sk_learned != SKILL_NULL && book->fun <= 0 &&
+    } else if (sk_learned != SKILL_NULL &&
                skills.get_max_level(sk_learned) >= cap) {
-      ret << "<c=dkgray>" << get_name_to_player() << " won't learn anything" <<
-             " by reading that.";
-
-    } else {  // Success!
+// Check if we can read it for fun anyway
+      if (book->fun <= 0) {
+        ret << "<c=dkgray>" << get_name_to_player() <<
+               " won't learn anything by reading that.";
+      } else if (get_chapters_read(book->get_data_name()) >= book->chapters) {
+        ret << "<c=dkgray>" << get_name_to_player() <<
+               " can't read that for training or pleasure.";
+      } else {  // We can read it for fun, but not skill!
+        ret << "<c=ltblue>" << get_name_to_player() << " " <<
+               conjugate("start") << " reading \"" << it.get_name() <<
+               ".\"<c=/>";
+      }
+    } else {  // Success!  Reading for fun or skill.
       ret << "<c=ltblue>" << get_name_to_player() << " " <<
              conjugate("start") << " reading \"" << it.get_name() <<
              ".\"<c=/>";

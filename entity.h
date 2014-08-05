@@ -184,6 +184,9 @@ public:
   virtual Item pick_ammo_for(Item *it);
   virtual Tripoint pick_target_for(Item *it);
 
+  int get_chapters_read(std::string title);
+  void read_chapter(std::string title);
+
   bool is_wielding_item_uid(int uid); // is_wielding_item(NULL, uid)
   bool is_wielding_item(Item* it, int uid = -1);
   bool is_wearing_item_uid (int uid); // is_wearing_item(NULL, uid)
@@ -293,6 +296,8 @@ public:
   std::vector<Item> items_worn;
 // Furniture dragged
   std::vector<Furniture_pos> dragged;
+private:
+  std::map<std::string, int> chapters_read;
 };
 
 /* For now, Entity_pool does NOT include a map which uses location as a key.

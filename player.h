@@ -7,6 +7,7 @@
 #include "player_activity.h"
 #include "profession.h"
 #include <string>
+#include <map>
 
 class Player : public Entity
 {
@@ -85,6 +86,8 @@ private:
   std::string name;
   bool male;
   Profession* profession;
+
+  std::map<std::string,int> chapters_read;
 };
 
 #endif
