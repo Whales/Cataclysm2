@@ -71,7 +71,7 @@ name: items_garden_clothing
 done
 
 name: items_garden_supplies
-  items: w:10 flower pot / w:3 wood plank / w:2 rope / w:4 birdseed
+  items: w:10 flower pot / w:3 wood plank / w:2 rope / w:4 birdseed / w:1 Plant Identification
 done
 
 name: items_home_hardware
@@ -79,7 +79,7 @@ name: items_home_hardware
 done
 
 name: items_misc_construction
-  items: w:8 work gloves / w:4 hard hat / w:3 boots / w:4 steel-toed boots / w:5 dust mask / w:1 broom
+  items: w:8 work gloves / w:4 hard hat / w:3 boots / w:4 steel-toed boots / w:5 dust mask / w:1 broom / w:10 Simple Structures / w:10 Home Improvement / w:2 Urban Construction
 done
 
 name: items_hardware
@@ -95,7 +95,7 @@ name: items_factory_tools
 done
 
 name: items_hiking_tools
-  items: w:5 rope / w:10 pocket knife / w:10 hunting knife / w:10 hatchet / w:1 large axe / w:1 machete / w:15 rag / w:10 beef jerky / w:2 chocolate bar / w:5 water / w:15 birdseed / w:2 aspirin / w:5 bandages / w:30 flashlight
+  items: w:5 rope / w:10 pocket knife / w:10 hunting knife / w:10 hatchet / w:1 large axe / w:1 machete / w:15 rag / w:10 beef jerky / w:2 chocolate bar / w:5 water / w:15 birdseed / w:2 aspirin / w:5 bandages / w:30 flashlight / w:5 Basic First Aid / w:5 Wild Edibles / w:10 23 Camping Tips / w:8 Orienteering and You
 done
 
 name: items_hiking_clothes
@@ -104,7 +104,7 @@ done
 
 # From the weird consumer items aisle at pharmacies!
 name: items_misc_goods
-  items: w:20 broom / w:4 showerhead / w:4 wrench / w:3 screwdriver / w:16 batteries / w:14 lighter / w:3 cotton gloves / w:6 cotton hat / w:3 dumbbell
+  items: w:20 broom / w:4 showerhead / w:4 wrench / w:3 screwdriver / w:16 batteries / w:14 lighter / w:3 cotton gloves / w:6 cotton hat / w:3 dumbbell / w:5 Get What You Need / w:5 Think of England / w:5 Dirty Little Secret / w:8 50 Weeks to Live
 done
 
 name: items_behind_counter
@@ -126,11 +126,11 @@ done
 
 # Items for a car mechanic's garage
 name: items_car_mechanic
-  items: w:30 work gloves / w:5 hammer / w:45 wrench / w:30 steel pipe / w:40 screwdriver / w:7 crowbar
+  items: w:30 work gloves / w:5 hammer / w:45 wrench / w:30 steel pipe / w:40 screwdriver / w:7 crowbar / w:15 Universal Car Repair
 done
 
 name: items_computer_room
-  items: w:5 processor / w:8 RAM / w:15 data cable / w:3 screwdriver / w:2 batteries
+  items: w:5 processor / w:8 RAM / w:15 data cable / w:3 screwdriver / w:2 batteries / w:2 Electronics Basics / w:1 Digital Logic / w:3 Data Coding Theory
 done
 
 name: items_fridge
@@ -151,7 +151,7 @@ done
 
 # Not food, just miscellaneous kitchen items, like knives
 name: items_kitchen_counter
-  items: w:15 chef knife / w:10 frying pan / w:12 rag
+  items: w:15 chef knife / w:10 frying pan / w:12 rag / w:3 Cooking Basics / w:2 French Cuisine
 done
 
 name: items_fast_food
@@ -172,7 +172,7 @@ name: items_cash
 done
 
 name: items_office
-  items: w:10 pocket knife / w:1 rag / w:3 bundle of money / w:2 fedora / w:20 glasses / w:2 scarf / w:2 bandana / w:2 leather gloves / w:1 oxfords / w:5 purse / w:1 gold ring / w:15 batteries / w:3 potato chips / w:2 pretzels / w:2 beef jerky / w:3 chocolate bar / w:3 water / w:3 whisky / w:3 wine / w:7 energy drink / w:3 cigarettes / w:8 aspirin / w:1 amphetamine / w:5 lighter / w:1 bandages / w:2 flashlight
+  items: w:10 pocket knife / w:1 rag / w:3 bundle of money / w:2 fedora / w:20 glasses / w:2 scarf / w:2 bandana / w:2 leather gloves / w:1 oxfords / w:5 purse / w:1 gold ring / w:15 batteries / w:3 potato chips / w:2 pretzels / w:2 beef jerky / w:3 chocolate bar / w:3 water / w:3 whisky / w:3 wine / w:7 energy drink / w:3 cigarettes / w:8 aspirin / w:1 amphetamine / w:5 lighter / w:1 bandages / w:2 flashlight / w:3 Business Battles
 done
 
 name: items_misc_housewares
@@ -322,7 +322,7 @@ name: items_survival_food
 done
 
 name: items_security_equipment
-  items: w:1 rope / w:4 pocket knife / w:2 dumbbell / w:3 cap / w:3 safety glasses / w:1 dust mask / w:3 leather gloves / w:2 boots / w:8 holster / w:2 codeine / w:2 amphetamine / w:4 crowbar / w:8 bandages / w:5 first aid kit / w:20 flashlight
+  items: w:1 rope / w:4 pocket knife / w:2 dumbbell / w:3 cap / w:3 safety glasses / w:1 dust mask / w:3 leather gloves / w:2 boots / w:8 holster / w:2 codeine / w:2 amphetamine / w:4 crowbar / w:8 bandages / w:5 first aid kit / w:20 flashlight / w:5 Basic First Aid
 done
 
 name: items_security_weapons
@@ -344,5 +344,42 @@ name: items_fire_pit
 done
 
 name: items_camping
-  items: w:2 rope / w:20 pocket knife / w:8 hunting knife / w:12 hatchet / w:5 large axe / w:2 machete / w:10 frying pan / w:10 rag / w:5 cotton hat / w:2 cap / w:5 bandana / w:3 work gloves / w:2 leather gloves / w:3 boots / w:12 backpack / w:3 batteries / w:1 crossbow / w:4 MRE (meat) / w:4 MRE (vegetable) / w:6 beans / w:6 SPAM / w:7 beef jerky / w:5 chocolate bar / w:14 water / w:2 beer / w:2 dry pasta / w:2 dry rice / w:3 dry coffee / w:3 birdseed / w:4 shovel / w:5 bandages / w:2 first aid kit / w:12 flashlight
+  items: w:2 rope / w:20 pocket knife / w:8 hunting knife / w:12 hatchet / w:5 large axe / w:2 machete / w:10 frying pan / w:10 rag / w:5 cotton hat / w:2 cap / w:5 bandana / w:3 work gloves / w:2 leather gloves / w:3 boots / w:12 backpack / w:3 batteries / w:1 crossbow / w:4 MRE (meat) / w:4 MRE (vegetable) / w:6 beans / w:6 SPAM / w:7 beef jerky / w:5 chocolate bar / w:14 water / w:2 beer / w:2 dry pasta / w:2 dry rice / w:3 dry coffee / w:3 birdseed / w:4 shovel / w:5 bandages / w:2 first aid kit / w:12 flashlight / w:10 Basic First Aid / w:10 Wild Edibles / w:12 23 Camping Tips / w:9 Orienteering and You
+done
+
+name: items_all_books
+  items: w:10 Cooking Basics / w:9 French Cuisine / w:5 Chemistry 101 / w:3 Advanced Chemistry / w:1 Molecular Engineering / w:10 The DIY Handbook / w:7 Universal Car Repair / w:9 How to Fix Anything / w:5 Mechanical Engineering / w:3 Materials Science / w:1 Quantum Engineering / w:10 Electronics Basics / w:9 Digital Logic / w:5 Data Coding Theory / w:3 Applied Microcircuitry / w:1 Quantum Circuitry / w:10 Simple Structures / w:9 Home Improvement / w:5 Urban Construction / w:3 Army Engineer Manual / w:10 Basic First Aid / w:9 Paramedic Handbook / w:5 Physical Health Assessment / w:3 Advanced Physiology / w:1 Modern Surgery / w:10 Wild Edibles / w:9 Plant Identification / w:5 Plant Biology 101 / w:3 Scientific Farming / w:1 Modern GMO / w:10 23 Camping Tips / w:9 Orienteering and You / w:5 Apocatips for the Apocalypse / w:3 U.S. Survival Handbook / w:10 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:10 Dragon's Domain / w:10 Dragon's Dissent / w:10 Dragon's Dirge / w:10 The Wizard's Daughter / w:10 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:10 Get What You Need / w:10 Think of England / w:10 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:10 The Mind's Eye / w:10 not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:10 Psi Squadron / w:10 Pod Seven / w:10 The Other Side of Light / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets
+done
+
+name: items_home_books
+  items: w:12 Cooking Basics / w:9 French Cuisine / w:3 Chemistry 101 / w:1 Advanced Chemistry / w:9 The DIY Handbook / w:5 Universal Car Repair / w:8 How to Fix Anything / w:2 Mechanical Engineering / w:1 Materials Science / w:5 Electronics Basics / w:2 Digital Logic / w:5 Simple Structures / w:5 Home Improvement / w:2 Urban Construction / w:1 Army Engineer Manual / w:9 Basic First Aid / w:4 Paramedic Handbook / w:2 Physical Health Assessment / w:1 Advanced Physiology / w:6 Wild Edibles / w:5 Plant Identification / w:3 Plant Biology 101 / w:1 Scientific Farming / w:7 23 Camping Tips / w:4 Orienteering and You / w:2 Apocatips for the Apocalypse / w:1 U.S. Survival Handbook / w:9 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:9 Dragon's Domain / w:9 Dragon's Dissent / w:9 Dragon's Dirge / w:9 The Wizard's Daughter / w:9 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:9 Get What You Need / w:9 Think of England / w:9 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:9 The Mind's Eye / w:10 not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:9 Psi Squadron / w:9 Pod Seven / w:9 The Other Side of Light / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets
+done
+
+name: items_skill_books
+  items: w:10 Cooking Basics / w:9 French Cuisine / w:5 Chemistry 101 / w:3 Advanced Chemistry / w:1 Molecular Engineering / w:10 The DIY Handbook / w:7 Universal Car Repair / w:9 How to Fix Anything / w:5 Mechanical Engineering / w:3 Materials Science / w:1 Quantum Engineering / w:10 Electronics Basics / w:9 Digital Logic / w:5 Data Coding Theory / w:3 Applied Microcircuitry / w:1 Quantum Circuitry / w:10 Simple Structures / w:9 Home Improvement / w:5 Urban Construction / w:3 Army Engineer Manual / w:10 Basic First Aid / w:9 Paramedic Handbook / w:5 Physical Health Assessment / w:3 Advanced Physiology / w:1 Modern Surgery / w:10 Wild Edibles / w:9 Plant Identification / w:5 Plant Biology 101 / w:3 Scientific Farming / w:1 Modern GMO / w:10 23 Camping Tips / w:9 Orienteering and You / w:5 Apocatips for the Apocalypse / w:3 U.S. Survival Handbook
+done
+
+name: items_nonfiction_books
+  items: w:15 Cooking Basics / w:12 French Cuisine / w:14 The DIY Handbook / w:10 Universal Car Repair / w:11 How to Fix Anything / w:8 Electronics Basics / w:9 Simple Structures / w:8 Home Improvement / w:10 Basic First Aid / w:2 Paramedic Handbook / w:9 Wild Edibles / w:4 Plant Identification / w:9 23 Camping Tips / w:6 Orienteering and You / w:7 Apocatips for the Apocalypse / w:10 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:10 The Mind's Eye / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets
+done
+
+name: items_fiction_books
+  items: w:10 Dragon's Domain / w:10 Dragon's Dissent / w:10 Dragon's Dirge / w:10 The Wizard's Daughter / w:10 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:8 Get What You Need / w:8 Think of England / w:8 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:10 Not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:10 Psi Squadron / w:10 Pod Seven / w:10 The Other Side of Light
+done
+
+name: items_textbooks
+  items: w:10 Chemistry 101 / w:7 Advanced Chemistry / w:5 Molecular Engineering / w:10 Mechanical Engineering / w:7 Materials Science / w:4 Quantum Engineering / w:12 Electronics Basics / w:10 Digital Logic / w:7 Data Coding Theory / w:5 Applied Microcircuitry / w:2 Quantum Circuitry / w:10 Urban Construction / w:9 Paramedic Handbook / w:10 Physical Health Assessment / w:7 Advanced Physiology / w:5 Modern Surgery / w:7 Plant Identification / w:10 Plant Biology 101 / w:7 Scientific Farming / w:5 Modern GMO
+done
+
+name: items_military_books
+  items: w:10 Army Engineer Manual / w:10 Basic First Aid / w:8 Paramedic Handbook / w:10 U.S. Survival Handbook
+done
+
+# Not survival *skill*, just any books a survivalist might have
+name: items_survivalist_books
+  items: w:10 The DIY Handbook / w:8 How to Fix Anything / w:10 Simple Structures / w:16 Basic First Aid / w:8 Paramedic Handbook / w:15 Wild Edibles / w:5 Plant Identification / w:8 23 Camping Tips / w:10 Orienteering and You / w:20 Apocatips for the Apocalypse / w:16 U.S. Survival Handbook
+done
+
+name: items_farmer_books
+  items: w:5 Cooking Basics / w:6 How to Fix Anything / w:10 Simple Structures / w:10 Home Improvement / w:3 Wild Edibles / w:5 Plant Identification / w:6 Plant Biology 101 / w:16 Scientific Farming / w:14 Modern GMO / w:1 Back on the Back Fourty
 done
