@@ -21,7 +21,7 @@
 # See the bottom of this file for details on base_terrain and tile terrain
 # specifications, item drop specifications, and adjacency maps.
 
-######################################## 1 ########################################
+##################################### 1 ########################################
 # Ground Floor
 name: doublesmall1_house_aninimouse_gd
 subname: doublesmall1_house_aninimouse
@@ -129,7 +129,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 2 ########################################
+##################################### 2 ########################################
 # Ground Floor
 name: doublesmall2_house_aninimouse_gd
 subname: doublesmall2_house_aninimouse
@@ -172,13 +172,17 @@ item_group: 50 T = items_cleaning
 item_group: 50 D = items_all_clothes
 item_group: 50 k = items_cleaning
 
+subst: ^ = w:2 . / w:1 ^
+tile: ^ = shelves
+item_group: 70 ^ = items_home_books
+
 map:
 o5555555555555555ppppppp6
 o########22222222ppppppp6
 o"DBB#BD"ooooooo2ppppppp6
 o#...#B.#3oooooo2ppppppp6
 o##+###+#3oooooo2ppppppp6
-o#......"3oooooo2ppppppp6
+o#...C^."3oooooo2ppppppp6
 o"......@coooooo2ppppppp6
 o#ztx.%%#coooooo2ppppppp6
 o####..S"coooooo2ppppppp6
@@ -192,7 +196,7 @@ o#..+..k"coppppppppppppp6
 o####..S"coppppppppppppp6
 o#vtb.%%#coppppppppppppp6
 o"......@ccppppppppppppp6
-o#......"4oppppppppppppp6
+o#...C^."4oppppppppppppp6
 o##+###+#4oppppppppppppp6
 o#...#B.#4oppppppppppppp6
 o"DBB#BD"ooppppppppppppp6
@@ -238,7 +242,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 3 ########################################
+##################################### 3 ########################################
 # Ground Floor
 name: doublesmall3_house_aninimouse_gd
 subname: doublesmall3_house_aninimouse
@@ -346,7 +350,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 4 ########################################
+##################################### 4 ########################################
 # Ground Floor
 name: doublesmall4_house_aninimouse_gd
 subname: doublesmall4_house_aninimouse
@@ -455,7 +459,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 5 ########################################
+##################################### 5 ########################################
 # Ground Floor
 name: small1_house_aninimouse_gd
 subname: small1_house_aninimouse
@@ -498,6 +502,9 @@ item_group: 50 T = items_cleaning
 item_group: 50 D = items_all_clothes
 item_group: 50 k = items_cleaning
 
+subst: ^ = w:2 . / w:1 ^
+tile: ^ = shelves
+item_group: 70 ^ = items_home_books
 
 map:
 o2ooooooocoooooo44444442o
@@ -505,7 +512,7 @@ o2oooooooc33333o44444442o
 o2oo66666c66663544444442o
 o2oo#"#"#@"#"#3o44444442o
 o2oo#........#3544444442o
-o2oo"........"3o44444442o
+o2oo"..^C...."3o44444442o
 o2oo######..##3544444442o
 o2oo#B.D#...z#3o44444442o
 o2oo"B..+..xt"3544444442o
@@ -565,7 +572,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 6 ########################################
+##################################### 6 ########################################
 # Ground Floor
 name: medium1_house_aninimouse_gd
 subname: medium1_house_aninimouse
@@ -616,15 +623,21 @@ item_group: 25 0 = items_small_tools
 item_group: 50 D = items_all_clothes
 item_group: 50 k = items_cleaning
 
+tile: $ = floor
+furniture: $ = sofa
+subst: ^ = w:2 ^ / w:1 .
+tile: ^ = shelves
+item_group: 70 ^ = items_home_books
+
 
 map:
 o2pppppp3oooooooooooooooo
 o2pppppp3oooooooooooooooo
 o2pppppp3oooooooooooooooo
 o2pppppp3###+##""##""###o
-o2pppppp3"...#.........#o
+o2pppppp3"...#.......C^#o
 o2pppppp3#<#..........."o
-o2ppppppc###.#.........#o
+o2ppppppc###.#^.$$$....#o
 o2ppppppc#...######...##o
 o2ppppppc+....%k%#..z..#o
 o2pppppp4#+#....S#.xtm."o
@@ -738,7 +751,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 7 ########################################
+######################################## 7 #####################################
 # Ground Floor
 name: small2_house_aninimouse_gd
 subname: small2_house_aninimouse
@@ -794,6 +807,10 @@ num_item_group: , = w:10 c: 1d3; items_valuables / w:2 c: 1d3; items_ammo_civili
 
 subst: , = w:10 . / w:1 ,
 
+subst: 89 = w:2 . / w:1 ^
+tile: ^ = shelves
+item_group: 82 ^ = items_home_books
+
 map:
 o2pppppppoooooooocooooooo
 o2ppppppp66666666c666666o
@@ -801,8 +818,8 @@ o2ppppppp##"#"###@#"#"##o
 o2ppppppp"S...D#.......#o
 o2ppppppp#BB..D#....bv."o
 o2ppppppp#BB...+...nttx#o
-o2ppppppp".....#...mttz#o
-o2ppppppp#+#####....ZX."o
+o2ppppppp"....9#8..mttz#o
+o2ppppppp#+#####8...ZX."o
 o2ppppppp#.s#T.+......."o
 o2ppppppp".T#s.##%#.####o
 o2ppppppp####"##S.%.#BB#o
@@ -860,7 +877,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 8 ########################################
+######################################## 8 #####################################
 # Ground Floor
 name: medium2_house_aninimouse_gd
 subname: medium2_house_aninimouse
@@ -888,8 +905,8 @@ tile: g = grass
 tile: c = stone path
 tile: h = hedge
 tile: K = chain-link fence
-tile: tC = floor
-furniture: C = wood chair
+tile: tC! = floor
+furniture: C! = wood chair
 furniture: t = table
 subst: 1 = w:20 o / w:10 P / w:5 l / w:5 K
 subst: 2 = w:15 o / w:10 P / w:5 l / w:5 K
@@ -898,7 +915,8 @@ subst: 4 = w:20 g / w:10 c
 subst: 5 = w:20 o / w:10 h
 subst: 6 = w:20 o / w:10 h
 subst: 7 = w:1 . / w:4 Q / w:3 R / w:3 r / w:2 q
-subst: zxvbnmZX = w:4 C / w:5 .
+subst: zvbnZX = w:4 C / w:5 .
+subst: xm = w:4 ! / w:5 .
 item_group: 50 % = items_kitchen_counter
 item_group: 30 E = items_food_shelves
 item_group: 40 F = items_fridge
@@ -911,6 +929,10 @@ item_group: 40 r = items_big_tools
 item_group: 50 D = items_all_clothes
 item_group: 50 k = items_cleaning
 
+subst: 89 = w:2 . / w:1 ^
+tile: ^ = shelves
+item_group: 78 ^ = items_home_books
+
 map:
 ooooooo3ooooooooooooooooo
 ooooooo3ooooooooooooooooo
@@ -918,9 +940,9 @@ oooo66636666666666666oooo
 o25g##"@"###""###""##g52o
 o25g#.....#...Zmn...#g52o
 o25g"........Xtttb.."g52o
-o25g#.....#...zxv...#g52o
+o25g#..C88#...zxv...#g52o
 o25g#..##########..##g52o
-o25g#..#s.#EEEF%....#g52o
+o25g#..#s.#EEEF%...9#g52o
 o25g"..#..+........."g52o
 o25g#.<#T.#%%.%S%kk%#g52o
 o25g#######""+###""##g52o
@@ -967,6 +989,12 @@ num_item_group: S = w:10 c: 1d3; items_valuables / w:2 c: 1d3; items_ammo_civili
 
 subst: S = w:10 . / w:1 S
 
+subst: 1 = w:2 ^ / w:1 .
+subst: 2 = w:2 ! / w:1 .
+tile: ^! = shelves
+item_group: 75 ^ = items_home_books
+item_group: 80 ! = items_home_books
+
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -975,10 +1003,10 @@ xxxx*****************xxxx
 xxxx##"#"###""###""##xxxx
 xxxx"..............."xxxx
 xxxx#..##+##+####+###xxxx
-xxxx#..#..#D.D#....S#xxxx
+xxxx#..#..#D.D#!!..S#xxxx
 xxxx"..#s.#...#....."xxxx
 xxxx"..#T.#B.B#.BB.D"xxxx
-xxxx#.>#..#B.B#.BB.D#xxxx
+xxxx#.>#..#B^B#.BB.D#xxxx
 xxxx#######"#"#"###"#xxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -1033,7 +1061,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 9 ########################################
+##################################### 9 ########################################
 # Ground Floor
 name: doublesmall5_house_aninimouse_gd
 subname: doublesmall5_house_aninimouse
@@ -1190,7 +1218,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxx
 endmap
 done
 
-######################################## 10 ########################################
+##################################### 10 ########################################
 # Ground Floor
 name: doublesmall6_house_aninimouse_gd
 subname: doublesmall6_house_aninimouse

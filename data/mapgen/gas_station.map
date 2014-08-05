@@ -49,12 +49,13 @@ item_group: 60 D = items_trash
 tile: C = display rack
 item_group: 40 C = items_behind_counter
 
-tile: 1234 = display rack
+tile: 12345 = display rack
 item_group: 15 1 = items_snacks
 item_group: 12 2 = items_misc_goods
 item_group: 20 3 = items_cleaning
 item_group: 15 4 = items_snacks
-shuffle: 1234
+item_group: 40 5 = items_magazines
+shuffle: 12345
 
 map:
 *************************
@@ -67,8 +68,8 @@ map:
 *************************
 *****#XXXXXX++XXXXXX#####
 *****#f.............+..T#
-*****#f..1.......4..#..K#
-*****#f..1.......4..#####
+*****#f..1.5...5.4..#..K#
+*****#f..1.5...5.4..#####
 *****#f..1.......4.....2#
 *****#f..1.%%%%%.4..33.2#
 *****#f....%...%....33.2#
@@ -141,11 +142,12 @@ tile_group: " = window / glass wall
 tile: D = dumpster
 item_group: 60 D = items_trash
 
-tile: c123 = display rack
+tile: c1234 = display rack
 item_group: 40 c = items_behind_counter
 item_group: 15 1 = items_snacks
 item_group: 12 2 = items_misc_goods
 item_group: 20 3 = items_cleaning
+item_group: 40 4 = items_magazines
 
 tile: {} = display rack
 item_group: 20 {} = items_car_mechanic
@@ -160,7 +162,7 @@ map:
 #.....%.c#DDDoo**********
 #1.33.%.c######**********
 #1....%.c#...T#**********
-#1222....'...K#**********
+#2244....'...K#**********
 ###############**********
 #{{{{{{{{{{{{{#P*********
 #*************#**********
@@ -243,11 +245,12 @@ item_group: 35 C = items_behind_counter
 tile: f = display fridge
 item_group: 18 f = items_fridge_snacks
 
-tile: 123 = display rack
+tile: 1234 = display rack
 item_group: 12 1 = items_snacks
 item_group: 15 2 = items_misc_goods
 item_group: 15 3 = items_cleaning
-shuffle: 123
+item_group: 40 4 = items_magazines
+shuffle: 1234
 
 map:
 *************oooooooooooo
@@ -258,10 +261,10 @@ map:
 *************X..%%%%%%%.#
 *************a..........#
 *************X.........f#
-*************X..1..22..f#
-***&&******&*X..1..22..f#
-*************X..1..22..f#
-*************X..1..22..f#
+*************X..1..24..f#
+***&&******&*X..1..24..f#
+*************X..1..24..f#
+*************X..1..24..f#
 *************b.........f#
 *************X..........#
 *************#3333333...#

@@ -40,7 +40,10 @@ tile: D = dresser
 tile: % = counter
 tile: S$ = shelves
 tile: B = bed
-tile_group: 1234567 = w:2 floor / w:1 shelves
+
+subst: 1234567 = w:2 . / w:1 S
+item_group: 76 S = items_home_books
+
 # 33% chance of a large bed, 66% of a small bed
 tile_group: bc = w:2 floor / w:1 bed
 item_group: 50 % = items_kitchen_counter
@@ -49,6 +52,7 @@ item_group: 30 $ = items_food_shelves
 item_group: 50 D = items_all_clothes
 # v is a closed door; wxyz are stone walls; shuffle them around
 shuffle: vwxyz
+
 map:
 oooo***oooooooooooooooooo
 oooo***oooooooooooooooooo
@@ -99,7 +103,8 @@ tile: S$ = shelves
 tile: B = bed
 tile: D = dresser
 # Randomly either place shelves or floor
-tile_group: 12345678 = w:2 floor / w:1 shelves
+tile_group: 12345678 = w:2 . / w:1 S
+item_group: 76 S = items_home_books
 # Randomly extend a bed to 2x2, or keep it 2x1
 tile_group: xyz = w:2 floor / w:1 bed
 item_group: 50 % = items_kitchen_counter
@@ -192,7 +197,10 @@ tile: T = toilet
 tile: K = sink
 tile: B = bed
 tile_group: wxyz = bed / floor
-tile_group: 123456 = shelves / floor
+
+subst: 123456 = w:2 . / w:1 S
+tile: S = shelves
+item_group: 76 6 = items_home_books
 
 tile: % = counter
 item_group: 70 % = items_kitchen_counter
@@ -258,7 +266,10 @@ tile: T = toilet
 tile: K = sink
 tile: B = bed
 tile_group: wxyz = bed / floor
-tile_group: 123456 = shelves / floor
+
+subst: 123456 = w:2 . / w:1 S
+tile: S = shelves
+item_group: 76 S = items_home_books
 
 tile: % = counter
 item_group: 70 % = items_kitchen_counter

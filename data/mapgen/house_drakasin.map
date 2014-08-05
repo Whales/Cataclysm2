@@ -42,6 +42,20 @@ tile: G = closed glass door
 tile: g = grass
 tile: E$ = shelves
 
+tile: O = floor
+furniture: O = sofa
+
+subst: 1 = w:1 . / w:2 a
+subst: 2 = w:1 . / w:1 b
+subst: 3 = w:2 . / w:1 c
+item_group: 70 a = items_home_books
+item_group: 70 b = items_home_books
+item_group: 70 c = items_home_books
+
+tile: B = bed
+tile: D = dresser
+item_group: 50 D = items_all_clothes
+
 item_group: 30 $ = items_food_shelves
 item_group: 40 f = items_fridge
 item_group: 50 & = items_kitchen_counter
@@ -50,21 +64,21 @@ map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 oo######"""######"#@#"#oo
-oo#.............#E...%#oo
-oo#.............+....%#oo
-oo#.............#....E#oo
+oo#O............#E...%#oo
+oo#O............+....%#oo
+oo#22...11.OOO..#....E#oo
 oo###...#########+#####oo
 oo#%.....%#<#.#E..#ss.#oo
 oo".......#...#E..+...#oo
 oo"...........#E..#.#T"oo
 oo#EEEEEEE....#E..#####oo
 oo#########...##+##S&s#oo
-oo#....#EE#...#..#&...#oo
+oo#..DD#EE#...#..#&...#oo
 oo"....#..#...#..#&..."oo
 oo"....##+#...#..#f..."oo
-oo#.......#...#......$#oo
-oo#.......+...+......$#oo
-oo#.......#...#......$#oo
+oo#3......#...#......$#oo
+oo#3.BB...+...+......$#oo
+oo#3.BB...#...#......$#oo
 oo##""#####"G"#####""##oo
 ooFgggggggggggggggggggFoo
 ooFgggggggggggggggggggFoo
@@ -101,22 +115,34 @@ item_group: 30 $ = items_food_shelves
 item_group: 40 f = items_fridge
 item_group: 50 & = items_kitchen_counter
 
+tile: OtcC = floor
+furniture: O = sofa
+furniture: t = table
+furniture: cC = wood chair
+
+subst: 1 = w:1 . / w:2 a
+subst: 2 = w:1 . / w:1 b
+subst: 3 = w:2 . / w:1 d
+item_group: 70 a = items_home_books
+item_group: 70 b = items_home_books
+item_group: 70 d = items_home_books
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 oo#######"""########@"#oo
-oo#...............#%..#oo
-oo"...............#%..#oo
-oo"...............##..#oo
-oo#................+..#oo
+oo#..........111..#%..#oo
+oo"..cttC.........#%..#oo
+oo"..Cttc.........##..#oo
+oo#..........OOO...+..#oo
 oo#..######<########EE#oo
 oo#..#SS&$####Es#sE####oo
 oo"......$#..+.....+.T"oo
 oo#......s######+######oo
-oo"......##........+.E#oo
-oo#.......#........#EE#oo
-oo".......#........####oo
-oo#.......+........#.."oo
+oo"..ctC.##C.222...+.E#oo
+oo#..Ctc..#........#EE#oo
+oo"..ctC..#........####oo
+oo#.......+..333...#.."oo
 oo##+############+##.."oo
 oo#...................#oo
 oo#...................#oo
@@ -151,6 +177,16 @@ tile: s = sink
 item_group: 50 DE = items_all_clothes
 item_group: 30 { = items_soft_drugs
 
+tile: OcC = floor
+furniture: O = sofa
+furniture: cC = wood chair
+
+subst: 1 = w:1 . / w:2 a
+subst: 2 = w:1 . / w:1 b
+subst: 3 = w:2 . / w:1 d
+item_group: 70 a = items_home_books
+item_group: 70 b = items_home_books
+item_group: 70 d = items_home_books
 map:
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx
@@ -159,17 +195,17 @@ xx#D..BB....{{{{{{.#EE#xx
 xx#...BB...........+.E#xx
 xx"................#EE#xx
 xx####+######+#########xx
-xx#.......#>#.#s{s#...#xx
+xx#C......#>#.#s{s#...#xx
 xx".......#...#.......#xx
 xx".......+...+....####xx
-xx#.......#...#....+.T"xx
+xx#.OOO.11#...#....+.T"xx
 xx#########...##+######xx
 xx#{{.+..T#...#{....BB#xx
 xx#{..#..s#...#{.....D#xx
 xx"...#####...#{......"xx
-xx".......#...#{......"xx
-xx#BB.....+...+.......#xx
-xx#BB.D...#...#.......#xx
+xx"....333#...#{......"xx
+xx#BB.....+...+......2#xx
+xx#BB.D...#...#.....22#xx
 xx##"###"#########""###xx
 xxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxx

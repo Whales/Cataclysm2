@@ -38,7 +38,7 @@ tile: T = toilet
 tile: s = sink
 tile: % = counter
 tile: c = concrete floor
-subst: 5 = p / c
+subst: q = p / c
 tile: f = display fridge
 item_group: 20 f = items_fridge_snacks
 subst: Dd = o / D
@@ -46,12 +46,13 @@ tile: D = dumpster
 item_group: 50 D = items_trash
 tile: C = display rack
 item_group: 40 C = items_behind_counter
-tile: 1234 = display rack
+tile: 12345 = display rack
 item_group: 15 1 = items_snacks
 item_group: 12 2 = items_misc_goods
 item_group: 20 3 = items_cleaning
 item_group: 15 4 = items_snacks
-shuffle: 1234
+item_group: 50 5 = items_magazines
+shuffle: 12345
 
 tile: S = safe
 num_item_group: S = w:30 c: 1d3; items_valuables / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
@@ -70,13 +71,13 @@ ppppppppppppppppppppppppp
 ppppppppppppppppppppppppp
 ppppppppppppppppppppppppp
 ppppppppppppppppppppppppp
-pp555555555555555555555pp
+ppqqqqqqqqqqqqqqqqqqqqqpp
 oo####XXXX#X+X#XXXX####oo
 oo#T.#.............%.C#Do
 oo#s.a.............%.C#Do
-oo####.2222233333..%.C#Do
+oo####.2222333355..%.C#Do
 oo#T.#.............%..#oo
-oo#s.a.4444411111..##a#do
+oo#s.a.4444111155..##a#do
 oo####............,#S.#do
 oo#....fffffffffff,K..#do
 oo#k###################oo
@@ -143,13 +144,14 @@ tile: D = dumpster
 item_group: 50 D = items_trash
 tile: C = display rack
 item_group: 40 C = items_behind_counter
-subst: 5 = p / c
-tile: 1234 = display rack
+subst: q = p / c
+tile: 12345 = display rack
 item_group: 15 1 = items_snacks
 item_group: 12 2 = items_misc_goods
 item_group: 20 3 = items_cleaning
 item_group: 15 4 = items_snacks
-shuffle: 1234
+item_group: 40 5 = items_magazines
+shuffle: 12345
 
 tile: S = safe
 num_item_group: S = w:30 c: 1d3; items_valuables / w:8 c: 1d3; items_ammo_civilian / w:9 c: 1; items_handguns / w:3 c: 1; items_shotguns / w:3 c: 1; items_hunting_rifles
@@ -168,12 +170,12 @@ ppppppppppppppppppppppppp
 ppppppppppppppppppppppppp
 ppppppppppppppppppppppppp
 ppppppppppppppppppppppppp
-pp555555555555555555555pp
+ppqqqqqqqqqqqqqqqqqqqqqpp
 oo#GcccccccG##+XXXX####oo
 oo#GcccccccG#......%.C#Do
 oo#GcccccccG#..43..%.C#Do
-oo#GcccccccG#..43..%.C#Do
-oo#GcccccccG#..12..%..#oo
+oo#GcccccccG#5.43..%.C#Do
+oo#GcccccccG#5.12..%..#oo
 oo#GcccccccG#..12..##a#do
 oo#Gcccccccca.....,#S.#do
 oo#GGGcGGGGG#.ffff,K..#do

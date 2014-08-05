@@ -53,24 +53,36 @@ item_group: 30 F = items_fridge
 item_group: 30 % = items_kitchen_counter
 item_group: 50 D = items_all_clothes
 
+tile: Otch = floor
+furniture: O = sofa
+furniture: t = table
+furniture: ch = wood chair
+
+subst: 4 = w:2 . / w:1 4
+subst: 5 = w:2 . / w:1 5
+subst: 6 = w:2 . / w:1 6
+item_group: 65 4 = items_home_books
+item_group: 65 5 = items_home_books
+item_group: 65 6 = items_home_books
+
 map:
 oooo*****************oooo
 oooo*****************oooo
 oooo*****************oooo
 oo##"#A#"###"#B#"##**oooo
-oo#.......#$......#**oooo
-oo#.......#$.....F#**oooo
-oo#..............%#**oooo
-oo#..........%S%%%#**oooo
-oo#.......#########**oooo
-oo#.......#.D.11..#**oooo
-oo#.......#......."**oooo
-oo#.#.....#......2"**oooo
+oo#4......#$......#**oooo
+oo#4......#$.....F#**oooo
+oo#O.............%#**oooo
+oo#O.........%S%%%#**oooo
+oo#.....ch#########**oooo
+oo#.....tt#.D.1155#**oooo
+oo#.....tt#......."**oooo
+oo#.#...hc#......2"**oooo
 oo#<#.....+..33..2#**oooo
 oo###.....####""###**oooo
-oo#.......#*ooooooo**oooo
-oo#.......#**********oooo
-oo#.......@**********oooo
+oo#6......#*ooooooo**oooo
+oo#6......#**********oooo
+oo#c......@**********oooo
 oo###+#+###**oo**oooooooo
 oo#K..#..V#*ooo**XXbbXXoo
 oo#...#..V#oooo**!***{Xoo
@@ -103,6 +115,17 @@ shuffle: 123
 shuffle: 456
 
 item_group: 50 D = items_all_clothes
+
+tile: C = floor
+furniture: C = wood chair
+
+subst: 7 = w:2 . / w:1 7
+subst: 8 = w:2 . / w:1 8
+subst: 9 = w:2 . / w:1 9
+item_group: 65 7 = items_home_books
+item_group: 65 8 = items_home_books
+item_group: 65 9 = items_home_books
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -113,7 +136,7 @@ oo*****************oooooo
 oo*****************oooooo
 oo*****************oooooo
 oo###""#######""###oooooo
-oo#.......#.D.11..#oooooo
+oo#....C88#.D.1177#oooooo
 oo".......#......."oooooo
 oo#.#.....#..3...."oooooo
 oo#>#.....+..3..22#oooooo
@@ -124,7 +147,7 @@ oo#######+#oooooooooooooo
 oo#D..66..#oooooooooooooo
 oo#.......#oooooo******oo
 oo"..4...5"oooooo******oo
-oo#..4...5#oooooo******oo
+oo#9.4...5#oooooo******oo
 oo##"###"##oooooo******oo
 ooooooooooooooooo******oo
 ooooooooooooooooooooooooo
@@ -192,12 +215,18 @@ item_group: 1 $ = items_food_shelves
 item_group: 5 D = items_all_clothes
 item_group: 85 . = items_trash
 shuffle: 123
+
+subst: 4 = w:9 . / w:1 4
+subst: 5 = w:9 . / w:1 5
+item_group: 15 4 = items_home_books
+item_group: 15 5 = items_home_books
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooo##"+###"######""###ooo
-ooo#.........#$%%%K%%#ooo
+ooo#...444...#$%%%K%%#ooo
 ooo#.........#$......"ooo
 ooo#.................#ooo
 ooo#............F%%V%#ooo
@@ -210,7 +239,7 @@ ooo##"####&#####+#####ooo
 ooooooooooooo#S....BB#ooo
 ooooooooooooo#S....BB#ooo
 ooooooooooooo"......."ooo
-ooooooooooooo#......D#ooo
+ooooooooooooo#.555..D#ooo
 ooooooooooooo#####"###ooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -241,23 +270,34 @@ item_group: 70 . = items_trash
 item_group: 10 D = items_all_clothes
 shuffle: 12
 shuffle: 34
+
+
+subst: 5 = w:9 . / w:1 5
+subst: 6 = w:9 . / w:1 6
+subst: 7 = w:9 . / w:1 7
+subst: 8 = w:9 . / w:1 8
+item_group: 15 5 = items_home_books
+item_group: 15 6 = items_home_books
+item_group: 15 7 = items_home_books
+item_group: 15 8 = items_home_books
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooo###"###"###########ooo
-ooo#D........#..#.K.T#ooo
+ooo#D..666...#..#.K.T#ooo
 ooo".........+..#...."ooo
 ooo#.........#..1....#ooo
 ooo#BB...SSSS#..#....#ooo
 ooo###########..###2##ooo
-ooo#D...SSS#>........#ooo
+ooo#D.77SSS#>...888..#ooo
 ooo".......###......."ooo
 ooo#BB.......+......."ooo
-ooo#BB.......#.......#ooo
+ooo#BB..66...#.......#ooo
 ooo###"###"#####3#4###ooo
-ooooooooooooo#......B#ooo
-ooooooooooooo#......B#ooo
+ooooooooooooo#5.....B#ooo
+ooooooooooooo#5.....B#ooo
 ooooooooooooo"......."ooo
 ooooooooooooo#D....SS#ooo
 ooooooooooooo####"####ooo
