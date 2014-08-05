@@ -896,6 +896,11 @@ void Entity::set_activity(Player_activity_type type, int duration,
   activity = Player_activity(type, duration, primary_uid, secondary_uid);
 }
 
+bool Entity::has_activity()
+{
+  return activity.is_active();
+}
+
 void Entity::add_status_effect(Status_effect_type type, int duration, int level)
 {
   Status_effect effect(type, duration, level);

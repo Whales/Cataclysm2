@@ -143,6 +143,7 @@ public:
 // Misc action functions
   void set_activity(Player_activity_type type, int duration,
                     int primary_uid = -1, int secondary_uid = -1);
+  bool has_activity();
   void add_status_effect(Status_effect_type type, int duration, int level = 1);
   void add_status_effect(Status_effect effect);
 /* infect() works like add_status_effect(), but it checks our resistance value

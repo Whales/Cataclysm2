@@ -298,7 +298,9 @@ bool Game::main_loop()
 // Update the map in case we need to right now
     shift_if_needed();
 // Print everything (update_hud() and map->draw())
-    draw_all();
+    if (!player->has_activity()) {
+      draw_all();
+    }
 
 // The player doesn't get to give input if they have an active activity.
     if (!player->activity.is_active()) {
@@ -791,15 +793,16 @@ void Game::clean_up_dead_entities()
 
 void Game::handle_player_activity()
 {
+  if (!player->has_activity()) {
+    return;
+  }
   Player_activity *act = &(player->activity);
-  if (act->is_active()) {
-    if (act->duration <= player->action_points) {
-      player->action_points -= act->duration;
-      complete_player_activity();
-    } else {
-      act->duration -= player->action_points;
-      player->action_points = 0;
-    }
+  if (act->duration <= player->action_points) {
+    player->action_points -= act->duration;
+    complete_player_activity();
+  } else {
+    act->duration -= player->action_points;
+    player->action_points = 0;
   }
 }
 
