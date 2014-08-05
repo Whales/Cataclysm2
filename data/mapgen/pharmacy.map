@@ -22,7 +22,9 @@
 # specifications, item drop specifications, and adjacency maps.
 
 name: std_pharmacy_whales
+subname: std_pharmacy_whales
 type: pharmacy
+
 tile: # = stone wall
 tile: . = floor
 tile: o = dirt / grass
@@ -30,23 +32,24 @@ tile_group: * = w:4 closed glass door / w:1 closed door
 tile: + = closed door
 tile: X = glass wall
 tile: " = window
-tile: 12345Hh{ = display rack
 tile: ST = display fridge
 tile: % = counter
+
 subst: s = w:3 $ / w:1 .
 tile: $ = safe
-
-item_group: 40 1 = items_behind_counter
-item_group: 30 2 = items_soft_drugs
-item_group: 40 3 = items_snacks
-item_group: 10 4 = items_food_shelves
-item_group: 45 5 = items_misc_goods
-item_group: 35 ST = items_fridge_snacks
-item_group: 10 hH = items_hard_drugs
 item_group: 85 $ = items_hard_drugs
 
-# Shuffle the various aisles, so stuff isn't always in the same place
+tile: 123456Hh{ = display rack
 shuffle: 2345
+item_group: 50 1 = items_behind_counter
+item_group: 40 2 = items_soft_drugs
+item_group: 40 3 = items_snacks
+item_group: 30 4 = items_food_shelves
+item_group: 65 5 = items_misc_goods
+item_group: 70 6 = items_magazines
+item_group: 45 ST = items_fridge_snacks
+item_group: 10 hH = items_hard_drugs
+
 map:
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -55,7 +58,7 @@ ooo#####XXX***XXXXXX##ooo
 ooo#1..%.............#ooo
 ooo#1..%............S#ooo
 ooo#1..%............S#ooo
-ooo#1..%............S#ooo
+ooo#1..%..66666666..S#ooo
 ooo#%.%%............S#ooo
 ooo#................S#ooo
 ooo#T..2..3...4..5..S#ooo
