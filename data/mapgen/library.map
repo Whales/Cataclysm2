@@ -27,18 +27,17 @@
 name: std_library_weend
 subname: std_library_weend
 type: library
-tile: #       = stone wall
-tile: .       = floor
-tile: o       = dirt / grass
-tile: ,       = stone path
-tile: +       = closed door
-tile: "       = window
-tile: {123456 = shelves
-tile: %       = counter
-tile: T       = toilet
-tile: K       = sink
-tile: <       = stairs up
-tile: >       = stairs down
+tile: # = stone wall
+tile: . = floor
+tile: o = dirt / grass
+tile: , = stone path
+tile: + = closed door
+tile: " = window
+tile: { = shelves
+tile: % = counter
+tile: T = toilet
+tile: K = sink
+tile: < = stairs up
 
 tile: cCtdD = floor
 furniture: cC = wood chair
@@ -47,36 +46,50 @@ furniture: dD = desk
 
 #TODO some PCs on desks in sw corner
 
-#TODO when books implemented add it
-
-
+# The returns shelf
+tile: A = shelves
+item_group: 65 A = items_home_books
 
 # Shuffle the item groups, so that certain types aren't always in the same place
-shuffle: 123456
+shuffle: 1234567890
+tile: 1234567890xyz = shelves
+item_group: 60 1 = items_common_skill_books
+item_group: 70 2 = items_autobiography_books
+item_group: 70 3 = items_history_books
+item_group: 65 4 = items_scifi_books
+item_group: 60 5 = items_mystery_books
+item_group: 60 6 = items_romance_books
+item_group: 70 7 = items_novels
+item_group: 50 8 = items_textbooks
+item_group: 65 9 = items_fantasy_books
+subst: 0 = w:3 x / w:3 y / z
+item_group: 70 x = items_food_books
+item_group: 70 y = items_diy_books
+item_group: 70 z = items_military_books
 
 map:
 oooooo,oooooooooooooooooo
 oooooo,oooooooooooooooooo
-ooo###+##""##########oooo
-ooo#1......1..3..3.c#oooo
-ooo#1......1..3..3.t"oooo
+ooo###+##""##"##"####oooo
+ooo#A......1..1..1.c#oooo
+ooo#A......1..1..1.t"oooo
 ooo#%%%%...........c#oooo
-ooo#c.....#2..23...C#oooo
-ooo#####..#2..23...t"oooo
-ooo"..........23...C#oooo
-ooo#3333..#2..23...c#oooo
-ooo"......#2..23...t"oooo
+ooo"c.....#2..34...C#oooo
+ooo#####..#2..34...t"oooo
+ooo#cC....#2..34...C#oooo
+ooo"TT....#2..34...c#oooo
+ooo#Cc....#2..34...t"oooo
 ooo"...............c#oooo
-ooo#4444...4444..####oooo
+ooo#5555...6666..####oooo
 ooo".............#KT#oooo
-ooo#dc..52...16..+..#oooo
-ooo#DC..52...16..####oooo
-ooo#dc..52...16..#KT#oooo
-ooo#DC..52...16..+..#oooo
+ooo#dc..78...90..+..#oooo
+ooo"DC..78...90..####oooo
+ooo#dc..78...90..#KT#oooo
+ooo"DC..78...90..+..#oooo
 ooo#dc...........####oooo
 ooo############+##ooooooo
 ,,,,,,,,,+.......#ooooooo
-ooooooooo#cd...<>#ooooooo
+ooooooooo#cd...<.#ooooooo
 ooooooooo##"######ooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
@@ -116,147 +129,6 @@ ooo%%%%%%%.......%ooooooo
 ooooooooo%.......%ooooooo
 ooooooooo%.....>.%ooooooo
 ooooooooo%%%%%%%%%ooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-endmap
-done
-
-name: std_library_weend_bm
-subname: std_library_weend
-floor: -1
-type: library
-tile: . = floor
-tile: o = empty
-tile: < = stairs up
-tile: # = stone wall
-tile: + = w:5 locked door / w:1 open door
-tile: {56 = shelves
-tile: s = safe
-
-#TODO when books implemented add it
-
-
-map:
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooo#####ooooooooooo
-ooooooooo#5.s#ooooooooooo
-ooooooooo#5.{#ooooooooooo
-ooooooooo#6.{#ooooooooooo
-ooooooooo#6.{#ooooooooooo
-ooooooooo##+##ooooooooooo
-oooooooooo#.#oooooooooooo
-oooooooooo#.######ooooooo
-oooooooooo#.....<#ooooooo
-oooooooooo########ooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-endmap
-done
-
-
-
-name: std_bookstore_weend
-subname: std_bookstore_weend
-type: library
-tile: #       = stone wall
-tile: .       = floor
-tile: -       = pavement
-tile: o       = dirt / grass
-tile: ,       = concrete floor
-tile: +       = closed door
-tile: "       = window
-tile: {123    = shelves
-tile: %       = counter
-tile: T       = toilet
-tile: K       = sink
-tile: <       = stairs up
-tile: D       = dumpster
-tile: ]       = chain-link fence
-
-tile: cd = floor
-furniture: c = wood chair
-furniture: d = desk
-
-#TODO when books implemented add it
-
-
-
-# Shuffle the item groups, so that certain types aren't always in the same place
-shuffle: 123
-
-map:
-,,,,,,,,,,,,,,,,,,ooooooo
-,,,,,,,,,---------ooooooo
-,,,,,,,,,---------ooooooo
-,,,,,,,,,--###""##ooooooo
-,,,,,,,,,--#.c..1#ooooooo
-,,,,,,,,,--#%%%.1#ooooooo
-,,,,,,,,,--+....1#ooooooo
-,,,,,,,,,--#....2#ooooooo
-,,,,,,,,,--#11..2#ooooooo
-,,,,,,,,,--#11..2#ooooooo
-,,,,,,,,,--"....1#ooooooo
-,,,,,,,,,--"....1#ooooooo
-,,,,,,,,,--#22..1#ooooooo
-,,,,,,,,,--#22..2#ooooooo
-,,,,,,,,,--"....2#ooooooo
-oooo########....2#ooooooo
-oooo#..+...+....."ooooooo
-oooo#TK#cd.#.333.#ooooooo
-oooo#####"+#######ooooooo
-ooooo]DD---<]oooooooooooo
-ooooo]------]oooooooooooo
-ooooo]]]]]]]]oooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-endmap
-done
-
-name: std_bookstore_weend_roof
-subname: std_bookstore_weend
-floor: 1
-type: library
-tile: . = concrete floor
-tile: o = empty
-tile: > = stairs down
-
-map:
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-ooooooooooo.......ooooooo
-oooo..............ooooooo
-oooo..............ooooooo
-oooo..............ooooooo
-oooo..............ooooooo
-ooooooooooo>ooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
-ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 endmap

@@ -3546,7 +3546,55 @@ book
   bonus_int_required: 14
 done
 
-# Novals / entertainment books
+# Novels / entertainment books
+
+book
+  name: Prey, Kill, Eat
+  description:
+    A best-selling memoir which chronicles a woman's journey of self-discovery
+    after her divorce, during which she discovers her love of spear hunting and
+    cooking her fresh catch.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 15
+  int_required: 5
+done
+
+book
+  name: Infinite Julias
+  description:
+    This cookbook-meets-scifi story asks what would happen if renowned chef
+    Julia Child were to be cloned once every five seconds.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 18
+  int_required: 7
+done
+
+book
+  name: Food is Disgusting
+  description:
+    An investigative report on the food industry, written in an entertaining
+    narrative format.  The author visits high-density farms, GMO labs, and
+    sausage factories to support his thesis that food is gross.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 3
+  chapters: 18
+  int_required: 5
+done
+
 book
   name: Living with Leopards
   description:
@@ -3712,6 +3760,36 @@ book
 done
 
 book
+  name: Bagmen of Boston
+  description:
+    This crime novel follows the day-to-day lives of several low-level gangsters
+    working in Boston.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 14
+  int_required: 5
+done
+
+book
+  name: The Criphus Affair
+  description:
+    The mystery novel follows a young reporter who recovers a drug ring while
+    searching for a missing friend.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 16
+  int_required: 6
+done
+
+book
   name: Get What You Need
   description:
     A romance novel about a woman in love with two men - one a jock, one a nerd.
@@ -3756,6 +3834,36 @@ book
   fun: 4
   chapters: 12
   int_required: 4
+done
+
+book
+  name: Moon Kissed
+  description:
+    A romance novel about a young woman whose boyfriend is hiding a secret.  A
+    secret about what he becomes during the full moon...
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 10
+  int_required: 4
+done
+
+book
+  name: Going Down
+  description:
+    A romance novel about the sexual and romantic adventures of a female
+    bellhop at an upscale hotel.
+  done
+  glyph: ? white black
+  weight:  8
+  volume: 50
+
+  fun: 4
+  chapters: 8
+  int_required: 3
 done
 
 book
@@ -3904,6 +4012,21 @@ book
   fun: 5
   chapters: 10
   int_required: 11
+done
+
+book
+  name: Road to Centauri
+  description:
+    A science fiction novel about an enormous spaceship, housing 20,000
+    colonists, bound for Alpha Centauri in an attempt to start a second earth.
+  done
+  glyph: ? white black
+  weight: 10
+  volume: 60
+
+  fun: 4
+  chapters: 15
+  int_required: 6
 done
 
 book
@@ -4138,6 +4261,50 @@ book
   fun: 2
   chapters: 5
   int_required: 10
+done
+
+book
+  name: Sharkhead Issue 32
+  description:
+    A comic book about Sharkhead, a wacky superhero with a shark head and a
+    human body.  In this issue, he fights The Carbotron, a monster made out of
+    living soda pop.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 4
+
+  fun: 2
+  chapters: 2
+done
+
+book
+  name: Sharkhead Issue 33
+  description:
+    A comic book about Sharkhead, a wacky superhero with a shark head and a
+    human body.  This issue sees our hero battling an army of giant grashoppers.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 4
+
+  fun: 2
+  chapters: 2
+done
+
+book
+  name: Sharkhead Issue 34
+  description:
+    A comic book about Sharkhead, a wacky superhero with a shark head and a
+    human body.  In this universally-hated issue, we follow Sharkhead as he buys
+    groceries, calls his mother, and tries to find something to watch on TV.
+  done
+  glyph: ? pink black
+  weight: 1
+  volume: 4
+
+  fun: 1
+  chapters: 2
 done
 
 # END Books

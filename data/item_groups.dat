@@ -299,7 +299,7 @@ name: items_dry_drinks
 done
 
 name: items_magazines
-  items: w:9 Bon Appetit / w:9 Popular Mechanics / w:4 Electronics Monthly / w:4 ASCE Magazine / w:7 Health and Medicine / w:9 Gardener's World / w:8 Outside Magazine / w:11 People Magazine / w:12 Reader's Digest / w:9 The New Yorker
+  items: w:9 Bon Appetit / w:9 Popular Mechanics / w:4 Electronics Monthly / w:4 ASCE Magazine / w:7 Health and Medicine / w:9 Gardener's World / w:8 Outside Magazine / w:11 People Magazine / w:12 Reader's Digest / w:9 The New Yorker / w:5 Sharkhead Issue 32 / w:5 Sharkhead Issue 33 / w:5 Sharkhead Issue 34
 done
 
 name: items_diner_food
@@ -347,24 +347,67 @@ name: items_camping
 done
 
 name: items_all_books
-  items: w:10 Cooking Basics / w:9 French Cuisine / w:5 Chemistry 101 / w:3 Advanced Chemistry / w:1 Molecular Engineering / w:10 The DIY Handbook / w:7 Universal Car Repair / w:9 How to Fix Anything / w:5 Mechanical Engineering / w:3 Materials Science / w:1 Quantum Engineering / w:10 Electronics Basics / w:9 Digital Logic / w:5 Data Coding Theory / w:3 Applied Microcircuitry / w:1 Quantum Circuitry / w:10 Simple Structures / w:9 Home Improvement / w:5 Urban Construction / w:3 Army Engineer Manual / w:10 Basic First Aid / w:9 Paramedic Handbook / w:5 Physical Health Assessment / w:3 Advanced Physiology / w:1 Modern Surgery / w:10 Wild Edibles / w:9 Plant Identification / w:5 Plant Biology 101 / w:3 Scientific Farming / w:1 Modern GMO / w:10 23 Camping Tips / w:9 Orienteering and You / w:5 Apocatips for the Apocalypse / w:3 U.S. Survival Handbook / w:10 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:10 Dragon's Domain / w:10 Dragon's Dissent / w:10 Dragon's Dirge / w:10 The Wizard's Daughter / w:10 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:10 Get What You Need / w:10 Think of England / w:10 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:10 The Mind's Eye / w:10 not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:10 Psi Squadron / w:10 Pod Seven / w:10 The Other Side of Light / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets
+  items: w:10 Cooking Basics / w:9 French Cuisine / w:5 Chemistry 101 / w:3 Advanced Chemistry / w:1 Molecular Engineering / w:10 The DIY Handbook / w:7 Universal Car Repair / w:9 How to Fix Anything / w:5 Mechanical Engineering / w:3 Materials Science / w:1 Quantum Engineering / w:10 Electronics Basics / w:9 Digital Logic / w:5 Data Coding Theory / w:3 Applied Microcircuitry / w:1 Quantum Circuitry / w:10 Simple Structures / w:9 Home Improvement / w:5 Urban Construction / w:3 Army Engineer Manual / w:10 Basic First Aid / w:9 Paramedic Handbook / w:5 Physical Health Assessment / w:3 Advanced Physiology / w:1 Modern Surgery / w:10 Wild Edibles / w:9 Plant Identification / w:5 Plant Biology 101 / w:3 Scientific Farming / w:1 Modern GMO / w:10 23 Camping Tips / w:9 Orienteering and You / w:5 Apocatips for the Apocalypse / w:3 U.S. Survival Handbook / w:14 Prey, Kill, Eat / w:10 Infinite Julias / w:10 Food is Disgusting / w:10 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:10 Dragon's Domain / w:10 Dragon's Dissent / w:10 Dragon's Dirge / w:10 The Wizard's Daughter / w:10 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:10 Get What You Need / w:10 Think of England / w:10 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:10 The Mind's Eye / w:10 not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:10 Psi Squadron / w:10 Pod Seven / w:10 The Other Side of Light / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets
 done
 
 name: items_home_books
-  items: w:12 Cooking Basics / w:9 French Cuisine / w:3 Chemistry 101 / w:1 Advanced Chemistry / w:9 The DIY Handbook / w:5 Universal Car Repair / w:8 How to Fix Anything / w:2 Mechanical Engineering / w:1 Materials Science / w:5 Electronics Basics / w:2 Digital Logic / w:5 Simple Structures / w:5 Home Improvement / w:2 Urban Construction / w:1 Army Engineer Manual / w:9 Basic First Aid / w:4 Paramedic Handbook / w:2 Physical Health Assessment / w:1 Advanced Physiology / w:6 Wild Edibles / w:5 Plant Identification / w:3 Plant Biology 101 / w:1 Scientific Farming / w:7 23 Camping Tips / w:4 Orienteering and You / w:2 Apocatips for the Apocalypse / w:1 U.S. Survival Handbook / w:9 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:9 Dragon's Domain / w:9 Dragon's Dissent / w:9 Dragon's Dirge / w:9 The Wizard's Daughter / w:9 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:9 Get What You Need / w:9 Think of England / w:9 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:9 The Mind's Eye / w:10 not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:9 Psi Squadron / w:9 Pod Seven / w:9 The Other Side of Light / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets
+  items: w:12 Cooking Basics / w:9 French Cuisine / w:3 Chemistry 101 / w:1 Advanced Chemistry / w:9 The DIY Handbook / w:5 Universal Car Repair / w:8 How to Fix Anything / w:2 Mechanical Engineering / w:1 Materials Science / w:5 Electronics Basics / w:2 Digital Logic / w:5 Simple Structures / w:5 Home Improvement / w:2 Urban Construction / w:1 Army Engineer Manual / w:9 Basic First Aid / w:4 Paramedic Handbook / w:2 Physical Health Assessment / w:1 Advanced Physiology / w:6 Wild Edibles / w:5 Plant Identification / w:3 Plant Biology 101 / w:1 Scientific Farming / w:7 23 Camping Tips / w:4 Orienteering and You / w:2 Apocatips for the Apocalypse / w:1 U.S. Survival Handbook / w:13 Prey, Kill, Eat / w:9 Infinite Julias / w:10 Food is Disgusting / w:9 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:9 Dragon's Domain / w:9 Dragon's Dissent / w:9 Dragon's Dirge / w:9 The Wizard's Daughter / w:9 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:9 Get What You Need / w:9 Think of England / w:9 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:9 The Mind's Eye / w:10 not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:9 Psi Squadron / w:9 Pod Seven / w:9 The Other Side of Light / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets / w:5 Bon Appetit / w:5 Popular Mechanics / w:3 Electronics Monthly / w:3 ASCE Magazine / w:4 Health and Medicine / w:5 Gardener's World / w:5 Outside Magazine / w:6 People Magazine / w:7 Reader's Digest / w:6 The New Yorker / w:2 Sharkhead Issue 32 / w:2 Sharkhead Issue 33 / w:2 Sharkhead Issue 34
 done
 
 name: items_skill_books
   items: w:10 Cooking Basics / w:9 French Cuisine / w:5 Chemistry 101 / w:3 Advanced Chemistry / w:1 Molecular Engineering / w:10 The DIY Handbook / w:7 Universal Car Repair / w:9 How to Fix Anything / w:5 Mechanical Engineering / w:3 Materials Science / w:1 Quantum Engineering / w:10 Electronics Basics / w:9 Digital Logic / w:5 Data Coding Theory / w:3 Applied Microcircuitry / w:1 Quantum Circuitry / w:10 Simple Structures / w:9 Home Improvement / w:5 Urban Construction / w:3 Army Engineer Manual / w:10 Basic First Aid / w:9 Paramedic Handbook / w:5 Physical Health Assessment / w:3 Advanced Physiology / w:1 Modern Surgery / w:10 Wild Edibles / w:9 Plant Identification / w:5 Plant Biology 101 / w:3 Scientific Farming / w:1 Modern GMO / w:10 23 Camping Tips / w:9 Orienteering and You / w:5 Apocatips for the Apocalypse / w:3 U.S. Survival Handbook
 done
 
+name: items_common_skill_books
+  items: w:10 Cooking Basics / w:9 French Cuisine / w:10 The DIY Handbook / w:5 Universal Car Repair / w:9 How to Fix Anything / w:6 Electronics Basics / w:8 Simple Structures / w:8 Home Improvement / w:9 Basic First Aid / w:9 Wild Edibles / w:8 Plant Identification / w:10 23 Camping Tips / w:7 Orienteering and You
+done
+
+name: items_food_books
+  items: w:15 Cooking Basics / w:12 French Cuisine / w:12 Prey, Kill, Eat / w:7 Infinite Julias / w:10 Food is Disgusting
+done
+
+name: items_diy_books
+  items: w:20 The DIY Handbook / w:10 Universal Car Repair / w:12 How to Fix Anything / w:8 Electronics Basics / w:10 Simple Structures / w:12 Home Improvement / w:8 Basic First Aid / w:5 Wild Edibles / w:8 23 Camping Tips
+done
+
 name: items_nonfiction_books
-  items: w:15 Cooking Basics / w:12 French Cuisine / w:14 The DIY Handbook / w:10 Universal Car Repair / w:11 How to Fix Anything / w:8 Electronics Basics / w:9 Simple Structures / w:8 Home Improvement / w:10 Basic First Aid / w:2 Paramedic Handbook / w:9 Wild Edibles / w:4 Plant Identification / w:9 23 Camping Tips / w:6 Orienteering and You / w:7 Apocatips for the Apocalypse / w:10 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:10 The Mind's Eye / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets
+  items: w:15 Cooking Basics / w:12 French Cuisine / w:14 The DIY Handbook / w:10 Universal Car Repair / w:11 How to Fix Anything / w:8 Electronics Basics / w:9 Simple Structures / w:8 Home Improvement / w:10 Basic First Aid / w:2 Paramedic Handbook / w:9 Wild Edibles / w:4 Plant Identification / w:9 23 Camping Tips / w:6 Orienteering and You / w:7 Apocatips for the Apocalypse / w:15 Prey, Kill, Eat / w:10 Food is Disgusting / w:10 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News / w:10 The Mind's Eye / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets
+done
+
+name: items_autobiography_books
+  items: w:14 Prey, Kill, Eat / w:10 Living with Leopards / w:10 A Childhood Lost / w:10 Bad News
+done
+
+# Includes investigative journalism (modern history!)
+name: items_history_books
+  items: w:10 Food is Disgusting / w:10 The Mind's Eye / w:10 Empire of Addiction / w:10 Criminal Art / w:10 A History of Secrets / w:10 Business Battles
 done
 
 name: items_fiction_books
-  items: w:10 Dragon's Domain / w:10 Dragon's Dissent / w:10 Dragon's Dirge / w:10 The Wizard's Daughter / w:10 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:8 Get What You Need / w:8 Think of England / w:8 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:10 Not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:10 Psi Squadron / w:10 Pod Seven / w:10 The Other Side of Light
+  items: w:10 Infinite Julias / w:10 Dragon's Domain / w:10 Dragon's Dissent / w:10 Dragon's Dirge / w:10 The Wizard's Daughter / w:10 Wolfrider / w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:8 Get What You Need / w:8 Think of England / w:8 Dirty Little Secret / w:15 50 Weeks to Live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:10 Not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool / w:10 Psi Squadron / w:10 Pod Seven / w:10 The Other Side of Light
 done
+
+# General novels that don't fit into the other categories
+name: items_novels
+  items: w:15 50 Weeks to live / w:10 God Save the Queen / w:10 Back on the Back Fourty / w:10 Not My Father's Son / w:10 Wait, What? / w:10 My Mom Thinks I'm Cool
+done
+
+name: items_scifi_books
+  items: w:10 Infinite Julias / w:10 Psi Squadron / w:10 Pod Seven / w:10 The Other Side of Light / w:10 Road to Centauri
+done
+
+name: items_fantasy_books
+  items: w:10 Dragon's Domain / w:10 Dragon's Dissent / w:10 Dragon's Dirge / w:10 The Wizard's Daughter / w:10 Wolfrider
+done
+
+name: items_mystery_books
+  items: w:10 Murder in Moscow / w:10 The Red Card / w:10 Hunting the Hunter / w:10 Bagmen of Boston / w:10 The Criphus Affair
+done
+
+name: items_romance_books
+  items: w:10 Get What You Need / w:10 Think of England / w:10 Dirty Little Secret / w:10 Moon Kissed / w:10 Going Down
+done
+
 
 name: items_textbooks
   items: w:10 Chemistry 101 / w:7 Advanced Chemistry / w:5 Molecular Engineering / w:10 Mechanical Engineering / w:7 Materials Science / w:4 Quantum Engineering / w:12 Electronics Basics / w:10 Digital Logic / w:7 Data Coding Theory / w:5 Applied Microcircuitry / w:2 Quantum Circuitry / w:10 Urban Construction / w:9 Paramedic Handbook / w:10 Physical Health Assessment / w:7 Advanced Physiology / w:5 Modern Surgery / w:7 Plant Identification / w:10 Plant Biology 101 / w:7 Scientific Farming / w:5 Modern GMO
