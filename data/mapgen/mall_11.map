@@ -694,7 +694,7 @@ tile: . = floor
 tile: # = stone wall
 tile: X = glass wall
 tile: + = closed glass door
-tile_group: '; = w:2 closed glass door / w:1 glass wall
+tile_group: '; = w:4 closed glass door / w:1 glass wall
 tile: % = counter
 tile: < = escalator up
 
