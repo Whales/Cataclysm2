@@ -53,19 +53,19 @@ item_group: 65 A = items_home_books
 # Shuffle the item groups, so that certain types aren't always in the same place
 shuffle: 1234567890
 tile: 1234567890xyz = shelves
-item_group: 60 1 = items_common_skill_books
-item_group: 70 2 = items_autobiography_books
-item_group: 70 3 = items_history_books
-item_group: 65 4 = items_scifi_books
-item_group: 60 5 = items_mystery_books
-item_group: 60 6 = items_romance_books
-item_group: 70 7 = items_novels
-item_group: 50 8 = items_textbooks
-item_group: 65 9 = items_fantasy_books
+item_group: 20 1 = items_common_skill_books
+item_group: 24 2 = items_autobiography_books
+item_group: 24 3 = items_history_books
+item_group: 22 4 = items_scifi_books
+item_group: 20 5 = items_mystery_books
+item_group: 20 6 = items_romance_books
+item_group: 24 7 = items_novels
+item_group: 17 8 = items_textbooks
+item_group: 22 9 = items_fantasy_books
 subst: 0 = w:3 x / w:3 y / z
-item_group: 70 x = items_food_books
-item_group: 70 y = items_diy_books
-item_group: 70 z = items_military_books
+item_group: 24 x = items_food_books
+item_group: 24 y = items_diy_books
+item_group: 24 z = items_military_books
 
 map:
 oooooo,oooooooooooooooooo
