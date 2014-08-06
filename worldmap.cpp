@@ -3,6 +3,7 @@
 #include "map.h"
 #include "files.h"  // for SAVE_DIR
 #include "stringfunc.h" // For name randomization
+#include "game.h"
 #include <fstream>
 #include <sstream>
 
@@ -284,13 +285,33 @@ World_terrain* Worldmap::random_shop()
 
 Point Worldmap::get_point(int posx, int posy)
 {
-  int origx = posx, origy = posy;
+  cuss::interface i_legend;
+  if (!i_legend.load_from_file( CUSS_DIR + "/i_world_map.cuss" )) {
+    return Point(-1, -1);
+  }
+
   int xdim, ydim;
   get_screen_dims(xdim, ydim);
-  Window w_worldmap(0, 0, xdim, ydim);
+  Window w_worldmap(0, 0, xdim - 20, ydim);
+  Window w_legend(xdim - 20, 0, 20, ydim);
+
+  int origx = posx, origy = posy;
+// Size of the window
   int winx = w_worldmap.sizex(), winy = w_worldmap.sizey();
+
   bool done = false;
+  std::vector<Point> results;
+  std::string search_term;
+  int result_index = 0;
+  i_legend.ref_data("entry_search", &search_term);
+  i_legend.select_none();
+
   while (!done) {
+// Fill out the legend
+    i_legend.set_data("text_terrain_name", get_name(posx, posy));
+    i_legend.set_data("num_distance", rl_dist(origx, origy, posx, posy));
+// TODO: Fill out travel time.
+    i_legend.set_data("num_found", results.size());
     for (int x = 0; x < winx; x++) {
       for (int y = 0; y < winy; y++) {
         int terx = posx + x - (winx / 2), tery = posy + y - (winy / 2);
@@ -298,6 +319,7 @@ Point Worldmap::get_point(int posx, int posy)
         if ((terx == posx && tery == posy) ||
             (terx == origx && tery == origy) ) {
           sym = sym.invert();
+// TODO: Remove this (except for testing mode)
         } else if (terx >= 0 && tery >= 0 &&
                    terx < WORLDMAP_SIZE && tery < WORLDMAP_SIZE &&
                    !tiles[terx][tery].monsters.empty()) {
@@ -306,10 +328,54 @@ Point Worldmap::get_point(int posx, int posy)
         w_worldmap.putglyph(x, y, sym);
       }
     }
-    w_worldmap.putstr(0, 0, c_red, c_black, "[%d:%d]", posx, posy);
+    if (TESTING_MODE) {
+      w_worldmap.putstr(0, 0, c_red, c_black, "[%d:%d]", posx, posy);
+    }
     w_worldmap.refresh();
+    i_legend.draw(&w_legend);
+    w_legend.refresh();
     long ch = input();
+
+    if (i_legend.selected()) {  // We've selected something!
+      if (ch == KEY_ESC) {
+        search_term = "";
+        results.clear();
+        result_index = 0;
+        i_legend.select_none(); // Cancel entry.
+      } else if (i_legend.handle_keypress(ch)) {
+        ch = 0;
+      }
+    }
+
     switch (ch) {
+      case '/':
+        search_term = "";
+        i_legend.select("entry_search");
+        break;
+
+      case '>':
+        if (!results.empty()) {
+          result_index++;
+          if (result_index >= results.size()) {
+            result_index = 0;
+          }
+          posx = results[result_index].x;
+          posy = results[result_index].y;
+        }
+        break;
+          
+      case '<':
+        if (!results.empty()) {
+          result_index--;
+          if (result_index < 0) {
+            result_index = results.size() - 1;
+          }
+          posx = results[result_index].x;
+          posy = results[result_index].y;
+        }
+        break;
+          
+// A bunch of movement
       case 'j':
       case '2':
       case KEY_DOWN:    posy++; break;
@@ -330,18 +396,88 @@ Point Worldmap::get_point(int posx, int posy)
       case '1': posx--; posy++; break;
       case 'n':
       case '3': posx++; posy++; break;
+
+      case '0':
+        posx = origx;
+        posy = origy;
+        break;
+
       case 'q':
       case 'Q':
         done = true;
         posx = origx;
         posy = origy;
         break;
+
       case '\n':
-        done = true;
+        if (i_legend.selected()) {  // We were entering data!
+          results = find_terrain(search_term);
+          result_index = 0;
+          if (!results.empty()) {
+            posx = results[0].x;
+            posy = results[0].y;
+          }
+          i_legend.select_none();
+        } else {
+          done = true;
+        }
         break;
     }
   }
   return Point(posx, posy);
+}
+
+std::vector<Point> Worldmap::find_terrain(std::string name,
+                                          Point origin, int range)
+{
+// Standardize our search term.
+  name = no_caps( trim( name ) );
+
+// Confirm that a World_terrain with that name exists - could save a lot of time
+  if (!WORLD_TERRAIN.lookup_name(name)) {
+    return std::vector<Point>();  // Terrain does not exist at all!
+  }
+
+// origin defaults to (-1, -1) and range defaults to -1
+  std::vector<Point> ret;
+  if (origin.x == -1) { // Default; use player's position
+    origin = GAME.map->get_center_point();
+  }
+  int x0, x1, y0, y1; // Area to search in
+  if (range < 0) { // Default; use infinite range
+    x0 = 0;
+    y0 = 0;
+    x1 = WORLDMAP_SIZE - 1;
+    y1 = WORLDMAP_SIZE - 1;
+  } else {
+    x0 = origin.x - range;
+    x1 = origin.x + range;
+    y0 = origin.y - range;
+    y1 = origin.y + range;
+    if (x0 < 0) {
+      x0 = 0;
+    }
+    if (x1 >= WORLDMAP_SIZE) {
+      x1 = WORLDMAP_SIZE - 1;
+    }
+    if (y0 < 0) {
+      y0 = 0;
+    }
+    if (y1 >= WORLDMAP_SIZE) {
+      y1 = WORLDMAP_SIZE - 1;
+    }
+  }
+
+  for (int x = x0; x <= x1; x++) {
+    for (int y = y0; y <= y1; y++) {
+      std::string ter_name = no_caps( trim( get_name(x, y) ) );
+      if (ter_name == name) {
+        ret.push_back( Point(x, y) );
+      }
+    }
+  }
+
+  return ret;
 }
 
 void Worldmap::draw_minimap(cuss::element *drawing, int cornerx, int cornery)

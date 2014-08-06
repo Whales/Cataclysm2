@@ -48,6 +48,8 @@ public:
   World_terrain* random_shop();
 
   Point get_point(int posx, int posy);
+  std::vector<Point> find_terrain(std::string name,
+                                  Point origin = Point(-1, -1), int range = -1);
   void draw_minimap(cuss::element *drawing, int cornerx, int cornery);
   Worldmap_tile* get_tile(int x, int y, bool warn = false);
   Worldmap_tile* get_tile(Point p, bool warn = false);
