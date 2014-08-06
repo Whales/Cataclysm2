@@ -219,6 +219,134 @@ map:
 endmap
 done
 
+name: n11_double_clothing_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+flags: norotate
+
+tile: # = stone wall
+tile: X = glass wall
+tile: . = floor
+tile: % = counter
+tile: ^ = short stone wall
+tile: * = dirt
+tile: T = w:2 small tree / w:1 dirt
+
+shuffle: abc
+shuffle: def
+tile: ad = closed glass door
+tile: bcef = glass wall
+
+subst: AB = w:8 1 / w:5 2 / w:7 3 / w:4 4 / w:15 5 / w:8 6 / w:10 7
+tile: 1234567 = display rack
+item_group: 85 1 = items_hats
+item_group: 82 2 = items_shirts
+item_group: 70 3 = items_jackets
+item_group: 75 4 = items_pants
+item_group: 72 5 = items_shoes
+item_group: 78 6 = items_misc_clothing
+item_group: 72 7 = items_all_clothes
+
+tile: t = floor
+furniture: t = trash can
+item_group: 65 t = items_trash
+
+map:
+###########.............#
+#AAAAAAAAA#.............#
+#A........a.............#
+#A........X.....t.......#
+#A..AAAA..X....^^^......#
+#A..AAAA..#....^T^......#
+#A........b....^*^......#
+#A........#....^*^......#
+#%%%%%%...X....^T^......#
+#.....%...X....^^^......#
+#.....%...c.............#
+#.........#.............#
+###########.............#
+#.........#.............#
+#.....%...d.............#
+#.....%...X....^^^......#
+#%%%%%%...X....^T^......#
+#.........#....^*^......#
+#B..B..B..e....^*^......#
+#B..B..B..#....^T^......#
+#B..B..B..X....^^^......#
+#B..B..B..X.....t.......#
+#B..B..B..f.............#
+#B........#.............#
+###########.............#
+endmap
+done
+
+name: n11_booths_mall_whales
+subname: mall_11
+type: mall
+neighbors: 11
+flags: norotate
+
+tile: # = stone wall
+tile: . = floor
+tile: % = counter
+tile: ^ = short stone wall
+tile: * = dirt
+tile: T = w:2 small tree / w:1 dirt
+
+tile: Bt = floor
+furniture: B = bench
+furniture: t = trash can
+item_group: 78 t = items_trash
+
+subst: 12 = w:7 a / w:5 b / w:8 c / w:7 d / w:10 e / w:15 f / w:15 g / w:10 h / w:5 i / w:4 j / w:6 k / w:18 l / w:12 m / w:10 n / w:20 o / w:8 p
+tile: abcdefghijklmnop = display rack
+item_group: 68 a = items_small_tools
+item_group: 65 b = items_home_hardware
+item_group: 74 c = items_cleaning
+item_group: 65 d = items_hiking_tools
+item_group: 75 e = items_misc_goods
+item_group: 75 f = items_behind_counter
+item_group: 60 g = items_snacks
+item_group: 60 h = items_fridge_snacks
+item_group: 70 i = items_kitchen_counter
+item_group: 60 j = items_sport_equipment
+item_group: 70 k = items_sport_clothes
+item_group: 60 l = items_jewelry
+item_group: 75 m = items_hats
+item_group: 75 n = items_misc_clothing
+item_group: 80 o = items_magazines
+item_group: 80 p = items_home_books
+
+map:
+#.......................#
+#.......................#
+#.......................#
+#^^...................^^#
+#T^^.....%%%%%%%.....^^T#
+#**^.....%.....%.....^**#
+#*T^.....%..1..%.....^T*#
+#**^.....%..1..%.....^**#
+#T^^.....%..1..%.....^^T#
+#^^t.....%..1..%.....t^^#
+#........%.....%........#
+#B.......%%%%%%%.......B#
+#B.....................B#
+#B.......%%%%%%%.......B#
+#........%.....%........#
+#^^t.....%..2..%.....t^^#
+#.^^.....%..2..%.....^^T#
+#..^.....%..2..%.....^**#
+#..^.....%..2..%.....^T*#
+#..^.....%.....%.....^**#
+#.^^.....%%%%%%%.....^^T#
+#^^...................^^#
+#.......................#
+#.......................#
+#.......................#
+endmap
+done
+
 name: n11_housewares_mall_whales
 subname: mall_11
 type: mall
