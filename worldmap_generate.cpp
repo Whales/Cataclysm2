@@ -583,6 +583,7 @@ void Worldmap::add_bonus(int x, int y, bool debug)
       tiles[bx][by].terrain = bonus_ter;
 // ... and if it spreads, maybe some adjacent tiles?
       int spread_points = bonus_ter->spread.roll();
+      int surrounding = 0;  // For WTF_NO_SURROUND
       if (bonus_ter->spread_type == SPREAD_NULL) {
 // TODO: Warn about this?  Shouldn't ever actually happen.
         spread_points = 0;
@@ -593,15 +594,15 @@ void Worldmap::add_bonus(int x, int y, bool debug)
         if (debug) {
           debugmsg("Spread points: %d", spread_points);
         }
+        std::vector<Point> spread_targets;
+        std::vector<Point> spread_preferred;
+        switch (bonus_ter->spread_type) {
+
 /* Yes, the below makes it more likely to spread to points adjacent to more than
  * one already-used point.  Not only is this easier to code, but it's also often
  * more desirable behavior, since it leads to centralized blobs rather than
  * stretched-out things.
  */
-        std::vector<Point> spread_targets;
-        std::vector<Point> spread_preferred;
-        switch (bonus_ter->spread_type) {
-
           case SPREAD_NORMAL:
             for (int i = 0; i < included.size(); i++) {
               for (int x = included[i].x - 1; x <= included[i].x + 1; x++) {
@@ -610,7 +611,8 @@ void Worldmap::add_bonus(int x, int y, bool debug)
                   if (x == included[i].x || y == included[i].y) {
                     Worldmap_tile* target = get_tile(x, y);
                     if (target &&
-                        target->terrain->spread_cost <= spread_points) {
+                        target->terrain->spread_cost <= spread_points &&
+                        (surrounding < 3 || is_adjacent_no_diag(bx, by, x, y))){
                       spread_targets.push_back( Point(x, y) );
                     }
                   }
@@ -628,7 +630,8 @@ void Worldmap::add_bonus(int x, int y, bool debug)
                   if (x == included[i].x || y == included[i].y) {
                     Worldmap_tile* target = get_tile(x, y);
                     if (target &&
-                        target->terrain->spread_cost <= spread_points) {
+                        target->terrain->spread_cost <= spread_points &&
+                        (surrounding < 3 || is_adjacent_no_diag(bx, by, x, y))){
                       spread_targets.push_back( Point(x, y) );
                     }
                   }
@@ -645,7 +648,8 @@ void Worldmap::add_bonus(int x, int y, bool debug)
                   if (x == included[i].x || y == included[i].y) {
                     Worldmap_tile* target = get_tile(x, y);
                     if (target &&
-                        target->terrain->spread_cost <= spread_points) {
+                        target->terrain->spread_cost <= spread_points &&
+                        (surrounding < 3 || is_adjacent_no_diag(bx, by, x, y))){
 // Check if we would create an "arm"
                       bool arm = true;
                       for (int ax = x - 1; arm && ax <= x + 1; ax++) {
@@ -675,6 +679,7 @@ void Worldmap::add_bonus(int x, int y, bool debug)
         } // switch (bonus_ter->spread_type)
 
         if (!spread_preferred.empty()) {
+// Replace full target list with only-preferred target list
           spread_targets = spread_preferred;
         }
         if (spread_targets.empty()) { // Nowhere to go, so sad :(
@@ -684,6 +689,10 @@ void Worldmap::add_bonus(int x, int y, bool debug)
           }
         } else {
           Point spread = spread_targets[ rng(0, spread_targets.size() - 1) ];
+// For WTF_NO_SURROUND
+          if (is_adjacent_no_diag( Point(bx, by), spread )) {
+            surrounding++;
+          }
           included.push_back(spread);
           Worldmap_tile* target = get_tile(spread);
           spread_points -= target->terrain->spread_cost;

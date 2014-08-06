@@ -287,7 +287,7 @@ Name: factory entrance
   Spread: 3d4
   Spread_type: center
   Spread_options: factory
-  Flags: face_road relational
+  Flags: face_road relational no_surround
 Done
 
 Name: factory
@@ -309,7 +309,7 @@ Name: mall entrance
   Spread: 3d4
   Spread_type: arms
   Spread_options: mall
-  Flags: face_road relational
+  Flags: face_road relational no_surround
 Done
 
 Name: mall

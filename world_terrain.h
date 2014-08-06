@@ -20,6 +20,7 @@ enum World_terrain_flag
   WTF_SHOP,       // Is a shop - for world map generation
   WTF_FACE_ROAD,  // Rotate to face the road
   WTF_ROAD,       // Is a road, for the purpose of face_road
+  WTF_NO_SURROUND,// For bonuses/spreading; never surround it fully
   WTF_MAX
 };
 

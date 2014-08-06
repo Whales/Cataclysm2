@@ -252,6 +252,7 @@ std::string world_terrain_flag_name(World_terrain_flag flag)
     case WTF_SHOP:          return "shop";
     case WTF_FACE_ROAD:     return "face_road";
     case WTF_ROAD:          return "road";
+    case WTF_NO_SURROUND:   return "no_surround";
     case WTF_MAX:           return "BUG - WTF_MAX";
     default:                return "BUG - Unnamed World_terrain_flag";
   }
