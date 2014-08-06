@@ -210,6 +210,11 @@ int manhattan_dist(Point origin, Point target);
 int manhattan_dist(int x0, int y0, int z0, int x1, int y1, int z1);
 int manhattan_dist(Tripoint origin, Tripoint target);
 
+bool is_adjacent_no_diag(int x0, int y0, int x1, int y1);
+bool is_adjacent_no_diag(Point A, Point B);
+bool is_adjacent_diag(int x0, int y0, int x1, int y1);
+bool is_adjacent_diag(Point A, Point B);
+
 /* Direction origin moves to reach target
  * This is GENERAL direction, which means that if target is 500 tiles to the
  * north and 5 tiles to the west, we return north since any reasonable

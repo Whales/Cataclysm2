@@ -229,6 +229,27 @@ int manhattan_dist(Tripoint origin, Tripoint target)
                         target.x, target.y, target.z);
 }
 
+bool is_adjacent_no_diag(int x0, int y0, int x1, int y1)
+{
+  return is_adjacent_no_diag( Point(x0, y0), Point(x1, y1) );
+}
+
+bool is_adjacent_no_diag(Point A, Point B)
+{
+  return ((A.x == B.x && abs(A.y - B.y) <= 1) ||
+          (A.y == B.y && abs(A.x - B.x) <= 1)   );
+}
+
+bool is_adjacent_diag(int x0, int y0, int x1, int y1)
+{
+  return is_adjacent_diag( Point(x0, y0), Point(x1, y1) );
+}
+
+bool is_adjacent_diag(Point A, Point B)
+{
+  return (abs(A.x - B.x) <= 1 && abs(A.y - B.y) <= 1);
+}
+
 Direction_full get_general_direction(Point origin, Point target)
 {
   int dx = target.x - origin.x;
