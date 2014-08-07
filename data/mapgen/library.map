@@ -48,7 +48,7 @@ furniture: dD = desk
 
 # The returns shelf
 tile: A = shelves
-item_group: 65 A = items_home_books
+item_group: 35 A = items_home_books
 
 # Shuffle the item groups, so that certain types aren't always in the same place
 shuffle: 1234567890
@@ -129,6 +129,128 @@ ooo%%%%%%%.......%ooooooo
 ooooooooo%.......%ooooooo
 ooooooooo%.....>.%ooooooo
 ooooooooo%%%%%%%%%ooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: garden_library_whales
+subname: garden_lib_whales
+type: library
+
+tile: o = grass / dirt
+tile: O = w:60 grass / w:60 dirt / w:5 small tree / w:1 tree
+tile: t = w:1 tree / w:5 small tree / w:3 grass / w:3 dirt
+tile: # = stone wall
+tile: . = floor
+tile: , = stone path
+tile: " = w:9 window / w:1 stone wall
+tile: % = counter
+item_group: 10 % = items_home_books
+
+shuffle: xyz
+tile: x = w:5 closed door / w:4 locked door / w:1 open door
+tile: y = w:7 stone wall / w:2 closed door / w:1 locked door
+tile: z = w:17 stone wall / w:2 closed door / w:1 locked door
+
+tile: cCT = floor
+furniture: cC = wood chair
+furniture: T = table
+
+tile: BhHL = grass / dirt
+furniture: B = bench
+furniture: hH = wood chair
+furniture: L = table
+
+# Returns shelf
+tile: A = shelves
+item_group: 35 A = items_home_books
+
+tile: M = display rack
+item_group: 50 M = items_magazines
+
+shuffle: 1234567890
+tile: 1234567890def = shelves
+item_group: 20 1 = items_common_skill_books
+item_group: 24 2 = items_autobiography_books
+item_group: 24 3 = items_history_books
+item_group: 22 4 = items_scifi_books
+item_group: 20 5 = items_mystery_books
+item_group: 20 6 = items_romance_books
+item_group: 24 7 = items_novels
+item_group: 17 8 = items_textbooks
+item_group: 22 9 = items_fantasy_books
+subst: 0 = w:3 d / w:3 e / f
+item_group: 24 d = items_food_books
+item_group: 24 e = items_diy_books
+item_group: 24 f = items_military_books
+
+subst: ^ = w:2 ^ / w:1 o
+subst: * = w:2 ^ / w:1 o
+subst: $ = w:4 ^ / w:1 o
+tile: ^ = hedge
+
+map:
+ooooooooooooooo,,oooooooo
+ooooooooooooooo,,oooooooo
+o*###"#x#"##$$$,,$$$$$$$o
+o*#A.......",,,,,toBBBt$o
+o*#A.......y,,,,,oooooo$o
+o*#A.......",,tooooooot$o
+o*#A.......z,,ooohLHooo$o
+o*#........",,tooHLhoot$o
+o*#%%%%%%..#""##""##""#$o
+o*".c......1..23..45..#*o
+o*#........1..23..45.."*o
+o*#....MM..1..23..45..#*o
+o*"Cc..MM..1..23..45.."*o
+o*"TT.................#*o
+o*"cC......0..98..76.."*o
+o*#........0..98..76..#*o
+o*"........0..98..76.."*o
+o*#AAAAAA..0..98..76..#*o
+o*#######""#""##""##""#*o
+oo^^^^^^^^^^^^^^^^^^^^^oo
+OOOOOOOOOOOOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOO
+endmap
+done
+
+name: garden_library_roof_whales
+subname: garden_lib_whales
+type: library
+level: 1
+
+tile: o = empty
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oo..........ooooooooooooo
+oo..........ooooooooooooo
+oo..........ooooooooooooo
+oo..........ooooooooooooo
+oo..........ooooooooooooo
+oo..........ooooooooooooo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 ooooooooooooooooooooooooo
 endmap
