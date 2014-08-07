@@ -366,19 +366,3 @@ name: blinker
   speed: 100
 done
 
-name: summoner
-  name_plural: summoners
-  genus: zombies
-  glyph: Z ltblue black
-  chance: 100
-  ability: summon
-    frequency: 10
-    ap_cost: 100
-    verb: creates
-    monster: zombie
-    number: 1d2
-    range: 4
-    max_summons: 5
-  done
-done
-
