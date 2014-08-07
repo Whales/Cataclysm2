@@ -256,6 +256,228 @@ ooooooooooooooooooooooooo
 endmap
 done
 
+name: twofloor_library_whales
+subname: twofloor_lib_whales
+type: library
+
+tile: o = grass / dirt
+tile: , = stone path
+tile: . = floor
+tile: # = stone wall
+tile: " = window
+tile: + = closed glass door / closed door / locked door
+tile: < = stairs up
+
+tile: cCT = floor
+furniture: cC = wood chair
+furniture: T = table
+
+tile: % = counter
+item_group: 60 % = items_home_books
+
+shuffle: AB
+tile: A = shelves
+item_group: 50 A = items_home_books
+tile: B = floor
+
+# Downstairs = fiction
+
+shuffle: 12345
+tile: 12345 = shelves
+item_group: 22 1 = items_scifi_books
+item_group: 20 2 = items_mystery_books
+item_group: 20 3 = items_romance_books
+item_group: 24 4 = items_novels
+item_group: 22 5 = items_fantasy_books
+
+map:
+ooooooooooo,,,ooooooooooo
+ooooooooooo,,,ooooooooooo
+ooooooooooo,,,ooooooooooo
+ooooooooo#"#+#"#ooooooooo
+ooooooooo"....."ooooooooo
+ooooooo###.....###ooooooo
+oooo#"##.........##"#oooo
+ooo##......%%%......##ooo
+oo##......%%C%%......##oo
+oo#.......%B.A%.......#oo
+oo".1..2..%B.A%..3..4."oo
+oo#.1..2..%B.A%..3..4.#oo
+oo#.1..2.........3..4.#oo
+oo".1..2.........3..4."oo
+oo".1..2..55.55..3..4."oo
+oo#.1..2..55.55..3..4.#oo
+oo#.1..2..55.55..3..4.#oo
+oo".1..2..55.55..3..4."oo
+oo#...................#oo
+oo##.................##oo
+ooo##...#cTC.CTc#...##ooo
+oooo#"#<#CTc.cTC#<#"#oooo
+oooooo####"###"####oooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: twofloor_library_1_whales
+subname: twofloor_lib_whales
+type: library
+level: 1
+
+tile: o = empty
+tile: # = stone wall
+tile: " = window
+tile: . = floor
+tile: > = stairs down
+
+tile: cCtT = floor
+furniture: cC = wood chair
+furniture: tT = table
+item_group: 65 t = items_home_books
+
+# Upstairs is non-fiction
+
+shuffle: 12345
+tile: 12345def = shelves
+
+item_group: 20 1 = items_common_skill_books
+item_group: 24 2 = items_autobiography_books
+item_group: 24 3 = items_history_books
+item_group: 17 4 = items_textbooks
+subst: 5 = w:3 d / w:3 e / f
+item_group: 24 d = items_food_books
+item_group: 24 e = items_diy_books
+item_group: 24 f = items_military_books
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooo##"#"##ooooooooo
+ooooooooo"TTTTT"ooooooooo
+ooooooo###cCcCc###ooooooo
+oooo#"##.........##"#oooo
+ooo##cTc.........cTc##ooo
+oo##.......ttt.......##oo
+oo#...................#oo
+oo"..1..2..ttt..3..4.."oo
+oo#..1..2.......3..4..#oo
+oo#..1..2..5.5..3..4..#oo
+oo"..1..2..5.5..3..4.."oo
+oo"..1..2..5.5..3..4.."oo
+oo#..1..2..5.5..3..4..#oo
+oo#..1..2.......3..4..#oo
+oo"..1..2..ttt..3..4.."oo
+oo#...................#oo
+oo##.................##oo
+ooo##....cCc.CcC....##ooo
+oooo#"#>#TTT.TTT#>#"#oooo
+oooooo####"###"####oooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# Same as above, but with a balcony!
+name: twofloor_library_balcony_whales
+subname: twofloor_lib_whales
+type: library
+level: 1
+
+tile: o = empty
+tile: # = stone wall
+tile: " = window
+tile: . = floor
+tile: > = stairs down
+tile: I = column
+tile: ^ = wood railing
+tile_group: ' = w:4 closed glass door / w:1 closed door
+
+tile: cCtT = floor
+furniture: cC = wood chair
+furniture: tT = table
+item_group: 65 t = items_home_books
+
+# Upstairs is non-fiction
+
+shuffle: 12345
+tile: 12345def = shelves
+
+item_group: 20 1 = items_common_skill_books
+item_group: 24 2 = items_autobiography_books
+item_group: 24 3 = items_history_books
+item_group: 17 4 = items_textbooks
+subst: 5 = w:3 d / w:3 e / f
+item_group: 24 d = items_food_books
+item_group: 24 e = items_diy_books
+item_group: 24 f = items_military_books
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooooooooI^^^^^Iooooooooo
+ooooooooo^c.c.c^ooooooooo
+ooooooo##^.....^##ooooooo
+oooo#"#####'#'#####"#oooo
+ooo##...............##ooo
+oo##.......ttt.......##oo
+oo#...................#oo
+oo"..1..2..ttt..3..4.."oo
+oo#..1..2.......3..4..#oo
+oo#..1..2..5.5..3..4..#oo
+oo"..1..2..5.5..3..4.."oo
+oo"..1..2..5.5..3..4.."oo
+oo#..1..2..5.5..3..4..#oo
+oo#..1..2.......3..4..#oo
+oo"..1..2..ttt..3..4.."oo
+oo#...................#oo
+oo##.................##oo
+ooo##....cCc.CcC....##ooo
+oooo#"#>#TTT.TTT#>#"#oooo
+oooooo####"###"####oooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: twofloor_library_roof_whales
+subname: twofloor_lib_whales
+type: library
+level: 2
+
+tile: o = empty
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooo.......ooooooooo
+ooooooooo.......ooooooooo
+ooooooo...........ooooooo
+oooo.................oooo
+ooo...................ooo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+oo.....................oo
+ooo...................ooo
+oooo.................oooo
+oooooo.............oooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".
