@@ -8,7 +8,13 @@
 
 #define STD_DELIM "</>"
 
-std::vector<std::string> break_into_lines(std::string text, int linesize);
+std::vector<std::string> break_into_lines(const std::string& text,
+                                          int linesize);
+
+std::vector<std::string> split_string(const std::string& text, char split,
+                                      bool keep_split);
+std::vector<std::string> split_string(const std::string& text,
+                                      std::string split, bool keep_split);
 
 std::string load_to_delim(std::istream &datastream, std::string delim);
 std::string load_to_character(std::istream &datastream, char ch,
