@@ -1196,6 +1196,13 @@ bool Mapgen_spec::verify_map()
   return false;
 }
 
+std::string Mapgen_spec::get_letter(int x, int y)
+{
+  std::stringstream ret;
+  ret << terrain[x][y] << '/' << prepped_terrain[x][y];
+  return ret.str();
+}
+
 Terrain* Mapgen_spec::pick_terrain(int x, int y)
 {
   if (x < 0 || x >= MAPGEN_SIZE || y < 0 || y >= MAPGEN_SIZE) {

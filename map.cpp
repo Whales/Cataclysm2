@@ -861,8 +861,8 @@ void Submap::generate(Mapgen_spec* spec)
     for (int y = 0; y < SUBMAP_SIZE; y++) {
       Terrain* ter = spec->pick_terrain(x, y);
       if (!ter) {
-        debugmsg("Generating null terrain at [%d:%d] (%s)", x, y,
-                 spec->get_name().c_str());
+        debugmsg("Generating null terrain at [%d:%d] {%s} (%s)", x, y,
+                 spec->get_letter(x, y).c_str(), spec->get_name().c_str());
         spec->debug_output();
       }
       tiles[x][y].set_terrain(ter);

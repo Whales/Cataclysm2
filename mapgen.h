@@ -243,6 +243,7 @@ struct Mapgen_spec
   void prepare(World_terrain* world_ter[5] = NULL, bool allow_rotation = true);
   void random_rotate();
   void rotate(Direction dir);
+  std::string get_letter(int x, int y); // For debugging purposes
   Terrain* pick_terrain(int x, int y);
   Furniture_type* pick_furniture(int x, int y);
   int pick_furniture_uid(int x, int y);
