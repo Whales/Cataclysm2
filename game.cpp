@@ -1322,12 +1322,16 @@ void Game::add_msg(std::string msg, ...)
     return;
   }
   char buff[2048];
+// Set up variadic stuff
   va_list ap;
   va_start(ap, msg);
+// sprintf the full message into buff
   vsprintf(buff, msg.c_str(), ap);
   va_end(ap);
+// Make buff back into a string, and capitalize it
   std::string text(buff);
   text = capitalize(text);
+// Check if it's a duplicate of the last message - if so, just increase count
   if (!messages.empty() && messages.back().text == text &&
       time.get_turn() - messages.back().turn <= MESSAGE_GAP) {
     messages.back().count++;
@@ -1335,7 +1339,6 @@ void Game::add_msg(std::string msg, ...)
     return;
   }
   messages.push_back( Game_message(text, time.get_turn()) );
-  new_messages++;
 }
 
 bool Game::msg_query_yn(std::string msg, ...)
@@ -1447,6 +1450,7 @@ void Game::draw_all()
   
 void Game::update_hud()
 {
+//debugmsg("update_hud(); mes %d, new %d", messages.size(), new_messages);
   print_messages();
 // Update date
   i_hud.set_data("text_date", time.get_text());
@@ -1485,6 +1489,7 @@ void Game::update_hud()
   i_hud.set_data("hp_l_leg", player->hp_text(HP_PART_LEFT_LEG ) );
   i_hud.set_data("hp_r_leg", player->hp_text(HP_PART_RIGHT_LEG) );
   
+  debugmsg("Offset %d\n%s", i_hud.get_int("text_messages"), i_hud.get_str("text_messages").c_str());
   i_hud.draw(w_hud);
   w_hud->refresh();
 }
@@ -1505,14 +1510,24 @@ void Game::print_messages()
   }
   for (int i = start; i < messages.size(); i++) {
     std::stringstream text;
-    int index = messages.size() - new_messages + i;
+    //int index = messages.size() - new_messages + i;
+    int index = i;
     text << messages[index].text;
     if (messages[index].count > 1) {
       text << " x" << messages[index].count;
     }
     text << '\n';
-    //debugmsg("Adding %s", text.str().c_str());
     i_hud.add_data("text_messages", text.str());
+  }
+// Scroll to bottom.
+  //i_hud.set_data("text_messages", -3);
+  //debugmsg( i_hud.get_str("text_messages").c_str() );
+  std::vector<std::string> str_list = i_hud.get_str_list("text_messages");
+  if (str_list.size() >= 2) {
+    int sln = str_list.size();
+    std::string last = messages[messages.size() - 1].text;
+    std::string penu = messages[messages.size() - 2].text;
+    debugmsg("%d messages\n<<%s>>\n<<%s>>\n---\n<<%s>>\n<<%s>>", str_list.size(), str_list[sln - 2].c_str(), str_list[sln - 1].c_str(), penu.c_str(), last.c_str());
   }
 }
 

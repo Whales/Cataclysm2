@@ -1392,13 +1392,22 @@ anything.");
     return;
   }
 
+GAME.add_msg("test 1");
   if (book->fun > 0) {
     std::string title = book->get_data_name();
     if (get_chapters_read(title) < book->chapters) {
 // TODO: Put "add_morale()" here!
     }
+    
     read_chapter(title);
+    if (get_chapters_read(title) >= book->chapters) {
+      GAME.add_msg("You finish the book!");
+    } else {
+      GAME.add_msg("You've read %d chapters out of %d.",
+                   get_chapters_read(title), book->chapters);
+    }
   }
+GAME.add_msg("test 2");
 
   Skill_type sk_boosted = book->skill_learned;
   if (sk_boosted != SKILL_NULL) {
