@@ -1489,7 +1489,7 @@ void Game::update_hud()
   i_hud.set_data("hp_l_leg", player->hp_text(HP_PART_LEFT_LEG ) );
   i_hud.set_data("hp_r_leg", player->hp_text(HP_PART_RIGHT_LEG) );
   
-  debugmsg("Offset %d\n%s", i_hud.get_int("text_messages"), i_hud.get_str("text_messages").c_str());
+//debugmsg("Offset %d\n%s", i_hud.get_int("text_messages"), i_hud.get_str("text_messages").c_str());
   i_hud.draw(w_hud);
   w_hud->refresh();
 }
@@ -1522,6 +1522,7 @@ void Game::print_messages()
 // Scroll to bottom.
   //i_hud.set_data("text_messages", -3);
   //debugmsg( i_hud.get_str("text_messages").c_str() );
+/*
   std::vector<std::string> str_list = i_hud.get_str_list("text_messages");
   if (str_list.size() >= 2) {
     int sln = str_list.size();
@@ -1529,6 +1530,7 @@ void Game::print_messages()
     std::string penu = messages[messages.size() - 2].text;
     debugmsg("%d messages\n<<%s>>\n<<%s>>\n---\n<<%s>>\n<<%s>>", str_list.size(), str_list[sln - 2].c_str(), str_list[sln - 1].c_str(), penu.c_str(), last.c_str());
   }
+*/
 }
 
 void Game::debug_command()

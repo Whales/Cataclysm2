@@ -4,16 +4,101 @@
 
 std::vector<std::string> break_into_lines(std::string text, int linesize)
 {
+  std::vector<std::string> ret;
+
+// Check for trivial case
+  if (remove_color_tags(text).size() <= linesize) {
+    ret.push_back(text);
+    return ret;
+  }
+  std::string cur_line;
+  int cur_line_size = 0;
+
+  while (!text.empty()) {
+    if (text.substr(0, 3) == "<c=") { // It's a color tag
+      size_t tag_end = text.find(">");
+      if (tag_end == std::string::npos) {
+        //debugmsg("Bad color tag! [%s]", text.c_str());
+      } else {
+// Stick the color tag text into color_tag and jump to the end
+        std::string ctag = text.substr(0, tag_end + 1); // +1 to include the '>'
+        cur_line += ctag; // This is "free;" doesn't add to line_size
+        text = text.substr(tag_end + 1);
+      }
+    }
+    size_t split_pos = text.find_first_of(" \n");
+    if (split_pos == std::string::npos) { // No whitespace left!
+      if (cur_line_size + text.size() < linesize) { // Just stick the text in!
+        cur_line += " ";
+        cur_line += text;
+        text = "";
+        cur_line_size = 0;
+// Make a newline if the text won't fit in this one, but will by itself.
+      } else if (text.size() <= linesize) {
+        ret.push_back(cur_line);
+        cur_line = text;
+        text = "";
+      } else {  // Gonna have to hyphenate it.
+        cur_line += " ";
+        cur_line_size++;
+        int max = linesize - cur_line_size - 1; // - 1 for the '-'
+        cur_line += text.substr(0, max) + '-';
+        ret.push_back(cur_line);
+        cur_line = "";
+        cur_line_size = 0;
+        text = text.substr(max);
+      }
+    } else {  // Whitespace found!
+
+// If the whitespace we find is a line break, then we ALWAYS create a new line.
+      bool force_split = (text[split_pos] == '\n');
+
+      std::string word = text.substr(0, split_pos);
+      text = text.substr(split_pos + 1); // +1 to skip the whitespace
+
+      if (!word.empty()) {
+        if (cur_line_size > 0) {  // Word needs a space in front
+          word.insert(0, " ");
+        }
+
+        if (cur_line_size + word.size() > linesize) { // Need a linebreak.
+          ret.push_back(cur_line);
+          cur_line = "";
+          cur_line_size = 0;
+          if (word[0] == ' ') { // Undo insertion of space
+            word = word.substr(1);
+          }
+        }
+        cur_line += word;
+        cur_line_size += word.size();
+      }
+
+      if (force_split) {
+        ret.push_back(cur_line);
+        cur_line = "";
+        cur_line_size = 0;
+      }
+    }// End of whitespace found block
+  } // while (!text.empty())
+
+  if (!cur_line.empty()) {
+    ret.push_back(cur_line);
+  }
+
+  return ret;
+}
+
+/*
+std::vector<std::string> break_into_lines(std::string text, int linesize)
+{
  std::vector<std::string> ret;
 
  size_t chars = 0; // Number of actually-printed characters at...
  size_t pos = 0; // ... this point in the string
  size_t linebreak = std::string::npos; // The last acceptable breakpoint
  std::string active_color_tag;
-/*
  while ((text.length() > linesize || text.find('\n') != std::string::npos) &&
         pos < text.size()) {
-*/
  while (text.length() > linesize && pos < text.size()) {
   bool force = false;
   if (text.substr(pos, 3) == "<c=") {
@@ -63,7 +148,6 @@ std::vector<std::string> break_into_lines(std::string text, int linesize)
   ret.push_back(text);
  }
  return ret;
-/*
   size_t linebreak = text.find_last_of(" ", linesize);
   std::string tmp;
   if (linebreak == std::string::npos) {
@@ -77,10 +161,10 @@ std::vector<std::string> break_into_lines(std::string text, int linesize)
  }
 
  ret.push_back(text);
-*/
 
  return ret;
 }
+*/
 
 std::string load_to_delim(std::istream &datastream, std::string delim)
 {
