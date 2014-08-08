@@ -700,6 +700,26 @@ name: stairs down
   flags: stairs_down flammable
 done
 
+name: spiral staircase up
+  display_name: spiral staircase
+  glyph: < yellow black
+  inverse: spiral staircase down
+  movecost: 100
+  hp: 200
+  destroy: rubble
+  flags: stairs_up flammable
+done
+
+name: spiral staircase down
+  display_name: spiral staircase
+  glyph: > yellow black
+  inverse: spiral staircuse up
+  movecost: 100
+  hp: 200
+  destroy: rubble
+  flags: stairs_down flammable
+done
+
 name: wood ladder up
   display_name: wood ladder
   glyph: < ltred black
