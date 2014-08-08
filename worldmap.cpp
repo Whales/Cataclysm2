@@ -438,8 +438,8 @@ std::vector<Point> Worldmap::find_terrain(std::string name,
     return std::vector<Point>();  // Terrain does not exist at all!
   }
 
+// Set up our search area.
 // origin defaults to (-1, -1) and range defaults to -1
-  std::vector<Point> ret;
   if (origin.x == -1) { // Default; use player's position
     origin = GAME.map->get_center_point();
   }
@@ -468,11 +468,35 @@ std::vector<Point> Worldmap::find_terrain(std::string name,
     }
   }
 
+// Finally, actually search.
+// ranges stores the range to each point in ret; helps us sort ret by range.
+  std::vector<Point> ret;
+  std::vector<int> ranges;
+
   for (int x = x0; x <= x1; x++) {
     for (int y = y0; y <= y1; y++) {
       std::string ter_name = no_caps( trim( get_name(x, y) ) );
       if (ter_name == name) {
-        ret.push_back( Point(x, y) );
+        Point p = Point(x, y);
+// Find the appropriate place to insert it.
+        int p_range = rl_dist(origin, p);
+        if (ret.empty()) {
+          ret.push_back(p);
+          ranges.push_back(p_range);
+        } else {
+          bool inserted = false;
+          for (int i = 0; !inserted && i < ret.size(); i++) {
+            if (ranges[i] >= p_range) {
+              ret.insert( ret.begin() + i, p );
+              ranges.insert( ranges.begin() + i, p_range );
+              inserted = true;
+            }
+          }
+          if (!inserted) {  // Higher range than all in the list!
+            ret.push_back(p);
+            ranges.push_back(p_range);
+          }
+        }
       }
     }
   }
