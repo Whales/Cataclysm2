@@ -2,6 +2,7 @@
 #include "stringfunc.h"
 #include "window.h"
 
+/*
 std::vector<std::string> break_into_lines(const std::string& text, int linesize)
 {
   std::vector<std::string> words = split_string(text, " \n", true);
@@ -11,38 +12,92 @@ std::vector<std::string> break_into_lines(const std::string& text, int linesize)
 
   for (int i = 0; i < words.size(); i++) {
     int word_lng = remove_color_tags(words[i]).length();
+    if (words[i].find_last_of(" \n") == words[i].size() - 1) {
+      word_lng--; // Ignore that whitespace
+    }
     int line_lng = remove_color_tags(line).length();
-    bool newline = false;
-    if (line_lng + word_lng <= linesize) {
-      line += words[i];
-      newline = (line[ line.size() - 1] == '\n');
-    } else if (line.empty()) { // Need to split the word.
+    if (line_lng > 0) {
+      line_lng++; // Cause we'll need an extra space!
+    }
+    bool newline = false, stop = false;
+
+    if (word_lng > linesize) { // Need to split the word.
 // Find where to split.
       size_t pos = 0;
-      int chars = 0;
-      bool done = false;
-      while (!done) {
+      int chars = line_lng;
+      while (chars < linesize - 2 && pos < words[i].size()) {
         if (words[i].substr(pos, 3) == "<c=") { // Color tag; skip it
-          pos = text.find('>', pos) + 1;
+          size_t tag_end = words[i].find(">", pos);
+          pos = tag_end + 1;
         } else {
           chars++;
           pos++;
         }
-        if (chars == linesize - 2 || pos >= words[i].size() - 1) {
-          done = true;
-        }
       }
       ret.push_back(words[i].substr(0, pos) + '-');
       words[i] = words[i].substr(pos + 1);
-      i--;
-    } else {  // need to split.
-      newline = true;
+      i--; // Gotta keep working on this word.
+      stop = true;
+
+    } else if (line_lng + word_lng > linesize) { // Won't fit
+      ret.push_back(line);
+      std::string last_tag;
+      size_t tag_pos = line.rfind("<c=");
+      if (tag_pos != std::string::npos) {
+        size_t tag_end = line.rfind(">");
+        if (tag_end == std::string::npos) {
+          debugmsg("Bad color tag! (%s)", line.c_str());
+        } else if (tag_end > tag_pos) {
+          last_tag = line.substr(tag_pos, tag_end - tag_pos + 1);
+        }
+      }
+      if (last_tag == "<c=/>") {
+        line = "";
+      } else {
+        line = last_tag;  // Whether it's empty or not!
+      }
+      line_lng = 0;
+    }
+      
+
+    if (!stop) {  // need to split.
+// Get rid of that whitespace
+      size_t ws = words[i].find('\n');
+      if (ws != std::string::npos) {
+        newline = true; // Remember if we need to force a newline!
+      } else {
+        ws = words[i].find(' ');
+      }
+      if (ws != std::string::npos) {
+        words[i] = words[i].substr(0, ws);
+      }
+// Stick whitespace in if we already contain text.
+      if (line_lng > 0) {
+        line += ' ';
+      }
+      line += words[i];
     }
 
     if (newline) {
-      ret.push_back(line);
-    
-    if (line_lng + word_lng > linesize) { // Too long to add!
+// Check for a color tag on that last line!
+      std::string last_tag;
+      size_t tag_pos = words[i].rfind("<c=");
+      if (tag_pos != std::string::npos) {
+        size_t tag_end = words[i].rfind(">");
+        if (tag_end > tag_pos) {
+          last_tag = words[i].substr(tag_pos, tag_end - tag_pos + 1);
+        }
+      }
+      if (last_tag == "<c=/>") {
+        line = "";
+      } else {
+        line = last_tag;  // Whether it's empty or not!
+      }
+    }
+  }
+  return ret;
+}
+*/
 
 /*
 std::vector<std::string> break_into_lines(std::string text, int linesize)
@@ -141,10 +196,84 @@ std::vector<std::string> break_into_lines(std::string text, int linesize)
 }
 */
 
+struct Tag_pos
+{
+  std::string tag;
+  int pos;
+};
+
+std::vector<std::string> break_into_lines(const std::string& text, int linesize)
+{
+  std::vector<std::string> ret;
+  std::string line;
+  std::string color_tag;
+  size_t pos = 0; // Current position
+  int line_length = 0;  // Non-color-tag characters in current line
+  bool done = false;
+
+  while (!done) {
+
+//debugmsg("pos %d (%s...)", pos, text.substr(pos, 8).c_str());
+
+    size_t next_break = text.find_first_of(" \n", pos + 1);
+    size_t next_tag = text.find("<c=", pos);
+
+    if (next_break == std::string::npos) { // No more whitespace!
+      done = true;
+      next_break = text.size() + 1; // This is okay, right?
+    }
+
+    std::string word = text.substr(pos, next_break - pos);
+    int word_length = word.length();
+    if (next_tag < next_break) { // Subtract the color tag's length.
+      size_t tag_end = text.find(">", next_tag);
+      if (tag_end < next_break) { // Ensure it's a real color tag!
+        color_tag = text.substr(next_tag, tag_end - next_tag + 1);
+        word_length -= color_tag.length();
+      }
+    }
+
+//debugmsg("word |%s|, length %d", word.c_str(), word_length);
+
+    if (word_length > linesize) { // Gonna have to hyphenate it.
+      int chars_left = linesize - line_length;
+      line += word.substr(0, chars_left - 1); // - 1 to make room for "-"
+      line += "-";
+//debugmsg("Pushing -%s-", line.c_str());
+      ret.push_back(line);
+      line = color_tag;
+      pos += chars_left - 1; // Land on the letter "replaced" by "-"
+      line_length = 0;
+    } else {
+      if (line_length + word_length <= linesize) { // It's okay to add the word!
+        line += word; // Includes the space before the word, if there is one.
+        line_length += word_length;
+      } else { // Too long!  So start a new line.
+//debugmsg("Pushing ^%s^", line.c_str());
+        ret.push_back(line);
+        line = color_tag; // Always start with the current color tag.
+        line += word;
+        line_length = 0;
+      }
+      pos = next_break;
+      if (text[pos] == '\n') { // A forced break!
+//debugmsg("Pushing ~%s~", line.c_str());
+        ret.push_back(line);
+        line = color_tag;
+        pos++;  // Skip over the '\n'.
+        line_length = 0;
+      }
+    }
+  }
+
+  return ret;
+}
+
 /*
-std::vector<std::string> break_into_lines(std::string text, int linesize)
+std::vector<std::string> break_into_lines(const std::string& txt, int linesize)
 {
  std::vector<std::string> ret;
+ std::string text = txt;
 
  size_t chars = 0; // Number of actually-printed characters at...
  size_t pos = 0; // ... this point in the string
@@ -222,13 +351,16 @@ std::vector<std::string> break_into_lines(std::string text, int linesize)
 std::vector<std::string> split_string(const std::string& text, char split,
                                       bool keep_split)
 {
-  return split_string(text, std::string(split), keep_split);
+  std::string splitstr;
+  splitstr = split;
+  return split_string(text, splitstr, keep_split);
 }
 
 std::vector<std::string> split_string(const std::string& text,
                                       const std::string& split,
                                       bool keep_split)
 {
+  //debugmsg("split [%s]", split.c_str());
   std::vector<std::string> ret;
   bool done = false;
   size_t cur_pos = 0;
@@ -239,10 +371,16 @@ std::vector<std::string> split_string(const std::string& text,
       done = true;
     } else {
       size_t end_pos = (keep_split ? split_pos + 1 : split_pos);
-      ret.push_back( text.substr(cur_pos, end_pos) );
+      ret.push_back( text.substr(cur_pos, end_pos - cur_pos) );
       cur_pos = split_pos + 1;
     }
   }
+
+/*
+  for (int i = 0; i < ret.size(); i++) {
+    debugmsg("[%s]", ret[i].c_str());
+  }
+*/
   return ret;
 }
 

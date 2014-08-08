@@ -9,6 +9,8 @@
 #include <unistd.h> // Required for getopt??
 #include <string>
 
+//#include "stringfunc.h"
+
 const char* VERSION = "Cataclysm v2.0.0 alpha";
 
 bool parse_options(int argc, char* argv[]);
@@ -26,6 +28,9 @@ int main(int argc, char* argv[])
 
   srand(time(NULL));  // Seed the RNG - TODO: Wrap this up
   init_display();     // See window.cpp
+
+  //split_string("Strength affects the amount of weight you can carry or drag",
+               //" \n", true);
 
   set_default_dirs(); // See files.cpp
 
