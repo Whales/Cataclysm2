@@ -478,6 +478,270 @@ ooooooooooooooooooooooooo
 endmap
 done
 
+# Fun fact: Loosely based on the library in the tiny town that I grew up in!
+
+name: small_library_whales
+subname: small_lib_whales
+type: library
+
+tile: o = grass / dirt
+tile: * = stone path
+tile: # = stone wall
+tile: " = w:9 window / w:1 stone wall
+tile: . = floor
+tile: , = floor_lock
+tile: + = w:7 locked door / w:2 closed door / w:1 closed glass door
+tile: ? = w:3 floor / w:1 closed door / w:1 closed glass door
+tile: < = stairs up
+
+subst: ^ = w:3 ^ / w:1 o
+tile: ^ = short stone wall
+
+subst: &$ = w:2 o / w:1 &
+tile: & = hedge
+
+shuffle: 678
+tile: 6 = w:7 locked door / w:2 closed door / w:1 closed glass door
+tile: 78 = stone wall
+
+subst: rst = w:2 . / w:1 T
+tile: cDT = floor
+furniture: c = wood chair
+furniture: D = desk
+furniture: T = table
+item_group: 70 T = items_home_books
+
+tile: % = counter
+item_group: 50 % = items_home_books
+
+# Downstairs is non-fiction
+
+shuffle: 12345
+tile: 12345def = shelves
+
+item_group: 20 1 = items_common_skill_books
+item_group: 24 2 = items_autobiography_books
+item_group: 24 3 = items_history_books
+item_group: 17 4 = items_textbooks
+subst: 5 = w:3 d / w:3 e / f
+item_group: 24 d = items_food_books
+item_group: 24 e = items_diy_books
+item_group: 24 f = items_military_books
+
+map:
+ooooooooo***ooooooooooooo
+ooooooooo***ooooooooooooo
+ooooooooo***ooooooooooooo
+ooooooooo**************oo
+ooooooooo**************oo
+oooooooo#"+"#ooooooooo*oo
+oooooooo#...#ooooooooo*oo
+oooo&&&&#s.t#&&&&&&&&&*oo
+oooo######?####"###"##*oo
+ooo$#<#A.%..#1.TT.TT.#*oo
+ooo$#.#A.%..#1......."*oo
+ooo$".#A.%..#1.11111.#*oo
+ooo$#..........22222."*oo
+ooo$"................#*oo
+ooo$#.4.4.3.3..22222."*oo
+ooo$".4.4.3.3........#*oo
+ooo$#.4.4.3.3..#####+#*oo
+ooo$".4.4.3.3..#rrr,,"*oo
+ooo$#..........#.....#*oo
+ooo$#5..TT.....#6#7#8#*oo
+ooo$#5.....c.c.#*******oo
+ooo$#5555.DD.DD#*******oo
+oooo######"##"##^^*^^^^oo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: small_library_upstairs_whales
+subname: small_lib_whales
+type: library
+floor: 1
+
+tile: o = empty
+tile: # = stone wall
+tile: " = w:9 window / w:1 stone wall
+tile: . = floor
+tile: > = stairs down
+
+tile: cCDT = floor
+furniture: cC = wood chair
+furniture: T = table
+furniture: D = desk
+item_group: 65 D = items_home_books
+
+shuffle: ab
+shuffle: de
+shuffle: fg
+tile: abdefg = floor
+furniture: adf = wood chair
+
+# Upstairs is fiction.
+
+shuffle: 12345
+tile: 12345 = shelves
+item_group: 22 1 = items_scifi_books
+item_group: 20 2 = items_mystery_books
+item_group: 20 3 = items_romance_books
+item_group: 24 4 = items_novels
+item_group: 22 5 = items_fantasy_books
+
+subst: < = w:9 1 / w:1 <
+tile: < = stairs up
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooooooo#####oooooooooooo
+oooooooo#1<1#oooooooooooo
+oooooooo#1.1#oooooooooooo
+oooo#####1.1##########ooo
+oooo">#......22222222#ooo
+oooo#....111........."ooo
+oooo#................"ooo
+oooo"Dc......33333333#ooo
+oooo######...#########ooo
+oooo#4.......DD.DD.DD#ooo
+oooo#4.......ab.de.fg"ooo
+oooo#4..cTTC.........#ooo
+oooo#4..CTTc........."ooo
+oooo#4..cTTC..5555555#ooo
+oooo#4..CTTc..5#######ooo
+oooo#4..cTTC..5#ooooooooo
+oooo#4........5#ooooooooo
+oooo###"#""#"###ooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+# Sight variant with a balcony
+
+name: small_library_balcony_whales
+subname: small_lib_whales
+type: library
+floor: 1
+
+tile: o = empty
+tile: # = stone wall
+tile: " = w:9 window / w:1 stone wall
+tile: . = floor
+tile: > = stairs down
+tile: ^ = short stone wall
+
+subst: EFGHIJ = w:2 C / w:1 .
+# Don't want K to combine with I on the balcony, so use c not C.
+subst: K = w:2 c / w:1 .
+tile: C = floor
+furniture: C = wood chair
+
+tile: cCDT = floor
+furniture: cC = wood chair
+furniture: T = table
+furniture: Dd = desk
+item_group: 50 D = items_home_books
+item_group: 50 d = items_home_books
+
+shuffle: ab
+shuffle: he
+shuffle: fg
+tile: abdefg = floor
+furniture: adf = wood chair
+
+
+# Upstairs is fiction.
+
+shuffle: 12345
+tile: 12345 = shelves
+item_group: 22 1 = items_scifi_books
+item_group: 20 2 = items_mystery_books
+item_group: 20 3 = items_romance_books
+item_group: 24 4 = items_novels
+item_group: 22 5 = items_fantasy_books
+
+shuffle: 67
+tile: 6 = w:5 closed glass door / w:3 closed door / w:1 locked door
+tile: 7 = stone wall
+
+subst: < = w:7 K / w:1 <
+tile: < = spiral staircase up
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooooooo^^^^^oooooooooooo
+oooooooo^I.J^oooooooooooo
+oooooooo^<..^oooooooooooo
+oooo######67##########ooo
+oooo">#111...22222222#ooo
+oooo#................"ooo
+oooo#................"ooo
+oooo"111111..33333333#ooo
+oooo#######..#########ooo
+oooo#4.......DD.DD.DD#ooo
+oooo#4.......ab.he.fg"ooo
+oooo#4..cDdH.........#ooo
+oooo#4..EDdc........."ooo
+oooo#4........5555555#ooo
+oooo#4..cDdG..5#######ooo
+oooo#4..FDdc..5#ooooooooo
+oooo#4........5#ooooooooo
+oooo###"#""#"###ooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
+name: small_library_roof_whales
+subname: small_lib_whales
+type: library
+floor: 2
+
+flags: autostairs
+
+tile: o = empty
+tile: # = short stone wall
+tile: . = roof
+
+map:
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+oooooooo#####oooooooooooo
+oooooooo#...#oooooooooooo
+oooooooo#...#oooooooooooo
+oooo#####...##########ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#................#ooo
+oooo#..........#######ooo
+oooo#..........#ooooooooo
+oooo#..........#ooooooooo
+oooo############ooooooooo
+ooooooooooooooooooooooooo
+ooooooooooooooooooooooooo
+endmap
+done
+
 # A recommended format for spec names is <DESC>_<TYPE>_<NAME>
 #  <DESC> is a short description of the unusual feature of this spec.  If it is
 #         not unusual, use "std".
