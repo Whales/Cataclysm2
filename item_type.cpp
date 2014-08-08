@@ -638,6 +638,7 @@ bool Item_type_tool::uses_charges()
 Item_type_book::Item_type_book()
 {
   skill_learned = SKILL_NULL;
+  genre = GENRE_NULL;
   cap_limit = 0;
   int_required = 0;
   skill_required = 0;
@@ -650,6 +651,11 @@ Item_type_book::Item_type_book()
 std::string Item_type_book::get_property_description()
 {
   std::stringstream ret;
+
+  if (genre != GENRE_NULL) {
+    ret << "<c=cyan>Genre: " << book_genre_name(genre) << "<c=/>" <<
+           std::endl;
+  }
 
   ret << "<c=magenta>Intelligence required:<c=/> " << int_required << std::endl;
 
@@ -709,6 +715,16 @@ bool Item_type_book::handle_data(std::string ident, std::istream& data)
     if (skill_learned == SKILL_NULL) {
       debugmsg("Unknown Skill_type '%s' (%s).",
                skill_name.c_str(), name.c_str());
+      return false;
+    }
+
+  } else if (ident == "genre:") {
+    std::string genre_name;
+    std::getline(data, genre_name);
+    genre = lookup_book_genre(genre_name);
+    if (genre == GENRE_NULL) {
+      debugmsg("Unknown Book_genre '%s' (%s).",
+               genre_name.c_str(), name.c_str());
       return false;
     }
 
@@ -863,4 +879,33 @@ std::string item_flag_name(Item_flag flag)
     default:                      return "BUG - Unnamed Item_flag";
   }
   return "BUG - Escaped item_flag_name switch";
+}
+
+Book_genre lookup_book_genre(std::string name)
+{
+  name = no_caps( trim( name ) );
+  for (int i = 0; i < GENRE_MAX; i++) {
+    Book_genre ret = Book_genre(i);
+    if (name == no_caps( book_genre_name(ret) )) {
+      return ret;
+    }
+  }
+  return GENRE_NULL;
+}
+
+std::string book_genre_name(Book_genre genre)
+{
+  switch (genre) {
+    case GENRE_NULL:          return "NULL";
+    case GENRE_AUTOBIOGRAPHY: return "autobiography";
+    case GENRE_HISTORY:       return "history";
+    case GENRE_NOVEL:         return "novel";
+    case GENRE_SCIFI:         return "scifi";
+    case GENRE_FANTASY:       return "fantasy";
+    case GENRE_MYSTERY:       return "mystery";
+    case GENRE_ROMANCE:       return "romance";
+    case GENRE_MAX:           return "ERROR - GENRE_MAX";
+    default:                  return "ERROR - Unnamed Book_genre";
+  }
+  return "ERROR - Escaped book_genre_name() switch";
 }

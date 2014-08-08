@@ -35,6 +35,22 @@ std::string item_class_name(Item_class iclass, bool plural = false);
 Item_flag lookup_item_flag(std::string name);
 std::string item_flag_name(Item_flag flag);
 
+enum Book_genre
+{
+  GENRE_NULL = 0,
+  GENRE_AUTOBIOGRAPHY,
+  GENRE_HISTORY,
+  GENRE_NOVEL,    // Typeless novel.
+  GENRE_SCIFI,
+  GENRE_FANTASY,
+  GENRE_MYSTERY,
+  GENRE_ROMANCE,
+  GENRE_MAX
+};
+
+Book_genre lookup_book_genre(std::string name);
+std::string book_genre_name(Book_genre genre);
+
 class Item_type
 {
 public:
@@ -209,6 +225,7 @@ public:
   std::string powered_text; // Text for when it's powered; e.g. "on", "active"
 };
 
+
 class Item_type_book : public Item_type
 {
   public:
@@ -223,6 +240,7 @@ class Item_type_book : public Item_type
   virtual bool handle_data(std::string ident, std::istream& data);
 
   Skill_type skill_learned;
+  Book_genre genre;
   int cap_limit;  // What's the highest cap this will take us to?
   int int_required;  // What intelligence do we need to read this?
   int skill_required; // What skill level do we need to read this?
