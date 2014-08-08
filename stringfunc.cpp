@@ -196,12 +196,6 @@ std::vector<std::string> break_into_lines(std::string text, int linesize)
 }
 */
 
-struct Tag_pos
-{
-  std::string tag;
-  int pos;
-};
-
 std::vector<std::string> break_into_lines(const std::string& text, int linesize)
 {
   std::vector<std::string> ret;
@@ -210,6 +204,11 @@ std::vector<std::string> break_into_lines(const std::string& text, int linesize)
   size_t pos = 0; // Current position
   int line_length = 0;  // Non-color-tag characters in current line
   bool done = false;
+
+std::string linedraw;
+for (int i = 0; i < linesize; i++) {
+linedraw += '_';
+}
 
   while (!done) {
 
@@ -225,45 +224,80 @@ std::vector<std::string> break_into_lines(const std::string& text, int linesize)
 
     std::string word = text.substr(pos, next_break - pos);
     int word_length = word.length();
+
     if (next_tag < next_break) { // Subtract the color tag's length.
-      size_t tag_end = text.find(">", next_tag);
-      if (tag_end < next_break) { // Ensure it's a real color tag!
-        color_tag = text.substr(next_tag, tag_end - next_tag + 1);
-        word_length -= color_tag.length();
-      }
+      size_t another_tag;
+      do {
+        size_t tag_end = text.find(">", next_tag);
+        if (tag_end < next_break) { // Ensure it's a real color tag!
+          color_tag = text.substr(next_tag, tag_end - next_tag + 1);
+          word_length -= color_tag.length();
+        }
+        another_tag = text.find("<c=", next_tag + 1);
+        if (another_tag < next_break) {
+          next_tag = another_tag;
+        }
+      } while (another_tag < next_break);
     }
 
-//debugmsg("word |%s|, length %d", word.c_str(), word_length);
+//debugmsg("linesize %d\nsize |%s|\npos %d\nline |%s|, length %d\nword |%s|, length %d", linesize, linedraw.c_str(), pos, line.c_str(), line_length, word.c_str(), word_length);
 
     if (word_length > linesize) { // Gonna have to hyphenate it.
+//debugmsg("Word |%s|, length %d, linesize %d", word.c_str(), word_length, linesize);
       int chars_left = linesize - line_length;
       line += word.substr(0, chars_left - 1); // - 1 to make room for "-"
       line += "-";
 //debugmsg("Pushing -%s-", line.c_str());
       ret.push_back(line);
       line = color_tag;
+//debugmsg("Fresh line [%s]", line.c_str());
       pos += chars_left - 1; // Land on the letter "replaced" by "-"
       line_length = 0;
     } else {
-      if (line_length + word_length <= linesize) { // It's okay to add the word!
-        line += word; // Includes the space before the word, if there is one.
-        line_length += word_length;
-      } else { // Too long!  So start a new line.
+
+// Word WILL fit in a single line.  Will it fit in THIS line?
+      if (word.size() > 1 || word[0] != '\n') {
+        if (line_length + word_length <= linesize) { // Okay to add the word!
+          if (word[0] == '\n') {
+            word = word.substr(1);
+            if (word_length > 1) {
+              word_length--;
+            }
+          }
+          line += word; // Includes the space before the word, if there is one.
+          line_length += word_length;
+
+        } else { // Too long!  So start a new line.
 //debugmsg("Pushing ^%s^", line.c_str());
-        ret.push_back(line);
-        line = color_tag; // Always start with the current color tag.
-        line += word;
-        line_length = 0;
+          ret.push_back(line);
+          line = color_tag; // Always start with the current color tag.
+          if (!word.empty() && (word[0] == ' ' || word[0] == '\n')) {
+            word = word.substr(1);
+            if (word_length > 1) {
+              word_length--;
+            }
+          }
+          line += word;
+          line_length = word_length;
+//debugmsg("Fresh line [%s]", line.c_str());
+        }
       }
+
       pos = next_break;
+
       if (text[pos] == '\n') { // A forced break!
 //debugmsg("Pushing ~%s~", line.c_str());
         ret.push_back(line);
         line = color_tag;
-        pos++;  // Skip over the '\n'.
+        //pos++;  // Skip over the '\n'.
         line_length = 0;
+//debugmsg("Fresh line [%s]", line.c_str());
       }
     }
+  }
+
+  if (!line.empty()) {
+    ret.push_back(line);
   }
 
   return ret;
