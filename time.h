@@ -94,9 +94,21 @@ inline Time operator+(Time lhs, const Time& rhs)
   return lhs;
 }
 
+inline Time operator+(Time lhs, const int& rhs)
+{
+  lhs += rhs;
+  return lhs;
+}
+
 inline Time operator-(Time lhs, const Time& rhs)
 {
   lhs += rhs;
+  return lhs;
+}
+
+inline Time operator-(Time lhs, const int& rhs)
+{
+  lhs -= rhs;
   return lhs;
 }
 

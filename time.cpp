@@ -257,35 +257,37 @@ void Time::standardize()
   if (second >= 60) {
     minute += second / 60;
     second %= 60;
-  } else if (second < 0) {
+  } else if (second < 0 && (minute > 0 || hour > 0 || day > 0 ||
+                            tmpseason > 0 || year > 0)) {
     minute += second / 60 - 1;
     second = 60 + (second % 60);
   }
   if (minute >= 60) {
     hour += minute / 60;
     minute %= 60;
-  } else if (minute < 0) {
+  } else if (minute < 0 && (hour > 0 || day > 0 ||  tmpseason > 0 ||
+                            year > 0)) {
     hour += minute / 60 - 1;
     minute = 60 + (minute % 60);
   }
   if (hour >= 24) {
     day += hour / 24;
     hour %= 24;
-  } else if (hour < 0) {
+  } else if (hour < 0 && (day > 0 ||  tmpseason > 0 || year > 0)) {
     day += hour / 24 - 1;
     hour = 24 + (hour % 24);
   }
   if (day >= DAYS_IN_SEASON) {
     tmpseason += day / DAYS_IN_SEASON;
     day %= DAYS_IN_SEASON;
-  } else if (day < 0) {
+  } else if (day < 0 && ( tmpseason > 0 || year > 0)) {
     tmpseason += day / DAYS_IN_SEASON - 1;
     day = DAYS_IN_SEASON + (day % DAYS_IN_SEASON);
   }
   if (tmpseason >= 4) {
     year += tmpseason / 4;
     tmpseason %= 4;
-  } else if (tmpseason < 0) {
+  } else if (tmpseason < 0 && year > 0) {
     year += tmpseason / 4 - 1;
     tmpseason = 4 + (tmpseason % 4);
   }
