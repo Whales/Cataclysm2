@@ -477,6 +477,12 @@ bool Player::create_new_character()
     items_worn.push_back(tmp_it);
   }
 
+// Set max stats to current stats.
+  stats.strength_max     = stats.strength;
+  stats.dexterity_max    = stats.dexterity;
+  stats.perception_max   = stats.perception;
+  stats.intelligence_max = stats.intelligence;
+
   return true;
 }
 

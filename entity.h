@@ -25,7 +25,8 @@ struct Stats
     strength (S), dexterity (D), intelligence (I), perception (P) {}
   ~Stats();
 
-  int strength, dexterity, intelligence, perception;
+  int strength,     dexterity,     intelligence,     perception;
+  int strength_max, dexterity_max, intelligence_max, perception_max;
 };
 
 struct Entity_plan
@@ -82,6 +83,7 @@ public:
   virtual void gain_action_points();
   nc_color     get_speed_color();
   virtual int  get_speed();
+  std::map<std::string,int> get_speed_modifiers();
 /* The cost of moving onto a 100-cost tile.  For other tiles, the cost is
  * (tile_cost * get_movement_cost()) / 100
  */
@@ -179,7 +181,7 @@ public:
   void  apply_item_action(Item* it, Tool_action* action);
   void  read_item_uid    (int uid);
   void  finish_reading   (Item* it);
-  bool  eat_item_uid     (int uid);
+  virtual bool  eat_item_uid     (int uid);
   void  reload_prep      (int uid);
 
   virtual Item pick_ammo_for(Item *it);
