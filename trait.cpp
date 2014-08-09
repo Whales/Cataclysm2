@@ -201,7 +201,7 @@ hard to acquire!";
     case TRAIT_BAD_BACK:
       return "\
 You have a weak back.  While your strength is just as good for all other \
-purposes, your carrying capacity is reduced by 20%.";
+purposes, your carrying capacity is reduced by 20 percent.";
 
     case TRAIT_BAD_HEARING:
       return "\
