@@ -612,7 +612,8 @@ void Worldmap::add_bonus(int x, int y, bool debug)
                     Worldmap_tile* target = get_tile(x, y);
                     if (target &&
                         target->terrain->spread_cost <= spread_points &&
-                        (surrounding < 3 || is_adjacent_no_diag(bx, by, x, y))){
+                        (surrounding < 3 ||
+                         !is_adjacent_no_diag(bx, by, x, y))) {
                       spread_targets.push_back( Point(x, y) );
                     }
                   }
@@ -631,7 +632,8 @@ void Worldmap::add_bonus(int x, int y, bool debug)
                     Worldmap_tile* target = get_tile(x, y);
                     if (target &&
                         target->terrain->spread_cost <= spread_points &&
-                        (surrounding < 3 || is_adjacent_no_diag(bx, by, x, y))){
+                        (surrounding < 3 ||
+                         !is_adjacent_no_diag(bx, by, x, y))) {
                       spread_targets.push_back( Point(x, y) );
                     }
                   }
@@ -649,7 +651,8 @@ void Worldmap::add_bonus(int x, int y, bool debug)
                     Worldmap_tile* target = get_tile(x, y);
                     if (target &&
                         target->terrain->spread_cost <= spread_points &&
-                        (surrounding < 3 || is_adjacent_no_diag(bx, by, x, y))){
+                        (surrounding < 3 ||
+                         !is_adjacent_no_diag(bx, by, x, y))) {
 // Check if we would create an "arm"
                       bool arm = true;
                       for (int ax = x - 1; arm && ax <= x + 1; ax++) {
