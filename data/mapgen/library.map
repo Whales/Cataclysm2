@@ -516,6 +516,9 @@ item_group: 50 % = items_home_books
 
 # Downstairs is non-fiction
 
+tile: A = shelves
+item_group: 35 A = items_home_books
+
 shuffle: 12345
 tile: 12345def = shelves
 
@@ -639,10 +642,8 @@ tile: ^ = short stone wall
 subst: EFGHIJ = w:2 C / w:1 .
 # Don't want K to combine with I on the balcony, so use c not C.
 subst: K = w:2 c / w:1 .
-tile: C = floor
-furniture: C = wood chair
 
-tile: cCDT = floor
+tile: cCdDT = floor
 furniture: cC = wood chair
 furniture: T = table
 furniture: Dd = desk
@@ -652,9 +653,8 @@ item_group: 50 d = items_home_books
 shuffle: ab
 shuffle: he
 shuffle: fg
-tile: abdefg = floor
-furniture: adf = wood chair
-
+tile: abhefg = floor
+furniture: ahf = wood chair
 
 # Upstairs is fiction.
 
@@ -670,7 +670,7 @@ shuffle: 67
 tile: 6 = w:5 closed glass door / w:3 closed door / w:1 locked door
 tile: 7 = stone wall
 
-subst: < = w:7 K / w:1 <
+subst: < = w:14 c / w:7 . / w:3 <
 tile: < = spiral staircase up
 
 map:
