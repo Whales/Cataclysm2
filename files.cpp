@@ -63,13 +63,15 @@ bool remove_directory(std::string name)
           return_value = false;
         }
       }
-      if (!remove(full_path.c_str())) {
+// remove() returns 0 on success.  Just like all other functions WAIT NO
+      if (remove(full_path.c_str())) {
         return_value = false;
       }
     }
   }
 
-  if (!remove(name.c_str())) {
+// remove() returns 0 on success.  Go figure.
+  if (remove(name.c_str())) {
     return_value = false;
   }
   closedir(dir);
@@ -94,8 +96,8 @@ bool remove_file(std::string name)
     return false;
   }
 
-  remove(name.c_str());
-  return true;
+// remove() returns 0 on success.  Thanks stdlib, real consistent there.
+  return !remove(name.c_str());
 }
 
 std::vector<std::string> files_in(std::string dir, std::string suffix)
