@@ -25,6 +25,7 @@ enum Status_effect_type
 
 Status_effect_type lookup_status_effect(std::string name);
 std::string status_effect_name(Status_effect_type type);
+std::string status_effect_display_name(Status_effect_type type);
 
 struct Status_effect
 {
@@ -35,7 +36,10 @@ struct Status_effect
   Status_effect& operator=(const Status_effect& rhs);
 
   bool load_data(std::istream& data, std::string owner_name);
+
   std::string get_name();
+  std::string get_display_name();
+  std::string get_description();
 
   void boost(int dur, int lev = 1);
   void boost(const Status_effect& rhs);
