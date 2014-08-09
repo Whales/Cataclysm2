@@ -713,6 +713,10 @@ there.<c=/>", map->get_name(examine).c_str());
       }
     }  break;
 
+    case IACTION_CHAR_STATUS:
+      player->status_interface();
+      break;
+
     case IACTION_CHAR_SKILLS:
       player->skills_interface();
       break;

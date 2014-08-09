@@ -181,6 +181,7 @@ std::string interface_action_name(Interface_action action)
     case IACTION_MESSAGES_SCROLL_BACK:    return "messages_scroll_back";
     case IACTION_MESSAGES_SCROLL_FORWARD: return "messages_scroll_forward";
     case IACTION_VIEW_WORLDMAP:           return "view_worldmap";
+    case IACTION_CHAR_STATUS:             return "status";
     case IACTION_CHAR_SKILLS:             return "skills";
     case IACTION_QUIT:                    return "quit";
     case IACTION_SAVE:                    return "save";
