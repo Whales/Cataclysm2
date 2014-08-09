@@ -802,36 +802,36 @@ void Player::status_interface()
   i_status.set_data("num_str_max", stats.strength_max    );
   i_status.set_data("num_str_max", c_white);
   if (stats.strength < stats.strength_max) {
-    i_stats.set_data("num_str_cur", c_ltred);
+    i_status.set_data("num_str_cur", c_ltred);
   } else if (stats.strength > stats.strength_max) {
-    i_stats.set_data("num_str_cur", c_ltgreen);
+    i_status.set_data("num_str_cur", c_ltgreen);
   }
 
   i_status.set_data("num_dex_cur", stats.dexterity       );
   i_status.set_data("num_dex_max", stats.dexterity_max   );
   i_status.set_data("num_dex_max", c_white);
   if (stats.dexterity < stats.dexterity_max) {
-    i_stats.set_data("num_dex_cur", c_ltred);
+    i_status.set_data("num_dex_cur", c_ltred);
   } else if (stats.dexterity > stats.dexterity_max) {
-    i_stats.set_data("num_dex_cur", c_ltgreen);
+    i_status.set_data("num_dex_cur", c_ltgreen);
   }
 
   i_status.set_data("num_per_cur", stats.perception      );
   i_status.set_data("num_per_max", stats.perception_max  );
   i_status.set_data("num_per_max", c_white);
   if (stats.perception < stats.perception_max) {
-    i_stats.set_data("num_per_cur", c_ltred);
+    i_status.set_data("num_per_cur", c_ltred);
   } else if (stats.perception > stats.perception_max) {
-    i_stats.set_data("num_per_cur", c_ltgreen);
+    i_status.set_data("num_per_cur", c_ltgreen);
   }
 
   i_status.set_data("num_int_cur", stats.intelligence    );
   i_status.set_data("num_int_max", stats.intelligence_max);
   i_status.set_data("num_int_max", c_white);
   if (stats.intelligence < stats.intelligence_max) {
-    i_stats.set_data("num_int_cur", c_ltred);
+    i_status.set_data("num_int_cur", c_ltred);
   } else if (stats.intelligence > stats.intelligence_max) {
-    i_stats.set_data("num_int_cur", c_ltgreen);
+    i_status.set_data("num_int_cur", c_ltgreen);
   }
 
 
