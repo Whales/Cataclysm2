@@ -322,6 +322,49 @@ int Entity::get_speed()
   return ret;
 }
 
+std::map<std::string,int> Entity::get_speed_modifiers()
+{
+  std::map<std::string,int> ret;
+  int tmp;
+
+  tmp = get_hunger_speed_penalty();
+  if (tmp > 0) {
+    ret["hunger"] = tmp;
+  }
+
+  tmp = get_thirst_speed_penalty();
+  if (tmp > 0) {
+    ret["thirst"] = tmp;
+  }
+
+  tmp = get_fatigue_speed_penalty();
+  if (tmp > 0) {
+    ret["fatigue"] = tmp;
+  }
+
+  tmp = get_pain_speed_penalty();
+  if (tmp > 0) {
+    ret["pain"] = tmp;
+  }
+
+  for (int i = 0; i < effects.size(); i++) {
+    tmp = effects[i].speed_mod();
+    std::string name = effects[i].get_name();
+    if (ret.count(name) == 0) {
+      ret[name] = tmp;
+    } else {
+      ret[name] += tmp;
+    }
+  }
+
+  if (has_trait(TRAIT_QUICK)) {
+    int amount = get_speed() / 21;
+    ret["Quick"] = amount;
+  }
+
+  return ret;
+}
+
 int Entity::get_movement_cost()
 {
   return 100;

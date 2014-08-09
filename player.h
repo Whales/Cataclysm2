@@ -75,6 +75,7 @@ public:
   std::string hp_text(Body_part part);
   std::string hp_text(HP_part part);
 
+  void status_interface();
   void skills_interface();
   void setup_skills_interface(cuss::interface& i_skills);
 

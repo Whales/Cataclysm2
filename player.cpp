@@ -788,6 +788,148 @@ std::string Player::hp_text(HP_part part)
   return ret.str();
 }
 
+void Player::status_interface()
+{
+  cuss::interface i_status;
+  std::string iface_file = CUSS_DIR + "/i_char_status.cuss";
+  if (!i_status.load_from_file(iface_file)) {
+    return;
+  }
+
+  Window w_status(0, 0, 80, 24);
+
+  i_status.set_data("num_str_cur", stats.strength        );
+  i_status.set_data("num_str_max", stats.strength_max    );
+  i_status.set_data("num_str_max", c_white);
+  if (stats.strength < stats.strength_max) {
+    i_stats.set_data("num_str_cur", c_ltred);
+  } else if (stats.strength > stats.strength_max) {
+    i_stats.set_data("num_str_cur", c_ltgreen);
+  }
+
+  i_status.set_data("num_dex_cur", stats.dexterity       );
+  i_status.set_data("num_dex_max", stats.dexterity_max   );
+  i_status.set_data("num_dex_max", c_white);
+  if (stats.dexterity < stats.dexterity_max) {
+    i_stats.set_data("num_dex_cur", c_ltred);
+  } else if (stats.dexterity > stats.dexterity_max) {
+    i_stats.set_data("num_dex_cur", c_ltgreen);
+  }
+
+  i_status.set_data("num_per_cur", stats.perception      );
+  i_status.set_data("num_per_max", stats.perception_max  );
+  i_status.set_data("num_per_max", c_white);
+  if (stats.perception < stats.perception_max) {
+    i_stats.set_data("num_per_cur", c_ltred);
+  } else if (stats.perception > stats.perception_max) {
+    i_stats.set_data("num_per_cur", c_ltgreen);
+  }
+
+  i_status.set_data("num_int_cur", stats.intelligence    );
+  i_status.set_data("num_int_max", stats.intelligence_max);
+  i_status.set_data("num_int_max", c_white);
+  if (stats.intelligence < stats.intelligence_max) {
+    i_stats.set_data("num_int_cur", c_ltred);
+  } else if (stats.intelligence > stats.intelligence_max) {
+    i_stats.set_data("num_int_cur", c_ltgreen);
+  }
+
+
+  i_status.set_data("num_speed",   get_speed()           );
+
+  std::map<std::string,int> speed_mods = get_speed_modifiers();
+  for (std::map<std::string,int>::iterator it = speed_mods.begin();
+       it != speed_mods.end();
+       it++) {
+    std::stringstream mod_name, mod_amount;
+    if (it->second < 0) {
+      mod_name   << "<c=ltred>";
+      mod_amount << "<c=ltred>";
+    } else {
+      mod_name   << "<c=ltgreen>";
+      mod_amount << "<c=ltgreen>+";
+    }
+    mod_name   << it->first  << "<c=/>";
+    mod_amount << it->second << "<c=/>";
+    i_status.add_data("list_speed_mod_names",   mod_name.str()  );
+    i_status.add_data("list_speed_mod_amounts", mod_amount.str());
+  }
+
+  for (int i = 0; i < effects.size(); i++) {
+    i_status.add_data("list_status_effects", effects[i].get_display_name());
+  }
+
+  std::vector<Trait_id> trait_list;
+  for (int i = 0; i < TRAIT_MAX; i++) {
+    Trait_id id = Trait_id(i);
+    if (has_trait(id)) {
+      trait_list.push_back(id);
+      std::stringstream ss_trait_name;
+      if (id < TRAIT_MAX_GOOD) {
+        ss_trait_name << "<c=ltgreen>";
+      } else if (id < TRAIT_MAX_NEUTRAL) {
+        ss_trait_name << "<c=yellow>";
+      } else if (id < TRAIT_MAX_BAD) {
+        ss_trait_name << "<c=ltred>";
+      }
+      ss_trait_name << trait_id_name(id) << "<c=/>";
+      i_status.add_data("list_traits", ss_trait_name.str());
+    }
+  }
+
+  i_status.select("list_status_effects");
+  if (!effects.empty()) {
+    i_status.set_data("text_description", effects[0].get_description());
+  }
+
+// Okay!  All done filling out the interface.
+  while (true) {
+    i_status.draw(&w_status);
+    w_status.refresh();
+
+    std::string selected_name = i_status.selected()->name;
+    int last_selected = i_status.selected()->get_int();
+
+    long ch = input();
+
+    if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
+      return;
+
+    } else if (ch == '2') {
+      skills_interface();
+      return;
+
+    } else if (ch == '3') {
+// TODO: Put link to clothing_screen() here
+      return;
+
+    } else if (ch == '4') {
+// TODO: Put link to quests_screen() here
+      return;
+
+    } else {
+      i_status.handle_action(ch);
+      if (i_status.selected()->name != selected_name ||
+          i_status.selected()->get_int() != last_selected) {
+        if (i_status.selected()->name == "list_status_effects") {
+          int sel = i_status.selected()->get_int();
+          if (!effects.empty() && sel < effects.size()) {
+            i_status.set_data("text_description",
+                              effects[sel].get_description());
+          }
+        } else {
+          int sel = i_status.selected()->get_int();
+          if (!trait_list.empty() && sel < trait_list.size()) {
+            i_status.set_data("text_description",
+                             trait_description(trait_list[sel]));
+          }
+        }
+      }
+    }
+  } // while (true)
+}
+
+
 void Player::skills_interface()
 {
   cuss::interface i_skills;
@@ -812,7 +954,7 @@ void Player::skills_interface()
       return;
 
     } else if (ch == '1') {
-// TODO: Put link to status_screen() here
+      status_interface();
       return;
 
     } else if (ch == '3') {
@@ -883,7 +1025,7 @@ Press <c=pink>?<c=yellow> and then a skill letter to get help.<c=/>");
 
     } // End of "ch is a letter"
 
-  }
+  } // while (true)
 }
 
 void Player::setup_skills_interface(cuss::interface& i_skills)
