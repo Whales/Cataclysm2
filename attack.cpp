@@ -262,7 +262,7 @@ Damage_set Attack::roll_damage(Melee_hit_type hit_type)
     if (hit_type == MELEE_HIT_GRAZE) {
       ret.set_damage( Damage_type(i), rng(0, damage[i] * .5) );
     } else if (hit_type == MELEE_HIT_CRITICAL) {
-      Dice dam_dice(damage[i], 4);
+      Dice dam_dice(damage[i], 2);
       ret.set_damage( Damage_type(i), dam_dice.roll() );
     } else {
       ret.set_damage( Damage_type(i), rng(damage[i] * .5, damage[i]) );
