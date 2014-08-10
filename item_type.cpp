@@ -107,6 +107,20 @@ Item_type_ammo::Item_type_ammo()
   pellets = 1;
 }
 
+std::string Item_type_ammo::get_name_singular()
+{
+  std::stringstream ret;
+  ret << "box of " << get_name();
+  return ret.str();
+}
+
+std::string Item_type_ammo::get_name_plural()
+{
+  std::stringstream ret;
+  ret << "boxes of " << get_name();
+  return ret.str();
+}
+
 std::string Item_type_ammo::get_property_description()
 {
   std::stringstream ret;
@@ -235,6 +249,22 @@ std::string Item_type::get_name()
   return display_name;
 }
 
+// This is overloaded for Item_type classes that need more (like Item_type_ammo)
+std::string Item_type::get_name_singular()
+{
+  return get_name();
+}
+
+std::string Item_type::get_name_plural()
+{
+  if (has_flag(ITEM_FLAG_PLURAL)) {
+    return get_name_singular();
+  } else if (plural_name.empty()) {
+    return get_name_singular() + "s";
+  }
+  return plural_name;
+}
+
 bool Item_type::load_data(std::istream &data)
 {
   std::string ident, junk;
@@ -259,6 +289,10 @@ bool Item_type::load_data(std::istream &data)
     } else if (ident == "display_name:") {
       std::getline(data, display_name);
       display_name = trim(display_name);
+
+    } else if (ident == "plural:") {
+      std::getline(data, plural_name);
+      plural_name = trim(plural_name);
 
     } else if (ident == "description:") {
       std::string desc;
@@ -646,6 +680,20 @@ Item_type_book::Item_type_book()
   bonus_int_required = 0;
   fun = 0;
   chapters = 1;
+}
+
+std::string Item_type_book::get_name_singular()
+{
+  std::stringstream ret;
+  ret << "copy of \"" << get_name() << "\"";
+  return ret.str();
+}
+
+std::string Item_type_book::get_name_plural()
+{
+  std::stringstream ret;
+  ret << "copies of \"" << get_name() << "\"";
+  return ret.str();
 }
 
 std::string Item_type_book::get_property_description()

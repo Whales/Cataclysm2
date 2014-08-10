@@ -147,78 +147,78 @@ int Item::get_uid()
 
 glyph Item::top_glyph()
 {
-  if (type) {
-    glyph ret = type->sym;
-    if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
-      ret.fg = corpse->sym.fg;
-    }
-    return ret;
+  if (!type) {
+    return glyph();
   }
-  return glyph();
+  glyph ret = type->sym;
+  if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
+    ret.fg = corpse->sym.fg;
+  }
+  return ret;
 }
 
 std::string Item::get_data_name()
 {
-  if (type) {
-    return type->get_data_name();
+  if (!type) {
+    return "Typeless item";
   }
-  return "Typeless item";
+  return type->get_data_name();
 }
 
 std::string Item::get_name()
 {
-  if (type) {
-    if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
-      return corpse->get_name() + " " + type->get_name();
-    }
-    return type->get_name();
+  if (!type) {
+    return "Typeless item";
   }
-  return "Typeless item";
+  if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
+    return corpse->get_name() + " " + type->get_name();
+  }
+  return type->get_name();
 }
 
 std::string Item::get_name_indefinite()
 {
 // TODO: Unique items?
-  std::string article = (has_flag(ITEM_FLAG_PLURAL) ? "some" : "a");
-  if (type) {
-    std::stringstream ret;
-    switch (get_item_class()) {
-      case ITEM_CLASS_AMMO:
-        ret << "a box of " << get_name(); // TODO: Not always box?
-        break;
-      default:
-        ret << article << " " << get_name();
-    }
-// Display FULL info on contained items
-    if (!contents.empty()) {
-      std::string preposition = "containing";
-      bool use_article = true;
-      if (get_item_class() == ITEM_CLASS_CONTAINER) {
-        Item_type_container* cont = static_cast<Item_type_container*>(type);
-        preposition = cont->preposition;
-        use_article = cont->use_article;
-      }
-      ret << " " << preposition << " ";
-      if (use_article) {
-        ret << contents[0].get_name_indefinite();
-      } else {
-        ret << contents[0].get_name_full();
-      }
-    }
-    return ret.str();
+  if (!type) {
+    return "<c=red>a typeless item<c=/>";
   }
-  return "a typeless item";
+  std::string article = (has_flag(ITEM_FLAG_PLURAL) ? "some" : "a");
+  std::stringstream ret;
+  ret << article << " ";
+  if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
+    ret << corpse->get_name() << " ";
+  }
+  ret << type->get_name_singular();
+// Display FULL info on contained items
+  ret << get_contents_suffix();
+  return ret.str();
 }
 
 std::string Item::get_name_definite()
 {
-// TODO: Unique items?
-  if (type) {
-    std::stringstream ret;
-    ret << "the " << get_name();
-    return ret.str();
+  if (!type) {
+    return "the typeless items";
   }
-  return "the typeless item";
+  std::stringstream ret;
+  ret << "the ";
+  if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
+    ret << corpse->get_name() << " ";
+  }
+  ret << type->get_name_singular();
+  return ret.str();
+}
+
+std::string Item::get_name_plural()
+{
+  if (!type) {
+    return "typeless items";
+  }
+  std::stringstream ret;
+  if (get_item_class() == ITEM_CLASS_CORPSE && corpse) {
+    ret << corpse->get_name() << " ";
+  }
+  ret << type->get_name_plural();
+  return ret.str();
 }
 
 std::string Item::get_name_full()
@@ -228,22 +228,7 @@ std::string Item::get_name_full()
   }
   std::stringstream ret;
   ret << get_name();
-// Display FULL info on contained items
-  if (!contents.empty()) {
-    std::string preposition = "containing";
-    bool use_article = true;
-    if (get_item_class() == ITEM_CLASS_CONTAINER) {
-      Item_type_container* cont = static_cast<Item_type_container*>(type);
-      preposition = cont->preposition;
-      use_article = cont->use_article;
-    }
-    ret << " " << preposition << " ";
-    if (use_article) {
-      ret << contents[0].get_name_indefinite();
-    } else {
-      ret << contents[0].get_name_full();
-    }
-  }
+  ret << get_contents_suffix();
 
 // Display the number of charges for items that use them
   if (type->uses_charges() || active == ITEM_ACTIVE_TIMER) {
@@ -256,6 +241,29 @@ std::string Item::get_name_full()
     
   if (is_active()) {
     ret << " <c=yellow>[on]<c=/>";
+  }
+
+  return ret.str();
+}
+
+std::string Item::get_contents_suffix()
+{
+  if (contents.empty()) {
+    return "";
+  }
+  std::stringstream ret;
+  std::string preposition = "containing";
+  bool use_article = true;
+  if (get_item_class() == ITEM_CLASS_CONTAINER) {
+    Item_type_container* cont = static_cast<Item_type_container*>(type);
+    preposition = cont->preposition;
+    use_article = cont->use_article;
+  }
+  ret << " " << preposition << " ";
+  if (use_article) {
+    ret << contents[0].get_name_indefinite();
+  } else {
+    ret << contents[0].get_name_full();
   }
 
   return ret.str();
@@ -661,6 +669,14 @@ bool Item::combine_with(const Item& rhs)
   if (type != rhs.type) {
     return false;
   }
+  if (contents.size() != rhs.contents.size()) {
+    return false;
+  }
+  for (int i = 0; i < contents.size(); i++) {
+    if (contents[i].type != rhs.contents[i].type) {
+      return false;
+    }
+  }
   if (combine_by_charges()) {
     charges += rhs.charges;
   } else {
@@ -985,6 +1001,9 @@ Item_action Item::show_info(Entity* user)
       case IACT_APPLY:
         actions << "<c=magenta>a<c=/>pply" << std::endl;
         break;
+      case IACT_READ:
+        actions << "<c=magenta>r<c=/>ead" << std::endl;
+        break;
       case IACT_UNLOAD:
         actions << "<c=magenta>U<c=/>nload" << std::endl;
         break;
@@ -1013,6 +1032,7 @@ Item_action Item::show_info(Entity* user)
       case 'W': ret = IACT_WEAR;    break;
       case 'e': ret = IACT_EAT;     break;
       case 'a': ret = IACT_APPLY;   break;
+      case 'r': ret = IACT_READ;    break;
       case 'U': ret = IACT_UNLOAD;  break;
       case 'R': ret = IACT_RELOAD;  break;
       case 'B': ret = IACT_BUTCHER; break;
@@ -1151,32 +1171,120 @@ std::string list_items(std::vector<Item> *items)
   if (items->empty()) {
     return "nothing.";
   }
+// Form a list with a count of matching items.
+// Store -1 if we matched an earlier item, otherwise, the number of matches
+// (including itself)
+  std::vector<int> count;
+  for (int i = 0; i < items->size(); i++) {
+    count.push_back(0);
+  }
+  for (int i = 0; i < items->size(); i++) {
+    Item* cur = &( (*items)[i] );
+    if (count[i] >= 0) {
+      int my_count = 1; // 1 cause we match ourselves!
+      for (int j = i + 1; j < items->size(); j++) {
+        Item* compare = &( (*items)[j] );
+        bool same = true;
+        if (cur->type != compare->type) {
+          same = false;
+        } else if (cur->contents.size() != compare->contents.size()) {
+          same = false;
+        } else {
+          for (int n = 0; same && n < cur->contents.size(); n++) {
+            if (cur->contents[n].type != compare->contents[n].type) {
+              same = false;
+            }
+          }
+        }
+        if (same) {
+          my_count++;
+          count[j] = -1;
+        }
+      } // for (int j = i + 1; j < items->size(); j++)
+      count[i] = my_count;
+    } // if (count >= 0)
+  } // for (int i = 0; i < items->size(); i++)
+
+// Now, form a count-sorted list of names & counts
+  std::vector<std::string> names;
+  std::vector<int> amounts;
+  for (int i = 0; i < count.size(); i++) {
+    std::string name;
+    Item* cur = &( (*items)[i] );
+    if (count[i] == 1) {
+      name = cur->get_name_indefinite();
+    } else {
+      std::stringstream name_ss;
+      name_ss << count[i] << " " << cur->get_name_plural() <<
+                 cur->get_contents_suffix();
+      name = name_ss.str();
+    }
+    bool inserted = false;
+    if (count[i] >= 1) {
+      for (int n = 0; !inserted && n < names.size(); n++) {
+        if (count[i] > amounts[i]) {
+          inserted = true;
+          names.insert( names.begin() + n, name );
+          amounts.insert( amounts.begin() + n, count[i] );
+        }
+      }
+      if (!inserted) {
+        names.push_back(name);
+        amounts.push_back(count[i]);
+      }
+    }
+  }
+
+// Now, tailor the actual message.
+  std::stringstream ret;
+  for (int i = 0; i < names.size(); i++) {
+    ret << names[i];
+    if (i + 2 == names.size()) {
+      ret << " and ";
+    } else if (i + 3 <= names.size()) {
+      ret << ", ";
+    }
+  }
+  ret << ".";
+  return ret.str();
+}
+/*
 // First, form a map that joins together items of the same type.
   std::map<Item_type*,int> types;
+// A second map for items with contents - they're special!
+  std::map<std::string,int> containers;
   for (int i = 0; i < items->size(); i++) {
-    Item_type* type = (*items)[i].type;
-    if (type) {
-      if (types.count(type) == 0) {
-        types[type] = 1;
+    if (!(*items)[i].contents.empty()) {
+      std::string cont_name = (*items)[i].get_name_indefinite();
+      if (containers.count(cont_name) == 0) {
+        containers[cont_name] = 1;
       } else {
-        types[type]++;
+        containers[cont_name]++;
+      }
+    } else {  // No contents
+      Item_type* type = (*items)[i].type;
+      if (type) {
+        if (types.count(type) == 0) {
+          types[type] = 1;
+        } else {
+          types[type]++;
+        }
       }
     }
   }
 // Now tailor the actual message.
   std::stringstream item_text;
-  int num = types.size();
+  int num = types.size() + containers.size();
   for (std::map<Item_type*,int>::iterator it = types.begin();
        it != types.end();
        it++) {
     num--;
     Item_type* type = it->first;
     if (it->second == 1) {
-      item_text << (type->has_flag(ITEM_FLAG_PLURAL) ? "some " : "a ") <<
-                   type->get_name();
+      item_text << (type->has_flag(ITEM_FLAG_PLURAL) ? "some " << "a ") <<
+                   type->get_name_singular();
     } else {
-// TODO: Smarter pluralization; maybe store a plural form in Item_type
-      item_text << it->second << " " << type->get_name() << "s";
+      item_text << it->second << " " << type->get_name_plural();
     }
     if (num == 1) {
       item_text << " and ";
@@ -1184,6 +1292,13 @@ std::string list_items(std::vector<Item> *items)
       item_text << ", ";
     }
   }
+// Next, do containers
+  for (std::map<std::string,int>::iterator it = containers.begin();
+       it != containers.end();
+       it++) {
+    num--;
+    if (it->second > 1) {
   item_text << ".";
   return item_text.str();
 }
+*/

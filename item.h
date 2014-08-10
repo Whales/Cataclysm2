@@ -43,11 +43,19 @@ public:
   int get_uid();
 
   glyph top_glyph();
+// The formal, unique data name
   std::string get_data_name();
+// Display name, with corpse descriptor (for corpses)
   std::string get_name();
-  std::string get_name_indefinite();
-  std::string get_name_definite();
-  std::string get_name_full();  // Includes charges, mode, etc.
+// These include articles
+  std::string get_name_indefinite(); // get_name() + contents
+  std::string get_name_definite();   // get_name() only
+// No article or count.
+  std::string get_name_plural();// Uses type->get_name_plural()
+  std::string get_name_full();  // Includes charges, mode, count, powered?, etc
+
+  std::string get_contents_suffix(); // " of soda"; append to other name funcs
+
   std::string get_description();
   std::string get_description_full();  // Includes type-specific values
 

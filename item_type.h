@@ -60,6 +60,7 @@ public:
   int uid;
   std::string name;
   std::string display_name;
+  std::string plural_name;
   std::string description;
   int weight;       // In 1/10ths of a pound / 0.045 kg (sorry)
   int volume;       // 1 volume = a ping pong ball
@@ -78,6 +79,8 @@ public:
   void assign_uid(int id);
   std::string get_data_name();
   std::string get_name();
+  virtual std::string get_name_singular();  // Slightly more verbose
+  virtual std::string get_name_plural();
   virtual bool load_data(std::istream &data);
   virtual bool handle_data(std::string ident, std::istream &data);
 
@@ -127,10 +130,13 @@ public:
 
   virtual Item_class get_class() { return ITEM_CLASS_AMMO; }
 
+  virtual std::string get_name_singular();  // Slightly more verbose
+  virtual std::string get_name_plural();
+  virtual std::string get_property_description();
+
   virtual bool handle_data(std::string ident, std::istream &data);
 
   virtual int default_charges() { return count; }
-  virtual std::string get_property_description();
   virtual bool combine_by_charges() { return true;  }
   virtual bool uses_charges()       { return true;  }
 
@@ -234,7 +240,11 @@ class Item_type_book : public Item_type
 
   virtual Item_class get_class() { return ITEM_CLASS_BOOK; }
   virtual Item_action default_action() { return IACT_READ; }
+
+  virtual std::string get_name_singular();  // Slightly more verbose
+  virtual std::string get_name_plural();
   virtual std::string get_property_description();
+
   virtual int time_to_read();
 
   virtual bool handle_data(std::string ident, std::istream& data);
