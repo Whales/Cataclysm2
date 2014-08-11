@@ -3,6 +3,14 @@
 #include "window.h"
 #include <sstream>
 
+Dice::Dice(int N, int S, int B)
+{
+  number = N;
+  sides = S;
+  bonus = B;
+  negative = false;
+}
+
 int Dice::roll()
 {
   if (number == 0 || sides == 0) {
@@ -12,11 +20,16 @@ int Dice::roll()
   for (int i = 0; i < others.size(); i++) {
     ret += others[i].roll();
   }
+  if (negative) {
+    ret = 0 - ret;
+  }
   return ret;
 }
 
 Dice Dice::base() const
 {
+  Dice ret(number, sides, bonus);
+  ret.negative = negative;
   return Dice(number, sides, bonus);
 }
 
@@ -25,9 +38,10 @@ Dice& Dice::operator=(const Dice& rhs)
   if (this == &rhs) {
     return (*this);
   }
-  number = rhs.number;
-  sides  = rhs.sides;
-  bonus  = rhs.bonus;
+  number   = rhs.number;
+  sides    = rhs.sides;
+  bonus    = rhs.bonus;
+  negative = rhs.negative;
   others.clear();
   for (int i = 0; i < rhs.others.size(); i++) {
     others.push_back( rhs.others[i] );
@@ -46,9 +60,28 @@ Dice& Dice::operator+=(const Dice& rhs)
   return *this;
 }
 
-Dice& Dice::operator-=(const int& rhs)
+Dice& Dice::operator-=(const Dice& rhs)
+{
+  if ((rhs.sides > 0 && rhs.number > 0) || rhs.bonus > 0) {
+    Dice tmp = rhs;
+    tmp.negative = true;
+    others.push_back(tmp.base());
+  }
+  for (int i = 0; i < rhs.others.size(); i++) {
+    (*this) += rhs.others[i].base();
+  }
+  return *this;
+}
+
+Dice& Dice::operator+=(const int& rhs)
 {
   bonus += rhs;
+  return *this;
+}
+
+Dice& Dice::operator-=(const int& rhs)
+{
+  bonus -= rhs;
   return *this;
 }
 
@@ -142,4 +175,3 @@ bool Dice::load_data(std::istream &data, std::string owner)
   }
   return true;
 }
-
