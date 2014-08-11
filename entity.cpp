@@ -329,22 +329,22 @@ std::map<std::string,int> Entity::get_speed_modifiers()
 
   tmp = get_hunger_speed_penalty();
   if (tmp > 0) {
-    ret["hunger"] = tmp;
+    ret["hunger"] = 0 - tmp;
   }
 
   tmp = get_thirst_speed_penalty();
   if (tmp > 0) {
-    ret["thirst"] = tmp;
+    ret["thirst"] = 0 - tmp;
   }
 
   tmp = get_fatigue_speed_penalty();
   if (tmp > 0) {
-    ret["fatigue"] = tmp;
+    ret["fatigue"] = 0 - tmp;
   }
 
   tmp = get_pain_speed_penalty();
   if (tmp > 0) {
-    ret["pain"] = tmp;
+    ret["pain"] = 0 - tmp;
   }
 
   for (int i = 0; i < effects.size(); i++) {
@@ -2273,23 +2273,16 @@ Ranged_attack Entity::fire_weapon()
 // If we've got skill in the weapon's skill type, then reduce its variance
   Item_type_launcher* launcher = static_cast<Item_type_launcher*>(weapon.type);
   Skill_type sk_used = launcher->skill_used;
-  int my_skill = (skills.get_level(SKILL_LAUNCHERS) +
-                  skills.get_level(sk_used) * 3      ) / 4;
-  ret.variance.number -= my_skill / 3;
-  if (rng(1, 3) <= my_skill % 3) {
-    ret.variance.number--;
+  int skill_level = (skills.get_level(SKILL_LAUNCHERS) +
+                     skills.get_level(sk_used) * 3);
+
+  int my_skill = skill_level / 4;
+  if (rng(1, 4) <= skill_level % 4) {
+    my_skill++;
   }
-  if (ret.variance.number < 0) {
-    ret.variance.number = 1;
-    ret.variance.sides /= 2;
-  }
-// Also, add some variance based on LOW skill
-  Dice extra_variance;
-  extra_variance.number = 3;
-  extra_variance.sides  = (20 - my_skill);
-  extra_variance.bonus  = -3;
-  ret.variance += extra_variance;
-  
+  Dice skill_bonus(1, my_skill);
+  ret.variance -= skill_bonus;
+
   return weapon.get_fired_attack();
 }
 
