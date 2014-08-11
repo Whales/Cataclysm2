@@ -28,9 +28,8 @@ int Dice::roll()
 
 Dice Dice::base() const
 {
-  Dice ret(number, sides, bonus);
-  ret.negative = negative;
-  return Dice(number, sides, bonus);
+  Dice ret(number, sides, bonus, negative);
+  return ret;
 }
 
 Dice& Dice::operator=(const Dice& rhs)
@@ -91,11 +90,16 @@ std::string Dice::str()
   ret << number << "d" << sides;
   if (bonus < 0) {
     ret << " - " << int(0 - bonus);
-  } else {
+  } else if (bonus > 0) {
     ret << " + " << bonus;
   }
   for (int i = 0; i < others.size(); i++) {
-    ret << " + " << others[i].str();
+    if (others.negative) {
+      ret << " - ";
+    } else {
+      ret << " + ";
+    }
+    ret << others[i].str();
   }
   return ret.str();
 }
