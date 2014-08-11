@@ -1074,7 +1074,9 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
     sk_name << skill_type_user_name(sk) << "<c=/>";
     i_skills.add_data(cur_name, sk_name.str());
 
-    if (maxed) {
+    if (skills.get_level(sk) == 0) {
+      sk_level << "<c=dkgray>";
+    } else if (maxed) {
       sk_level << "<c=red>";
       sk_max   << "<c=red>";
     }

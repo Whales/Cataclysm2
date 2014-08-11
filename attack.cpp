@@ -422,7 +422,7 @@ Damage_set Ranged_attack::roll_damage(Ranged_hit_type hit)
       break;
     case RANGED_HIT_CRITICAL:
       min = 1.0;
-      max = 1.5;
+      max = 2.5;
       break;
     case RANGED_HIT_HEADSHOT:
       min = 3.0;
