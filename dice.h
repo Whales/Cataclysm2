@@ -15,7 +15,7 @@ struct Dice
 
   std::vector<Dice> others;
 
-  Dice(int N = 0, int S = 1, int B = 0);
+  Dice(int N = 0, int S = 1, int B = 0, bool G = false);
   ~Dice() { }
 
   int roll();

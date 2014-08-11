@@ -3,12 +3,12 @@
 #include "window.h"
 #include <sstream>
 
-Dice::Dice(int N, int S, int B)
+Dice::Dice(int N, int S, int B, bool G)
 {
   number = N;
   sides = S;
   bonus = B;
-  negative = false;
+  negative = G;
 }
 
 int Dice::roll()
@@ -94,7 +94,7 @@ std::string Dice::str()
     ret << " + " << bonus;
   }
   for (int i = 0; i < others.size(); i++) {
-    if (others.negative) {
+    if (others[i].negative) {
       ret << " - ";
     } else {
       ret << " + ";
