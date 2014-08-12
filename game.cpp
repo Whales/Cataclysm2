@@ -1844,25 +1844,71 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
   maxx = startx + range;
   maxy = starty + range;
 
-  Tripoint target(startx, starty, player->pos.z);;
+  Tripoint target(startx, starty, player->pos.z);
+  std::vector<Tripoint> target_list;
+  std::vector<int> target_range;
+  int target_index = 0;
   if (target_entities) {
+// Set up list of targets.
+    for (std::list<Entity*>::iterator it = entities.instances.begin();
+         it != entities.instances.end();
+         it++) {
+      Entity* ent_target = (*it);
+      int ent_range = rl_dist(player->pos, ent_target->pos);
+      if (ent_target != player && ent_range <= range &&
+          player->is_enemy(ent_target) && player->can_sense(ent_target)) {
+// They should be included; figure out where to place them in the list
+        bool found = false;
+        for (int i = 0; !found && i < target_range.size(); i++) {
+          if (target_range[i] > ent_range) {
+            found = true;
+            target_range.insert(target_range.begin() + i, ent_range);
+            target_list.insert(target_list.begin() + i, ent_target->pos);
+          }
+        }
+        if (!found) { // Stick them on the end
+          target_range.push_back(ent_range);
+          target_list.push_back(ent_target->pos);
+        }
+      }
+    }
     if (last_target == -1) {  // No previous target to snap to, pick the closest
       Entity* new_target = entities.closest_seen_by(player, range);
       if (new_target) { // It'll be NULL if no one is in range
         target = new_target->pos;
+        bool found = false;
+        for (int i = 0; !found && i < target_list.size(); i++) {
+          if (target == target_list[i]) {
+            found = true;
+            target_index = i;
+          }
+        }
       }
     } else {
       Entity* old_target = entities.lookup_uid(last_target);
 // It'll be NULL if the old target's dead, etc.
-      if (old_target &&
-          map->senses(player->pos, old_target->pos, range, SENSE_SIGHT)) {
+      if (old_target && player->can_sense(old_target)) {
         target = old_target->pos;
+        bool found = false;
+        for (int i = 0; !found && i < target_list.size(); i++) {
+          if (target == target_list[i]) {
+            found = true;
+            target_index = i;
+          }
+        }
       } else {
 // Reset last_target
         last_target = -1;
         Entity* new_target = entities.closest_seen_by(player, range);
         if (new_target) { // It'll be NULL if no one is in range
           target = new_target->pos;
+          bool found = false;
+          for (int i = 0; !found && i < target_list.size(); i++) {
+            if (target == target_list[i]) {
+              found = true;
+              target_index = i;
+            }
+          }
         }
       }
     }
@@ -1897,10 +1943,29 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
 
   while (true) {
     long ch = input();
+    bool redraw = false;
     if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
       return std::vector<Tripoint>();
+
+    } else if ((ch == '<' || ch == '-') && !target_list.empty()) {
+      target_index--;
+      if (target_index < 0) {
+        target_index = target_list.size() - 1;
+      }
+      target = target_list[target_index];
+      redraw = true;
+
+    } else if ((ch == '>' || ch == '+' || ch == '=') && !target_list.empty()) {
+      target_index++;
+      if (target_index >= target_list.size()) {
+        target_index = 0;
+      }
+      target = target_list[target_index];
+      redraw = true;
+
     } else if (ch == '\n') {
       return ret;
+
     } else {
       Point p = input_direction(ch);
       if (p.x == 0 && p.y == 0) {
@@ -1920,27 +1985,31 @@ std::vector<Tripoint> Game::path_selector(int startx, int starty, int range,
         if (target.y > maxy) {
           target.y = maxy;
         }
-        ret = map->line_of_sight(player->pos, target);
-        map->draw_area(w_map, &entities, player->pos, minx, miny, maxx, maxy);
-        if (show_path) {
-          for (int i = 0; i < ret.size(); i++) {
-            map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
-                           player->pos.x, player->pos.y, true);// true==inverted
-          }
-        }
-// TODO: No no no remove this!  Won't work for tiles!
-        ent_targeted = entities.entity_at(target);
-        if (ent_targeted) {
-          w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
-                          w_map->sizey() / 2 - player->pos.y + target.y,
-                          ent_targeted->get_glyph().invert());
-        } else {
-          w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
-                          w_map->sizey() / 2 - player->pos.y + target.y,
-                          glyph('*', c_red, c_black));
-        }
-        w_map->refresh();
+        redraw = true;
       }
+    }
+
+    if (redraw) {
+      ret = map->line_of_sight(player->pos, target);
+      map->draw_area(w_map, &entities, player->pos, minx, miny, maxx, maxy);
+      if (show_path) {
+        for (int i = 0; i < ret.size(); i++) {
+          map->draw_tile(w_map, &entities, ret[i].x, ret[i].y,
+                         player->pos.x, player->pos.y, true);// true==inverted
+        }
+      }
+// TODO: No no no remove this!  Won't work for tiles!
+      ent_targeted = entities.entity_at(target);
+      if (ent_targeted) {
+        w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
+                        w_map->sizey() / 2 - player->pos.y + target.y,
+                        ent_targeted->get_glyph().invert());
+      } else {
+        w_map->putglyph(w_map->sizex() / 2 - player->pos.x + target.x,
+                        w_map->sizey() / 2 - player->pos.y + target.y,
+                        glyph('*', c_red, c_black));
+      }
+      w_map->refresh();
     }
   }
 }
