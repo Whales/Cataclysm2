@@ -6,6 +6,7 @@
 #include "enum.h"
 #include "player_activity.h"
 #include "profession.h"
+#include "mission.h"
 #include <string>
 #include <map>
 
@@ -71,6 +72,9 @@ public:
   virtual int  get_armor(Damage_type damtype, Body_part part = BODY_PART_NULL);
   virtual int  get_protection(Body_part part = BODY_PART_NULL);
 
+// Mission functions
+  int personal_mission_cap(); // How many personal missions can we have?
+
 // Interface & status functions
   std::string hp_text(Body_part part);
   std::string hp_text(HP_part part);
@@ -82,6 +86,8 @@ public:
 // Values
   int current_hp[HP_PART_MAX];
   int max_hp    [HP_PART_MAX];
+
+  std::vector<Mission> missions;
 
 private:
   std::string name;

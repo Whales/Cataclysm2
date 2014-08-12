@@ -758,6 +758,12 @@ int Player::get_protection(Body_part part)
   return ret;
 }
 
+// TODO: This function.  Once we have morale.
+int Player::personal_mission_cap()
+{
+  return 3;
+}
+
 std::string Player::hp_text(Body_part part)
 {
   return hp_text( convert_to_HP(part) );
