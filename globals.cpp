@@ -7,20 +7,21 @@
 
 int TESTING_MODE;
 
-Game                      GAME;
-Data_pool<Terrain>        TERRAIN;
-Data_pool<World_terrain>  WORLD_TERRAIN;
-Data_pool<Item_type>      ITEM_TYPES;
-Data_pool<Item_group>     ITEM_GROUPS;
-Data_pool<Monster_genus>  MONSTER_GENERA;
-Data_pool<Monster_type>   MONSTER_TYPES;
-Data_pool<Biome>          BIOMES;
-Data_pool<Field_type>     FIELDS;
-Data_pool<Furniture_type> FURNITURE_TYPES;
-Data_pool<Profession>     PROFESSIONS;
-Submap_pool               SUBMAP_POOL;
-Mapgen_spec_pool          MAPGEN_SPECS;
-Keybinding_pool           KEYBINDINGS;
+Game                        GAME;
+Data_pool<Terrain>          TERRAIN;
+Data_pool<World_terrain>    WORLD_TERRAIN;
+Data_pool<Item_type>        ITEM_TYPES;
+Data_pool<Item_group>       ITEM_GROUPS;
+Data_pool<Monster_genus>    MONSTER_GENERA;
+Data_pool<Monster_type>     MONSTER_TYPES;
+Data_pool<Biome>            BIOMES;
+Data_pool<Field_type>       FIELDS;
+Data_pool<Furniture_type>   FURNITURE_TYPES;
+Data_pool<Profession>       PROFESSIONS;
+Submap_pool                 SUBMAP_POOL;
+Mapgen_spec_pool            MAPGEN_SPECS;
+Keybinding_pool             KEYBINDINGS;
+Data_pool<Mission_template> MISSIONS;
 
 void load_global_data()
 {
@@ -35,6 +36,7 @@ void load_global_data()
   BIOMES.load_from          (DATA_DIR + "/biomes.dat"         );
   PROFESSIONS.load_from     (DATA_DIR + "/professions.dat"    );
   KEYBINDINGS.load_from     (DATA_DIR + "/keybindings.txt"    );
+  MISSIONS.load_from        (DATA_DIR + "/missions.dat"       );
 
   load_mapgen_specs();
 }
