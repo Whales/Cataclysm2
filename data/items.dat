@@ -1007,7 +1007,7 @@ clothing
   weight:   3
   volume:  40
   carries: 10
-  armor_cut:    3
+  armor_cut:    2
   armor_pierce: 1
   covers: legs
   flags: plural
