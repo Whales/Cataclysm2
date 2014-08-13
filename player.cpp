@@ -19,6 +19,7 @@ Player::Player()
   pos.x = 15;
   pos.y = 15;
   action_points = 100;
+  morale = 0;
   name = "Whales";
   male = true;
   profession = NULL;
