@@ -45,6 +45,9 @@ std::string body_part_name(Body_part part);
 // get_body_part_list provides support for "legs" referring to both legs, etc.
 std::vector<Body_part> get_body_part_list(std::string name);
 
+// A description of what protection on this part means.
+std::string get_protection_meaning(Body_part part);
+
 Body_part random_head_part();
 Body_part random_extremity();
 

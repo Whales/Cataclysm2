@@ -82,6 +82,7 @@ public:
   void status_interface();
   void skills_interface();
   void setup_skills_interface(cuss::interface& i_skills);
+  void clothing_interface();
 
 // Values
   int current_hp[HP_PART_MAX];

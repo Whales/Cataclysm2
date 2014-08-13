@@ -907,7 +907,7 @@ void Player::status_interface()
       return;
 
     } else if (ch == '3') {
-// TODO: Put link to clothing_screen() here
+      clothing_interface();
       return;
 
     } else if (ch == '4') {
@@ -935,7 +935,6 @@ void Player::status_interface()
     }
   } // while (true)
 }
-
 
 void Player::skills_interface()
 {
@@ -965,7 +964,7 @@ void Player::skills_interface()
       return;
 
     } else if (ch == '3') {
-// TODO: Put link to clothing_screen() here
+      clothing_interface();
       return;
 
     } else if (ch == '4') {
@@ -1121,6 +1120,85 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
 improve a skill beyond its cap.\n\n\
 Press <c=pink>?<c=yellow> and then a skill letter to get help.<c=/>");
 
+}
+
+void Player::clothing_interface()
+{
+  cuss::interface i_clothing;
+  std::string iface_file = CUSS_DIR + "/i_char_clothing.cuss";
+  if (!i_clothing.load_from_file(iface_file)) {
+    return;
+  }
+
+  Window w_clothing(0, 0, 80, 24);
+
+// Init the lists.
+  for (int i = 1; i < BODY_PART_MAX; i++) {
+    Body_part bp = Body_part(i);
+    i_clothing.add_data("list_part_name", body_part_name(bp));
+    std::stringstream ss_bash, ss_cut, ss_pierce, ss_protection;
+    int armor_bash   = get_armor(DAMAGE_BASH,   bp);
+    int armor_cut    = get_armor(DAMAGE_CUT,    bp);
+    int armor_pierce = get_armor(DAMAGE_PIERCE, bp);
+    if (armor_bash == 0) {
+      ss_bash << "<c=dkgray>";
+    } else if (armor_bash >= 8) {
+      ss_bash << "<c=white>";
+    }
+    ss_bash << armor_bash << "<c=/>";
+    if (armor_cut == 0) {
+      ss_cut << "<c=dkgray>";
+    } else if (armor_cut >= 8) {
+      ss_cut << "<c=white>";
+    }
+    ss_cut << armor_cut << "<c=/>";
+    if (armor_pierce == 0) {
+      ss_pierce << "<c=dkgray>";
+    } else if (armor_pierce >= 8) {
+      ss_pierce << "<c=white>";
+    }
+    ss_pierce << armor_pierce << "<c=/>";
+    int prot = get_protection(bp);
+    if (prot == 0) {
+      ss_protection << "<c=dkgray>";
+    } else if (prot >= 5) {
+      ss_protection << "<c=white>";
+    }
+    ss_protection << prot << "<c=/>";
+    i_clothing.add_data("list_armor_bash",   ss_bash.str()      );
+    i_clothing.add_data("list_armor_cut",    ss_cut.str()       );
+    i_clothing.add_data("list_armor_pierce", ss_pierce.str()    );
+    i_clothing.add_data("list_protection",   ss_protection.str());
+  }
+
+  i_clothing.select("list_part_name");
+
+  while (true) {
+    Body_part bp = Body_part( i_clothing.get_int("list_part_name") + 1 );
+    i_clothing.set_data("text_protection_description",
+                        get_protection_meaning(bp));
+    i_clothing.draw(&w_clothing);
+    w_clothing.refresh();
+    long ch = input();
+    if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
+      return;
+
+    } else if (ch == '1') {
+      status_interface();
+      return;
+
+    } else if (ch == '2') {
+      skills_interface();
+      return;
+
+    } else if (ch == '4') {
+// TODO: Put link to quests_screen() here
+      return;
+
+    } else {
+      i_clothing.handle_keypress(ch);
+    }
+  }
 }
 
 

@@ -93,6 +93,21 @@ std::vector<Body_part> get_body_part_list(std::string name)
   return ret;
 }
 
+std::string get_protection_meaning(Body_part part)
+{
+  switch (part) {
+    case BODY_PART_EYES:
+      return "\
+Eye protection prevents you from being blinded by chemicals or bright light.";
+    case BODY_PART_MOUTH:
+      return "\
+Mouth protection prevents you from inhaling deadly gases.";
+    default:
+      return body_part_name(part) + " does not use protection.";
+  }
+  return "BUG - Escaped switch";
+}
+
 Body_part random_head_part()
 {
   if (one_in(10)) {
