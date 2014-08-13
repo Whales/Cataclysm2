@@ -32,6 +32,7 @@ std::vector< std::string >  get_profession_list(Player* pl);
 
 bool Player::create_new_character()
 {
+  stats = Stats(10, 10, 10, 10);
   Window w_newch(0, 0, 80, 24);
   cuss::interface i_newch;
   if (!i_newch.load_from_file(CUSS_DIR + "/i_newchar_stats.cuss")) {

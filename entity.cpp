@@ -7,10 +7,10 @@
 
 Stats::Stats()
 {
-  strength     = 10;
-  dexterity    = 10;
-  intelligence = 10;
-  perception   = 10;
+  strength     = 0;
+  dexterity    = 0;
+  intelligence = 0;
+  perception   = 0;
 }
 
 Stats::~Stats()
@@ -424,7 +424,7 @@ int Entity::get_speed()
 
 Stats Entity::get_stats_mod()
 {
-  Stats ret(0, 0, 0, 0);
+  Stats ret;
 
   ret -= get_hunger_stats_penalty();
   ret -= get_thirst_stats_penalty();
