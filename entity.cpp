@@ -197,6 +197,7 @@ Entity::Entity()
   painkill = 0;
   special_timer = 0;
   experience = 0;
+  morale = 0;
 
 // Initialize trait vector
   for (int i = 0; i < TRAIT_MAX; i++) {
@@ -261,6 +262,68 @@ void Entity::die()
     if ( (*it)->plan.target_entity == this ) {
       (*it)->plan.clear();
     }
+  }
+}
+
+void Entity::start_turn()
+{
+  stats.reset();  // Reset all to their max values
+
+  if (GAME.minute_timer(30)) {
+    adjust_morale();  // Adjust morale before doing other stuff.
+  }
+
+// Move food/water from stomach to body
+  if (GAME.minute_timer(1)) {
+    if (stomach_food > 0) {
+      int move = (stomach_food + 1) / 2;
+      hunger -= move;
+      stomach_food -= move;
+      int min = get_hunger_minimum();
+      if (hunger < min) {
+        hunger = min;
+      }
+    }
+    if (stomach_water > 0) {
+      int move = (stomach_water + 1) / 2;
+      thirst -= move;
+      stomach_water -= move;
+      int min = get_thirst_minimum();
+      if (thirst < min) {
+        thirst = min;
+      }
+    }
+  }
+// Increment hunger, thirst, and fatigue when appropriate...
+  int hunger_interval = 6, thirst_interval = 6, fatigue_interval = 6;
+  if (has_trait(TRAIT_LIGHT_EATER)) {
+    hunger_interval += 2;
+  }
+  if (has_trait(TRAIT_CAMEL)) {
+    thirst_interval += 2;
+  }
+  if (GAME.minute_timer(hunger_interval)) {
+    hunger++;
+  }
+  if (GAME.minute_timer(thirst_interval)) {
+    thirst++;
+  }
+  if (GAME.minute_timer(fatigue_interval)) {
+    fatigue++;
+  }
+
+// Adjust stats as needed
+  stats += get_stats_mod();
+
+  process_status_effects();
+}
+
+void Entity::adjust_morale()
+{
+  if (morale < 0) {
+    morale += 1 + abs(morale) / 10;
+  } else if (morale > 0) {
+    morale -= 1 + abs(morale) / 10;
   }
 }
 
@@ -1056,55 +1119,6 @@ void Entity::shift(int shiftx, int shifty)
   pos.x -= shiftx * SUBMAP_SIZE;
   pos.y -= shifty * SUBMAP_SIZE;
   plan.shift(shiftx, shifty);
-}
-
-void Entity::start_turn()
-{
-  stats.reset();  // Reset all to their max values
-
-// Move food/water from stomach to body
-  if (GAME.minute_timer(1)) {
-    if (stomach_food > 0) {
-      int move = (stomach_food + 1) / 2;
-      hunger -= move;
-      stomach_food -= move;
-      int min = get_hunger_minimum();
-      if (hunger < min) {
-        hunger = min;
-      }
-    }
-    if (stomach_water > 0) {
-      int move = (stomach_water + 1) / 2;
-      thirst -= move;
-      stomach_water -= move;
-      int min = get_thirst_minimum();
-      if (thirst < min) {
-        thirst = min;
-      }
-    }
-  }
-// Increment hunger, thirst, and fatigue when appropriate...
-  int hunger_interval = 6, thirst_interval = 6, fatigue_interval = 6;
-  if (has_trait(TRAIT_LIGHT_EATER)) {
-    hunger_interval += 2;
-  }
-  if (has_trait(TRAIT_CAMEL)) {
-    thirst_interval += 2;
-  }
-  if (GAME.minute_timer(hunger_interval)) {
-    hunger++;
-  }
-  if (GAME.minute_timer(thirst_interval)) {
-    thirst++;
-  }
-  if (GAME.minute_timer(fatigue_interval)) {
-    fatigue++;
-  }
-
-// Adjust stats as needed
-  stats += get_stats_mod();
-
-  process_status_effects();
 }
 
 bool Entity::add_item(Item item)

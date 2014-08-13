@@ -97,6 +97,9 @@ public:
 // Standard turn functions
   virtual void die();
 
+  void start_turn(); // Reset their stats, increase hunger/thirst, etc.
+  
+  void adjust_morale();
   void process_status_effects();
   virtual void gain_action_points();
   nc_color     get_speed_color();
@@ -182,8 +185,6 @@ public:
   void use_ap(int amount);
   void shift(int shiftx, int shifty); // For map shifting
 
-  void start_turn(); // Reset their stats, increase hunger/thirst, etc.
-  
 // Inventory functions
   virtual bool add_item(Item item);
   Item  get_item_of_type(Item_type *type);
@@ -304,6 +305,7 @@ public:
   Skill_set skills;
   std::vector<bool> traits;
   int experience;
+  int morale;
 
 // Temporary attributes
   int hunger, thirst, fatigue, stomach_food, stomach_water;

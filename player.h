@@ -87,8 +87,6 @@ public:
   int current_hp[HP_PART_MAX];
   int max_hp    [HP_PART_MAX];
 
-  int morale;
-
   std::vector<Mission> missions;
 
 private:
