@@ -35,6 +35,9 @@ Item_type_clothing::Item_type_clothing()
   armor_pierce = 0;
   protection = 0;
   encumbrance = 0;
+  for (int i = 0; i < BODY_PART_MAX; i++) {
+    covers[i] = false;
+  }
 }
 
 std::string Item_type_clothing::get_property_description()
