@@ -729,6 +729,7 @@ int Player::get_armor(Damage_type damtype, Body_part part)
     if (items_worn[i].covers(part)) {
       Item_type* type = items_worn[i].type;
       Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
+      //debugmsg("%s covers %s and provides %d:%d:%d", items_worn[i].get_name().c_str(), body_part_name(part).c_str(), clothing->armor_bash, clothing->armor_cut, clothing->armor_pierce);
       switch (damtype) {
         case DAMAGE_BASH:
           ret += clothing->armor_bash;
