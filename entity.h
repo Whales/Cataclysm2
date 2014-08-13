@@ -124,9 +124,11 @@ public:
 
   int get_smell();
 
-// Experience functions
+// Experience and morale functions
   void gain_xp(int amount);
   bool improve_skill(Skill_type type);
+  void gain_morale(int amount);
+  int get_morale();
 
 // AI
   virtual void take_turn();
@@ -305,7 +307,6 @@ public:
   Skill_set skills;
   std::vector<bool> traits;
   int experience;
-  int morale;
 
 // Temporary attributes
   int hunger, thirst, fatigue, stomach_food, stomach_water;
@@ -323,6 +324,7 @@ public:
   std::vector<Furniture_pos> dragged;
 private:
   std::map<std::string, int> chapters_read;
+  int morale;
 };
 
 /* For now, Entity_pool does NOT include a map which uses location as a key.

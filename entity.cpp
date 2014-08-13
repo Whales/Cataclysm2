@@ -693,6 +693,16 @@ bool Entity::improve_skill(Skill_type type)
   return true;
 }
 
+void Entity::gain_morale(int amount)
+{
+  morale += amount;
+}
+
+int Entity::get_morale()
+{
+  return morale;
+}
+
 void Entity::take_turn()
 {
 }
@@ -1508,7 +1518,7 @@ anything.");
   if (book->fun > 0) {
     std::string title = book->get_data_name();
     if (get_chapters_read(title) < book->chapters) {
-// TODO: Put "add_morale()" here!
+      gain_morale( book->fun );
     }
     
     read_chapter(title);

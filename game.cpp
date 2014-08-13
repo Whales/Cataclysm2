@@ -92,6 +92,14 @@ bool Game::setup_new_game(int world_index)
   }
 
   map = new Map;
+  player = new Player;
+  player->prep_new_character();
+// Player::create_new_character() returns false if the user cancels the process.
+  if (!player->create_new_character()) {
+    return false;
+  }
+// entities[0] should always be the player!
+  entities.add_entity(player);
 // The second argument of 0 means "on the main island"
   Point start = worldmap->random_tile_with_terrain("beach", 0);
 // Set the starting point to a shipwreck beach!
@@ -114,14 +122,6 @@ bool Game::setup_new_game(int world_index)
 */
   worldmap->set_terrain(start.x, start.y, "beach");
 
-  player = new Player;
-  player->prep_new_character();
-// Player::create_new_character() returns false if the user cancels the process.
-  if (!player->create_new_character()) {
-    return false;
-  }
-// entities[0] should always be the player!
-  entities.add_entity(player);
 
   time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
   last_target = -1;

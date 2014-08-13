@@ -840,6 +840,7 @@ void Player::status_interface()
     i_status.set_data("num_int_cur", c_ltgreen);
   }
 
+  i_status.set_data("num_morale", get_morale());
 
   i_status.set_data("num_speed",   get_speed()           );
 
