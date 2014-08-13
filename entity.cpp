@@ -17,6 +17,41 @@ Stats::~Stats()
 {
 }
 
+void Stats::reset()
+{
+  strength     = strength_max;
+  dexterity    = dexterity_max;
+  intelligence = intelligence_max;
+  perception   = perception_max;
+}
+
+Stats& Stats::operator= (const Stats& rhs)
+{
+  strength     = rhs.strength;
+  dexterity    = rhs.dexterity;
+  intelligence = rhs.intelligence;
+  perception   = rhs.perception;
+  return *this;
+}
+
+Stats& Stats::operator+=(const Stats& rhs)
+{
+  strength     += rhs.strength;
+  dexterity    += rhs.dexterity;
+  intelligence += rhs.intelligence;
+  perception   += rhs.perception;
+  return *this;
+}
+
+Stats& Stats::operator-=(const Stats& rhs)
+{
+  strength     -= rhs.strength;
+  dexterity    -= rhs.dexterity;
+  intelligence -= rhs.intelligence;
+  perception   -= rhs.perception;
+  return *this;
+}
+
 Entity_plan::Entity_plan()
 {
   target_point = Tripoint(-1, -1, -1);
@@ -234,6 +269,8 @@ void Entity::process_status_effects()
   for (int i = 0; i < effects.size(); i++) {
     int level = effects[i].level;
 
+    stats += effects[i].stats_mod();
+
     switch (effects[i].type) {
 
       case STATUS_SLEEP_AID:
@@ -319,6 +356,20 @@ int Entity::get_speed()
   if (has_trait(TRAIT_QUICK)) {
     ret = ret + (ret + 19) / 20; // "+ 19" means we always round up.
   }
+  return ret;
+}
+
+Stats Entity::get_stats_mod()
+{
+  Stats ret(0, 0, 0, 0);
+
+  ret -= get_hunger_stats_penalty();
+  ret -= get_thirst_stats_penalty();
+  ret -= get_fatigue_stats_penalty();
+  for (int i = 0; i < effects.size(); i++) {
+    ret += effects[i].stats_mod();
+  }
+
   return ret;
 }
 
@@ -1009,6 +1060,8 @@ void Entity::shift(int shiftx, int shifty)
 
 void Entity::start_turn()
 {
+  stats.reset();  // Reset all to their max values
+
 // Move food/water from stomach to body
   if (GAME.minute_timer(1)) {
     if (stomach_food > 0) {
@@ -1047,6 +1100,9 @@ void Entity::start_turn()
   if (GAME.minute_timer(fatigue_interval)) {
     fatigue++;
   }
+
+// Adjust stats as needed
+  stats += get_stats_mod();
 
   process_status_effects();
 }
