@@ -274,7 +274,15 @@ void ele_list::draw(Window *win)
   if (!selected)
    hilite = bg;
   if (align == ALIGN_RIGHT) {
-    win->putstr_r(posx, ypos, fg, hilite, sizex, (*list)[index]);
+/* If it's selectable, we need an extra space at the end to compensate for the
+ * scroll bar; otherwise the scroll bar will cover up the last name in the list.
+ * This is hacky but it's good enough for now.
+ */
+    if (selectable) {
+      win->putstr_r(posx, ypos, fg, hilite, sizex, (*list)[index] + " ");
+    } else {
+      win->putstr_r(posx, ypos, fg, hilite, sizex, (*list)[index]);
+    }
   } else if (align == ALIGN_CENTER) {
     win->putstr_c(posx, ypos, fg, hilite, sizex, (*list)[index]);
   } else {
