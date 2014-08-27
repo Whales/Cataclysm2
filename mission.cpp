@@ -130,6 +130,7 @@ bool Mission::set_from_template(Mission_template* temp)
   int time_to_finish = rng(temp->time_min, temp->time_max);
   deadline = GAME.time + HOURS(time_to_finish);
   deadline.standardize();
+//debugmsg("%s (%d) + %d hours = %s (%d)", GAME.time.get_text().c_str(), GAME.time.get_turn(), time_to_finish, deadline.get_text().c_str(), deadline.get_turn());
 
   return true;
 }
@@ -144,7 +145,7 @@ Time Mission::get_time_left()
 std::string Mission::get_description()
 {
   std::stringstream ret;
-  ret << mission_type_display_name(type) << "\"" << target_name << "\"";
+  ret << mission_type_display_name(type) << " " << target_name;
   if (original_target_count > 1) {
     ret << " x " << target_count;
   }
