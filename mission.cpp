@@ -129,8 +129,58 @@ bool Mission::set_from_template(Mission_template* temp)
   }
   int time_to_finish = rng(temp->time_min, temp->time_max);
   deadline = GAME.time + HOURS(time_to_finish);
+  deadline.standardize();
 
   return true;
+}
+
+Time Mission::get_time_left()
+{
+  Time ret = deadline - GAME.time;
+  ret.standardize();
+  return ret;
+}
+
+std::string Mission::get_description()
+{
+  std::stringstream ret;
+  ret << mission_type_display_name(type) << "\"" << target_name << "\"";
+  if (original_target_count > 1) {
+    ret << " x " << target_count;
+  }
+  return ret.str();
+}
+
+std::string Mission::get_deadline_text()
+{
+  std::stringstream ret;
+  Time time_left = get_time_left();
+  if (time_left <= HOURS(6)) { // Six hours or less!
+    ret << "<c=ltred>";
+  }
+  ret << deadline.get_text() << "<c=/>";
+  return ret.str();
+}
+
+std::string Mission::get_time_left_text()
+{
+  std::stringstream ret;
+  Time time_left = get_time_left();
+  if (time_left <= HOURS(6)) {
+    ret << "<c=ltred>";
+  }
+  ret << time_left.get_text() << "<c=/>";
+  return ret.str();
+}
+
+std::string Mission::get_experience_text()
+{
+  std::stringstream ret;
+  if (xp >= 100) {
+    ret << "<c=yellow>";
+  }
+  ret << xp << "<c=/>";
+  return ret.str();
 }
 
 Mission_type lookup_mission_type(std::string name)

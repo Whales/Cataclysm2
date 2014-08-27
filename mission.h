@@ -68,6 +68,12 @@ struct Mission
   Mission_status status;
 
   bool set_from_template(Mission_template* temp);
+
+  Time get_time_left();
+  std::string get_description();  // Long form, player-targeted, includes count
+  std::string get_deadline_text();  // Text form of deadline
+  std::string get_time_left_text(); // Text form of deadline - GAME.date
+  std::string get_experience_text();// Text form of experience gained
 };
 
 #endif
