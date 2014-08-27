@@ -1287,7 +1287,7 @@ void Player::missions_interface()
     Mission* miss = &(missions[i]);
     i_missions.add_data("list_mission_description", miss->get_description());
     i_missions.add_data("list_deadline", miss->get_deadline_text());
-    i_missions.add_data("list_time_left", miss->get_time_left_text());
+    //i_missions.add_data("list_time_left", miss->get_time_left_text());
     i_missions.add_data("list_experience", miss->get_experience_text());
   }
 
