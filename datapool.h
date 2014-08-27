@@ -122,7 +122,7 @@ public:
     if (size() == 0) {
       return NULL;
     }
-    int roll = rng(0, size());
+    int roll = rng(0, size() - 1);
     typename std::list<T*>::iterator it = instances.begin();
     for (int i = 0; i < roll; i++) {
       it++;
