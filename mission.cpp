@@ -3,18 +3,6 @@
 #include "game.h"
 #include <sstream>
 
-Mission::Mission(Mission_type T, std::string T_N, int X, Time D, bool P)
-{
-  type = T;
-  target_name = T_N;
-  xp = X;
-  deadline = D;
-  personal = P;
-  if (deadline.get_turn() == -1) {
-    deadline = GAME.time + HOURS(1);
-  }
-}
-
 void Mission_template::assign_uid(int ID)
 {
   uid = ID;
@@ -62,9 +50,17 @@ bool Mission_template::load_data(std::istream& data)
 
     } else if (ident == "target:") {
       std::getline(data, target_name);
-      target_name = trim(target_name);
+      target_name = no_caps( trim(target_name) );
       if (target_name.empty()) {
         debugmsg("Empty target name (%s).", mission_type_name(type).c_str());
+        return false;
+      }
+
+    } else if (ident == "count:") {
+      data >> count_min >> count_max;
+      if (count_min < 1 || count_max < count_min) {
+        debugmsg("Invalid count (%d to %d) (%s).", count_min, count_max,
+                 get_data_name().c_str());
         return false;
       }
 
@@ -93,6 +89,20 @@ bool Mission_template::load_data(std::istream& data)
   return true;
 }
 
+Mission::Mission(Mission_type T, std::string T_N, int T_C, int X, Time D,
+                 bool P)
+{
+  type = T;
+  target_name  = T_N;
+  target_count = T_C;
+  xp = X;
+  deadline = D;
+  personal = P;
+  if (deadline.get_turn() == -1) {
+    deadline = GAME.time + HOURS(1);
+  }
+}
+
 bool Mission::set_from_template(Mission_template* temp)
 {
   type = temp->type;
@@ -102,6 +112,7 @@ bool Mission::set_from_template(Mission_template* temp)
   }
 
   target_name = temp->target_name;
+  target_count = rng(temp->count_min, temp->count_max);
   xp = rng(temp->xp_min, temp->xp_max);
   int time_to_finish = rng(temp->time_min, temp->time_max);
   deadline = GAME.time + HOURS(time_to_finish);
