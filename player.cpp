@@ -790,6 +790,51 @@ void Player::assign_personal_missions()
   }
 }
 
+bool Player::check_mission(Mission_type type, std::string target, int count)
+{
+  target = no_caps( trim( target ) );
+  for (int i = 0; i < missions.size(); i++) {
+    if (missions[i].type == type && missions[i].target_name == target) {
+      missions[i].target_count -= count;
+      if (missions[i].target_count <= 0) {
+        complete_mission(i);
+      }
+    }
+  }
+
+// Clear out any now-completed missions.
+  clean_up_missions();
+  return true;
+}
+
+void Player::complete_mission(int index)
+{
+  if (index < 0 || index >= missions.size()) {
+    debugmsg("Player::complete_mission(%d) called - we have %d missions.",
+             index, missions.size());
+    return;
+  }
+
+  if (missions[index].status != MISSION_STATUS_ACTIVE) {
+    debugmsg("Player::complete_mission() called on non-active mission!");
+    return;
+  }
+
+  missions[index].status = MISSION_STATUS_COMPLETE;
+  GAME.add_msg("<c=yellow>Mission complete!<c=/>");
+  gain_experience(missions[index].xp);
+}
+
+void Player::clean_up_missions()
+{
+  for (int i = 0; i < missions.size(); i++) {
+    if (missions[i].status != MISSION_STATUS_ACTIVE) {
+      missions.erase( missions.begin() + i );
+      i--;
+    }
+  }
+}
+
 std::string Player::hp_text(Body_part part)
 {
   return hp_text( convert_to_HP(part) );
