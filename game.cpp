@@ -91,6 +91,9 @@ bool Game::setup_new_game(int world_index)
     worldmap->generate();
   }
 
+// Need to set time BEFORE creating a new character - because creating a new
+// character uses time to set mission deadlines!
+  time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
   map = new Map;
   player = new Player;
   player->prep_new_character();
@@ -123,7 +126,6 @@ bool Game::setup_new_game(int world_index)
   worldmap->set_terrain(start.x, start.y, "beach");
 
 
-  time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
   last_target = -1;
   new_messages = 0;
   next_item_uid = 0;
