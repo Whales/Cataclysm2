@@ -48,13 +48,22 @@ public:
        Season _season = SEASON_SPRING, int _year = 0);
   Time(int _turn);
 
-  bool operator==(const Time &other) const;
-  bool operator!=(const Time &other) const;
+  bool operator==(const Time& other) const;
+  bool operator!=(const Time& other) const;
+  bool operator< (const Time& other) const;
+  bool operator< (const int&  other) const;
+  bool operator> (const Time& other) const;
+  bool operator> (const int&  other) const;
+  bool operator<=(const Time& other) const;
+  bool operator<=(const int&  other) const;
+  bool operator>=(const Time& other) const;
+  bool operator>=(const int&  other) const;
 
-  Time& operator+=(const Time &rhs);
-  Time& operator+=(const int  &rhs);
-  Time& operator-=(const Time &rhs);
-  Time& operator-=(const int  &rhs);
+  Time& operator= (const Time& rhs);
+  Time& operator+=(const Time& rhs);
+  Time& operator+=(const int&  rhs);
+  Time& operator-=(const Time& rhs);
+  Time& operator-=(const int&  rhs);
 
   operator int()      const; // Returns get_turn()
   int get_turn()      const;
