@@ -1,14 +1,15 @@
 #ifndef _DATAPOOL_H_
 #define _DATAPOOL_H_
 
+#include "window.h"
+#include "item_type.h"
+#include "stringfunc.h"
+#include "rng.h"
 #include <string>
 #include <istream>
 #include <list>
 #include <map>
 #include <fstream>
-#include "window.h"
-#include "item_type.h"
-#include "stringfunc.h"
 
 /* Important notes:
  * All classes to be used with Data_pool must have the following functions:
@@ -116,11 +117,25 @@ public:
     return NULL;
   }
 
+  T* random_instance()
+  {
+    if (size() == 0) {
+      return NULL;
+    }
+    int roll = rng(0, size());
+    typename std::list<T*>::iterator it = instances.begin();
+    for (int i = 0; i < roll; i++) {
+      it++;
+    }
+    return *it;
+  }
+
   int size()
   {
     return instances.size();
   }
 
+// We have a single public data member.
   std::list<T*> instances;
 
 private:
