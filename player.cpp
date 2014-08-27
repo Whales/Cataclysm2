@@ -982,7 +982,7 @@ void Player::status_interface()
       return;
 
     } else if (ch == '4') {
-// TODO: Put link to quests_screen() here
+      missions_interface();
       return;
 
     } else {
@@ -1039,7 +1039,7 @@ void Player::skills_interface()
       return;
 
     } else if (ch == '4') {
-// TODO: Put link to quests_screen() here
+      missions_interface();
       return;
 
     } else if (ch == '?') {
@@ -1263,7 +1263,7 @@ void Player::clothing_interface()
       return;
 
     } else if (ch == '4') {
-// TODO: Put link to quests_screen() here
+      missions_interface();
       return;
 
     } else {
@@ -1272,6 +1272,47 @@ void Player::clothing_interface()
   }
 }
 
+void Player::missions_interface()
+{
+  cuss::interface i_missions;
+  std::string iface_file = CUSS_DIR + "/i_char_missions.cuss";
+  if (!i_missions.load_from_file(iface_file)) {
+    return;
+  }
+
+  Window w_missions(0, 0, 80, 24);
+
+// Init the lists.
+  for (int i = 0; i < missions.size(); i++) {
+    Mission* miss = &(missions[i]);
+    i_missions.add_data("list_mission_description", miss->get_description());
+    i_missions.add_data("list_deadline", miss->get_deadline_text());
+    i_missions.add_data("list_time_left", miss->get_time_left_text());
+    i_missions.add_data("list_experience", miss->get_experience_text());
+  }
+
+  i_missions.draw(&w_missions);
+  w_missions.refresh();
+
+  while (true) {
+    long ch = input();
+    if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
+      return;
+
+    } else if (ch == '1') {
+      status_interface();
+      return;
+
+    } else if (ch == '2') {
+      skills_interface();
+      return;
+
+    } else if (ch == '3') {
+      clothing_interface();
+      return;
+    }
+  }
+}
 
 void populate_item_lists(Player* p, int offset_size,
                          std::vector<int>  item_indices[ITEM_CLASS_MAX],
