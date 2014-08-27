@@ -765,7 +765,7 @@ int Player::personal_mission_cap()
   return 3;
 }
 
-void Player::assign_missions()
+void Player::assign_personal_missions()
 {
   int cap = personal_mission_cap();
   int personal_missions = 0;
@@ -779,6 +779,7 @@ void Player::assign_missions()
     Mission_template* m_temp = MISSIONS.random_instance();
     if (!m_temp) {
       debugmsg("Fetched a NULL Mission_template at random!");
+      debugmsg("%d templates exist.", MISSIONS.size());
       return;
     }
     Mission miss;

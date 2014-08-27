@@ -74,7 +74,7 @@ public:
 
 // Mission functions
   int personal_mission_cap(); // How many personal missions can we have?
-  void assign_missions();
+  void assign_personal_missions();  // Give us personal missions up to that cap
 
 // Interface & status functions
   std::string hp_text(Body_part part);
