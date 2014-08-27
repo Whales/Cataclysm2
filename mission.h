@@ -37,7 +37,18 @@ struct Mission_template
   std::string target_name;  // Can refer to a item, monster, genre, anything...
   int count_min, count_max; // How many we must eat/kill/etc.  Defaults to 1.
   int xp_min, xp_max; // Range of XP we get
+  int count_xp_bonus; // Bonus XP for each count > 1.
   int time_min, time_max; // Amount of time to complete, in hours.
+};
+
+// The status of a mission
+enum Mission_status
+{
+  MISSION_STATUS_NULL = 0,
+  MISSION_STATUS_ACTIVE,
+  MISSION_STATUS_COMPLETE,
+  MISSION_STATUS_FAILED,
+  MISSION_STATUS_MAX
 };
 
 // Actual, active mission.
@@ -48,10 +59,13 @@ struct Mission
 
   Mission_type type;
   std::string target_name;
-  int target_count;
+  int original_target_count;
+  int target_count; // This one is modified as we complete it.
   int xp;
   Time deadline;
   bool personal;
+
+  Mission_status status;
 
   bool set_from_template(Mission_template* temp);
 };

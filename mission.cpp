@@ -72,6 +72,14 @@ bool Mission_template::load_data(std::istream& data)
         return false;
       }
 
+    } else if (ident == "count_xp:") {
+      data >> count_xp_bonus;
+      if (count_xp_bonus < 0) {
+        debugmsg("Invalid count_xp (%d) (%s).", count_xp_bonus,
+                 get_data_name().c_str());
+        return false;
+      }
+
     } else if (ident == "time:") {
       data >> time_min >> time_max;
       if (time_min < 0 || time_max < time_min) {
@@ -95,6 +103,7 @@ Mission::Mission(Mission_type T, std::string T_N, int T_C, int X, Time D,
   type = T;
   target_name  = T_N;
   target_count = T_C;
+  original_target_count = T_C;
   xp = X;
   deadline = D;
   personal = P;
@@ -113,7 +122,11 @@ bool Mission::set_from_template(Mission_template* temp)
 
   target_name = temp->target_name;
   target_count = rng(temp->count_min, temp->count_max);
+  original_target_count = target_count;
   xp = rng(temp->xp_min, temp->xp_max);
+  if (target_count > 1) {
+    xp += temp->count_xp_bonus * (target_count - 1);
+  }
   int time_to_finish = rng(temp->time_min, temp->time_max);
   deadline = GAME.time + HOURS(time_to_finish);
 
