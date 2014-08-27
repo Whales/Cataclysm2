@@ -765,6 +765,30 @@ int Player::personal_mission_cap()
   return 3;
 }
 
+void Player::assign_missions()
+{
+  int cap = personal_mission_cap();
+  int personal_missions = 0;
+  for (int i = 0; i < missions.size(); i++) {
+    if (missions[i].personal) {
+      personal_missions++;
+    }
+  }
+
+  while (personal_missions < cap) {
+    Mission_template* m_temp = MISSIONS.random_instance();
+    if (!m_temp) {
+      debugmsg("Fetched a NULL Mission_template at random!");
+      return;
+    }
+    Mission miss;
+    miss.set_from_template(m_temp);
+    miss.personal = true;
+    missions.push_back(miss);
+    personal_missions++;
+  }
+}
+
 std::string Player::hp_text(Body_part part)
 {
   return hp_text( convert_to_HP(part) );
@@ -987,7 +1011,7 @@ Press <c=pink>?<c=yellow> again for general help on skills.<c=/>");
         i_skills.set_data("text_help", "\
 <c=yellow>Press the letter attached to a skill to improve it.  You cannot \
 improve a skill beyond its cap.\n\n\
-Press <c=pink>?<c=yellow> and then a skill letter to get help.<c=/>");
+Press <c=pink>?<c=yellow> and then a letter for skill description.<c=/>");
       }
       i_skills.draw(&w_skills);
       w_skills.refresh();
@@ -1119,7 +1143,7 @@ void Player::setup_skills_interface(cuss::interface& i_skills)
   i_skills.set_data("text_help", "\
 <c=yellow>Press the letter attached to a skill to improve it.  You cannot \
 improve a skill beyond its cap.\n\n\
-Press <c=pink>?<c=yellow> and then a skill letter to get help.<c=/>");
+Press <c=pink>?<c=yellow> and then a letter for skill description.<c=/>");
 
 }
 
