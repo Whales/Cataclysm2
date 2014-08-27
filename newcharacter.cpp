@@ -484,6 +484,9 @@ bool Player::create_new_character()
   stats.perception_max   = stats.perception;
   stats.intelligence_max = stats.intelligence;
 
+// Assign some starting missions!
+  assign_personal_missions();
+
   return true;
 }
 
