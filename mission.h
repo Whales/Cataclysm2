@@ -42,14 +42,15 @@ struct Mission_template
 struct Mission
 {
   Mission(Mission_type T = MISSION_NULL, std::string T_N = "", int X = 0,
-          Time D = Time(-1));
+          Time D = Time(-1), bool P = false);
 
   Mission_type type;
   std::string target_name;
   int xp;
   Time deadline;
+  bool personal;
 
-  bool set_from_template(const Mission_template& temp);
+  bool set_from_template(Mission_template* temp);
 };
 
 #endif
