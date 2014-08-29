@@ -1559,7 +1559,9 @@ void Game::debug_command()
       } else {
         Item spawned(type);
         map->add_item(spawned, player->pos);
-        add_msg("Spawned %s.", spawned.get_name_indefinite().c_str());
+        add_msg("Spawned %s (UID %d, next UID %d).",
+                spawned.get_name_indefinite().c_str(), spawned.get_uid(),
+                next_item_uid);
       }
     } break;
 
