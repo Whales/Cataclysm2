@@ -703,6 +703,144 @@ int Entity::get_morale()
   return morale;
 }
 
+// TODO: This function.  Once we have morale.
+int Entity::personal_mission_cap()
+{
+  return 3;
+}
+
+void Entity::assign_personal_missions()
+{
+  int cap = personal_mission_cap();
+  int personal_missions = 0;
+  for (int i = 0; i < missions.size(); i++) {
+    if (missions[i].personal) {
+      personal_missions++;
+    }
+  }
+
+  while (personal_missions < cap) {
+    Mission_template* m_temp = MISSIONS.random_instance();
+    if (!m_temp) {
+      debugmsg("Fetched a NULL Mission_template at random!");
+      debugmsg("%d templates exist.", MISSIONS.size());
+      return;
+    }
+    Mission miss;
+    miss.set_from_template(m_temp);
+    miss.personal = true;
+    missions.push_back(miss);
+    personal_missions++;
+  }
+}
+
+bool Entity::check_mission(Mission_type type, std::string target, int count)
+{
+  target = no_caps( trim( target ) );
+  bool found_match = false;
+  for (int i = 0; !found_match && i < missions.size(); i++) {
+//debugmsg("target '%s', checking '%s'", target.c_str(), missions[i].target_name.c_str());
+    if (missions[i].type == type && missions[i].target_name == target) {
+//debugmsg("Match!  Count %d - %d = %d.", missions[i].target_count, count, missions[i].target_count - count);
+      found_match = true;
+      missions[i].target_count -= count;
+      if (missions[i].target_count <= 0) {
+        complete_mission(i);
+      }
+    }
+  }
+
+// Clear out any now-completed missions.
+  clean_up_missions();
+  return true;
+}
+
+void Entity::complete_mission(int index)
+{
+  if (index < 0 || index >= missions.size()) {
+    debugmsg("Entity::complete_mission(%d) called - we have %d missions.",
+             index, missions.size());
+    return;
+  }
+
+  if (missions[index].status != MISSION_STATUS_ACTIVE) {
+    debugmsg("Entity::complete_mission() called on non-active mission!");
+    return;
+  }
+
+  missions[index].status = MISSION_STATUS_COMPLETE;
+  GAME.add_msg("<c=yellow>Mission complete!<c=/>");
+  gain_experience(missions[index].xp);
+}
+
+void Entity::clean_up_missions()
+{
+  for (int i = 0; i < missions.size(); i++) {
+    if (missions[i].status != MISSION_STATUS_ACTIVE) {
+      missions.erase( missions.begin() + i );
+      i--;
+    }
+  }
+}
+
+void Entity::gain_experience(int amount)
+{
+  if (amount <= 0) {
+    return;
+  }
+
+// Display a message when we unlock improvements
+  std::vector<bool> could_improve;
+  for (int i = 0; i < SKILL_MAX; i++) {
+    Skill_type sk = Skill_type(i);
+    int cost = skills.improve_cost(sk);
+    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
+      cost *= 2;
+    }
+    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
+    if (experience >= cost && !maxed) {
+      could_improve.push_back(true);
+    } else {
+      could_improve.push_back(false);
+    }
+  }
+
+  experience += amount;
+  GAME.add_msg("You gain %d experience!", amount);
+
+  std::vector<Skill_type> unlocked_skills;
+
+  for (int i = 0; i < SKILL_MAX; i++) {
+    Skill_type sk = Skill_type(i);
+    int cost = skills.improve_cost(sk);
+    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
+      cost *= 2;
+    }
+    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
+    if (i > 0 && !could_improve[i] && experience >= cost && !maxed) {
+      unlocked_skills.push_back(sk);
+    }
+  }
+
+  if (unlocked_skills.size() > 3) {
+    GAME.add_msg("You can improve %d new skills!", unlocked_skills.size());
+  } else if (!unlocked_skills.empty()) {
+    std::stringstream mes;
+    mes << "You can now improve ";
+    for (int i = 0; i < unlocked_skills.size(); i++) {
+      mes << skill_type_user_name( unlocked_skills[i] );
+      if (i == unlocked_skills.size() - 1) {
+        mes << "!";
+      } else if (i == unlocked_skills.size() - 2) {
+        mes << " and ";
+      } else {
+        mes << ", ";
+      }
+    }
+    GAME.add_msg(mes.str());
+  }
+}
+
 void Entity::take_turn()
 {
 }
@@ -1554,6 +1692,7 @@ bool Entity::eat_item_uid(int uid)
   if (!it) {
     return false;
   }
+//debugmsg("eat_item_uid() ('%s')", it->get_data_name().c_str());
   if (it->get_item_class() != ITEM_CLASS_FOOD) {
 // Try the contents, too!
     bool ate_something = false;
@@ -1594,6 +1733,9 @@ bool Entity::eat_item_uid(int uid)
     }
     add_status_effect( effect );
   }
+
+// Check if this item was implicated in a mission
+  check_mission(MISSION_EAT, it->get_data_name());
 
   it->charges--;
   if (it->charges <= 0) {

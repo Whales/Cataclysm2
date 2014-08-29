@@ -32,9 +32,6 @@ public:
   void set_profession(Profession* prof);
   Profession* get_profession();
 
-// Character development functions
-  void gain_experience(int amount);
-
 // Movement/perception functions
   virtual bool has_sense(Sense_type sense);
   //virtual bool can_sense(Entity* entity);
@@ -72,21 +69,6 @@ public:
   virtual int  get_armor(Damage_type damtype, Body_part part = BODY_PART_NULL);
   virtual int  get_protection(Body_part part = BODY_PART_NULL);
 
-// Mission functions
-  int personal_mission_cap(); // How many personal missions can we have?
-  void assign_personal_missions();  // Give us personal missions up to that cap
-/* check_mission() will be regularly run in relevent functions, without checking
- * for whether or not we actually HAVE a mission that would be targeted.  For
- * instance. every time we eat something we call
- * check_mission(MISSION_EAT, "food_name").  check_mission() then checks if we
- * have a matching mission, and if so, completes it.
- */
-  bool check_mission(Mission_type type, std::string target, int count = 1);
-// Flags the mission as complete, gives rewards, and prints messages.
-  void complete_mission(int index);
-// Removes any completed or failed missions.
-  void clean_up_missions();
-
 // Interface & status functions
   std::string hp_text(Body_part part);
   std::string hp_text(HP_part part);
@@ -100,8 +82,6 @@ public:
 // Values
   int current_hp[HP_PART_MAX];
   int max_hp    [HP_PART_MAX];
-
-  std::vector<Mission> missions;
 
 private:
   std::string name;

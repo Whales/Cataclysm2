@@ -130,6 +130,31 @@ public:
   void gain_morale(int amount);
   int get_morale();
 
+// Mission functions
+/* These are (maybe?) strictly for Player; however, since we actually check
+ * mission completion when eating, reading etc., and all those functions are
+ * defined for Entity, we need to have access to these functions in Entity as
+ * well.
+ */
+
+  int personal_mission_cap(); // How many personal missions can we have?
+  void assign_personal_missions();  // Give us personal missions up to that cap
+
+/* check_mission() will be regularly run in relevent functions, without checking
+ * for whether or not we actually HAVE a mission that would be targeted.  For
+ * instance. every time we eat something we call
+ * check_mission(MISSION_EAT, "food_name").  check_mission() then checks if we
+ * have a matching mission, and if so, completes it.
+ */
+  bool check_mission(Mission_type type, std::string target, int count = 1);
+// Flags the mission as complete, gives rewards, and prints messages.
+  void complete_mission(int index);
+// Removes any completed or failed missions.
+  void clean_up_missions();
+
+// Character development functions
+  void gain_experience(int amount);
+
 // AI
   virtual void take_turn();
   virtual bool is_enemy(Entity* ent);
@@ -314,6 +339,8 @@ public:
   int special_timer;
   int summons_used;
   int parent_uid;
+
+  std::vector<Mission> missions;
 
   std::vector<Status_effect> effects;
 
