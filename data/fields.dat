@@ -172,7 +172,7 @@ name: acid
     danger: 100
     verb: burns
     parts_hit: legs
-    fire: 6
+    fire: 1
     fuel:
       terrain_flag: water
       fuel: -5
@@ -185,7 +185,7 @@ name: acid
     danger: 150
     verb: burns
     parts_hit: legs
-    fire: 8
+    fire: 2
     fuel:
       terrain_flag: water
       fuel: -8
@@ -200,7 +200,7 @@ name: acid
     danger: 200
     verb: burns
     parts_hit: legs
-    fire: 10
+    fire: 4
     fuel:
       terrain_flag: water
       fuel: -15
