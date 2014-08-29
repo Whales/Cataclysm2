@@ -35,13 +35,14 @@ Item::Item(Item_type* T)
       hp = 5;
     }
   } else {
+    debugmsg("WARNING: Item without type (and without UID) created.");
     uid = -1;
   }
 }
 
 Item::Item(const Item &rhs)
 {
-  type        = rhs.type;
+  type        = rhs.get_type();
   count       = rhs.count;
   uid         = rhs.uid;
   ammo        = rhs.ammo;
@@ -66,7 +67,7 @@ Item::~Item()
 
 Item& Item::operator=(const Item& rhs)
 {
-  type        = rhs.type;
+  type        = rhs.get_type();
   ammo        = rhs.ammo;
   count       = rhs.count;
   charges     = rhs.charges;
@@ -83,6 +84,17 @@ Item& Item::operator=(const Item& rhs)
   }
 
   return *this;
+}
+
+void Item::set_type(Item_type* T)
+{
+  if (!type) {
+    debugmsg("Item::set_type(NULL)!");
+    return;
+  }
+  type = T;
+  uid = GAME.get_item_uid();
+// TODO: The rest of the type setup?
 }
 
 Item_class Item::get_item_class()
@@ -135,6 +147,11 @@ int Item::time_to_read()
   }
 
   return type->time_to_read();
+}
+
+Item_type* Item::get_type() const
+{
+  return type;
 }
 
 int Item::get_uid()
@@ -666,14 +683,14 @@ bool Item::combine_with(const Item& rhs)
   if (!combines()) {
     return false;
   }
-  if (type != rhs.type) {
+  if (type != rhs.get_type()) {
     return false;
   }
   if (contents.size() != rhs.contents.size()) {
     return false;
   }
   for (int i = 0; i < contents.size(); i++) {
-    if (contents[i].type != rhs.contents[i].type) {
+    if (contents[i].get_type() != rhs.contents[i].get_type()) {
       return false;
     }
   }
@@ -771,7 +788,7 @@ bool Item::reload(Entity* owner, int ammo_uid)
     charges += ammo_used->charges;
     owner->remove_item_uid(ammo_uid);
   }
-  ammo = ammo_used->type;
+  ammo = ammo_used->get_type();
   if (get_item_class() == ITEM_CLASS_TOOL) {  // Need to set up subcharges too
     Item_type_tool* tool = static_cast<Item_type_tool*>(type);
     subcharges = tool->subcharges;
@@ -1185,13 +1202,14 @@ std::string list_items(std::vector<Item> *items)
       for (int j = i + 1; j < items->size(); j++) {
         Item* compare = &( (*items)[j] );
         bool same = true;
-        if (cur->type != compare->type) {
+        if (cur->get_type() != compare->get_type()) {
           same = false;
         } else if (cur->contents.size() != compare->contents.size()) {
           same = false;
         } else {
           for (int n = 0; same && n < cur->contents.size(); n++) {
-            if (cur->contents[n].type != compare->contents[n].type) {
+            if (cur->contents[n].get_type() !=
+                compare->contents[n].get_type()) {
               same = false;
             }
           }

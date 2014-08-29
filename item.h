@@ -29,6 +29,8 @@ public:
 
   Item& operator=(const Item &rhs);
 
+  void set_type(Item_type* T);
+
   void set_corpse(Monster_type* type) { corpse = type; }
 
   Item_class get_item_class();
@@ -40,6 +42,8 @@ public:
   int  time_to_read();
 
 // Info fetching
+  Item_type* get_type() const;
+
   int get_uid();
 
   glyph top_glyph();
@@ -113,7 +117,6 @@ public:
   bool load_data(std::istream& data);
 
 // Data
-  Item_type* type;
   Item_type* ammo;  // Currently-loaded ammo type.
   std::vector<Item> contents; // Contents, attached mods, etc.
   int count;
@@ -126,6 +129,7 @@ private:
   //bool active;
   Item_active_type active;
 
+  Item_type* type;
   Monster_type* corpse;
 };
 
