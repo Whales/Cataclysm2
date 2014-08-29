@@ -138,7 +138,11 @@ public:
  */
 
   int personal_mission_cap(); // How many personal missions can we have?
-  void assign_personal_missions();  // Give us personal missions up to that cap
+/* Give missions until we have an amount equal to our cap.  By default, add a
+ * game message notifying the player; this should be false, for example, when
+ * assigning starting missions to a new character.
+ */
+  void assign_personal_missions(bool message = true);
 
 /* check_mission() will be regularly run in relevent functions, without checking
  * for whether or not we actually HAVE a mission that would be targeted.  For
