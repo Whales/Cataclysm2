@@ -178,7 +178,7 @@ bool Player::add_item(Item item)
   } // End of "too much volume" block
   GAME.add_msg("You pick up %s.", item.get_name_indefinite().c_str());
   if (item.combines()) {
-    Item* added = ref_item_of_type(item.type);
+    Item* added = ref_item_of_type(item.get_type());
     if (added) {
       return (*added).combine_with(item);
     }
@@ -268,7 +268,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
 // Set up letter for weapon, if any exists
   char letter = 'a';
   char weapon_letter = 0;
-  if (weapon.type) {
+  if (weapon.get_type()) {
     weapon_letter = 'a';
     letter = 'b';
     std::stringstream weapon_ss;
@@ -287,7 +287,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
 
     std::stringstream clothing_ss;
     Item_type_clothing *clothing =
-      static_cast<Item_type_clothing*>(items_worn[i].type);
+      static_cast<Item_type_clothing*>(items_worn[i].get_type());
 
     clothing_ss << letter << " - " << items_worn[i].get_name_full();
     clothing_name.push_back(clothing_ss.str());
@@ -543,8 +543,9 @@ Item Player::pick_ammo_for(Item *it)
     GAME.add_msg("That %s is not ammo.", ret.get_name().c_str());
     return Item();
   }
-  Item_type_ammo* ammo = static_cast<Item_type_ammo*>(ret.type);
-  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(it->type);
+  Item_type_ammo* ammo = static_cast<Item_type_ammo*>(ret.get_type());
+  Item_type_launcher* launcher =
+    static_cast<Item_type_launcher*>(it->get_type());
   if (ammo->ammo_type != launcher->ammo_type) {
     GAME.add_msg("You picked %s ammo, but your %s needs %s.",
                  ammo->ammo_type.c_str(), it->get_name().c_str(),
@@ -560,7 +561,7 @@ Tripoint Player::pick_target_for(Item* it)
     return Tripoint(-1, -1, -1);
   }
 
-  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
+  Item_type_tool* tool = static_cast<Item_type_tool*>(it->get_type());
   Tool_action* action = &(tool->applied_action);
   std::string verb = action->signal;
 
@@ -669,7 +670,7 @@ int Player::get_armor(Damage_type damtype, Body_part part)
   int ret = 0;
   for (int i = 0; i < items_worn.size(); i++) {
     if (items_worn[i].covers(part)) {
-      Item_type* type = items_worn[i].type;
+      Item_type* type = items_worn[i].get_type();
       Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
       //debugmsg("%s covers %s and provides %d:%d:%d", items_worn[i].get_name().c_str(), body_part_name(part).c_str(), clothing->armor_bash, clothing->armor_cut, clothing->armor_pierce);
       switch (damtype) {
@@ -693,7 +694,7 @@ int Player::get_protection(Body_part part)
   int ret = 0;
   for (int i = 0; i < items_worn.size(); i++) {
     if (items_worn[i].covers(part)) {
-      Item_type* type = items_worn[i].type;
+      Item_type* type = items_worn[i].get_type();
       Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
       ret += clothing->protection;
     }

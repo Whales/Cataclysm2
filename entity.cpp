@@ -1290,7 +1290,7 @@ bool Entity::add_item(Item item)
     return false;
   }
   if (item.combines()) {
-    Item* added = ref_item_of_type(item.type);
+    Item* added = ref_item_of_type(item.get_type());
     if (added) {
       return (*added).combine_with(item);
     }
@@ -1334,7 +1334,7 @@ Item Entity::get_item_of_type(Item_type *type)
     return Item();
   }
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].type == type) {
+    if (inventory[i].get_type() == type) {
       return inventory[i];
     }
   }
@@ -1348,11 +1348,11 @@ Item* Entity::ref_item_of_type(Item_type *type)
     return NULL;
   }
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].type == type) {
+    if (inventory[i].get_type() == type) {
       return &(inventory[i]);
     }
     for (int n = 0; n < inventory[i].contents.size(); n++) {
-      if (inventory[i].contents[n].type == type) {
+      if (inventory[i].contents[n].get_type() == type) {
         return &(inventory[i].contents[n]);
       }
     }
@@ -1536,7 +1536,7 @@ void Entity::apply_item_uid(int uid)
   }
 
 // Get the tool information
-  Item_type_tool* tool   = static_cast<Item_type_tool*>(it->type);
+  Item_type_tool* tool   = static_cast<Item_type_tool*>(it->get_type());
   Tool_action* action    = &(tool->applied_action);
   Tool_action* powered   = &(tool->powered_action);
   Tool_action* countdown = &(tool->countdown_action);
@@ -1578,7 +1578,7 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
   if (!it || !action || it->get_item_class() != ITEM_CLASS_TOOL) {
     return;
   }
-  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
+  Item_type_tool* tool = static_cast<Item_type_tool*>(it->get_type());
 // Verify that we have enough charges.
   if (tool->uses_charges() && it->charges < action->charge_cost) {
     return;
@@ -1612,7 +1612,7 @@ void Entity::read_item_uid(int uid)
     return;
   }
 
-  Item_type_book* book = static_cast<Item_type_book*>(it->type);
+  Item_type_book* book = static_cast<Item_type_book*>(it->get_type());
   if (stats.intelligence < book->int_required) {
     return; // Not smart enough to read this!
   }
@@ -1674,7 +1674,7 @@ void Entity::finish_reading(Item* it)
     return;
   }
 
-  Item_type_book* book = static_cast<Item_type_book*>(it->type);
+  Item_type_book* book = static_cast<Item_type_book*>(it->get_type());
 
   if (stats.intelligence < book->int_required) {
     if (is_you()) {
@@ -1735,7 +1735,7 @@ bool Entity::eat_item_uid(int uid)
     return ate_something;
   }
   bool can_add_message = is_you();
-  Item_type_food* food = static_cast<Item_type_food*>(it->type);
+  Item_type_food* food = static_cast<Item_type_food*>(it->get_type());
   stomach_food += food->food;
   if (stomach_food > get_stomach_maximum()) {
     stomach_food = get_stomach_maximum();
@@ -1787,7 +1787,7 @@ void Entity::reload_prep(int uid)
 // Improve reload time by skills if it's a launcher
   if (it->get_item_class() == ITEM_CLASS_LAUNCHER) {
     Item_type_launcher* launcher =
-      static_cast<Item_type_launcher*>(weapon.type);
+      static_cast<Item_type_launcher*>(weapon.get_type());
     Skill_type sk_used = launcher->skill_used;
     int sk_level = skills.get_level(sk_used);
     if (sk_level >= 12) {
@@ -1990,7 +1990,7 @@ std::string Entity::apply_item_message(Item &it)
   } else if (it.get_item_class() != ITEM_CLASS_TOOL) {
     ret << get_name_to_player() << " cannot apply that.";
   } else {
-    Item_type_tool* tool = dynamic_cast<Item_type_tool*>(it.type);
+    Item_type_tool* tool = dynamic_cast<Item_type_tool*>(it.get_type());
     Tool_action* action = &(tool->applied_action);
     if (tool->uses_charges() && it.charges < action->charge_cost) {
       ret << get_possessive() << " " << it.get_name() << " doesn't have " <<
@@ -2032,7 +2032,7 @@ std::string Entity::read_item_message(Item &it)
     ret << get_name_to_player() << " cannot read that.";
 
   } else {
-    Item_type_book* book = static_cast<Item_type_book*>(it.type);
+    Item_type_book* book = static_cast<Item_type_book*>(it.get_type());
     int cap = book->cap_limit;
     Skill_type sk_learned = book->skill_learned;
     std::string genre_name = no_caps( trim( book_genre_name(book->genre) ) );
@@ -2103,7 +2103,7 @@ std::string Entity::eat_item_message(Item &it)
 // Couldn't find anything to eat :(
     ret << get_name_to_player() << " cannot eat that.";
   } else {
-    Item_type_food* food = static_cast<Item_type_food*>(it.type);
+    Item_type_food* food = static_cast<Item_type_food*>(it.get_type());
     std::string verb = food->verb;
     ret << "<c=ltblue>" << get_name_to_player() << " " << conjugate(verb) <<
            " " << get_possessive() << " " << it.get_name() << ".<c=/>";
@@ -2126,7 +2126,8 @@ std::string Entity::advance_fire_mode_message()
  * number of shots will be cited here.
  */
   std::stringstream ret;
-  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(weapon.type);
+  Item_type_launcher* launcher =
+    static_cast<Item_type_launcher*>(weapon.get_type());
   int num_shots = weapon.get_shots_fired();
   if (launcher->modes.size() <= 1) {
     ret << "Your " << weapon.get_name() << " can only fire ";
@@ -2533,7 +2534,8 @@ Ranged_attack Entity::fire_weapon()
 // Perception applies a flat bonus/penalty to accuracy
   ret.variance -= 3 * (stats.perception - 10);
 // If we've got skill in the weapon's skill type, then reduce its variance
-  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(weapon.type);
+  Item_type_launcher* launcher =
+    static_cast<Item_type_launcher*>(weapon.get_type());
   Skill_type sk_used = launcher->skill_used;
   int skill_level = (skills.get_level(SKILL_LAUNCHERS) +
                      skills.get_level(sk_used) * 3);

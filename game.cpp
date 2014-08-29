@@ -974,7 +974,7 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
  * upon our skills.
  */
     Item_type_launcher* launcher_type =
-      static_cast<Item_type_launcher*>(it.type);
+      static_cast<Item_type_launcher*>(it.get_type());
     Skill_type launcher_skill = launcher_type->skill_used;
     if (shooter) {
       retarget_range = shooter->skills.get_level(launcher_skill) +
