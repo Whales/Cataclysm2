@@ -21,6 +21,7 @@ Item_type::Item_type()
   for (int i = 0; i < ITEM_FLAG_MAX; i++) {
     flags.push_back(false);
   }
+  mission_experience = 0;
 }
 
 Item_type::~Item_type()
@@ -353,6 +354,10 @@ bool Item_type::load_data(std::istream &data)
 
     } else if (ident == "thrown_speed:") {
       data >> thrown_speed;
+      std::getline(data, junk);
+
+    } else if (ident == "mission_xp:") {
+      data >> mission_experience;
       std::getline(data, junk);
 
     } else if (ident == "container:") {

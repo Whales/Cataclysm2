@@ -74,6 +74,7 @@ public:
   int thrown_dmg_percent; // Percent of normal damage done when thrown
   int thrown_speed; // AP cost of throwing; if 0, it's calculated
 
+  int mission_experience; // How much XP does a mission using this item reward
   std::string container;  // Name of another item type!
 
   void assign_uid(int id);
