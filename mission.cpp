@@ -107,6 +107,7 @@ Mission::Mission(Mission_type T, std::string T_N, int T_C, int X, Time D,
   xp = X;
   deadline = D;
   personal = P;
+  status = MISSION_STATUS_ACTIVE;
   if (deadline.get_turn() == -1) {
     deadline = GAME.time + HOURS(1);
   }
