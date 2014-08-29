@@ -709,7 +709,7 @@ int Entity::personal_mission_cap()
   return 3;
 }
 
-void Entity::assign_personal_missions()
+void Entity::assign_personal_missions(bool message)
 {
   int cap = personal_mission_cap();
   int personal_missions = 0;
@@ -718,6 +718,10 @@ void Entity::assign_personal_missions()
       personal_missions++;
     }
   }
+
+  std::stringstream ss_msg;
+  ss_msg << "<c=yellow>";
+  int new_missions = 0;
 
   while (personal_missions < cap) {
     Mission_template* m_temp = MISSIONS.random_instance();
@@ -731,6 +735,16 @@ void Entity::assign_personal_missions()
     miss.personal = true;
     missions.push_back(miss);
     personal_missions++;
+    if (new_missions > 0) {
+      ss_msg << ";  ";
+    }
+    new_missions++;
+    ss_msg << miss.get_description();
+  }
+  ss_msg << "<c=/>";
+  if (message && new_missions > 0) {
+    GAME.add_msg( (new_missions >= 2 ? "New missions:" : "New mission:") );
+    GAME.add_msg( ss_msg.str() );
   }
 }
 
@@ -781,6 +795,7 @@ void Entity::clean_up_missions()
       i--;
     }
   }
+  assign_personal_missions();
 }
 
 void Entity::gain_experience(int amount)
@@ -1596,12 +1611,17 @@ void Entity::read_item_uid(int uid)
   if (!it || it->get_item_class() != ITEM_CLASS_BOOK) {
     return;
   }
+
   Item_type_book* book = static_cast<Item_type_book*>(it->type);
   if (stats.intelligence < book->int_required) {
     return; // Not smart enough to read this!
   }
+
+  std::string genre_name = no_caps( trim( book_genre_name(book->genre) ) );
   Skill_type sk = book->skill_learned;
   bool read_for_skill = true;
+
+// Check if we're able to read the book for skill
   if (sk != SKILL_NULL) {
     if (!has_trait(TRAIT_INSIGHTFUL) &&
         skills.get_level(sk) < book->skill_required) {
@@ -1617,8 +1637,19 @@ void Entity::read_item_uid(int uid)
   } else {
     read_for_skill = false;
   }
+
+// If we can't read it for skill, check if we can read for fun OR for a mission;
+// if neither is true, then there's no reason to read and we should cancel.
   if (!read_for_skill) {
-    if (book->fun <= 0) { // Can't read it for fun, either
+// Check for missions first
+    bool read_for_mission = false;
+    for (int i = 0; !read_for_mission && i < missions.size(); i++) {
+      if (missions[i].type == MISSION_READ_GENRE &&
+          missions[i].target_name == genre_name) {
+        read_for_mission = true;
+      }
+    }
+    if (!read_for_mission && book->fun <= 0) { // Can't read it for fun, either
       return;
     } else if (get_chapters_read(book->get_data_name()) >= book->chapters) {
       return; // We've already read all the chapters!
@@ -2004,6 +2035,7 @@ std::string Entity::read_item_message(Item &it)
     Item_type_book* book = static_cast<Item_type_book*>(it.type);
     int cap = book->cap_limit;
     Skill_type sk_learned = book->skill_learned;
+    std::string genre_name = no_caps( trim( book_genre_name(book->genre) ) );
     if (stats.intelligence >= book->bonus_int_required) {
       cap += book->high_int_bonus;
     }
@@ -2022,8 +2054,16 @@ std::string Entity::read_item_message(Item &it)
 
     } else if (sk_learned != SKILL_NULL &&
                skills.get_max_level(sk_learned) >= cap) {
+// See if reading the book applies towards a mission
+      bool read_for_mission = false;
+      for (int i = 0; !read_for_mission && i < missions.size(); i++) {
+        if (missions[i].type == MISSION_READ_GENRE &&
+            missions[i].target_name == genre_name) {
+          read_for_mission = true;
+        }
+      }
 // Check if we can read it for fun anyway
-      if (book->fun <= 0) {
+      if (!read_for_mission && book->fun <= 0) {
         ret << "<c=dkgray>" << get_name_to_player() <<
                " won't learn anything by reading that.";
       } else if (get_chapters_read(book->get_data_name()) >= book->chapters) {
