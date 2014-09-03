@@ -1715,6 +1715,10 @@ anything.");
       }
     }
   }
+
+// Check for genre-mission completion
+  std::string genre_name = no_caps( trim( book_genre_name(book->genre) ) );
+  check_mission(MISSION_READ_GENRE, genre_name);
 }
 
 bool Entity::eat_item_uid(int uid)
