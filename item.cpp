@@ -35,7 +35,7 @@ Item::Item(Item_type* T)
       hp = 5;
     }
   } else {
-    debugmsg("WARNING: Item without type (and without UID) created.");
+    //debugmsg("WARNING: Item without type (and without UID) created.");
     uid = -1;
   }
 }
@@ -1031,6 +1031,9 @@ Item_action Item::show_info(Entity* user)
         actions << "<c=magenta>B<c=/>utcher" << std::endl;
         break;
     }
+  }
+  if (TESTING_MODE) {
+    actions << "UID: " << uid << std::endl;
   }
   actions << std::endl << "<c=magenta>Esc<c=/> or <c=magenta>q<c=/>: " <<
              "Cancel / Do nothing";
