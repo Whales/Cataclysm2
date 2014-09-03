@@ -128,8 +128,6 @@ bool Game::setup_new_game(int world_index)
 
   last_target = -1;
   new_messages = 0;
-  next_item_uid = 0;
-  next_furniture_uid = 0;
   game_over = false;
   return true;
 }
