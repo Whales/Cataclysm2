@@ -78,64 +78,6 @@ Profession* Player::get_profession()
   return profession;
 }
 
-void Player::gain_experience(int amount)
-{
-  if (amount <= 0) {
-    return;
-  }
-
-// Display a message when we unlock improvements
-  std::vector<bool> could_improve;
-  for (int i = 0; i < SKILL_MAX; i++) {
-    Skill_type sk = Skill_type(i);
-    int cost = skills.improve_cost(sk);
-    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
-      cost *= 2;
-    }
-    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
-    if (experience >= cost && !maxed) {
-      could_improve.push_back(true);
-    } else {
-      could_improve.push_back(false);
-    }
-  }
-
-  experience += amount;
-  GAME.add_msg("You gain %d experience!", amount);
-
-  std::vector<Skill_type> unlocked_skills;
-
-  for (int i = 0; i < SKILL_MAX; i++) {
-    Skill_type sk = Skill_type(i);
-    int cost = skills.improve_cost(sk);
-    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
-      cost *= 2;
-    }
-    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
-    if (i > 0 && !could_improve[i] && experience >= cost && !maxed) {
-      unlocked_skills.push_back(sk);
-    }
-  }
-
-  if (unlocked_skills.size() > 3) {
-    GAME.add_msg("You can improve %d new skills!", unlocked_skills.size());
-  } else if (!unlocked_skills.empty()) {
-    std::stringstream mes;
-    mes << "You can now improve ";
-    for (int i = 0; i < unlocked_skills.size(); i++) {
-      mes << skill_type_user_name( unlocked_skills[i] );
-      if (i == unlocked_skills.size() - 1) {
-        mes << "!";
-      } else if (i == unlocked_skills.size() - 2) {
-        mes << " and ";
-      } else {
-        mes << ", ";
-      }
-    }
-    GAME.add_msg(mes.str());
-  }
-}
-
 bool Player::has_sense(Sense_type sense)
 {
 // TODO: Turn off senses if we're blinded, deafened, etc.
@@ -236,7 +178,7 @@ bool Player::add_item(Item item)
   } // End of "too much volume" block
   GAME.add_msg("You pick up %s.", item.get_name_indefinite().c_str());
   if (item.combines()) {
-    Item* added = ref_item_of_type(item.type);
+    Item* added = ref_item_of_type(item.get_type());
     if (added) {
       return (*added).combine_with(item);
     }
@@ -326,7 +268,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
 // Set up letter for weapon, if any exists
   char letter = 'a';
   char weapon_letter = 0;
-  if (weapon.type) {
+  if (weapon.get_type()) {
     weapon_letter = 'a';
     letter = 'b';
     std::stringstream weapon_ss;
@@ -345,7 +287,7 @@ std::vector<Item> Player::inventory_ui(bool single, bool remove)
 
     std::stringstream clothing_ss;
     Item_type_clothing *clothing =
-      static_cast<Item_type_clothing*>(items_worn[i].type);
+      static_cast<Item_type_clothing*>(items_worn[i].get_type());
 
     clothing_ss << letter << " - " << items_worn[i].get_name_full();
     clothing_name.push_back(clothing_ss.str());
@@ -601,8 +543,9 @@ Item Player::pick_ammo_for(Item *it)
     GAME.add_msg("That %s is not ammo.", ret.get_name().c_str());
     return Item();
   }
-  Item_type_ammo* ammo = static_cast<Item_type_ammo*>(ret.type);
-  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(it->type);
+  Item_type_ammo* ammo = static_cast<Item_type_ammo*>(ret.get_type());
+  Item_type_launcher* launcher =
+    static_cast<Item_type_launcher*>(it->get_type());
   if (ammo->ammo_type != launcher->ammo_type) {
     GAME.add_msg("You picked %s ammo, but your %s needs %s.",
                  ammo->ammo_type.c_str(), it->get_name().c_str(),
@@ -618,7 +561,7 @@ Tripoint Player::pick_target_for(Item* it)
     return Tripoint(-1, -1, -1);
   }
 
-  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
+  Item_type_tool* tool = static_cast<Item_type_tool*>(it->get_type());
   Tool_action* action = &(tool->applied_action);
   std::string verb = action->signal;
 
@@ -727,7 +670,7 @@ int Player::get_armor(Damage_type damtype, Body_part part)
   int ret = 0;
   for (int i = 0; i < items_worn.size(); i++) {
     if (items_worn[i].covers(part)) {
-      Item_type* type = items_worn[i].type;
+      Item_type* type = items_worn[i].get_type();
       Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
       //debugmsg("%s covers %s and provides %d:%d:%d", items_worn[i].get_name().c_str(), body_part_name(part).c_str(), clothing->armor_bash, clothing->armor_cut, clothing->armor_pierce);
       switch (damtype) {
@@ -751,88 +694,12 @@ int Player::get_protection(Body_part part)
   int ret = 0;
   for (int i = 0; i < items_worn.size(); i++) {
     if (items_worn[i].covers(part)) {
-      Item_type* type = items_worn[i].type;
+      Item_type* type = items_worn[i].get_type();
       Item_type_clothing* clothing = static_cast<Item_type_clothing*>(type);
       ret += clothing->protection;
     }
   }
   return ret;
-}
-
-// TODO: This function.  Once we have morale.
-int Player::personal_mission_cap()
-{
-  return 3;
-}
-
-void Player::assign_personal_missions()
-{
-  int cap = personal_mission_cap();
-  int personal_missions = 0;
-  for (int i = 0; i < missions.size(); i++) {
-    if (missions[i].personal) {
-      personal_missions++;
-    }
-  }
-
-  while (personal_missions < cap) {
-    Mission_template* m_temp = MISSIONS.random_instance();
-    if (!m_temp) {
-      debugmsg("Fetched a NULL Mission_template at random!");
-      debugmsg("%d templates exist.", MISSIONS.size());
-      return;
-    }
-    Mission miss;
-    miss.set_from_template(m_temp);
-    miss.personal = true;
-    missions.push_back(miss);
-    personal_missions++;
-  }
-}
-
-bool Player::check_mission(Mission_type type, std::string target, int count)
-{
-  target = no_caps( trim( target ) );
-  for (int i = 0; i < missions.size(); i++) {
-    if (missions[i].type == type && missions[i].target_name == target) {
-      missions[i].target_count -= count;
-      if (missions[i].target_count <= 0) {
-        complete_mission(i);
-      }
-    }
-  }
-
-// Clear out any now-completed missions.
-  clean_up_missions();
-  return true;
-}
-
-void Player::complete_mission(int index)
-{
-  if (index < 0 || index >= missions.size()) {
-    debugmsg("Player::complete_mission(%d) called - we have %d missions.",
-             index, missions.size());
-    return;
-  }
-
-  if (missions[index].status != MISSION_STATUS_ACTIVE) {
-    debugmsg("Player::complete_mission() called on non-active mission!");
-    return;
-  }
-
-  missions[index].status = MISSION_STATUS_COMPLETE;
-  GAME.add_msg("<c=yellow>Mission complete!<c=/>");
-  gain_experience(missions[index].xp);
-}
-
-void Player::clean_up_missions()
-{
-  for (int i = 0; i < missions.size(); i++) {
-    if (missions[i].status != MISSION_STATUS_ACTIVE) {
-      missions.erase( missions.begin() + i );
-      i--;
-    }
-  }
 }
 
 std::string Player::hp_text(Body_part part)
@@ -982,7 +849,7 @@ void Player::status_interface()
       return;
 
     } else if (ch == '4') {
-// TODO: Put link to quests_screen() here
+      missions_interface();
       return;
 
     } else {
@@ -1039,7 +906,7 @@ void Player::skills_interface()
       return;
 
     } else if (ch == '4') {
-// TODO: Put link to quests_screen() here
+      missions_interface();
       return;
 
     } else if (ch == '?') {
@@ -1263,7 +1130,7 @@ void Player::clothing_interface()
       return;
 
     } else if (ch == '4') {
-// TODO: Put link to quests_screen() here
+      missions_interface();
       return;
 
     } else {
@@ -1272,6 +1139,47 @@ void Player::clothing_interface()
   }
 }
 
+void Player::missions_interface()
+{
+  cuss::interface i_missions;
+  std::string iface_file = CUSS_DIR + "/i_char_missions.cuss";
+  if (!i_missions.load_from_file(iface_file)) {
+    return;
+  }
+
+  Window w_missions(0, 0, 80, 24);
+
+// Init the lists.
+  for (int i = 0; i < missions.size(); i++) {
+    Mission* miss = &(missions[i]);
+    i_missions.add_data("list_mission_description", miss->get_description());
+    i_missions.add_data("list_deadline", miss->get_deadline_text());
+    //i_missions.add_data("list_time_left", miss->get_time_left_text());
+    i_missions.add_data("list_experience", miss->get_experience_text());
+  }
+
+  i_missions.draw(&w_missions);
+  w_missions.refresh();
+
+  while (true) {
+    long ch = input();
+    if (ch == KEY_ESC || ch == 'q' || ch == 'Q') {
+      return;
+
+    } else if (ch == '1') {
+      status_interface();
+      return;
+
+    } else if (ch == '2') {
+      skills_interface();
+      return;
+
+    } else if (ch == '3') {
+      clothing_interface();
+      return;
+    }
+  }
+}
 
 void populate_item_lists(Player* p, int offset_size,
                          std::vector<int>  item_indices[ITEM_CLASS_MAX],

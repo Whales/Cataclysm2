@@ -97,6 +97,60 @@ bool Mission_template::load_data(std::istream& data)
   return true;
 }
 
+bool Mission_template::base_on_item_type(Item_type* itype)
+{
+  if (!itype) {
+    debugmsg("Mission_template::base_on_item_type(NULL) called!");
+    return false;
+  }
+
+  if (itype->mission_experience <= 0) {
+    return false;
+  }
+
+  switch (itype->get_class()) {
+    case ITEM_CLASS_FOOD: {
+      Item_type_food* food = static_cast<Item_type_food*>(itype);
+      type = MISSION_EAT;
+
+// Count is 1 to 150% of a single "package."
+      count_min = 1;
+      count_max = food->charges * 1.5;
+      if (count_max > 8) {  // Let's be reasonable
+        count_max = 8;
+      }
+// If the food imparts some kind of effect, limit the max count further
+      if (food->effect.type != STATUS_NULL) {
+        count_max = 2;
+      }
+
+// XP is 75% to 125% of the base experience, plus base experience for each count
+// beyond 1.
+      xp_min = 0.75 * itype->mission_experience;
+      if (xp_min < 1) {
+        xp_min = 1;
+      }
+      xp_max = 1.25 * itype->mission_experience;
+      if (xp_max <= xp_min) {
+        xp_max = xp_min + 1;
+      }
+      count_xp_bonus = itype->mission_experience;
+
+// Time is 3 hours to 6 hours + 1 hour per charge.
+      time_min = 3;
+      time_max = 6 + count_max;
+
+// Target name is, of course, the name of the item.
+      target_name = no_caps( trim( itype->get_data_name() ) );
+    } break;
+
+    default:
+      return false; // Other item classes don't have missions associated
+  } // switch (itype->get_class()
+
+  return true;
+}
+
 Mission::Mission(Mission_type T, std::string T_N, int T_C, int X, Time D,
                  bool P)
 {
@@ -107,6 +161,7 @@ Mission::Mission(Mission_type T, std::string T_N, int T_C, int X, Time D,
   xp = X;
   deadline = D;
   personal = P;
+  status = MISSION_STATUS_ACTIVE;
   if (deadline.get_turn() == -1) {
     deadline = GAME.time + HOURS(1);
   }
@@ -129,8 +184,84 @@ bool Mission::set_from_template(Mission_template* temp)
   }
   int time_to_finish = rng(temp->time_min, temp->time_max);
   deadline = GAME.time + HOURS(time_to_finish);
+  deadline.standardize();
+//debugmsg("%s (%d) + %d hours = %s (%d)", GAME.time.get_text().c_str(), GAME.time.get_turn(), time_to_finish, deadline.get_text().c_str(), deadline.get_turn());
 
   return true;
+}
+
+Time Mission::get_time_left()
+{
+  Time ret = deadline - GAME.time;
+  ret.standardize();
+  return ret;
+}
+
+std::string Mission::get_description()
+{
+  std::stringstream ret;
+  switch (type) {
+    case MISSION_EAT: {
+      Item_type* itype = ITEM_TYPES.lookup_name(target_name);
+      if (itype) {
+        Item_type_food* food = static_cast<Item_type_food*>(itype);
+        std::string verb = capitalize(food->verb);
+        if (verb.empty()) {
+          verb = "Eat";
+        }
+        ret << verb << " ";
+        if (target_count == 1) {
+          ret << (itype->has_flag(ITEM_FLAG_PLURAL) ? "some " : "a ") <<
+                 itype->get_name_singular();
+        } else {
+          ret << target_count << " " << itype->get_name_plural();
+        }
+      }
+    } break;
+
+    case MISSION_READ_GENRE:
+      ret << "Read ";
+      if (target_count == 1) {
+        ret << "a chapter ";
+      } else {
+        ret << target_count << " chapters ";
+      }
+      ret << "of a " << target_name << " book";
+      break;
+  }
+  return ret.str();
+}
+
+std::string Mission::get_deadline_text()
+{
+  std::stringstream ret;
+  Time time_left = get_time_left();
+  if (time_left <= HOURS(6)) { // Six hours or less!
+    ret << "<c=ltred>";
+  }
+  ret << deadline.get_text() << "<c=/>";
+  return ret.str();
+}
+
+std::string Mission::get_time_left_text()
+{
+  std::stringstream ret;
+  Time time_left = get_time_left();
+  if (time_left <= HOURS(6)) {
+    ret << "<c=ltred>";
+  }
+  ret << time_left.get_text() << "<c=/>";
+  return ret.str();
+}
+
+std::string Mission::get_experience_text()
+{
+  std::stringstream ret;
+  if (xp >= 100) {
+    ret << "<c=yellow>";
+  }
+  ret << xp << "<c=/>";
+  return ret.str();
 }
 
 Mission_type lookup_mission_type(std::string name)

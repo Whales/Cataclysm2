@@ -895,7 +895,7 @@ void Submap::generate(Mapgen_spec* spec)
     while (area && area->place_item()) {
       Point p = area->pick_location();
       Item item( area->pick_type(spec->get_name()) );
-      if (item.type) {
+      if (item.get_type()) {
         item.prep_for_generation();
         add_item(item, p.x, p.y);
       }

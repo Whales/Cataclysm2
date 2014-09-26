@@ -36,6 +36,7 @@ extern Data_pool<Mission_template>  MISSIONS;
 
 void load_global_data();
 void load_mapgen_specs();
+void init_missions(); // Autogenerate missions pool from existing items/monsters
 void init_default_keybindings();
 
 /* For now, prep_directories() just handles SAVE_DIR & its subfolders; CUSS_DIR

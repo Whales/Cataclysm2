@@ -46,17 +46,80 @@ Time::Time(int _turn)
   set_date_from_turn();
 }
 
-bool Time::operator==(const Time &other) const
+bool Time::operator==(const Time& other) const
 {
   return turn == other.turn;
 }
 
-bool Time::operator!=(const Time &other) const
+bool Time::operator!=(const Time& other) const
 {
   return !(*this == other);
 }
 
-Time& Time::operator+=(const Time &rhs)
+bool Time::operator<(const Time& other) const
+{
+  Time tmp_left = *this, tmp_right = other;
+  tmp_left.standardize();
+  tmp_right.standardize();
+  return (tmp_left.get_turn() < tmp_right.get_turn());
+}
+
+bool Time::operator<(const int& other) const
+{
+  Time tmp_left = *this;
+  tmp_left.standardize();
+  return (tmp_left.get_turn() < other);
+}
+
+bool Time::operator>(const Time& other) const
+{
+  Time tmp_left = *this, tmp_right = other;
+  tmp_left.standardize();
+  tmp_right.standardize();
+  return (tmp_left.get_turn() > tmp_right.get_turn());
+}
+
+bool Time::operator>(const int& other) const
+{
+  Time tmp_left = *this;
+  tmp_left.standardize();
+  return (tmp_left.get_turn() > other);
+}
+
+bool Time::operator<=(const Time& other) const
+{
+  return !(*this > other);
+}
+
+bool Time::operator<=(const int& other) const
+{
+  return !(*this > other);
+}
+
+bool Time::operator>=(const Time& other) const
+{
+  return !(*this < other);
+}
+
+bool Time::operator>=(const int& other) const
+{
+  return !(*this < other);
+}
+
+Time& Time::operator=(const Time& rhs)
+{
+  second = rhs.second;
+  minute = rhs.minute;
+  hour   = rhs.hour;
+  day    = rhs.day;
+  season = rhs.season;
+  year   = rhs.year;
+  turn   = rhs.turn;
+
+  return *this;
+}
+
+Time& Time::operator+=(const Time& rhs)
 {
   second += rhs.second;
   minute += rhs.minute;
@@ -76,14 +139,15 @@ Time& Time::operator+=(const Time &rhs)
   return *this;
 }
 
-Time& Time::operator+=(const int &rhs)
+Time& Time::operator+=(const int& rhs)
 {
+  set_turn_from_date();
   turn += rhs;
   set_date_from_turn();
   return *this;
 }
 
-Time& Time::operator-=(const Time &rhs)
+Time& Time::operator-=(const Time& rhs)
 {
   second -= rhs.second;
   minute -= rhs.minute;
@@ -103,8 +167,9 @@ Time& Time::operator-=(const Time &rhs)
   return *this;
 }
 
-Time& Time::operator-=(const int &rhs)
+Time& Time::operator-=(const int& rhs)
 {
+  set_turn_from_date();
   turn -= rhs;
   set_date_from_turn();
   return *this;
@@ -254,6 +319,7 @@ void Time::increment()
 void Time::standardize()
 {
   int tmpseason = season;
+
   if (second >= 60) {
     minute += second / 60;
     second %= 60;
@@ -262,21 +328,24 @@ void Time::standardize()
     minute += second / 60 - 1;
     second = 60 + (second % 60);
   }
+
   if (minute >= 60) {
     hour += minute / 60;
     minute %= 60;
-  } else if (minute < 0 && (hour > 0 || day > 0 ||  tmpseason > 0 ||
+  } else if (minute < 0 && (hour > 0 || day > 0 || tmpseason > 0 ||
                             year > 0)) {
     hour += minute / 60 - 1;
     minute = 60 + (minute % 60);
   }
+
   if (hour >= 24) {
     day += hour / 24;
     hour %= 24;
-  } else if (hour < 0 && (day > 0 ||  tmpseason > 0 || year > 0)) {
+  } else if (hour < 0 && (day > 0 || tmpseason > 0 || year > 0)) {
     day += hour / 24 - 1;
     hour = 24 + (hour % 24);
   }
+
   if (day >= DAYS_IN_SEASON) {
     tmpseason += day / DAYS_IN_SEASON;
     day %= DAYS_IN_SEASON;
@@ -284,6 +353,7 @@ void Time::standardize()
     tmpseason += day / DAYS_IN_SEASON - 1;
     day = DAYS_IN_SEASON + (day % DAYS_IN_SEASON);
   }
+
   if (tmpseason >= 4) {
     year += tmpseason / 4;
     tmpseason %= 4;
@@ -291,7 +361,10 @@ void Time::standardize()
     year += tmpseason / 4 - 1;
     tmpseason = 4 + (tmpseason % 4);
   }
+
   season = Season(tmpseason);
+
+  set_turn_from_date();
 }
 
 void Time::set_date_from_turn()

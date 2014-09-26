@@ -703,6 +703,159 @@ int Entity::get_morale()
   return morale;
 }
 
+// TODO: This function.  Once we have morale.
+int Entity::personal_mission_cap()
+{
+  return 3;
+}
+
+void Entity::assign_personal_missions(bool message)
+{
+  int cap = personal_mission_cap();
+  int personal_missions = 0;
+  for (int i = 0; i < missions.size(); i++) {
+    if (missions[i].personal) {
+      personal_missions++;
+    }
+  }
+
+  std::stringstream ss_msg;
+  ss_msg << "<c=yellow>";
+  int new_missions = 0;
+
+  while (personal_missions < cap) {
+    Mission_template* m_temp = MISSIONS.random_instance();
+    if (!m_temp) {
+      debugmsg("Fetched a NULL Mission_template at random!");
+      debugmsg("%d templates exist.", MISSIONS.size());
+      return;
+    }
+    Mission miss;
+    miss.set_from_template(m_temp);
+    miss.personal = true;
+    missions.push_back(miss);
+    personal_missions++;
+    if (new_missions > 0) {
+      ss_msg << ";  ";
+    }
+    new_missions++;
+    ss_msg << miss.get_description();
+  }
+  ss_msg << "<c=/>";
+  if (message && new_missions > 0) {
+    GAME.add_msg( (new_missions >= 2 ? "New missions:" : "New mission:") );
+    GAME.add_msg( ss_msg.str() );
+  }
+}
+
+bool Entity::check_mission(Mission_type type, std::string target, int count)
+{
+  target = no_caps( trim( target ) );
+  bool found_match = false;
+  for (int i = 0; !found_match && i < missions.size(); i++) {
+//debugmsg("target '%s', checking '%s'", target.c_str(), missions[i].target_name.c_str());
+    if (missions[i].type == type && missions[i].target_name == target) {
+//debugmsg("Match!  Count %d - %d = %d.", missions[i].target_count, count, missions[i].target_count - count);
+      found_match = true;
+      missions[i].target_count -= count;
+      if (missions[i].target_count <= 0) {
+        complete_mission(i);
+      }
+    }
+  }
+
+// Clear out any now-completed missions.
+  clean_up_missions();
+  return true;
+}
+
+void Entity::complete_mission(int index)
+{
+  if (index < 0 || index >= missions.size()) {
+    debugmsg("Entity::complete_mission(%d) called - we have %d missions.",
+             index, missions.size());
+    return;
+  }
+
+  if (missions[index].status != MISSION_STATUS_ACTIVE) {
+    debugmsg("Entity::complete_mission() called on non-active mission!");
+    return;
+  }
+
+  missions[index].status = MISSION_STATUS_COMPLETE;
+  GAME.add_msg("<c=yellow>Mission complete!<c=/>");
+  gain_experience(missions[index].xp);
+}
+
+void Entity::clean_up_missions()
+{
+  for (int i = 0; i < missions.size(); i++) {
+    if (missions[i].status != MISSION_STATUS_ACTIVE) {
+      missions.erase( missions.begin() + i );
+      i--;
+    }
+  }
+  assign_personal_missions();
+}
+
+void Entity::gain_experience(int amount)
+{
+  if (amount <= 0) {
+    return;
+  }
+
+// Display a message when we unlock improvements
+  std::vector<bool> could_improve;
+  for (int i = 0; i < SKILL_MAX; i++) {
+    Skill_type sk = Skill_type(i);
+    int cost = skills.improve_cost(sk);
+    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
+      cost *= 2;
+    }
+    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
+    if (experience >= cost && !maxed) {
+      could_improve.push_back(true);
+    } else {
+      could_improve.push_back(false);
+    }
+  }
+
+  experience += amount;
+  GAME.add_msg("You gain %d experience!", amount);
+
+  std::vector<Skill_type> unlocked_skills;
+
+  for (int i = 0; i < SKILL_MAX; i++) {
+    Skill_type sk = Skill_type(i);
+    int cost = skills.improve_cost(sk);
+    if (skills.maxed_out(sk) && has_trait(TRAIT_AUTODIDACT)) {
+      cost *= 2;
+    }
+    bool maxed = (skills.maxed_out(sk) && !has_trait(TRAIT_AUTODIDACT));
+    if (i > 0 && !could_improve[i] && experience >= cost && !maxed) {
+      unlocked_skills.push_back(sk);
+    }
+  }
+
+  if (unlocked_skills.size() > 3) {
+    GAME.add_msg("You can improve %d new skills!", unlocked_skills.size());
+  } else if (!unlocked_skills.empty()) {
+    std::stringstream mes;
+    mes << "You can now improve ";
+    for (int i = 0; i < unlocked_skills.size(); i++) {
+      mes << skill_type_user_name( unlocked_skills[i] );
+      if (i == unlocked_skills.size() - 1) {
+        mes << "!";
+      } else if (i == unlocked_skills.size() - 2) {
+        mes << " and ";
+      } else {
+        mes << ", ";
+      }
+    }
+    GAME.add_msg(mes.str());
+  }
+}
+
 void Entity::take_turn()
 {
 }
@@ -1137,7 +1290,7 @@ bool Entity::add_item(Item item)
     return false;
   }
   if (item.combines()) {
-    Item* added = ref_item_of_type(item.type);
+    Item* added = ref_item_of_type(item.get_type());
     if (added) {
       return (*added).combine_with(item);
     }
@@ -1181,7 +1334,7 @@ Item Entity::get_item_of_type(Item_type *type)
     return Item();
   }
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].type == type) {
+    if (inventory[i].get_type() == type) {
       return inventory[i];
     }
   }
@@ -1195,11 +1348,11 @@ Item* Entity::ref_item_of_type(Item_type *type)
     return NULL;
   }
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].type == type) {
+    if (inventory[i].get_type() == type) {
       return &(inventory[i]);
     }
     for (int n = 0; n < inventory[i].contents.size(); n++) {
-      if (inventory[i].contents[n].type == type) {
+      if (inventory[i].contents[n].get_type() == type) {
         return &(inventory[i].contents[n]);
       }
     }
@@ -1383,7 +1536,7 @@ void Entity::apply_item_uid(int uid)
   }
 
 // Get the tool information
-  Item_type_tool* tool   = static_cast<Item_type_tool*>(it->type);
+  Item_type_tool* tool   = static_cast<Item_type_tool*>(it->get_type());
   Tool_action* action    = &(tool->applied_action);
   Tool_action* powered   = &(tool->powered_action);
   Tool_action* countdown = &(tool->countdown_action);
@@ -1425,7 +1578,7 @@ void Entity::apply_item_action(Item* it, Tool_action* action)
   if (!it || !action || it->get_item_class() != ITEM_CLASS_TOOL) {
     return;
   }
-  Item_type_tool* tool = static_cast<Item_type_tool*>(it->type);
+  Item_type_tool* tool = static_cast<Item_type_tool*>(it->get_type());
 // Verify that we have enough charges.
   if (tool->uses_charges() && it->charges < action->charge_cost) {
     return;
@@ -1458,12 +1611,17 @@ void Entity::read_item_uid(int uid)
   if (!it || it->get_item_class() != ITEM_CLASS_BOOK) {
     return;
   }
-  Item_type_book* book = static_cast<Item_type_book*>(it->type);
+
+  Item_type_book* book = static_cast<Item_type_book*>(it->get_type());
   if (stats.intelligence < book->int_required) {
     return; // Not smart enough to read this!
   }
+
+  std::string genre_name = no_caps( trim( book_genre_name(book->genre) ) );
   Skill_type sk = book->skill_learned;
   bool read_for_skill = true;
+
+// Check if we're able to read the book for skill
   if (sk != SKILL_NULL) {
     if (!has_trait(TRAIT_INSIGHTFUL) &&
         skills.get_level(sk) < book->skill_required) {
@@ -1479,8 +1637,19 @@ void Entity::read_item_uid(int uid)
   } else {
     read_for_skill = false;
   }
+
+// If we can't read it for skill, check if we can read for fun OR for a mission;
+// if neither is true, then there's no reason to read and we should cancel.
   if (!read_for_skill) {
-    if (book->fun <= 0) { // Can't read it for fun, either
+// Check for missions first
+    bool read_for_mission = false;
+    for (int i = 0; !read_for_mission && i < missions.size(); i++) {
+      if (missions[i].type == MISSION_READ_GENRE &&
+          missions[i].target_name == genre_name) {
+        read_for_mission = true;
+      }
+    }
+    if (!read_for_mission && book->fun <= 0) { // Can't read it for fun, either
       return;
     } else if (get_chapters_read(book->get_data_name()) >= book->chapters) {
       return; // We've already read all the chapters!
@@ -1505,7 +1674,7 @@ void Entity::finish_reading(Item* it)
     return;
   }
 
-  Item_type_book* book = static_cast<Item_type_book*>(it->type);
+  Item_type_book* book = static_cast<Item_type_book*>(it->get_type());
 
   if (stats.intelligence < book->int_required) {
     if (is_you()) {
@@ -1546,6 +1715,10 @@ anything.");
       }
     }
   }
+
+// Check for genre-mission completion
+  std::string genre_name = no_caps( trim( book_genre_name(book->genre) ) );
+  check_mission(MISSION_READ_GENRE, genre_name);
 }
 
 bool Entity::eat_item_uid(int uid)
@@ -1554,6 +1727,7 @@ bool Entity::eat_item_uid(int uid)
   if (!it) {
     return false;
   }
+//debugmsg("eat_item_uid() ('%s')", it->get_data_name().c_str());
   if (it->get_item_class() != ITEM_CLASS_FOOD) {
 // Try the contents, too!
     bool ate_something = false;
@@ -1565,7 +1739,7 @@ bool Entity::eat_item_uid(int uid)
     return ate_something;
   }
   bool can_add_message = is_you();
-  Item_type_food* food = static_cast<Item_type_food*>(it->type);
+  Item_type_food* food = static_cast<Item_type_food*>(it->get_type());
   stomach_food += food->food;
   if (stomach_food > get_stomach_maximum()) {
     stomach_food = get_stomach_maximum();
@@ -1595,6 +1769,9 @@ bool Entity::eat_item_uid(int uid)
     add_status_effect( effect );
   }
 
+// Check if this item was implicated in a mission
+  check_mission(MISSION_EAT, it->get_data_name());
+
   it->charges--;
   if (it->charges <= 0) {
     remove_item_uid(uid, 1);
@@ -1614,7 +1791,7 @@ void Entity::reload_prep(int uid)
 // Improve reload time by skills if it's a launcher
   if (it->get_item_class() == ITEM_CLASS_LAUNCHER) {
     Item_type_launcher* launcher =
-      static_cast<Item_type_launcher*>(weapon.type);
+      static_cast<Item_type_launcher*>(weapon.get_type());
     Skill_type sk_used = launcher->skill_used;
     int sk_level = skills.get_level(sk_used);
     if (sk_level >= 12) {
@@ -1817,7 +1994,7 @@ std::string Entity::apply_item_message(Item &it)
   } else if (it.get_item_class() != ITEM_CLASS_TOOL) {
     ret << get_name_to_player() << " cannot apply that.";
   } else {
-    Item_type_tool* tool = dynamic_cast<Item_type_tool*>(it.type);
+    Item_type_tool* tool = dynamic_cast<Item_type_tool*>(it.get_type());
     Tool_action* action = &(tool->applied_action);
     if (tool->uses_charges() && it.charges < action->charge_cost) {
       ret << get_possessive() << " " << it.get_name() << " doesn't have " <<
@@ -1859,9 +2036,10 @@ std::string Entity::read_item_message(Item &it)
     ret << get_name_to_player() << " cannot read that.";
 
   } else {
-    Item_type_book* book = static_cast<Item_type_book*>(it.type);
+    Item_type_book* book = static_cast<Item_type_book*>(it.get_type());
     int cap = book->cap_limit;
     Skill_type sk_learned = book->skill_learned;
+    std::string genre_name = no_caps( trim( book_genre_name(book->genre) ) );
     if (stats.intelligence >= book->bonus_int_required) {
       cap += book->high_int_bonus;
     }
@@ -1880,8 +2058,16 @@ std::string Entity::read_item_message(Item &it)
 
     } else if (sk_learned != SKILL_NULL &&
                skills.get_max_level(sk_learned) >= cap) {
+// See if reading the book applies towards a mission
+      bool read_for_mission = false;
+      for (int i = 0; !read_for_mission && i < missions.size(); i++) {
+        if (missions[i].type == MISSION_READ_GENRE &&
+            missions[i].target_name == genre_name) {
+          read_for_mission = true;
+        }
+      }
 // Check if we can read it for fun anyway
-      if (book->fun <= 0) {
+      if (!read_for_mission && book->fun <= 0) {
         ret << "<c=dkgray>" << get_name_to_player() <<
                " won't learn anything by reading that.";
       } else if (get_chapters_read(book->get_data_name()) >= book->chapters) {
@@ -1921,7 +2107,7 @@ std::string Entity::eat_item_message(Item &it)
 // Couldn't find anything to eat :(
     ret << get_name_to_player() << " cannot eat that.";
   } else {
-    Item_type_food* food = static_cast<Item_type_food*>(it.type);
+    Item_type_food* food = static_cast<Item_type_food*>(it.get_type());
     std::string verb = food->verb;
     ret << "<c=ltblue>" << get_name_to_player() << " " << conjugate(verb) <<
            " " << get_possessive() << " " << it.get_name() << ".<c=/>";
@@ -1944,7 +2130,8 @@ std::string Entity::advance_fire_mode_message()
  * number of shots will be cited here.
  */
   std::stringstream ret;
-  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(weapon.type);
+  Item_type_launcher* launcher =
+    static_cast<Item_type_launcher*>(weapon.get_type());
   int num_shots = weapon.get_shots_fired();
   if (launcher->modes.size() <= 1) {
     ret << "Your " << weapon.get_name() << " can only fire ";
@@ -2351,7 +2538,8 @@ Ranged_attack Entity::fire_weapon()
 // Perception applies a flat bonus/penalty to accuracy
   ret.variance -= 3 * (stats.perception - 10);
 // If we've got skill in the weapon's skill type, then reduce its variance
-  Item_type_launcher* launcher = static_cast<Item_type_launcher*>(weapon.type);
+  Item_type_launcher* launcher =
+    static_cast<Item_type_launcher*>(weapon.get_type());
   Skill_type sk_used = launcher->skill_used;
   int skill_level = (skills.get_level(SKILL_LAUNCHERS) +
                      skills.get_level(sk_used) * 3);

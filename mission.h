@@ -2,6 +2,7 @@
 #define _MISSION_H_
 
 #include "time.h"
+#include "item_type.h"
 #include <string>
 #include <istream>
 
@@ -14,8 +15,8 @@ enum Mission_type
 };
 
 Mission_type lookup_mission_type(std::string name);
-std::string mission_type_name(Mission_type type);
-std::string mission_type_display_name(Mission_type type);
+std::string  mission_type_name        (Mission_type type);
+std::string  mission_type_display_name(Mission_type type);
 
 struct Mission_template
 {
@@ -31,6 +32,7 @@ struct Mission_template
   std::string get_data_name();
   std::string get_name(); // type + target_name
   bool load_data(std::istream& data);
+  bool base_on_item_type(Item_type* itype);
 
   int uid;
   Mission_type type;
@@ -68,6 +70,12 @@ struct Mission
   Mission_status status;
 
   bool set_from_template(Mission_template* temp);
+
+  Time get_time_left();
+  std::string get_description();  // Long form, player-targeted, includes count
+  std::string get_deadline_text();  // Text form of deadline
+  std::string get_time_left_text(); // Text form of deadline - GAME.date
+  std::string get_experience_text();// Text form of experience gained
 };
 
 #endif

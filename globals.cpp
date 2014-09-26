@@ -36,9 +36,49 @@ void load_global_data()
   BIOMES.load_from          (DATA_DIR + "/biomes.dat"         );
   PROFESSIONS.load_from     (DATA_DIR + "/professions.dat"    );
   KEYBINDINGS.load_from     (DATA_DIR + "/keybindings.txt"    );
-  MISSIONS.load_from        (DATA_DIR + "/missions.dat"       );
+  //MISSIONS.load_from        (DATA_DIR + "/missions.dat"       );
+
+  init_missions();
 
   load_mapgen_specs();
+}
+
+void init_missions()
+{
+// First, generate missions based on existing items.
+  for (std::list<Item_type*>::iterator it = ITEM_TYPES.instances.begin();
+       it != ITEM_TYPES.instances.end();
+       it++) {
+    Item_type* itype = (*it);
+    Mission_template* temp = new Mission_template;
+    if (temp->base_on_item_type(itype)) {
+      MISSIONS.add_element(temp);
+    } else {
+      delete temp;
+    }
+  }
+
+// Next, generate a mission for each book genre in existence.
+// Start from 1 since 0 is GENRE_NULL
+  for (int i = 1; i < GENRE_MAX; i++) {
+    Book_genre genre = Book_genre(i);
+    std::string genre_name = no_caps( trim( book_genre_name( genre ) ) );
+
+    Mission_template* temp = new Mission_template;
+    temp->type = MISSION_READ_GENRE;
+    temp->target_name = genre_name;
+
+    temp->count_min       =  1;
+    temp->count_max       =  3;
+    temp->xp_min          = 20;
+    temp->xp_max          = 30;
+    temp->count_xp_bonus  = 15;
+    temp->time_min        = 24;
+    temp->time_max        = 36;
+
+    MISSIONS.add_element(temp);
+  }
+
 }
 
 void load_mapgen_specs()

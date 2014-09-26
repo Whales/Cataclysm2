@@ -66,18 +66,24 @@ public:
     if (!tmp->load_data(data)) {
       return false;
     }
-    tmp->assign_uid(next_uid);
-    instances.push_back(tmp);
-    uid_map[next_uid] = tmp;
-    std::string name = no_caps( tmp->get_data_name() );
+    return add_element(tmp, filename);
+  }
+
+  bool add_element(T* tmp, std::string filename = "no file")
+  {
+    std::string name = no_caps( trim( tmp->get_data_name() ) );
     if (name.empty()) {
-      debugmsg("Item with no name in %s!", filename.c_str());
+      debugmsg("Data_pool member with no name! (%s)", filename.c_str());
       return false;
     } else if (name_map.count(name) > 0) {
-      debugmsg("Loaded an item with a duplicate name - '%s' (%s)",
+      debugmsg("Data_pool member with duplicate name '%s'. (%s)",
                name.c_str(), filename.c_str());
+      return false;
     }
-    name_map[ name ] = tmp;
+    tmp->assign_uid(next_uid);
+    instances.push_back(tmp);
+    name_map[ name     ] = tmp;
+    uid_map [ next_uid ] = tmp;
     next_uid++;
     return true;
   }

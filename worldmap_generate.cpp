@@ -375,6 +375,7 @@ void Worldmap::generate()
     active.push_back( city_seeds[i] );
     bool vertical_blocks = one_in(2);
     int block_size = rng(4, 8);
+
     while (!active.empty()) {
       int index = 0;
       Point p = active[index];
@@ -384,6 +385,7 @@ void Worldmap::generate()
         p = active[index];
       }
       active.erase(active.begin() + index);
+
       bool expansions = false;
       int roads = 0;
       City_status stat = city[p.x][p.y];
@@ -397,8 +399,10 @@ void Worldmap::generate()
         }
         if (expand.x >= 0 && expand.x < WORLDMAP_SIZE &&
             expand.y >= 0 && expand.y < WORLDMAP_SIZE) {
+
           if (city[expand.x][expand.y] == CITY_RAW &&
               stat != CITY_BUILDING_CLOSED) {
+
             if (( vertical_blocks &&
                  (expand.x % 3 == 0 || expand.y % block_size == 0)) ||
                 (!vertical_blocks && 
@@ -407,6 +411,7 @@ void Worldmap::generate()
             } else {
               active.push_back( expand );
             }
+
             city[expand.x][expand.y] = CITY_BUILDING;
 // TODO: Set the distance range based on the city's size?
             if (rl_dist(expand, city_seeds[i]) <= rng(3, 10) ||
@@ -416,17 +421,21 @@ void Worldmap::generate()
               tiles[expand.x][expand.y].set_terrain("house");
             }
             expansions = true;
+
           } else if (city[expand.x][expand.y] == CITY_ROAD) {
             if (stat != CITY_BUILDING_CLOSED) {
               active.push_back( expand );
             }
             roads++;
+
           } else if (city[expand.x][expand.y] == CITY_ROAD_CLOSED) {
             roads++;
+
           } else if (city[expand.x][expand.y] == CITY_BUILDING && 
                      stat != CITY_BUILDING_CLOSED) {
             city[expand.x][expand.y] = CITY_BUILDING_CLOSED;
           }
+
         }
        
         if (!expansions) {

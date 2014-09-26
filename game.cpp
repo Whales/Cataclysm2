@@ -91,6 +91,9 @@ bool Game::setup_new_game(int world_index)
     worldmap->generate();
   }
 
+// Need to set time BEFORE creating a new character - because creating a new
+// character uses time to set mission deadlines!
+  time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
   map = new Map;
   player = new Player;
   player->prep_new_character();
@@ -123,11 +126,8 @@ bool Game::setup_new_game(int world_index)
   worldmap->set_terrain(start.x, start.y, "beach");
 
 
-  time = Time(0, 0, 8, 1, SEASON_SPRING, STARTING_YEAR);
   last_target = -1;
   new_messages = 0;
-  next_item_uid = 0;
-  next_furniture_uid = 0;
   game_over = false;
   return true;
 }
@@ -972,7 +972,7 @@ void Game::launch_projectile(Entity* shooter, Item it, Ranged_attack attack,
  * upon our skills.
  */
     Item_type_launcher* launcher_type =
-      static_cast<Item_type_launcher*>(it.type);
+      static_cast<Item_type_launcher*>(it.get_type());
     Skill_type launcher_skill = launcher_type->skill_used;
     if (shooter) {
       retarget_range = shooter->skills.get_level(launcher_skill) +
@@ -1557,7 +1557,9 @@ void Game::debug_command()
       } else {
         Item spawned(type);
         map->add_item(spawned, player->pos);
-        add_msg("Spawned %s.", spawned.get_name_indefinite().c_str());
+        add_msg("Spawned %s (UID %d, next UID %d).",
+                spawned.get_name_indefinite().c_str(), spawned.get_uid(),
+                next_item_uid);
       }
     } break;
 
