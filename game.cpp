@@ -266,6 +266,7 @@ void Game::create_world()
 
     } else {
       i_editor.handle_keypress(ch);
+      tmp_world.set_name(world_name);
     }
   }
 }
