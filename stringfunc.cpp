@@ -205,10 +205,12 @@ std::vector<std::string> break_into_lines(const std::string& text, int linesize)
   int line_length = 0;  // Non-color-tag characters in current line
   bool done = false;
 
+/*
 std::string linedraw;
 for (int i = 0; i < linesize; i++) {
 linedraw += '_';
 }
+*/
 
   while (!done) {
 
