@@ -217,12 +217,18 @@ int main(int argc, char* argv[])
  
      } else if (ch == 'G') {
       posy = sizey - 1;
+      if (posy >= edited.sizey) {
+        posy = edited.sizey - 1;
+      }
  
      } else if (ch == '^' || ch == '0') {
       posx = 0;
  
      } else if (ch == '$') {
       posx = sizex - 1;
+      if (posx >= edited.sizex) {
+        posx = edited.sizex - 1;
+      }
  
      } else if (ch == '?') {
       help();
