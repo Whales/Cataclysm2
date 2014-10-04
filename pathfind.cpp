@@ -500,7 +500,7 @@ Path Pathfinder::path_a_star(Tripoint start, Tripoint end)
   A_star_status status[x_size][y_size][z_size];
   int           gscore[x_size][y_size][z_size];
   int           hscore[x_size][y_size][z_size];
-  Tripoint      parent[x_size][y_size][z_size];
+  Tripoint3d    parent(x_size, Tripoint2d(y_size, Tripoint1d(z_size)));
 
   if (border > 0) {
     int x0 = (start.x < end.x ? start.x : end.x);

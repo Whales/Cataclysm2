@@ -1,5 +1,5 @@
-#ifndef _TIME_H_
-#define _TIME_H_
+#ifndef _CATTIME_H_
+#define _CATTIME_H_
 
 #include <string>
 

@@ -145,6 +145,9 @@ struct Tripoint
     return ret;
   }
 };
+typedef std::vector<Tripoint>   Tripoint1d;
+typedef std::vector<Tripoint1d> Tripoint2d;
+typedef std::vector<Tripoint2d> Tripoint3d;
 
 inline Tripoint operator+(Tripoint lhs, const Tripoint& rhs)
 {
