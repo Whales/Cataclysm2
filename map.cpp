@@ -1062,7 +1062,7 @@ bool Submap::add_item(Item item, int x, int y)
 
 int Submap::item_count(int x, int y)
 {
-  if (x < 0 || x >= SUBMAP_SIZE || x < 0 || y >= SUBMAP_SIZE) {
+  if (x < 0 || x >= SUBMAP_SIZE || y < 0 || y >= SUBMAP_SIZE) {
     return 0;
   }
   return tiles[x][y].items.size();
@@ -1070,7 +1070,7 @@ int Submap::item_count(int x, int y)
 
 std::vector<Item>* Submap::items_at(int x, int y)
 {
-  if (x < 0 || x >= SUBMAP_SIZE || x < 0 || y >= SUBMAP_SIZE) {
+  if (x < 0 || x >= SUBMAP_SIZE || y < 0 || y >= SUBMAP_SIZE) {
     return NULL;
   }
   return &(tiles[x][y].items);

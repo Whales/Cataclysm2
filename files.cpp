@@ -144,6 +144,7 @@ std::vector<std::string> directories_in(std::string dir)
       }
     }
   }
+  closedir(dp);
   return ret;
 }
 
