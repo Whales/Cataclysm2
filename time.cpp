@@ -291,10 +291,10 @@ int Time::get_light_level()
   int night_level;
   int day_level = DAY_LIGHT;
   switch (get_moon_phase()) {
-    case MOON_NEW:    night_level = 1;
-    case MOON_WAXING: night_level = 2;
-    case MOON_FULL:   night_level = 4;
-    case MOON_WANING: night_level = 2;
+    case MOON_NEW:    night_level = 1; break;
+    case MOON_WAXING: night_level = 2; break;
+    case MOON_FULL:   night_level = 4; break;
+    case MOON_WANING: night_level = 2; break;
   }
   int sunrise = get_sunrise(), sunset = get_sunset();
   if (hour < sunrise || hour > sunset) {

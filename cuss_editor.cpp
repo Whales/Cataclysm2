@@ -1359,7 +1359,6 @@ void set_pen_bg()
 
 nc_color pick_color()
 {
- std::stringstream text;
  Window w_col(1, 1, 20, 6);
  w_col.outline();
  for (int i = 0; i < c_dkgray; i++) {

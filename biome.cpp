@@ -110,7 +110,7 @@ std::vector<Monster_genus*> Variable_monster_genus::pick(int num)
     int index = rng(1, new_total);
     for (int i = 0; i < genera.size(); i++) {
 // Skip any we've already picked
-      while (picked[i] && i < genera.size()) {
+      while (i < genera.size() && picked[i]) {
         i++;
       }
       index -= genera[i].chance;
