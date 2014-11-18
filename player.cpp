@@ -625,8 +625,7 @@ void Player::take_damage_no_armor(Damage_type damtype, int damage,
     min_pain /= 2;
     max_pain = max_pain * .75;
   }
-  //TODO: use min_pain and max_pain
-  pain += rng(damage / 2, damage);
+  pain += rng(min_pain, max_pain);
 }
 
 void Player::take_damage_everywhere(Damage_set damage, std::string reason)
