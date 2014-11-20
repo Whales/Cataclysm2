@@ -2,8 +2,8 @@ name: Survivalist
   description:
     You specialize in wilderness survival.  This includes a smattering of
     various skills, particularly the Survival skill, which helps you hunt and
-    forage, and craft basic necessities.  You start with a hunting knife,
-    hatchet, and flashlight.
+    forage, and craft basic necessities.  <c=ltblue>You start with a hunting
+    knife, hatchet, and flashlight.<c=/>
   done
   items: c:1 hunting knife / c:1 hatchet / c:1 flashlight
   skills:
@@ -18,8 +18,8 @@ name: Medic
     Medical training - and practical application - has honed your skills in
     first aid.  You're not much of a fighter, but the experience of performing
     medical aid in the midst of a fight has honed your dodging skill.  You're
-    well-stocked, too: you start the game with a first aid kit, several packs of
-    bandages, and some codeine painkillers.
+    well-stocked, too: <c=ltblue>you start the game with a first aid kit,
+    several packs of bandages, and some codeine painkillers.<c=/>
   done
   items: c:1 first aid kit / c:4 bandages / c:1 codeine
   skills:
@@ -32,7 +32,8 @@ name: Farmer
   description:
     You've been working the harsh post-cataclysm land for a long time.  You've
     developed a good understanding of botany, and are fairly good at swinging a
-    cutting tool.  You start with a shovel, pitchfork, and work gloves.
+    cutting tool.  <c=ltblue>You start with a shovel, pitchfork, and work
+    gloves.<c=/>
   done
   items: c:1 shovel / c:1 pitchfork / c:1 work gloves
   skills:
@@ -46,8 +47,8 @@ name: Body Guard
     Before leaving for the seas, you were employed as a personal body guard for
     a wealthy trader.  With resources scarce, you had to make do with a variety
     of combat techniques, and are trained in unarmed combat, throwing weapons,
-    and firearms in general.  You start with a Glock handgun and its ammunition,
-    and a leather jacket.
+    and firearms in general.  <c=ltblue>You start with a Glock handgun and its
+    ammunition, and a leather jacket.<c=/>
   done
   items: c:1 Glock 19 / c:1 9mm / c:1 leather jacket
   skills:
@@ -61,8 +62,8 @@ name: Hunter
   description:
     You've been hunting game for as long as you can remember, and are a skilled
     sharpshooter.  You're also decent at skinning and butchering your catches,
-    along with other survival skills.  You start with a hunting knife, a .22
-    rifle, and some .22 LR ammunition.
+    along with other survival skills.  <c=ltblue>You start with a hunting knife,
+    a .22 rifle, and some .22 LR ammunition.<c=/>
   done
   items: c:1 hunting knife / c:1 Ruger 10/22 / c:1 .22 LR
   skills:
@@ -76,9 +77,10 @@ name: Trader
     Since inheriting a small fortune - and a list of contacts - from your
     parents, you've been working as a trader, traveling from settlement to
     settlement.  You mostly rely on hired help for protection, but are highly
-    skilled in talking to others, and getting the best price out of them.  You
-    start with cargo pants and a variety of high-priced goods, including some
-    .22 LR, a lightweight ammunition that serves as currency in many places.
+    skilled in talking to others, and getting the best price out of them.  
+    <c=ltblue>You start with cargo pants and a variety of high-priced goods,
+    including some .22 LR, a lightweight ammunition that serves as currency in
+    many places.<c=/>
   done
   items: c:1 cargo pants / c:2 bundle of money / c:1 diamond / c:1 gold ring / c:1 diamond necklace / c:1 .22 LR
   skills:
@@ -92,7 +94,7 @@ name: Mechanic
     Though vehicles are few and far between these days, you work on one every
     chance you get.  You can fix most cars easily, and are decent at driving
     them.  You're also almost at good swinging a wrench in combat as out of it.
-    You start with a wrench, screwdriver, and work gloves.
+    <c=ltblue>You start with a wrench, screwdriver, and work gloves.<c=/>
   done
   items: c:1 wrench / c:1 screwdriver / c:1 work gloves
   skills:
@@ -107,8 +109,9 @@ name: Carpenter
     You made yourself useful to your old community as a builder, constructing
     new homes and fortifications.  You've brought your skills across the sea,
     and will have an easy time fortifying wherever you find yourself.  You're
-    also decent swinging a hammer at enemies.  You start with a hammer, some
-    nails, safety glasses, a dust mask, work gloves, and some steel-toed boots.
+    also decent swinging a hammer at enemies.  <c=ltblue>You start with a
+    hammer, some nails, safety glasses, a dust mask, work gloves, and some
+    steel-toed boots.<c=/>
   done
   items: c:1 hammer / c:1 nails / c:1 safety glasses / c:1 dust mask / c:1 work gloves / c:1 steel-toed boots
   skills:
