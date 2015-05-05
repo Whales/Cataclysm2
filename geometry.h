@@ -103,6 +103,42 @@ struct Tripoint
     return !(*this == other);
   }
 
+  bool operator < (const Tripoint& other) const
+  {
+    if (other.x >= x) {
+      return false;
+    }
+    if (x < other.x) {
+      return true;
+    }
+    if (other.y >= y) {
+      return false;
+    }
+    if (y < other.y) {
+      return true;
+    }
+    if (z < other.z) {
+      return true;
+    }
+// If we reach this point, they're either equal or z > other.z
+    return false;
+  }
+
+  bool operator <= (const Tripoint& other) const
+  {
+    return ( ((*this) < other) || ((*this) == other) );
+  }
+
+  bool operator > (const Tripoint& other) const
+  {
+    return !( (*this) <= other );
+  }
+
+  bool operator >= (const Tripoint& other) const
+  {
+    return !( (*this) < other );
+  }
+
   Tripoint& operator +=(const Tripoint &rhs)
   {
     x += rhs.x;
