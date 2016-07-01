@@ -222,6 +222,51 @@ bool Furniture::load_data(std::istream& data)
   return true;
 }
 
+Sight_map::Sight_map()
+{
+  initialized = false;
+}
+
+Sight_map::~Sight_map()
+{
+}
+
+void Sight_map::make_initialized()
+{
+  initialized = true;
+}
+
+void Sight_map::add_point(Tripoint p)
+{
+  for (int i = 0; i < seen.size(); i++) {
+    if (seen[i] == p) {
+      return;
+    }
+    if (seen[i] >= p) {
+      seen.insert( seen.begin() + i, p );
+      return;
+    }
+  }
+  seen.push_back( p );
+}
+
+bool Sight_map::is_initialized()
+{
+  return initialized;
+}
+
+bool Sight_map::can_see(Tripoint p)
+{
+  for (int i = 0; i < seen.size(); i++) {
+    if (seen[i] == p) {
+      return true;
+    } else if (seen[i] > p) {
+      return false; // Since it's sorted, we stop once we find one > p
+    }
+  }
+  return false; // Should only happen on an empty vector
+}
+
 void Tile::set_terrain(Terrain* ter)
 {
   if (!ter) {
@@ -2310,6 +2355,68 @@ void Map::process_fields()
   }
 }
 
+// range defaults to -1, meaning "infinite range."
+// force_rebuild defaults to false.
+void Map::build_sight_map(int range, bool force_rebuild)
+{
+  for (int x = 0; x < SUBMAP_SIZE * MAP_SIZE; x++) {
+    for (int y = 0; y < SUBMAP_SIZE * MAP_SIZE; y++) {
+      for (int z = 0; z < VERTICAL_MAP_SIZE * 2 + 1; z++) {
+        Tile* cur_tile = get_tile(x, y, z);
+        if (cur_tile) { // Safety check
+          if (force_rebuild || !cur_tile->sight_map.is_initialized()) {
+            build_tile_sight_map(x, y, z, range);
+          }
+        }
+      }
+    }
+  }
+}
+
+void Map::build_tile_sight_map(int tile_x, int tile_y, int tile_z, int range)
+{
+  Tile* cur_tile = get_tile(tile_x, tile_y, tile_z);
+  if (!cur_tile) {  // Safety check
+    debugmsg("Map::build_tile_sight_map(%d, %d, %d, %d) called!",
+             tile_x, tile_y, tile_z, range);
+    return;
+  }
+
+// range of -1 means "infinite range"
+  if (range == -1) {
+    range = SUBMAP_SIZE * MAP_SIZE;
+  }
+
+// Set the bounds for our loop.
+  int min_x = tile_x - range;
+  if (min_x < 0) {
+    min_x = 0;
+  }
+  int min_y = tile_y - range;
+  if (min_y < 0) {
+    min_y = 0;
+  }
+  int min_z = tile_z - range;
+  if (min_z < 0) {
+    min_z = 0;
+  }
+  int max_x = tile_x + range;
+  if (max_x > SUBMAP_SIZE * MAP_SIZE - 1) {
+    max_x = SUBMAP_SIZE * MAP_SIZE - 1;
+  }
+  int max_y = tile_y + range;
+  if (may_y > SUBMAP_SIZE * MAP_SIZE - 1) {
+    may_y = SUBMAP_SIZE * MAP_SIZE - 1;
+  }
+  int max_z = tile_z + range;
+  if (max_z > VERTICAL_MAP_SIZE * 2) {
+    max_z = VERTICAL_MAP_SIZE * 2;
+  }
+
+  for (int x = min_x; x <= max_x; x++) {
+    for (int y = min_y; y <= max_y; y++) {
+      for (int z = min_z; z <= max_z; z++) {
+
 /* Still using Cataclysm/DDA style LOS.  It sucks and is slow and I hate it.
  * Basically, iterate over all Bresenham lines between [x0,y0] and [x1,y1].
  * If any of the lines doesn't have something that blocks the relevent sense,
@@ -2469,6 +2576,99 @@ std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int x1, int y1)
 std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
                                          int x1, int y1, int z1)
 {
+  const int dx = x1 - x0, dy = y1 - y0, dz = z1 - z0;
+  const int ax = abs(dx) << 1, ay = abs(dy) << 1;
+  const int sx = dx == 0 ? 0 : (dx < 0 ? -1 : 1),
+            sy = dy == 0 ? 0 : (dy < 0 ? -1 : 1);
+  const int dist = rl_dist(x0, y0, x1, y1);
+  const int z_step = (dist == 0) ? 0 : ((100 * dz) / dist);
+
+// Could be const, but I'm lazy
+  int min_t = (ax > ay ? ay - ax : ax - ay),
+      max_t = 0;
+  if (dx == 0 || dy == 0) {
+    min_t = 0;
+  }
+
+/* Is set to the number of t_values that should be skipped after we fail by
+   encountering something that blocks our sight.
+*/
+  int failure_countdown = 0;
+
+  std::vector<Tripoint> return_value;
+  for (int t = min_t; t <= max_t; t++) {
+    if (failure_countdown > 0) {
+      failure_countdown--;
+      continue;
+    }
+    int t_value = t; // t_value for Bresenham line
+    int old_t_value = 0;
+    Tripoint position = Tripoint(x0, y0, z0);
+    int z_value = 50; // Each tile is 100 microunits tall, start halfway up
+    int z_level = z0;
+// "Inititialized" for every step
+    bool z_stepped;
+    int old_z;
+    do {
+// Track z values
+      z_stepped = false;
+      old_z = z_level;
+      z_value += z_step;
+      if (z_value < 0) {
+        z_level--;
+        z_value += 100;
+        z_stepped = true;
+      } else if (z_value >= 100) {
+        z_level++; 
+        z_value -= 100;
+        z_stepped = true;
+      }
+// Track x and y values
+      old_t_value = t_value;
+      if (ax > ay) {
+        position.x += sx;
+        if (t_value >= 0) {
+          position.y += sy;
+          t_value -= ax;
+        }
+        t_value += ay;
+      } else {
+        position.y += sy;
+        if (t_value >= 0) {
+          position.x += sx;
+          t_value -= ay;
+        }
+        t_value += ax;
+      }
+      return_value.push_back(position);
+// Don't need to check z, right?
+      if (position.x == x1 && position.y == y1)
+        return return_value;
+    } while ( !(
+          (blocks_sense(SENSE_SIGHT, position, z_value) ||
+          (z_stepped &&
+           blocks_sense(SENSE_SIGHT, position.x, position.y, old_z)))
+            ) );
+    return_value.clear();
+// The number of skipped t_values is equivelent to the number of iterations needed to make us avoid the failed spot
+    if (old_t_value >= 0) {
+// Recalculate the resetting of the t_value
+      if (ax > ay) {
+        old_t_value -= ax; 
+      } else {
+        old_t_value -= ay;
+      }
+    }
+// The t_value is negative and the countdown should be positive.
+    failure_countdown = -1 * old_t_value;
+  }
+  return return_value;
+}
+
+/*
+std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
+                                         int x1, int y1, int z1)
+{
   std::vector<Tripoint>  lines;    // Process many lines at once.
   std::vector<std::vector<Tripoint> > return_values;
   std::vector<int>    t_values; // T-values for Bresenham lines
@@ -2553,6 +2753,7 @@ std::vector<Tripoint> Map::line_of_sight(int x0, int y0, int z0,
   }
   return std::vector<Tripoint>();
 }
+*/
 
 std::vector<Tripoint> Map::line_of_sight(Point origin, Point target)
 {

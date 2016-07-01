@@ -64,9 +64,29 @@ struct Furniture_pos
   Point pos;
 };
 
+struct Sight_map
+{
+public:
+  Sight_map();
+  ~Sight_map();
+
+  void make_initialized();
+// Adds the point to our vector, inserting it in the correct location.
+  void add_point(Tripoint p);
+
+  bool is_initialized() const;
+  bool can_see(Tripoint p) const;
+
+private:
+  bool initialized;
+  std::vector<Tripoint> seen;
+};
+
 struct Tile
 {
   Terrain *terrain;
+  Sight_map sight_map;
+
   std::vector<Item> items;
   Field field;
   Furniture furniture;
@@ -217,10 +237,14 @@ public:
   void spawn_monsters(Worldmap *world, int worldx, int worldy,
                       int subx, int suby, int zlevel);
 
-// Mapping & pathing
+// Mapping, pathing, LoS
   Generic_map get_dijkstra_map(Tripoint target, int weight,
                                bool include_smashable = true);
   Generic_map get_movement_map(Entity_AI AI, Tripoint origin, Tripoint target);
+
+// If force_rebuild is false, we skip any tiles for which the Sight_map is
+// already initialized.
+  void build_sight_map(int range = -1, bool force_rebuild = false);
 
   bool senses(int x0, int y0, int x1, int y1, int range, Sense_type sense);
   bool senses(int x0, int y0, int z0, int x1, int y1, int z1, int range,
