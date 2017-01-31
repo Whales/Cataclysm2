@@ -250,12 +250,12 @@ void Sight_map::add_point(Tripoint p)
   seen.push_back( p );
 }
 
-bool Sight_map::is_initialized()
+bool Sight_map::is_initialized() const
 {
   return initialized;
 }
 
-bool Sight_map::can_see(Tripoint p)
+bool Sight_map::can_see(Tripoint p) const
 {
   for (int i = 0; i < seen.size(); i++) {
     if (seen[i] == p) {
