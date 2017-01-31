@@ -250,12 +250,12 @@ void Sight_map::add_point(Tripoint p)
   seen.push_back( p );
 }
 
-bool Sight_map::is_initialized()
+bool Sight_map::is_initialized() const
 {
   return initialized;
 }
 
-bool Sight_map::can_see(Tripoint p)
+bool Sight_map::can_see(Tripoint p) const
 {
   for (int i = 0; i < seen.size(); i++) {
     if (seen[i] == p) {
@@ -2405,8 +2405,8 @@ void Map::build_tile_sight_map(int tile_x, int tile_y, int tile_z, int range)
     max_x = SUBMAP_SIZE * MAP_SIZE - 1;
   }
   int max_y = tile_y + range;
-  if (may_y > SUBMAP_SIZE * MAP_SIZE - 1) {
-    may_y = SUBMAP_SIZE * MAP_SIZE - 1;
+  if (max_y > SUBMAP_SIZE * MAP_SIZE - 1) {
+    max_y = SUBMAP_SIZE * MAP_SIZE - 1;
   }
   int max_z = tile_z + range;
   if (max_z > VERTICAL_MAP_SIZE * 2) {
@@ -2416,6 +2416,14 @@ void Map::build_tile_sight_map(int tile_x, int tile_y, int tile_z, int range)
   for (int x = min_x; x <= max_x; x++) {
     for (int y = min_y; y <= max_y; y++) {
       for (int z = min_z; z <= max_z; z++) {
+          // FIXME: something horrible happened in 8635e2ec3f714a7b6549b70cfadd36e38ef8c6b1
+      }
+      // FIXME: something horrible happened in 8635e2ec3f714a7b6549b70cfadd36e38ef8c6b1
+    }
+    // FIXME: something horrible happened in 8635e2ec3f714a7b6549b70cfadd36e38ef8c6b1
+  }
+  // FIXME: something horrible happened in 8635e2ec3f714a7b6549b70cfadd36e38ef8c6b1
+}
 
 /* Still using Cataclysm/DDA style LOS.  It sucks and is slow and I hate it.
  * Basically, iterate over all Bresenham lines between [x0,y0] and [x1,y1].
