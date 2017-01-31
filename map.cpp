@@ -2416,6 +2416,14 @@ void Map::build_tile_sight_map(int tile_x, int tile_y, int tile_z, int range)
   for (int x = min_x; x <= max_x; x++) {
     for (int y = min_y; y <= max_y; y++) {
       for (int z = min_z; z <= max_z; z++) {
+          // FIXME: something horrible happened in 8635e2ec3f714a7b6549b70cfadd36e38ef8c6b1
+      }
+      // FIXME: something horrible happened in 8635e2ec3f714a7b6549b70cfadd36e38ef8c6b1
+    }
+    // FIXME: something horrible happened in 8635e2ec3f714a7b6549b70cfadd36e38ef8c6b1
+  }
+  // FIXME: something horrible happened in 8635e2ec3f714a7b6549b70cfadd36e38ef8c6b1
+}
 
 /* Still using Cataclysm/DDA style LOS.  It sucks and is slow and I hate it.
  * Basically, iterate over all Bresenham lines between [x0,y0] and [x1,y1].
