@@ -245,7 +245,7 @@ public:
 // If force_rebuild is false, we skip any tiles for which the Sight_map is
 // already initialized.
   void build_sight_map(int range = -1, bool force_rebuild = false);
-// helper
+// FIXME: helper, shouldn't de declared here?
   void build_tile_sight_map(int tile_x, int tile_y, int tile_z, int range);
 
   bool senses(int x0, int y0, int x1, int y1, int range, Sense_type sense);
