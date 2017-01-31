@@ -2405,8 +2405,8 @@ void Map::build_tile_sight_map(int tile_x, int tile_y, int tile_z, int range)
     max_x = SUBMAP_SIZE * MAP_SIZE - 1;
   }
   int max_y = tile_y + range;
-  if (may_y > SUBMAP_SIZE * MAP_SIZE - 1) {
-    may_y = SUBMAP_SIZE * MAP_SIZE - 1;
+  if (max_y > SUBMAP_SIZE * MAP_SIZE - 1) {
+    max_y = SUBMAP_SIZE * MAP_SIZE - 1;
   }
   int max_z = tile_z + range;
   if (max_z > VERTICAL_MAP_SIZE * 2) {
